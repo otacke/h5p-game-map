@@ -1,0 +1,240 @@
+[
+  {
+    "name": "showTitleScreen",
+    "label": "Show title screen",
+    "description": "If checked, the content will show the title screen when starting.",
+    "type": "boolean",
+    "default": false,
+    "optional": true
+  },
+  {
+    "name": "titleScreen",
+    "label": "Title screen",
+    "type": "group",
+    "importance": "low",
+    "fields": [
+      {
+        "name": "titleScreenIntroduction",
+        "label": "Introduction",
+        "type": "text",
+        "widget": "html",
+        "placeholder": "Welcome to ...",
+        "optional": true,
+        "enterMode": "div",
+        "tags": [
+          "strong",
+          "em",
+          "u",
+          "a",
+          "ul",
+          "ol",
+          "h2",
+          "h3",
+          "hr",
+          "pre",
+          "code"
+        ]
+      },
+      {
+        "name": "titleScreenMedium",
+        "label": "Title screen medium",
+        "type": "library",
+        "optional": true,
+        "options": [
+          "H5P.Image 1.1",
+          "H5P.Video 1.6"
+        ]
+      }
+    ],
+    "widget": "showWhen",
+    "showWhen": {
+      "rules": [
+        {
+          "field": "showTitleScreen",
+          "equals": true
+        }
+      ]
+    }
+  },
+  {
+    "name": "gamemapSteps",
+    "type": "group",
+    "label": "Game map editor",
+    "importance": "high",
+    "widget": "wizard",
+    "fields": [
+      {
+        "name": "backgroundImageSettings",
+        "label": "Background image",
+        "type": "group",
+        "importance": "high",
+        "fields": [
+          {
+            "name": "backgroundImage",
+            "type": "image",
+            "label": "Background image",
+            "importance": "high",
+            "description": "Select an image to use as the background of the game map."
+          },
+          {
+            "name": "dummy",
+            "type": "boolean",
+            "label": "Dummy",
+            "widget": "none"
+          }
+        ]
+      },
+      {
+        "name": "gamemap",
+        "label": "Game map",
+        "type": "group",
+        "importance": "high",
+        "widget": "gamemap",
+        "fields": [
+          {
+            "name": "sample1",
+            "type": "boolean",
+            "label": "Sample"
+          },
+          {
+            "name": "stages",
+            "type": "list",
+            "label": "Stages",
+            "importance": "high",
+            "entity": "Stage",
+            "field": {
+              "name": "stages",
+              "type": "group",
+              "label": "Stage",
+              "importance": "high",
+              "fields": [
+                {
+                  "name": "id",
+                  "type": "text",
+                  "label": "Stage id",
+                  "description": "This id will help you to connect different stages with one another.",
+                  "importance": "medium"
+                },
+                {
+                  "name": "canBeStartStage",
+                  "type": "boolean",
+                  "label": "User can start here",
+                  "description": "If set to true, this stage will be the stage that the user start as. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly.",
+                  "importance": "medium",
+                  "default": false
+                },
+                {
+                  "name": "type",
+                  "type": "library",
+                  "label": "Stage content",
+                  "description": "Choose the type of content you would like to add.",
+                  "importance": "high",
+                  "options": [
+                    "H5P.AdvancedText 1.1",
+                    "H5P.Image 1.1"
+                  ]
+                },
+                {
+                  "name": "neigbors",
+                  "type": "select",
+                  "label": "Select connected stages",
+                  "widget": "dynamicCheckboxes",
+                  "importance": "high",
+                  "multiple": true
+                },
+                {
+                  "name": "telemetry",
+                  "type": "group",
+                  "label": "Telemetry",
+                  "importance": "low",
+                  "widget": "none",
+                  "fields": [
+                    {
+                      "name": "x",
+                      "type": "text"
+                    },
+                    {
+                      "name": "y",
+                      "type": "text"
+                    },
+                    {
+                      "name": "height",
+                      "type": "text"
+                    },
+                    {
+                      "name": "width",
+                      "type": "text"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "behaviour",
+    "type": "group",
+    "importance": "low",
+    "label": "Behavioural settings",
+    "fields": [
+      {
+        "name": "sample",
+        "type": "boolean",
+        "label": "Sample behaviour"
+      },
+      {
+        "name": "dummy",
+        "type": "boolean",
+        "label": "Dummy",
+        "widget": "none"
+      }
+    ]
+  },
+  {
+    "name": "l10n",
+    "type": "group",
+    "label": "User interface",
+    "common": true,
+    "fields": [
+      {
+        "name": "sample",
+        "type": "text",
+        "label": "Sample entry for visible user interface strings",
+        "description": "This is just a sample entry for visible user interface strings.",
+        "default": "Sample l10n"
+      },
+      {
+        "name": "dummy",
+        "type": "text",
+        "label": "Dummy",
+        "default": "Dummy",
+        "widget": "none"
+      }
+    ]
+  },
+  {
+    "name": "a11y",
+    "type": "group",
+    "label": "Accessibility texts",
+    "common": true,
+    "fields": [
+      {
+        "name": "sample",
+        "type": "text",
+        "label": "Sample entry for accessibility strings",
+        "description": "This is just a sample entry for accessibility strings.",
+        "default": "Sample a11y"
+      },
+      {
+        "name": "dummy",
+        "type": "text",
+        "label": "Dummy",
+        "default": "Dummy",
+        "widget": "none"
+      }
+    ]
+  }
+]

@@ -1,0 +1,51 @@
+{
+  "title": "Game Map",
+  "description": "Let your students choose their exercises on a game map.",
+  "majorVersion": 1,
+  "minorVersion": 0,
+  "patchVersion": 0,
+  "runnable": 1,
+  "author": "Oliver Tacke",
+  "license": "MIT",
+  "machineName": "H5P.GameMap",
+  "embedTypes": [
+    "iframe"
+  ],
+  "preloadedJs": [
+    {
+      "path": "dist/h5p-game-map.js"
+    }
+  ],
+  "preloadedCss": [
+    {
+      "path": "dist/h5p-game-map.css"
+    }
+  ],
+  "editorDependencies": [
+    {
+      "machineName": "FontAwesome",
+      "majorVersion": 4,
+      "minorVersion": 5
+    },
+    {
+      "machineName": "H5P.JoubelUI",
+      "majorVersion": 1,
+      "minorVersion": 3
+    },
+    {
+      "machineName": "H5PEditor.ShowWhen",
+      "majorVersion": 1,
+      "minorVersion": 0
+    },
+    {
+      "machineName": "H5PEditor.Wizard",
+      "majorVersion": 1,
+      "minorVersion": 2
+    },
+    {
+      "machineName": "H5PEditor.GameMap",
+      "majorVersion": 1,
+      "minorVersion": 0
+    }
+  ]
+}

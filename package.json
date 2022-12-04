@@ -1,0 +1,46 @@
+{
+  "name": "h5p-game-map",
+  "version": "1.0.0",
+  "description": "Let your students choose their exercises on a game map.",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "stylelint './src/**/*.scss' && eslint './src/**/*.js'",
+    "build": "cross-env NODE_ENV=production webpack",
+    "watch": "cross-env NODE_ENV=development webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/otacke/h5p-game-map.git"
+  },
+  "keywords": [
+    "h5p",
+    "library"
+  ],
+  "author": "Oliver Tacke",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "babel-loader": "^9.1.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.2",
+    "eslint": "^8.28.0",
+    "eslint-plugin-jsdoc": "^39.6.4",
+    "mini-css-extract-plugin": "^2.7.1",
+    "regenerator-runtime": "^0.13.11",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.56.1",
+    "sass-loader": "^13.2.0",
+    "stylelint": "^14.15.0",
+    "stylelint-config-recommended": "^9.0.0",
+    "stylelint-config-recommended-scss": "^8.0.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0"
+  },
+  "dependencies": {
+    "he": "^1.2.0"
+  },
+  "browserslist": "> 0.5%, last 2 versions, Firefox ESR, not dead"
+}

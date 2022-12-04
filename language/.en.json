@@ -1,0 +1,46 @@
+{
+  "semantics": [
+    {
+      "label": "Sample"
+    },
+    {
+      "label": "Behavioural settings",
+      "fields": [
+        {
+          "label": "Sample behaviour"
+        },
+        {
+          "label": "Dummy"
+        }
+      ]
+    },
+    {
+      "label": "User interface",
+      "fields": [
+        {
+          "label": "Sample entry for visible user interface strings",
+          "description": "This is just a sample entry for visible user interface strings.",
+          "default": "Sample l10n"
+        },
+        {
+          "label": "Dummy",
+          "default": "Dummy"
+        }
+      ]
+    },
+    {
+      "label": "Accessibility texts",
+      "fields": [
+        {
+          "label": "Sample entry for accessibility strings",
+          "description": "This is just a sample entry for accessibility strings.",
+          "default": "Sample a11y"
+        },
+        {
+          "label": "Dummy",
+          "default": "Dummy"
+        }
+      ]
+    }
+  ]
+}
