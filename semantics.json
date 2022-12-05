@@ -135,11 +135,11 @@
                   ]
                 },
                 {
-                  "name": "neigbors",
+                  "name": "neighbors",
                   "type": "select",
-                  "label": "Select connected stages",
-                  "widget": "dynamicCheckboxes",
-                  "importance": "high",
+                  "label": "Connected stages",
+                  "widget": "gamemapdynamiccheckboxes",
+                  "importance": "medium",
                   "multiple": true
                 },
                 {
