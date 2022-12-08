@@ -92,9 +92,11 @@
         "widget": "gamemap",
         "fields": [
           {
-            "name": "sample1",
-            "type": "boolean",
-            "label": "Sample"
+            "name": "accessRestrictionMinScore",
+            "type": "number",
+            "label": "Minimum score to access",
+            "description": "The user will not be able to access this stage if he has not received at least this minimum score by completing other stages.",
+            "optinal": true
           },
           {
             "name": "stages",
@@ -175,21 +177,121 @@
     ]
   },
   {
+    "name": "visual",
+    "type": "group",
+    "importance": "low",
+    "label": "Visual settings",
+    "fields": [
+      {
+        "name": "colorStage",
+        "type": "text",
+        "label": "Color stage",
+        "importance": "medium",
+        "optional": true,
+        "default": "#00ff00",
+        "widget": "colorSelector",
+        "spectrum": {
+          "showInput": true,
+          "showInitial": true
+        }
+      },
+      {
+        "name": "colorStageLocked",
+        "type": "text",
+        "label": "Color stage locked",
+        "importance": "medium",
+        "optional": true,
+        "default": "#ff0000",
+        "widget": "colorSelector",
+        "spectrum": {
+          "showInput": true,
+          "showInitial": true
+        }
+      },
+      {
+        "name": "colorStageCleared",
+        "type": "text",
+        "label": "Color stage cleared",
+        "importance": "medium",
+        "optional": true,
+        "default": "#fadf0a",
+        "widget": "colorSelector",
+        "spectrum": {
+          "showInput": true,
+          "showInitial": true
+        }
+      },
+      {
+        "name": "colorPath",
+        "type": "text",
+        "label": "Color path",
+        "importance": "medium",
+        "optional": true,
+        "default": "#00ff00",
+        "widget": "colorSelector",
+        "spectrum": {
+          "showInput": true,
+          "showInitial": true
+        }
+      },
+      {
+        "name": "colorPathCleared",
+        "type": "text",
+        "label": "Color path cleared",
+        "importance": "medium",
+        "optional": true,
+        "default": "#fcf2b5",
+        "widget": "colorSelector",
+        "spectrum": {
+          "showInput": true,
+          "showInitial": true
+        }
+      }
+    ]
+  },
+  {
     "name": "behaviour",
     "type": "group",
     "importance": "low",
     "label": "Behavioural settings",
     "fields": [
       {
-        "name": "sample",
-        "type": "boolean",
-        "label": "Sample behaviour"
+        "name": "roaming",
+        "type": "select",
+        "label": "Roaming",
+        "description": "Set whether users can roam all stages freely, need to finish a stage to get access to that stage's neighbors, or need to pass a stage to get access to that stage's neigbors.",
+        "options": [
+          {
+            "value": "free",
+            "label": "Roam freely"
+          },
+          {
+            "value": "finish",
+            "label": "Finish to unlock"
+          },
+          {
+            "value": "success",
+            "label": "Succeed to unlock"
+          }
+        ],
+        "default": "free"
       },
       {
-        "name": "dummy",
+        "name": "fog",
         "type": "boolean",
-        "label": "Dummy",
-        "widget": "none"
+        "label": "Activate fog",
+        "description": "If fog is activated, only direct neighbors of cleared stages will be visible.",
+        "optional": true,
+        "default": false,
+        "widget": "showWhen",
+        "showWhen": {
+          "rules": [
+            {
+              "field": "roaming",
+              "equals": ["finish", "success"]
+            }
+          ]
+        }
       }
     ]
   },

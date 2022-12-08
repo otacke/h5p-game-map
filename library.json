@@ -38,6 +38,11 @@
       "minorVersion": 0
     },
     {
+      "machineName": "H5PEditor.ColorSelector",
+      "majorVersion": 1,
+      "minorVersion": 3
+    },
+    {
       "machineName": "H5PEditor.Wizard",
       "majorVersion": 1,
       "minorVersion": 2
