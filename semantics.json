@@ -292,6 +292,13 @@
             }
           ]
         }
+      },
+      {
+        "name": "displayPaths",
+        "type": "boolean",
+        "label": "Display paths",
+        "optional": true,
+        "default": true
       }
     ]
   },
