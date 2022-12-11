@@ -132,7 +132,7 @@
                   "optional": true
                 },
                 {
-                  "name": "type",
+                  "name": "contentType",
                   "type": "library",
                   "label": "Stage content",
                   "description": "Choose the type of content you would like to add.",
