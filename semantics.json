@@ -92,11 +92,10 @@
         "widget": "gamemap",
         "fields": [
           {
-            "name": "accessRestrictionMinScore",
-            "type": "number",
-            "label": "Minimum score to access",
-            "description": "The user will not be able to access this stage if he has not received at least this minimum score by completing other stages.",
-            "optinal": true
+            "name": "dummy",
+            "type": "boolean",
+            "widget": "none",
+            "optional": true
           },
           {
             "name": "stages",
@@ -124,6 +123,13 @@
                   "description": "If set to true, this stage will be the stage that the user start as. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly.",
                   "importance": "medium",
                   "default": false
+                },
+                {
+                  "name": "accessRestrictionMinScore",
+                  "type": "number",
+                  "label": "Minimum score to access",
+                  "description": "The user will not be able to access this stage if he has not received at least this minimum score by completing other stages.",
+                  "optional": true
                 },
                 {
                   "name": "type",
@@ -183,69 +189,176 @@
     "label": "Visual settings",
     "fields": [
       {
-        "name": "colorStage",
-        "type": "text",
-        "label": "Color stage",
-        "importance": "medium",
+        "name": "stages",
+        "type": "group",
+        "label": "Stages",
+        "importance": "low",
         "optional": true,
-        "default": "#00ff00",
-        "widget": "colorSelector",
-        "spectrum": {
-          "showInput": true,
-          "showInitial": true
-        }
+        "fields": [
+          {
+            "name": "colorStage",
+            "type": "text",
+            "label": "Color stage",
+            "optional": true,
+            "default": "rgba(250, 223, 10, 0.7)",
+            "widget": "colorSelector",
+            "spectrum": {
+              "showInput": true,
+              "showInitial": true,
+              "showAlpha": true,
+              "preferredFormat": "rgb"
+            }
+          },
+          {
+            "name": "colorStageLocked",
+            "type": "text",
+            "label": "Color stage locked",
+            "optional": true,
+            "default": "rgba(153, 0, 0, 0.7)",
+            "widget": "colorSelector",
+            "spectrum": {
+              "showInput": true,
+              "showInitial": true,
+              "showAlpha": true,
+              "preferredFormat": "rgb"
+            }
+          },
+          {
+            "name": "colorStageCleared",
+            "type": "text",
+            "label": "Color stage cleared",
+            "optional": true,
+            "default": "rgba(0, 153, 0, 0.7)",
+            "widget": "colorSelector",
+            "spectrum": {
+              "showInput": true,
+              "showInitial": true,
+              "showAlpha": true,
+              "preferredFormat": "rgb"
+            }
+          }
+        ]
       },
       {
-        "name": "colorStageLocked",
-        "type": "text",
-        "label": "Color stage locked",
-        "importance": "medium",
+        "name": "paths",
+        "type": "group",
+        "label": "Paths",
+        "importance": "low",
         "optional": true,
-        "default": "#ff0000",
-        "widget": "colorSelector",
-        "spectrum": {
-          "showInput": true,
-          "showInitial": true
-        }
-      },
-      {
-        "name": "colorStageCleared",
-        "type": "text",
-        "label": "Color stage cleared",
-        "importance": "medium",
-        "optional": true,
-        "default": "#fadf0a",
-        "widget": "colorSelector",
-        "spectrum": {
-          "showInput": true,
-          "showInitial": true
-        }
-      },
-      {
-        "name": "colorPath",
-        "type": "text",
-        "label": "Color path",
-        "importance": "medium",
-        "optional": true,
-        "default": "#00ff00",
-        "widget": "colorSelector",
-        "spectrum": {
-          "showInput": true,
-          "showInitial": true
-        }
-      },
-      {
-        "name": "colorPathCleared",
-        "type": "text",
-        "label": "Color path cleared",
-        "importance": "medium",
-        "optional": true,
-        "default": "#fcf2b5",
-        "widget": "colorSelector",
-        "spectrum": {
-          "showInput": true,
-          "showInitial": true
-        }
+        "fields": [
+          {
+            "name": "colorPath",
+            "type": "text",
+            "label": "Color path",
+            "optional": true,
+            "default": "rgba(0, 0, 0, 0.7)",
+            "widget": "colorSelector",
+            "spectrum": {
+              "showInput": true,
+              "showInitial": true,
+              "showAlpha": true,
+              "preferredFormat": "rgb"
+            }
+          },
+          {
+            "name": "colorPathCleared",
+            "type": "text",
+            "label": "Color path cleared",
+            "optional": true,
+            "default": "rgba(0, 153, 0, 0.7)",
+            "widget": "colorSelector",
+            "spectrum": {
+              "showInput": true,
+              "showInitial": true,
+              "showAlpha": true,
+              "preferredFormat": "rgb"
+            }
+          },
+          {
+            "name": "pathWidth",
+            "type": "select",
+            "label": "Path width",
+            "importance": "low",
+            "default": "4px",
+            "optional": false,
+            "options": [
+              {
+                "value": "0px",
+                "label": "0"
+              },
+              {
+                "value": "1px",
+                "label": "1"
+              },
+              {
+                "value": "2px",
+                "label": "2"
+              },
+              {
+                "value": "3px",
+                "label": "3"
+              },
+              {
+                "value": "4px",
+                "label": "4"
+              },
+              {
+                "value": "5px",
+                "label": "5"
+              },
+              {
+                "value": "6px",
+                "label": "6"
+              },
+              {
+                "value": "7px",
+                "label": "7"
+              },
+              {
+                "value": "8px",
+                "label": "8"
+              },
+              {
+                "value": "9px",
+                "label": "9"
+              },
+              {
+                "value": "10px",
+                "label": "10"
+              },
+              {
+                "value": "15px",
+                "label": "15"
+              }
+            ]
+          },
+          {
+            "name": "pathStyle",
+            "type": "select",
+            "label": "Path style",
+            "importance": "low",
+            "default": "solid",
+            "optional": false,
+            "options": [
+              {
+                "value": "solid",
+                "label": "Solid"
+              },
+              {
+                "value": "dotted",
+                "label": "Dotted"
+              },
+              {
+                "value": "dashed",
+                "label": "Dashed"
+              },
+              {
+                "value": "double",
+                "label": "Double"
+              }
+            ]
+          }
+        ]
       }
     ]
   },
