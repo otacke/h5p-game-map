@@ -98,15 +98,15 @@
             "optional": true
           },
           {
-            "name": "stages",
+            "name": "elements",
             "type": "list",
-            "label": "Stages",
+            "label": "Elements",
             "importance": "high",
-            "entity": "Stage",
+            "entity": "Element",
             "field": {
-              "name": "stages",
+              "name": "elements",
               "type": "group",
-              "label": "Stage",
+              "label": "Elements",
               "importance": "high",
               "fields": [
                 {
