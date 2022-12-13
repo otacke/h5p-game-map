@@ -1,0 +1,121 @@
+@import '@styles/main';
+
+.media-screen {
+  align-items: center;
+  background: $color-background;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  left: 0;
+  padding: 1rem 0 3rem 0;
+  position: relative;
+  top: 0;
+  width: 100%;
+  z-index: 3;
+
+  &.display-none {
+    display: none;
+  }
+
+  :not(:first-child) {
+    margin-top: .5rem;
+  }
+
+  p {
+    margin: 0 0 .5em;
+  }
+
+  .media-screen-medium {
+    align-items: center;
+    display: flex;
+    height: 15em;
+    justify-content: center;
+    margin: 4.375em 0;
+    position: relative;
+    width: 100%;
+
+    &.h5p-image > img,
+    &.h5p-video > video,
+    &.h5p-video.h5p-youtube > div:not(.media-screen-bar) {
+      box-shadow: 0.5em 0.25em 3em 0 rgb(0 0 0 / 20%);
+      position: absolute;
+      left: 50%;
+      max-height: 15em;
+      min-width: 20em;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    &.h5p-image > img {
+      object-fit: contain;
+    }
+
+    &.h5p-image > img,
+    &.h5p-video > video {
+      max-width: 85%;
+    }
+
+    &.h5p-video.h5p-youtube > div:not(.media-screen-bar) {
+      max-width: 26.666em;
+    }
+  }
+
+  .media-screen-bar {
+    background-color: $color-primary-10;
+    background-size: cover;
+    height: 70%;
+    width: inherit;
+  }
+
+  .media-screen-image {
+    box-shadow: 10px 4px 47px 0 $color-shadow-dark;
+    height: 100%;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+  }
+
+  .media-screen-introduction {
+    color: $color-text;
+    font-size: 1.5rem;
+    text-decoration: none solid $color-text
+  }
+
+  .media-screen-content {
+    width: 80%;
+  }
+
+  .media-screen-button {
+    button {
+      background-color: $color-primary;
+      background-size: cover;
+      border: 0;
+      border-radius: 3px;
+      color: $color-background;
+      cursor: pointer;
+      font-family: Arial;
+      font-size: 20px;
+      font-weight: 400;
+      padding: 0.5rem 2.5rem;
+      text-align: center;
+      text-decoration: none solid $color-background;
+
+      &:hover {
+        background-color: $color-primary-90;
+        background-size: cover;
+        cursor: pointer;
+      }
+
+      &:active {
+        background-color: $color-primary-95;
+        background-size: cover;
+      }
+
+      &:focus {
+        outline-style: double;
+      }
+    }
+  }
+}

@@ -33,7 +33,8 @@
           "hr",
           "pre",
           "code"
-        ]
+        ],
+        "default": "<p style=\"text-align: center;\"></p>"
       },
       {
         "name": "titleScreenMedium",

@@ -21,17 +21,19 @@
       "path": "dist/h5p-game-map.css"
     }
   ],
-  "editorDependencies": [
-    {
-      "machineName": "FontAwesome",
-      "majorVersion": 4,
-      "minorVersion": 5
-    },
+  "preloadedDependencies": [
     {
       "machineName": "H5P.JoubelUI",
       "majorVersion": 1,
       "minorVersion": 3
     },
+    {
+      "machineName": "FontAwesome",
+      "majorVersion": 4,
+      "minorVersion": 5
+    }
+  ],
+  "editorDependencies": [
     {
       "machineName": "H5PEditor.ShowWhen",
       "majorVersion": 1,

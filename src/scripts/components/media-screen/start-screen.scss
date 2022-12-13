@@ -1,0 +1,9 @@
+.media-screen {
+  .media-screen-button {
+    button::before {
+      content: "\F278";
+      font-family: H5PFontAwesome4;
+      padding-right: 0.5rem;
+    }
+  }
+}

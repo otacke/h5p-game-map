@@ -10,6 +10,7 @@ module.exports = {
   resolve: {
     alias: {
       '@services': path.resolve(__dirname, 'src/scripts/services'),
+      '@components': path.resolve(__dirname, 'src/scripts/components'),
       '@styles': path.resolve(__dirname, 'src/styles')
     }
   },

@@ -1,5 +1,7 @@
 import Util from '@services/util';
 import Dictionary from '@services/dictionary';
+import Globals from './services/globals';
+import Content from './components/content';
 import '@styles/h5p-game-map.scss';
 
 export default class GameMap extends H5P.EventDispatcher {
@@ -19,7 +21,8 @@ export default class GameMap extends H5P.EventDispatcher {
         sample: 'Sample behaviour'
       },
       l10n: {
-        sample: 'Sample l10n'
+        sample: 'Sample l10n',
+        mediaScreenButtonText: 'Close'
       },
       a11y: {
         sample: 'Sample a11y'
@@ -28,6 +31,9 @@ export default class GameMap extends H5P.EventDispatcher {
 
     this.contentId = contentId;
     this.extras = extras;
+
+    Globals.set('contentId', this.contentId);
+    Globals.set('params', this.params);
 
     // Fill dictionary
     Dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
@@ -38,6 +44,9 @@ export default class GameMap extends H5P.EventDispatcher {
     this.languageTag = Util.formatLanguageCode(defaultLanguage);
 
     this.dom = this.buildDOM();
+
+    this.content = new Content({}, {});
+    this.dom.appendChild(this.content.getDOM());
   }
 
   /**
@@ -58,7 +67,6 @@ export default class GameMap extends H5P.EventDispatcher {
   buildDOM() {
     const dom = document.createElement('div');
     dom.classList.add('h5p-game-map');
-    dom.innerText = this.getTitle();
 
     return dom;
   }
