@@ -1,0 +1,17 @@
+.h5p-game-map-stage {
+  cursor: pointer;
+  min-width: 42px;
+  min-height: 42px;
+  position: absolute;
+
+  .h5p-game-map-stage-content {
+    box-sizing: border-box;
+    height: 100%;
+    position: relative;
+    width: 100%;
+
+    background-color: rgba(250, 223, 10, 0.7);
+    border: 2px solid rgba(0,0,0,0.4);
+    border-radius: 50%;
+  }
+}

@@ -1,0 +1,24 @@
+.h5p-game-map-map {
+  background-color: #fff;
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  z-index: 0;
+
+  .h5p-game-map-background-image {
+    display: block;
+    height: auto;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  .h5p-game-map-path-wrapper {
+    height: 100%;
+    width: 100%;
+  }
+
+  .h5p-game-map-stage-wrapper {
+    height: 100%;
+    width: 100%;
+  }
+}

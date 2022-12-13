@@ -1,7 +1,7 @@
 import Util from '@services/util';
 import Dictionary from '@services/dictionary';
-import Globals from './services/globals';
-import Content from './components/content';
+import Globals from '@services/globals';
+import Content from '@components/content';
 import '@styles/h5p-game-map.scss';
 
 export default class GameMap extends H5P.EventDispatcher {
@@ -34,6 +34,9 @@ export default class GameMap extends H5P.EventDispatcher {
 
     Globals.set('contentId', this.contentId);
     Globals.set('params', this.params);
+    Globals.set('resize', () => {
+      this.trigger('resize');
+    });
 
     // Fill dictionary
     Dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
@@ -47,6 +50,10 @@ export default class GameMap extends H5P.EventDispatcher {
 
     this.content = new Content({}, {});
     this.dom.appendChild(this.content.getDOM());
+
+    this.on('resize', () => {
+      this.content.resize();
+    });
   }
 
   /**
