@@ -3,6 +3,7 @@
   box-sizing: border-box;
   display: block;
   position: relative;
+  user-select: none;
   z-index: 0;
 
   .h5p-game-map-background-image {
