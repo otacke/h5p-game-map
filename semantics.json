@@ -113,7 +113,19 @@
                 {
                   "name": "id",
                   "type": "text",
-                  "label": "Stage id",
+                  "label": "Id",
+                  "widget": "none"
+                },
+                {
+                  "name": "type",
+                  "type": "text",
+                  "label": "Type",
+                  "widget": "none"
+                },
+                {
+                  "name": "label",
+                  "type": "text",
+                  "label": "Stage label",
                   "description": "This id will help you to connect different stages with one another.",
                   "importance": "medium"
                 },
@@ -139,8 +151,9 @@
                   "description": "Choose the type of content you would like to add.",
                   "importance": "high",
                   "options": [
+                    "H5P.Image 1.1",
                     "H5P.AdvancedText 1.1",
-                    "H5P.Image 1.1"
+                    "H5P.TrueFalse 1.8"
                   ]
                 },
                 {

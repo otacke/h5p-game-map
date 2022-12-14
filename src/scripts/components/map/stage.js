@@ -1,3 +1,4 @@
+import Util from '@services/util';
 import './stage.scss';
 
 export default class Stage {
@@ -6,12 +7,21 @@ export default class Stage {
    *
    * @class
    * @param {object} [params={}] Parameters.
+   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [callbacks.onClicked] Stage was clicked on.
    */
-  constructor(params = {}) {
+  constructor(params = {}, callbacks = {}) {
     this.params = params;
+
+    this.callbacks = Util.extend({
+      onClicked: () => {}
+    }, callbacks);
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-stage');
+    this.dom.addEventListener('click', () => {
+      this.callbacks.onClicked(this.params.id);
+    });
 
     this.content = document.createElement('div');
     this.content.classList.add('h5p-game-map-stage-content');

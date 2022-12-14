@@ -1,7 +1,7 @@
 import Util from '@services/util';
 import './media-screen.scss';
 
-/** Class representing a madia screen */
+/** Class representing a media screen */
 export default class MediaScreen {
   /**
    * @class

@@ -32,6 +32,9 @@ export default class GameMap extends H5P.EventDispatcher {
     this.contentId = contentId;
     this.extras = extras;
 
+    console.log(params);
+
+    Globals.set('mainInstance', this);
     Globals.set('contentId', this.contentId);
     Globals.set('params', this.params);
     Globals.set('resize', () => {

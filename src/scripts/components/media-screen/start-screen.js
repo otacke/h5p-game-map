@@ -1,4 +1,3 @@
-// Import required classes
 import MediaScreen from './media-screen';
 import './start-screen.scss';
 
