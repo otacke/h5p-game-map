@@ -1,6 +1,11 @@
 .h5p-game-map-stage {
   cursor: pointer;
   position: absolute;
+  transition: transform .1s ease-in-out;
+
+  &:hover {
+    transform: scale(1.25);
+  }
 
   .h5p-game-map-stage-content {
     box-sizing: border-box;
