@@ -6,11 +6,9 @@ import StartScreen from './media-screen/start-screen';
 import Map from '@components/map/map';
 
 /** Class representing a madia screen */
-export default class Content extends H5P.EventDispatcher {
+export default class Content {
 
   constructor(params = {}, callbacks = {}) {
-    super();
-
     this.params = Util.extend({
     }, params);
 
