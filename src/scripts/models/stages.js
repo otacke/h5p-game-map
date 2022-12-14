@@ -24,7 +24,7 @@ export default class Stages {
   buildStages(elements) {
     const stages = [];
 
-    if (!Object.keys(elements).length) {
+    if (!Object.keys(elements ?? {}).length) {
       return []; // No elements/stages
     }
 

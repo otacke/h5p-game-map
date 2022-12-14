@@ -24,7 +24,7 @@ export default class Paths {
   buildPaths(elements) {
     const paths = [];
 
-    if (!Object.keys(elements).length) {
+    if (!Object.keys(elements ?? {}).length) {
       return []; // No elements/stages, so no paths to compute
     }
 
