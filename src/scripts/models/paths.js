@@ -5,13 +5,7 @@ export default class Paths {
 
   constructor(params = {}) {
     this.params = Util.extend({
-      elements: {},
-      visuals: {
-        colorPath: 'rgba(0, 0, 0, 0.7)',
-        colorPathCleared: 'rgba(0, 153, 0, 0.7)',
-        pathStyle: 'solid',
-        pathWidth: '0.2'
-      }
+      elements: {}
     }, params);
 
     this.paths = this.buildPaths(this.params.elements);
