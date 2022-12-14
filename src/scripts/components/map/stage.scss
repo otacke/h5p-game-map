@@ -8,7 +8,7 @@
     position: relative;
     width: 100%;
 
-    background-color: rgba(250, 223, 10, 0.7);
+    background-color: var(--stage-color, rgba(250, 223, 10, 0.7));
     border: 2px solid rgba(0,0,0,0.4);
     border-radius: 50%;
   }

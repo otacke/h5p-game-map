@@ -21,7 +21,6 @@ export default class Content extends H5P.EventDispatcher {
     this.dom.classList.add('h5p-game-map-content');
 
     const globalParams = Globals.get('params');
-    console.log(globalParams);
 
     if (globalParams.showTitleScreen) {
       this.startScreen = new StartScreen({
@@ -41,11 +40,13 @@ export default class Content extends H5P.EventDispatcher {
 
     // Paths
     this.paths = new Paths({
-      elements: globalParams.gamemapSteps.gamemap.elements
+      elements: globalParams.gamemapSteps.gamemap.elements,
+      visuals: globalParams.visual.paths
     });
 
     this.stages = new Stages({
-      elements: globalParams.gamemapSteps.gamemap.elements
+      elements: globalParams.gamemapSteps.gamemap.elements,
+      visuals: globalParams.visual.stages
     });
 
     this.map = new Map(

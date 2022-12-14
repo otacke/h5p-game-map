@@ -280,56 +280,20 @@
             "type": "select",
             "label": "Path width",
             "importance": "low",
-            "default": "4px",
+            "default": "0.2",
             "optional": false,
             "options": [
               {
-                "value": "0px",
-                "label": "0"
+                "value": "0.1",
+                "label": "thin"
               },
               {
-                "value": "1px",
-                "label": "1"
+                "value": "0.2",
+                "label": "medium"
               },
               {
-                "value": "2px",
-                "label": "2"
-              },
-              {
-                "value": "3px",
-                "label": "3"
-              },
-              {
-                "value": "4px",
-                "label": "4"
-              },
-              {
-                "value": "5px",
-                "label": "5"
-              },
-              {
-                "value": "6px",
-                "label": "6"
-              },
-              {
-                "value": "7px",
-                "label": "7"
-              },
-              {
-                "value": "8px",
-                "label": "8"
-              },
-              {
-                "value": "9px",
-                "label": "9"
-              },
-              {
-                "value": "10px",
-                "label": "10"
-              },
-              {
-                "value": "15px",
-                "label": "15"
+                "value": "0.3",
+                "label": "thick"
               }
             ]
           },

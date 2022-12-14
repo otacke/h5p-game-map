@@ -17,6 +17,16 @@ export default class Stage {
     this.content.classList.add('h5p-game-map-stage-content');
     this.dom.appendChild(this.content);
 
+    this.dom.style.setProperty(
+      '--stage-color', this.params.visuals.colorStage
+    );
+    this.dom.style.setProperty(
+      '--stage-color-cleared', this.params.visuals.colorStageCleared
+    );
+    this.dom.style.setProperty(
+      '--stage-color-locked', this.params.visuals.colorStageLocked
+    );
+
     this.update(params.telemetry);
   }
 

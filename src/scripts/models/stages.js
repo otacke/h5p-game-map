@@ -35,7 +35,8 @@ export default class Stages {
         contentType: elementParams.contentType,
         id: elementParams.id,
         neighbors: elementParams.neighbors,
-        telemetry: elementParams.telemetry
+        telemetry: elementParams.telemetry,
+        visuals: this.params.visuals
       }, {}));
     }
 

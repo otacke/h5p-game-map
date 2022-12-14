@@ -5,7 +5,13 @@ export default class Paths {
 
   constructor(params = {}) {
     this.params = Util.extend({
-      elements: {}
+      elements: {},
+      visuals: {
+        colorPath: 'rgba(0, 0, 0, 0.7)',
+        colorPathCleared: 'rgba(0, 153, 0, 0.7)',
+        pathStyle: 'solid',
+        pathWidth: '0.2'
+      }
     }, params);
 
     this.paths = this.buildPaths(this.params.elements);
@@ -38,7 +44,8 @@ export default class Paths {
           paths.push(new Path({
             telemetryFrom: elements[index].telemetry,
             telemetryTo: elements[neighbor].telemetry,
-            index: pathsCreated.length
+            index: pathsCreated.length,
+            visuals: this.params.visuals
           }));
           pathsCreated.push(`${index}-${neighbor}`);
         }
