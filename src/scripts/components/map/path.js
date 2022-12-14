@@ -124,6 +124,8 @@ export default class Path {
     const fromYPx = parseFloat(fromY) / 100 * params.mapSize.height;
     const toXPx = parseFloat(toX) / 100 * params.mapSize.width;
     const toYPx = parseFloat(toY) / 100 * params.mapSize.height;
+    const width = parseFloat(fromWidth) / 100 * params.mapSize.width;
+    const height = parseFloat(fromHeight) / 100 * params.mapSize.height;
 
     const deltaXPx = fromXPx - toXPx;
     const deltaYPx = fromYPx - toYPx;
@@ -131,29 +133,29 @@ export default class Path {
     const angleOffset = (Math.sign(deltaXPx) >= 0) ? Math.PI : 0;
     const angle = Math.atan(deltaYPx / deltaXPx) + angleOffset;
 
-    const offsetToBorderPx = {
-      x: parseFloat(fromWidth) / 2 * Math.cos(angle),
-      y: parseFloat(fromHeight) / 2 * Math.sin(angle)
+    // Distance from center to border
+    const offsetToBorder = {
+      x: width / 2 * Math.cos(angle) * 100 / params.mapSize.width,
+      y: height / 2 * Math.sin(angle) * 100 / params.mapSize.height
     };
 
-    const offsetPathStrokePx = this.getHeight() / 2;
+    const offsetPathStroke = this.getHeight() / 2 * 100 / params.mapSize.height;
 
-    const x = parseFloat(fromX) + (
-      parseFloat(fromWidth) / 2 + // for centering in hotspot
-      offsetToBorderPx.x // for starting at hotspot border
-    ) * 100 / params.mapSize.width;
+    // Position + offset for centering + offset for border (+ stroke offset)
+    const x = parseFloat(fromX) +
+      parseFloat(fromWidth) / 2 +
+      offsetToBorder.x;
 
-    const y = parseFloat(fromY) + (
-      parseFloat(fromHeight) / 2 + // for centering in hotspot
-      offsetToBorderPx.y - // for starting at hotspot border
-      offsetPathStrokePx // for compensating path stroke width
-    ) * 100 / params.mapSize.height;
+    const y = parseFloat(fromY) +
+      parseFloat(fromHeight) / 2 +
+      offsetToBorder.y -
+      offsetPathStroke;
 
     // Good old Pythagoras
     const length = Math.sqrt(
       Math.abs(deltaXPx) * Math.abs(deltaXPx) +
       Math.abs(deltaYPx) * Math.abs(deltaYPx)
-    ) - fromWidth; // assuming circle for hotspot
+    ) - width; // assuming circle for hotspot
 
     return { x, y, length, angle };
   }

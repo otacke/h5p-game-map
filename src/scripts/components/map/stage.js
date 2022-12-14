@@ -53,31 +53,20 @@ export default class Stage {
    * @param {number} params.height Height in px.
    */
   update(params = {}) {
-    if (typeof params.x === 'string') {
-      params.x = parseFloat(params.x);
-    }
-    if (typeof params.x === 'number') {
-      this.dom.style.left = `${params.x}%`;
-    }
+    for (let property in params) {
+      if (typeof params[property] === 'string') {
+        params[property] = parseFloat(params[property]);
+      }
 
-    if (typeof params.y === 'string') {
-      params.y = parseFloat(params.y);
-    }
-    if (typeof params.y === 'number') {
-      this.dom.style.top = `${params.y}%`;
-    }
-
-    if (typeof params.width === 'string') {
-      params.width = parseFloat(params.width);
-    }
-    if (typeof params.width === 'number') {
-      this.dom.style.width = `${params.width}px`;
-    }
-    if (typeof params.height === 'string') {
-      params.height = parseFloat(params.height);
-    }
-    if (typeof params.height === 'number') {
-      this.dom.style.height = `${params.height}px`;
+      // Update DOM
+      let styleProperty = property;
+      if (property === 'x') {
+        styleProperty = 'left';
+      }
+      else if (property === 'y') {
+        styleProperty = 'top';
+      }
+      this.dom.style[styleProperty] = `${params[property]}%`;
     }
   }
 }
