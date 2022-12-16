@@ -113,7 +113,11 @@ export default class Content {
       elements: globalParams.gamemapSteps.gamemap.elements
     });
 
-    this.exerciseScreen = new ExerciseScreen();
+    this.exerciseScreen = new ExerciseScreen({}, {
+      onClicked: () => {
+        this.exerciseScreen.hide();
+      }
+    });
     this.exerciseScreen.hide();
     this.dom.append(this.exerciseScreen.getDOM());
   }
@@ -148,6 +152,7 @@ export default class Content {
     const exercise = this.exercises.getExercise(id);
 
     this.exerciseScreen.setH5PContent(exercise.getDOM());
+    this.exerciseScreen.show();
 
     window.requestAnimationFrame(() => {
       Globals.get('resize')();

@@ -1,0 +1,70 @@
+.h5p-game-map-exercise {
+  background: rgba(44,44,44,.9);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  left: 0;
+  position: relative;
+  top: 0;
+  width: 100%;
+  grid-area: 1 / 1 / 1 / 1;
+
+  &.display-none {
+    display: none;
+  }
+
+  .h5p-game-map-exercise-content-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+
+    box-sizing: border-box;
+    height: 100%;
+    padding: 2rem;
+    width: 100%;
+
+    .h5p-game-map-exercise-button-close {
+      grid-area: 1 / 1 / 1 / 1;
+      background: #fff;
+      border: none;
+      border-radius: 50%;
+      color: #222;
+      cursor: pointer;
+      height: 2em;
+      justify-self: end;
+      left: 0.5rem;
+      line-height: 1;
+      padding: 3px;
+      position: relative;
+      top: -0.5rem;
+      transition: transform .1s ease-in-out;
+      width: 2em;
+
+      &:hover {
+        transform: scale(1.25);
+      }
+
+      &::after {
+        font-family: H5PFontAwesome4;
+        content: "\F00D";
+        border: 1px solid #222;
+        text-align: center;
+        border-radius: 50%;
+        width: 1.5em;
+        height: 1.5em;
+        display: inline-block;
+        line-height: 1.5;
+      }
+    }
+
+    .h5p-game-map-exercise-content {
+      grid-area: 1 / 1 / 1 / 1;
+      background-color: #fff;
+      border-radius: 0.5rem;
+      box-sizing: border-box;
+      height: 100%;
+      padding: 1rem;
+    }
+  }
+}

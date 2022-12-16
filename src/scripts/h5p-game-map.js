@@ -26,7 +26,8 @@ export default class GameMap extends H5P.EventDispatcher {
       },
       a11y: {
         buttonRestart: 'Restart',
-        buttonRestartDisabled: 'Restarting is currently not possible'
+        buttonRestartDisabled: 'Restarting is currently not possible',
+        close: 'Close'
       }
     }, params);
 

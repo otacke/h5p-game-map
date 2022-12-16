@@ -1,3 +1,5 @@
+import Dictionary from '@services/dictionary';
+import Util from '@services/util';
 import './exercise-screen.scss';
 
 /** Class representing an exercise screen */
@@ -8,15 +10,32 @@ export default class ExerciseScreen {
    *
    * @class
    * @param {object} params Parameters.
-   * @param {object} callbacks Callbacks.
+   * @param {object} [callbacks={}] Callbacks.
+   * @param {function} [callbacks.onClosed] Callback when exercise closed.
    */
   constructor(params = {}, callbacks = {}) {
+    this.callbacks = Util.extend({
+      onClosed: () => {}
+    }, callbacks);
+
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-exercise');
 
+    this.contentContainer = document.createElement('div');
+    this.contentContainer.classList.add('h5p-game-map-exercise-content-container');
+    this.dom.append(this.contentContainer);
+
     this.h5pContent = document.createElement('div');
     this.h5pContent.classList.add('h5p-game-map-exercise-content');
-    this.dom.appendChild(this.h5pContent);
+    this.contentContainer.append(this.h5pContent);
+
+    this.buttonClose = document.createElement('button');
+    this.buttonClose.classList.add('h5p-game-map-exercise-button-close');
+    this.buttonClose.setAttribute('aria-label', Dictionary.get('a11y.close'));
+    this.buttonClose.addEventListener('click', () => {
+      this.callbacks.onClicked();
+    });
+    this.contentContainer.append(this.buttonClose);
   }
 
   /**
