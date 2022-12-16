@@ -13,8 +13,19 @@
     position: relative;
     width: 100%;
 
-    background-color: var(--stage-color, rgba(250, 223, 10, 0.7));
     border: 2px solid rgba(0,0,0,0.4);
     border-radius: 50%;
+
+    &.h5p-game-map-stage-locked {
+      background-color: var(--stage-color-locked, rgba(153, 0, 0, 0.7));
+    }
+
+    &.h5p-game-map-stage-open {
+      background-color: var(--stage-color,  rgba(250, 223, 10, 0.7));
+    }
+
+    &.h5p-game-map-stage-cleared {
+      background-color: var(--stage-color-cleared, rgba(0, 153, 0, 0.7));
+    }
   }
 }

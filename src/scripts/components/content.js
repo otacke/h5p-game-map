@@ -109,9 +109,16 @@ export default class Content {
     contentDOM.append(this.map.getDOM());
 
     // Exercise
-    this.exercises = new Exercises({
-      elements: globalParams.gamemapSteps.gamemap.elements
-    });
+    this.exercises = new Exercises(
+      {
+        elements: globalParams.gamemapSteps.gamemap.elements
+      },
+      {
+        onStateChanged: (id, state) => {
+          this.handleExerciseStateChanged(id, state);
+        }
+      }
+    );
 
     this.exerciseScreen = new ExerciseScreen({}, {
       onClicked: () => {
@@ -157,5 +164,15 @@ export default class Content {
     window.requestAnimationFrame(() => {
       Globals.get('resize')();
     });
+  }
+
+  /**
+   * Handle exercise state changed.
+   *
+   * @param {string} id Id of exercise that was changed.
+   * @param {number} state State code.
+   */
+  handleExerciseStateChanged(id, state) {
+    this.stages.updateState(id, state);
   }
 }

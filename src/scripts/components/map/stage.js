@@ -11,7 +11,9 @@ export default class Stage {
    * @param {object} [callbacks.onClicked] Stage was clicked on.
    */
   constructor(params = {}, callbacks = {}) {
-    this.params = params;
+    this.params = Util.extend({
+      state: Stage.STATE['open']
+    }, params);
 
     this.callbacks = Util.extend({
       onClicked: () => {}
@@ -37,6 +39,8 @@ export default class Stage {
       '--stage-color-locked', this.params.visuals.colorStageLocked
     );
 
+    this.setState(this.params.state);
+
     this.update(params.telemetry);
   }
 
@@ -47,6 +51,15 @@ export default class Stage {
    */
   getDOM() {
     return this.dom;
+  }
+
+  /**
+   * Get stage id.
+   *
+   * @returns {string} Stage id.
+   */
+  getId() {
+    return this.params.id;
   }
 
   /**
@@ -89,4 +102,54 @@ export default class Stage {
       this.dom.style[styleProperty] = `${params[property]}%`;
     }
   }
+
+  /**
+   * Set exercise state.
+   *
+   * @param {number} state State constant.
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.force] If true, will set state unconditionally.
+   */
+  setState(state, params = {}) {
+    if (typeof state !== 'number') {
+      return;
+    }
+
+    let newState;
+
+    if (params.force) {
+      newState = Stage.STATE[state];
+    }
+    else if (state === Stage.STATE['locked']) {
+      newState = Stage.STATE['locked'];
+    }
+    else if (
+      state === Stage.STATE['open'] ||
+      state === Stage.STATE['opened']
+    ) {
+      newState = Stage.STATE['open'];
+    }
+    else if (
+      state === Stage.STATE['completed'] ||
+      state === Stage.STATE['cleared']
+    ) {
+      newState = Stage.STATE['cleared'];
+    }
+
+    if (!this.state || this.state !== newState) {
+      this.state = newState;
+
+      for (const [key, value] of Object.entries(Stage.STATE)) {
+        if (value !== this.state) {
+          this.content.classList.remove(`h5p-game-map-stage-${key}`);
+        }
+        else {
+          this.content.classList.add(`h5p-game-map-stage-${key}`);
+        }
+      }
+    }
+  }
 }
+
+/** @constant {object} Stage.STATE Current state */
+Stage.STATE = { locked: 0, open: 1, opened: 2, completed: 3, cleared: 4 };

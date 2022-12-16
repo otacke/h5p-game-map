@@ -52,4 +52,30 @@ export default class Stages {
 
     return stages;
   }
+
+  /**
+   * Get stage by id.
+   *
+   * @param {string} id Id of stage.
+   * @returns {Stage} Stage with respective id.
+   */
+
+  getStage(id) {
+    return this.stages.find((stage) => stage.getId() === id);
+  }
+
+  /**
+   * Handle exercise state changed.
+   *
+   * @param {string} id Id of exercise that was changed.
+   * @param {number} state State code.
+   */
+  updateState(id, state) {
+    const stage = this.getStage(id);
+    if (!stage) {
+      return;
+    }
+
+    stage.setState(state);
+  }
 }

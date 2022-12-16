@@ -21,6 +21,7 @@ export default class ExerciseScreen {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-exercise');
 
+    // Container for H5P content, can be CSS-transformed
     this.contentContainer = document.createElement('div');
     this.contentContainer.classList.add('h5p-game-map-exercise-content-container');
     this.dom.append(this.contentContainer);
