@@ -28,4 +28,8 @@
       background-color: var(--stage-color-cleared, rgba(0, 153, 0, 0.7));
     }
   }
+
+  &.display-none {
+    display: none;
+  }
 }

@@ -2,4 +2,16 @@
   border-top: 4px var(--path-style, solid) var(--path-color, rgba(0, 0, 0, 0.7));
   position: absolute;
   transform-origin: 0 center;
+
+  &.display-none {
+    display: none;
+  }
+
+  &.h5p-game-map-path-open {
+    border-color: var(--path-color, rgba(0, 0, 0, 0.7));
+  }
+
+  &.h5p-game-map-path-cleared {
+    border-color: var(--path-color-cleared, rgba(0, 153, 0, 0.7));
+  }
 }

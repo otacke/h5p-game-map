@@ -1,3 +1,4 @@
+import Globals from '@services/globals';
 import Util from '@services/util';
 import Stage from '@components/map/stage';
 
@@ -9,7 +10,8 @@ export default class Stages {
     }, params);
 
     this.callbacks = Util.extend({
-      onStageClicked: () => {}
+      onStageClicked: () => {},
+      onStageStateChanged: () => {}
     }, callbacks);
 
     this.stages = this.buildStages(this.params.elements);
@@ -34,18 +36,28 @@ export default class Stages {
 
     for (let index in elements) {
       const elementParams = elements[index];
+
+      // This was a compromise, could be solved better in the editor
+      const neighbors = elementParams.neighbors.map((neighbor) => {
+        return elements[parseInt(neighbor)].id;
+      });
+
       stages.push(new Stage(
         {
           id: elementParams.id,
           canBeStartStage: elementParams.canBeStartStage,
           contentType: elementParams.contentType,
           label: elementParams.label,
-          neighbors: elementParams.neighbors,
+          neighbors: neighbors,
           telemetry: elementParams.telemetry,
-          visuals: this.params.visuals
+          visuals: this.params.visuals,
+          hidden: this.params.hidden
         }, {
           onClicked: (id) => {
             this.callbacks.onStageClicked(id);
+          },
+          onStateChanged: (id, state) => {
+            this.callbacks.onStageStateChanged(id, state);
           }
         }));
     }
@@ -65,7 +77,7 @@ export default class Stages {
   }
 
   /**
-   * Handle exercise state changed.
+   * Update state of a stage.
    *
    * @param {string} id Id of exercise that was changed.
    * @param {number} state State code.
@@ -77,5 +89,100 @@ export default class Stages {
     }
 
     stage.setState(state);
+  }
+
+  /**
+   * Update the state of a stages neighbors.
+   *
+   * @param {string} id Id of exercise that was changed.
+   * @param {number} state State code.
+   */
+  updateNeighborsState(id, state) {
+    const globalParams = Globals.get('params');
+
+    if (globalParams.behaviour.roaming === 'free') {
+      return; // Neighbors are not influenced
+    }
+
+    const stage = this.getStage(id);
+    if (!stage) {
+      return;
+    }
+
+    const neighborIds = stage.getNeighbors();
+
+    if (
+      state === Globals.get('states')['open'] &&
+      globalParams.behaviour.fog !== '0'
+    ) {
+      neighborIds.forEach((id) => {
+        const targetStage = this.getStage(id);
+        if (!targetStage) {
+          return;
+        }
+
+        targetStage.show();
+      });
+    }
+
+    // Get neigbors and unlock if current stage was cleared
+    if (state === Globals.get('states')['cleared']) {
+      neighborIds.forEach((id) => {
+        const targetStage = this.getStage(id);
+        if (!targetStage) {
+          return;
+        }
+
+        targetStage.unlock();
+      });
+    }
+  }
+
+  /**
+   * Unlock a stage or stages.
+   *
+   * @param {string} id Id to unlock or 'random' for random procedure.
+   */
+  unlockStage(id) {
+    if (typeof id !== 'string') {
+      return;
+    }
+
+    if (id !== 'settings') {
+      // Unlock specified stage
+      const stage = this.stages.find((stage) => stage.getId() === id);
+      if (stage) {
+        stage.unlock();
+      }
+    }
+
+    // Choose all start stages (all if none selected) and choose one randomly
+    let startStages = this.stages
+      .filter((stage) => stage.canBeStartStage());
+
+    if (!startStages.length) {
+      startStages = this.stages; // Use all stages, because none selected
+    }
+
+    if (Globals.get('params').behaviour.startStages === 'random') {
+      startStages = [
+        startStages[Math.floor(Math.random() * startStages.length)]
+      ];
+    }
+
+    startStages.forEach((stage) => {
+      stage.unlock();
+    });
+  }
+
+  /**
+   * Do for each stage.
+   *
+   * @param {function} callback Callback.
+   */
+  forEach(callback) {
+    for (let i = 0; i < this.stages.length; i++) {
+      callback(this.stages[i], i, this.stages);
+    }
   }
 }

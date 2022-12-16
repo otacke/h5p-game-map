@@ -64,24 +64,45 @@ export default class Content {
       Globals.get('contentId')
     );
 
-    // Paths
-    this.paths = new Paths({
-      elements: globalParams.gamemapSteps.gamemap.elements,
-      visuals: globalParams.visual.paths
-    });
-
     // Stages
     this.stages = new Stages(
       {
         elements: globalParams.gamemapSteps.gamemap.elements,
-        visuals: globalParams.visual.stages
+        visuals: globalParams.visual.stages,
+        hidden: globalParams.behaviour.fog !== 'all'
       },
       {
         onStageClicked: (id) => {
           this.handleStageClicked(id);
+        },
+        onStageStateChanged: (id, state) => {
+          this.handleStageStateChanged(id, state);
         }
       }
     );
+
+    // Paths
+    const pathsHidden = (globalParams.behaviour.displayPaths === false) ||
+      globalParams.behaviour.fog !== 'all';
+
+    this.paths = new Paths({
+      elements: globalParams.gamemapSteps.gamemap.elements,
+      visuals: globalParams.visual.paths,
+      hidden: pathsHidden
+    });
+
+    // Set start state stages
+    if (globalParams.behaviour.roaming === 'free') {
+      this.stages.forEach((stage) => {
+        stage.setState('open');
+      });
+    }
+    else if (
+      globalParams.behaviour.roaming === 'complete' ||
+      globalParams.behaviour.roaming === 'success'
+    ) {
+      this.stages.unlockStage('settings');
+    }
 
     // Map
     this.map = new Map(
@@ -174,5 +195,21 @@ export default class Content {
    */
   handleExerciseStateChanged(id, state) {
     this.stages.updateState(id, state);
+  }
+
+  /**
+   * Handle stage state changed.
+   *
+   * @param {string} id Id of exercise that was changed.
+   * @param {number} state State code.
+   */
+  handleStageStateChanged(id, state) {
+    if (this.paths) {
+      this.paths.updateState(id, state);
+    }
+
+    if (this.stages) {
+      this.stages.updateNeighborsState(id, state);
+    }
   }
 }

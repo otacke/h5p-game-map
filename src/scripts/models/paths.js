@@ -1,3 +1,4 @@
+import Globals from '@services/globals';
 import Util from '@services/util';
 import Path from '@components/map/path';
 
@@ -5,7 +6,8 @@ export default class Paths {
 
   constructor(params = {}) {
     this.params = Util.extend({
-      elements: {}
+      elements: {},
+      hidden: false
     }, params);
 
     this.paths = this.buildPaths(this.params.elements);
@@ -36,10 +38,13 @@ export default class Paths {
           !pathsCreated.includes(`${neighbor}-${index}`)
         ) {
           paths.push(new Path({
+            fromId: elements[index].id,
+            toId: elements[neighbor].id,
             telemetryFrom: elements[index].telemetry,
             telemetryTo: elements[neighbor].telemetry,
             index: pathsCreated.length,
-            visuals: this.params.visuals
+            visuals: this.params.visuals,
+            hidden: this.params.hidden
           }));
           pathsCreated.push(`${index}-${neighbor}`);
         }
@@ -49,9 +54,51 @@ export default class Paths {
     return paths;
   }
 
+  /**
+   * Update.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {object} [params.mapSize] Map size.
+   */
   update(params = {}) {
     this.paths.forEach((path) => {
       path.resize({ mapSize: params.mapSize });
     });
+  }
+
+  /**
+   * Update state.
+   *
+   * @param {string} id Id of stage/exercise that was updated.
+   * @param {number} state If of state that was changed to.
+   */
+  updateState(id, state) {
+    const globalParams = Globals.get('params');
+
+    if (globalParams.behaviour.roaming === 'free') {
+      return;
+    }
+
+    const affectedPaths = this.paths.filter((path) => {
+      const stageIds = path.getStageIds();
+      return (stageIds.from === id || stageIds.to === id);
+    });
+
+    if (
+      state === Globals.get('states')['open'] &&
+      globalParams.behaviour.displayPaths &&
+      globalParams.behaviour.fog !== '0'
+    ) {
+      affectedPaths.forEach((path) => {
+        path.show();
+      });
+    }
+
+    if (state === Globals.get('states')['cleared']) {
+      affectedPaths.forEach((path) => {
+        path.setState('cleared');
+        path.show();
+      });
+    }
   }
 }

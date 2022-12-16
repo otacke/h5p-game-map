@@ -357,32 +357,15 @@
             "label": "Roam freely"
           },
           {
-            "value": "finish",
-            "label": "Finish to unlock"
+            "value": "complete",
+            "label": "Complete to clear stage"
           },
           {
             "value": "success",
-            "label": "Succeed to unlock"
+            "label": "Succeed to clear stage"
           }
         ],
         "default": "free"
-      },
-      {
-        "name": "fog",
-        "type": "boolean",
-        "label": "Activate fog",
-        "description": "If fog is activated, only direct neighbors of cleared stages will be visible.",
-        "optional": true,
-        "default": false,
-        "widget": "showWhen",
-        "showWhen": {
-          "rules": [
-            {
-              "field": "roaming",
-              "equals": ["finish", "success"]
-            }
-          ]
-        }
       },
       {
         "name": "displayPaths",
@@ -391,6 +374,64 @@
         "description": "This setting will not hide the paths in the editor.",
         "optional": true,
         "default": true
+      },
+      {
+        "name": "fog",
+        "type": "select",
+        "label": "Activate fog",
+        "description": "Select how far the user can see ahead",
+        "optional": true,
+        "options": [
+          {
+            "value": "all",
+            "label": "No fog, see all stages"
+          },
+          {
+            "value": "1",
+            "label": "See all unlocked stages and their adjacent neighbors"
+          },
+          {
+            "value": "0",
+            "label": "See only unlocked stages"
+          }
+        ],
+        "default": "all",
+        "widget": "showWhen",
+        "showWhen": {
+          "nullWhenHidden": true,
+          "rules": [
+            {
+              "field": "roaming",
+              "equals": ["complete", "success"]
+            }
+          ]
+        }
+      },
+      {
+        "name": "startStages",
+        "type": "select",
+        "label": "Start stages",
+        "description": "Decide what stages the user can start at. If no stage is set as start stage, all stages are considered to be potential start stages.",
+        "options": [
+          {
+            "value": "all",
+            "label": "All stages that are defined as start stage"
+          },
+          {
+            "value": "random",
+            "label": "One stage randomly chosen form start stages"
+          }
+        ],
+        "default": "all",
+        "widget": "showWhen",
+        "showWhen": {
+          "rules": [
+            {
+              "field": "roaming",
+              "equals": ["complete", "success"]
+            }
+          ]
+        }
       }
     ]
   },

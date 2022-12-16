@@ -1,3 +1,4 @@
+import Globals from '@services/globals';
 import Util from '@services/util';
 import './stage.scss';
 
@@ -8,21 +9,23 @@ export default class Stage {
    * @class
    * @param {object} [params={}] Parameters.
    * @param {object} [callbacks={}] Callbacks.
-   * @param {object} [callbacks.onClicked] Stage was clicked on.
+   * @param {function} [callbacks.onClicked] Stage was clicked on.
+   * @param {function} [callbacks.onStageChanged] State of stage changed.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      state: Stage.STATE['open']
+      state: Globals.get('states')['locked']
     }, params);
 
     this.callbacks = Util.extend({
-      onClicked: () => {}
+      onClicked: () => {},
+      onStateChanged: () => {}
     }, callbacks);
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-stage');
     this.dom.addEventListener('click', () => {
-      this.callbacks.onClicked(this.params.id);
+      this.handleClick();
     });
 
     this.content = document.createElement('div');
@@ -40,6 +43,10 @@ export default class Stage {
     );
 
     this.setState(this.params.state);
+
+    if (this.params.hidden) {
+      this.hide();
+    }
 
     this.update(params.telemetry);
   }
@@ -62,6 +69,19 @@ export default class Stage {
     return this.params.id;
   }
 
+  getNeighbors() {
+    return this.params.neighbors;
+  }
+
+  /**
+   * Determine whether stage can be start stage.
+   *
+   * @returns {boolean} True, if stage can be start stage. Else false.
+   */
+  canBeStartStage() {
+    return this.params.canBeStartStage || false;
+  }
+
   /**
    * Show.
    */
@@ -74,6 +94,15 @@ export default class Stage {
    */
   hide() {
     this.dom.classList.add('display-none');
+  }
+
+  /**
+   * Unlock.
+   */
+  unlock() {
+    if (this.state === Globals.get('states')['locked']) {
+      this.setState('open');
+    }
   }
 
   /**
@@ -104,13 +133,32 @@ export default class Stage {
   }
 
   /**
+   * Handle click.
+   */
+  handleClick() {
+    if (this.state === Globals.get('states')['locked']) {
+      return;
+    }
+
+    this.callbacks.onClicked(this.params.id);
+  }
+
+  /**
    * Set exercise state.
    *
-   * @param {number} state State constant.
+   * @param {number|string} state State constant.
    * @param {object} [params={}] Parameters.
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {
+    const states = Globals.get('states');
+    const globalParams = Globals.get('params');
+
+    if (typeof state === 'string') {
+      state = Object.entries(states)
+        .find((entry) => entry[0] === state)[1];
+    }
+
     if (typeof state !== 'number') {
       return;
     }
@@ -118,28 +166,37 @@ export default class Stage {
     let newState;
 
     if (params.force) {
-      newState = Stage.STATE[state];
+      newState = states[state];
     }
-    else if (state === Stage.STATE['locked']) {
-      newState = Stage.STATE['locked'];
-    }
-    else if (
-      state === Stage.STATE['open'] ||
-      state === Stage.STATE['opened']
-    ) {
-      newState = Stage.STATE['open'];
+    else if (state === states['locked']) {
+      newState = states['locked'];
     }
     else if (
-      state === Stage.STATE['completed'] ||
-      state === Stage.STATE['cleared']
+      state === states['open'] ||
+      state === states['opened']
     ) {
-      newState = Stage.STATE['cleared'];
+      newState = states['open'];
+      this.show();
+    }
+    else if (
+      state === states['completed'] &&
+      globalParams.behaviour.roaming === 'free' ||
+      globalParams.behaviour.roaming === 'complete'
+    ) {
+      newState = states['cleared'];
+    }
+    else if (state === states['cleared']) {
+      newState = states['cleared'];
+    }
+
+    if (typeof newState !== 'number') {
+      return;
     }
 
     if (!this.state || this.state !== newState) {
       this.state = newState;
 
-      for (const [key, value] of Object.entries(Stage.STATE)) {
+      for (const [key, value] of Object.entries(states)) {
         if (value !== this.state) {
           this.content.classList.remove(`h5p-game-map-stage-${key}`);
         }
@@ -147,9 +204,8 @@ export default class Stage {
           this.content.classList.add(`h5p-game-map-stage-${key}`);
         }
       }
+
+      this.callbacks.onStateChanged(this.params.id, this.state);
     }
   }
 }
-
-/** @constant {object} Stage.STATE Current state */
-Stage.STATE = { locked: 0, open: 1, opened: 2, completed: 3, cleared: 4 };

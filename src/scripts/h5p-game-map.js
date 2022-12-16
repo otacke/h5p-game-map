@@ -18,7 +18,10 @@ export default class GameMap extends H5P.EventDispatcher {
     this.params = Util.extend({
       sample: true,
       behaviour: {
-        sample: 'Sample behaviour'
+        roaming: 'free',
+        displayPaths: true,
+        fog: false,
+        startStages: 'all'
       },
       l10n: {
         sample: 'Sample l10n',
@@ -37,6 +40,9 @@ export default class GameMap extends H5P.EventDispatcher {
     Globals.set('mainInstance', this);
     Globals.set('contentId', this.contentId);
     Globals.set('params', this.params);
+    Globals.set(
+      'states', { locked: 0, open: 1, opened: 2, completed: 3, cleared: 4 }
+    );
     Globals.set('resize', () => {
       this.trigger('resize');
     });

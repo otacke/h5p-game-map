@@ -16,7 +16,7 @@ export default class Exercise {
       onStateChanged: () => {}
     }, callbacks);
 
-    this.setState(Exercise.STATE['unstarted']);
+    this.setState(Globals.get('states')['unstarted']);
 
     this.instance;
 
@@ -140,7 +140,7 @@ export default class Exercise {
     // Check for maxScore > 0 as indicator for being a task
     const hasGetMaxScore = (typeof instance.getMaxScore === 'function');
     if (hasGetMaxScore) {
-      return instance.getMaxScore() > 0;
+      return true;
     }
 
     return false;
@@ -157,21 +157,28 @@ export default class Exercise {
     }
 
     if (event.getScore() < this.instance.getMaxScore()) {
-      this.setState(Exercise.STATE['completed']);
+      this.setState(Globals.get('states')['completed']);
     }
     else {
-      this.setState(Exercise.STATE['cleared']);
+      this.setState(Globals.get('states')['cleared']);
     }
   }
 
   /**
    * Set exercise state.
    *
-   * @param {number} state State constant.
+   * @param {number|string} state State constant.
    * @param {object} [params={}] Parameters.
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {
+    const states = Globals.get('states');
+
+    if (typeof state === 'string') {
+      state = Object.entries(states)
+        .find((entry) => entry[0] === state)[1];
+    }
+
     if (typeof state !== 'number') {
       return;
     }
@@ -179,21 +186,21 @@ export default class Exercise {
     let newState;
 
     if (params.force) {
-      newState = Exercise.STATE[state];
+      newState = states[state];
     }
-    else if (state === Exercise.STATE['unstarted']) {
-      newState = Exercise.STATE['unstarted'];
+    else if (state === states['unstarted']) {
+      newState = states['unstarted'];
     }
-    else if (state === Exercise.STATE['opened']) {
+    else if (state === states['opened']) {
       newState = (this.isInstanceTask(this.instance)) ?
-        Exercise.STATE['opened'] :
-        Exercise.STATE['cleared'];
+        states['opened'] :
+        states['cleared'];
     }
-    else if (state === Exercise.STATE['completed']) {
-      newState = Exercise.STATE['completed'];
+    else if (state === states['completed']) {
+      newState = states['completed'];
     }
-    else if (state === Exercise.STATE['cleared']) {
-      newState = Exercise.STATE['cleared'];
+    else if (state === states['cleared']) {
+      newState = states['cleared'];
     }
 
     if (!this.state || this.state !== newState) {
@@ -208,7 +215,7 @@ export default class Exercise {
    */
   handleViewed() {
     this.instance.attach(H5P.jQuery(this.dom));
-    this.setState(Exercise.STATE['opened']);
+    this.setState('opened');
 
     window.requestAnimationFrame(() => {
       Globals.get('resize')();
@@ -219,12 +226,9 @@ export default class Exercise {
    * Reset exercise.
    */
   reset() {
-    this.setState(Exercise.STATE('unstarted'));
+    this.setState('unstarted');
     this.instance?.resetTask?.();
 
     // TODO: Is it necessary to check the visibility state via observer?
   }
 }
-
-/** @constant {object} Exercise.STATE Current state */
-Exercise.STATE = { unstarted: 1, opened: 2, completed: 3, cleared: 4 };

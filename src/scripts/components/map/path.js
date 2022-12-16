@@ -1,3 +1,4 @@
+import Globals from '@services/globals';
 import Util from '@services/util';
 import './path.scss';
 
@@ -15,7 +16,8 @@ export default class Path {
         colorPathCleared: 'rgba(0, 153, 0, 0.7)',
         pathStyle: 'solid',
         pathWidth: '0.2'
-      }
+      },
+      state: Globals.get('states')['open']
     }, params);
 
     this.params.visuals.pathWidth = parseFloat(this.params.visuals.pathWidth);
@@ -28,6 +30,10 @@ export default class Path {
       '--path-color-cleared', this.params.visuals.colorPathCleared
     );
     this.dom.style.setProperty('--path-style', this.params.visuals.pathStyle);
+
+    if (this.params.hidden) {
+      this.hide();
+    }
   }
 
   /**
@@ -40,9 +46,22 @@ export default class Path {
   }
 
   /**
+   * Get stage ids.
+   *
+   * @returns {object} FromID and ToID of respective stages.
+   */
+  getStageIds() {
+    return { from: this.params.fromId, to: this.params.toId };
+  }
+
+  /**
    * Show.
    */
   show() {
+    if (!Globals.get('params').behaviour.displayPaths) {
+      return;
+    }
+
     this.dom.classList.remove('display-none');
   }
 
@@ -169,6 +188,51 @@ export default class Path {
     ) - width; // assuming circle for hotspot
 
     return { x, y, length, angle, width: strokeWidth };
+  }
+
+  /**
+   * Set path state.
+   *
+   * @param {number|string} state State constant.
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.force] If true, will set state unconditionally.
+   */
+  setState(state, params = {}) {
+    const states = Globals.get('states');
+
+    if (typeof state === 'string') {
+      state = Object.entries(states)
+        .find((entry) => entry[0] === state)[1];
+    }
+
+    if (typeof state !== 'number') {
+      return;
+    }
+
+    let newState;
+
+    if (params.force) {
+      newState = states[state];
+    }
+    else if (state === states['open']) {
+      newState = states['open'];
+    }
+    else if (state === states['cleared']) {
+      newState = states['cleared'];
+    }
+
+    if (!this.state || this.state !== newState) {
+      this.state = newState;
+
+      for (const [key, value] of Object.entries(states)) {
+        if (value !== this.state) {
+          this.dom.classList.remove(`h5p-game-map-path-${key}`);
+        }
+        else {
+          this.dom.classList.add(`h5p-game-map-path-${key}`);
+        }
+      }
+    }
   }
 }
 
