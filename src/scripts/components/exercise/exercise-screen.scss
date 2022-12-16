@@ -64,7 +64,13 @@
       border-radius: 0.5rem;
       box-sizing: border-box;
       height: 100%;
-      padding: 1rem;
+
+      .h5p-game-map-exercise-instance-container {
+        border-radius: 0.5rem;
+        box-sizing: border-box;
+        height: 100%;
+        padding: 1rem;
+      }
     }
   }
 }
