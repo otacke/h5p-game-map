@@ -1,5 +1,5 @@
 .h5p-game-map-exercise {
-  background: rgba(44,44,44,.9);
+  background: rgba(44,44,44,.8);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -61,12 +61,12 @@
     .h5p-game-map-exercise-content {
       grid-area: 1 / 1 / 1 / 1;
       background-color: #fff;
+      border: 0.75rem solid #fff;
       border-radius: 0.5rem;
       box-sizing: border-box;
       height: 100%;
 
       .h5p-game-map-exercise-instance-container {
-        border-radius: 0.5rem;
         box-sizing: border-box;
         height: 100%;
         padding: 1rem;
