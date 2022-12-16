@@ -25,14 +25,13 @@ export default class GameMap extends H5P.EventDispatcher {
         mediaScreenButtonText: 'Close'
       },
       a11y: {
-        sample: 'Sample a11y'
+        buttonRestart: 'Restart',
+        buttonRestartDisabled: 'Restarting is currently not possible'
       }
     }, params);
 
     this.contentId = contentId;
     this.extras = extras;
-
-    console.log(params);
 
     Globals.set('mainInstance', this);
     Globals.set('contentId', this.contentId);

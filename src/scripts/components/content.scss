@@ -1,0 +1,10 @@
+.h5p-game-map-container {
+  width: 100%;
+
+  .h5p-game-map-content {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+  }
+}

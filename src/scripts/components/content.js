@@ -1,11 +1,14 @@
+import Dictionary from '@services/dictionary';
 import Util from '@services/util';
 import Globals from '@services/globals';
 import Paths from '@models/paths';
 import Stages from '@models/stages';
 import StartScreen from './media-screen/start-screen';
 import Map from '@components/map/map';
+import Toolbar from '@components/toolbar/toolbar';
 import Exercises from '@models/exercises';
 import ExerciseScreen from '@components/exercise/exercise-screen';
+import './content.scss';
 
 /** Class representing a madia screen */
 export default class Content {
@@ -18,10 +21,11 @@ export default class Content {
     }, callbacks);
 
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-game-map-content');
+    this.dom.classList.add('h5p-game-map-container');
 
     const globalParams = Globals.get('params');
 
+    // Title screen if set
     if (globalParams.showTitleScreen) {
       this.startScreen = new StartScreen({
         contentId: Globals.get('contentId'),
@@ -29,9 +33,31 @@ export default class Content {
         medium: globalParams.titleScreen.titleScreenMedium,
         l10n: { buttonText: 'Start' }
       }, {});
-      this.dom.appendChild(this.startScreen.getDOM());
+      this.dom.append(this.startScreen.getDOM());
     }
 
+    // Content incl. tool/statusbar and map
+    const contentDOM = document.createElement('div');
+    contentDOM.classList.add('h5p-game-map-content');
+    this.dom.append(contentDOM);
+
+    // Toolbar
+    const toolbar = new Toolbar({
+      buttons: [{
+        id: 'restart',
+        type: 'pulse',
+        a11y: {
+          active: Dictionary.get('a11y.buttonRestart'),
+          disabled: Dictionary.get('a11y.buttonRestartDisabled')
+        },
+        onClick: () => {
+          // TODO: Handle restart
+        }
+      }]
+    });
+    contentDOM.append(toolbar.getDOM());
+
+    // Map incl. models
     const backgroundImage = H5P.getPath(
       globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundImage
         ?.path ?? '',
@@ -80,7 +106,7 @@ export default class Content {
     if (globalParams.showTitleScreen) {
       this.map.hide();
     }
-    this.dom.appendChild(this.map.getDOM());
+    contentDOM.append(this.map.getDOM());
 
     // Exercise
     this.exercises = new Exercises({
@@ -89,7 +115,7 @@ export default class Content {
 
     this.exerciseScreen = new ExerciseScreen();
     this.exerciseScreen.hide();
-    this.dom.appendChild(this.exerciseScreen.getDOM());
+    this.dom.append(this.exerciseScreen.getDOM());
   }
 
   /**
