@@ -198,10 +198,6 @@ export default class Content {
       return;
     }
 
-    this.map.resize();
-
-    this.paths.update({ mapSize: this.map.getSize() });
-
     const paramsMisc = Globals.get('params').visual.misc;
     if (paramsMisc.heightLimitMode === 'auto') {
       // Try to compute maximum visible height
@@ -219,6 +215,12 @@ export default class Content {
     ) {
       this.limitMapHeight(paramsMisc.heightLimit);
     }
+
+    this.map.resize();
+    clearTimeout(this.resizeTimeout);
+    this.resizeTimeout = setTimeout(() => {
+      this.paths.update({ mapSize: this.map.getSize() });
+    }, 0);
   }
 
   /**

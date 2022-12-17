@@ -78,7 +78,12 @@ export default class Map {
    */
   getSize() {
     const clientRect = this.dom.getBoundingClientRect();
-    return { height: clientRect.height, width: clientRect.width };
+
+    const height = window.getComputedStyle(this.dom).overflowY !== 'hidden' ?
+      this.dom.scrollHeight :
+      clientRect.height;
+
+    return { height: height, width: clientRect.width };
   }
 
   /**
