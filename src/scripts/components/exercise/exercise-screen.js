@@ -55,9 +55,6 @@ export default class ExerciseScreen {
    */
   show() {
     this.dom.classList.remove('display-none');
-    window.requestAnimationFrame(() => {
-      this.dom.scrollIntoView({block: 'start'});
-    });
   }
 
   /**
