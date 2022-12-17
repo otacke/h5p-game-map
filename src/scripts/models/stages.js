@@ -1,6 +1,6 @@
 import Globals from '@services/globals';
 import Util from '@services/util';
-import Stage from '@components/map/stage';
+import Stage from '@components/map/stage/stage';
 
 export default class Stages {
 

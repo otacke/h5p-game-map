@@ -126,7 +126,7 @@
                   "name": "label",
                   "type": "text",
                   "label": "Stage label",
-                  "description": "This id will help you to connect different stages with one another.",
+                  "description": "This label will be displayed when hovering over the stage and will help you to connect different stages with one another.",
                   "importance": "medium"
                 },
                 {

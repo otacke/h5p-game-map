@@ -1,20 +1,25 @@
 .h5p-game-map-stage {
   cursor: pointer;
   position: absolute;
-  transition: transform .1s ease-in-out;
 
-  &:hover {
-    transform: scale(1.25);
+  &.display-none {
+    display: none;
   }
 
   .h5p-game-map-stage-content {
     box-sizing: border-box;
     height: 100%;
     position: relative;
+    transition: transform .1s ease-in-out;
     width: 100%;
+    z-index: 1;
 
     border: 2px solid rgba(0,0,0,0.4);
     border-radius: 50%;
+
+    &:hover {
+      transform: scale(1.25);
+    }
 
     &.h5p-game-map-stage-locked {
       background-color: var(--stage-color-locked, rgba(153, 0, 0, 0.7));
@@ -27,9 +32,5 @@
     &.h5p-game-map-stage-cleared {
       background-color: var(--stage-color-cleared, rgba(0, 153, 0, 0.7));
     }
-  }
-
-  &.display-none {
-    display: none;
   }
 }

@@ -1,5 +1,6 @@
 import Globals from '@services/globals';
 import Util from '@services/util';
+import Label from './label';
 import './stage.scss';
 
 export default class Stage {
@@ -24,13 +25,30 @@ export default class Stage {
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-stage');
-    this.dom.addEventListener('click', () => {
-      this.handleClick();
+    this.dom.addEventListener('click', (event) => {
+      this.handleClick(event);
+    });
+    this.dom.addEventListener('mouseover', (event) => {
+      this.handleMouseOver(event);
+    });
+    this.dom.addEventListener('mouseout', () => {
+      this.handleMouseOut();
     });
 
+    // Hotspot
     this.content = document.createElement('div');
     this.content.classList.add('h5p-game-map-stage-content');
     this.dom.appendChild(this.content);
+
+    // Label
+    const positionX = (this.params.telemetry.x < 50) ? 'right' : 'left';
+    const positionY = (this.params.telemetry.y < 50) ? 'bottom' : 'top';
+
+    this.label = new Label({
+      position: `${positionY}-${positionX}`,
+      text: this.params.label
+    });
+    this.dom.appendChild(this.label.getDOM());
 
     this.dom.style.setProperty(
       '--stage-color', this.params.visuals.colorStage
@@ -134,13 +152,45 @@ export default class Stage {
 
   /**
    * Handle click.
+   *
+   * @param {Event} event Event.
    */
-  handleClick() {
-    if (this.state === Globals.get('states')['locked']) {
+  handleClick(event) {
+    if (event.pointerType === 'mouse') {
+      if (this.state === Globals.get('states')['locked']) {
+        return;
+      }
+
+      clearTimeout(this.labelTimeout);
+      this.label.hide();
+      this.callbacks.onClicked(this.params.id);
       return;
     }
 
-    this.callbacks.onClicked(this.params.id);
+    if (this.label.isShowing() || !this.params.label) {
+      clearTimeout(this.labelTimeout);
+      this.label.hide();
+      this.callbacks.onClicked(this.params.id);
+    }
+
+    this.label.show();
+    this.labelTimeout = setTimeout(() => {
+      this.label.hide();
+    }, Stage.LABEL_TIMEOUT_MS);
+  }
+
+  /**
+   * Handle mouseover.
+   */
+  handleMouseOver() {
+    this.label.show();
+  }
+
+  /**
+   * Handle mouseout.
+   */
+  handleMouseOut() {
+    this.label.hide();
   }
 
   /**
@@ -209,3 +259,6 @@ export default class Stage {
     }
   }
 }
+
+/** @constant {number} LABEL_TIMEOUT_MS Timeout for showing label */
+Stage.LABEL_TIMEOUT_MS = 3000;
