@@ -80,4 +80,14 @@ export default class Map {
     const clientRect = this.dom.getBoundingClientRect();
     return { height: clientRect.height, width: clientRect.width };
   }
+
+  /**
+   * Resize.
+   */
+  resize() {
+    // Ensure overlays for paths and stages have image dimensions
+    const clientRect = this.image.getBoundingClientRect();
+    this.pathWrapper.style.height = `${clientRect.height}px`;
+    this.stageWrapper.style.height = `${clientRect.height}px`;
+  }
 }

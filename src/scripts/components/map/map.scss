@@ -1,25 +1,37 @@
 .h5p-game-map-map {
   background-color: #fff;
+  display: grid;
   box-sizing: border-box;
   display: block;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
   position: relative;
   user-select: none;
   z-index: 0;
 
   .h5p-game-map-background-image {
     display: block;
+    grid-area: 1/1/1/1;
     height: auto;
-    width: 100%;
     pointer-events: none;
+    width: 100%;
   }
 
   .h5p-game-map-path-wrapper {
+    grid-area: 1/1/1/1;
     height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
     width: 100%;
   }
 
   .h5p-game-map-stage-wrapper {
+    grid-area: 1/1/1/1;
     height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
     width: 100%;
   }
 }

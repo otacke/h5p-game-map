@@ -6,6 +6,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
+  flex-shrink: 0;
   margin-bottom : .5em;
   overflow: hidden;
   padding: .5em;

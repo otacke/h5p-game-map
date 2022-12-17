@@ -168,6 +168,8 @@ export default class Content {
       return;
     }
 
+    this.map.resize();
+
     this.paths.update({ mapSize: this.map.getSize() });
   }
 
@@ -179,11 +181,8 @@ export default class Content {
   handleStageClicked(id) {
     const exercise = this.exercises.getExercise(id);
 
-    this.dom.scrollToTop();
-
     this.exerciseScreen.setH5PContent(exercise.getDOM());
     this.exerciseScreen.show();
-
 
     window.requestAnimationFrame(() => {
       Globals.get('resize')();

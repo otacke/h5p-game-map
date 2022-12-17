@@ -9,11 +9,13 @@ export default class ExerciseScreen {
    * Exercise holding H5P content.
    *
    * @class
-   * @param {object} params Parameters.
+   * @param {object} [params={}] Parameters.
    * @param {object} [callbacks={}] Callbacks.
    * @param {function} [callbacks.onClosed] Callback when exercise closed.
    */
   constructor(params = {}, callbacks = {}) {
+    this.params = Util.extend({}, params);
+
     this.callbacks = Util.extend({
       onClosed: () => {}
     }, callbacks);
@@ -53,6 +55,9 @@ export default class ExerciseScreen {
    */
   show() {
     this.dom.classList.remove('display-none');
+    window.requestAnimationFrame(() => {
+      this.dom.scrollIntoView({block: 'start'});
+    });
   }
 
   /**
