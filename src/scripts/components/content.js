@@ -174,7 +174,10 @@ export default class Content {
       score: this.exercises.getScore(),
       maxScore: this.exercises.getMaxScore()
     });
-    this.toolbar.showScores();
+
+    if (this.exercises.getMaxScore() > 0) {
+      this.toolbar.showScores();
+    }
   }
 
   /**
