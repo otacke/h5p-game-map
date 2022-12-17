@@ -17,6 +17,11 @@ export default class GameMap extends H5P.EventDispatcher {
     // Sanitize parameters
     this.params = Util.extend({
       sample: true,
+      visual: {
+        misc: {
+          heightLimitMode: 'none'
+        }
+      },
       behaviour: {
         roaming: 'free',
         displayPaths: true,

@@ -85,9 +85,28 @@ export default class Map {
    * Resize.
    */
   resize() {
-    // Ensure overlays for paths and stages have image dimensions
-    const clientRect = this.image.getBoundingClientRect();
-    this.pathWrapper.style.height = `${clientRect.height}px`;
-    this.stageWrapper.style.height = `${clientRect.height}px`;
+    clearTimeout(this.resizeTimeout);
+    this.resizeTimeout = setTimeout(() => {
+      // Ensure overlays for paths and stages have image dimensions
+      const clientRect = this.image.getBoundingClientRect();
+      this.pathWrapper.style.height = `${clientRect.height}px`;
+      this.stageWrapper.style.height = `${clientRect.height}px`;
+    }, 0);
+  }
+
+  /**
+   * Set maximum height.
+   *
+   * @param {number} [heightPx] Max height.
+   */
+  setMaxHeight(heightPx) {
+    if (typeof heightPx !== 'number') {
+      this.dom.style.maxHeight = '';
+      this.dom.style.overflow = 'hidden';
+    }
+    else {
+      this.dom.style.maxHeight = `${heightPx}px`;
+      this.dom.style.overflow = 'auto';
+    }
   }
 }

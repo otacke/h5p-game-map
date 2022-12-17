@@ -72,4 +72,108 @@ export default class Util {
       unit: match[2] || 'px'
     };
   }
+
+  /**
+   * Compute display limits.
+   *
+   * @param {HTMLElement} [container = {}] Container.
+   * @returns {object|null} Height and width in px, fallback screen size.
+   */
+  static computeDisplayLimits(container) {
+    container = (typeof container === 'object') ? container : {};
+
+    let topWindow = Util.getTopWindow();
+
+    // iOS doesn't change screen dimensions on rotation
+    let screenSize = (Util.isIOS() && Util.getOrientation() === 'landscape') ?
+      { height: screen.width, width: screen.height } :
+      { height: screen.height, width: screen.width };
+
+    topWindow = topWindow || {
+      innerHeight: screenSize.height,
+      innerWidth: screenSize.width
+    };
+
+    // Smallest value of viewport and container wins
+    return {
+      height: Math.min(topWindow.innerHeight, screenSize.height),
+      width: Math.min(
+        topWindow.innerWidth, screenSize.width, container.offsetWidth ||
+        Infinity
+      )
+    };
+  }
+
+  /**
+   * Detect whether user is running iOS.
+   *
+   * @returns {boolean} True, if user is running iOS.
+   */
+  static isIOS() {
+    return (
+      ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) ||
+      (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
+    );
+  }
+
+  /**
+   * Get device orientation.
+   *
+   * @returns {string} 'portrait' or 'landscape'.
+   */
+  static getOrientation() {
+    if (screen.orientation && screen.orientation.type) {
+      if (screen.orientation.type.includes('portrait')) {
+        return 'portrait';
+      }
+      else if (screen.orientation.type.includes('landscape')) {
+        return 'landscape';
+      }
+    }
+
+    // Unreliable, as not clear what device's natural orientation is
+    if (typeof window.orientation === 'number') {
+      if (window.orientation === 0 || window.orientation === 180) {
+        return 'portrait';
+      }
+      else if (
+        window.orientation === 90 ||
+        window.orientation === -90 ||
+        window.orientation === 270
+      ) {
+        return 'landscape';
+      }
+    }
+
+    return 'landscape'; // Assume default
+  }
+
+  /**
+   * Get top DOM Window object.
+   *
+   * @param {Window} [startWindow=window] Window to start looking from.
+   * @returns {Window|null} Top window.
+   */
+  static getTopWindow(startWindow) {
+    let sameOrigin;
+    startWindow = startWindow || window;
+
+    // H5P iframe may be on different domain than iframe content
+    try {
+      sameOrigin = startWindow.parent.location.host === window.location.host;
+    }
+    catch (error) {
+      sameOrigin = null;
+    }
+
+    if (!sameOrigin) {
+      return null;
+    }
+
+    if (startWindow.parent === startWindow || !startWindow.parent) {
+      return startWindow;
+    }
+
+    return this.getTopWindow(startWindow.parent);
+  }
 }

@@ -37,12 +37,12 @@ export default class Content {
     }
 
     // Content incl. tool/statusbar and map
-    const contentDOM = document.createElement('div');
-    contentDOM.classList.add('h5p-game-map-content');
-    this.dom.append(contentDOM);
+    this.contentDOM = document.createElement('div');
+    this.contentDOM.classList.add('h5p-game-map-content');
+    this.dom.append(this.contentDOM);
 
     // Toolbar
-    const toolbar = new Toolbar({
+    this.toolbar = new Toolbar({
       buttons: [{
         id: 'restart',
         type: 'pulse',
@@ -55,7 +55,7 @@ export default class Content {
         }
       }]
     });
-    contentDOM.append(toolbar.getDOM());
+    this.contentDOM.append(this.toolbar.getDOM());
 
     // Map incl. models
     const backgroundImage = H5P.getPath(
@@ -127,7 +127,7 @@ export default class Content {
     if (globalParams.showTitleScreen) {
       this.map.hide();
     }
-    contentDOM.append(this.map.getDOM());
+    this.contentDOM.append(this.map.getDOM());
 
     // Exercise
     this.exercises = new Exercises(
@@ -171,6 +171,59 @@ export default class Content {
     this.map.resize();
 
     this.paths.update({ mapSize: this.map.getSize() });
+
+    const paramsMisc = Globals.get('params').visual.misc;
+    if (paramsMisc.heightLimitMode === 'auto') {
+      // Try to compute maximum visible height
+      const displayLimits = Util.computeDisplayLimits(this.dom);
+      if (!displayLimits?.height) {
+        return;
+      }
+
+      this.limitMapHeight(displayLimits.height);
+    }
+    else if (
+      paramsMisc.heightLimitMode === 'custom' &&
+      typeof paramsMisc.heightLimit === 'number' &&
+      paramsMisc.heightLimit > 200
+    ) {
+      this.limitMapHeight(paramsMisc.heightLimit);
+    }
+  }
+
+  /**
+   * Limit map height
+   *
+   * @param {number} maxHeight Maximum wanted height.
+   */
+  limitMapHeight(maxHeight) {
+    // Reset to get intrinsic height
+    this.map.setMaxHeight();
+
+    // Height of content
+    const contentHeight = this.contentDOM.getBoundingClientRect().height;
+
+    // Margin around content
+    const contentStyle = window.getComputedStyle(this.contentDOM);
+    const contentMargin =
+      parseFloat(contentStyle.getPropertyValue('margin-top')) +
+      parseFloat(contentStyle.getPropertyValue('margin-bottom'));
+
+    // Toolbar height
+    const toolbarStyle = window.getComputedStyle(this.toolbar.getDOM());
+    const toolbarHeight = this.toolbar.getDOM().getBoundingClientRect().height +
+      parseFloat(toolbarStyle.getPropertyValue('margin-top')) +
+      parseFloat(toolbarStyle.getPropertyValue('margin-bottom'));
+
+    /*
+     * If maximum set height for all display is not sufficient, limit map height
+     */
+    if (maxHeight - contentMargin < contentHeight) {
+      this.map.setMaxHeight(
+        maxHeight - contentMargin - toolbarHeight -
+        Content.CONVENIENCE_MARGIN_PX
+      );
+    }
   }
 
   /**
@@ -215,3 +268,6 @@ export default class Content {
     }
   }
 }
+
+/** @constant {number} CONVENIENCE_MARGIN_PX Extra margin for height limit */
+Content.CONVENIENCE_MARGIN_PX = 32;
