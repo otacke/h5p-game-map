@@ -53,7 +53,6 @@ export default class ExerciseScreen {
    */
   show() {
     this.dom.classList.remove('display-none');
-    this.dom.scrollIntoView({block: 'end'});
   }
 
   /**
