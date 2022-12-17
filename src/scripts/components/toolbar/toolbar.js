@@ -1,4 +1,5 @@
 import './toolbar.scss';
+import ScoreContainer from './score-container';
 import ToolbarButton from './toolbar-button';
 import Util from '@services/util';
 
@@ -30,6 +31,11 @@ export default class Toolbar {
       this.hide();
     }
 
+    // Status values
+    this.scoreContainer = new ScoreContainer();
+    this.toolBar.appendChild(this.scoreContainer.getDOM());
+
+    // Buttons
     this.buttonsContainer = document.createElement('div');
     this.buttonsContainer.classList.add('toolbar-buttons');
     this.toolBar.appendChild(this.buttonsContainer);
@@ -214,5 +220,36 @@ export default class Toolbar {
    */
   hide() {
     this.toolBar.classList.add('display-none');
+  }
+
+  /**
+   * Set scores in score container.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {number} [params.score] Score.
+   * @param {number} [params.maxScore] Maximum score.
+   */
+  setScores(params = {}) {
+    if (typeof params.score === 'number') {
+      this.scoreContainer.setScore(params.score);
+    }
+
+    if (typeof params.maxScore === 'number') {
+      this.scoreContainer.setMaxScore(params.maxScore);
+    }
+  }
+
+  /**
+   * Show score container.
+   */
+  showScores() {
+    this.scoreContainer.show();
+  }
+
+  /**
+   * Show score container.
+   */
+  hideScores() {
+    this.scoreContainer.hide();
   }
 }

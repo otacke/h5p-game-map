@@ -1,0 +1,32 @@
+@import "@styles/main";
+
+.score-container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+
+  &.display-none {
+    display: none;
+  }
+
+  .score-container-scores {
+    align-self: flex-end;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    font-size: 1.25rem;
+    font-weight: bold;
+    justify-content: center;
+    margin-right: 1rem;
+
+    span.score, span.max-score {
+      color: #1768C4;
+    }
+
+    span.delimiter {
+      text-align: center;
+      width: 1rem;
+    }
+  }
+}

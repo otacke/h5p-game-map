@@ -8,12 +8,14 @@ export default class Exercise {
    * @param {object} [params={}] Parameters.
    * @param {object} [callbacks={}] Callbacks.
    * @param {function} [callbacks.onStateChanged] Callback when state changed.
+   * @param {function} [callbacks.onScoreChanged] Callback when score changed.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = params;
 
     this.callbacks = Util.extend({
-      onStateChanged: () => {}
+      onStateChanged: () => {},
+      onScoreChanged: () => {}
     }, callbacks);
 
     this.setState(Globals.get('states')['unstarted']);
@@ -81,6 +83,28 @@ export default class Exercise {
         });
       }
     }
+  }
+
+  /**
+   * Get score of instance.
+   *
+   * @returns {number} Score of instance or 0.
+   */
+  getScore() {
+    const score = this.instance?.getScore?.();
+
+    return (typeof score === 'number') ? score : 0;
+  }
+
+  /**
+   * Get max score of instance.
+   *
+   * @returns {number} Maximum score of instance or 0.
+   */
+  getMaxScore() {
+    const maxScore = this.instance?.getMaxScore?.();
+
+    return (typeof maxScore === 'number') ? maxScore : 0;
   }
 
   /**
@@ -156,12 +180,16 @@ export default class Exercise {
       return; // Not relevant
     }
 
-    if (event.getScore() < this.instance.getMaxScore()) {
+    this.score = event.getScore();
+
+    if (this.score  < this.instance.getMaxScore()) {
       this.setState(Globals.get('states')['completed']);
     }
     else {
       this.setState(Globals.get('states')['cleared']);
     }
+
+    this.callbacks.onScoreChanged(this.score);
   }
 
   /**

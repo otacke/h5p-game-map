@@ -43,17 +43,31 @@ export default class Content {
 
     // Toolbar
     this.toolbar = new Toolbar({
-      buttons: [{
-        id: 'restart',
-        type: 'pulse',
-        a11y: {
-          active: Dictionary.get('a11y.buttonRestart'),
-          disabled: Dictionary.get('a11y.buttonRestartDisabled')
+      buttons: [
+        {
+          id: 'restart',
+          type: 'pulse',
+          a11y: {
+            active: Dictionary.get('a11y.buttonRestart'),
+            disabled: Dictionary.get('a11y.buttonRestartDisabled')
+          },
+          onClick: () => {
+            // TODO: Handle restart
+          }
         },
-        onClick: () => {
-          // TODO: Handle restart
+        {
+          id: 'restart',
+          type: 'toggle',
+          a11y: {
+            active: Dictionary.get('a11y.buttonFullscreenActive'),
+            inactive: Dictionary.get('a11y.buttonFullscreenInactive'),
+            disabled: Dictionary.get('a11y.buttonRestartDisabled')
+          },
+          onClick: () => {
+            // TODO: Handle fullscreen
+          }
         }
-      }]
+      ]
     });
     this.contentDOM.append(this.toolbar.getDOM());
 
@@ -140,6 +154,9 @@ export default class Content {
       {
         onStateChanged: (id, state) => {
           this.handleExerciseStateChanged(id, state);
+        },
+        onScoreChanged: (id, state) => {
+          this.handleExerciseScoreChanged(id, state);
         }
       }
     );
@@ -151,6 +168,13 @@ export default class Content {
     });
     this.exerciseScreen.hide();
     this.dom.append(this.exerciseScreen.getDOM());
+
+    // Initialize scores
+    this.toolbar.setScores({
+      score: this.exercises.getScore(),
+      maxScore: this.exercises.getMaxScore()
+    });
+    this.toolbar.showScores();
   }
 
   /**
@@ -269,6 +293,16 @@ export default class Content {
     if (this.stages) {
       this.stages.updateNeighborsState(id, state);
     }
+  }
+
+  /**
+   * Handle exercise score changed.
+   */
+  handleExerciseScoreChanged() {
+    this.toolbar.setScores({
+      score: this.exercises.getScore(),
+      maxScore: this.exercises.getMaxScore()
+    });
   }
 }
 

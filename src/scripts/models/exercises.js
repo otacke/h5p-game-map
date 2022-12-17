@@ -8,14 +8,27 @@ export default class Exercises {
    * @param {object} [params={}] Parameters.
    * @param {object} [callbacks={}] Callbacks.
    * @param {function} [callbacks.onStateChanged] Callback when state changed.
+   * @param {function} [callbacks.onScoreChanged] Callback when score changed.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = params;
     this.callbacks = Util.extend({
-      onStateChanged: () => {}
+      onStateChanged: () => {},
+      onScoreChanged: () => {}
     }, callbacks);
 
     this.exercises = {};
+
+    this.params.elements.forEach((element) => {
+      this.exercises[element.id] = new Exercise(element, {
+        onStateChanged: (state) => {
+          this.callbacks.onStateChanged(element.id, state);
+        },
+        onScoreChanged: (score) => {
+          this.callbacks.onScoreChanged(element.id, score);
+        }
+      });
+    });
   }
 
   /**
@@ -25,17 +38,23 @@ export default class Exercises {
    * @returns {Exercise} Exercise.
    */
   getExercise(id) {
-    if (!this.exercises[id]) {
-      const stageParams = Object.values(this.params.elements)
-        .find((element) => element.id === id);
-
-      this.exercises[id] = new Exercise(stageParams, {
-        onStateChanged: (state) => {
-          this.callbacks.onStateChanged(id, state);
-        }
-      });
-    }
-
     return this.exercises[id];
+  }
+
+  getScore() {
+    return Object.values(this.exercises).reduce((score, exercise) => {
+      return score += exercise.getScore();
+    }, 0);
+  }
+
+  /**
+   * Get max score of all exercises.
+   *
+   * @returns {number} Maximum score of instance or 0.
+   */
+  getMaxScore() {
+    return Object.values(this.exercises).reduce((score, exercise) => {
+      return score += exercise.getMaxScore();
+    }, 0);
   }
 }
