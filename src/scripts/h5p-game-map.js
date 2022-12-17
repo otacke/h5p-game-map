@@ -23,6 +23,7 @@ export default class GameMap extends H5P.EventDispatcher {
         }
       },
       behaviour: {
+        showLabels: true,
         roaming: 'free',
         displayPaths: true,
         fog: false,

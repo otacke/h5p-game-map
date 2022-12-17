@@ -6,6 +6,10 @@
   transition: opacity 0.2s ease-in .75s;
   z-index: 1;
 
+  &.touch-device {
+    transition-delay: 0s;
+  }
+
   &.multiline {
     &.bottom {
       bottom: -4.125em;

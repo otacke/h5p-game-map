@@ -101,4 +101,15 @@ export default class Paths {
       });
     }
   }
+
+  /**
+   * Do for each path.
+   *
+   * @param {function} callback Callback.
+   */
+  forEach(callback) {
+    for (let i = 0; i < this.paths.length; i++) {
+      callback(this.paths[i], i, this.paths);
+    }
+  }
 }

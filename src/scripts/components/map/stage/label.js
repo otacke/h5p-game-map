@@ -40,8 +40,11 @@ export default class Label {
 
   /**
    * Show.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.isTouch] If true, was called by touch device.
    */
-  show() {
+  show(params = {}) {
     if (this.isShowing()) {
       return;
     }
@@ -56,6 +59,8 @@ export default class Label {
     );
     const labelSize = Math.floor(this.labelInner.getBoundingClientRect().height);
     this.dom.classList.toggle('multiline', fontSize * 1.5 < labelSize);
+
+    this.dom.classList.toggle('touch-device', params.isTouch || false);
 
     this.dom.classList.remove('visibility-hidden');
     this.showing = true;

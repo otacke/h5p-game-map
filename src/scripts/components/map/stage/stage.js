@@ -28,12 +28,15 @@ export default class Stage {
     this.dom.addEventListener('click', (event) => {
       this.handleClick(event);
     });
-    this.dom.addEventListener('mouseover', (event) => {
-      this.handleMouseOver(event);
-    });
-    this.dom.addEventListener('mouseout', () => {
-      this.handleMouseOut();
-    });
+
+    if (Globals.get('params').behaviour.showLabels) {
+      this.dom.addEventListener('mouseover', (event) => {
+        this.handleMouseOver(event);
+      });
+      this.dom.addEventListener('mouseout', () => {
+        this.handleMouseOut();
+      });
+    }
 
     // Hotspot
     this.content = document.createElement('div');
@@ -167,13 +170,17 @@ export default class Stage {
       return;
     }
 
-    if (this.label.isShowing() || !this.params.label) {
+    if (
+      this.label.isShowing() || !this.params.label ||
+      !Globals.get('params').behaviour.showLabels
+    ) {
       clearTimeout(this.labelTimeout);
       this.label.hide();
       this.callbacks.onClicked(this.params.id);
+      return;
     }
 
-    this.label.show();
+    this.label.show({ isTouch: true });
     this.labelTimeout = setTimeout(() => {
       this.label.hide();
     }, Stage.LABEL_TIMEOUT_MS);
@@ -183,6 +190,10 @@ export default class Stage {
    * Handle mouseover.
    */
   handleMouseOver() {
+    if (Util.supportsTouch()) {
+      return;
+    }
+
     this.label.show();
   }
 
@@ -190,6 +201,10 @@ export default class Stage {
    * Handle mouseout.
    */
   handleMouseOut() {
+    if (Util.supportsTouch()) {
+      return;
+    }
+
     this.label.hide();
   }
 

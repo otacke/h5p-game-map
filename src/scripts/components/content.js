@@ -96,6 +96,9 @@ export default class Content {
       this.stages.forEach((stage) => {
         stage.setState('open');
       });
+      this.paths.forEach((path) => {
+        path.show();
+      });
     }
     else if (
       globalParams.behaviour.roaming === 'complete' ||

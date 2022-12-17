@@ -315,7 +315,7 @@
             "type": "select",
             "label": "Path style",
             "importance": "low",
-            "default": "solid",
+            "default": "dotted",
             "optional": false,
             "options": [
               {
@@ -394,6 +394,13 @@
     "label": "Behavioural settings",
     "fields": [
       {
+        "name": "showLabels",
+        "type": "boolean",
+        "label": "Show stage labels",
+        "description": "Set whether a stage's label will be shown on hovering a stage with the mouse/on first touching it.",
+        "default": "true"
+      },
+      {
         "name": "roaming",
         "type": "select",
         "label": "Roaming",
@@ -418,7 +425,7 @@
         "name": "displayPaths",
         "type": "boolean",
         "label": "Display paths",
-        "description": "This setting will not hide the paths in the editor.",
+        "description": "Set whether paths will be displayed on the map. Please note: The paths are always visible in the editor.",
         "optional": true,
         "default": true
       },
