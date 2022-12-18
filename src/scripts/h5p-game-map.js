@@ -34,8 +34,8 @@ export default class GameMap extends H5P.EventDispatcher {
         mediaScreenButtonText: 'Close'
       },
       a11y: {
-        buttonRestart: 'Restart',
-        buttonRestartDisabled: 'Restarting is currently not possible',
+        buttonFinish: 'Finish',
+        buttonFinishDisabled: 'Finishing is currently not possible',
         close: 'Close'
       }
     }, params);

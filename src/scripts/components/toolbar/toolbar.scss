@@ -19,6 +19,27 @@
     flex-direction: row;
     flex-grow: 0;
     flex-shrink: 1;
+
+    .toolbar-button {
+      color: #1768C4;
+      position: relative;
+
+      &.toolbar-button-finish {
+        &::before {
+          content: "\f11e";
+          font-family: "H5PFontAwesome4", sans-serif;
+          font-size: 1.15rem;
+          font-weight: bold;
+          height: 1.15rem;
+          left: 50%;
+          margin-left: -0.575rem;
+          margin-top: -0.575rem;
+          position: absolute;
+          top: 50%;
+          width: 1.15rem;
+        }
+      }
+    }
   }
 
   &.display-none {

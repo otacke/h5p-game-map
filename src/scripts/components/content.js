@@ -45,11 +45,11 @@ export default class Content {
     this.toolbar = new Toolbar({
       buttons: [
         {
-          id: 'restart',
+          id: 'finish',
           type: 'pulse',
           a11y: {
-            active: Dictionary.get('a11y.buttonRestart'),
-            disabled: Dictionary.get('a11y.buttonRestartDisabled')
+            active: Dictionary.get('a11y.buttonFinish'),
+            disabled: Dictionary.get('a11y.buttonFinishDisabled')
           },
           onClick: () => {
             // TODO: Handle restart
