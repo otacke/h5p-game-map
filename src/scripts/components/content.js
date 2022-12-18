@@ -54,18 +54,6 @@ export default class Content {
           onClick: () => {
             // TODO: Handle restart
           }
-        },
-        {
-          id: 'restart',
-          type: 'toggle',
-          a11y: {
-            active: Dictionary.get('a11y.buttonFullscreenActive'),
-            inactive: Dictionary.get('a11y.buttonFullscreenInactive'),
-            disabled: Dictionary.get('a11y.buttonRestartDisabled')
-          },
-          onClick: () => {
-            // TODO: Handle fullscreen
-          }
         }
       ]
     });
