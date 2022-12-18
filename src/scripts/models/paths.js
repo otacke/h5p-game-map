@@ -112,4 +112,13 @@ export default class Paths {
       callback(this.paths[i], i, this.paths);
     }
   }
+
+  /**
+   * Reset.
+   */
+  reset() {
+    this.paths.forEach((path) => {
+      path.reset();
+    });
+  }
 }

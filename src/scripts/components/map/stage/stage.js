@@ -209,6 +209,17 @@ export default class Stage {
   }
 
   /**
+   * Reset.
+   */
+  reset() {
+    this.setState(Globals.get('states')['locked']);
+
+    if (this.params.hidden) {
+      this.hide();
+    }
+  }
+
+  /**
    * Set exercise state.
    *
    * @param {number|string} state State constant.

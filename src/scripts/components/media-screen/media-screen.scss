@@ -18,7 +18,7 @@
     display: none;
   }
 
-  :not(:first-child) {
+  &> :not(:first-child) {
     margin-top: .5rem;
   }
 
@@ -34,6 +34,10 @@
     margin: 4.375em 0;
     position: relative;
     width: 100%;
+
+    &.display-none {
+      display: none;
+    }
 
     &.h5p-image > img,
     &.h5p-video > video,
@@ -80,11 +84,19 @@
   .media-screen-introduction {
     color: $color-text;
     font-size: 1.5rem;
-    text-decoration: none solid $color-text
+    text-decoration: none solid $color-text;
+
+    &.display-none {
+      display: none;
+    }
   }
 
   .media-screen-content {
     width: 80%;
+
+    &.display-none {
+      display: none;
+    }
   }
 
   .media-screen-button {

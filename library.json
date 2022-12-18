@@ -23,9 +23,9 @@
   ],
   "preloadedDependencies": [
     {
-      "machineName": "H5P.JoubelUI",
+      "machineName": "H5P.Question",
       "majorVersion": 1,
-      "minorVersion": 3
+      "minorVersion": 5
     },
     {
       "machineName": "FontAwesome",
@@ -34,6 +34,11 @@
     }
   ],
   "editorDependencies": [
+    {
+      "machineName": "H5PEditor.RangeList",
+      "majorVersion": 1,
+      "minorVersion": 0
+    },
     {
       "machineName": "H5PEditor.ShowWhen",
       "majorVersion": 1,

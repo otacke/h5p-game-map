@@ -15,7 +15,6 @@ export default class MediaScreen {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      titleText: '',
       l10n: {
         buttonText: 'Close'
       }
@@ -28,50 +27,25 @@ export default class MediaScreen {
     // Container
     this.dom = this.buildDOM();
 
-    this.mediumFile = this.getMediumFile(this.params.medium);
+    // Visual header (placeholder)
+    this.visuals = this.buildVisualsElement(this.params.medium);
+    this.dom.append(this.visuals);
 
-    // Visual header
-    if (this.mediumFile) {
-      this.visuals = this.buildVisualsElement(this.params.medium);
-      if (this.visuals) {
-        this.dom.appendChild(this.visuals);
-      }
-    }
+    this.setMedium(this.params.medium);
 
     // Introduction
-    if (this.params.introduction) {
-      this.dom.appendChild(this.buildIntroduction(this.params.introduction));
-    }
+    this.introduction = this.buildIntroduction();
+    this.setIntroduction(this.params.introduction);
+    this.dom.append(this.introduction);
 
     // Content
-    if (this.params.content) {
-      this.content = this.buildContent(this.params.content);
-      this.dom.appendChild(this.content);
-    }
+    this.content = this.buildContent();
+    this.setContent(this.params.content);
+    this.dom.append(this.content);
 
     // Button
-    this.dom.appendChild(
-      this.buildButton(this.params.l10n.buttonText)
-    );
-
-    if (this.mediumFile) {
-      /*
-      * Get started once visible and ready. YouTube requires the video to be
-      * attached to the DOM.
-      */
-      window.requestIdleCallback(() => {
-        this.observer = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting) {
-            this.observer.unobserve(this.dom);
-            this.initMedia();
-          }
-        }, {
-          root: document.documentElement,
-          threshold: 0
-        });
-        this.observer.observe(this.dom);
-      });
-    }
+    this.button = this.buildButton(this.params.l10n.buttonText);
+    this.dom.append(this.button);
   }
 
   /**
@@ -91,21 +65,19 @@ export default class MediaScreen {
   buildDOM() {
     const dom = document.createElement('div');
     dom.classList.add('media-screen');
+    if (this.params.id) {
+      dom.classList.add(this.params.id);
+    }
+
     return dom;
   }
 
   /**
    * Create an element which contains both medium and the background bar.
    *
-   * @param {object} [params={}] Parameters.
-   * @param {object} params.params = H5P media content parameters.
    * @returns {HTMLElement} Visual stuff for cover.
    */
-  buildVisualsElement(params = {}) {
-    if (!params.params) {
-      return null;
-    }
-
+  buildVisualsElement() {
     const visuals = document.createElement('div');
     visuals.classList.add('media-screen-medium');
 
@@ -127,34 +99,23 @@ export default class MediaScreen {
   /**
    * Build introduction.
    *
-   * @param {string} introductionHTML Text for title element.
    * @returns {HTMLElement} Title element.
    */
-  buildIntroduction(introductionHTML) {
-    const introduction = document.createElement('p');
-    introduction.innerHTML = introductionHTML;
+  buildIntroduction() {
+    const introduction = document.createElement('div');
+    introduction.classList.add('media-screen-introduction');
 
-    const introductionWrapper = document.createElement('div');
-    introductionWrapper.classList.add('media-screen-introduction');
-    introductionWrapper.appendChild(introduction);
-
-    return introductionWrapper;
+    return introduction;
   }
 
   /**
    * Build content.
    *
-   * @param {HTMLElement} content Content.
    * @returns {HTMLElement} Content element.
    */
-  buildContent(content) {
-    if (!content) {
-      return null;
-    }
-
+  buildContent() {
     const descriptionElement = document.createElement('div');
     descriptionElement.classList.add('media-screen-content');
-    descriptionElement.innerHTML = content;
 
     return descriptionElement;
   }
@@ -178,6 +139,75 @@ export default class MediaScreen {
     buttonWrapper.appendChild(button);
 
     return buttonWrapper;
+  }
+
+  /**
+   * Set introduction text.
+   *
+   * @param {string} html Text for title element.
+   */
+  setIntroduction(html) {
+    if (html) {
+      this.introduction.innerHTML = html;
+      this.introduction.classList.remove('display-none');
+    }
+    else {
+      this.introduction.classList.add('display-none');
+    }
+  }
+
+  /**
+   * Set content.
+   *
+   * @param {HTMLElement} content Content.
+   */
+  setContent(content) {
+    if (content) {
+      this.content.innerHTML = '';
+      this.content.append(content);
+      this.content.classList.remove('display-none');
+    }
+    else {
+      this.content.classList.add('display-none');
+    }
+  }
+
+  /**
+   * Set medium.
+   *
+   * @param {object} medium object.
+   */
+  setMedium(medium) {
+    this.medium = medium;
+    this.mediumFile = this.getMediumFile(medium);
+
+    if (this.mediumFile) {
+
+      // Remove old visual
+      const newVisuals = this.buildVisualsElement(this.params.medium);
+      this.dom.replaceChild(newVisuals, this.visuals);
+      this.visuals = newVisuals;
+
+      /*
+      * Get started once visible and ready. YouTube requires the video to be
+      * attached to the DOM.
+      */
+      window.requestIdleCallback(() => {
+        this.observer = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            this.observer.unobserve(this.dom);
+            this.initMedia();
+          }
+        }, {
+          root: document.documentElement,
+          threshold: 0
+        });
+        this.observer.observe(this.dom);
+      });
+    }
+    else {
+      this.visuals.classList.add('display-none');
+    }
   }
 
   /**
@@ -213,23 +243,21 @@ export default class MediaScreen {
       return;
     }
 
-    const medium = this.params.medium;
-
     // Preparation
-    if ((medium.library || '').split(' ')[0] === 'H5P.Video') {
-      medium.params.visuals.fit = false; // TODO: for all types?
+    if ((this.medium.library || '').split(' ')[0] === 'H5P.Video') {
+      this.medium.params.visuals.fit = false; // TODO: for all types?
     }
 
     H5P.newRunnable(
-      medium,
+      this.medium,
       this.params.contentId,
       H5P.jQuery(this.visuals),
       false,
-      { metadata: medium.medatata }
+      { metadata: this.medium.medatata }
     );
 
     // Postparation
-    if ((medium.library || '').split(' ')[0] === 'H5P.Image') {
+    if ((this.medium.library || '').split(' ')[0] === 'H5P.Image') {
       const image = this.visuals.querySelector('img') ||
         this.visuals.querySelector('.h5p-placeholder');
       image.style.height = 'auto';

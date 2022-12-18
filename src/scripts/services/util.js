@@ -187,4 +187,17 @@ export default class Util {
       ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
     );
   }
+
+  /**
+   * Check whether a HTML widget is filled with text.
+   *
+   * @param {string} html HTML string.
+   * @returns {boolean} True, if widget is filled, else false.
+   */
+  static isHTMLWidgetFilled(html) {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = html;
+
+    return wrapper.firstChild?.innerText?.length > 0;
+  }
 }

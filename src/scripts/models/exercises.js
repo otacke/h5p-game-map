@@ -57,4 +57,13 @@ export default class Exercises {
       return score += exercise.getMaxScore();
     }, 0);
   }
+
+  /**
+   * Reset.
+   */
+  reset() {
+    Object.values(this.exercises).forEach((exercise) => {
+      exercise.reset();
+    });
+  }
 }

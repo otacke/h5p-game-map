@@ -26,21 +26,6 @@ export default class Exercise {
     this.dom.classList.add('h5p-game-map-exercise-instance-container');
 
     this.initializeInstance();
-
-    // TODO: Is this sufficient for YouTube Videos if not, add exceptions
-    window.requestIdleCallback(() => {
-      this.observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          this.observer.unobserve(this.dom);
-
-          this.handleViewed();
-        }
-      }, {
-        root: document.documentElement,
-        threshold: 0
-      });
-      this.observer.observe(this.dom);
-    });
   }
 
   /**
@@ -254,9 +239,23 @@ export default class Exercise {
    * Reset exercise.
    */
   reset() {
-    this.setState('unstarted');
+    this.score = 0;
+    this.setState(Globals.get('states')['unstarted']);
     this.instance?.resetTask?.();
 
-    // TODO: Is it necessary to check the visibility state via observer?
+    // TODO: Is this sufficient for YouTube Videos if not, add exceptions
+    window.requestIdleCallback(() => {
+      this.observer = this.observer || new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          this.observer.unobserve(this.dom);
+
+          this.handleViewed();
+        }
+      }, {
+        root: document.documentElement,
+        threshold: 0
+      });
+      this.observer.observe(this.dom);
+    });
   }
 }

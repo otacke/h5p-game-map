@@ -11,4 +11,16 @@
     flex-direction: column;
     justify-content: center;
   }
+
+  .h5p-question-content {
+    margin: 0;
+  }
+
+  &> .h5p-question-feedback {
+    display: none;
+  }
+
+  &> .h5p-question-scorebar {
+    display: none;
+  }
 }

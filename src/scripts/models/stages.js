@@ -185,4 +185,13 @@ export default class Stages {
       callback(this.stages[i], i, this.stages);
     }
   }
+
+  /**
+   * Reset.
+   */
+  reset() {
+    this.stages.forEach((stage) => {
+      stage.reset();
+    });
+  }
 }

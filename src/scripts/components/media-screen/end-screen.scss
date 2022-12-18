@@ -1,0 +1,28 @@
+.media-screen.end {
+  .h5p-game-map-feedback-wrapper {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    .h5p-question-feedback {
+      margin: 0;
+
+      .h5p-question-feedback-container {
+        text-align: center;
+      }
+    }
+
+    .h5p-question-scorebar {
+      margin: 0 0 1em 0;
+      padding: 0;
+    }
+  }
+
+  .media-screen-button {
+    button::before {
+      content: "\F01E";
+      font-family: H5PFontAwesome4;
+      padding-right: 0.5rem;
+    }
+  }
+}

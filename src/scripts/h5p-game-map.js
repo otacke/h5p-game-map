@@ -4,7 +4,7 @@ import Globals from '@services/globals';
 import Content from '@components/content';
 import '@styles/h5p-game-map.scss';
 
-export default class GameMap extends H5P.EventDispatcher {
+export default class GameMap extends H5P.Question {
   /**
    * @class
    * @param {object} params Parameters passed by the editor.
@@ -12,7 +12,7 @@ export default class GameMap extends H5P.EventDispatcher {
    * @param {object} [extras] Saved state, metadata, etc.
    */
   constructor(params, contentId, extras = {}) {
-    super();
+    super('game-map');
 
     // Sanitize parameters
     this.params = Util.extend({
@@ -30,13 +30,15 @@ export default class GameMap extends H5P.EventDispatcher {
         startStages: 'all'
       },
       l10n: {
-        sample: 'Sample l10n',
-        mediaScreenButtonText: 'Close'
+        start: 'Start',
+        restart: 'Restart',
+        completedMap: 'You have completed the map!'
       },
       a11y: {
         buttonFinish: 'Finish',
         buttonFinishDisabled: 'Finishing is currently not possible',
-        close: 'Close'
+        close: 'Close',
+        yourResult: 'You got @score out of @total points'
       }
     }, params);
 
@@ -47,7 +49,7 @@ export default class GameMap extends H5P.EventDispatcher {
     Globals.set('contentId', this.contentId);
     Globals.set('params', this.params);
     Globals.set(
-      'states', { locked: 0, open: 1, opened: 2, completed: 3, cleared: 4 }
+      'states', { unstarted: 0, locked: 1, open: 2, opened: 3, completed: 4, cleared: 5 }
     );
     Globals.set('resize', () => {
       this.trigger('resize');
@@ -72,13 +74,10 @@ export default class GameMap extends H5P.EventDispatcher {
   }
 
   /**
-   * Attach library to wrapper.
-   *
-   * @param {H5P.jQuery} $wrapper Content's container.
+   * Attach to wrapper.
    */
-  attach($wrapper) {
-    $wrapper.get(0).classList.add('h5p-game-map');
-    $wrapper.get(0).appendChild(this.dom);
+  registerDomElements() {
+    this.setContent(this.dom);
   }
 
   /**

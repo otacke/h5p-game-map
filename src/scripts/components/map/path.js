@@ -191,6 +191,17 @@ export default class Path {
   }
 
   /**
+   * Reset.
+   */
+  reset() {
+    this.setState(Globals.get('states')['open']);
+
+    if (this.params.hidden) {
+      this.hide();
+    }
+  }
+
+  /**
    * Set path state.
    *
    * @param {number|string} state State constant.

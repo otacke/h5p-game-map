@@ -4,6 +4,7 @@ import Globals from '@services/globals';
 import Paths from '@models/paths';
 import Stages from '@models/stages';
 import StartScreen from './media-screen/start-screen';
+import EndScreen from './media-screen/end-screen';
 import Map from '@components/map/map';
 import Toolbar from '@components/toolbar/toolbar';
 import Exercises from '@models/exercises';
@@ -28,13 +29,33 @@ export default class Content {
     // Title screen if set
     if (globalParams.showTitleScreen) {
       this.startScreen = new StartScreen({
+        id: 'start',
         contentId: Globals.get('contentId'),
         introduction: globalParams.titleScreen.titleScreenIntroduction,
         medium: globalParams.titleScreen.titleScreenMedium,
-        l10n: { buttonText: 'Start' }
-      }, {});
+        l10n: { buttonText: Dictionary.get('l10n.start') }
+      }, {
+        onButtonClicked: () => {
+          this.show();
+        }
+      });
+      this.startScreen.hide();
       this.dom.append(this.startScreen.getDOM());
     }
+
+    // End screen
+    this.endScreen = new EndScreen({
+      id: 'end',
+      contentId: Globals.get('contentId'),
+      l10n: { buttonText: Dictionary.get('l10n.restart') }
+    }, {
+      onButtonClicked: () => {
+        this.reset();
+        this.start();
+      }
+    });
+    this.endScreen.hide();
+    this.dom.append(this.endScreen.getDOM());
 
     // Content incl. tool/statusbar and map
     this.contentDOM = document.createElement('div');
@@ -52,7 +73,7 @@ export default class Content {
             disabled: Dictionary.get('a11y.buttonFinishDisabled')
           },
           onClick: () => {
-            // TODO: Handle restart
+            this.handleFinish();
           }
         }
       ]
@@ -93,22 +114,6 @@ export default class Content {
       hidden: pathsHidden
     });
 
-    // Set start state stages
-    if (globalParams.behaviour.roaming === 'free') {
-      this.stages.forEach((stage) => {
-        stage.setState('open');
-      });
-      this.paths.forEach((path) => {
-        path.show();
-      });
-    }
-    else if (
-      globalParams.behaviour.roaming === 'complete' ||
-      globalParams.behaviour.roaming === 'success'
-    ) {
-      this.stages.unlockStage('settings');
-    }
-
     // Map
     this.map = new Map(
       {
@@ -128,10 +133,6 @@ export default class Content {
         }
       }
     );
-
-    if (globalParams.showTitleScreen) {
-      this.map.hide();
-    }
     this.contentDOM.append(this.map.getDOM());
 
     // Exercise
@@ -157,15 +158,65 @@ export default class Content {
     this.exerciseScreen.hide();
     this.dom.append(this.exerciseScreen.getDOM());
 
-    // Initialize scores
-    this.toolbar.setScores({
-      score: this.exercises.getScore(),
-      maxScore: this.exercises.getMaxScore()
-    });
+    this.reset();
 
     if (this.exercises.getMaxScore() > 0) {
       this.toolbar.showScores();
     }
+
+    this.start();
+
+    // Reattach H5P.Question buttons and scorebar to endscreen
+    H5P.externalDispatcher.on('initialized', () => {
+      const feedbackWrapper = this.grabH5PQuestionFeedback({
+        maxScore: this.exercises.getMaxScore()
+      });
+
+      this.endScreen.setContent(feedbackWrapper);
+    });
+  }
+
+  /**
+   * Grab H5P.Question feedback and scorebar.
+   * H5P.Question already handles scores nicely, no need to recreate all that.
+   * Issue here: We can relocate the DOMs for feedback and scorbar, but those
+   * are created after setting feedback the first time only. It's also
+   * required to set the maximum score now. Cannot be changed later.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {number} [params.maxScore] Maximum score possible.
+   * @returns {HTMLElement|null} Wrapper with H5P.Question feedback.
+   */
+  grabH5PQuestionFeedback(params = {}) {
+    const content = this.dom.closest('.h5p-question-content');
+    if (!content) {
+      return null;
+    }
+
+    const container = content.parentNode;
+    if (!container) {
+      return null;
+    }
+
+    const main = Globals.get('mainInstance');
+    main.setFeedback('', 0, params.maxScore);
+
+    const feedbackWrapper = document.createElement('div');
+    feedbackWrapper.classList.add('h5p-game-map-feedback-wrapper');
+
+    const feedback = container.querySelector('.h5p-question-feedback');
+    if (feedback) {
+      feedbackWrapper.append(feedback.parentNode.removeChild(feedback));
+    }
+
+    const scorebar = container.querySelector('.h5p-question-scorebar');
+    if (scorebar) {
+      feedbackWrapper.append(scorebar.parentNode.removeChild(scorebar));
+    }
+
+    main.removeFeedback();
+
+    return feedbackWrapper;
   }
 
   /**
@@ -175,6 +226,21 @@ export default class Content {
    */
   getDOM() {
     return this.dom;
+  }
+
+  /**
+   * Show.
+   */
+  show() {
+    this.contentDOM.classList.remove('display-none');
+    Globals.get('resize')();
+  }
+
+  /**
+   * Hide.
+   */
+  hide() {
+    this.contentDOM.classList.add('display-none');
   }
 
   /**
@@ -296,6 +362,109 @@ export default class Content {
       score: this.exercises.getScore(),
       maxScore: this.exercises.getMaxScore()
     });
+  }
+
+  /**
+   * Handle finish.
+   */
+  handleFinish() {
+    const endscreenParams = Globals.get('params').endScreen;
+
+    // Prepare end screen
+    const score = this.exercises.getScore();
+    const maxScore = this.exercises.getMaxScore();
+
+    const textScore = H5P.Question.determineOverallFeedback(
+      endscreenParams.overallFeedback, score / maxScore
+    );
+
+    // Output via H5P.Question - expects :num and :total
+    const ariaMessage = Dictionary.get('a11y.yourResult')
+      .replace('@score', ':num')
+      .replace('@total', ':total');
+
+    Globals.get('mainInstance').setFeedback(
+      textScore,
+      score,
+      maxScore,
+      ariaMessage
+    );
+
+    const defaultTitle = `<p style="text-align: center;">${Dictionary.get('l10n.completedMap')}</p>`;
+
+    if (score === maxScore) {
+      const success = endscreenParams.success;
+      this.endScreen.setMedium(success.endScreenMediumSuccess);
+
+      const html = Util.isHTMLWidgetFilled(success.endScreenTextSuccess) ?
+        success.endScreenTextSuccess :
+        defaultTitle;
+
+      this.endScreen.setIntroduction(html);
+    }
+    else {
+      const noSuccess = endscreenParams.noSuccess;
+      this.endScreen.setMedium(noSuccess.endScreenMediumNoSuccess);
+
+      const html = Util.isHTMLWidgetFilled(noSuccess.endScreenTextNoSuccess) ?
+        noSuccess.endScreenTextNoSuccess :
+        defaultTitle;
+
+      this.endScreen.setIntroduction(html);
+    }
+
+    this.hide();
+    this.endScreen.show();
+  }
+
+  /**
+   * Reset.
+   */
+  reset() {
+    const globalParams = Globals.get('params');
+
+    this.paths.reset();
+    this.stages.reset();
+    this.exercises.reset();
+
+    // Set start state stages
+    if (globalParams.behaviour.roaming === 'free') {
+      this.stages.forEach((stage) => {
+        stage.setState('open');
+      });
+      this.paths.forEach((path) => {
+        path.show();
+      });
+    }
+    else if (
+      globalParams.behaviour.roaming === 'complete' ||
+      globalParams.behaviour.roaming === 'success'
+    ) {
+      this.stages.unlockStage('settings');
+    }
+
+    // Initialize scores
+    this.toolbar.setScores({
+      score: this.exercises.getScore(),
+      maxScore: this.exercises.getMaxScore()
+    });
+  }
+
+  /**
+   * Start.
+   */
+  start() {
+    this.endScreen.hide();
+
+    if (Globals.get('params').showTitleScreen) {
+      this.hide();
+      this.startScreen.show();
+    }
+    else {
+      this.show();
+    }
+
+    Globals.get('resize')();
   }
 }
 
