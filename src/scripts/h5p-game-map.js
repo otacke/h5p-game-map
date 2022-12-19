@@ -27,7 +27,8 @@ export default class GameMap extends H5P.Question {
         roaming: 'free',
         displayPaths: true,
         fog: false,
-        startStages: 'all'
+        startStages: 'all',
+        finishScore: Infinity
       },
       l10n: {
         start: 'Start',

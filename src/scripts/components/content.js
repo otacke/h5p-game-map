@@ -30,7 +30,7 @@ export default class Content {
 
     this.reset();
 
-    if (this.exercises.getMaxScore() > 0) {
+    if (this.getMaxScore() > 0) {
       this.toolbar.showScores();
     }
 
@@ -39,7 +39,7 @@ export default class Content {
     // Reattach H5P.Question buttons and scorebar to endscreen
     H5P.externalDispatcher.on('initialized', () => {
       const feedbackWrapper = this.grabH5PQuestionFeedback({
-        maxScore: this.exercises.getMaxScore()
+        maxScore: this.getMaxScore()
       });
 
       this.endScreen.setContent(feedbackWrapper);
@@ -376,7 +376,10 @@ export default class Content {
    * @returns {number} Score.
    */
   getScore() {
-    return this.exercises.getScore();
+    return Math.min(
+      this.exercises.getScore(),
+      this.getMaxScore()
+    );
   }
 
   /**
@@ -385,8 +388,10 @@ export default class Content {
    * @returns {number} Max score.
    */
   getMaxScore() {
-    // TODO: Potential limit set by author
-    return this.exercises.getMaxScore();
+    const maxScore = this.exercises.getMaxScore();
+    const finishScore = Globals.get('params').behaviour.finishScore;
+
+    return Math.min(finishScore, maxScore);
   }
 
   /**
@@ -396,8 +401,8 @@ export default class Content {
     this.stages.updateUnlockingStages();
 
     this.toolbar.setScores({
-      score: this.exercises.getScore(),
-      maxScore: this.exercises.getMaxScore()
+      score: this.getScore(),
+      maxScore: this.getMaxScore()
     });
   }
 
@@ -408,8 +413,8 @@ export default class Content {
     const endscreenParams = Globals.get('params').endScreen;
 
     // Prepare end screen
-    const score = this.exercises.getScore();
-    const maxScore = this.exercises.getMaxScore();
+    const score = this.getScore();
+    const maxScore = this.getMaxScore();
 
     const textScore = H5P.Question.determineOverallFeedback(
       endscreenParams.overallFeedback, score / maxScore
@@ -502,8 +507,8 @@ export default class Content {
 
     // Initialize scores
     this.toolbar.setScores({
-      score: this.exercises.getScore(),
-      maxScore: this.exercises.getMaxScore()
+      score: this.getScore(),
+      maxScore: this.getMaxScore()
     });
   }
 
