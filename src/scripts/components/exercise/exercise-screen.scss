@@ -1,4 +1,5 @@
 .h5p-game-map-exercise {
+  align-items: center;
   background: rgba(44,44,44,.8);
   box-sizing: border-box;
   display: flex;
@@ -20,6 +21,7 @@
     grid-template-rows: 1fr;
 
     box-sizing: border-box;
+    max-width: 1080px;
     padding: 2rem;
     width: 100%;
 
