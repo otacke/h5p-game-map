@@ -126,7 +126,10 @@ export default class Exercise {
       }
 
       targets.forEach((target) => {
-        target.trigger(eventName, event);
+        // If not attached yet, some contents can fail (e. g. CP).
+        if (this.isAttached) {
+          target.trigger(eventName, event);
+        }
       });
     });
   }
@@ -148,7 +151,7 @@ export default class Exercise {
 
     // Check for maxScore > 0 as indicator for being a task
     const hasGetMaxScore = (typeof instance.getMaxScore === 'function');
-    if (hasGetMaxScore) {
+    if (hasGetMaxScore && instance.getMaxScore() > 0) {
       return true;
     }
 
@@ -254,7 +257,11 @@ export default class Exercise {
   reset() {
     this.score = 0;
     this.setState(Globals.get('states')['unstarted']);
-    this.instance?.resetTask?.();
+
+    // If not attached yet, some contents can fail (e. g. CP).
+    if (this.isAttached) {
+      this.instance?.resetTask?.();
+    }
 
     // TODO: Is this sufficient for YouTube Videos if not, add exceptions
     window.requestIdleCallback(() => {
