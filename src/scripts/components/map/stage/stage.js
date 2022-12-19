@@ -290,6 +290,7 @@ export default class Stage {
     }
     else if (state === states['unlocking']) {
       newState = states['unlocking'];
+      this.show();
     }
     else if (
       state === states['open'] ||
