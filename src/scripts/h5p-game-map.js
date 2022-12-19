@@ -53,7 +53,15 @@ export default class GameMap extends H5P.Question {
     Globals.set('contentId', this.contentId);
     Globals.set('params', this.params);
     Globals.set(
-      'states', { unstarted: 0, locked: 1, open: 2, opened: 3, completed: 4, cleared: 5 }
+      'states', {
+        unstarted: 0, // Exercise
+        locked: 1,
+        unlocking: 2,
+        open: 3,
+        opened: 4,
+        completed: 5,
+        cleared: 6 // Exercise, Stage, Path
+      }
     );
     Globals.set('resize', () => {
       this.trigger('resize');
@@ -115,6 +123,24 @@ export default class GameMap extends H5P.Question {
    */
   getDescription() {
     return GameMap.DEFAULT_DESCRIPTION;
+  }
+
+  /**
+   * Get score.
+   *
+   * @returns {number} Score.
+   */
+  getScore() {
+    return this.content.getScore();
+  }
+
+  /**
+   * Get max score.
+   *
+   * @returns {number} Max score.
+   */
+  getMaxScore() {
+    return this.content.getMaxScore();
   }
 }
 

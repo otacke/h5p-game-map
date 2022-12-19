@@ -41,6 +41,11 @@ export default class Exercises {
     return this.exercises[id];
   }
 
+  /**
+   * Get summed up score of all exercises.
+   *
+   * @returns {number} Summed up score of all instances or 0.
+   */
   getScore() {
     return Object.values(this.exercises).reduce((score, exercise) => {
       return score += exercise.getScore();

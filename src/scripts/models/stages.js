@@ -46,6 +46,7 @@ export default class Stages {
         {
           id: elementParams.id,
           canBeStartStage: elementParams.canBeStartStage,
+          accessRestrictions: elementParams.accessRestrictions,
           contentType: elementParams.contentType,
           label: elementParams.label,
           neighbors: neighbors,
@@ -89,6 +90,28 @@ export default class Stages {
     }
 
     stage.setState(state);
+  }
+
+  /**
+   * Update stages that are in unlocking state.
+   */
+  updateUnlockingStages() {
+    const globalParams = Globals.get('params');
+
+    if (globalParams.behaviour.roaming === 'free') {
+      return; // Not relevant
+    }
+
+    const unlockingStages = this.stages.filter((stage) => {
+      return (
+        stage.getState() === Globals.get('states')['unlocking'] &&
+        stage.getAccessRestrictions().openOnScoreSufficient
+      );
+    });
+
+    unlockingStages.forEach((stage) => {
+      stage.unlock();
+    });
   }
 
   /**
@@ -154,6 +177,8 @@ export default class Stages {
       if (stage) {
         stage.unlock();
       }
+
+      return;
     }
 
     // Choose all start stages (all if none selected) and choose one randomly

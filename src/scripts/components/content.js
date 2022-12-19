@@ -22,6 +22,10 @@ export default class Content {
     this.callbacks = Util.extend({
     }, callbacks);
 
+    Globals.set('getScore', () => {
+      return this.getScore();
+    });
+
     this.buildDOM();
 
     this.reset();
@@ -367,9 +371,30 @@ export default class Content {
   }
 
   /**
+   * Get score.
+   *
+   * @returns {number} Score.
+   */
+  getScore() {
+    return this.exercises.getScore();
+  }
+
+  /**
+   * Get max score.
+   *
+   * @returns {number} Max score.
+   */
+  getMaxScore() {
+    // TODO: Potential limit set by author
+    return this.exercises.getMaxScore();
+  }
+
+  /**
    * Handle exercise score changed.
    */
   handleExerciseScoreChanged() {
+    this.stages.updateUnlockingStages();
+
     this.toolbar.setScores({
       score: this.exercises.getScore(),
       maxScore: this.exercises.getMaxScore()

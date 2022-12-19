@@ -15,7 +15,10 @@ export default class Stage {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      state: Globals.get('states')['locked']
+      state: Globals.get('states')['locked'],
+      accessRestrictions: {
+        openOnScoreSufficient: false
+      }
     }, params);
 
     this.callbacks = Util.extend({
@@ -90,6 +93,11 @@ export default class Stage {
     return this.params.id;
   }
 
+  /**
+   * Get neighbors.
+   *
+   * @returns {string[]} Neighbors.
+   */
   getNeighbors() {
     return this.params.neighbors;
   }
@@ -101,6 +109,15 @@ export default class Stage {
    */
   canBeStartStage() {
     return this.params.canBeStartStage || false;
+  }
+
+  /**
+   * Get access restrictions.
+   *
+   * @returns {object} Settings for access restrictions.
+   */
+  getAccessRestrictions() {
+    return this.params.accessRestrictions;
   }
 
   /**
@@ -121,7 +138,19 @@ export default class Stage {
    * Unlock.
    */
   unlock() {
-    if (this.state === Globals.get('states')['locked']) {
+    if (
+      this.state === Globals.get('states')['locked'] ||
+      this.state === Globals.get('states')['unlocking']
+    ) {
+      // Do not unlock if there's a restriction that is not yet met
+      if (
+        typeof (this.params?.accessRestrictions?.minScore) === 'number' &&
+        this.params?.accessRestrictions?.minScore > Globals.get('getScore')()
+      ) {
+        this.setState('unlocking');
+        return;
+      }
+
       this.setState('open');
     }
   }
@@ -160,7 +189,10 @@ export default class Stage {
    */
   handleClick(event) {
     if (event.pointerType === 'mouse') {
-      if (this.state === Globals.get('states')['locked']) {
+      if (
+        this.state === Globals.get('states')['locked'] ||
+        this.state === Globals.get('states')['unlocking']
+      ) {
         return;
       }
 
@@ -220,6 +252,15 @@ export default class Stage {
   }
 
   /**
+   * Get state.
+   *
+   * @returns {number} State id.
+   */
+  getState() {
+    return this.state;
+  }
+
+  /**
    * Set exercise state.
    *
    * @param {number|string} state State constant.
@@ -246,6 +287,9 @@ export default class Stage {
     }
     else if (state === states['locked']) {
       newState = states['locked'];
+    }
+    else if (state === states['unlocking']) {
+      newState = states['unlocking'];
     }
     else if (
       state === states['open'] ||

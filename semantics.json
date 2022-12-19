@@ -138,11 +138,27 @@
                   "default": false
                 },
                 {
-                  "name": "accessRestrictionMinScore",
-                  "type": "number",
-                  "label": "Minimum score to access",
-                  "description": "The user will not be able to access this stage if he has not received at least this minimum score by completing other stages.",
-                  "optional": true
+                  "name": "accessRestrictions",
+                  "type": "group",
+                  "label": "Access restrictions",
+                  "description": "Define restrictions for unlocking.",
+                  "fields": [
+                    {
+                      "name": "minScore",
+                      "type": "number",
+                      "label": "Minimum score to unlock",
+                      "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages.",
+                      "optional": true
+                    },
+                    {
+                      "name": "openOnScoreSufficient",
+                      "type": "boolean",
+                      "label": "Open once score sufficient",
+                      "description": "If there has been an attempt to unlock the stage with insufficient score, should the stage unlock automatically once the score becomes sufficient?",
+                      "default": false,
+                      "optional": true
+                    }
+                  ]
                 },
                 {
                   "name": "contentType",
