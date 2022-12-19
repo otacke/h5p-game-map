@@ -64,6 +64,11 @@ export default class ExerciseScreen {
     this.dom.classList.add('display-none');
   }
 
+  /**
+   * Set H5P DOM.
+   *
+   * @param {HTMLElement} h5pDOM DOM of H5P instance.
+   */
   setH5PContent(h5pDOM) {
     this.h5pContent.innerHTML = '';
     this.h5pContent.appendChild(h5pDOM);
