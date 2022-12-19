@@ -660,6 +660,30 @@
         "type": "text",
         "label": "Completed the map",
         "default": "You have completed the map!"
+      },
+      {
+        "name": "confirmFinishHeader",
+        "type": "text",
+        "label": "Dialog header finish map",
+        "default": "Finish map?"
+      },
+      {
+        "name": "confirmFinishDialog",
+        "type": "text",
+        "label": "Dialog text finish map",
+        "default": "If you finish now, you will not be able to explore the map any longer. Do you really want to finish the map?"
+      },
+      {
+        "name": "yes",
+        "type": "text",
+        "label": "Yes",
+        "default": "Yes"
+      },
+      {
+        "name": "no",
+        "type": "text",
+        "label": "No",
+        "default": "No"
       }
     ]
   },

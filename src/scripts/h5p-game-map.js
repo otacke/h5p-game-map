@@ -32,7 +32,11 @@ export default class GameMap extends H5P.Question {
       l10n: {
         start: 'Start',
         restart: 'Restart',
-        completedMap: 'You have completed the map!'
+        completedMap: 'You have completed the map!',
+        confirmFinishHeader: 'Finish map?',
+        confirmFinishDialog: 'If you finish now, you will not be able to explore the map any longer. Do you really want to finish the map?',
+        no: 'No',
+        yes: 'Yes'
       },
       a11y: {
         buttonFinish: 'Finish',

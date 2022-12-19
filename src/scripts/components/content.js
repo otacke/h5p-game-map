@@ -9,6 +9,7 @@ import Map from '@components/map/map';
 import Toolbar from '@components/toolbar/toolbar';
 import Exercises from '@models/exercises';
 import ExerciseScreen from '@components/exercise/exercise-screen';
+import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog';
 import './content.scss';
 
 /** Class representing a madia screen */
@@ -21,6 +22,73 @@ export default class Content {
     this.callbacks = Util.extend({
     }, callbacks);
 
+    this.buildDOM();
+
+    this.reset();
+
+    if (this.exercises.getMaxScore() > 0) {
+      this.toolbar.showScores();
+    }
+
+    this.start();
+
+    // Reattach H5P.Question buttons and scorebar to endscreen
+    H5P.externalDispatcher.on('initialized', () => {
+      const feedbackWrapper = this.grabH5PQuestionFeedback({
+        maxScore: this.exercises.getMaxScore()
+      });
+
+      this.endScreen.setContent(feedbackWrapper);
+    });
+  }
+
+  /**
+   * Grab H5P.Question feedback and scorebar.
+   * H5P.Question already handles scores nicely, no need to recreate all that.
+   * Issue here: We can relocate the DOMs for feedback and scorbar, but those
+   * are created after setting feedback the first time only. It's also
+   * required to set the maximum score now. Cannot be changed later.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {number} [params.maxScore] Maximum score possible.
+   * @returns {HTMLElement|null} Wrapper with H5P.Question feedback.
+   */
+  grabH5PQuestionFeedback(params = {}) {
+    const content = this.dom.closest('.h5p-question-content');
+    if (!content) {
+      return null;
+    }
+
+    const container = content.parentNode;
+    if (!container) {
+      return null;
+    }
+
+    const main = Globals.get('mainInstance');
+    main.setFeedback('', 0, params.maxScore);
+
+    const feedbackWrapper = document.createElement('div');
+    feedbackWrapper.classList.add('h5p-game-map-feedback-wrapper');
+
+    const feedback = container.querySelector('.h5p-question-feedback');
+    if (feedback) {
+      feedbackWrapper.append(feedback.parentNode.removeChild(feedback));
+    }
+
+    const scorebar = container.querySelector('.h5p-question-scorebar');
+    if (scorebar) {
+      feedbackWrapper.append(scorebar.parentNode.removeChild(scorebar));
+    }
+
+    main.removeFeedback();
+
+    return feedbackWrapper;
+  }
+
+  /**
+   * Build the DOM.
+   */
+  buildDOM() {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-container');
 
@@ -158,65 +226,9 @@ export default class Content {
     this.exerciseScreen.hide();
     this.dom.append(this.exerciseScreen.getDOM());
 
-    this.reset();
-
-    if (this.exercises.getMaxScore() > 0) {
-      this.toolbar.showScores();
-    }
-
-    this.start();
-
-    // Reattach H5P.Question buttons and scorebar to endscreen
-    H5P.externalDispatcher.on('initialized', () => {
-      const feedbackWrapper = this.grabH5PQuestionFeedback({
-        maxScore: this.exercises.getMaxScore()
-      });
-
-      this.endScreen.setContent(feedbackWrapper);
-    });
-  }
-
-  /**
-   * Grab H5P.Question feedback and scorebar.
-   * H5P.Question already handles scores nicely, no need to recreate all that.
-   * Issue here: We can relocate the DOMs for feedback and scorbar, but those
-   * are created after setting feedback the first time only. It's also
-   * required to set the maximum score now. Cannot be changed later.
-   *
-   * @param {object} [params={}] Parameters.
-   * @param {number} [params.maxScore] Maximum score possible.
-   * @returns {HTMLElement|null} Wrapper with H5P.Question feedback.
-   */
-  grabH5PQuestionFeedback(params = {}) {
-    const content = this.dom.closest('.h5p-question-content');
-    if (!content) {
-      return null;
-    }
-
-    const container = content.parentNode;
-    if (!container) {
-      return null;
-    }
-
-    const main = Globals.get('mainInstance');
-    main.setFeedback('', 0, params.maxScore);
-
-    const feedbackWrapper = document.createElement('div');
-    feedbackWrapper.classList.add('h5p-game-map-feedback-wrapper');
-
-    const feedback = container.querySelector('.h5p-question-feedback');
-    if (feedback) {
-      feedbackWrapper.append(feedback.parentNode.removeChild(feedback));
-    }
-
-    const scorebar = container.querySelector('.h5p-question-scorebar');
-    if (scorebar) {
-      feedbackWrapper.append(scorebar.parentNode.removeChild(scorebar));
-    }
-
-    main.removeFeedback();
-
-    return feedbackWrapper;
+    // Confirmation Dialog
+    this.confirmationDialog = new ConfirmationDialog();
+    document.body.append(this.confirmationDialog.getDOM());
   }
 
   /**
@@ -365,9 +377,9 @@ export default class Content {
   }
 
   /**
-   * Handle finish.
+   * Show end screen.
    */
-  handleFinish() {
+  showEndscreen() {
     const endscreenParams = Globals.get('params').endScreen;
 
     // Prepare end screen
@@ -415,6 +427,26 @@ export default class Content {
 
     this.hide();
     this.endScreen.show();
+  }
+
+  /**
+   * Handle finish.
+   */
+  handleFinish() {
+    this.confirmationDialog.update(
+      {
+        headerText: Dictionary.get('l10n.confirmFinishHeader'),
+        dialogText: Dictionary.get('l10n.confirmFinishDialog'),
+        cancelText: Dictionary.get('l10n.no'),
+        confirmText: Dictionary.get('l10n.yes')
+      }, {
+        onConfirmed: () => {
+          this.showEndscreen();
+        }
+      }
+    );
+
+    this.confirmationDialog.show();
   }
 
   /**
