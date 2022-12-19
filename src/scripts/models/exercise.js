@@ -224,10 +224,23 @@ export default class Exercise {
   }
 
   /**
+   * Attach instance to DOM.
+   */
+  attachInstance() {
+    if (this.isAttached) {
+      return; // Already attached. Listeners would go missing on re-attaching.
+    }
+
+    this.instance.attach(H5P.jQuery(this.dom));
+    this.isAttached = true;
+  }
+
+  /**
    * Handle viewed.
    */
   handleViewed() {
-    this.instance.attach(H5P.jQuery(this.dom));
+    this.attachInstance();
+
     this.setState('opened');
 
     window.requestAnimationFrame(() => {
