@@ -3,6 +3,7 @@ import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Content from '@components/content';
 import '@styles/h5p-game-map.scss';
+import MessageBox from './components/messageBox/message-box';
 
 export default class GameMap extends H5P.Question {
   /**
@@ -16,7 +17,11 @@ export default class GameMap extends H5P.Question {
 
     // Sanitize parameters
     this.params = Util.extend({
-      sample: true,
+      gamemapSteps: {
+        gamemap: {
+          elements: []
+        }
+      },
       visual: {
         misc: {
           heightLimitMode: 'none'
@@ -37,7 +42,9 @@ export default class GameMap extends H5P.Question {
         confirmFinishHeader: 'Finish map?',
         confirmFinishDialog: 'If you finish now, you will not be able to explore the map any longer. Do you really want to finish the map?',
         no: 'No',
-        yes: 'Yes'
+        yes: 'Yes',
+        noBackground: 'No background image was set for the map.',
+        noStages: 'No valid stages were set for the map.'
       },
       a11y: {
         buttonFinish: 'Finish',
@@ -46,6 +53,12 @@ export default class GameMap extends H5P.Question {
         yourResult: 'You got @score out of @total points'
       }
     }, params);
+
+    // Sanitize stages
+    this.params.gamemapSteps.gamemap.elements =
+      this.params.gamemapSteps.gamemap.elements.filter((element) => {
+        return element.contentType?.library;
+      });
 
     this.contentId = contentId;
     this.extras = extras;
@@ -78,12 +91,26 @@ export default class GameMap extends H5P.Question {
 
     this.dom = this.buildDOM();
 
-    this.content = new Content({}, {});
-    this.dom.appendChild(this.content.getDOM());
+    if (!this.params.gamemapSteps.backgroundImageSettings?.backgroundImage) {
+      const messageBox = new MessageBox({
+        text: Dictionary.get('l10n.noBackground')
+      });
+      this.dom.append(messageBox.getDOM());
+    }
+    else if (!this.params.gamemapSteps.gamemap.elements.length) {
+      const messageBox = new MessageBox({
+        text: Dictionary.get('l10n.noStages')
+      });
+      this.dom.append(messageBox.getDOM());
+    }
+    else {
+      this.content = new Content({}, {});
+      this.dom.append(this.content.getDOM());
 
-    this.on('resize', () => {
-      this.content.resize();
-    });
+      this.on('resize', () => {
+        this.content.resize();
+      });
+    }
   }
 
   /**

@@ -1,0 +1,16 @@
+@import "@styles/main";
+
+.h5p-game-map-message-box {
+  background-color: $color-hint-message-background;
+  border: 1px solid $color-hint-message-border;
+  box-sizing: border-box;
+  color: $color-hint-message-text;
+  font-size: .8em;
+  padding: .8em;
+  width: 100%;
+
+  .h5p-game-map-message-box-message {
+    margin: 0;
+    text-align: center;
+  }
+}
