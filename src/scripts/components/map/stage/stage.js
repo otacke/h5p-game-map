@@ -26,18 +26,25 @@ export default class Stage {
       onStateChanged: () => {}
     }, callbacks);
 
-    this.dom = document.createElement('div');
+    this.dom = document.createElement('button');
     this.dom.classList.add('h5p-game-map-stage');
+    this.dom.setAttribute('aria-label', this.params.label);
     this.dom.addEventListener('click', (event) => {
       this.handleClick(event);
     });
 
     if (Globals.get('params').behaviour.showLabels) {
-      this.dom.addEventListener('mouseover', (event) => {
+      this.dom.addEventListener('mouseenter', (event) => {
         this.handleMouseOver(event);
       });
-      this.dom.addEventListener('mouseout', () => {
+      this.dom.addEventListener('focus', (event) => {
+        this.handleMouseOver(event);
+      });
+      this.dom.addEventListener('mouseleave', () => {
         this.handleMouseOut();
+      });
+      this.dom.addEventListener('blur', (event) => {
+        this.handleMouseOut(event);
       });
     }
 
@@ -217,13 +224,15 @@ export default class Stage {
 
   /**
    * Handle mouseover.
+   *
+   * @param {Event} event Event that triggered.
    */
-  handleMouseOver() {
+  handleMouseOver(event) {
     if (Util.supportsTouch()) {
       return;
     }
 
-    this.label.show();
+    this.label.show({ skipDelay: event instanceof FocusEvent });
   }
 
   /**

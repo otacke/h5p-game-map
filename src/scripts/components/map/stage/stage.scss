@@ -1,5 +1,11 @@
 .h5p-game-map-stage {
+  background: none;
+  border: none;
+  box-sizing: border-box;
   cursor: pointer;
+  display: block;
+  margin: 0;
+  padding: 0;
   position: absolute;
 
   &.display-none {

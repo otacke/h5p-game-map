@@ -43,6 +43,7 @@ export default class Label {
    *
    * @param {object} [params={}] Parameters.
    * @param {boolean} [params.isTouch] If true, was called by touch device.
+   * @param {boolean} [skipDelay] If true, will immediately show label.
    */
   show(params = {}) {
     if (this.isShowing()) {
@@ -62,7 +63,17 @@ export default class Label {
 
     this.dom.classList.toggle('touch-device', params.isTouch || false);
 
-    this.dom.classList.remove('visibility-hidden');
+    if (params.skipDelay) {
+      this.dom.classList.remove('visibility-hidden');
+    }
+    else {
+      window.setTimeout(() => {
+        this.dom.classList.remove('visibility-hidden');
+      }, 10);
+    }
+
+    this.dom.classList.remove('display-none');
+
     this.showing = true;
   }
 
@@ -71,6 +82,9 @@ export default class Label {
    */
   hide() {
     this.dom.classList.add('visibility-hidden');
+    window.setTimeout(() => {
+      this.dom.classList.add('display-none');
+    }, 0);
     this.showing = false;
   }
 

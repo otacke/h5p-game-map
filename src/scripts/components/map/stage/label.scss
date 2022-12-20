@@ -89,6 +89,10 @@
     opacity: 0;
   }
 
+  &.display-none {
+    display: none;
+  }
+
   .h5p-game-map-stage-label {
     transition: height 0.2s linear;
     border-radius: 3px;
