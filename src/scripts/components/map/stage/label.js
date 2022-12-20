@@ -43,7 +43,7 @@ export default class Label {
    *
    * @param {object} [params={}] Parameters.
    * @param {boolean} [params.isTouch] If true, was called by touch device.
-   * @param {boolean} [skipDelay] If true, will immediately show label.
+   * @param {boolean} [params.skipDelay] If true, will immediately show label.
    */
   show(params = {}) {
     if (this.isShowing()) {
