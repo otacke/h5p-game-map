@@ -188,34 +188,31 @@ export default class Stage {
    * @param {Event} event Event.
    */
   handleClick(event) {
-    if (event.pointerType === 'mouse') {
+    if (event.pointerType !== 'mouse') {
       if (
-        this.state === Globals.get('states')['locked'] ||
-        this.state === Globals.get('states')['unlocking']
+        this.params.label && !this.label.isShowing() &&
+        Globals.get('params').behaviour.showLabels
       ) {
+        this.label.show({ isTouch: true });
+        this.labelTimeout = setTimeout(() => {
+          this.label.hide();
+        }, Stage.LABEL_TIMEOUT_MS);
+
         return;
       }
-
-      clearTimeout(this.labelTimeout);
-      this.label.hide();
-      this.callbacks.onClicked(this.params.id);
-      return;
     }
 
     if (
-      this.label.isShowing() || !this.params.label ||
-      !Globals.get('params').behaviour.showLabels
+      this.state === Globals.get('states')['locked'] ||
+      this.state === Globals.get('states')['unlocking']
     ) {
-      clearTimeout(this.labelTimeout);
-      this.label.hide();
-      this.callbacks.onClicked(this.params.id);
-      return;
+      return; // You cannot pass!
     }
 
-    this.label.show({ isTouch: true });
-    this.labelTimeout = setTimeout(() => {
-      this.label.hide();
-    }, Stage.LABEL_TIMEOUT_MS);
+    clearTimeout(this.labelTimeout);
+    this.label.hide();
+
+    this.callbacks.onClicked(this.params.id);
   }
 
   /**
