@@ -291,6 +291,21 @@ export default class Content {
     this.resizeTimeout = setTimeout(() => {
       this.paths.update({ mapSize: this.map.getSize() });
     }, 0);
+
+    /*
+     * For some reason, the grid-areas of this.dom can overshoot the maximum
+     * width of 100% and some content types will overflow. This solution is
+     * not good, but I have not found a different one yet.
+     */
+    if (
+      this.exerciseScreen.getSize().width >
+      this.dom.getBoundingClientRect().width
+    ) {
+      clearTimeout(this.exersizeScreenResizeTimeout);
+      this.exersizeScreenResizeTimeout = setTimeout(() => {
+        Globals.get('resize')();
+      }, 0);
+    }
   }
 
   /**

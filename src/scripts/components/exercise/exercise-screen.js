@@ -73,4 +73,14 @@ export default class ExerciseScreen {
     this.h5pContent.innerHTML = '';
     this.h5pContent.appendChild(h5pDOM);
   }
+
+  /**
+   * Get computed size.
+   *
+   * @returns {object} Size with width and height.
+   */
+  getSize() {
+    const rect = this.dom.getBoundingClientRect();
+    return { width: rect.width, height: rect.height};
+  }
 }

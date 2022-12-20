@@ -45,6 +45,24 @@ export default class Exercise {
       return; // Only once, please
     }
 
+    const machineName = this.params.contentType?.library?.split?.(' ')[0];
+
+    if (machineName === 'H5P.Video') {
+      this.params.contentType.params.visuals.fit = (
+        this.params.contentType.params.sources.length && (
+          this.params.contentType.params.sources[0].mime === 'video/mp4' ||
+          this.params.contentType.params.sources[0].mime === 'video/webm' ||
+          this.params.contentType.params.sources[0].mime === 'video/ogg'
+        )
+      );
+    }
+
+    if (machineName === 'H5P.Audio') {
+      if (this.params.contentType.params.playerMode === 'full') {
+        this.params.contentType.params.fitToWrapper = true;
+      }
+    }
+
     if (!this.instance) {
       this.instance = H5P.newRunnable(
         this.params.contentType,
@@ -55,18 +73,20 @@ export default class Exercise {
       );
     }
 
-    if (this.instance) {
-      // Resize parent when children resize
-      this.bubbleUp(this.instance, 'resize', Globals.get('mainInstance'));
+    if (!this.instance) {
+      return;
+    }
 
-      // Resize children to fit inside parent
-      this.bubbleDown(Globals.get('mainInstance'), 'resize', [this.instance]);
+    // Resize parent when children resize
+    this.bubbleUp(this.instance, 'resize', Globals.get('mainInstance'));
 
-      if (this.isInstanceTask(this.instance)) {
-        this.instance.on('xAPI', (event) => {
-          this.trackXAPI(event);
-        });
-      }
+    // Resize children to fit inside parent
+    this.bubbleDown(Globals.get('mainInstance'), 'resize', [this.instance]);
+
+    if (this.isInstanceTask(this.instance)) {
+      this.instance.on('xAPI', (event) => {
+        this.trackXAPI(event);
+      });
     }
   }
 
@@ -235,6 +255,13 @@ export default class Exercise {
     }
 
     this.instance.attach(H5P.jQuery(this.dom));
+
+    if (this.instance?.libraryInfo.machineName === 'H5P.Audio') {
+      if (!!window.chrome) {
+        this.instance.audio.style.height = '54px';
+      }
+    }
+
     this.isAttached = true;
   }
 

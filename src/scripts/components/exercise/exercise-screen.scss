@@ -22,7 +22,6 @@
 
     box-sizing: border-box;
     max-width: 1080px;
-    padding: 2rem;
     width: 100%;
 
     .h5p-game-map-exercise-button-close {
@@ -34,11 +33,11 @@
       cursor: pointer;
       height: 2.25em;
       justify-self: end;
-      left: 0.75rem;
+      left: -1.25rem;
       line-height: 1;
       padding: 3px;
       position: relative;
-      top: -0.75rem;
+      top: 1.25rem;
       transition: transform .1s ease-in-out;
       width: 2.25em;
 
@@ -65,12 +64,37 @@
       border: 0.75rem solid #fff;
       border-radius: 0.5rem;
       box-sizing: border-box;
-      height: 100%;
+      margin-bottom: 2rem;
+      margin-left: 2rem;
+      margin-top: 2rem;
+      max-width: calc(100% - 4rem);
 
       .h5p-game-map-exercise-instance-container {
         box-sizing: border-box;
-        height: 100%;
-        padding: 1rem;
+        height: calc(100% - 1rem);
+        width: calc(100% - 0.25rem);
+
+        &.h5p-video {
+          overflow: inherit;
+          height: 100%;
+        }
+
+        &.h5p-interactive-video {
+          overflow: inherit;
+        }
+
+        &.h5p-image-hotspot-question > .h5p-question-content {
+          margin: 0;
+        }
+
+        &.h5p-transcript .h5p-transcript-text-container {
+          margin-left: 0;
+          margin-right: 0;
+        }
+
+        &.h5p-image-slider .h5p-image-slider-progress {
+          padding: 0.5em 0;
+        }
       }
     }
   }

@@ -26,7 +26,7 @@ export default class Toolbar {
 
     // Build DOM
     this.toolBar = document.createElement('div');
-    this.toolBar.classList.add('toolbar-tool-bar');
+    this.toolBar.classList.add('h5p-game-map-toolbar-tool-bar');
     if (this.params.hidden) {
       this.hide();
     }
