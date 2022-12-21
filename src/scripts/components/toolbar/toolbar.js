@@ -31,14 +31,22 @@ export default class Toolbar {
       this.hide();
     }
 
+    // Headline
+    if (this.params.headline) {
+      const headline = document.createElement('div');
+      headline.classList.add('toolbar-headline');
+      headline.innerText = this.params.headline;
+      this.toolBar.append(headline);
+    }
+
     // Status values
     this.scoreContainer = new ScoreContainer();
-    this.toolBar.appendChild(this.scoreContainer.getDOM());
+    this.toolBar.append(this.scoreContainer.getDOM());
 
     // Buttons
     this.buttonsContainer = document.createElement('div');
     this.buttonsContainer.classList.add('toolbar-buttons');
-    this.toolBar.appendChild(this.buttonsContainer);
+    this.toolBar.append(this.buttonsContainer);
 
     this.params.buttons.forEach((button) => {
       this.addButton(button);

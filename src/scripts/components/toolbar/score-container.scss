@@ -1,6 +1,7 @@
 @import "@styles/main";
 
 .score-container {
+  align-items: flex-end;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -11,14 +12,12 @@
   }
 
   .score-container-scores {
-    align-self: flex-end;
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
     font-size: 1.25rem;
     font-weight: bold;
     justify-content: center;
-    margin-right: 1rem;
 
     span.score, span.max-score {
       color: #1768C4;

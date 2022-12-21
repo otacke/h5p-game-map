@@ -136,6 +136,7 @@ export default class Content {
 
     // Toolbar
     this.toolbar = new Toolbar({
+      ...(globalParams.headline && {headline: globalParams.headline}),
       buttons: [
         {
           id: 'finish',
