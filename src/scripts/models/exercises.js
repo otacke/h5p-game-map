@@ -12,6 +12,7 @@ export default class Exercises {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = params;
+
     this.callbacks = Util.extend({
       onStateChanged: () => {},
       onScoreChanged: () => {}
@@ -39,6 +40,21 @@ export default class Exercises {
    */
   getExercise(id) {
     return this.exercises[id];
+  }
+
+  /**
+   * Get current state.
+   *
+   * @returns {object} Current state to be retrieved later.
+   */
+  getCurrentState() {
+    return Object.values(this.exercises).map((exercise) => {
+      return {
+        id: exercise.getId(),
+        state: exercise.getState(),
+        instanceState: exercise.getCurrentState()
+      };
+    });
   }
 
   /**
@@ -98,10 +114,13 @@ export default class Exercises {
 
   /**
    * Reset.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
-  reset() {
+  reset(params = {}) {
     Object.values(this.exercises).forEach((exercise) => {
-      exercise.reset();
+      exercise.reset({ isInitial: params.isInitial });
     });
   }
 }

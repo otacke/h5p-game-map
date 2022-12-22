@@ -248,9 +248,16 @@ export default class Stage {
 
   /**
    * Reset.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
-  reset() {
-    this.setState(Globals.get('states')['locked']);
+  reset(params = {}) {
+    const state = params.isInitial ?
+      this.params.state :
+      Globals.get('states')['locked'];
+
+    this.setState(state);
 
     if (this.params.hidden) {
       this.hide();
@@ -302,7 +309,13 @@ export default class Stage {
       state === states['open'] ||
       state === states['opened']
     ) {
-      newState = states['open'];
+      if (
+        // Was already completed.
+        this.state !== states['completed'] &&
+        this.state !== states['cleared']
+      ) {
+        newState = states['open'];
+      }
       this.show();
     }
     else if (

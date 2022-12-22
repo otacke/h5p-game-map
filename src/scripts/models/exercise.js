@@ -11,7 +11,9 @@ export default class Exercise {
    * @param {function} [callbacks.onScoreChanged] Callback when score changed.
    */
   constructor(params = {}, callbacks = {}) {
-    this.params = params;
+    this.params = Util.extend({
+      state: Globals.get('states')['unstarted']
+    }, params);
 
     this.callbacks = Util.extend({
       onStateChanged: () => {},
@@ -35,6 +37,15 @@ export default class Exercise {
    */
   getDOM() {
     return this.dom;
+  }
+
+  /**
+   * Get state.
+   *
+   * @returns {number} State.
+   */
+  getState() {
+    return this.state;
   }
 
   /**
@@ -63,13 +74,20 @@ export default class Exercise {
       }
     }
 
+    // Get previous instance state
+    const exercisesState = Globals.get('extras').previousState?.content?.
+      exercises ?? [];
+    let previousState = exercisesState
+      .find((exercise) => exercise.id === this.getId());
+    previousState = (previousState || {}).instanceState;
+
     if (!this.instance) {
       this.instance = H5P.newRunnable(
         this.params.contentType,
         Globals.get('contentId'),
         undefined,
         true,
-        { previousState: this.params.previousState }
+        { previousState: previousState }
       );
     }
 
@@ -88,6 +106,24 @@ export default class Exercise {
         this.trackXAPI(event);
       });
     }
+  }
+
+  /**
+   * Get Id.
+   *
+   * @returns {string} Exercise Id.
+   */
+  getId() {
+    return this.params.id;
+  }
+
+  /**
+   * Get current state.
+   *
+   * @returns {object} Current state to be retrieved later.
+   */
+  getCurrentState() {
+    return this.instance?.getCurrentState?.();
   }
 
   /**
@@ -310,13 +346,24 @@ export default class Exercise {
   }
 
   /**
-   * Reset exercise.
+   * Reset.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
-  reset() {
+  reset(params = {}) {
     this.score = 0;
-    this.setState(Globals.get('states')['unstarted']);
 
-    // If not attached yet, some contents can fail (e. g. CP).
+    const state = params.isInitial ?
+      this.params.state :
+      Globals.get('states')['unstarted'];
+
+    this.setState(state);
+
+    /*
+     * If not attached yet, some contents can fail (e. g. CP), but contents
+     * that are not attached never had a previous state change, so okay
+     */
     if (this.isAttached) {
       this.instance?.resetTask?.();
     }

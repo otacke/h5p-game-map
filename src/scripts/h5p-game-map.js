@@ -78,7 +78,7 @@ export default class GameMap extends H5P.Question {
     Globals.set('mainInstance', this);
     Globals.set('contentId', this.contentId);
     Globals.set('params', this.params);
-    Globals.set('extras', this. extras);
+    Globals.set('extras', this.extras);
     Globals.set(
       'states', {
         unstarted: 0, // Exercise
@@ -150,6 +150,19 @@ export default class GameMap extends H5P.Question {
     dom.classList.add('h5p-game-map');
 
     return dom;
+  }
+
+  /**
+   * Get current state.
+   *
+   * @returns {object} Current state to be retrieved later.
+   */
+  getCurrentState() {
+    console.log( this.content.getCurrentState());
+
+    return {
+      content: this.content.getCurrentState()
+    };
   }
 
   /**

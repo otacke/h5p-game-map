@@ -34,12 +34,20 @@ export default class Stages {
       return []; // No elements/stages
     }
 
+    // Get previous instance state
+    const stagesState = Globals.get('extras').previousState?.content?.
+      stages ?? [];
+
     for (let index in elements) {
       const elementParams = elements[index];
 
       // This was a compromise, could be solved better in the editor
       const neighbors = elementParams.neighbors.map((neighbor) => {
         return elements[parseInt(neighbor)].id;
+      });
+
+      const stageState = stagesState.find((stage) => {
+        return stage.id === elementParams.id;
       });
 
       stages.push(new Stage(
@@ -52,7 +60,8 @@ export default class Stages {
           neighbors: neighbors,
           telemetry: elementParams.telemetry,
           visuals: this.params.visuals,
-          hidden: this.params.hidden
+          hidden: this.params.hidden,
+          ...(stageState?.state && { state: stageState?.state })
         }, {
           onClicked: (id) => {
             this.callbacks.onStageClicked(id);
@@ -75,6 +84,20 @@ export default class Stages {
 
   getStage(id) {
     return this.stages.find((stage) => stage.getId() === id);
+  }
+
+  /**
+   * Get current state.
+   *
+   * @returns {object} Current state to be retrieved later.
+   */
+  getCurrentState() {
+    return this.stages.map((stage) => {
+      return {
+        id: stage.getId(),
+        state: stage.getState()
+      };
+    });
   }
 
   /**
@@ -213,10 +236,13 @@ export default class Stages {
 
   /**
    * Reset.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
-  reset() {
+  reset(params = {}) {
     this.stages.forEach((stage) => {
-      stage.reset();
+      stage.reset({ isInitial: params.isInitial });
     });
   }
 }

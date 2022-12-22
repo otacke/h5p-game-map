@@ -36,7 +36,7 @@ export default class Content {
 
     this.buildDOM();
 
-    this.reset();
+    this.reset({ isInitial: true });
 
     if (this.getMaxScore() > 0) {
       this.toolbar.showScores();
@@ -603,19 +603,25 @@ export default class Content {
 
   /**
    * Reset.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
-  reset() {
+  reset(params = {}) {
     const globalParams = Globals.get('params');
 
     this.currentStageIndex = 0;
     this.confirmationDialog.hide();
 
-    this.isShowingSolutions = false;
+    if (!params.isInitial) {
+      this.isShowingSolutions = false;
+    }
+
     this.toolbar.toggleSolutionMode(false);
 
-    this.paths.reset();
-    this.stages.reset();
-    this.exercises.reset();
+    this.paths.reset({ isInitial: params.isInitial });
+    this.stages.reset({ isInitial: params.isInitial });
+    this.exercises.reset({ isInitial: params.isInitial });
 
     // Set start state stages
     if (globalParams.behaviour.map.roaming === 'free') {
@@ -655,6 +661,19 @@ export default class Content {
     }
 
     Globals.get('resize')();
+  }
+
+  /**
+   * Get current state.
+   *
+   * @returns {object} Current state to be retrieved later.
+   */
+  getCurrentState() {
+    return {
+      exercises: this.exercises.getCurrentState(),
+      stages: this.stages.getCurrentState(),
+      paths: this.paths.getCurrentState()
+    };
   }
 }
 

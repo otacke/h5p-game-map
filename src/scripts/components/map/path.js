@@ -46,6 +46,15 @@ export default class Path {
   }
 
   /**
+   * Get state.
+   *
+   * @returns {number} State.
+   */
+  getState() {
+    return this.state;
+  }
+
+  /**
    * Get stage ids.
    *
    * @returns {object} FromID and ToID of respective stages.
@@ -192,9 +201,16 @@ export default class Path {
 
   /**
    * Reset.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
-  reset() {
-    this.setState(Globals.get('states')['open']);
+  reset(params = {}) {
+    const state = params.isInitial ?
+      this.params.state :
+      Globals.get('states')['open'];
+
+    this.setState(state);
 
     if (this.params.hidden) {
       this.hide();

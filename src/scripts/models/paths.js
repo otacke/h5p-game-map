@@ -30,6 +30,10 @@ export default class Paths {
       return []; // No elements/stages, so no paths to compute
     }
 
+    // Get previous instance state
+    const pathsState = Globals.get('extras').previousState?.content?.
+      paths ?? [];
+
     const pathsCreated = [];
     for (let index in elements) {
       (elements[index].neighbors || []).forEach((neighbor) => {
@@ -37,6 +41,14 @@ export default class Paths {
           !pathsCreated.includes(`${index}-${neighbor}`) &&
           !pathsCreated.includes(`${neighbor}-${index}`)
         ) {
+
+          // Determine previous state for current path
+          const pathState = pathsState
+            .find((path) => {
+              return path.stageIds?.from === elements[index].id &&
+                path.stageIds?.to === elements[neighbor].id;
+            });
+
           paths.push(new Path({
             fromId: elements[index].id,
             toId: elements[neighbor].id,
@@ -44,7 +56,8 @@ export default class Paths {
             telemetryTo: elements[neighbor].telemetry,
             index: pathsCreated.length,
             visuals: this.params.visuals,
-            hidden: this.params.hidden
+            hidden: this.params.hidden,
+            ...(pathState?.state && { state: pathState?.state })
           }));
           pathsCreated.push(`${index}-${neighbor}`);
         }
@@ -52,6 +65,20 @@ export default class Paths {
     }
 
     return paths;
+  }
+
+  /**
+   * Get current state.
+   *
+   * @returns {object} Current state to be retrieved later.
+   */
+  getCurrentState() {
+    return this.paths.map((path) => {
+      return {
+        stageIds: path.getStageIds(),
+        state: path.getState()
+      };
+    });
   }
 
   /**
@@ -115,10 +142,13 @@ export default class Paths {
 
   /**
    * Reset.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
-  reset() {
+  reset(params = {}) {
     this.paths.forEach((path) => {
-      path.reset();
+      path.reset({ isInitial: params.isInitial });
     });
   }
 }
