@@ -200,4 +200,37 @@ export default class Util {
 
     return wrapper.firstChild?.innerText?.length > 0;
   }
+
+  /**
+   * Add mixins to a class, useful for splitting files.
+   *
+   * @param {object} [master={}] Master class to add mixins to.
+   * @param {object[]|object} [mixins=[]] Mixins to be added to master.
+   */
+  static addMixins(master = {}, mixins = []) {
+    if (!master.prototype) {
+      return;
+    }
+
+    if (!Array.isArray(mixins)) {
+      mixins = [mixins];
+    }
+
+    const masterPrototype = master.prototype;
+
+    mixins.forEach((mixin) => {
+      const mixinPrototype = mixin.prototype;
+      Object.getOwnPropertyNames(mixinPrototype).forEach((property) => {
+        if (property === 'constructor') {
+          return; // Don't need constructor
+        }
+
+        if (Object.getOwnPropertyNames(masterPrototype).includes(property)) {
+          return; // property already present, do not override
+        }
+
+        masterPrototype[property] = mixinPrototype[property];
+      });
+    });
+  }
 }

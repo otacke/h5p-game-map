@@ -42,6 +42,39 @@ export default class Exercises {
   }
 
   /**
+   * Get xAPI data from exercises.
+   *
+   * @returns {object[]} XAPI data objects used to build report.
+   */
+  getXAPIData() {
+    return Object.values(this.exercises)
+      .map((exercise) => {
+        return exercise?.getXAPIData?.();
+      })
+      .filter((data) => !!data);
+  }
+
+  /**
+   * Show solutions.
+   */
+  showSolutions() {
+    Object.values(this.exercises).forEach((exercise) => {
+      exercise.showSolutions();
+    });
+  }
+
+  /**
+   * Determine whether some answer was given.
+   *
+   * @returns {boolean} True, if some answer was given.
+   */
+  getAnswerGiven() {
+    return Object.values(this.exercises).some((exercise) => {
+      return exercise.getAnswerGiven();
+    });
+  }
+
+  /**
    * Get summed up score of all exercises.
    *
    * @returns {number} Summed up score of all instances or 0.

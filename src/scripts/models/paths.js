@@ -75,7 +75,7 @@ export default class Paths {
   updateState(id, state) {
     const globalParams = Globals.get('params');
 
-    if (globalParams.behaviour.roaming === 'free') {
+    if (globalParams.behaviour.map.roaming === 'free') {
       return;
     }
 
@@ -86,8 +86,8 @@ export default class Paths {
 
     if (
       state === Globals.get('states')['open'] &&
-      globalParams.behaviour.displayPaths &&
-      globalParams.behaviour.fog !== '0'
+      globalParams.behaviour.map.displayPaths &&
+      globalParams.behaviour.map.fog !== '0'
     ) {
       affectedPaths.forEach((path) => {
         path.show();

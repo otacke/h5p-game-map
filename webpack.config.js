@@ -9,9 +9,10 @@ module.exports = {
   mode: nodeEnv,
   resolve: {
     alias: {
-      '@services': path.resolve(__dirname, 'src/scripts/services'),
-      '@models': path.resolve(__dirname, 'src/scripts/models'),
       '@components': path.resolve(__dirname, 'src/scripts/components'),
+      '@mixins': path.resolve(__dirname, 'src/scripts/mixins'),
+      '@models': path.resolve(__dirname, 'src/scripts/models'),
+      '@services': path.resolve(__dirname, 'src/scripts/services'),
       '@styles': path.resolve(__dirname, 'src/styles')
     }
   },

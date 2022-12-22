@@ -12,14 +12,22 @@ import ExerciseScreen from '@components/exercise/exercise-screen';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog';
 import './content.scss';
 
-/** Class representing a madia screen */
 export default class Content {
 
+  /**
+   * @class
+   * @param {object} [params={}] Parameters.
+   * @param {object} [callbacks={}] Callbacks.
+   * @param {function} [callbacks.onProgressChanged] Called on progress change.
+   * @param {function} [callbacks.onFinished] Called when finished.
+   */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
     }, params);
 
     this.callbacks = Util.extend({
+      onProgressChanged: () => {},
+      onFinished: () => {}
     }, callbacks);
 
     Globals.set('getScore', () => {
@@ -105,7 +113,9 @@ export default class Content {
         contentId: Globals.get('contentId'),
         introduction: globalParams.titleScreen.titleScreenIntroduction,
         medium: globalParams.titleScreen.titleScreenMedium,
-        l10n: { buttonText: Dictionary.get('l10n.start') }
+        buttons: [
+          { id: 'start', text: Dictionary.get('l10n.start') }
+        ]
       }, {
         onButtonClicked: () => {
           this.show();
@@ -115,15 +125,32 @@ export default class Content {
       this.dom.append(this.startScreen.getDOM());
     }
 
+    const endscreenButtons = [];
+    if (globalParams.behaviour.enableSolutionsButton) {
+      endscreenButtons.push(
+        { id: 'show-solutions', text: Dictionary.get('l10n.showSolutions') }
+      );
+    }
+    if (globalParams.behaviour.enableRetry) {
+      endscreenButtons.push(
+        { id: 'restart', text: Dictionary.get('l10n.restart') }
+      );
+    }
+
     // End screen
     this.endScreen = new EndScreen({
       id: 'end',
       contentId: Globals.get('contentId'),
-      l10n: { buttonText: Dictionary.get('l10n.restart') }
+      buttons: endscreenButtons
     }, {
-      onButtonClicked: () => {
-        this.reset();
-        this.start();
+      onButtonClicked: (id) => {
+        if (id === 'restart') {
+          this.reset();
+          this.start();
+        }
+        else if (id === 'show-solutions') {
+          this.showSolutions();
+        }
       }
     });
     this.endScreen.hide();
@@ -165,7 +192,7 @@ export default class Content {
       {
         elements: globalParams.gamemapSteps.gamemap.elements,
         visuals: globalParams.visual.stages,
-        hidden: globalParams.behaviour.fog !== 'all'
+        hidden: globalParams.behaviour.map.fog !== 'all'
       },
       {
         onStageClicked: (id) => {
@@ -178,8 +205,8 @@ export default class Content {
     );
 
     // Paths
-    const pathsHidden = (globalParams.behaviour.displayPaths === false) ||
-      globalParams.behaviour.fog !== 'all';
+    const pathsHidden = (globalParams.behaviour.map.displayPaths === false) ||
+      globalParams.behaviour.map.fog !== 'all';
 
     this.paths = new Paths({
       elements: globalParams.gamemapSteps.gamemap.elements,
@@ -355,6 +382,14 @@ export default class Content {
     this.exerciseScreen.setH5PContent(exercise.getDOM());
     this.exerciseScreen.show();
 
+    if (!this.isShowingSolutions) {
+      // Update context for confusion report contract
+      const stageIndex = Globals.get('params').gamemapSteps.gamemap.elements
+        .findIndex((element) => element.id === id);
+      this.currentStageIndex = stageIndex + 1;
+      this.callbacks.onProgressChanged(this.currentStageIndex);
+    }
+
     window.requestAnimationFrame(() => {
       Globals.get('resize')();
     });
@@ -367,6 +402,10 @@ export default class Content {
    * @param {number} state State code.
    */
   handleExerciseStateChanged(id, state) {
+    if (this.isShowingSolutions) {
+      return;
+    }
+
     this.stages.updateState(id, state);
   }
 
@@ -377,6 +416,10 @@ export default class Content {
    * @param {number} state State code.
    */
   handleStageStateChanged(id, state) {
+    if (this.isShowingSolutions) {
+      return;
+    }
+
     if (this.paths) {
       this.paths.updateState(id, state);
     }
@@ -384,6 +427,24 @@ export default class Content {
     if (this.stages) {
       this.stages.updateNeighborsState(id, state);
     }
+  }
+
+  /**
+   * Get xAPI data from exercises.
+   *
+   * @returns {object[]} XAPI data objects used to build report.
+   */
+  getXAPIData() {
+    return this.exercises.getXAPIData();
+  }
+
+  /**
+   * Determine whether some answer was given.
+   *
+   * @returns {boolean} True, if some answer was given.
+   */
+  getAnswerGiven() {
+    return this.exercises.getAnswerGiven();
   }
 
   /**
@@ -408,6 +469,19 @@ export default class Content {
     const finishScore = Globals.get('params').behaviour.finishScore;
 
     return Math.min(finishScore, maxScore);
+  }
+
+  /**
+   * Get context data.
+   * Contract used for confusion report.
+   *
+   * @returns {object} Context data.
+   */
+  getContext() {
+    return {
+      type: 'stage',
+      value: this.currentStageIndex
+    };
   }
 
   /**
@@ -479,14 +553,32 @@ export default class Content {
    * Handle finish.
    */
   handleFinish() {
+    // In solution mode, no dialog and no xAPI necessary
+    if (this.isShowingSolutions) {
+      this.showEndscreen();
+      return;
+    }
+
+    const extras = Globals.get('extras');
+    extras.isScoringEnabled = true;
+    const isScoringEnabled = extras.standalone &&
+      (extras.isScoringEnabled || extras.isReportingEnabled);
+
+    const dialogTexts = [Dictionary.get('l10n.confirmFinishDialog')];
+    if (isScoringEnabled) {
+      dialogTexts.push(Dictionary.get('l10n.confirmFinishDialogSubmission'));
+    }
+    dialogTexts.push(Dictionary.get('l10n.confirmFinishDialogQuestion'));
+
     this.confirmationDialog.update(
       {
         headerText: Dictionary.get('l10n.confirmFinishHeader'),
-        dialogText: Dictionary.get('l10n.confirmFinishDialog'),
+        dialogText: dialogTexts.join(' '),
         cancelText: Dictionary.get('l10n.no'),
         confirmText: Dictionary.get('l10n.yes')
       }, {
         onConfirmed: () => {
+          this.callbacks.onFinished();
           this.showEndscreen();
         }
       }
@@ -496,17 +588,37 @@ export default class Content {
   }
 
   /**
+   * Show solutions.
+   */
+  showSolutions() {
+    this.confirmationDialog.hide();
+    this.endScreen.hide();
+    this.show();
+
+    this.exercises.showSolutions();
+
+    this.isShowingSolutions = true;
+    this.toolbar.toggleSolutionMode(true);
+  }
+
+  /**
    * Reset.
    */
   reset() {
     const globalParams = Globals.get('params');
+
+    this.currentStageIndex = 0;
+    this.confirmationDialog.hide();
+
+    this.isShowingSolutions = false;
+    this.toolbar.toggleSolutionMode(false);
 
     this.paths.reset();
     this.stages.reset();
     this.exercises.reset();
 
     // Set start state stages
-    if (globalParams.behaviour.roaming === 'free') {
+    if (globalParams.behaviour.map.roaming === 'free') {
       this.stages.forEach((stage) => {
         stage.setState('open');
       });
@@ -515,8 +627,8 @@ export default class Content {
       });
     }
     else if (
-      globalParams.behaviour.roaming === 'complete' ||
-      globalParams.behaviour.roaming === 'success'
+      globalParams.behaviour.map.roaming === 'complete' ||
+      globalParams.behaviour.map.roaming === 'success'
     ) {
       this.stages.unlockStage('settings');
     }

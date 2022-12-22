@@ -33,7 +33,7 @@ export default class Stage {
       this.handleClick(event);
     });
 
-    if (Globals.get('params').behaviour.showLabels) {
+    if (Globals.get('params').behaviour.map.showLabels) {
       this.dom.addEventListener('mouseenter', (event) => {
         this.handleMouseOver(event);
       });
@@ -198,7 +198,7 @@ export default class Stage {
     if (event.pointerType !== 'mouse') {
       if (
         this.params.label && !this.label.isShowing() &&
-        Globals.get('params').behaviour.showLabels
+        Globals.get('params').behaviour.map.showLabels
       ) {
         this.label.show({ isTouch: true });
         this.labelTimeout = setTimeout(() => {
@@ -307,8 +307,10 @@ export default class Stage {
     }
     else if (
       state === states['completed'] &&
-      globalParams.behaviour.roaming === 'free' ||
-      globalParams.behaviour.roaming === 'complete'
+      (
+        globalParams.behaviour.map.roaming === 'free' ||
+        globalParams.behaviour.map.roaming === 'complete'
+      )
     ) {
       newState = states['cleared'];
     }

@@ -590,98 +590,20 @@
     "label": "Behavioural settings",
     "fields": [
       {
-        "name": "showLabels",
+        "name": "enableRetry",
+        "label": "Enable \"Retry\" button",
         "type": "boolean",
-        "label": "Show stage labels",
-        "description": "Set whether a stage's label will be shown on hovering a stage with the mouse/on first touching it.",
-        "default": "true"
+        "importance": "low",
+        "default": true,
+        "optional": true
       },
       {
-        "name": "roaming",
-        "type": "select",
-        "label": "Roaming",
-        "description": "Set whether users can roam all stages freely, need to finish a stage to get access to that stage's neighbors, or need to pass a stage to get access to that stage's neigbors.",
-        "options": [
-          {
-            "value": "free",
-            "label": "Roam freely"
-          },
-          {
-            "value": "complete",
-            "label": "Complete to clear stage"
-          },
-          {
-            "value": "success",
-            "label": "Succeed to clear stage"
-          }
-        ],
-        "default": "free"
-      },
-      {
-        "name": "displayPaths",
+        "name": "enableSolutionsButton",
+        "label": "Enable \"Show solutions\" button",
         "type": "boolean",
-        "label": "Display paths",
-        "description": "Set whether paths will be displayed on the map. Please note: The paths are always visible in the editor.",
-        "optional": true,
-        "default": true
-      },
-      {
-        "name": "fog",
-        "type": "select",
-        "label": "Activate fog",
-        "description": "Select how far the user can see ahead",
-        "optional": true,
-        "options": [
-          {
-            "value": "all",
-            "label": "No fog, see all stages"
-          },
-          {
-            "value": "1",
-            "label": "See all unlocked stages and their adjacent neighbors"
-          },
-          {
-            "value": "0",
-            "label": "See only unlocked stages"
-          }
-        ],
-        "default": "all",
-        "widget": "showWhen",
-        "showWhen": {
-          "nullWhenHidden": true,
-          "rules": [
-            {
-              "field": "roaming",
-              "equals": ["complete", "success"]
-            }
-          ]
-        }
-      },
-      {
-        "name": "startStages",
-        "type": "select",
-        "label": "Start stages",
-        "description": "Decide what stages the user can start at. If no stage is set as start stage, all stages are considered to be potential start stages.",
-        "options": [
-          {
-            "value": "all",
-            "label": "All stages that are defined as start stage"
-          },
-          {
-            "value": "random",
-            "label": "One stage randomly chosen form start stages"
-          }
-        ],
-        "default": "all",
-        "widget": "showWhen",
-        "showWhen": {
-          "rules": [
-            {
-              "field": "roaming",
-              "equals": ["complete", "success"]
-            }
-          ]
-        }
+        "importance": "low",
+        "default": true,
+        "optional": true
       },
       {
         "name": "finishScore",
@@ -690,6 +612,107 @@
         "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises",
         "min": 0,
         "optional": true
+      },
+      {
+        "name": "map",
+        "type": "group",
+        "label": "Map",
+        "fields": [
+          {
+            "name": "showLabels",
+            "type": "boolean",
+            "label": "Show stage labels",
+            "description": "Set whether a stage's label will be shown on hovering a stage with the mouse/on first touching it.",
+            "default": "true"
+          },
+          {
+            "name": "roaming",
+            "type": "select",
+            "label": "Roaming",
+            "description": "Set whether users can roam all stages freely, need to finish a stage to get access to that stage's neighbors, or need to pass a stage to get access to that stage's neigbors.",
+            "options": [
+              {
+                "value": "free",
+                "label": "Roam freely"
+              },
+              {
+                "value": "complete",
+                "label": "Complete to clear stage"
+              },
+              {
+                "value": "success",
+                "label": "Succeed to clear stage"
+              }
+            ],
+            "default": "free"
+          },
+          {
+            "name": "displayPaths",
+            "type": "boolean",
+            "label": "Display paths",
+            "description": "Set whether paths will be displayed on the map. Please note: The paths are always visible in the editor.",
+            "optional": true,
+            "default": true
+          },
+          {
+            "name": "fog",
+            "type": "select",
+            "label": "Activate fog",
+            "description": "Select how far the user can see ahead",
+            "optional": true,
+            "options": [
+              {
+                "value": "all",
+                "label": "No fog, see all stages"
+              },
+              {
+                "value": "1",
+                "label": "See all unlocked stages and their adjacent neighbors"
+              },
+              {
+                "value": "0",
+                "label": "See only unlocked stages"
+              }
+            ],
+            "default": "all",
+            "widget": "showWhen",
+            "showWhen": {
+              "nullWhenHidden": true,
+              "rules": [
+                {
+                  "field": "roaming",
+                  "equals": ["complete", "success"]
+                }
+              ]
+            }
+          },
+          {
+            "name": "startStages",
+            "type": "select",
+            "label": "Start stages",
+            "description": "Decide what stages the user can start at. If no stage is set as start stage, all stages are considered to be potential start stages.",
+            "options": [
+              {
+                "value": "all",
+                "label": "All stages that are defined as start stage"
+              },
+              {
+                "value": "random",
+                "label": "One stage randomly chosen form start stages"
+              }
+            ],
+            "default": "all",
+            "widget": "showWhen",
+            "showWhen": {
+              "rules": [
+                {
+                  "field": "roaming",
+                  "equals": ["complete", "success"]
+                }
+              ]
+            }
+          }
+        ]
       }
     ]
   },
@@ -712,6 +735,12 @@
         "default": "Restart"
       },
       {
+        "name": "showSolutions",
+        "type": "text",
+        "label": "Show solutions",
+        "default": "Show solutions"
+      },
+      {
         "name": "completedMap",
         "type": "text",
         "label": "Completed the map",
@@ -726,8 +755,20 @@
       {
         "name": "confirmFinishDialog",
         "type": "text",
-        "label": "Dialog text finish map",
-        "default": "If you finish now, you will not be able to explore the map any longer. Do you really want to finish the map?"
+        "label": "Dialog text finish map: General",
+        "default": "If you finish now, you will not be able to explore the map any longer."
+      },
+      {
+        "name": "confirmFinishDialogSubmission",
+        "type": "text",
+        "label": "Dialog text finish map: Submission",
+        "default": "Your score will be submitted."
+      },
+      {
+        "name": "confirmFinishDialogQuestion",
+        "type": "text",
+        "label": "Dialog text finish map: Question",
+        "default": "Do you really want to finish the map?"
       },
       {
         "name": "yes",

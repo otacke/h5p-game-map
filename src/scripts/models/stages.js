@@ -98,7 +98,7 @@ export default class Stages {
   updateUnlockingStages() {
     const globalParams = Globals.get('params');
 
-    if (globalParams.behaviour.roaming === 'free') {
+    if (globalParams.behaviour.map.roaming === 'free') {
       return; // Not relevant
     }
 
@@ -123,7 +123,7 @@ export default class Stages {
   updateNeighborsState(id, state) {
     const globalParams = Globals.get('params');
 
-    if (globalParams.behaviour.roaming === 'free') {
+    if (globalParams.behaviour.map.roaming === 'free') {
       return; // Neighbors are not influenced
     }
 
@@ -136,7 +136,7 @@ export default class Stages {
 
     if (
       state === Globals.get('states')['open'] &&
-      globalParams.behaviour.fog !== '0'
+      globalParams.behaviour.map.fog !== '0'
     ) {
       neighborIds.forEach((id) => {
         const targetStage = this.getStage(id);
@@ -189,7 +189,7 @@ export default class Stages {
       startStages = this.stages; // Use all stages, because none selected
     }
 
-    if (Globals.get('params').behaviour.startStages === 'random') {
+    if (Globals.get('params').behaviour.map.startStages === 'random') {
       startStages = [
         startStages[Math.floor(Math.random() * startStages.length)]
       ];

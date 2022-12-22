@@ -61,12 +61,14 @@ export default class ConfirmationDialog {
     this.dialog = new H5P.ConfirmationDialog(params);
     this.dialog.once('confirmed', () => {
       this.dialog.off('canceled');
+      this.isShowing = false;
 
       callbacks.onConfirmed();
     });
 
     this.dialog.once('canceled', () => {
       this.dialog.off('confirmed');
+      this.isShowing = false;
 
       callbacks.onCanceled();
     });
@@ -80,12 +82,18 @@ export default class ConfirmationDialog {
    */
   show() {
     this.dialog.show();
+    this.isShowing = true;
   }
 
   /**
    * Hide.
    */
   hide() {
+    if (!this.isShowing) {
+      return;
+    }
+
     this.dialog.hide();
+    this.isShowing = false;
   }
 }

@@ -15,6 +15,7 @@ export default class MediaScreen {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
+      buttons: [],
       l10n: {
         buttonText: 'Close'
       }
@@ -23,6 +24,8 @@ export default class MediaScreen {
     this.callbacks = Util.extend({
       onButtonClicked: () => {}
     }, callbacks);
+
+    this.buttons = [];
 
     // Container
     this.dom = this.buildDOM();
@@ -43,9 +46,16 @@ export default class MediaScreen {
     this.setContent(this.params.content);
     this.dom.append(this.content);
 
+    const buttonsWrapper = document.createElement('div');
+    buttonsWrapper.classList.add('media-screen-buttons-wrapper');
+    this.dom.append(buttonsWrapper);
+
     // Button
-    this.button = this.buildButton(this.params.l10n.buttonText);
-    this.dom.append(this.button);
+    this.params.buttons.forEach((buttonParams) => {
+      const button = this.buildButton(buttonParams.id, buttonParams.text);
+      buttonsWrapper.append(button);
+      this.buttons.push(button);
+    });
   }
 
   /**
@@ -123,19 +133,21 @@ export default class MediaScreen {
   /**
    * Build button.
    *
+   * @param {string} id Button id.
    * @param {string} buttonText Button text.
    * @returns {HTMLElement} Button element.
    */
-  buildButton(buttonText) {
+  buildButton(id, buttonText) {
     const button = document.createElement('button');
     button.innerText = buttonText;
     button.addEventListener('click', () => {
       this.hide();
-      this.callbacks.onButtonClicked();
+      this.callbacks.onButtonClicked(id);
     });
 
     const buttonWrapper = document.createElement('div');
     buttonWrapper.classList.add('media-screen-button');
+    buttonWrapper.classList.add(`media-screen-button-${id}`);
     buttonWrapper.appendChild(button);
 
     return buttonWrapper;
@@ -276,8 +288,8 @@ export default class MediaScreen {
   show(params = {}) {
     this.dom.classList.remove('display-none');
 
-    if (params.focusButton) {
-      this.button.focus();
+    if (params.focusButton && this.buttons.length) {
+      this.buttons[0].focus();
     }
   }
 

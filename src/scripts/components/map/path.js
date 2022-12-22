@@ -58,7 +58,7 @@ export default class Path {
    * Show.
    */
   show() {
-    if (!Globals.get('params').behaviour.displayPaths) {
+    if (!Globals.get('params').behaviour.map.displayPaths) {
       return;
     }
 

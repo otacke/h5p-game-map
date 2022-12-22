@@ -91,6 +91,32 @@ export default class Exercise {
   }
 
   /**
+   * Get xAPI data from exercises.
+   *
+   * @returns {object[]} XAPI data objects used to build report.
+   */
+  getXAPIData() {
+    return this.instance.getXAPIData?.();
+  }
+
+  /**
+   * Show solutions.
+   */
+  showSolutions() {
+    this.instance?.showSolutions?.();
+    this.isShowingSolutions = true;
+  }
+
+  /**
+   * Determine whether some answer was given.
+   *
+   * @returns {boolean} True, if some answer was given.
+   */
+  getAnswerGiven() {
+    return this.instance?.getAnswerGiven?.() ?? false;
+  }
+
+  /**
    * Get score of instance.
    *
    * @returns {number} Score of instance or 0.
@@ -271,6 +297,11 @@ export default class Exercise {
   handleViewed() {
     this.attachInstance();
 
+    // Some content types build/initialize DOM when attaching
+    if (this.isShowingSolutions) {
+      this.showSolutions();
+    }
+
     this.setState('opened');
 
     window.requestAnimationFrame(() => {
@@ -304,5 +335,7 @@ export default class Exercise {
       });
       this.observer.observe(this.dom);
     });
+
+    this.isShowingSolutions = false;
   }
 }

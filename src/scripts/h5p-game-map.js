@@ -4,6 +4,8 @@ import Globals from '@services/globals';
 import Content from '@components/content';
 import '@styles/h5p-game-map.scss';
 import MessageBox from './components/messageBox/message-box';
+import QuestionTypeContract from '@mixins/question-type-contract';
+import XAPI from '@mixins/xapi';
 
 export default class GameMap extends H5P.Question {
   /**
@@ -14,6 +16,10 @@ export default class GameMap extends H5P.Question {
    */
   constructor(params, contentId, extras = {}) {
     super('game-map');
+
+    Util.addMixins(
+      GameMap, [QuestionTypeContract, XAPI]
+    );
 
     // Sanitize parameters
     this.params = Util.extend({
@@ -33,14 +39,20 @@ export default class GameMap extends H5P.Question {
         displayPaths: true,
         fog: false,
         startStages: 'all',
-        finishScore: Infinity
+        finishScore: Infinity,
+        enableRetry: true, // @see {@link https://h5p.org/documentation/developers/contracts#guides-header-9}
+        enableSolutionsButton: true, // @see {@link https://h5p.org/documentation/developers/contracts#guides-header-8}
+        enableCheckButton: true // Undocumented Question Type contract setting
       },
       l10n: {
         start: 'Start',
         restart: 'Restart',
+        showSolutions: 'Show solutions',
         completedMap: 'You have completed the map!',
         confirmFinishHeader: 'Finish map?',
-        confirmFinishDialog: 'If you finish now, you will not be able to explore the map any longer. Do you really want to finish the map?',
+        confirmFinishDialog: 'If you finish now, you will not be able to explore the map any longer.',
+        confirmFinishDialogSubmission: 'Your score will be submitted.',
+        confirmFinishDialogQuestion: 'Do you really want to finish the map?',
         no: 'No',
         yes: 'Yes',
         noBackground: 'No background image was set for the map.',
@@ -66,6 +78,7 @@ export default class GameMap extends H5P.Question {
     Globals.set('mainInstance', this);
     Globals.set('contentId', this.contentId);
     Globals.set('params', this.params);
+    Globals.set('extras', this. extras);
     Globals.set(
       'states', {
         unstarted: 0, // Exercise
@@ -104,7 +117,14 @@ export default class GameMap extends H5P.Question {
       this.dom.append(messageBox.getDOM());
     }
     else {
-      this.content = new Content({}, {});
+      this.content = new Content({}, {
+        onProgressChanged: (index) => {
+          this.handleProgressChanged(index);
+        },
+        onFinished: () => {
+          this.handleFinished();
+        }
+      });
       this.dom.append(this.content.getDOM());
 
       this.on('resize', () => {
@@ -133,44 +153,35 @@ export default class GameMap extends H5P.Question {
   }
 
   /**
-   * Get task title.
+   * Handle progress changed.
    *
-   * @returns {string} Title.
+   * @param {number} index Index of stage + 1.
    */
-  getTitle() {
-    // H5P Core function: createTitle
-    return H5P.createTitle(
-      this.extras?.metadata?.title || GameMap.DEFAULT_DESCRIPTION
+  handleProgressChanged(index) {
+    const xAPIEvent = this.createXAPIEventTemplate('progressed');
+    xAPIEvent.data.statement.object.definition
+      .extensions['http://id.tincanapi.com/extension/ending-point'] = index;
+    this.trigger(xAPIEvent);
+  }
+
+  /**
+   * Handle finished.
+   */
+  handleFinished() {
+    const xAPIEvent = this.createXAPIEventTemplate('completed');
+
+    Util.extend(
+      xAPIEvent.getVerifiedStatementValue(['object', 'definition']),
+      this.getXAPIDefinition());
+
+    xAPIEvent.setScoredResult(
+      this.getScore(), // Question Type Contract mixin
+      this.getMaxScore(), // Question Type Contract mixin
+      this,
+      true,
+      this.getScore() === this.getMaxScore()
     );
-  }
 
-  /**
-   * Get description.
-   *
-   * @returns {string} Description.
-   */
-  getDescription() {
-    return GameMap.DEFAULT_DESCRIPTION;
-  }
-
-  /**
-   * Get score.
-   *
-   * @returns {number} Score.
-   */
-  getScore() {
-    return this.content.getScore();
-  }
-
-  /**
-   * Get max score.
-   *
-   * @returns {number} Max score.
-   */
-  getMaxScore() {
-    return this.content.getMaxScore();
+    this.trigger(xAPIEvent);
   }
 }
-
-/** @constant {string} Default description */
-GameMap.DEFAULT_DESCRIPTION = 'Game Map';

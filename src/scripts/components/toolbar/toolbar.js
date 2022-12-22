@@ -25,8 +25,8 @@ export default class Toolbar {
     this.buttons = {};
 
     // Build DOM
-    this.toolBar = document.createElement('div');
-    this.toolBar.classList.add('h5p-game-map-toolbar-tool-bar');
+    this.dom = document.createElement('div');
+    this.dom.classList.add('h5p-game-map-toolbar-tool-bar');
     if (this.params.hidden) {
       this.hide();
     }
@@ -36,17 +36,17 @@ export default class Toolbar {
       const headline = document.createElement('div');
       headline.classList.add('toolbar-headline');
       headline.innerText = this.params.headline;
-      this.toolBar.append(headline);
+      this.dom.append(headline);
     }
 
     // Status values
     this.scoreContainer = new ScoreContainer();
-    this.toolBar.append(this.scoreContainer.getDOM());
+    this.dom.append(this.scoreContainer.getDOM());
 
     // Buttons
     this.buttonsContainer = document.createElement('div');
     this.buttonsContainer.classList.add('toolbar-buttons');
-    this.toolBar.append(this.buttonsContainer);
+    this.dom.append(this.buttonsContainer);
 
     this.params.buttons.forEach((button) => {
       this.addButton(button);
@@ -59,7 +59,7 @@ export default class Toolbar {
    * @returns {HTMLElement} DOM for this class.
    */
   getDOM() {
-    return this.toolBar;
+    return this.dom;
   }
 
   /**
@@ -220,14 +220,14 @@ export default class Toolbar {
    * Show.
    */
   show() {
-    this.toolBar.classList.remove('display-none');
+    this.dom.classList.remove('display-none');
   }
 
   /**
    * Hide.
    */
   hide() {
-    this.toolBar.classList.add('display-none');
+    this.dom.classList.add('display-none');
   }
 
   /**
@@ -259,5 +259,14 @@ export default class Toolbar {
    */
   hideScores() {
     this.scoreContainer.hide();
+  }
+
+  /**
+   * Toggle solution mode on and off.
+   *
+   * @param {boolean} state If true, solution mode is on, else off.
+   */
+  toggleSolutionMode(state) {
+    this.dom.classList.toggle('solution-mode', state);
   }
 }

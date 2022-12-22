@@ -18,7 +18,15 @@
     }
   }
 
-  .media-screen-button {
+  .media-screen-button-show-solutions {
+    button::before {
+      content: "\F06E";
+      font-family: H5PFontAwesome4;
+      padding-right: 0.5rem;
+    }
+  }
+
+  .media-screen-button-restart {
     button::before {
       content: "\F01E";
       font-family: H5PFontAwesome4;
