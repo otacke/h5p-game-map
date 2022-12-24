@@ -827,6 +827,50 @@
         "description": "@score will be replaced by the number of points. @total will be replaced by the maximum possible points.",
         "importance": "low",
         "default": "You got @score out of @total points"
+      },
+      {
+        "name": "mapWasOpened",
+        "type": "text",
+        "label": "Map was opened",
+        "importance": "low",
+        "default": "The map was opened."
+      },
+      {
+        "name": "mapSolutionsWasOpened",
+        "type": "text",
+        "label": "Map was opened (solutions mode)",
+        "importance": "low",
+        "default": "The map was opened in solutions mode."
+      },
+      {
+        "name": "startScreenWasOpened",
+        "type": "text",
+        "label": "Title screen was opened",
+        "importance": "low",
+        "default": "The title screen was opened."
+      },
+      {
+        "name": "endScreenWasOpened",
+        "type": "text",
+        "label": "End screen was opened",
+        "importance": "low",
+        "default": "The end screen was opened."
+      },
+      {
+        "name": "exerciseWasOpened",
+        "type": "text",
+        "label": "Exercise was opened",
+        "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
+        "importance": "low",
+        "default": "The exercise for the stage @stagelabel was opened."
+      },
+      {
+        "name": "exerciseWasClosed",
+        "type": "text",
+        "label": "Exercise was closed",
+        "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
+        "importance": "low",
+        "default": "The exercise for the stage @stagelabel was closed."
       }
     ]
   }

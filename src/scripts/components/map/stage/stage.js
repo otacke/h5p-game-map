@@ -119,6 +119,13 @@ export default class Stage {
   }
 
   /**
+   * Focus.
+   */
+  focus() {
+    this.dom.focus();
+  }
+
+  /**
    * Determine whether stage can be start stage.
    *
    * @returns {boolean} True, if stage can be start stage. Else false.

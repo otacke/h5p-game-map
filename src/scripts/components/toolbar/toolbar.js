@@ -63,6 +63,13 @@ export default class Toolbar {
   }
 
   /**
+   * Focus whatever should get focus.
+   */
+  focus() {
+    Object.values(this.buttons)[0]?.focus();
+  }
+
+  /**
    * Add button.
    *
    * @param {object} [button={}] Button parameters.

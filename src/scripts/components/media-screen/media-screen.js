@@ -10,19 +10,26 @@ export default class MediaScreen {
    * @param {string} [params.titleText] Title text.
    * @param {object} [params.l10n={}] Localization strings.
    * @param {string} [params.l10n.buttonText='Close'] Default button text.
+   * @param {object} [params.a11y={}] Screen reader strings.
+   * @param {object} [params.a11y.screenOpened] Screen opened text.
    * @param {object} [callbacks={}] Callbacks.
    * @param {function} [callbacks.onButtonClicked] Callback when button clicked.
+   * @param {function} [callbacks.read] Callback to read on screen reader.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       buttons: [],
       l10n: {
         buttonText: 'Close'
+      },
+      a11y: {
+        screenOpened: 'Screen was opened'
       }
     }, params);
 
     this.callbacks = Util.extend({
-      onButtonClicked: () => {}
+      onButtonClicked: () => {},
+      onRead: () => {}
     }, callbacks);
 
     this.buttons = [];
@@ -284,13 +291,21 @@ export default class MediaScreen {
    *
    * @param {object} params Parameters.
    * @param {boolean} [params.focusButton] If true, start button will get focus.
+   * @param {boolean} [params.readOpened] If true, announce screen was opened.
    */
   show(params = {}) {
     this.dom.classList.remove('display-none');
 
-    if (params.focusButton && this.buttons.length) {
-      this.buttons[0].focus();
+    if (params.readOpened) {
+      this.callbacks.read(this.params.a11y.screenOpened);
     }
+
+    // Read before focussing button
+    window.setTimeout(() => {
+      if (params.focusButton && this.buttons.length) {
+        this.buttons[0].querySelector('button').focus();
+      }
+    }, 100);
   }
 
   /**

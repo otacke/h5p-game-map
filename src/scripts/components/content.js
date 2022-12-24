@@ -42,7 +42,7 @@ export default class Content {
       this.toolbar.showScores();
     }
 
-    this.start();
+    this.start({ isInitial: true });
 
     // Reattach H5P.Question buttons and scorebar to endscreen
     H5P.externalDispatcher.on('initialized', () => {
@@ -115,10 +115,16 @@ export default class Content {
         medium: globalParams.titleScreen.titleScreenMedium,
         buttons: [
           { id: 'start', text: Dictionary.get('l10n.start') }
-        ]
+        ],
+        a11y: {
+          screenOpened: Dictionary.get('a11y.startScreenWasOpened')
+        }
       }, {
         onButtonClicked: () => {
-          this.show();
+          this.show({ focusButton: true, readOpened: true });
+        },
+        read: (text) => {
+          Globals.get('read')(text);
         }
       });
       this.startScreen.hide();
@@ -141,7 +147,10 @@ export default class Content {
     this.endScreen = new EndScreen({
       id: 'end',
       contentId: Globals.get('contentId'),
-      buttons: endscreenButtons
+      buttons: endscreenButtons,
+      a11y: {
+        screenOpened: Dictionary.get('a11y.endScreenWasOpened')
+      }
     }, {
       onButtonClicked: (id) => {
         if (id === 'restart') {
@@ -150,7 +159,15 @@ export default class Content {
         }
         else if (id === 'show-solutions') {
           this.showSolutions();
+
+          Globals.get('read')(Dictionary.get('a11y.mapSolutionsWasOpened'));
+          window.setTimeout(() => {
+            this.toolbar.focus();
+          }, 100);
         }
+      },
+      read: (text) => {
+        Globals.get('read')(text);
       }
     });
     this.endScreen.hide();
@@ -252,9 +269,7 @@ export default class Content {
 
     this.exerciseScreen = new ExerciseScreen({}, {
       onClosed: () => {
-        this.exerciseScreen.hide();
-        this.stages.enable();
-        this.lastFocus.focus();
+        this.handleExerciseClosed();
       }
     });
     this.exerciseScreen.hide();
@@ -276,9 +291,24 @@ export default class Content {
 
   /**
    * Show.
+   *
+   * @param {object} params Parameters.
+   * @param {boolean} [params.focusButton] If true, start button will get focus.
+   * @param {boolean} [params.readOpened] If true, announce screen was opened.
    */
-  show() {
+  show(params = {}) {
     this.contentDOM.classList.remove('display-none');
+
+    if (params.readOpened) {
+      Globals.get('read')(Dictionary.get('a11y.mapWasOpened'));
+    }
+
+    window.setTimeout(() => {
+      if (params.focusButton) {
+        this.toolbar.focus();
+      }
+    }, 100);
+
     Globals.get('resize')();
   }
 
@@ -396,8 +426,14 @@ export default class Content {
       this.callbacks.onProgressChanged(this.currentStageIndex);
     }
 
-    // Store focus to restore when exercise screen is closed
-    this.lastFocus = stage.getDOM();
+    // Store to restore focus when exercise screen is closed
+    this.currentlyOpenStage = stage;
+
+    Globals.get('read')(
+      Dictionary
+        .get('a11y.exerciseWasOpened')
+        .replace(/@stagelabel/, stage.getLabel())
+    );
 
     window.requestAnimationFrame(() => {
       Globals.get('resize')();
@@ -506,9 +542,33 @@ export default class Content {
   }
 
   /**
-   * Show end screen.
+   * Handle exercise was closed.
    */
-  showEndscreen() {
+  handleExerciseClosed() {
+    this.exerciseScreen.hide();
+    this.stages.enable();
+
+    Globals.get('read')(
+      Dictionary
+        .get('a11y.exerciseWasClosed')
+        .replace(/@stagelabel/, this.currentlyOpenStage.getLabel())
+    );
+
+    // Let closing of exercise be announced first
+    window.setTimeout(() => {
+      this.currentlyOpenStage.focus();
+      this.currentlyOpenStage = null;
+    }, 100);
+  }
+
+  /**
+   * Show end screen.
+   *
+   * @param {object} params Parameters.
+   * @param {boolean} [params.focusButton] If true, start button will get focus.
+   * @param {boolean} [params.readOpened] If true, announce screen was opened.
+   */
+  showEndscreen(params = {}) {
     const endscreenParams = Globals.get('params').endScreen;
 
     // Prepare end screen
@@ -555,7 +615,7 @@ export default class Content {
     }
 
     this.hide();
-    this.endScreen.show();
+    this.endScreen.show(params);
   }
 
   /**
@@ -564,7 +624,7 @@ export default class Content {
   handleFinish() {
     // In solution mode, no dialog and no xAPI necessary
     if (this.isShowingSolutions) {
-      this.showEndscreen();
+      this.showEndscreen({ focusButton: true, readOpened: true });
       return;
     }
 
@@ -588,7 +648,7 @@ export default class Content {
       }, {
         onConfirmed: () => {
           this.callbacks.onFinished();
-          this.showEndscreen();
+          this.showEndscreen({ focusButton: true });
         }
       }
     );
@@ -657,13 +717,26 @@ export default class Content {
 
   /**
    * Start.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
-  start() {
+  start(params = {}) {
     this.endScreen.hide();
 
-    if (Globals.get('params').showTitleScreen) {
+    const hasTitleScreen = Globals.get('params').showTitleScreen;
+
+    if (hasTitleScreen) {
       this.hide();
-      this.startScreen.show();
+
+      const startParams = !params.isInitial ?
+        { focusButton: true, readOpened: true } :
+        {};
+
+      this.startScreen.show(startParams);
+    }
+    else if (!params.isInitial) {
+      this.show({ focusButton: true, readOpened: true });
     }
     else {
       this.show();

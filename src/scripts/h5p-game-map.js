@@ -62,7 +62,13 @@ export default class GameMap extends H5P.Question {
         buttonFinish: 'Finish',
         buttonFinishDisabled: 'Finishing is currently not possible',
         close: 'Close',
-        yourResult: 'You got @score out of @total points'
+        yourResult: 'You got @score out of @total points',
+        startScreenWasOpened: 'The start screen was opened',
+        mapWasOpened: 'The map was opened.',
+        mapSolutionsWasOpened: 'The map was opened in solutions mode.',
+        endScreenWasOpened: 'The end screen was opened',
+        exerciseWasOpened: 'The exercise for the stage @stagelabel was opened.',
+        exerciseWasClosed: 'The exercise for the stage @stagelabel was closed.'
       }
     }, params);
 
@@ -75,6 +81,7 @@ export default class GameMap extends H5P.Question {
     this.contentId = contentId;
     this.extras = extras;
 
+    // Set globals
     Globals.set('mainInstance', this);
     Globals.set('contentId', this.contentId);
     Globals.set('params', this.params);
@@ -92,6 +99,9 @@ export default class GameMap extends H5P.Question {
     );
     Globals.set('resize', () => {
       this.trigger('resize');
+    });
+    Globals.set('read', (text) => {
+      this.read(text);
     });
 
     // Fill dictionary
