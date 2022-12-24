@@ -21,6 +21,8 @@ export default class ExerciseScreen {
       onClosed: () => {}
     }, callbacks);
 
+    this.handleGlobalClick = this.handleGlobalClick.bind(this);
+
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-exercise');
 
@@ -29,9 +31,9 @@ export default class ExerciseScreen {
     this.contentContainer.classList.add('h5p-game-map-exercise-content-container');
     this.dom.append(this.contentContainer);
 
-    const content = document.createElement('div');
-    content.classList.add('h5p-game-map-exercise-content');
-    this.contentContainer.append(content);
+    this.content = document.createElement('div');
+    this.content.classList.add('h5p-game-map-exercise-content');
+    this.contentContainer.append(this.content);
 
     // Close button
     this.buttonClose = document.createElement('button');
@@ -45,7 +47,7 @@ export default class ExerciseScreen {
     // Headline
     const headline = document.createElement('div');
     headline.classList.add('h5p-game-map-exercise-headline');
-    content.append(headline);
+    this.content.append(headline);
 
     this.headlineText = document.createElement('div');
     this.headlineText.classList.add('h5p-game-map-exercise-headline-text');
@@ -54,7 +56,7 @@ export default class ExerciseScreen {
     // H5P instance
     this.h5pInstance = document.createElement('div');
     this.h5pInstance.classList.add('h5p-game-map-exercise-instance-container');
-    content.append(this.h5pInstance);
+    this.content.append(this.h5pInstance);
 
     this.focusTrap = new FocusTrap({ trapElement: this.dom });
   }
@@ -74,8 +76,10 @@ export default class ExerciseScreen {
   show() {
     this.dom.classList.remove('display-none');
 
+    // Wait to allow DOM to progress
     window.requestAnimationFrame(() => {
       this.focusTrap.activate();
+      document.addEventListener('click', this.handleGlobalClick);
     });
   }
 
@@ -83,6 +87,7 @@ export default class ExerciseScreen {
    * Hide.
    */
   hide() {
+    document.removeEventListener('click', this.handleGlobalClick);
     this.dom.classList.add('display-none');
     this.focusTrap.deactivate();
   }
@@ -114,5 +119,19 @@ export default class ExerciseScreen {
   getSize() {
     const rect = this.dom.getBoundingClientRect();
     return { width: rect.width, height: rect.height};
+  }
+
+  /**
+   * Handle global click event.
+   *
+   * @param {Event} event Click event.
+   */
+  handleGlobalClick(event) {
+    if (
+      !this.content.contains(event.target) &&
+      event.target.isConnected // H5P content may have removed element already
+    ) {
+      this.callbacks.onClosed();
+    }
   }
 }
