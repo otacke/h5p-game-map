@@ -251,8 +251,10 @@ export default class Content {
     );
 
     this.exerciseScreen = new ExerciseScreen({}, {
-      onClicked: () => {
+      onClosed: () => {
         this.exerciseScreen.hide();
+        this.stages.enable();
+        this.lastFocus.focus();
       }
     });
     this.exerciseScreen.hide();
@@ -377,10 +379,13 @@ export default class Content {
    * @param {string} id Id of stage that was clicked on.
    */
   handleStageClicked(id) {
+    this.stages.disable();
+
+    const stage = this.stages.getStage(id);
     const exercise = this.exercises.getExercise(id);
 
     this.exerciseScreen.setH5PContent(exercise.getDOM());
-    this.exerciseScreen.setTitle(this.stages.getStage(id).getLabel());
+    this.exerciseScreen.setTitle(stage.getLabel());
     this.exerciseScreen.show();
 
     if (!this.isShowingSolutions) {
@@ -390,6 +395,9 @@ export default class Content {
       this.currentStageIndex = stageIndex + 1;
       this.callbacks.onProgressChanged(this.currentStageIndex);
     }
+
+    // Store focus to restore when exercise screen is closed
+    this.lastFocus = stage.getDOM();
 
     window.requestAnimationFrame(() => {
       Globals.get('resize')();

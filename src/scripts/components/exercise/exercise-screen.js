@@ -1,5 +1,6 @@
 import Dictionary from '@services/dictionary';
 import Util from '@services/util';
+import FocusTrap from '@services/focus-trap';
 import './exercise-screen.scss';
 
 /** Class representing an exercise screen */
@@ -32,6 +33,15 @@ export default class ExerciseScreen {
     content.classList.add('h5p-game-map-exercise-content');
     this.contentContainer.append(content);
 
+    // Close button
+    this.buttonClose = document.createElement('button');
+    this.buttonClose.classList.add('h5p-game-map-exercise-button-close');
+    this.buttonClose.setAttribute('aria-label', Dictionary.get('a11y.close'));
+    this.buttonClose.addEventListener('click', () => {
+      this.callbacks.onClosed();
+    });
+    this.contentContainer.append(this.buttonClose);
+
     // Headline
     const headline = document.createElement('div');
     headline.classList.add('h5p-game-map-exercise-headline');
@@ -41,17 +51,12 @@ export default class ExerciseScreen {
     this.headlineText.classList.add('h5p-game-map-exercise-headline-text');
     headline.append(this.headlineText);
 
+    // H5P instance
     this.h5pInstance = document.createElement('div');
     this.h5pInstance.classList.add('h5p-game-map-exercise-instance-container');
     content.append(this.h5pInstance);
 
-    this.buttonClose = document.createElement('button');
-    this.buttonClose.classList.add('h5p-game-map-exercise-button-close');
-    this.buttonClose.setAttribute('aria-label', Dictionary.get('a11y.close'));
-    this.buttonClose.addEventListener('click', () => {
-      this.callbacks.onClicked();
-    });
-    this.contentContainer.append(this.buttonClose);
+    this.focusTrap = new FocusTrap({ trapElement: this.dom });
   }
 
   /**
@@ -68,6 +73,10 @@ export default class ExerciseScreen {
    */
   show() {
     this.dom.classList.remove('display-none');
+
+    window.requestAnimationFrame(() => {
+      this.focusTrap.activate();
+    });
   }
 
   /**
@@ -75,6 +84,7 @@ export default class ExerciseScreen {
    */
   hide() {
     this.dom.classList.add('display-none');
+    this.focusTrap.deactivate();
   }
 
   /**

@@ -199,9 +199,29 @@ export default class Stage {
   }
 
   /**
+   * Enable.
+   */
+  enable() {
+    this.disabled = false;
+    this.dom.removeAttribute('disabled');
+  }
+
+  /**
+   * Disable.
+   */
+  disable() {
+    this.dom.setAttribute('disabled', 'disabled');
+    this.disabled = true;
+  }
+
+  /**
    * Handle click.
    */
   handleClick() {
+    if (this.disabled) {
+      return;
+    }
+
     if (
       this.state === Globals.get('states')['locked'] ||
       this.state === Globals.get('states')['unlocking']
@@ -220,6 +240,10 @@ export default class Stage {
    * @param {Event} event Event that triggered.
    */
   handleMouseOver(event) {
+    if (this.disabled) {
+      return;
+    }
+
     if (Util.supportsTouch()) {
       return;
     }

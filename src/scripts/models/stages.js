@@ -17,6 +17,11 @@ export default class Stages {
     this.stages = this.buildStages(this.params.elements);
   }
 
+  /**
+   * Get doms.
+   *
+   * @returns {HTMLElement[]} Stage DOMs.
+   */
   getDOMs() {
     return this.stages.map((path) => path.getDOM());
   }
@@ -73,6 +78,24 @@ export default class Stages {
     }
 
     return stages;
+  }
+
+  /**
+   * Enable stages.
+   */
+  enable() {
+    this.stages.forEach((stage) => {
+      stage.enable();
+    });
+  }
+
+  /**
+   * Disable stages.
+   */
+  disable() {
+    this.stages.forEach((stage) => {
+      stage.disable();
+    });
   }
 
   /**
