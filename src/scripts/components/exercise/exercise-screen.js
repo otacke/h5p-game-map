@@ -28,9 +28,22 @@ export default class ExerciseScreen {
     this.contentContainer.classList.add('h5p-game-map-exercise-content-container');
     this.dom.append(this.contentContainer);
 
-    this.h5pContent = document.createElement('div');
-    this.h5pContent.classList.add('h5p-game-map-exercise-content');
-    this.contentContainer.append(this.h5pContent);
+    const content = document.createElement('div');
+    content.classList.add('h5p-game-map-exercise-content');
+    this.contentContainer.append(content);
+
+    // Headline
+    const headline = document.createElement('div');
+    headline.classList.add('h5p-game-map-exercise-headline');
+    content.append(headline);
+
+    this.headlineText = document.createElement('div');
+    this.headlineText.classList.add('h5p-game-map-exercise-headline-text');
+    headline.append(this.headlineText);
+
+    this.h5pInstance = document.createElement('div');
+    this.h5pInstance.classList.add('h5p-game-map-exercise-instance-container');
+    content.append(this.h5pInstance);
 
     this.buttonClose = document.createElement('button');
     this.buttonClose.classList.add('h5p-game-map-exercise-button-close');
@@ -70,8 +83,17 @@ export default class ExerciseScreen {
    * @param {HTMLElement} h5pDOM DOM of H5P instance.
    */
   setH5PContent(h5pDOM) {
-    this.h5pContent.innerHTML = '';
-    this.h5pContent.appendChild(h5pDOM);
+    this.h5pInstance.innerHTML = '';
+    this.h5pInstance.appendChild(h5pDOM);
+  }
+
+  /**
+   * Set headline text.
+   *
+   * @param {string} text Headline text to set.
+   */
+  setTitle(text) {
+    this.headlineText.innerText = text;
   }
 
   /**

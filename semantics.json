@@ -133,7 +133,7 @@
                   "name": "label",
                   "type": "text",
                   "label": "Stage label",
-                  "description": "This label will be displayed when hovering over the stage and will help you to connect different stages with one another.",
+                  "description": "This label will be displayed on top of your exercise and will help you to connect different stages with one another.",
                   "importance": "medium"
                 },
                 {
@@ -622,7 +622,7 @@
             "name": "showLabels",
             "type": "boolean",
             "label": "Show stage labels",
-            "description": "Set whether a stage's label will be shown on hovering a stage with the mouse/on first touching it.",
+            "description": "Set whether a stage's label will be shown on hovering a stage with the mouse/on first touching it. The label will not show on touch devices.",
             "default": "true"
           },
           {

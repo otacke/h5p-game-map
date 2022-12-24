@@ -1,3 +1,5 @@
+@import "@styles/main";
+
 .h5p-game-map-exercise {
   align-items: center;
   background: rgba(44,44,44,.8);
@@ -69,31 +71,50 @@
       margin-top: 2rem;
       max-width: calc(100% - 4rem);
 
-      .h5p-game-map-exercise-instance-container {
+      .h5p-game-map-exercise-headline {
+        align-items: center;
+        border-bottom: 1px solid $color-shadow-dark;
         box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        height: 2rem;
+        padding: 0 0.25rem;
+
+        .h5p-game-map-exercise-headline-text {
+          font-size: 1.25rem;
+          font-weight: bold;
+        }
+      }
+
+      .h5p-game-map-exercise-instance-container {
         height: calc(100% - 1rem);
         width: calc(100% - 0.25rem);
 
-        &.h5p-video {
-          overflow: inherit;
-          height: 100%;
-        }
+        .h5p-game-map-exercise-instance {
+          box-sizing: border-box;
+          width: 100%;
 
-        &.h5p-interactive-video {
-          overflow: inherit;
-        }
+          &.h5p-video {
+            overflow: inherit;
+            height: 100%;
+          }
 
-        &.h5p-image-hotspot-question > .h5p-question-content {
-          margin: 0;
-        }
+          &.h5p-interactive-video {
+            overflow: inherit;
+          }
 
-        &.h5p-transcript .h5p-transcript-text-container {
-          margin-left: 0;
-          margin-right: 0;
-        }
+          &.h5p-image-hotspot-question > .h5p-question-content {
+            margin: 0;
+          }
 
-        &.h5p-image-slider .h5p-image-slider-progress {
-          padding: 0.5em 0;
+          &.h5p-transcript .h5p-transcript-text-container {
+            margin-left: 0;
+            margin-right: 0;
+          }
+
+          &.h5p-image-slider .h5p-image-slider-progress {
+            padding: 0.5em 0;
+          }
         }
       }
     }

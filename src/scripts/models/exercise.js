@@ -25,7 +25,7 @@ export default class Exercise {
     this.instance;
 
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-game-map-exercise-instance-container');
+    this.dom.classList.add('h5p-game-map-exercise-instance');
 
     this.initializeInstance();
   }

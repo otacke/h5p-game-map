@@ -380,6 +380,7 @@ export default class Content {
     const exercise = this.exercises.getExercise(id);
 
     this.exerciseScreen.setH5PContent(exercise.getDOM());
+    this.exerciseScreen.setTitle(this.stages.getStage(id).getLabel());
     this.exerciseScreen.show();
 
     if (!this.isShowingSolutions) {

@@ -101,6 +101,15 @@ export default class Stage {
   }
 
   /**
+   * Get stage label.
+   *
+   * @returns {string} Stage label.
+   */
+  getLabel() {
+    return this.params.label;
+  }
+
+  /**
    * Get neighbors.
    *
    * @returns {string[]} Neighbors.
@@ -191,24 +200,8 @@ export default class Stage {
 
   /**
    * Handle click.
-   *
-   * @param {Event} event Event.
    */
-  handleClick(event) {
-    if (event.pointerType !== 'mouse') {
-      if (
-        this.params.label && !this.label.isShowing() &&
-        Globals.get('params').behaviour.map.showLabels
-      ) {
-        this.label.show({ isTouch: true });
-        this.labelTimeout = setTimeout(() => {
-          this.label.hide();
-        }, Stage.LABEL_TIMEOUT_MS);
-
-        return;
-      }
-    }
-
+  handleClick() {
     if (
       this.state === Globals.get('states')['locked'] ||
       this.state === Globals.get('states')['unlocking']
@@ -216,7 +209,6 @@ export default class Stage {
       return; // You cannot pass!
     }
 
-    clearTimeout(this.labelTimeout);
     this.label.hide();
 
     this.callbacks.onClicked(this.params.id);
