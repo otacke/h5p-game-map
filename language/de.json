@@ -1,0 +1,440 @@
+{
+  "semantics": [
+    {
+      "label": "Zeige Titelbildschirm",
+      "description": "Wenn gewählt, wird zu Beginn ein Titelbildschirm eingeblendet."
+    },
+    {
+      "label": "Überschrift",
+      "description": "Optionale Überschrift für die Titelleiste."
+    },
+    {
+      "label": "Titelbildschirm",
+      "fields": [
+        {
+          "label": "Einleitung",
+          "placeholder": "Willkommen zu ...",
+          "default": "<p style=\"text-align: center;\"></p>"
+        },
+        {
+          "label": "Titelbildschirm-Medium"
+        }
+      ]
+    },
+    {
+      "label": "Spiellandkarten-Editor",
+      "fields": [
+        {
+          "label": "Hintergrundbild",
+          "fields": [
+            {
+              "label": "Hintergrundbild",
+              "description": "Wähle ein Hintergrundbild für den Hintergrund der Spiellandkarte."
+            },
+            {
+              "label": "Dummy"
+            }
+          ]
+        },
+        {
+          "label": "Spiellandkarte",
+          "fields": [
+            {
+              "label": "Elemente",
+              "entity": "Element",
+              "field": {
+                "label": "Elemente",
+                "fields": [
+                  {
+                    "label": "Id"
+                  },
+                  {
+                    "label": "Typ"
+                  },
+                  {
+                    "label": "Etappen-Beschriftung",
+                    "description": "Diese Beschriftung wird oberhalb deiner Aufgaben angezeigt und wird dir beim Verbinden der verschiedenen Etappen helfen."
+                  },
+                  {
+                    "label": "Nutzerinnen und Nutzer können hier starten",
+                    "description": "Wenn ängewählt, können Nutzerinnen und Nutzer bei dieser Etappe starten. Wenn bei keinre Etappe oder mehr als einer gestartet werden kann, wird die Startetappe zufällig bestimmt."
+                  },
+                  {
+                    "label": "Zugangsbeschränkungen",
+                    "description": "Definiere Beschränkungen für das Freischalten.",
+                    "fields": [
+                      {
+                        "label": "Minimale Punktzahl zum Freischalten",
+                        "description": "Die Nutzerinnen und Nutzer können diese Etappe nicht freischalten, wenn sie nicht mindestens die eingestellte Minimalpunktzahl durch das Absolvieren anderer Etappen gesammelt haben."
+                      },
+                      {
+                        "label": "Öffne, sobald genügend Punkte",
+                        "description": "Wenn versucht wurde, diese Etappe mit zu wenig Punkten freizuschalten, soll diese Etappe automatisch freigeschaltet werden, sobald genügend Punkte gesammelt wurden."
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Etappeninhalt",
+                    "description": "Wähle die Art des Inhalts, die du der Etappe hinzufügen möchtest."
+                  },
+                  {
+                    "label": "Verbundene Etappen"
+                  },
+                  {
+                    "label": "Telemetrie"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Endbildschirm",
+      "fields": [
+        {
+          "label": "Nutzerinnen und Nutzer nicht erfolgreich",
+          "fields": [
+            {
+              "label": "Nachricht (nicht erfolgreich)",
+              "placeholder": "Diesmal hast du es nicht geschafft ...",
+              "default": "<p style=\"text-align: center;\"></p>"
+            },
+            {
+              "label": "Endbildschirm-Medium (nicht erfolgreich)"
+            }
+          ]
+        },
+        {
+          "label": "Nutzerinnen und Nutzer erfolgreich",
+          "fields": [
+            {
+              "label": "Nachricht (erfolgreich)",
+              "placeholder": "Geschafft ...",
+              "default": "<p style=\"text-align: center;\"></p>"
+            },
+            {
+              "label": "Endbildschirm-Medium (erfolgreich)"
+            }
+          ]
+        },
+        {
+          "label": "Gesamtrückmeldung",
+          "fields": [
+            {
+              "widgets": [
+                {
+                  "label": "Voreinstellung"
+                }
+              ],
+              "label": "Lege Rückmeldungen für einzelne Punktebereiche fest",
+              "description": "Klicke auf den \"Bereich hinzufügen\"-Button, um so viele Bereiche hinzuzufügen, wie du brauchst. Beispiel: 0-20% Schlechte Punktzahl, 21-91% Durchschnittliche Punktzahl, 91-100% Großartige Punktzahl!",
+              "entity": "Bereich",
+              "field": {
+                "fields": [
+                  {
+                    "label": "Punktebereich"
+                  },
+                  {},
+                  {
+                    "label": "Rückmeldung für jeweiligen Punktebereich",
+                    "placeholder": "Trage die Rückmeldung ein"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Optische Einstellungen",
+      "fields": [
+        {
+          "label": "Etappen",
+          "fields": [
+            {
+              "label": "Etappenfarbe"
+            },
+            {
+              "label": "Etappenfarbe verschlossen"
+            },
+            {
+              "label": "Etappenfarbe geschafft"
+            }
+          ]
+        },
+        {
+          "label": "Pfade",
+          "fields": [
+            {
+              "label": "Pfadfarbe"
+            },
+            {
+              "label": "Pfadfarbe geschafft"
+            },
+            {
+              "label": "Pfadbreite",
+              "options": [
+                {
+                  "label": "dünn"
+                },
+                {
+                  "label": "mittel"
+                },
+                {
+                  "label": "dick"
+                }
+              ]
+            },
+            {
+              "label": "Pfadstil",
+              "options": [
+                {
+                  "label": "Durchgezogen"
+                },
+                {
+                  "label": "Gepunktet"
+                },
+                {
+                  "label": "Gestrichelt"
+                },
+                {
+                  "label": "Doppelt"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Verschiedenes",
+          "fields": [
+            {
+              "label": "Höhenbegrenzungsmodus",
+              "description": "Du kannst hier die Höhe des Bingobretts begrenzen, um in den sichtbaren Teil des Bildschirms zu passen. Die Automatische Begrenzung wird unter Umständen nicht perfekt funktionieren. Das kann von der Website abhängen, zum Beispiel bei solchen mit festen Navigationsleisten. Gute eigene Werte sind manuell nur schwer zu setzen.",
+              "options": [
+                {
+                  "label": "Keine Begrenzung"
+                },
+                {
+                  "label": "Automatisch"
+                },
+                {
+                  "label": "Eigener Wert"
+                }
+              ]
+            },
+            {
+              "label": "Höhenbegrenzung",
+              "description": "Maximale Höhe des Bingobretts in Pixeln."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Verhaltenseinstellungen",
+      "fields": [
+        {
+          "label": "\"Wiederholen\"-Button anzeigen"
+        },
+        {
+          "label": "\"Lösung zeigen\"-Button anzeigen"
+        },
+        {
+          "label": "Punktzahl zum Beenden",
+          "description": "Optionale Punktzahl, die kleiner sein kann als die eigentlich durch alle Aufgaben erreichbaren Punkte, so dass Nutzerinnen und Nutzer auch volle Punktzahl erreichen können, ohne alle Etappen zu absolvieren."
+        },
+        {
+          "label": "Karte",
+          "fields": [
+            {
+              "label": "Zeige Etappenbeschriftungen",
+              "description": "Wähle, ob die Beschriftung einer Etappe während des Schwebens mit der Maus angezeit wird. Die Beschriftung wir auf Geräten mit \"Touch\"-Bedienung nicht angezeit.",
+              "default": "true"
+            },
+            {
+              "label": "Umherwandern",
+              "description": "Wähle, on Nutzerinnen und Nutzer die Etappen frei besuchen können, ob sie sie absolvieren müssen um Zugang zu den benachbarten Etappen zu bekommen, oder ob sie eine Etappe erfolgreich absolvieren müssen, um bei den Nachbaretappen fortzufahren.",
+              "options": [
+                {
+                  "label": "Freies Umherwandern"
+                },
+                {
+                  "label": "Absolvieren zum Freigeben"
+                },
+                {
+                  "label": "Erfolgreich absolvieren zum Freigeben"
+                }
+              ]
+            },
+            {
+              "label": "Zeige Pfade",
+              "description": "Wähle, ob die Pfade auf der Karte angezeigt werden. Bitte beachte: Im Editor werden die Pfade immer angezeigt."
+            },
+            {
+              "label": "Nebel aktivieren",
+              "description": "Wähle, wie weit die Nutzerinnen und Nutzer sehen können",
+              "options": [
+                {
+                  "label": "Keine Nebel, alle Etappen sichtbar"
+                },
+                {
+                  "label": "Alle freigeschalteten Etappen und deren Nachbarn sichtbar"
+                },
+                {
+                  "label": "Nur freigeschaltete Etappen sichtbar"
+                }
+              ]
+            },
+            {
+              "label": "Startetappen",
+              "description": "Wähle, bei welchen Etappen die Nutzerinnen und Nutzer starten können. Falls keine Etappe als Startetappe gesetzt ist, können alle Etappen Startetappen sein.",
+              "options": [
+                {
+                  "label": "Alle Etappen, die als Startetappen gesetzt sind"
+                },
+                {
+                  "label": "Eine Etappe, die zufällig aus den Startetappen gewählt wird"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Bedienoberfläche",
+      "fields": [
+        {
+          "label": "Start",
+          "default": "Start"
+        },
+        {
+          "label": "Neustart",
+          "default": "Neustart"
+        },
+        {
+          "label": "Zeige Lösungen",
+          "default": "Zeige Lösungen"
+        },
+        {
+          "label": "Karte geschafft",
+          "default": "Du hast die Karte geschafft!"
+        },
+        {
+          "label": "Dialogüberschrift Karte geschafft",
+          "default": "Karte beenden?"
+        },
+        {
+          "label": "Dialogtext Karte geschafft: Allgemein",
+          "default": "If you finish now, you will not be able to explore the map any longer."
+        },
+        {
+          "label": "Dialogtext Karte geschafft: Absenden",
+          "default": "Deine Punkte werden übertragen."
+        },
+        {
+          "label": "Dialogtext Karte geschafft: Frage",
+          "default": "Willst du die Karte wirklich beenden?"
+        },
+        {
+          "label": "Ja",
+          "default": "Ja"
+        },
+        {
+          "label": "Nein",
+          "default": "Nein"
+        },
+        {
+          "label": "Kein Hintergrundbild gesetzt",
+          "default": "Es wurde für die Karte kein Hintergrundbild gesetzt."
+        },
+        {
+          "label": "Keine Etappen gesetzt",
+          "default": "Es wurden keine gültigen Etappen für die Karte gesetzt."
+        }
+      ]
+    },
+    {
+      "label": "Texte für Barrierefreiheit",
+      "fields": [
+        {
+          "label": "Beenden",
+          "default": "Beenden"
+        },
+        {
+          "label": "Beenden nicht möglich",
+          "default": "Beenden ist gerade nicht möglich"
+        },
+        {
+          "label": "Schließen",
+          "default": "Schließen"
+        },
+        {
+          "label": "Dein Ergebnis",
+          "description": "@score wird durch die erreichten Punkte ersetzt. @total wird durch die maximal mögliche Punktzahl ersetzt.",
+          "default": "Du hast @score von @total Punkten erreicht"
+        },
+        {
+          "label": "Karte wurde geöffnet",
+          "default": "Die Karte wurde geöffnet."
+        },
+        {
+          "label": "Karte wurde geöffnet (Lösungsmodus)",
+          "default": "Die Karte wurde im Lösungsmodus geöffnet."
+        },
+        {
+          "label": "Titelbildschirm wurde geöffnet",
+          "default": "Der Titelbildschirm wurde geöffnet."
+        },
+        {
+          "label": "Endbildschirm wurde geöffnet",
+          "default": "Der Endbildschirm wurde geöffnet."
+        },
+        {
+          "label": "Beschriftung für die Übung",
+          "description": "@stagelabel ist ein Platzhalter und wird durch die entsprechende Beschriftung ersetzt.",
+          "default": ". Übung für @stagelabel"
+        },
+        {
+          "label": "Etappen-Button-Beschriftung",
+          "description": "@stagelabel ist ein Platzhalter und wird durch die entsprechende Beschriftung ersetzt.",
+          "default": "Etappe: @stagelabel"
+        },
+        {
+          "label": "Nachbar-Etappen-Beschriftung",
+          "description": "@stagelabelOrigin und @stagelabelNeighbor sind Platzhalter und werden durch die entsprechenden Beschriftungen ersetzt.",
+          "default": "Nachbaretappe von @stagelabelOrigin: @stagelabelNeighbor"
+        },
+        {
+          "label": "Verschlossen",
+          "default": "Verschlossen"
+        },
+        {
+          "label": "Absolviert",
+          "default": "Absolviert"
+        },
+        {
+          "label": "Beschreibung der Kartennavigation",
+          "default": "Benutze die Space-Taste oder die Eingabetaste, um die aktuelle Etappe zu aktivieren. Benutze die Pfeiltasten, um Nachbaretappen auszuwählen. Benutze die Space-Taste oder die Eingabetaste auf einer Nachbaretappe, um dorthin zu navigieren."
+        },
+        {
+          "label": "Beschreibung der Karte",
+          "default": "Karte"
+        },
+        {
+          "label": "Zu Etappe gegangen",
+          "description": "@stagelabel ist ein Platzhalter und wird durch die entsprechende Beschriftung ersetzt.",
+          "default": "Zu Etappe @stagelabel gegangen"
+        },
+        {
+          "label": "Etappe freigeschaltet",
+          "description": "@stagelabel ist ein Platzhalter und wird durch die entsprechende Beschriftung ersetzt.",
+          "default": "Etappe @stagelabel wurde freigeschaltet."
+        }
+      ]
+    }
+  ]
+}
