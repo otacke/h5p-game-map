@@ -1,3 +1,4 @@
+import Dictionary from '@services/dictionary';
 import Util from '@services/util';
 import Path from './path';
 import './map.scss';
@@ -42,6 +43,11 @@ export default class Map {
 
     this.stageWrapper = document.createElement('div');
     this.stageWrapper.classList.add('h5p-game-map-stage-wrapper');
+    this.stageWrapper.setAttribute('role', 'application');
+    this.stageWrapper.setAttribute(
+      'aria-label', Dictionary.get('a11y.applicationDescription')
+    );
+
     this.params.stages.getDOMs().forEach((dom) => {
       this.stageWrapper.appendChild(dom);
     });

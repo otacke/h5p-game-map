@@ -881,6 +881,14 @@
         "default": "Stage: @stagelabel"
       },
       {
+        "name": "adjacentStageLabel",
+        "type": "text",
+        "label": "adjacent stage label",
+        "description": "@stagelabelOrigin and @stagelabelNeighbor are placeholders and will be replaced with the respective stage labels.",
+        "importance": "low",
+        "default": "Adjacent stage of @stagelabelOrigin: @stagelabelNeighbor"
+      },
+      {
         "name": "locked",
         "type": "text",
         "label": "Locked",
@@ -893,6 +901,28 @@
         "label": "Cleared",
         "importance": "low",
         "default": "Cleared"
+      },
+      {
+        "name": "applicationInstructions",
+        "type": "text",
+        "label": "Description of map navigation",
+        "importance": "low",
+        "default": "Use space or enter key to activate current stage. Use arrow keys to select adjacent stage. Use space or enter key on adjacent stage to navigate there."
+      },
+      {
+        "name": "applicationDescription",
+        "type": "text",
+        "label": "Description of map navigation (short)",
+        "importance": "low",
+        "default": "Map"
+      },
+      {
+        "name": "movedToStage",
+        "type": "text",
+        "label": "Moved to stage",
+        "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
+        "importance": "low",
+        "default": "Moved to @stagelabel"
       }
     ]
   }

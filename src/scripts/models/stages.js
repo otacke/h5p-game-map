@@ -1,3 +1,4 @@
+import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Util from '@services/util';
 import Stage from '@components/map/stage/stage';
@@ -11,8 +12,11 @@ export default class Stages {
 
     this.callbacks = Util.extend({
       onStageClicked: () => {},
-      onStageStateChanged: () => {}
+      onStageStateChanged: () => {},
+      onStageFocussed: () => {}
     }, callbacks);
+
+    this.handleSelectionKeyUp = this.handleSelectionKeyUp.bind(this);
 
     this.stages = this.buildStages(this.params.elements);
   }
@@ -73,6 +77,14 @@ export default class Stages {
           },
           onStateChanged: (id, state) => {
             this.callbacks.onStageStateChanged(id, state);
+          },
+          onFocussed: (id) => {
+            // If reading while selecting, other read call will be interrupted
+            if (!this.selectionStage) {
+              this.callbacks.onFocussed();
+            }
+
+            this.handleStageFocussed(id);
           }
         }));
     }
@@ -243,7 +255,170 @@ export default class Stages {
 
     startStages.forEach((stage) => {
       stage.unlock();
+      stage.setTabIndex('0');
     });
+  }
+
+  /**
+   * Handle stage focussed.
+   *
+   * @param {string} id Id of stage that was focussed.
+   */
+  handleStageFocussed(id) {
+    if (this.selectionNeighbors?.map((stage) => stage.getId()).includes(id)) {
+      return; // Id of stage in focus already part of selection
+    }
+
+    // Remove old selection properties
+    this.stages.forEach((stage) => {
+      if (stage.getId() !== id) {
+        stage.setTabIndex('-1');
+      }
+
+      stage.removeEventListener('keydown', this.handleSelectionKeyUp);
+    });
+
+    this.selectionStage = this.stages.find((stage) => stage.getId() === id);
+    this.selectionNeighbors = this.selectionStage.getNeighbors()
+      .map((neighborId) => {
+        return this.stages.find((stage) => stage.getId() === neighborId);
+      });
+
+    this.highlightedStageId = 0;
+    this.selectionStages = [this.selectionStage, ...this.selectionNeighbors];
+
+    // Add listeners
+    this.selectionStages.forEach((stage) => {
+      stage.addEventListener('keydown', this.handleSelectionKeyUp);
+    });
+  }
+
+  /**
+   * Handle key up on selected stages.
+   *
+   * @param {KeyboardEvent} event Event.
+   */
+  handleSelectionKeyUp(event) {
+    if (!['ArrowLeft', 'ArrowRight', ' ', 'Enter', 'Escape', 'Tab']
+      .includes(event.key)
+    ) {
+      return;
+    }
+
+    const highlightedStage = this.selectionStages[this.highlightedStageId];
+
+    if (event.key === 'ArrowLeft') {
+      if (this.highlightedStageId !== 0) {
+        highlightedStage.setTabIndex('-1');
+        highlightedStage.updateAriaLabel();
+      }
+
+      this.highlightStage(
+        this.highlightedStageId = (this.highlightedStageId + 1) %
+          this.selectionStages.length
+      );
+
+      event.preventDefault();
+    }
+    else if (event.key === 'ArrowRight') {
+      if (this.highlightedStageId !== 0) {
+        highlightedStage.setTabIndex('-1');
+        highlightedStage.updateAriaLabel();
+      }
+
+      this.highlightStage(
+        (this.highlightedStageId + this.selectionStages.length - 1) %
+          this.selectionStages.length
+      );
+
+      event.preventDefault();
+    }
+    else if (event.key === ' ' || event.key === 'Enter') {
+      // Prevent button's click listener from kicking in.
+      if (this.highlightedStageId !== 0) {
+
+        // Move to currently highlighted stage
+        this.selectionStages[0].setTabIndex('-1');
+        this.selectionNeighbors = null;
+
+        highlightedStage.updateAriaLabel();
+
+        Globals.get('read')(
+          Dictionary.get('a11y.movedToStage')
+            .replace(
+              /@stagelabel/,
+              highlightedStage.getLabel()
+            )
+        );
+
+        window.setTimeout(() => {
+          highlightedStage.getDOM().blur();
+          highlightedStage.getDOM().focus();
+        }, 100); // Make sure 'movedToStage' is being read already
+
+        event.preventDefault();
+      }
+    }
+    else if (event.key === 'Escape') {
+      highlightedStage.setTabIndex('-1');
+      highlightedStage.updateAriaLabel();
+      this.highlightStage(0);
+    }
+    else if (event.key === 'Tab') {
+      if (this.highlightedStageId !== 0) {
+        highlightedStage.setTabIndex('-1');
+        highlightedStage.updateAriaLabel();
+      }
+
+      this.selectionStage = null;
+      this.selectionNeighbors = null;
+      this.selectionStages = null;
+    }
+  }
+
+  /**
+   * Highlight a stage.
+   *
+   * @param {number} index Index of selection stages to highlight.
+   */
+  highlightStage(index) {
+    if (
+      !Array.isArray(this.selectionStages) ||
+      index > this.selectionStages.length
+    ) {
+      return;
+    }
+
+    this.highlightedStageId = index;
+    const highlightStage = this.selectionStages[this.highlightedStageId];
+
+    if (index !== 0) {
+      highlightStage.updateAriaLabel({
+        customText: Dictionary.get('a11y.adjacentStageLabel')
+          .replace(
+            /@stagelabelOrigin/, this.selectionStages[0].getLabel()
+          )
+          .replace(
+            /@stagelabelNeighbor/, highlightStage.getLabel()
+          )
+      });
+    }
+
+    highlightStage.setTabIndex('0');
+    highlightStage.focus();
+  }
+
+  /**
+   * Set tab index.
+   *
+   * @param {string} id Stage id.
+   * @param {string|number} state Tabindex state.
+   */
+  setTabIndex(id, state) {
+    const stage = this.stages.find((stage) => stage.getId() === id);
+    if (stage) {
+      stage.setTabIndex(state);
+    }
   }
 
   /**

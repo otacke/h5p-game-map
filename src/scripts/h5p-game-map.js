@@ -70,8 +70,12 @@ export default class GameMap extends H5P.Question {
         exerciseWasOpened: 'The exercise for the stage @stagelabel was opened.',
         exerciseWasClosed: 'The exercise for the stage @stagelabel was closed.',
         stageButtonLabel: 'Stage: @stagelabel',
+        adjacentStageLabel: 'Adjacent stage of @stagelabelOrigin: @stagelabelNeighbor',
         locked: 'Locked',
-        cleared: 'Cleared'
+        cleared: 'Cleared',
+        applicationInstructions: 'Use space or enter key to activate current stage. Use arrow keys to select adjacent stage. Use space or enter key on adjacent stage to navigate there.',
+        applicationDescription: 'Map.',
+        movedToStage: 'Moved to stage @stagelabel'
       }
     }, params);
 

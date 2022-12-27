@@ -217,6 +217,9 @@ export default class Content {
         },
         onStageStateChanged: (id, state) => {
           this.handleStageStateChanged(id, state);
+        },
+        onFocussed: () => {
+          this.handleStageFocussed();
         }
       }
     );
@@ -297,6 +300,7 @@ export default class Content {
    * @param {boolean} [params.readOpened] If true, announce screen was opened.
    */
   show(params = {}) {
+    this.map.show();
     this.contentDOM.classList.remove('display-none');
 
     if (params.readOpened) {
@@ -323,6 +327,7 @@ export default class Content {
    * Hide.
    */
   hide() {
+    this.map.hide();
     this.contentDOM.classList.add('display-none');
   }
 
@@ -482,6 +487,15 @@ export default class Content {
   }
 
   /**
+   * Handle stage focussed.
+   */
+  handleStageFocussed() {
+    window.setTimeout(() => {
+      Globals.get('read')(Dictionary.get('a11y.applicationInstructions'));
+    }, 250); // Make sure everything else is read already
+  }
+
+  /**
    * Get xAPI data from exercises.
    *
    * @returns {object[]} XAPI data objects used to build report.
@@ -552,6 +566,10 @@ export default class Content {
    * Handle exercise was closed.
    */
   handleExerciseClosed() {
+    this.map.dom.setAttribute(
+      'aria-label', Dictionary.get('a11y.applicationInstructions')
+    );
+
     this.exerciseScreen.hide();
     this.stages.enable();
 

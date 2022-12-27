@@ -24,13 +24,17 @@ export default class Stage {
 
     this.callbacks = Util.extend({
       onClicked: () => {},
-      onStateChanged: () => {}
+      onStateChanged: () => {},
+      onFocussed: () => {}
     }, callbacks);
 
     this.dom = document.createElement('button');
     this.dom.classList.add('h5p-game-map-stage');
     this.dom.addEventListener('click', (event) => {
       this.handleClick(event);
+    });
+    this.dom.addEventListener('focus', () => {
+      this.callbacks.onFocussed(this.params.id);
     });
 
     if (Globals.get('params').behaviour.map.showLabels) {
@@ -74,6 +78,8 @@ export default class Stage {
     );
 
     this.setState(this.params.state);
+
+    this.setTabIndex('-1');
 
     if (this.params.hidden) {
       this.hide();
@@ -127,12 +133,14 @@ export default class Stage {
 
   /**
    * Update ARIA label.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {string} [params.customText] Custom aria label text.
    */
-  updateAriaLabel() {
-    const ariaSegments = [
+  updateAriaLabel(params = {}) {
+    const stageLabel = params.customText ||
       Dictionary.get('a11y.stageButtonLabel')
-        .replace(/@stagelabel/, this.params.label),
-    ];
+        .replace(/@stagelabel/, this.params.label);
 
     let stateLabel;
     if (
@@ -148,11 +156,34 @@ export default class Stage {
       stateLabel = Dictionary.get('a11y.cleared');
     }
 
-    if (stateLabel) {
-      ariaSegments.push(stateLabel);
+    const stageState = params.customState || stateLabel;
+
+    const ariaSegments = [stageLabel];
+    if (stageState) {
+      ariaSegments.push(stageState);
     }
 
     this.dom.setAttribute('aria-label', ariaSegments.join('. '));
+  }
+
+  /**
+   * Add event listener.
+   *
+   * @param {string} type Event type.
+   * @param {function} callback Callback function.
+   */
+  addEventListener(type, callback) {
+    this.dom.addEventListener(type, callback);
+  }
+
+  /**
+   * Remove event listener.
+   *
+   * @param {string} type Event type.
+   * @param {function} callback Callback function.
+   */
+  removeEventListener(type, callback) {
+    this.dom.removeEventListener(type, callback);
   }
 
   /**
@@ -312,6 +343,13 @@ export default class Stage {
 
     this.setState(state);
 
+    if (
+      [Globals.get('states')['locked'], Globals.get('states')['unlocking']]
+        .includes(state)
+    ) {
+      this.setTabIndex('-1');
+    }
+
     if (this.params.hidden) {
       this.hide();
     }
@@ -324,6 +362,19 @@ export default class Stage {
    */
   getState() {
     return this.state;
+  }
+
+  /**
+   * Toggle tabbable.
+   *
+   * @param {string|number} state Tabindex state
+   */
+  setTabIndex(state) {
+    if (typeof state !== 'number' && typeof state !== 'string') {
+      return;
+    }
+
+    this.dom.setAttribute('tabindex', `${state}`);
   }
 
   /**
