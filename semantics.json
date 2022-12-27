@@ -2,7 +2,7 @@
   {
     "name": "showTitleScreen",
     "label": "Show title screen",
-    "description": "If checked, the content will show the title screen when starting.",
+    "description": "If checked, a title screen will show up when starting.",
     "type": "boolean",
     "default": false,
     "optional": true
@@ -140,7 +140,7 @@
                   "name": "canBeStartStage",
                   "type": "boolean",
                   "label": "User can start here",
-                  "description": "If set to true, this stage will be the stage that the user start as. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly.",
+                  "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly.",
                   "importance": "medium",
                   "default": false
                 },
@@ -161,7 +161,7 @@
                       "name": "openOnScoreSufficient",
                       "type": "boolean",
                       "label": "Open once score sufficient",
-                      "description": "If there has been an attempt to unlock the stage with insufficient score, should the stage unlock automatically once the score becomes sufficient?",
+                      "description": "If there has been an attempt to unlock the stage with insufficient score, should the stage unlock automatically once the score becomes sufficient.",
                       "default": false,
                       "optional": true
                     }
@@ -299,10 +299,10 @@
         "fields": [
           {
             "name": "endScreenTextSuccess",
-            "label": "Message",
+            "label": "Message (user successful)",
             "type": "text",
             "widget": "html",
-            "placeholder": "You did not make it this time ...",
+            "placeholder": "You made it ...",
             "optional": true,
             "enterMode": "div",
             "tags": [
@@ -609,7 +609,7 @@
         "name": "finishScore",
         "type": "number",
         "label": "Finish score",
-        "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises",
+        "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises.",
         "min": 0,
         "optional": true
       },
@@ -622,14 +622,14 @@
             "name": "showLabels",
             "type": "boolean",
             "label": "Show stage labels",
-            "description": "Set whether a stage's label will be shown on hovering a stage with the mouse/on first touching it. The label will not show on touch devices.",
+            "description": "Choose whether a stage's label will be shown on hovering a stage with the mouse. The label will not show on touch devices.",
             "default": "true"
           },
           {
             "name": "roaming",
             "type": "select",
             "label": "Roaming",
-            "description": "Set whether users can roam all stages freely, need to finish a stage to get access to that stage's neighbors, or need to pass a stage to get access to that stage's neigbors.",
+            "description": "Choose whether users can roam all stages freely, need to finish a stage to get access to that stage's neighbors, or need to pass a stage to get access to that stage's neigbors.",
             "options": [
               {
                 "value": "free",
@@ -811,7 +811,7 @@
       {
         "name": "buttonFinishDisabled",
         "type": "text",
-        "label": "Dummy",
+        "label": "Finishing not possible",
         "default": "Finishing is currently not possible"
       },
       {
@@ -904,7 +904,7 @@
       {
         "name": "applicationDescription",
         "type": "text",
-        "label": "Description of map navigation (short)",
+        "label": "Description of map",
         "importance": "low",
         "default": "Map"
       },
@@ -919,10 +919,10 @@
       {
         "name": "stageUnlocked",
         "type": "text",
-        "label": "Moved to stage",
+        "label": "Unlocked stage",
         "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
         "importance": "low",
-        "default": "Stages @stagelabel was unlocked."
+        "default": "Stage @stagelabel was unlocked."
       }
     ]
   }
