@@ -441,12 +441,6 @@ export default class Content {
     // Store to restore focus when exercise screen is closed
     this.currentlyOpenStage = stage;
 
-    Globals.get('read')(
-      Dictionary
-        .get('a11y.exerciseWasOpened')
-        .replace(/@stagelabel/, stage.getLabel())
-    );
-
     window.requestAnimationFrame(() => {
       Globals.get('resize')();
     });
@@ -573,17 +567,8 @@ export default class Content {
     this.exerciseScreen.hide();
     this.stages.enable();
 
-    Globals.get('read')(
-      Dictionary
-        .get('a11y.exerciseWasClosed')
-        .replace(/@stagelabel/, this.currentlyOpenStage.getLabel())
-    );
-
-    // Let closing of exercise be announced first
-    window.setTimeout(() => {
-      this.currentlyOpenStage.focus();
-      this.currentlyOpenStage = null;
-    }, 100);
+    this.currentlyOpenStage.focus();
+    this.currentlyOpenStage = null;
   }
 
   /**

@@ -22,9 +22,12 @@ export default class ExerciseScreen {
     }, callbacks);
 
     this.handleGlobalClick = this.handleGlobalClick.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-exercise');
+    this.dom.setAttribute('role', 'dialog');
+    this.dom.setAttribute('modal', 'true');
 
     // Container for H5P content, can be CSS-transformed
     this.contentContainer = document.createElement('div');
@@ -80,6 +83,7 @@ export default class ExerciseScreen {
     window.requestAnimationFrame(() => {
       this.focusTrap.activate();
       document.addEventListener('click', this.handleGlobalClick);
+      document.addEventListener('keydown', this.handleKeyDown);
     });
   }
 
@@ -88,6 +92,8 @@ export default class ExerciseScreen {
    */
   hide() {
     document.removeEventListener('click', this.handleGlobalClick);
+    document.removeEventListener('keydown', this.handleKeyDown);
+
     this.dom.classList.add('display-none');
     this.focusTrap.deactivate();
   }
@@ -109,6 +115,7 @@ export default class ExerciseScreen {
    */
   setTitle(text) {
     this.headlineText.innerText = text;
+    this.dom.setAttribute('aria-label', Dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, text));
   }
 
   /**
@@ -131,6 +138,18 @@ export default class ExerciseScreen {
       !this.content.contains(event.target) &&
       event.target.isConnected // H5P content may have removed element already
     ) {
+      this.callbacks.onClosed();
+    }
+  }
+
+  /**
+   * Handle key down.
+   *
+   * @param {KeyboardEvent} event Keyboard event.
+   */
+  handleKeyDown(event) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
       this.callbacks.onClosed();
     }
   }

@@ -857,20 +857,12 @@
         "default": "The end screen was opened."
       },
       {
-        "name": "exerciseWasOpened",
+        "name": "exerciseLabel",
         "type": "text",
-        "label": "Exercise was opened",
+        "label": "Exercise label",
         "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
         "importance": "low",
-        "default": "The exercise for the stage @stagelabel was opened."
-      },
-      {
-        "name": "exerciseWasClosed",
-        "type": "text",
-        "label": "Exercise was closed",
-        "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
-        "importance": "low",
-        "default": "The exercise for the stage @stagelabel was closed."
+        "default": ". Exercise for @stagelabel"
       },
       {
         "name": "stageButtonLabel",
