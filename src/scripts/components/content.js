@@ -309,7 +309,14 @@ export default class Content {
       }
     }, 100);
 
-    Globals.get('resize')();
+    // Initially, two resizes are required
+    window.requestAnimationFrame(() => {
+      Globals.get('resize')();
+
+      window.requestAnimationFrame(() => {
+        Globals.get('resize')();
+      });
+    });
   }
 
   /**
