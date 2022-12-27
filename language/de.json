@@ -40,6 +40,9 @@
           "label": "Spiellandkarte",
           "fields": [
             {
+              "label": "Dummy"
+            },
+            {
               "label": "Elemente",
               "entity": "Element",
               "field": {

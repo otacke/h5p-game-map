@@ -40,6 +40,9 @@
           "label": "Game map",
           "fields": [
             {
+              "label": "Dummy"
+            },
+            {
               "label": "Elements",
               "entity": "Element",
               "field": {
