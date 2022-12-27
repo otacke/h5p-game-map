@@ -650,7 +650,7 @@
             "name": "displayPaths",
             "type": "boolean",
             "label": "Display paths",
-            "description": "Set whether paths will be displayed on the map. Please note: The paths are always visible in the editor.",
+            "description": "Choose whether paths will be displayed on the map. Please note: The paths are always visible in the editor.",
             "optional": true,
             "default": true
           },
