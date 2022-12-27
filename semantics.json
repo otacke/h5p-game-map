@@ -873,7 +873,7 @@
         "default": "The exercise for the stage @stagelabel was closed."
       },
       {
-        "name": "StageButtonLabel",
+        "name": "stageButtonLabel",
         "type": "text",
         "label": "Stage button label",
         "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
