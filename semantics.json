@@ -915,6 +915,14 @@
         "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
         "importance": "low",
         "default": "Moved to @stagelabel"
+      },
+      {
+        "name": "stageUnlocked",
+        "type": "text",
+        "label": "Moved to stage",
+        "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
+        "importance": "low",
+        "default": "Stages @stagelabel was unlocked."
       }
     ]
   }

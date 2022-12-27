@@ -235,6 +235,11 @@ export default class Stage {
         return;
       }
 
+      Globals.get('read')(Dictionary
+        .get('a11y.stageUnlocked')
+        .replace(/@stagelabel/, this.params.label)
+      );
+
       this.setState('open');
     }
   }
