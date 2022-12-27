@@ -68,7 +68,10 @@ export default class GameMap extends H5P.Question {
         mapSolutionsWasOpened: 'The map was opened in solutions mode.',
         endScreenWasOpened: 'The end screen was opened',
         exerciseWasOpened: 'The exercise for the stage @stagelabel was opened.',
-        exerciseWasClosed: 'The exercise for the stage @stagelabel was closed.'
+        exerciseWasClosed: 'The exercise for the stage @stagelabel was closed.',
+        stageButtonLabel: 'Stage: @stagelabel',
+        locked: 'Locked',
+        cleared: 'Cleared'
       }
     }, params);
 
@@ -86,17 +89,7 @@ export default class GameMap extends H5P.Question {
     Globals.set('contentId', this.contentId);
     Globals.set('params', this.params);
     Globals.set('extras', this.extras);
-    Globals.set(
-      'states', {
-        unstarted: 0, // Exercise
-        locked: 1,
-        unlocking: 2,
-        open: 3,
-        opened: 4,
-        completed: 5,
-        cleared: 6 // Exercise, Stage, Path
-      }
-    );
+    Globals.set('states', GameMap.STATES);
     Globals.set('resize', () => {
       this.trigger('resize');
     });
@@ -206,3 +199,15 @@ export default class GameMap extends H5P.Question {
     this.trigger(xAPIEvent);
   }
 }
+
+/** @constant {object} STATES States lookup */
+GameMap.STATES = {
+  unstarted: 0, // Exercise
+  locked: 1,
+  unlocking: 2,
+  open: 3,
+  opened: 4,
+  completed: 5,
+  cleared: 6, // Exercise, Stage, Path,
+  sealed: 7 // Stage
+};

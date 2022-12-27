@@ -871,6 +871,28 @@
         "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
         "importance": "low",
         "default": "The exercise for the stage @stagelabel was closed."
+      },
+      {
+        "name": "StageButtonLabel",
+        "type": "text",
+        "label": "Stage button label",
+        "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
+        "importance": "low",
+        "default": "Stage: @stagelabel"
+      },
+      {
+        "name": "locked",
+        "type": "text",
+        "label": "Locked",
+        "importance": "low",
+        "default": "Locked"
+      },
+      {
+        "name": "cleared",
+        "type": "text",
+        "label": "Cleared",
+        "importance": "low",
+        "default": "Cleared"
       }
     ]
   }

@@ -1,4 +1,5 @@
 import Globals from '@services/globals';
+import Dictionary from '@services/dictionary';
 import Util from '@services/util';
 import Label from './label';
 import './stage.scss';
@@ -28,7 +29,6 @@ export default class Stage {
 
     this.dom = document.createElement('button');
     this.dom.classList.add('h5p-game-map-stage');
-    this.dom.setAttribute('aria-label', this.params.label);
     this.dom.addEventListener('click', (event) => {
       this.handleClick(event);
     });
@@ -123,6 +123,36 @@ export default class Stage {
    */
   focus() {
     this.dom.focus();
+  }
+
+  /**
+   * Update ARIA label.
+   */
+  updateAriaLabel() {
+    const ariaSegments = [
+      Dictionary.get('a11y.stageButtonLabel')
+        .replace(/@stagelabel/, this.params.label),
+    ];
+
+    let stateLabel;
+    if (
+      this.state === Globals.get('states')['locked'] ||
+      this.state === Globals.get('states')['unlocking']
+    ) {
+      stateLabel = Dictionary.get('a11y.locked');
+    }
+    else if (
+      this.state === Globals.get('states')['completed'] ||
+      this.state === Globals.get('states')['cleared']
+    ) {
+      stateLabel = Dictionary.get('a11y.cleared');
+    }
+
+    if (stateLabel) {
+      ariaSegments.push(stateLabel);
+    }
+
+    this.dom.setAttribute('aria-label', ariaSegments.join('. '));
   }
 
   /**
@@ -369,6 +399,8 @@ export default class Stage {
           this.content.classList.add(`h5p-game-map-stage-${key}`);
         }
       }
+
+      this.updateAriaLabel();
 
       this.callbacks.onStateChanged(this.params.id, this.state);
     }
