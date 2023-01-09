@@ -141,8 +141,12 @@ export default class Stage {
 
   /**
    * Focus.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.skipNextFocusHandler] If true, prevent show label.
    */
-  focus() {
+  focus(params = {}) {
+    this.skipNextFocusHandler = params.skipNextFocusHandler;
     this.dom.focus();
   }
 
@@ -330,6 +334,11 @@ export default class Stage {
    * @param {Event} event Event that triggered.
    */
   handleMouseOver(event) {
+    if (this.skipNextFocusHandler) {
+      this.skipNextFocusHandler = false;
+      return; // Don't show when focus was gained from closing exercise.
+    }
+
     if (this.isDisabledState) {
       return;
     }

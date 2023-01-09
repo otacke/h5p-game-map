@@ -567,7 +567,7 @@ export default class Content {
     this.exerciseScreen.hide();
     this.stages.enable();
 
-    this.currentlyOpenStage.focus();
+    this.currentlyOpenStage.focus({ skipNextFocusHandler: true });
     this.currentlyOpenStage = null;
   }
 
