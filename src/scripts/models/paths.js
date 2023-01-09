@@ -56,7 +56,8 @@ export default class Paths {
             telemetryTo: elements[neighbor].telemetry,
             index: pathsCreated.length,
             visuals: this.params.visuals,
-            hidden: this.params.hidden,
+            visible: pathState?.visible,
+            hiddenInitially: this.params.hiddenInitially,
             ...(pathState?.state && { state: pathState?.state })
           }));
           pathsCreated.push(`${index}-${neighbor}`);
@@ -76,7 +77,8 @@ export default class Paths {
     return this.paths.map((path) => {
       return {
         stageIds: path.getStageIds(),
-        state: path.getState()
+        state: path.getState(),
+        visible: path.isVisible()
       };
     });
   }

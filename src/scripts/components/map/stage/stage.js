@@ -13,6 +13,7 @@ export default class Stage {
    * @param {object} [callbacks={}] Callbacks.
    * @param {function} [callbacks.onClicked] Stage was clicked on.
    * @param {function} [callbacks.onStageChanged] State of stage changed.
+   * @param {function} [callbacks.onFocusChanged] State of focus changed.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -27,6 +28,8 @@ export default class Stage {
       onStateChanged: () => {},
       onFocussed: () => {}
     }, callbacks);
+
+    this.isDisabledState = false;
 
     this.dom = document.createElement('button');
     this.dom.classList.add('h5p-game-map-stage');
@@ -81,8 +84,11 @@ export default class Stage {
 
     this.setTabIndex('-1');
 
-    if (this.params.hidden) {
+    if (!this.params.visible && this.params.hiddenInitially) {
       this.hide();
+    }
+    else {
+      this.show();
     }
 
     this.update(params.telemetry);
@@ -122,6 +128,15 @@ export default class Stage {
    */
   getNeighbors() {
     return this.params.neighbors;
+  }
+
+  /**
+   * Get visibility state.
+   *
+   * @returns {boolean} True, if stage is visible, else false.
+   */
+  isVisible() {
+    return this.isVisibleState;
   }
 
   /**
@@ -209,6 +224,7 @@ export default class Stage {
    */
   show() {
     this.dom.classList.remove('display-none');
+    this.isVisibleState = true;
   }
 
   /**
@@ -216,6 +232,7 @@ export default class Stage {
    */
   hide() {
     this.dom.classList.add('display-none');
+    this.isVisibleState = false;
   }
 
   /**
@@ -275,7 +292,7 @@ export default class Stage {
    * Enable.
    */
   enable() {
-    this.disabled = false;
+    this.isDisabledState = false;
     this.dom.removeAttribute('disabled');
   }
 
@@ -284,14 +301,14 @@ export default class Stage {
    */
   disable() {
     this.dom.setAttribute('disabled', 'disabled');
-    this.disabled = true;
+    this.isDisabledState = true;
   }
 
   /**
    * Handle click.
    */
   handleClick() {
-    if (this.disabled) {
+    if (this.isDisabledState) {
       return;
     }
 
@@ -313,7 +330,7 @@ export default class Stage {
    * @param {Event} event Event that triggered.
    */
   handleMouseOver(event) {
-    if (this.disabled) {
+    if (this.isDisabledState) {
       return;
     }
 
@@ -355,8 +372,14 @@ export default class Stage {
       this.setTabIndex('-1');
     }
 
-    if (this.params.hidden) {
+    if (
+      !params.isInitial && this.params.hiddenInitially ||
+      params.isInitial && !this.params.visible
+    ) {
       this.hide();
+    }
+    else {
+      this.show();
     }
   }
 

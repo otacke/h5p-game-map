@@ -231,7 +231,7 @@ export default class Content {
     this.paths = new Paths({
       elements: globalParams.gamemapSteps.gamemap.elements,
       visuals: globalParams.visual.paths,
-      hidden: pathsHidden
+      hiddenInitially: pathsHidden
     });
 
     // Map

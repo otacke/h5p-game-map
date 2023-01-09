@@ -31,8 +31,11 @@ export default class Path {
     );
     this.dom.style.setProperty('--path-style', this.params.visuals.pathStyle);
 
-    if (this.params.hidden) {
+    if (!this.params.visible && this.params.hiddenInitially) {
       this.hide();
+    }
+    else {
+      this.show();
     }
   }
 
@@ -64,6 +67,15 @@ export default class Path {
   }
 
   /**
+   * Get visibility state.
+   *
+   * @returns {boolean} True, if stage is visible, else false.
+   */
+  isVisible() {
+    return this.isVisibleState;
+  }
+
+  /**
    * Show.
    */
   show() {
@@ -72,6 +84,7 @@ export default class Path {
     }
 
     this.dom.classList.remove('display-none');
+    this.isVisibleState = true;
   }
 
   /**
@@ -79,6 +92,7 @@ export default class Path {
    */
   hide() {
     this.dom.classList.add('display-none');
+    this.isVisibleState = false;
   }
 
   /**
@@ -212,8 +226,14 @@ export default class Path {
 
     this.setState(state);
 
-    if (this.params.hidden) {
+    if (
+      !params.isInitial && this.params.hiddenInitially ||
+      params.isInitial && !this.params.visible
+    ) {
       this.hide();
+    }
+    else {
+      this.show();
     }
   }
 

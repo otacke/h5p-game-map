@@ -69,7 +69,8 @@ export default class Stages {
           neighbors: neighbors,
           telemetry: elementParams.telemetry,
           visuals: this.params.visuals,
-          hidden: this.params.hidden,
+          visible: stageState?.visible,
+          hiddenInitially: this.params.hidden,
           ...(stageState?.state && { state: stageState?.state })
         }, {
           onClicked: (id) => {
@@ -130,7 +131,8 @@ export default class Stages {
     return this.stages.map((stage) => {
       return {
         id: stage.getId(),
-        state: stage.getState()
+        state: stage.getState(),
+        visible: stage.isVisible()
       };
     });
   }
