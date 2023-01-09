@@ -276,6 +276,9 @@ export default class Stages {
       if (stage.getId() !== id) {
         stage.setTabIndex('-1');
       }
+      else {
+        stage.setTabIndex('0');
+      }
 
       stage.removeEventListener('keydown', this.handleSelectionKeyUp);
     });
