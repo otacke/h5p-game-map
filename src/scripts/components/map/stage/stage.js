@@ -26,13 +26,15 @@ export default class Stage {
     this.callbacks = Util.extend({
       onClicked: () => {},
       onStateChanged: () => {},
-      onFocussed: () => {}
+      onFocussed: () => {},
+      onBecameActiveDescendant: () => {}
     }, callbacks);
 
     this.isDisabledState = false;
 
     this.dom = document.createElement('button');
     this.dom.classList.add('h5p-game-map-stage');
+    this.dom.setAttribute('id', `stage-button-${this.params.id}`);
     this.dom.addEventListener('click', (event) => {
       this.handleClick(event);
     });
@@ -404,14 +406,20 @@ export default class Stage {
   /**
    * Toggle tabbable.
    *
-   * @param {string|number} state Tabindex state
+   * @param {string|number} state Tabindex state.
+   * @param {object} params Parameters.
+   * @param {boolean} [params.skipActiveDescendant] If false, don't get active.
    */
-  setTabIndex(state) {
+  setTabIndex(state, params = {}) {
     if (typeof state !== 'number' && typeof state !== 'string') {
       return;
     }
 
     this.dom.setAttribute('tabindex', `${state}`);
+
+    if (state === '0' && !params.skipActiveDescendant) {
+      this.callbacks.onBecameActiveDescendant(this.params.id);
+    }
   }
 
   /**

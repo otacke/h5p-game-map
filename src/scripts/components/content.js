@@ -220,6 +220,9 @@ export default class Content {
         },
         onFocussed: () => {
           this.handleStageFocussed();
+        },
+        onBecameActiveDescendant: (id) => {
+          this.map?.setActiveDescendant(id);
         }
       }
     );

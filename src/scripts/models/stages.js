@@ -13,10 +13,11 @@ export default class Stages {
     this.callbacks = Util.extend({
       onStageClicked: () => {},
       onStageStateChanged: () => {},
-      onStageFocussed: () => {}
+      onStageFocussed: () => {},
+      onBecameActiveDescendant: () => {}
     }, callbacks);
 
-    this.handleSelectionKeyUp = this.handleSelectionKeyUp.bind(this);
+    this.handleSelectionKeydown = this.handleSelectionKeydown.bind(this);
 
     this.stages = this.buildStages(this.params.elements);
   }
@@ -86,6 +87,9 @@ export default class Stages {
             }
 
             this.handleStageFocussed(id);
+          },
+          onBecameActiveDescendant: (id) => {
+            this.callbacks.onBecameActiveDescendant(id);
           }
         }));
     }
@@ -284,7 +288,7 @@ export default class Stages {
         stage.setTabIndex('0');
       }
 
-      stage.removeEventListener('keydown', this.handleSelectionKeyUp);
+      stage.removeEventListener('keydown', this.handleSelectionKeydown);
     });
 
     this.selectionStage = this.stages.find((stage) => stage.getId() === id);
@@ -298,7 +302,7 @@ export default class Stages {
 
     // Add listeners
     this.selectionStages.forEach((stage) => {
-      stage.addEventListener('keydown', this.handleSelectionKeyUp);
+      stage.addEventListener('keydown', this.handleSelectionKeydown);
     });
   }
 
@@ -307,7 +311,7 @@ export default class Stages {
    *
    * @param {KeyboardEvent} event Event.
    */
-  handleSelectionKeyUp(event) {
+  handleSelectionKeydown(event) {
     if (!['ArrowLeft', 'ArrowRight', ' ', 'Enter', 'Escape', 'Tab']
       .includes(event.key)
     ) {
@@ -413,7 +417,8 @@ export default class Stages {
       });
     }
 
-    highlightStage.setTabIndex('0');
+    // Only gets tabIndex to be focussable
+    highlightStage.setTabIndex('0', { skipActiveDescendant: true });
     highlightStage.focus();
   }
 

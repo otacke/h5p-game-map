@@ -120,4 +120,15 @@ export default class Map {
       this.dom.style.overflow = 'auto';
     }
   }
+
+  /**
+   * Set active descendant for aria composite pattern.
+   *
+   * @param {string} id Id of active descendant.
+   */
+  setActiveDescendant(id) {
+    this.stageWrapper.setAttribute(
+      'aria-activedescendant', `stage-button-${id}`
+    );
+  }
 }
