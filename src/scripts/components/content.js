@@ -711,12 +711,8 @@ export default class Content {
         path.show();
       });
     }
-    else if (
-      globalParams.behaviour.map.roaming === 'complete' ||
-      globalParams.behaviour.map.roaming === 'success'
-    ) {
-      this.stages.unlockStage('settings');
-    }
+
+    this.stages.setStartStages();
 
     // Initialize scores
     this.toolbar.setScores({

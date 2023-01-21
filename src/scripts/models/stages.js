@@ -231,16 +231,17 @@ export default class Stages {
       return;
     }
 
-    if (id !== 'settings') {
-      // Unlock specified stage
-      const stage = this.stages.find((stage) => stage.getId() === id);
-      if (stage) {
-        stage.unlock();
-      }
-
-      return;
+    // Unlock specified stage
+    const stage = this.stages.find((stage) => stage.getId() === id);
+    if (stage) {
+      stage.unlock();
     }
+  }
 
+  /**
+   * Set start stages.
+   */
+  setStartStages() {
     // Choose all start stages (all if none selected) and choose one randomly
     let startStages = this.stages
       .filter((stage) => stage.canBeStartStage());
