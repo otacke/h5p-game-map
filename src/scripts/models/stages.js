@@ -256,9 +256,12 @@ export default class Stages {
       ];
     }
 
-    startStages.forEach((stage) => {
+    startStages.forEach((stage, index) => {
       stage.unlock();
-      stage.setTabIndex('0');
+
+      if (index === 0) {
+        stage.setTabIndex('0');
+      }
     });
   }
 
