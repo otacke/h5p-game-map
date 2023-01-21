@@ -923,6 +923,13 @@
         "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
         "importance": "low",
         "default": "Stage @stagelabel was unlocked."
+      },
+      {
+        "name": "toolbarFallbackLabel",
+        "type": "text",
+        "label": "Toolbar fallback label",
+        "importance": "low",
+        "default": "Game Map"
       }
     ]
   }

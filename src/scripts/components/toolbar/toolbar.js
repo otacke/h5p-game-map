@@ -1,7 +1,8 @@
-import './toolbar.scss';
 import ScoreContainer from './score-container';
 import ToolbarButton from './toolbar-button';
+import Dictionary from '@services/dictionary';
 import Util from '@services/util';
+import './toolbar.scss';
 
 /** Class representing the button bar */
 export default class Toolbar {
@@ -27,16 +28,33 @@ export default class Toolbar {
     // Build DOM
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-toolbar-tool-bar');
+    this.dom.setAttribute('role', 'toolbar');
+
+    this.dom.addEventListener('keydown', (event) => {
+      this.handleKeydown(event);
+    });
+
     if (this.params.hidden) {
       this.hide();
     }
 
     // Headline
     if (this.params.headline) {
+      const headLineId = H5P.createUUID();
+
+      // Use headline as label for toolbar
+      this.dom.setAttribute('aria-labelledby', headLineId);
+
       const headline = document.createElement('div');
       headline.classList.add('toolbar-headline');
+      headline.setAttribute('id', headLineId);
       headline.innerText = this.params.headline;
       this.dom.append(headline);
+    }
+    else {
+      this.dom.setAttribute(
+        'aria-label', Dictionary.get('a11y.toolbarFallbackLabel')
+      );
     }
 
     // Status values
@@ -51,6 +69,12 @@ export default class Toolbar {
     this.params.buttons.forEach((button) => {
       this.addButton(button);
     });
+
+    // Make first button active one
+    Object.values(this.buttons).forEach((button, index) => {
+      button.setAttribute('tabindex', index === 0 ? '0' : '-1');
+    });
+    this.currentButtonIndex = 0;
   }
 
   /**
@@ -66,7 +90,7 @@ export default class Toolbar {
    * Focus whatever should get focus.
    */
   focus() {
-    Object.values(this.buttons)[0]?.focus();
+    Object.values(this.buttons)[this.currentButtonIndex]?.focus();
   }
 
   /**
@@ -81,6 +105,7 @@ export default class Toolbar {
 
     this.buttons[button.id] = new ToolbarButton(
       {
+        id: button.id,
         ...(button.a11y && { a11y: button.a11y }),
         classes: ['toolbar-button', `toolbar-button-${button.id}`],
         ...(typeof button.disabled === 'boolean' && {
@@ -235,6 +260,55 @@ export default class Toolbar {
    */
   hide() {
     this.dom.classList.add('display-none');
+  }
+
+  /**
+   * Move button focus.
+   *
+   * @param {number} offset Offset to move position by.
+   */
+  moveButtonFocus(offset) {
+    if (typeof offset !== 'number') {
+      return;
+    }
+    if (
+      this.currentButtonIndex + offset < 0 ||
+      this.currentButtonIndex + offset > Object.keys(this.buttons).length - 1
+    ) {
+      return; // Don't cycle
+    }
+    Object.values(this.buttons)[this.currentButtonIndex]
+      .setAttribute('tabindex', '-1');
+    this.currentButtonIndex = this.currentButtonIndex + offset;
+    const focusButton = Object.values(this.buttons)[this.currentButtonIndex];
+    focusButton.setAttribute('tabindex', '0');
+    focusButton.focus();
+  }
+
+  /**
+   * Handle key down.
+   *
+   * @param {KeyboardEvent} event Keyboard event.
+   */
+  handleKeydown(event) {
+    if (event.code === 'ArrowLeft' || event.code === 'ArrowUp') {
+      this.moveButtonFocus(-1);
+    }
+    else if (event.code === 'ArrowRight' || event.code === 'ArrowDown') {
+      this.moveButtonFocus(1);
+    }
+    else if (event.code === 'Home') {
+      this.moveButtonFocus(0 - this.currentButtonIndex);
+    }
+    else if (event.code === 'End') {
+      this.moveButtonFocus(
+        Object.keys(this.buttons).length - 1 - this.currentButtonIndex
+      );
+    }
+    else {
+      return;
+    }
+    event.preventDefault();
   }
 
   /**

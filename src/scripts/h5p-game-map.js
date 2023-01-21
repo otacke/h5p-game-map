@@ -75,7 +75,8 @@ export default class GameMap extends H5P.Question {
         applicationInstructions: 'Use space or enter key to activate current stage. Use arrow keys to select adjacent stage. Use space or enter key on adjacent stage to navigate there.',
         applicationDescription: 'Map.',
         movedToStage: 'Moved to stage @stagelabel',
-        stageUnlocked: 'Stage @stagelabel was unlocked.'
+        stageUnlocked: 'Stage @stagelabel was unlocked.',
+        toolbaFallbackLabel: 'Game Map'
       }
     }, params);
 
