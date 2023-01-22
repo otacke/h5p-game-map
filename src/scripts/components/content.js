@@ -223,6 +223,9 @@ export default class Content {
         },
         onBecameActiveDescendant: (id) => {
           this.map?.setActiveDescendant(id);
+        },
+        onAddedToQueue: (callback, params) => {
+          this.addToQueue(callback, params);
         }
       }
     );
@@ -231,11 +234,13 @@ export default class Content {
     const pathsHidden = (globalParams.behaviour.map.displayPaths === false) ||
       globalParams.behaviour.map.fog !== 'all';
 
-    this.paths = new Paths({
-      elements: globalParams.gamemapSteps.gamemap.elements,
-      visuals: globalParams.visual.paths,
-      hiddenInitially: pathsHidden
-    });
+    this.paths = new Paths(
+      {
+        elements: globalParams.gamemapSteps.gamemap.elements,
+        visuals: globalParams.visual.paths,
+        hiddenInitially: pathsHidden
+      }
+    );
 
     // Map
     this.map = new Map(
@@ -444,6 +449,8 @@ export default class Content {
     // Store to restore focus when exercise screen is closed
     this.currentlyOpenStage = stage;
 
+    this.isExerciseOpen = true;
+
     window.requestAnimationFrame(() => {
       Globals.get('resize')();
     });
@@ -475,11 +482,17 @@ export default class Content {
     }
 
     if (this.paths) {
-      this.paths.updateState(id, state);
+      this.addToQueue(() => {
+        this.paths.updateState(id, state);
+      });
     }
 
     if (this.stages) {
-      this.stages.updateNeighborsState(id, state);
+      this.addToQueue(
+        () => {
+          this.stages.updateNeighborsState(id, state);
+        }
+      );
     }
   }
 
@@ -548,6 +561,74 @@ export default class Content {
   }
 
   /**
+   * Add callback to animation queue.
+   *
+   * @param {function} callback Callback to execute.
+   * @param {object} [params={}] Parameters.
+   * @param {number} [params.delay = 0] Delay before calling callback.
+   * @param {number} [params.block = 0] Delay before calling next callback.
+   */
+  addToQueue(callback, params = {}) {
+    if (typeof callback !== 'function') {
+      return;
+    }
+
+    params = Util.extend({
+      delay: 0,
+      block: 0
+    }, params);
+
+    if (!this.isExerciseOpen) {
+      callback();
+      return;
+    }
+
+    this.queueAnimation.push({ callback, params });
+  }
+
+  /**
+   * Clear animation queue.
+   */
+  clearQueueAnimation() {
+    // More animations might be added meanwhile
+    const animationsToClear = [...this.scheduledAnimations];
+
+    animationsToClear.forEach((animation) => {
+      window.clearTimeout(animation);
+      this.scheduledAnimations = this.scheduledAnimations.filter((anim) => {
+        anim !== animation;
+      });
+    });
+  }
+
+  /**
+   * Play animation queue.
+   */
+  playAnimationQueue() {
+    // Compute absolute delay for each animation
+    this.queueAnimation = this.queueAnimation.map((queueItem, index, all) => {
+      if (index === 0) {
+        return queueItem;
+      }
+
+      const previousParams = all[index - 1].params;
+      queueItem.params.delay += previousParams.delay + previousParams.block;
+
+      return queueItem;
+    }, []);
+
+    this.queueAnimation.forEach((queueItem) => {
+      const scheduledAnimation = window.setTimeout(() => {
+        queueItem.callback();
+      }, queueItem.params.delay);
+
+      this.scheduledAnimations.push(scheduledAnimation);
+    });
+
+    this.queueAnimation = [];
+  }
+
+  /**
    * Handle exercise score changed.
    */
   handleExerciseScoreChanged() {
@@ -572,6 +653,10 @@ export default class Content {
 
     this.currentlyOpenStage.focus({ skipNextFocusHandler: true });
     this.currentlyOpenStage = null;
+
+    this.isExerciseOpen = false;
+
+    this.playAnimationQueue();
   }
 
   /**
@@ -694,6 +779,10 @@ export default class Content {
 
     this.currentStageIndex = 0;
     this.confirmationDialog.hide();
+
+    this.isExerciseOpen = false;
+    this.queueAnimation = [];
+    this.scheduledAnimations = [];
 
     if (!params.isInitial) {
       this.isShowingSolutions = false;

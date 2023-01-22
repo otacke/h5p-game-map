@@ -28,10 +28,14 @@ export default class Stage {
       onClicked: () => {},
       onStateChanged: () => {},
       onFocussed: () => {},
-      onBecameActiveDescendant: () => {}
+      onBecameActiveDescendant: () => {},
+      onAddedToQueue: () => {}
     }, callbacks);
 
     this.isDisabledState = false;
+    this.isAnimating = false;
+
+    this.handleAnimationEnded = this.handleAnimationEnded.bind(this);
 
     this.dom = document.createElement('button');
     this.dom.classList.add('h5p-game-map-stage');
@@ -350,6 +354,36 @@ export default class Stage {
   }
 
   /**
+   * Animate
+   *
+   * @param {string} animationName Animation name.
+   */
+  animate(animationName) {
+    if (typeof animationName !== 'string' || this.isAnimating) {
+      return;
+    }
+
+    this.isAnimating = true;
+
+    this.dom.addEventListener('animationend', this.handleAnimationEnded);
+
+    this.dom.classList.add('animate');
+    this.dom.classList.add(`animate-${animationName}`);
+  }
+
+  /**
+   * Handle animation ended.
+   */
+  handleAnimationEnded() {
+    this.dom.classList.remove('animate');
+    this.dom.className = this.dom.className.replace(/animate-w*/g, '');
+
+    this.dom.addEventListener('animationend', this.handleAnimationEnded);
+
+    this.isAnimating = false;
+  }
+
+  /**
    * Handle click.
    */
   handleClick() {
@@ -361,6 +395,7 @@ export default class Stage {
       this.state === Globals.get('states')['locked'] ||
       this.state === Globals.get('states')['unlocking']
     ) {
+      this.animate('shake');
       return; // You cannot pass!
     }
 
@@ -526,20 +561,38 @@ export default class Stage {
     if (!this.state || this.state !== newState) {
       this.state = newState;
 
-      for (const [key, value] of Object.entries(states)) {
-        if (value !== this.state) {
-          this.content.classList.remove(`h5p-game-map-stage-${key}`);
+      // Callback to execute once ready
+      const callback = () => {
+        for (const [key, value] of Object.entries(states)) {
+          if (value !== this.state) {
+            this.content.classList.remove(`h5p-game-map-stage-${key}`);
+          }
+          else {
+            this.content.classList.add(`h5p-game-map-stage-${key}`);
+          }
         }
-        else {
-          this.content.classList.add(`h5p-game-map-stage-${key}`);
+
+        this.updateAriaLabel();
+
+        window.requestAnimationFrame(() => {
+          this.updateColor();
+        });
+
+        if (newState === states['open'] || newState === states['opened']) {
+          this.animate('bounce');
         }
+        else if (newState === states['cleared']) {
+          this.animate('bounce');
+        }
+      };
+
+      // Optional queue params, e.g. stalling following callbacks in queue
+      const params = {};
+      if (newState === states['cleared']) {
+        params.block = Stage.ANIMATION_CLEARED_BLOCK_MS;
       }
 
-      this.updateAriaLabel();
-
-      window.requestAnimationFrame(() => {
-        this.updateColor();
-      });
+      this.callbacks.onAddedToQueue(callback, params);
 
       this.callbacks.onStateChanged(this.params.id, this.state);
     }
@@ -548,3 +601,6 @@ export default class Stage {
 
 /** @constant {number} LABEL_TIMEOUT_MS Timeout for showing label */
 Stage.LABEL_TIMEOUT_MS = 3000;
+
+/** @constant {number} ANIMATION_CLEARED_BLOCK_MS Blockign time */
+Stage.ANIMATION_CLEARED_BLOCK_MS = 1000;

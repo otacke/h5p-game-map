@@ -14,7 +14,8 @@ export default class Stages {
       onStageClicked: () => {},
       onStageStateChanged: () => {},
       onStageFocussed: () => {},
-      onBecameActiveDescendant: () => {}
+      onBecameActiveDescendant: () => {},
+      onAddedToQueue: () => {}
     }, callbacks);
 
     this.handleSelectionKeydown = this.handleSelectionKeydown.bind(this);
@@ -90,6 +91,9 @@ export default class Stages {
           },
           onBecameActiveDescendant: (id) => {
             this.callbacks.onBecameActiveDescendant(id);
+          },
+          onAddedToQueue: (callback, params) => {
+            this.callbacks.onAddedToQueue(callback, params);
           }
         }));
     }
