@@ -19,22 +19,28 @@ export default class ExerciseScreen {
 
     this.callbacks = Util.extend({
       onClosed: () => {},
-      onOpenAnimationEnded: () => {}
+      onOpenAnimationEnded: () => {},
+      onCloseAnimationEnded: () => {}
     }, callbacks);
 
     this.handleAnimationEnded = this.handleAnimationEnded.bind(this);
+    this.handleOpenAnimationEnded = this.handleOpenAnimationEnded.bind(this);
+    this.handleCloseAnimationEnded = this.handleCloseAnimationEnded.bind(this);
 
     this.handleGlobalClick = this.handleGlobalClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-exercise');
+    this.dom.classList.add('transparent');
     this.dom.setAttribute('role', 'dialog');
     this.dom.setAttribute('modal', 'true');
 
     // Container for H5P content, can be CSS-transformed
     this.contentContainer = document.createElement('div');
-    this.contentContainer.classList.add('h5p-game-map-exercise-content-container');
+    this.contentContainer.classList.add(
+      'h5p-game-map-exercise-content-container'
+    );
     this.contentContainer.classList.add('transparent');
     this.dom.append(this.contentContainer);
 
@@ -85,6 +91,12 @@ export default class ExerciseScreen {
 
     // Wait to allow DOM to progress
     window.requestAnimationFrame(() => {
+      this.dom.classList.remove('transparent');
+
+      this.contentContainer.addEventListener(
+        'animationend', this.handleOpenAnimationEnded
+      );
+
       this.animate('bounce-in');
       this.focusTrap.activate();
       document.addEventListener('click', this.handleGlobalClick);
@@ -99,13 +111,29 @@ export default class ExerciseScreen {
 
   /**
    * Hide.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.animate = false] If true, animate.
    */
-  hide() {
+  hide(params = {}) {
     document.removeEventListener('click', this.handleGlobalClick);
     document.removeEventListener('keydown', this.handleKeyDown);
 
-    this.contentContainer.classList.add('transparent');
-    this.dom.classList.add('display-none');
+    if (params.animate) {
+      this.dom.classList.add('transparent');
+
+      this.animate('bounce-out');
+
+      this.contentContainer.addEventListener(
+        'animationend', this.handleCloseAnimationEnded
+      );
+    }
+    else {
+      this.contentContainer.classList.add('transparent');
+      this.dom.classList.add('display-none');
+      this.dom.classList.add('transparent');
+    }
+
     this.focusTrap.deactivate();
   }
 
@@ -121,7 +149,9 @@ export default class ExerciseScreen {
 
     this.isAnimating = true;
 
-    this.contentContainer.addEventListener('animationend', this.handleAnimationEnded);
+    this.contentContainer.addEventListener(
+      'animationend', this.handleAnimationEnded
+    );
 
     this.contentContainer.classList.add('animate');
     this.contentContainer.classList.add(`animate-${animationName}`);
@@ -132,13 +162,38 @@ export default class ExerciseScreen {
    */
   handleAnimationEnded() {
     this.contentContainer.classList.remove('animate');
-    this.contentContainer.className = this.contentContainer.className.replace(/animate-w*/g, '');
+    this.contentContainer.className = this.contentContainer.className
+      .replace(/animate-w*/g, '');
 
-    this.contentContainer.removeEventListener('animationend', this.handleAnimationEnded);
+    this.contentContainer.removeEventListener(
+      'animationend', this.handleAnimationEnded
+    );
 
     this.isAnimating = false;
+  }
 
+  /**
+   * Handle opening animation ended.
+   */
+  handleOpenAnimationEnded() {
+    this.contentContainer.removeEventListener(
+      'animationend', this.handleOpenAnimationEnded
+    );
     this.callbacks.onOpenAnimationEnded();
+  }
+
+  /**
+   * Handle closing animation ended.
+   */
+  handleCloseAnimationEnded() {
+    this.contentContainer.removeEventListener(
+      'animationend', this.handleCloseAnimationEnded
+    );
+
+    this.contentContainer.classList.add('transparent');
+    this.dom.classList.add('display-none');
+
+    this.callbacks.onCloseAnimationEnded();
   }
 
   /**
@@ -158,7 +213,10 @@ export default class ExerciseScreen {
    */
   setTitle(text) {
     this.headlineText.innerText = text;
-    this.dom.setAttribute('aria-label', Dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, text));
+    this.dom.setAttribute(
+      'aria-label',
+      Dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, text)
+    );
   }
 
   /**

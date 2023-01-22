@@ -2,7 +2,8 @@
 
 .h5p-game-map-exercise {
   align-items: center;
-  background: rgba(44,44,44,.8);
+  background-color: rgba(44,44,44,.8);
+  transition: background-color 0.25s;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -14,6 +15,11 @@
 
   &.display-none {
     display: none;
+  }
+
+  &.transparent {
+    background-color: rgba(44,44,44, 0);
+    transition: background-color 0.25s 0.5s;
   }
 
   .h5p-game-map-exercise-content-container {
@@ -33,6 +39,12 @@
         animation: bounce-in;
         animation-delay: 10ms;
         animation-duration: 1s;
+        transform-origin: center bottom
+      }
+
+      &.animate-bounce-out {
+        animation: bounce-out;
+        animation-duration: 0.75s;
         transform-origin: center bottom
       }
     }
@@ -142,24 +154,56 @@
 
     0% {
       opacity: 0;
-      transform: translate3d(0, -3000px, 0) scaleY(3);
+      transform: translate3d(0, -200rem, 0) scaleY(3);
     }
 
     60% {
       opacity: 1;
-      transform: translate3d(0, 25px, 0) scaleY(0.9);
+      transform: translate3d(0, 1.5rem, 0) scaleY(0.9);
     }
 
     75% {
-      transform: translate3d(0, -10px, 0) scaleY(0.95);
+      transform: translate3d(0, -0.75rem, 0) scaleY(0.95);
     }
 
     90% {
-      transform: translate3d(0, 5px, 0) scaleY(0.985);
+      transform: translate3d(0, 0.25rem, 0) scaleY(0.985);
     }
 
     100% {
       transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes bounce-out {
+    0%,
+    10%,
+    25%,
+    40%,
+    100% {
+      animation-timing-function: cubic-bezier(0.355, 0.61, 0.215, 1);
+    }
+
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+
+    10% {
+      transform: translate3d(0, 0.25rem, 0) scaleY(0.985);
+    }
+
+    25% {
+      transform: translate3d(0, -0.75rem, 0) scaleY(0.95);
+    }
+
+    40% {
+      opacity: 1;
+      transform: translate3d(0, 1.5rem, 0) scaleY(0.9);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translate3d(0, -200rem, 0) scaleY(3);
     }
   }
 

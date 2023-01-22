@@ -284,6 +284,9 @@ export default class Content {
       },
       onOpenAnimationEnded: () => {
         Globals.get('resize')();
+      },
+      onCloseAnimationEnded: () => {
+        this.playAnimationQueue();
       }
     });
     this.exerciseScreen.hide();
@@ -651,15 +654,13 @@ export default class Content {
       'aria-label', Dictionary.get('a11y.applicationInstructions')
     );
 
-    this.exerciseScreen.hide();
+    this.exerciseScreen.hide({ animate: true });
     this.stages.enable();
 
     this.currentlyOpenStage.focus({ skipNextFocusHandler: true });
     this.currentlyOpenStage = null;
 
     this.isExerciseOpen = false;
-
-    this.playAnimationQueue();
   }
 
   /**
