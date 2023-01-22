@@ -18,8 +18,11 @@ export default class ExerciseScreen {
     this.params = Util.extend({}, params);
 
     this.callbacks = Util.extend({
-      onClosed: () => {}
+      onClosed: () => {},
+      onOpenAnimationEnded: () => {}
     }, callbacks);
+
+    this.handleAnimationEnded = this.handleAnimationEnded.bind(this);
 
     this.handleGlobalClick = this.handleGlobalClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -32,6 +35,7 @@ export default class ExerciseScreen {
     // Container for H5P content, can be CSS-transformed
     this.contentContainer = document.createElement('div');
     this.contentContainer.classList.add('h5p-game-map-exercise-content-container');
+    this.contentContainer.classList.add('transparent');
     this.dom.append(this.contentContainer);
 
     this.content = document.createElement('div');
@@ -81,10 +85,16 @@ export default class ExerciseScreen {
 
     // Wait to allow DOM to progress
     window.requestAnimationFrame(() => {
+      this.animate('bounce-in');
       this.focusTrap.activate();
       document.addEventListener('click', this.handleGlobalClick);
       document.addEventListener('keydown', this.handleKeyDown);
     });
+
+    // H5P content needs time to attach
+    window.setTimeout(() => {
+      this.contentContainer.classList.remove('transparent');
+    }, 100);
   }
 
   /**
@@ -94,8 +104,41 @@ export default class ExerciseScreen {
     document.removeEventListener('click', this.handleGlobalClick);
     document.removeEventListener('keydown', this.handleKeyDown);
 
+    this.contentContainer.classList.add('transparent');
     this.dom.classList.add('display-none');
     this.focusTrap.deactivate();
+  }
+
+  /**
+   * Animate
+   *
+   * @param {string} animationName Animation name.
+   */
+  animate(animationName) {
+    if (typeof animationName !== 'string' || this.isAnimating) {
+      return;
+    }
+
+    this.isAnimating = true;
+
+    this.contentContainer.addEventListener('animationend', this.handleAnimationEnded);
+
+    this.contentContainer.classList.add('animate');
+    this.contentContainer.classList.add(`animate-${animationName}`);
+  }
+
+  /**
+   * Handle animation ended.
+   */
+  handleAnimationEnded() {
+    this.contentContainer.classList.remove('animate');
+    this.contentContainer.className = this.contentContainer.className.replace(/animate-w*/g, '');
+
+    this.contentContainer.removeEventListener('animationend', this.handleAnimationEnded);
+
+    this.isAnimating = false;
+
+    this.callbacks.onOpenAnimationEnded();
   }
 
   /**

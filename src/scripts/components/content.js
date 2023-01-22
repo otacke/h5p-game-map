@@ -281,6 +281,9 @@ export default class Content {
     this.exerciseScreen = new ExerciseScreen({}, {
       onClosed: () => {
         this.handleExerciseClosed();
+      },
+      onOpenAnimationEnded: () => {
+        Globals.get('resize')();
       }
     });
     this.exerciseScreen.hide();

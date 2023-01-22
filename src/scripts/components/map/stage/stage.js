@@ -378,7 +378,7 @@ export default class Stage {
     this.dom.classList.remove('animate');
     this.dom.className = this.dom.className.replace(/animate-w*/g, '');
 
-    this.dom.addEventListener('animationend', this.handleAnimationEnded);
+    this.dom.removeEventListener('animationend', this.handleAnimationEnded);
 
     this.isAnimating = false;
   }
