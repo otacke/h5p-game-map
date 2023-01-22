@@ -12,9 +12,6 @@ export default class Path {
   constructor(params = {}) {
     this.params = Util.extend({
       visuals: {
-        colorPath: 'rgba(0, 0, 0, 0.7)',
-        colorPathCleared: 'rgba(0, 153, 0, 0.7)',
-        pathStyle: 'solid',
         pathWidth: '0.2'
       },
       state: Globals.get('states')['open']
@@ -24,12 +21,6 @@ export default class Path {
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-path');
-
-    this.dom.style.setProperty('--path-color', this.params.visuals.colorPath);
-    this.dom.style.setProperty(
-      '--path-color-cleared', this.params.visuals.colorPathCleared
-    );
-    this.dom.style.setProperty('--path-style', this.params.visuals.pathStyle);
 
     if (!this.params.visible && this.params.hiddenInitially) {
       this.hide();

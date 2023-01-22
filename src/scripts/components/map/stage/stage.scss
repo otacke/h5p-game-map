@@ -4,9 +4,13 @@
   box-sizing: border-box;
   cursor: pointer;
   display: block;
+  height: max(1rem, var(--stage-height));
+  left: var(--stage-left);
   margin: 0;
   padding: 0;
   position: absolute;
+  top: var(--stage-top);
+  width: max(1rem, var(--stage-width));
 
   &.display-none {
     display: none;
@@ -19,19 +23,30 @@
     transition: transform .1s ease-in-out;
     z-index: 1;
 
-    border: 2px solid rgba(0,0,0,0.4);
+    border: 2px solid var(--stage-color-border, rgba(0,0,0,0.4));
     border-radius: 50%;
+
+    &.dark-text {
+      color: var(--stage-color-contrast-dark, #000);
+    }
+
+    &.light-text {
+      color: var(--stage-color-contrast-light, #fff);
+    }
 
     &:hover {
       transform: scale(1.25);
     }
 
-    &.h5p-game-map-stage-locked {
+    &.h5p-game-map-stage-locked, .h5p-game-map-stage-unlocking {
       background-color: var(--stage-color-locked, rgba(153, 0, 0, 0.7));
-    }
 
-    &.h5p-game-map-stage-unlocking {
-      background-color: var(--stage-color-locked, rgba(153, 0, 0, 0.7));
+      &::before {
+        content: "\f023";
+        font-family: "H5PFontAwesome4", sans-serif;
+        font-size: max(0.75rem, var(--stage-font-size));
+        line-height: max(1rem, var(--stage-line-height));
+      }
     }
 
     &.h5p-game-map-stage-open {
@@ -39,7 +54,14 @@
     }
 
     &.h5p-game-map-stage-cleared {
-      background-color: var(--stage-color-cleared, rgba(0, 153, 0, 0.7));
+      background-color: var(--stage-color-cleared, rgba(0, 130, 0, 0.7));
+
+      &::before {
+        content: "\f00c";
+        font-family: "H5PFontAwesome4", sans-serif;
+        font-size: max(0.75rem, var(--stage-font-size));
+        line-height: max(1rem, var(--stage-line-height));
+      }
     }
   }
 }

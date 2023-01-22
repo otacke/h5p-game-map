@@ -40,6 +40,7 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
+    "color": "^4.2.3",
     "he": "^1.2.0"
   },
   "browserslist": "> 0.5%, last 2 versions, Firefox ESR, not dead"

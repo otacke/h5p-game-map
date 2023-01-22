@@ -1,3 +1,4 @@
+import Color from 'color';
 import Globals from '@services/globals';
 import Dictionary from '@services/dictionary';
 import Util from '@services/util';
@@ -60,7 +61,10 @@ export default class Stage {
     // Hotspot
     this.content = document.createElement('div');
     this.content.classList.add('h5p-game-map-stage-content');
+    this.content.classList.add('dark-text');
     this.dom.appendChild(this.content);
+
+    this.contentComputedStyle = window.getComputedStyle(this.content);
 
     // Label
     const positionX = (this.params.telemetry.x < 50) ? 'right' : 'left';
@@ -71,16 +75,6 @@ export default class Stage {
       text: this.params.label
     });
     this.dom.appendChild(this.label.getDOM());
-
-    this.dom.style.setProperty(
-      '--stage-color', this.params.visuals.colorStage
-    );
-    this.dom.style.setProperty(
-      '--stage-color-cleared', this.params.visuals.colorStageCleared
-    );
-    this.dom.style.setProperty(
-      '--stage-color-locked', this.params.visuals.colorStageLocked
-    );
 
     this.setState(this.params.state);
 
@@ -290,8 +284,53 @@ export default class Stage {
       else if (property === 'y') {
         styleProperty = 'top';
       }
-      this.dom.style[styleProperty] = `${params[property]}%`;
+      else {
+        return;
+      }
+
+      this.dom.style.setProperty(
+        `--stage-${styleProperty}`, `${params[property]}%`
+      );
     }
+  }
+
+  /**
+   * Update color.
+   *
+   * Will set text color based on contrast to background color.
+   */
+  updateColor() {
+    const backgroundColor = Color(
+      this.contentComputedStyle.getPropertyValue('background-color')
+    );
+
+    // Set text color to contrast color with higher contrast
+    const colorContrastDark = this.contentComputedStyle
+      .getPropertyValue('--stage-color-contrast-dark');
+
+    const colorContrastLight = this.contentComputedStyle
+      .getPropertyValue('--stage-color-contrast-light');
+
+    const contrastDark = backgroundColor.contrast(Color(colorContrastDark));
+    const contrastLight = backgroundColor.contrast(Color(colorContrastLight));
+
+    this.content.classList.toggle('dark-text', contrastDark > contrastLight);
+    this.content.classList.toggle('light-text', contrastDark <= contrastLight);
+
+    // Set border color
+    if (backgroundColor.isDark()) {
+      this.content.style.setProperty(
+        '--stage-color-border',
+        backgroundColor.darken(0.3).rgb().string()
+      );
+    }
+    else {
+      this.content.style.setProperty(
+        '--stage-color-border',
+        backgroundColor.lighten(0.3).rgb().string()
+      );
+    }
+
   }
 
   /**
@@ -497,6 +536,10 @@ export default class Stage {
       }
 
       this.updateAriaLabel();
+
+      window.requestAnimationFrame(() => {
+        this.updateColor();
+      });
 
       this.callbacks.onStateChanged(this.params.id, this.state);
     }

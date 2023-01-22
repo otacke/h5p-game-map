@@ -438,7 +438,7 @@
             "type": "text",
             "label": "Color stage cleared",
             "optional": true,
-            "default": "rgba(0, 153, 0, 0.7)",
+            "default": "rgba(0, 130, 0, 0.7)",
             "widget": "colorSelector",
             "spectrum": {
               "showInput": true,
@@ -475,7 +475,7 @@
             "type": "text",
             "label": "Color path cleared",
             "optional": true,
-            "default": "rgba(0, 153, 0, 0.7)",
+            "default": "rgba(0, 130, 0, 0.7)",
             "widget": "colorSelector",
             "spectrum": {
               "showInput": true,

@@ -1,4 +1,5 @@
 import Dictionary from '@services/dictionary';
+import Globals from '@services/globals';
 import Util from '@services/util';
 import Path from './path';
 import './map.scss';
@@ -23,6 +24,44 @@ export default class Map {
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-map');
+
+    const globalParams = Globals.get('params');
+
+    const stageWidthPercentage = globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.width;
+    const stageHeightPercentage = globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.height;
+
+    // Custom CSS variables for stages
+    this.dom.style.setProperty(
+      '--stage-height', `${stageHeightPercentage}%`
+    );
+    this.dom.style.setProperty(
+      '--stage-width', `${stageWidthPercentage}%`
+    );
+    this.dom.style.setProperty(
+      '--stage-color', globalParams.visual.stages.colorStage
+    );
+    this.dom.style.setProperty(
+      '--stage-color-cleared', globalParams.visual.stages.colorStageCleared
+    );
+    this.dom.style.setProperty(
+      '--stage-color-locked', globalParams.visual.stages.colorStageLocked
+    );
+    this.dom.style.setProperty(
+      '--stage-color-contrast-dark', Map.COLOR_CONTRAST_DARK
+    );
+    this.dom.style.setProperty(
+      '--stage-color-contrast-light', Map.COLOR_CONTRAST_LIGHT
+    );
+
+    // Custom CSS variables for paths
+    this.dom.style.setProperty(
+      '--path-color', globalParams.visual.paths.colorPath);
+    this.dom.style.setProperty(
+      '--path-color-cleared', globalParams.visual.paths.colorPathCleared
+    );
+    this.dom.style.setProperty(
+      '--path-style', globalParams.visual.paths.pathStyle
+    );
 
     this.image = document.createElement('img');
     this.image.classList.add('h5p-game-map-background-image');
@@ -102,6 +141,19 @@ export default class Map {
       const clientRect = this.image.getBoundingClientRect();
       this.pathWrapper.style.height = `${clientRect.height}px`;
       this.stageWrapper.style.height = `${clientRect.height}px`;
+
+      const heightPercentage = parseInt(
+        this.dom.style.getPropertyValue('--stage-height')
+      );
+
+      const fontSize = clientRect.height / 100 * heightPercentage;
+
+      this.dom.style.setProperty(
+        '--stage-font-size', `calc(${Map.STAGE_BORDER_RADIUS} * ${fontSize}px)`
+      );
+      this.dom.style.setProperty(
+        '--stage-line-height', `${fontSize}px`
+      );
     }, 0);
   }
 
@@ -132,3 +184,12 @@ export default class Map {
     );
   }
 }
+
+/** @constant {string} COLOR_CONTRAST_DARK Dark color contrast */
+Map.COLOR_CONTRAST_DARK = '#000';
+
+/** @constant {string} COLOR_CONTRAST_LIGHT Light color contrast */
+Map.COLOR_CONTRAST_LIGHT = '#fff';
+
+/** @constant {number} STAGE_BORDER_RADIUS Border radius */
+Map.STAGE_BORDER_RADIUS = 0.5;
