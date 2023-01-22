@@ -395,6 +395,7 @@ export default class Stage {
       this.state === Globals.get('states')['locked'] ||
       this.state === Globals.get('states')['unlocking']
     ) {
+      this.label.hide();
       this.animate('shake');
       return; // You cannot pass!
     }
