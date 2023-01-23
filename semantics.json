@@ -608,14 +608,6 @@
             "label": "Mute when taking exercises",
             "default": true,
             "optional": true
-          },
-          {
-            "name": "autoplay",
-            "type": "boolean",
-            "label": "Autoplay",
-            "description": "Autoplaying the background music may not be possible, if it is prevented by the browser's Autoplay Policy.",
-            "default": false,
-            "optional": true
           }
         ]
       },

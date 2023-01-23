@@ -49,7 +49,12 @@ export default class Jukebox {
     Jukebox.audios[params.id].dom = dom;
 
     const track = Jukebox.audioContext.createMediaElementSource(dom);
-    track.connect(Jukebox.audioContext.destination);
+    const gainNode = Jukebox.audioContext.createGain();
+    track
+      .connect(gainNode)
+      .connect(Jukebox.audioContext.destination);
+
+    Jukebox.audios[params.id].gainNode = gainNode;
   }
 
   /**
@@ -59,7 +64,7 @@ export default class Jukebox {
    * @returns {boolean} True, if audio could be played. Else false.
    */
   static async play(id) {
-    if (Jukebox.isMuted || !Jukebox.audios[id]) {
+    if (Jukebox.isMutedState || !Jukebox.audios[id]) {
       return false;
     }
 
@@ -68,14 +73,18 @@ export default class Jukebox {
       Jukebox.audioContext.resume();
     }
 
+    let canPlay = false;
     try {
       await Jukebox.audios[id].dom.play();
+      canPlay = true;
     }
     catch (error) {
-      return false;
+      // Intentionally left blank
     }
 
-    return true;
+    Jukebox.audios[id].isPlaying = canPlay;
+
+    return canPlay;
   }
 
   /**
@@ -89,6 +98,8 @@ export default class Jukebox {
     }
 
     Jukebox.audios[id].dom.pause();
+
+    Jukebox.audios[id].isPlaying = false;
   }
 
   /**
@@ -98,6 +109,98 @@ export default class Jukebox {
     for (const id in Jukebox.audios) {
       Jukebox.stop(id);
     }
+  }
+
+  /**
+   * Determine whether audio is playing.
+   *
+   * @param {string} id Id of audio to be checked.
+   * @returns {boolean} True, if audio is playing. Else false.
+   */
+  static isPlaying(id) {
+    if (!Jukebox.audios[id]) {
+      return false;
+    }
+
+    return Jukebox.audios[id].isPlaying ?? false;
+  }
+
+  /**
+   * Fade audio.
+   *
+   * @param {string} id Id of audio to fade.
+   * @param {object} [params={}] Parameters.
+   * @param {string} params.type `in` to fade in, `out` to fade out.
+   * @param {number} [params.time] Time for fading.
+   * @param {number} [params.interval] Interval for fading update.
+   */
+  static fade(id, params = {}) {
+    if (!Jukebox.audios[id] || this.isMutedState) {
+      return; // Nothing to do here
+    }
+
+    if (params.type !== 'in' && params.type !== 'out') {
+      return; // Missing required value
+    }
+
+    // Clear previous fade timeout
+    window.clearTimeout(Jukebox.audios[id].fadeTimeout);
+
+    // Sanitize time
+    if (typeof params.time !== 'number') {
+      params.time = Jukebox.DEFAULT_FADE_TIME_MS;
+    }
+    params.time = Math.max(
+      Jukebox.DEFAULT_TIMER_INTERVAL_MS, params.time
+    );
+
+    // Sanitize interval
+    if (typeof params.interval !== 'number') {
+      params.interval = Jukebox.DEFAULT_TIMER_INTERVAL_MS;
+    }
+    params.interval = Math.max(50, params.interval);
+
+    // Set gain delta for each interval
+    if (typeof params.gainDelta !== 'number' || params.gainDelta <= 0) {
+      if (params.type === 'in') {
+        params.gainDelta = (1 - Jukebox.audios[id].gainNode.gain.value) /
+        (params.time / params.interval);
+      }
+      else {
+        params.gainDelta = Jukebox.audios[id].gainNode.gain.value /
+        (params.time / params.interval);
+      }
+    }
+
+    // End with clean gain values
+    if (params.time <= 0) {
+      Jukebox.audios[id].gainNode.gain.value = (params.type === 'in') ?
+        1 :
+        0;
+
+      return;
+    }
+
+    // Update gain
+    if (params.type === 'in') {
+      Jukebox.audios[id].gainNode.gain.value =
+        Math.min(1, Jukebox.audios[id].gainNode.gain.value += params.gainDelta);
+    }
+    else {
+      Jukebox.audios[id].gainNode.gain.value =
+      Math.max(0, Jukebox.audios[id].gainNode.gain.value -= params.gainDelta);
+    }
+
+    Jukebox.audios[id].fadeTimeout = window.setTimeout(() => {
+      Jukebox.fade(
+        id,
+        {
+          time: params.time - params.interval,
+          gainDelta: params.gainDelta,
+          type: params.type
+        }
+      );
+    }, params.interval);
   }
 
   /**
@@ -128,19 +231,37 @@ export default class Jukebox {
    */
   static mute() {
     Jukebox.stopAll();
-    Jukebox.isMuted = true;
+    Jukebox.isMutedState = true;
   }
 
   /**
    * Unmute.
    */
   static unmute() {
-    Jukebox.isMuted = false;
+    Jukebox.isMutedState = false;
+  }
+
+  /**
+   * Determine whether Jukebox is muted.
+   *
+   * @returns {boolean} True, if Jukebox is muted. Else false.
+   */
+  static isMuted() {
+    return Jukebox.isMutedState;
   }
 }
 
+/** @param {object} audios Key based audio storage. */
 Jukebox.audios = {};
 
+/** @param {AudioContext} audioContext WebAudio API content. */
 Jukebox.audioContext = new AudioContext();
 
-Jukebox.isMuted = false;
+/** @param {boolean} isMutedState Muted state. */
+Jukebox.isMutedState = false;
+
+/** @constant {number} DEFAULT_TIMER_INTERVAL_MS Default timer interval. */
+Jukebox.DEFAULT_TIMER_INTERVAL_MS = 100;
+
+/** @constant {number} DEFAULT_FADE_TIME_MS Default fade time. */
+Jukebox.DEFAULT_FADE_TIME_MS = 1000;

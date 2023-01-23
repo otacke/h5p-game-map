@@ -190,8 +190,7 @@ export default class GameMap extends H5P.Question {
         src: src,
         crossOrigin: crossOrigin,
         options: {
-          loop: true,
-          autoplay: this.params.audio.backgroundMusic.autoplay
+          loop: true
         }
       };
     }

@@ -37,6 +37,8 @@ export default class Content {
 
     this.buildDOM();
 
+    this.startVisibilityObserver();
+
     this.reset({ isInitial: true });
 
     if (this.getMaxScore() > 0) {
@@ -125,6 +127,10 @@ export default class Content {
       }, {
         onButtonClicked: () => {
           this.show({ focusButton: true, readOpened: true });
+
+          if (!Jukebox.isPlaying('backgroundMusic')) {
+            this.handleAutoplay();
+          }
         },
         read: (text) => {
           Globals.get('read')(text);
@@ -461,6 +467,11 @@ export default class Content {
     this.exerciseScreen.setH5PContent(exercise.getDOM());
     this.exerciseScreen.setTitle(stage.getLabel());
     this.exerciseScreen.show();
+
+    if (Globals.get('params').audio.backgroundMusic.muteDuringExercise) {
+      Jukebox.fade('backgroundMusic', { type: 'out' });
+    }
+
     Jukebox.play('openExercise');
 
     if (!this.isShowingSolutions) {
@@ -659,8 +670,10 @@ export default class Content {
 
     if (!this.gameDone) {
       if (this.getScore() === this.getMaxScore()) {
-        Jukebox.stopAll();
-        Jukebox.play('fullScore');
+        this.addToQueue(() => {
+          Jukebox.play('fullScore');
+        });
+
         this.gameDone = true;
       }
     }
@@ -681,6 +694,11 @@ export default class Content {
 
     this.exerciseScreen.hide({ animate: true });
     Jukebox.play('closeExercise');
+
+    if (Globals.get('params').audio.backgroundMusic.muteDuringExercise) {
+      Jukebox.fade('backgroundMusic', { type: 'in' });
+    }
+
     this.stages.enable();
 
     this.currentlyOpenStage.focus({ skipNextFocusHandler: true });
@@ -759,7 +777,7 @@ export default class Content {
     }
     else {
       Jukebox.unmute();
-      Jukebox('backgroundMusic');
+      Jukebox.play('backgroundMusic');
     }
   }
 
@@ -767,16 +785,14 @@ export default class Content {
    * Handle autoplay of audio.
    */
   async handleAutoplay() {
-    const backgroundMusic = Globals.get('params').audio.backgroundMusic;
-
     if (
-      backgroundMusic.autoplay &&
       Jukebox.getAudioIds().includes('backgroundMusic')
     ) {
       let couldPlay = false;
 
       try {
-        couldPlay = await Jukebox('backgroundMusic');
+        Jukebox.unmute();
+        couldPlay = await Jukebox.play('backgroundMusic');
       }
       catch (error) {
         // Intentionally left blank
@@ -926,6 +942,35 @@ export default class Content {
     }
 
     Globals.get('resize')();
+  }
+
+  /**
+   * Handle visibility change.
+   */
+  startVisibilityObserver() {
+    // iOS is behind ... Again ...
+    const callback = window.requestIdleCallback ?
+      window.requestIdleCallback :
+      window.requestAnimationFrame;
+
+    callback(() => {
+      Jukebox.observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          if (this.unmuteWhenVisible === true) {
+            Jukebox.unmute();
+            Jukebox.play('backgroundMusic');
+          }
+        }
+        else {
+          this.unmuteWhenVisible = !Jukebox.isMuted();
+          Jukebox.mute();
+        }
+      }, {
+        threshold: 0
+      });
+
+      Jukebox.observer.observe(this.dom);
+    });
   }
 
   /**
