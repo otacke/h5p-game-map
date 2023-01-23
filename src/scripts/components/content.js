@@ -1,4 +1,5 @@
 import Dictionary from '@services/dictionary';
+import Jukebox from '@services/jukebox';
 import Util from '@services/util';
 import Globals from '@services/globals';
 import Paths from '@models/paths';
@@ -51,6 +52,8 @@ export default class Content {
       });
 
       this.endScreen.setContent(feedbackWrapper);
+
+      this.handleAutoplay();
     });
   }
 
@@ -178,22 +181,37 @@ export default class Content {
     this.contentDOM.classList.add('h5p-game-map-content');
     this.dom.append(this.contentDOM);
 
+    const toolbarButtons = [];
+
+    if (Jukebox.getAudioIds().length) {
+      toolbarButtons.push({
+        id: 'audio',
+        type: 'toggle',
+        a11y: {
+          active: Dictionary.get('a11y.buttonAudioActive'),
+          inactive: Dictionary.get('a11y.buttonAudioInactive')
+        },
+        onClick: (ignore, params) => {
+          this.toggleAudio(params.active);
+        }
+      });
+    }
+
+    toolbarButtons.push({
+      id: 'finish',
+      type: 'pulse',
+      a11y: {
+        active: Dictionary.get('a11y.buttonFinish')
+      },
+      onClick: () => {
+        this.handleFinish();
+      }
+    });
+
     // Toolbar
     this.toolbar = new Toolbar({
       ...(globalParams.headline && {headline: globalParams.headline}),
-      buttons: [
-        {
-          id: 'finish',
-          type: 'pulse',
-          a11y: {
-            active: Dictionary.get('a11y.buttonFinish'),
-            disabled: Dictionary.get('a11y.buttonFinishDisabled')
-          },
-          onClick: () => {
-            this.handleFinish();
-          }
-        }
-      ]
+      buttons: toolbarButtons
     });
     this.contentDOM.append(this.toolbar.getDOM());
 
@@ -212,8 +230,8 @@ export default class Content {
         hidden: globalParams.behaviour.map.fog !== 'all'
       },
       {
-        onStageClicked: (id) => {
-          this.handleStageClicked(id);
+        onStageClicked: (id, state) => {
+          this.handleStageClicked(id, state);
         },
         onStageStateChanged: (id, state) => {
           this.handleStageStateChanged(id, state);
@@ -443,6 +461,7 @@ export default class Content {
     this.exerciseScreen.setH5PContent(exercise.getDOM());
     this.exerciseScreen.setTitle(stage.getLabel());
     this.exerciseScreen.show();
+    Jukebox.play('openExercise');
 
     if (!this.isShowingSolutions) {
       // Update context for confusion report contract
@@ -494,11 +513,9 @@ export default class Content {
     }
 
     if (this.stages) {
-      this.addToQueue(
-        () => {
-          this.stages.updateNeighborsState(id, state);
-        }
-      );
+      this.addToQueue(() => {
+        this.stages.updateNeighborsState(id, state);
+      });
     }
   }
 
@@ -640,6 +657,14 @@ export default class Content {
   handleExerciseScoreChanged() {
     this.stages.updateUnlockingStages();
 
+    if (!this.gameDone) {
+      if (this.getScore() === this.getMaxScore()) {
+        Jukebox.stopAll();
+        Jukebox.play('fullScore');
+        this.gameDone = true;
+      }
+    }
+
     this.toolbar.setScores({
       score: this.getScore(),
       maxScore: this.getMaxScore()
@@ -655,6 +680,7 @@ export default class Content {
     );
 
     this.exerciseScreen.hide({ animate: true });
+    Jukebox.play('closeExercise');
     this.stages.enable();
 
     this.currentlyOpenStage.focus({ skipNextFocusHandler: true });
@@ -721,6 +747,49 @@ export default class Content {
   }
 
   /**
+   * Toggle audio.
+   *
+   * @param {boolean} [state] State to set audio to.
+   */
+  toggleAudio(state) {
+    this.isAudioOn = (typeof state === 'boolean') ? state : !this.isAudioOn;
+
+    if (!this.isAudioOn) {
+      Jukebox.mute();
+    }
+    else {
+      Jukebox.unmute();
+      Jukebox('backgroundMusic');
+    }
+  }
+
+  /**
+   * Handle autoplay of audio.
+   */
+  async handleAutoplay() {
+    const backgroundMusic = Globals.get('params').audio.backgroundMusic;
+
+    if (
+      backgroundMusic.autoplay &&
+      Jukebox.getAudioIds().includes('backgroundMusic')
+    ) {
+      let couldPlay = false;
+
+      try {
+        couldPlay = await Jukebox('backgroundMusic');
+      }
+      catch (error) {
+        // Intentionally left blank
+      }
+
+      this.toolbar.forceButton('audio', couldPlay);
+    }
+    else {
+      this.toolbar.forceButton('audio', true);
+    }
+  }
+
+  /**
    * Handle finish.
    */
   handleFinish() {
@@ -756,6 +825,7 @@ export default class Content {
     );
 
     this.confirmationDialog.show();
+    Jukebox.play('showDialog');
   }
 
   /**
@@ -779,7 +849,11 @@ export default class Content {
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {
+    Jukebox.mute();
+
     const globalParams = Globals.get('params');
+
+    this.gameDone = false;
 
     this.currentStageIndex = 0;
     this.confirmationDialog.hide();
@@ -815,6 +889,13 @@ export default class Content {
       score: this.getScore(),
       maxScore: this.getMaxScore()
     });
+
+    // When *re*starting the map, keep audio on/off as set by user.
+    this.isAudioOn = this.isAudioOn ?? false;
+
+    if (this.isAudioOn) {
+      Jukebox.unmute();
+    }
   }
 
   /**

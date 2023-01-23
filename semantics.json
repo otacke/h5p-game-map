@@ -584,6 +584,116 @@
     ]
   },
   {
+    "name": "audio",
+    "type": "group",
+    "importance": "low",
+    "label": "Audio settings",
+    "fields": [
+      {
+        "name": "backgroundMusic",
+        "type": "group",
+        "importance": "low",
+        "label": "Background music",
+        "fields": [
+          {
+            "name": "music",
+            "type": "audio",
+            "label": "Background music",
+            "importance": "low",
+            "optional": true
+          },
+          {
+            "name": "muteDuringExercise",
+            "type": "boolean",
+            "label": "Mute when taking exercises",
+            "default": true,
+            "optional": true
+          },
+          {
+            "name": "autoplay",
+            "type": "boolean",
+            "label": "Autoplay",
+            "description": "Autoplaying the background music may not be possible, if it is prevented by the browser's Autoplay Policy.",
+            "default": false,
+            "optional": true
+          }
+        ]
+      },
+      {
+        "name": "ambient",
+        "type": "group",
+        "importance": "low",
+        "label": "Ambient sounds",
+        "fields": [
+          {
+            "name": "clickStageLocked",
+            "type": "audio",
+            "label": "Click on locked stage",
+            "description": "Will be played on the map when clicking on a locked stage.",
+            "importance": "low",
+            "optional": true
+          },
+          {
+            "name": "checkExerciseNotFullScore",
+            "type": "audio",
+            "label": "Check exercise (not full score)",
+            "description": "Will be played when an answer is checked and the user did not get full score.",
+            "importance": "low",
+            "optional": true
+          },
+          {
+            "name": "checkExerciseFullScore",
+            "type": "audio",
+            "label": "Check exercise (full score)",
+            "description": "Will be played when an answer is checked and the user did get full score.",
+            "importance": "low",
+            "optional": true
+          },
+          {
+            "name": "unlockStage",
+            "type": "audio",
+            "label": "Unlocking a stage",
+            "description": "Will be played on the map when a stage gets unlocked.",
+            "importance": "low",
+            "optional": true
+          },
+          {
+            "name": "openExercise",
+            "type": "audio",
+            "label": "Open exercise",
+            "description": "Will be played when an exercise is opened.",
+            "importance": "low",
+            "optional": true
+          },
+          {
+            "name": "closeExercise",
+            "type": "audio",
+            "label": "Close exercise",
+            "description": "Will be played when an exercise is opened.",
+            "importance": "low",
+            "optional": true
+          },
+          {
+            "name": "showDialog",
+            "type": "audio",
+            "label": "Show dialog",
+            "description": "Will be played when a confirmation dialog is shown.",
+            "importance": "low",
+            "optional": true
+          },
+          {
+            "name": "fullScore",
+            "type": "audio",
+            "label": "Full score",
+            "description": "Will be played when the user reaches full score on the map.",
+            "importance": "low",
+            "optional": true
+          }
+        ]
+      }
+    ]
+  },
+  {
     "name": "behaviour",
     "type": "group",
     "importance": "low",
@@ -806,13 +916,19 @@
         "name": "buttonFinish",
         "type": "text",
         "label": "Finish",
-        "default": "Finish"
+        "default": "Finish the map"
       },
       {
-        "name": "buttonFinishDisabled",
+        "name": "buttonAudioActive",
         "type": "text",
-        "label": "Finishing not possible",
-        "default": "Finishing is currently not possible"
+        "label": "Audio button ()",
+        "default": "Mute audio. Currently unmuted."
+      },
+      {
+        "name": "buttonAudioInactive",
+        "type": "text",
+        "label": "Audio button ()",
+        "default": "Unmute audio. Currently muted."
       },
       {
         "name": "close",

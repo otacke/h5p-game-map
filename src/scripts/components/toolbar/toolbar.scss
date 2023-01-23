@@ -85,6 +85,29 @@
       color: #1768C4;
       position: relative;
 
+      &.toolbar-button-audio {
+        &::before {
+          content: "\f026";
+          font-family: "H5PFontAwesome4", sans-serif;
+          font-size: 1.15rem;
+          height: 1.15rem;
+          left: 50%;
+          margin-left: -0.575rem;
+          margin-top: -0.575rem;
+          position: absolute;
+          top: 50%;
+          width: 1.15rem;
+        }
+
+        &.toolbar-button-active {
+          background-color: $color-primary-5;
+
+          &::before {
+            content: "\f028";
+          }
+        }
+      }
+
       &.toolbar-button-finish {
         &::before {
           content: "\f11e";

@@ -1,6 +1,7 @@
 import Color from 'color';
-import Globals from '@services/globals';
 import Dictionary from '@services/dictionary';
+import Globals from '@services/globals';
+import Jukebox from '@services/jukebox';
 import Util from '@services/util';
 import Label from './label';
 import './stage.scss';
@@ -391,18 +392,18 @@ export default class Stage {
       return;
     }
 
+    this.label.hide();
+
     if (
       this.state === Globals.get('states')['locked'] ||
       this.state === Globals.get('states')['unlocking']
     ) {
-      this.label.hide();
       this.animate('shake');
-      return; // You cannot pass!
+      Jukebox.play('clickStageLocked');
+      return;
     }
 
-    this.label.hide();
-
-    this.callbacks.onClicked(this.params.id);
+    this.callbacks.onClicked(this.params.id, this.state);
   }
 
   /**
@@ -436,6 +437,14 @@ export default class Stage {
     }
 
     this.label.hide();
+  }
+
+  mute() {
+    this.isMuted = true;
+  }
+
+  unmute() {
+    this.isMuted = false;
   }
 
   /**
@@ -581,9 +590,11 @@ export default class Stage {
 
         if (newState === states['open'] || newState === states['opened']) {
           this.animate('bounce');
+          Jukebox.play('unlockStage');
         }
         else if (newState === states['cleared']) {
           this.animate('bounce');
+          Jukebox.play('clearStage');
         }
       };
 

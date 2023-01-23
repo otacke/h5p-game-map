@@ -1,6 +1,7 @@
 import Util from '@services/util';
 import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
+import Jukebox from '@services/jukebox';
 import Content from '@components/content';
 import '@styles/h5p-game-map.scss';
 import MessageBox from './components/messageBox/message-box';
@@ -26,6 +27,12 @@ export default class GameMap extends H5P.Question {
       gamemapSteps: {
         gamemap: {
           elements: []
+        }
+      },
+      audio: {
+        backgroundMusic: {
+          autoplay: false,
+          muteDuringExercise: true
         }
       },
       visual: {
@@ -59,8 +66,9 @@ export default class GameMap extends H5P.Question {
         noStages: 'No valid stages were set for the map.'
       },
       a11y: {
-        buttonFinish: 'Finish',
-        buttonFinishDisabled: 'Finishing is currently not possible',
+        buttonFinish: 'Finish the map',
+        buttonAudioActive: 'Mute audio. Currently unmuted.',
+        buttonAudioInactive: 'Unmute audio. Currently muted.',
         close: 'Close',
         yourResult: 'You got @score out of @total points',
         startScreenWasOpened: 'The start screen was opened',
@@ -105,6 +113,9 @@ export default class GameMap extends H5P.Question {
     // Fill dictionary
     Dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
 
+    this.fillJukebox();
+
+    // Get previous state
     this.previousState = extras?.previousState || {};
 
     const defaultLanguage = extras?.metadata?.defaultLanguage || 'en';
@@ -158,6 +169,53 @@ export default class GameMap extends H5P.Question {
     dom.classList.add('h5p-game-map');
 
     return dom;
+  }
+
+  /**
+   * Fill jukebox with audios.
+   */
+  fillJukebox() {
+    const audios = {};
+
+    if (this.params.audio.backgroundMusic.music?.[0]?.path) {
+      const src = H5P.getPath(
+        this.params.audio.backgroundMusic.music[0].path, this.contentId
+      );
+
+      const crossOrigin =
+        H5P.getCrossOrigin?.(this.params.audio.backgroundMusic.music[0]) ??
+        'Anonymous';
+
+      audios.backgroundMusic = {
+        src: src,
+        crossOrigin: crossOrigin,
+        options: {
+          loop: true,
+          autoplay: this.params.audio.backgroundMusic.autoplay
+        }
+      };
+    }
+
+    for (const key in this.params.audio.ambient) {
+      if (!this.params.audio.ambient[key]?.[0]?.path) {
+        continue;
+      }
+
+      const src = H5P.getPath(
+        this.params.audio.ambient[key][0].path, this.contentId
+      );
+
+      const crossOrigin =
+        H5P.getCrossOrigin?.(this.params.audio.ambient[key][0]) ??
+        'Anonymous';
+
+      audios[key] = {
+        src: src,
+        crossOrigin: crossOrigin
+      };
+    }
+
+    Jukebox.fill(audios);
   }
 
   /**

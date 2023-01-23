@@ -1,4 +1,5 @@
 import Globals from '@services/globals';
+import Jukebox from '@services/jukebox';
 import Util from '@services/util';
 
 export default class Exercise {
@@ -252,11 +253,13 @@ export default class Exercise {
 
     this.score = event.getScore();
 
-    if (this.score  < this.instance.getMaxScore()) {
+    if (this.score < this.instance.getMaxScore()) {
       this.setState(Globals.get('states')['completed']);
+      Jukebox.play('checkExerciseNotFullScore');
     }
     else {
       this.setState(Globals.get('states')['cleared']);
+      Jukebox.play('checkExerciseFullScore');
     }
 
     this.callbacks.onScoreChanged(this.score);

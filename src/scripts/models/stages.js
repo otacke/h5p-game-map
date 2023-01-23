@@ -75,8 +75,8 @@ export default class Stages {
           hiddenInitially: this.params.hidden,
           ...(stageState?.state && { state: stageState?.state })
         }, {
-          onClicked: (id) => {
-            this.callbacks.onStageClicked(id);
+          onClicked: (id, state) => {
+            this.callbacks.onStageClicked(id, state);
           },
           onStateChanged: (id, state) => {
             this.callbacks.onStageStateChanged(id, state);
