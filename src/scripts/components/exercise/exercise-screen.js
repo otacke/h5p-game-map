@@ -1,4 +1,5 @@
 import Dictionary from '@services/dictionary';
+import Globals from '@services/globals';
 import Util from '@services/util';
 import FocusTrap from '@services/focus-trap';
 import './exercise-screen.scss';
@@ -93,9 +94,14 @@ export default class ExerciseScreen {
     window.requestAnimationFrame(() => {
       this.dom.classList.remove('transparent');
 
-      this.contentContainer.addEventListener(
-        'animationend', this.handleOpenAnimationEnded
-      );
+      if (!Globals.get('params').visual.misc.useAnimation) {
+        this.handleOpenAnimationEnded();
+      }
+      else {
+        this.contentContainer.addEventListener(
+          'animationend', this.handleOpenAnimationEnded
+        );
+      }
 
       this.animate('bounce-in');
       this.focusTrap.activate();
@@ -124,9 +130,14 @@ export default class ExerciseScreen {
 
       this.animate('bounce-out');
 
-      this.contentContainer.addEventListener(
-        'animationend', this.handleCloseAnimationEnded
-      );
+      if (!Globals.get('params').visual.misc.useAnimation) {
+        this.handleCloseAnimationEnded();
+      }
+      else {
+        this.contentContainer.addEventListener(
+          'animationend', this.handleCloseAnimationEnded
+        );
+      }
     }
     else {
       this.contentContainer.classList.add('transparent');
@@ -145,6 +156,10 @@ export default class ExerciseScreen {
   animate(animationName) {
     if (typeof animationName !== 'string' || this.isAnimating) {
       return;
+    }
+
+    if (!Globals.get('params').visual.misc.useAnimation) {
+      return; // Animation deactivated by author or user preference
     }
 
     this.isAnimating = true;

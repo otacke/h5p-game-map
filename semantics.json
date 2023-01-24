@@ -542,6 +542,13 @@
         "importance": "low",
         "fields": [
           {
+            "name": "useAnimation",
+            "type": "boolean",
+            "label": "Animate map",
+            "description": "Decide if the map should be animated. Even if you set this option, the content type will honor the users' browser setting if they prefer reduced motion.",
+            "default": true
+          },
+          {
             "name": "heightLimitMode",
             "type": "select",
             "label": "Height limit mode",

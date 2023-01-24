@@ -1,0 +1,16 @@
+.h5p-game-map-confirmation-dialog {
+  &.prefers-reduced-motion {
+    .h5p-confirmation-dialog-background {
+      &.hiding {
+        .h5p-confirmation-dialog-popup {
+          opacity: 0;
+        }
+      }
+
+      .h5p-confirmation-dialog-popup {
+        -webkit-transition: none;
+        transition: none;
+      }
+    }
+  }
+}

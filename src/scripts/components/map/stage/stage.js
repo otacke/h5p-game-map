@@ -364,6 +364,10 @@ export default class Stage {
       return;
     }
 
+    if (!Globals.get('params').visual.misc.useAnimation) {
+      return; // Animation deactivated by author or user preference
+    }
+
     this.isAnimating = true;
 
     this.dom.addEventListener('animationend', this.handleAnimationEnded);

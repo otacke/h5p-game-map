@@ -37,6 +37,7 @@ export default class GameMap extends H5P.Question {
       },
       visual: {
         misc: {
+          useAnimation: true,
           heightLimitMode: 'none'
         }
       },
@@ -93,6 +94,14 @@ export default class GameMap extends H5P.Question {
       this.params.gamemapSteps.gamemap.elements.filter((element) => {
         return element.contentType?.library;
       });
+
+    // Determine mediaQuery result for prefers-reduced-motion preference
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    )?.matches;
+
+    this.params.visual.misc.useAnimation =
+      this.params.visual.misc.useAnimation && !reduceMotion;
 
     this.contentId = contentId;
     this.extras = extras;

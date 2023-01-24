@@ -18,6 +18,11 @@ export default class ConfirmationDialog {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-confirmation-dialog');
 
+    // Stop confirmation dialog from flying in/out
+    if (window.matchMedia('(prefers-reduced-motion: reduce)')?.matches) {
+      this.dom.classList.add('prefers-reduced-motion');
+    }
+
     this.update(params, callbacks);
   }
 

@@ -639,17 +639,27 @@ export default class Content {
    * Play animation queue.
    */
   playAnimationQueue() {
-    // Compute absolute delay for each animation
-    this.queueAnimation = this.queueAnimation.map((queueItem, index, all) => {
-      if (index === 0) {
+
+    if (Globals.get('params').visual.misc.useAnimation) {
+      // Compute absolute delay for each animation
+      this.queueAnimation = this.queueAnimation.map((queueItem, index, all) => {
+        if (index === 0) {
+          return queueItem;
+        }
+
+        const previousParams = all[index - 1].params;
+        queueItem.params.delay += previousParams.delay + previousParams.block;
+
         return queueItem;
-      }
-
-      const previousParams = all[index - 1].params;
-      queueItem.params.delay += previousParams.delay + previousParams.block;
-
-      return queueItem;
-    }, []);
+      }, []);
+    }
+    else {
+      this.queueAnimation = this.queueAnimation.map((queueItem) => {
+        queueItem.params.delay = 0;
+        queueItem.params.block = 0;
+        return queueItem;
+      });
+    }
 
     this.queueAnimation.forEach((queueItem) => {
       const scheduledAnimation = window.setTimeout(() => {
