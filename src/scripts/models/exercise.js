@@ -371,19 +371,26 @@ export default class Exercise {
       this.instance?.resetTask?.();
     }
 
-    // TODO: Is this sufficient for YouTube Videos if not, add exceptions
-    window.requestIdleCallback(() => {
-      this.observer = this.observer || new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          this.observer.unobserve(this.dom);
+    // iOS is behind ... Again ...
+    const callback = window.requestIdleCallback ?
+      window.requestIdleCallback :
+      window.requestAnimationFrame;
 
-          this.handleViewed();
-        }
-      }, {
-        root: document.documentElement,
-        threshold: 0
+    callback(() => {
+      // TODO: Is this sufficient for YouTube Videos if not, add exceptions
+      window.requestIdleCallback(() => {
+        this.observer = this.observer || new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            this.observer.unobserve(this.dom);
+
+            this.handleViewed();
+          }
+        }, {
+          root: document.documentElement,
+          threshold: 0
+        });
+        this.observer.observe(this.dom);
       });
-      this.observer.observe(this.dom);
     });
 
     this.isShowingSolutions = false;
