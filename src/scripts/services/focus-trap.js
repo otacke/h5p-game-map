@@ -46,19 +46,17 @@ export default class FocusTrap {
       window.requestAnimationFrame;
 
     callback(() => {
-      window.requestIdleCallback(() => {
-        this.observer = this.observer || new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting) {
-            this.observer.unobserve(this.params.trapElement);
+      this.observer = this.observer || new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          this.observer.unobserve(this.params.trapElement);
 
-            this.handleVisible();
-          }
-        }, {
-          root: document.documentElement,
-          threshold: 0
-        });
-        this.observer.observe(this.params.trapElement);
+          this.handleVisible();
+        }
+      }, {
+        root: document.documentElement,
+        threshold: 0
       });
+      this.observer.observe(this.params.trapElement);
     });
   }
 

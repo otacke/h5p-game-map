@@ -376,21 +376,19 @@ export default class Exercise {
       window.requestIdleCallback :
       window.requestAnimationFrame;
 
+    // TODO: Is this sufficient for YouTube Videos if not, add exceptions
     callback(() => {
-      // TODO: Is this sufficient for YouTube Videos if not, add exceptions
-      window.requestIdleCallback(() => {
-        this.observer = this.observer || new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting) {
-            this.observer.unobserve(this.dom);
+      this.observer = this.observer || new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          this.observer.unobserve(this.dom);
 
-            this.handleViewed();
-          }
-        }, {
-          root: document.documentElement,
-          threshold: 0
-        });
-        this.observer.observe(this.dom);
+          this.handleViewed();
+        }
+      }, {
+        root: document.documentElement,
+        threshold: 0
       });
+      this.observer.observe(this.dom);
     });
 
     this.isShowingSolutions = false;

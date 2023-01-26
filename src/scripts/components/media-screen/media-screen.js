@@ -212,23 +212,21 @@ export default class MediaScreen {
         window.requestIdleCallback :
         window.requestAnimationFrame;
 
+      /*
+      * Get started once visible and ready. YouTube requires the video to be
+      * attached to the DOM.
+      */
       callback(() => {
-        /*
-        * Get started once visible and ready. YouTube requires the video to be
-        * attached to the DOM.
-        */
-        window.requestIdleCallback(() => {
-          this.observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-              this.observer.unobserve(this.dom);
-              this.initMedia();
-            }
-          }, {
-            root: document.documentElement,
-            threshold: 0
-          });
-          this.observer.observe(this.dom);
+        this.observer = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            this.observer.unobserve(this.dom);
+            this.initMedia();
+          }
+        }, {
+          root: document.documentElement,
+          threshold: 0
         });
+        this.observer.observe(this.dom);
       });
     }
     else {
