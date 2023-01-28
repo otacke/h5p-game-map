@@ -919,6 +919,7 @@ export default class Content {
         stage.setState('open');
       });
       this.paths.forEach((path) => {
+        path.setState('cleared');
         path.show();
       });
     }
