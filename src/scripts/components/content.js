@@ -41,6 +41,8 @@ export default class Content {
 
     this.reset({ isInitial: true });
 
+    this.toolbar.showStages();
+
     if (this.getMaxScore() > 0) {
       this.toolbar.showScores();
     }
@@ -527,6 +529,19 @@ export default class Content {
       this.addToQueue(() => {
         this.stages.updateNeighborsState(id, state);
       });
+
+      // Set filters for completed/cleared stages
+      const filters = {
+        state: [
+          Globals.get('states')['completed'],
+          Globals.get('states')['cleared']
+        ]
+      };
+
+      this.toolbar.setStages({
+        stages: this.stages.getCount({ filters: filters }),
+        maxStages: this.stages.getCount()
+      });
     }
   }
 
@@ -909,6 +924,19 @@ export default class Content {
     }
 
     this.stages.setStartStages();
+
+    // Initialize stage counter
+    const filters = {
+      state: [
+        Globals.get('states')['completed'],
+        Globals.get('states')['cleared']
+      ]
+    };
+
+    this.toolbar.setStages({
+      stages: this.stages.getCount({ filters: filters }),
+      maxStages: this.stages.getCount()
+    });
 
     // Initialize scores
     this.toolbar.setScores({

@@ -1,4 +1,5 @@
 import ScoreContainer from './score-container';
+import StagesContainer from './stages-container';
 import ToolbarButton from './toolbar-button';
 import Dictionary from '@services/dictionary';
 import Util from '@services/util';
@@ -57,7 +58,11 @@ export default class Toolbar {
       );
     }
 
-    // Status values
+    // Status values: stages
+    this.stagesContainer = new StagesContainer();
+    this.dom.append(this.stagesContainer.getDOM());
+
+    // Status values: score
     this.scoreContainer = new ScoreContainer();
     this.dom.append(this.scoreContainer.getDOM());
 
@@ -336,10 +341,41 @@ export default class Toolbar {
   }
 
   /**
-   * Show score container.
+   * Hide score container.
    */
   hideScores() {
     this.scoreContainer.hide();
+  }
+
+  /**
+   * Set stages in stages container.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {number} [params.stages] Stages.
+   * @param {number} [params.maxStages] Maximum stages.
+   */
+  setStages(params = {}) {
+    if (typeof params.stages === 'number') {
+      this.stagesContainer.setStages(params.stages);
+    }
+
+    if (typeof params.maxStages === 'number') {
+      this.stagesContainer.setMaxStages(params.maxStages);
+    }
+  }
+
+  /**
+   * Show stages container.
+   */
+  showStages() {
+    this.stagesContainer.show();
+  }
+
+  /**
+   * Hide stages container.
+   */
+  hideStages() {
+    this.stagesContainer.hide();
   }
 
   /**

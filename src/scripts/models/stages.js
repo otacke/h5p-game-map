@@ -33,6 +33,31 @@ export default class Stages {
   }
 
   /**
+   * Get number of stages (after filtering).
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {object} [params.filters={}] Filters with string/string[] pairs.
+   * @returns {number} Number of stages.
+   */
+  getCount(params = {}) {
+    let stages = [...this.stages];
+
+    params = Util.extend({ filters: {} }, params);
+
+    for (const key in params.filters) {
+      stages = stages.filter((stage) => {
+        if (key === 'state') {
+          return params.filters[key].includes(stage.getState());
+        }
+
+        return true;
+      });
+    }
+
+    return stages.length;
+  }
+
+  /**
    * Build paths.
    *
    * @param {object} elements Parameters.
