@@ -8,13 +8,6 @@
     "optional": true
   },
   {
-    "name": "headline",
-    "label": "Headline",
-    "type": "text",
-    "description": "Optional headline for the titlebar.",
-    "optional": true
-  },
-  {
     "name": "titleScreen",
     "label": "Title screen",
     "type": "group",
@@ -63,6 +56,13 @@
         }
       ]
     }
+  },
+  {
+    "name": "headline",
+    "label": "Headline",
+    "type": "text",
+    "description": "Optional headline for the titlebar.",
+    "optional": true
   },
   {
     "name": "gamemapSteps",
