@@ -700,6 +700,15 @@
     "label": "Behavioural settings",
     "fields": [
       {
+        "name": "lives",
+        "label": "Lives",
+        "description": "Set the number of lives for a user or leave empty for unlimited lives. Users will lose a life when they do not get full score and they cannot continue once all lives are lost.",
+        "type": "number",
+        "importance": "low",
+        "min": 1,
+        "optional": true
+      },
+      {
         "name": "enableRetry",
         "label": "Enable \"Retry\" button",
         "type": "boolean",
@@ -891,6 +900,24 @@
         "type": "text",
         "label": "No",
         "default": "No"
+      },
+      {
+        "name": "confirmGameOverHeader",
+        "type": "text",
+        "label": "Dialog header game over",
+        "default": "Game over!"
+      },
+      {
+        "name": "confirmGameOverDialog",
+        "type": "text",
+        "label": "Dialog text game over",
+        "default": "You have lost all your lives. Please try again!"
+      },
+      {
+        "name": "ok",
+        "type": "text",
+        "label": "OK",
+        "default": "OK"
       },
       {
         "name": "noBackground",

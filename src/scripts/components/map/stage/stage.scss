@@ -52,7 +52,8 @@
     }
 
     &.h5p-game-map-stage-locked,
-    &.h5p-game-map-stage-unlocking {
+    &.h5p-game-map-stage-unlocking,
+    &.h5p-game-map-stage-sealed {
       background-color: var(--stage-color-locked, rgba(153, 0, 0, 0.7));
 
       &::before {

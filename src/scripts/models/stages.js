@@ -465,6 +465,21 @@ export default class Stages {
   }
 
   /**
+   * Toggle playfulness.
+   *
+   * @param {boolean} state If true, be playful, else not.
+   */
+  togglePlayfulness(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.stages.forEach((stage) => {
+      stage.togglePlayfulness(false);
+    });
+  }
+
+  /**
    * Do for each stage.
    *
    * @param {function} callback Callback.

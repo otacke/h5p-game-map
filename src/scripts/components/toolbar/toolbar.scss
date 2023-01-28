@@ -29,6 +29,36 @@
       }
     }
 
+    .lives-container {
+      &::before {
+        color: $color-background;
+      }
+
+      .lives-container-lives {
+        span.lives {
+          color: $color-background;
+        }
+      }
+    }
+
+    .stages-container {
+      &::before {
+        color: $color-background;
+      }
+
+      .stages-container-stages {
+        span.stages, span.max-stages {
+          color: $color-background;
+        }
+
+        span.delimiter {
+          color: $color-background;
+          text-align: center;
+          width: 1rem;
+        }
+      }
+    }
+
     .score-container {
       &::before {
         color: $color-background;

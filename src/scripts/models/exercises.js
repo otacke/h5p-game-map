@@ -25,8 +25,8 @@ export default class Exercises {
         onStateChanged: (state) => {
           this.callbacks.onStateChanged(element.id, state);
         },
-        onScoreChanged: (score) => {
-          this.callbacks.onScoreChanged(element.id, score);
+        onScoreChanged: (scoreParams) => {
+          this.callbacks.onScoreChanged(element.id, scoreParams);
         }
       });
     });

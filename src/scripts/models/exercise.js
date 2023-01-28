@@ -262,7 +262,10 @@ export default class Exercise {
       Jukebox.play('checkExerciseFullScore');
     }
 
-    this.callbacks.onScoreChanged(this.score);
+    this.callbacks.onScoreChanged({
+      score: this.score,
+      maxScore: this.instance.getMaxScore()
+    });
   }
 
   /**

@@ -41,6 +41,10 @@ export default class Content {
 
     this.reset({ isInitial: true });
 
+    if (typeof Globals.get('params').behaviour.lives === 'number') {
+      this.toolbar.showLives();
+    }
+
     this.toolbar.showStages();
 
     if (this.getMaxScore() > 0) {
@@ -298,8 +302,8 @@ export default class Content {
         onStateChanged: (id, state) => {
           this.handleExerciseStateChanged(id, state);
         },
-        onScoreChanged: (id, state) => {
-          this.handleExerciseScoreChanged(id, state);
+        onScoreChanged: (id, scoreParams) => {
+          this.handleExerciseScoreChanged(id, scoreParams);
         }
       }
     );
@@ -312,7 +316,7 @@ export default class Content {
         Globals.get('resize')();
       },
       onCloseAnimationEnded: () => {
-        this.playAnimationQueue();
+        this.handleExerciseCloseAnimationEnded();
       }
     });
     this.exerciseScreen.hide();
@@ -614,8 +618,9 @@ export default class Content {
    *
    * @param {function} callback Callback to execute.
    * @param {object} [params={}] Parameters.
-   * @param {number} [params.delay = 0] Delay before calling callback.
-   * @param {number} [params.block = 0] Delay before calling next callback.
+   * @param {number} [params.delay=0] Delay before calling callback.
+   * @param {number} [params.block=0] Delay before calling next callback.
+   * @param {boolean} [params.skipQueue=false] If true, skip queue.
    */
   addToQueue(callback, params = {}) {
     if (typeof callback !== 'function') {
@@ -624,10 +629,11 @@ export default class Content {
 
     params = Util.extend({
       delay: 0,
-      block: 0
+      block: 0,
+      skipQueue: false
     }, params);
 
-    if (!this.isExerciseOpen) {
+    if (!this.isExerciseOpen || params.skipQueue) {
       callback();
       return;
     }
@@ -654,7 +660,6 @@ export default class Content {
    * Play animation queue.
    */
   playAnimationQueue() {
-
     if (Globals.get('params').visual.misc.useAnimation) {
       // Compute absolute delay for each animation
       this.queueAnimation = this.queueAnimation.map((queueItem, index, all) => {
@@ -688,18 +693,61 @@ export default class Content {
   }
 
   /**
-   * Handle exercise score changed.
+   * Handle exercise close animation ended.
    */
-  handleExerciseScoreChanged() {
+  handleExerciseCloseAnimationEnded() {
+    if (this.gameDone) {
+      this.queueAnimation = [];
+      return;
+    }
+
+    this.playAnimationQueue();
+
+    if (this.livesLeft === 0) {
+      this.handleGameOver();
+    }
+  }
+
+  /**
+   * Handle exercise score changed.
+   *
+   * @param {string} id Id of stage that was changed.
+   * @param {object} [params={}] Parameters for scores.
+   * @param {number} params.score Score.
+   * @param {number} params.maxScore Maximum possible score.
+   */
+  handleExerciseScoreChanged(id, params = {}) {
     this.stages.updateUnlockingStages();
 
-    if (!this.gameDone) {
-      if (this.getScore() === this.getMaxScore()) {
-        this.addToQueue(() => {
-          Jukebox.play('fullScore');
+    if (this.gameDone) {
+      return;
+    }
+
+    if (this.getScore() === this.getMaxScore()) {
+      this.addToQueue(() => {
+        Jukebox.play('fullScore');
+      });
+
+      this.gameDone = true;
+      this.stages.togglePlayfulness(false);
+    }
+
+    if (typeof params.score === 'number' && params.score !== params.maxScore) {
+      this.livesLeft--;
+
+      this.toolbar.setLives({ lives: this.livesLeft });
+
+      if (this.livesLeft === 0) {
+        // Clear all animations that were about to be played
+        this.queueAnimation = [];
+
+        // Store current state and seal stage
+        this.stagesGameOverState = this.stages.getCurrentState();
+        this.stages.forEach((stage) => {
+          stage.setState('sealed');
         });
 
-        this.gameDone = true;
+        this.handleExerciseClosed();
       }
     }
 
@@ -870,11 +918,45 @@ export default class Content {
   }
 
   /**
+   * Handle game over.
+   */
+  handleGameOver() {
+    this.gameDone = true;
+    this.stages.togglePlayfulness(false);
+
+    this.toolbar.disableButton('finish');
+
+    this.confirmationDialog.update(
+      {
+        headerText: Dictionary.get('l10n.confirmGameOverHeader'),
+        dialogText: Dictionary.get('l10n.confirmGameOverDialog'),
+        confirmText: Dictionary.get('l10n.ok'),
+        hideCancel: true
+      }, {
+        onConfirmed: () => {
+          this.callbacks.onFinished();
+          this.showEndscreen({ focusButton: true });
+        }
+      }
+    );
+
+    Jukebox.play('gameOver');
+
+    this.confirmationDialog.show();
+    this.toolbar.enableButton('finish');
+  }
+
+  /**
    * Show solutions.
    */
   showSolutions() {
     this.confirmationDialog.hide();
     this.endScreen.hide();
+
+    this.stagesGameOverState.forEach((previousState) => {
+      this.stages.updateState(previousState.id, previousState.state);
+    });
+
     this.show();
 
     this.exercises.showSolutions();
@@ -893,8 +975,25 @@ export default class Content {
     Jukebox.mute();
 
     const globalParams = Globals.get('params');
+    const previousState = Globals.get('extras')?.previousState?.content ?? {};
+
+    if (params.isInitial && typeof previousState.livesLeft === 'number') {
+      this.livesLeft = previousState.livesLeft;
+    }
+    else {
+      this.livesLeft = globalParams.behaviour.lives ?? Infinity;
+    }
+
+    if (this.livesLeft === 0) {
+      this.stages.forEach((stage) => {
+        stage.setState('sealed');
+      });
+    }
 
     this.gameDone = false;
+    this.stages.togglePlayfulness(true);
+
+    this.stagesGameOverState = [];
 
     this.currentStageIndex = 0;
     this.confirmationDialog.hide();
@@ -925,6 +1024,9 @@ export default class Content {
     }
 
     this.stages.setStartStages();
+
+    // Initialize lives
+    this.toolbar.setLives({ lives: this.livesLeft });
 
     // Initialize stage counter
     const filters = {
@@ -1021,7 +1123,8 @@ export default class Content {
     return {
       exercises: this.exercises.getCurrentState(),
       stages: this.stages.getCurrentState(),
-      paths: this.paths.getCurrentState()
+      paths: this.paths.getCurrentState(),
+      livesLeft: this.livesLeft
     };
   }
 }

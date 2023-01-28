@@ -63,6 +63,9 @@ export default class GameMap extends H5P.Question {
         confirmFinishDialogQuestion: 'Do you really want to finish the map?',
         no: 'No',
         yes: 'Yes',
+        confirmGameOverHeader: 'Game over!',
+        confirmGameOverDialog: 'You have lost all your lives. Please try again!',
+        ok: 'OK',
         noBackground: 'No background image was set for the map.',
         noStages: 'No valid stages were set for the map.'
       },
@@ -123,9 +126,6 @@ export default class GameMap extends H5P.Question {
     Dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
 
     this.fillJukebox();
-
-    // Get previous state
-    this.previousState = extras?.previousState || {};
 
     const defaultLanguage = extras?.metadata?.defaultLanguage || 'en';
     this.languageTag = Util.formatLanguageCode(defaultLanguage);

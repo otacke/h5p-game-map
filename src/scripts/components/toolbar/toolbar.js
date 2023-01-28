@@ -1,3 +1,4 @@
+import LivesContainer from './lives-container';
 import ScoreContainer from './score-container';
 import StagesContainer from './stages-container';
 import ToolbarButton from './toolbar-button';
@@ -57,6 +58,10 @@ export default class Toolbar {
         'aria-label', Dictionary.get('a11y.toolbarFallbackLabel')
       );
     }
+
+    // Status values: lives
+    this.livesContainer = new LivesContainer();
+    this.dom.append(this.livesContainer.getDOM());
 
     // Status values: stages
     this.stagesContainer = new StagesContainer();
@@ -376,6 +381,32 @@ export default class Toolbar {
    */
   hideStages() {
     this.stagesContainer.hide();
+  }
+
+  /**
+   * Set lives in lives container.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {number} [params.lives] Lives.
+   */
+  setLives(params = {}) {
+    if (typeof params.lives === 'number') {
+      this.livesContainer.setLives(params.lives);
+    }
+  }
+
+  /**
+   * Show lives container.
+   */
+  showLives() {
+    this.livesContainer.show();
+  }
+
+  /**
+   * Hide lives container.
+   */
+  hideLives() {
+    this.livesContainer.hide();
   }
 
   /**

@@ -35,6 +35,7 @@ export default class Stage {
 
     this.isDisabledState = false;
     this.isAnimating = false;
+    this.shouldBePlayful = true;
 
     this.handleAnimationEnded = this.handleAnimationEnded.bind(this);
 
@@ -138,6 +139,17 @@ export default class Stage {
    */
   isVisible() {
     return this.isVisibleState;
+  }
+
+  /**
+   * Toggle playfulness.
+   *
+   * @param {boolean} [state] If true, be playful, else not.
+   */
+  togglePlayfulness(state) {
+    this.shouldBePlayful = (typeof state === 'boolean') ?
+      state :
+      !this.shouldBePlayful;
   }
 
   /**
@@ -400,7 +412,8 @@ export default class Stage {
 
     if (
       this.state === Globals.get('states')['locked'] ||
-      this.state === Globals.get('states')['unlocking']
+      this.state === Globals.get('states')['unlocking'] ||
+      this.state === Globals.get('states')['sealed']
     ) {
       this.animate('shake');
       Jukebox.play('clickStageLocked');
@@ -470,6 +483,8 @@ export default class Stage {
     ) {
       this.setTabIndex('-1');
     }
+
+    this.shouldBePlayful = true;
 
     if (
       !params.isInitial && this.params.hiddenInitially ||
@@ -567,6 +582,9 @@ export default class Stage {
     else if (state === states['cleared']) {
       newState = states['cleared'];
     }
+    else if (state === states['sealed']) {
+      newState = states['sealed'];
+    }
 
     if (typeof newState !== 'number') {
       return;
@@ -575,40 +593,46 @@ export default class Stage {
     if (!this.state || this.state !== newState) {
       this.state = newState;
 
-      // Callback to execute once ready
-      const callback = () => {
-        for (const [key, value] of Object.entries(states)) {
-          if (value !== this.state) {
-            this.content.classList.remove(`h5p-game-map-stage-${key}`);
-          }
-          else {
-            this.content.classList.add(`h5p-game-map-stage-${key}`);
-          }
+      for (const [key, value] of Object.entries(states)) {
+        if (value !== this.state) {
+          this.content.classList.remove(`h5p-game-map-stage-${key}`);
         }
-
-        this.updateAriaLabel();
-
-        window.requestAnimationFrame(() => {
-          this.updateColor();
-        });
-
-        if (newState === states['open'] || newState === states['opened']) {
-          this.animate('bounce');
-          Jukebox.play('unlockStage');
+        else {
+          this.content.classList.add(`h5p-game-map-stage-${key}`);
         }
-        else if (newState === states['cleared']) {
-          this.animate('bounce');
-          Jukebox.play('clearStage');
-        }
-      };
-
-      // Optional queue params, e.g. stalling following callbacks in queue
-      const params = {};
-      if (newState === states['cleared']) {
-        params.block = Stage.ANIMATION_CLEARED_BLOCK_MS;
       }
 
-      this.callbacks.onAddedToQueue(callback, params);
+      this.updateAriaLabel();
+
+      window.requestAnimationFrame(() => {
+        this.updateColor();
+      });
+
+      // Put animation and sound in queue
+      if (this.shouldBePlayful) {
+        // Callback to execute once ready
+        const callback = () => {
+          if (newState === states['open'] || newState === states['opened']) {
+            this.animate('bounce');
+            Jukebox.play('unlockStage');
+          }
+          else if (newState === states['cleared']) {
+            this.animate('bounce');
+            Jukebox.play('clearStage');
+          }
+        };
+
+        // Optional queue params, e.g. stalling following callbacks in queue
+        const params = {};
+        if (newState === states['cleared']) {
+          params.block = Stage.ANIMATION_CLEARED_BLOCK_MS;
+        }
+        else if (newState === states['sealed']) {
+          params.skipQueue = true;
+        }
+
+        this.callbacks.onAddedToQueue(callback, params);
+      }
 
       this.callbacks.onStateChanged(this.params.id, this.state);
     }
