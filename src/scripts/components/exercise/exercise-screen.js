@@ -35,7 +35,7 @@ export default class ExerciseScreen {
     this.dom.classList.add('h5p-game-map-exercise');
     this.dom.classList.add('transparent');
     this.dom.setAttribute('role', 'dialog');
-    this.dom.setAttribute('modal', 'true');
+    this.dom.setAttribute('aria-modal', 'true');
 
     // Container for H5P content, can be CSS-transformed
     this.contentContainer = document.createElement('div');
