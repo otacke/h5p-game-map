@@ -153,3 +153,9 @@
     }
   }
 }
+
+.h5p-content:not(.using-mouse) .h5p-game-map-stage {
+  &:focus .h5p-game-map-stage-content {
+    transform: scale(1.25);
+  }
+}
