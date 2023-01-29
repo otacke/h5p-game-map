@@ -2,7 +2,7 @@ import Util from '@services/util';
 import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Jukebox from '@services/jukebox';
-import Content from '@components/content';
+import Main from '@components/main';
 import '@styles/h5p-game-map.scss';
 import MessageBox from './components/messageBox/message-box';
 import QuestionTypeContract from '@mixins/question-type-contract';
@@ -145,7 +145,7 @@ export default class GameMap extends H5P.Question {
       this.dom.append(messageBox.getDOM());
     }
     else {
-      this.content = new Content({}, {
+      this.main = new Main({}, {
         onProgressChanged: (index) => {
           this.handleProgressChanged(index);
         },
@@ -153,10 +153,10 @@ export default class GameMap extends H5P.Question {
           this.handleFinished();
         }
       });
-      this.dom.append(this.content.getDOM());
+      this.dom.append(this.main.getDOM());
 
       this.on('resize', () => {
-        this.content.resize();
+        this.main.resize();
       });
     }
   }
@@ -233,7 +233,7 @@ export default class GameMap extends H5P.Question {
    */
   getCurrentState() {
     return {
-      content: this.content.getCurrentState()
+      content: this.main.getCurrentState()
     };
   }
 

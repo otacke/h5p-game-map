@@ -11,9 +11,12 @@ import Toolbar from '@components/toolbar/toolbar';
 import Exercises from '@models/exercises';
 import ExerciseScreen from '@components/exercise/exercise-screen';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog';
-import './content.scss';
+import './main.scss';
 
-export default class Content {
+/**
+ * Main DOM component incl. main controller
+ */
+export default class Main {
 
   /**
    * @class
@@ -190,7 +193,7 @@ export default class Content {
 
     // Content incl. tool/statusbar and map
     this.contentDOM = document.createElement('div');
-    this.contentDOM.classList.add('h5p-game-map-content');
+    this.contentDOM.classList.add('h5p-game-map-main');
     this.dom.append(this.contentDOM);
 
     const toolbarButtons = [];
@@ -449,7 +452,7 @@ export default class Content {
     if (maxHeight - contentMargin < contentHeight) {
       this.map.setMaxHeight(
         maxHeight - contentMargin - toolbarHeight -
-        Content.CONVENIENCE_MARGIN_PX
+        Main.CONVENIENCE_MARGIN_PX
       );
     }
   }
@@ -1125,4 +1128,4 @@ export default class Content {
 }
 
 /** @constant {number} CONVENIENCE_MARGIN_PX Extra margin for height limit */
-Content.CONVENIENCE_MARGIN_PX = 32;
+Main.CONVENIENCE_MARGIN_PX = 32;
