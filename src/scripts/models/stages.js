@@ -97,7 +97,6 @@ export default class Stages {
           telemetry: elementParams.telemetry,
           visuals: this.params.visuals,
           visible: stageState?.visible,
-          hiddenInitially: this.params.hidden,
           ...(stageState?.state && { state: stageState?.state })
         }, {
           onClicked: (id, state) => {

@@ -238,8 +238,7 @@ export default class Content {
     this.stages = new Stages(
       {
         elements: globalParams.gamemapSteps.gamemap.elements,
-        visuals: globalParams.visual.stages,
-        hidden: globalParams.behaviour.map.fog !== 'all'
+        visuals: globalParams.visual.stages
       },
       {
         onStageClicked: (id, state) => {
@@ -261,14 +260,10 @@ export default class Content {
     );
 
     // Paths
-    const pathsHidden = (globalParams.behaviour.map.displayPaths === false) ||
-      globalParams.behaviour.map.fog !== 'all';
-
     this.paths = new Paths(
       {
         elements: globalParams.gamemapSteps.gamemap.elements,
-        visuals: globalParams.visual.paths,
-        hiddenInitially: pathsHidden
+        visuals: globalParams.visual.paths
       }
     );
 

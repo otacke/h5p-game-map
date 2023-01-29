@@ -6,8 +6,7 @@ export default class Paths {
 
   constructor(params = {}) {
     this.params = Util.extend({
-      elements: {},
-      hidden: false
+      elements: {}
     }, params);
 
     this.paths = this.buildPaths(this.params.elements);
@@ -57,7 +56,6 @@ export default class Paths {
             index: pathsCreated.length,
             visuals: this.params.visuals,
             visible: pathState?.visible,
-            hiddenInitially: this.params.hiddenInitially,
             ...(pathState?.state && { state: pathState?.state })
           }));
           pathsCreated.push(`${index}-${neighbor}`);

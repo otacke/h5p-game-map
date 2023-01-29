@@ -86,7 +86,7 @@ export default class Stage {
 
     this.setTabIndex('-1');
 
-    if (!this.params.visible && this.params.hiddenInitially) {
+    if (!this.params.visible) {
       this.hide();
     }
     else {
@@ -486,14 +486,11 @@ export default class Stage {
 
     this.shouldBePlayful = true;
 
-    if (
-      !params.isInitial && this.params.hiddenInitially ||
-      params.isInitial && !this.params.visible
-    ) {
-      this.hide();
+    if (params.isInitial && this.params.visible) {
+      this.show();
     }
     else {
-      this.show();
+      this.hide();
     }
   }
 

@@ -22,7 +22,7 @@ export default class Path {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-path');
 
-    if (!this.params.visible && this.params.hiddenInitially) {
+    if (!this.params.visible) {
       this.hide();
     }
     else {
@@ -217,14 +217,11 @@ export default class Path {
 
     this.setState(state);
 
-    if (
-      !params.isInitial && this.params.hiddenInitially ||
-      params.isInitial && !this.params.visible
-    ) {
-      this.hide();
+    if (params.isInitial && this.params.visible) {
+      this.show();
     }
     else {
-      this.show();
+      this.hide();
     }
   }
 
