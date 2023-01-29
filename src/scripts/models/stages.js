@@ -383,6 +383,7 @@ export default class Stages {
         this.selectionNeighbors = null;
 
         highlightedStage.updateAriaLabel();
+        highlightedStage.animate('pulse');
 
         Globals.get('read')(
           Dictionary.get('a11y.movedToStage')

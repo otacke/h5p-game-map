@@ -27,6 +27,12 @@
       animation-duration: 1s;
       transform-origin: center bottom
     }
+
+    &.animate-pulse {
+      animation: pulse;
+      animation-duration: 0.5s;
+      animation-timing-function: ease-in-out;
+    }
   }
 
   .h5p-game-map-stage-content {
@@ -80,6 +86,7 @@
     }
   }
 
+  // Keyframes inspired by https://github.com/animate-css/animate.css
   @keyframes shake {
     0% {
       transform: translate3d(0, 0, 0);
@@ -129,6 +136,20 @@
 
     90%{
       transform:translate3d(0, -0.125rem, 0) scaleY(1.02)
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale3d(1, 1, 1);
+    }
+
+    50% {
+      transform: scale3d(1.1, 1.1, 1.1);
+    }
+
+    100% {
+      transform: scale3d(1, 1, 1);
     }
   }
 }
