@@ -714,6 +714,14 @@
             "description": "Will be played when the user reaches full score on the map.",
             "importance": "low",
             "optional": true
+          },
+          {
+            "name": "gameOver",
+            "type": "audio",
+            "label": "Game over",
+            "description": "Will be played when the user loses all lives.",
+            "importance": "low",
+            "optional": true
           }
         ]
       }
