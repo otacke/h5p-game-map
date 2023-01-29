@@ -327,7 +327,7 @@ export default class Main {
       }
     });
     this.exerciseScreen.hide();
-    this.dom.append(this.exerciseScreen.getDOM());
+    this.map.getDOM().append(this.exerciseScreen.getDOM());
 
     // Confirmation Dialog
     this.confirmationDialog = new ConfirmationDialog();
