@@ -72,7 +72,11 @@ export default class ExerciseScreen {
     this.h5pInstance.classList.add('h5p-game-map-exercise-instance-container');
     this.content.append(this.h5pInstance);
 
-    this.focusTrap = new FocusTrap({ trapElement: this.dom });
+    this.focusTrap = new FocusTrap({
+      trapElement: this.dom,
+      closeElement: this.buttonClose,
+      fallbackContainer: this.h5pInstance
+    });
   }
 
   /**

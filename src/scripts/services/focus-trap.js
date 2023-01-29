@@ -82,6 +82,20 @@ export default class FocusTrap {
       return;
     }
 
+    this.focusableElements = this.getFocusableElements(this.params.trapElement);
+  }
+
+  /**
+   * Get focusable elements within container.
+   *
+   * @param {HTMLElement} container Container to look in.
+   * @returns {HTMLElement[]|undefined} Focusable elements within container.
+   */
+  getFocusableElements(container) {
+    if (!container) {
+      return;
+    }
+
     const focusableElementsString = [
       'a[href]:not([disabled])',
       'button:not([disabled])',
@@ -93,9 +107,9 @@ export default class FocusTrap {
       '[tabindex]:not([tabindex="-1"])'
     ].join(', ');
 
-    this.focusableElements = []
+    return []
       .slice
-      .call(this.params.trapElement.querySelectorAll(focusableElementsString))
+      .call(container.querySelectorAll(focusableElementsString))
       .filter((element) => {
         return element.getAttribute('disabled') !== 'true' &&
           element.getAttribute('disabled') !== true;
@@ -143,7 +157,23 @@ export default class FocusTrap {
     }
 
     if (!this.currentFocusElement && this.focusableElements.length) {
-      this.currentFocusElement = this.focusableElements[0];
+      if (
+        this.focusableElements[0] === this.params.closeElement &&
+        this.params.fallbackContainer?.firstChild &&
+        this.focusableElements.length === 1
+      ) {
+        /*
+         * Advisable to set tabindex -1 and focus on static element instead of
+         * focusing the close button and not announcing anything
+         * @see https://www.w3.org/WAI/ARIA/apg/patterns/dialogmodal/
+         */
+        this.params.fallbackContainer.firstChild.setAttribute('tabindex', '-1');
+        this.currentFocusElement = this.params.fallbackContainer.firstChild;
+      }
+      else {
+        this.currentFocusElement = this.focusableElements[0];
+      }
+
     }
 
     if (this.currentFocusElement) {
