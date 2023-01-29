@@ -547,16 +547,7 @@
                   }
                 ]
               }
-            ],
-            "widget": "showWhen",
-            "showWhen": {
-              "rules": [
-                {
-                  "field": "displayPaths",
-                  "equals": true
-                }
-              ]
-            }
+            ]
           }
         ]
       },
