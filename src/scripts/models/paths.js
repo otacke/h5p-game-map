@@ -113,7 +113,7 @@ export default class Paths {
 
     if (
       state === Globals.get('states')['open'] &&
-      globalParams.behaviour.map.displayPaths &&
+      globalParams.visual.paths.displayPaths &&
       globalParams.behaviour.map.fog !== '0'
     ) {
       affectedPaths.forEach((path) => {

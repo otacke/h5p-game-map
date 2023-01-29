@@ -70,7 +70,7 @@ export default class Path {
    * Show.
    */
   show() {
-    if (!Globals.get('params').behaviour.map.displayPaths) {
+    if (!Globals.get('params').visual.paths.displayPaths) {
       return;
     }
 

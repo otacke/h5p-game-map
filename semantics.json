@@ -457,80 +457,106 @@
         "optional": true,
         "fields": [
           {
-            "name": "colorPath",
-            "type": "text",
-            "label": "Color path",
+            "name": "displayPaths",
+            "type": "boolean",
+            "label": "Display paths",
+            "description": "Choose whether paths will be displayed on the map. Please note: The paths are always visible in the editor.",
             "optional": true,
-            "default": "rgba(0, 0, 0, 0.7)",
-            "widget": "colorSelector",
-            "spectrum": {
-              "showInput": true,
-              "showInitial": true,
-              "showAlpha": true,
-              "preferredFormat": "rgb"
-            }
+            "default": true
           },
           {
-            "name": "colorPathCleared",
-            "type": "text",
-            "label": "Color path cleared",
-            "optional": true,
-            "default": "rgba(0, 130, 0, 0.7)",
-            "widget": "colorSelector",
-            "spectrum": {
-              "showInput": true,
-              "showInitial": true,
-              "showAlpha": true,
-              "preferredFormat": "rgb"
-            }
-          },
-          {
-            "name": "pathWidth",
-            "type": "select",
-            "label": "Path width",
+            "name": "style",
+            "type": "group",
+            "label": "Style",
             "importance": "low",
-            "default": "0.2",
-            "optional": false,
-            "options": [
+            "expanded": true,
+            "fields": [
               {
-                "value": "0.1",
-                "label": "thin"
+                "name": "colorPath",
+                "type": "text",
+                "label": "Color path",
+                "optional": true,
+                "default": "rgba(0, 0, 0, 0.7)",
+                "widget": "colorSelector",
+                "spectrum": {
+                  "showInput": true,
+                  "showInitial": true,
+                  "showAlpha": true,
+                  "preferredFormat": "rgb"
+                }
               },
               {
-                "value": "0.2",
-                "label": "medium"
+                "name": "colorPathCleared",
+                "type": "text",
+                "label": "Color path cleared",
+                "optional": true,
+                "default": "rgba(0, 130, 0, 0.7)",
+                "widget": "colorSelector",
+                "spectrum": {
+                  "showInput": true,
+                  "showInitial": true,
+                  "showAlpha": true,
+                  "preferredFormat": "rgb"
+                }
               },
               {
-                "value": "0.3",
-                "label": "thick"
+                "name": "pathWidth",
+                "type": "select",
+                "label": "Path width",
+                "importance": "low",
+                "default": "0.2",
+                "optional": false,
+                "options": [
+                  {
+                    "value": "0.1",
+                    "label": "thin"
+                  },
+                  {
+                    "value": "0.2",
+                    "label": "medium"
+                  },
+                  {
+                    "value": "0.3",
+                    "label": "thick"
+                  }
+                ]
+              },
+              {
+                "name": "pathStyle",
+                "type": "select",
+                "label": "Path style",
+                "importance": "low",
+                "default": "dotted",
+                "optional": false,
+                "options": [
+                  {
+                    "value": "solid",
+                    "label": "Solid"
+                  },
+                  {
+                    "value": "dotted",
+                    "label": "Dotted"
+                  },
+                  {
+                    "value": "dashed",
+                    "label": "Dashed"
+                  },
+                  {
+                    "value": "double",
+                    "label": "Double"
+                  }
+                ]
               }
-            ]
-          },
-          {
-            "name": "pathStyle",
-            "type": "select",
-            "label": "Path style",
-            "importance": "low",
-            "default": "dotted",
-            "optional": false,
-            "options": [
-              {
-                "value": "solid",
-                "label": "Solid"
-              },
-              {
-                "value": "dotted",
-                "label": "Dotted"
-              },
-              {
-                "value": "dashed",
-                "label": "Dashed"
-              },
-              {
-                "value": "double",
-                "label": "Double"
-              }
-            ]
+            ],
+            "widget": "showWhen",
+            "showWhen": {
+              "rules": [
+                {
+                  "field": "displayPaths",
+                  "equals": true
+                }
+              ]
+            }
           }
         ]
       },
@@ -764,14 +790,6 @@
               }
             ],
             "default": "free"
-          },
-          {
-            "name": "displayPaths",
-            "type": "boolean",
-            "label": "Display paths",
-            "description": "Choose whether paths will be displayed on the map. Please note: The paths are always visible in the editor.",
-            "optional": true,
-            "default": true
           },
           {
             "name": "fog",

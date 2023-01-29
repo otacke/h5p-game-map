@@ -275,7 +275,7 @@ export default class Main {
     this.paths = new Paths(
       {
         elements: globalParams.gamemapSteps.gamemap.elements,
-        visuals: globalParams.visual.paths
+        visuals: globalParams.visual.paths.style
       }
     );
 

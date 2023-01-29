@@ -55,12 +55,12 @@ export default class Map {
 
     // Custom CSS variables for paths
     this.dom.style.setProperty(
-      '--path-color', globalParams.visual.paths.colorPath);
+      '--path-color', globalParams.visual.paths.style.colorPath);
     this.dom.style.setProperty(
-      '--path-color-cleared', globalParams.visual.paths.colorPathCleared
+      '--path-color-cleared', globalParams.visual.paths.style.colorPathCleared
     );
     this.dom.style.setProperty(
-      '--path-style', globalParams.visual.paths.pathStyle
+      '--path-style', globalParams.visual.paths.style.pathStyle
     );
 
     this.image = document.createElement('img');

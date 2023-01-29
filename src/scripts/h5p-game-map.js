@@ -36,6 +36,9 @@ export default class GameMap extends H5P.Question {
         }
       },
       visual: {
+        paths: {
+          displayPaths: true,
+        },
         misc: {
           useAnimation: true,
           heightLimitMode: 'none'
@@ -44,7 +47,6 @@ export default class GameMap extends H5P.Question {
       behaviour: {
         showLabels: true,
         roaming: 'free',
-        displayPaths: true,
         fog: false,
         startStages: 'all',
         finishScore: Infinity,
