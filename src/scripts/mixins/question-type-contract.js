@@ -9,7 +9,7 @@ export default class QuestionTypeContract {
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-1}
    */
   getAnswerGiven() {
-    return this.content.getAnswerGiven();
+    return this.main.getAnswerGiven();
   }
 
   /**
@@ -19,7 +19,7 @@ export default class QuestionTypeContract {
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-2}
    */
   getScore() {
-    return this.content.getScore();
+    return this.main.getScore();
   }
 
   /**
@@ -29,7 +29,7 @@ export default class QuestionTypeContract {
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-3}
    */
   getMaxScore() {
-    return this.content.getMaxScore();
+    return this.main.getMaxScore();
   }
 
   /**
@@ -38,7 +38,7 @@ export default class QuestionTypeContract {
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-4}
    */
   showSolutions() {
-    this.content.showSolutions();
+    this.main.showSolutions();
   }
 
   /**
@@ -47,8 +47,8 @@ export default class QuestionTypeContract {
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-5}
    */
   resetTask() {
-    this.content.reset();
-    this.content.start();
+    this.main.reset();
+    this.main.start();
   }
 
   /**
@@ -65,7 +65,7 @@ export default class QuestionTypeContract {
 
     return {
       statement: xAPIEvent.data.statement,
-      children: this.content.getXAPIData()
+      children: this.main.getXAPIData()
     };
   }
 
@@ -76,6 +76,6 @@ export default class QuestionTypeContract {
    * @returns {object} Context data.
    */
   getContext() {
-    return this.content.getContext();
+    return this.main.getContext();
   }
 }

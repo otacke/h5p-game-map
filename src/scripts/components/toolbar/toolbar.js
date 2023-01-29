@@ -1,6 +1,4 @@
-import LivesContainer from './lives-container';
-import ScoreContainer from './score-container';
-import StagesContainer from './stages-container';
+import StatusContainers from './status-containers/status-containers';
 import ToolbarButton from './toolbar-button';
 import Dictionary from '@services/dictionary';
 import Util from '@services/util';
@@ -59,17 +57,12 @@ export default class Toolbar {
       );
     }
 
-    // Status values: lives
-    this.livesContainer = new LivesContainer();
-    this.dom.append(this.livesContainer.getDOM());
+    this.statusContainers = new StatusContainers();
+    this.dom.append(this.statusContainers.getDOM());
 
-    // Status values: stages
-    this.stagesContainer = new StagesContainer();
-    this.dom.append(this.stagesContainer.getDOM());
-
-    // Status values: score
-    this.scoreContainer = new ScoreContainer();
-    this.dom.append(this.scoreContainer.getDOM());
+    this.params.statusContainers.forEach((container) => {
+      this.statusContainers.addContainer(container);
+    });
 
     // Buttons
     this.buttonsContainer = document.createElement('div');
@@ -322,91 +315,40 @@ export default class Toolbar {
   }
 
   /**
-   * Set scores in score container.
+   * Add status container.
    *
-   * @param {object} [params={}] Parameters.
-   * @param {number} [params.score] Score.
-   * @param {number} [params.maxScore] Maximum score.
+   * @param {object} params Parameters for status container.
    */
-  setScores(params = {}) {
-    if (typeof params.score === 'number') {
-      this.scoreContainer.setScore(params.score);
-    }
-
-    if (typeof params.maxScore === 'number') {
-      this.scoreContainer.setMaxScore(params.maxScore);
-    }
+  addStatusContainer(params = {}) {
+    this.statusContainers.addContainer(params);
   }
 
   /**
-   * Show score container.
-   */
-  showScores() {
-    this.scoreContainer.show();
-  }
-
-  /**
-   * Hide score container.
-   */
-  hideScores() {
-    this.scoreContainer.hide();
-  }
-
-  /**
-   * Set stages in stages container.
+   * Status status of container.
    *
-   * @param {object} [params={}] Parameters.
-   * @param {number} [params.stages] Stages.
-   * @param {number} [params.maxStages] Maximum stages.
+   * @param {string} id Id of container to set status of.
+   * @param {object} params Parameters for status container.
    */
-  setStages(params = {}) {
-    if (typeof params.stages === 'number') {
-      this.stagesContainer.setStages(params.stages);
-    }
-
-    if (typeof params.maxStages === 'number') {
-      this.stagesContainer.setMaxStages(params.maxStages);
-    }
+  setStatusContainerStatus(id, params = {}) {
+    this.statusContainers.setStatus(id, params);
   }
 
   /**
-   * Show stages container.
-   */
-  showStages() {
-    this.stagesContainer.show();
-  }
-
-  /**
-   * Hide stages container.
-   */
-  hideStages() {
-    this.stagesContainer.hide();
-  }
-
-  /**
-   * Set lives in lives container.
+   * Show status container
    *
-   * @param {object} [params={}] Parameters.
-   * @param {number} [params.lives] Lives.
+   * @param {string} id Id of container to show.
    */
-  setLives(params = {}) {
-    if (typeof params.lives === 'number') {
-      this.livesContainer.setLives(params.lives);
-    }
+  showStatusContainer(id) {
+    this.statusContainers.showContainer(id);
   }
 
   /**
-   * Show lives container.
+   * Hide status container
+   *
+   * @param {string} id Id of container to show.
    */
-  showLives() {
-    this.livesContainer.show();
-  }
-
-  /**
-   * Hide lives container.
-   */
-  hideLives() {
-    this.livesContainer.hide();
+  hideStatusContainer(id) {
+    this.statusContainers.hideContainer(id);
   }
 
   /**

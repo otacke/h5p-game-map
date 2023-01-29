@@ -45,13 +45,13 @@ export default class Main {
     this.reset({ isInitial: true });
 
     if (typeof Globals.get('params').behaviour.lives === 'number') {
-      this.toolbar.showLives();
+      this.toolbar.showStatusContainer('lives');
     }
 
-    this.toolbar.showStages();
+    this.toolbar.showStatusContainer('stages');
 
     if (this.getMaxScore() > 0) {
-      this.toolbar.showScores();
+      this.toolbar.showStatusContainer('score');
     }
 
     this.start({ isInitial: true });
@@ -196,6 +196,14 @@ export default class Main {
     this.contentDOM.classList.add('h5p-game-map-main');
     this.dom.append(this.contentDOM);
 
+    // Set up toolbar's status containers
+    const toolbarStatusContainers = [
+      { id: 'lives' },
+      { id: 'stages', hasMaxValue: true },
+      { id: 'score', hasMaxValue: true }
+    ];
+
+    // Set up toolbar's buttons
     const toolbarButtons = [];
 
     if (Jukebox.getAudioIds().length) {
@@ -226,7 +234,8 @@ export default class Main {
     // Toolbar
     this.toolbar = new Toolbar({
       ...(globalParams.headline && {headline: globalParams.headline}),
-      buttons: toolbarButtons
+      buttons: toolbarButtons,
+      statusContainers: toolbarStatusContainers
     });
     this.contentDOM.append(this.toolbar.getDOM());
 
@@ -540,9 +549,9 @@ export default class Main {
         ]
       };
 
-      this.toolbar.setStages({
-        stages: this.stages.getCount({ filters: filters }),
-        maxStages: this.stages.getCount()
+      this.toolbar.setStatusContainerStatus('stages', {
+        value: this.stages.getCount({ filters: filters }),
+        maxValue: this.stages.getCount()
       });
     }
   }
@@ -715,25 +724,23 @@ export default class Main {
    * @param {number} params.maxScore Maximum possible score.
    */
   handleExerciseScoreChanged(id, params = {}) {
-    this.stages.updateUnlockingStages();
-
     if (this.gameDone) {
-      return;
+      return; // Just cautious ...
     }
+
+    // Check whether previously not unlockable stages can not be unlocked
+    this.stages.updateUnlockingStages();
 
     if (this.getScore() === this.getMaxScore()) {
       this.addToQueue(() => {
         Jukebox.play('fullScore');
       });
-
-      this.gameDone = true;
-      this.stages.togglePlayfulness(false);
     }
 
     if (typeof params.score === 'number' && params.score !== params.maxScore) {
       this.livesLeft--;
 
-      this.toolbar.setLives({ lives: this.livesLeft });
+      this.toolbar.setStatusContainerStatus('lives', { value: this.livesLeft });
 
       if (this.livesLeft === 0) {
         // Clear all animations that were about to be played
@@ -749,10 +756,9 @@ export default class Main {
       }
     }
 
-    this.toolbar.setScores({
-      score: this.getScore(),
-      maxScore: this.getMaxScore()
-    });
+    this.toolbar.setStatusContainerStatus(
+      'score', { value: this.getScore(), maxValue: this.getMaxScore() }
+    );
   }
 
   /**
@@ -905,14 +911,25 @@ export default class Main {
         confirmText: Dictionary.get('l10n.yes')
       }, {
         onConfirmed: () => {
-          this.callbacks.onFinished();
-          this.showEndscreen({ focusButton: true });
+          this.handleConfirmedFinish();
         }
       }
     );
 
     this.confirmationDialog.show();
     Jukebox.play('showDialog');
+  }
+
+  /**
+   * Handle user confirmed to finish.
+   */
+  handleConfirmedFinish() {
+    this.gameDone = true;
+    this.queueAnimation = [];
+    this.stages.togglePlayfulness(false);
+
+    this.callbacks.onFinished();
+    this.showEndscreen({ focusButton: true });
   }
 
   /**
@@ -1024,7 +1041,9 @@ export default class Main {
     this.stages.setStartStages();
 
     // Initialize lives
-    this.toolbar.setLives({ lives: this.livesLeft });
+    this.toolbar.setStatusContainerStatus(
+      'lives', { value: this.livesLeft }
+    );
 
     // Initialize stage counter
     const filters = {
@@ -1034,16 +1053,23 @@ export default class Main {
       ]
     };
 
-    this.toolbar.setStages({
-      stages: this.stages.getCount({ filters: filters }),
-      maxStages: this.stages.getCount()
-    });
+    // Initialize stages
+    this.toolbar.setStatusContainerStatus(
+      'stages',
+      {
+        value: this.stages.getCount({ filters: filters }),
+        maxValue: this.stages.getCount()
+      }
+    );
 
-    // Initialize scores
-    this.toolbar.setScores({
-      score: this.getScore(),
-      maxScore: this.getMaxScore()
-    });
+    // Initialize score
+    this.toolbar.setStatusContainerStatus(
+      'score',
+      {
+        value: this.getScore(),
+        maxValue: this.getMaxScore()
+      }
+    );
 
     // When *re*starting the map, keep audio on/off as set by user.
     this.isAudioOn = this.isAudioOn ?? false;

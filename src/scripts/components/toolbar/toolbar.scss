@@ -29,50 +29,22 @@
       }
     }
 
-    .lives-container {
-      &::before {
-        color: $color-background;
-      }
-
-      .lives-container-lives {
-        span.lives {
-          color: $color-background;
-        }
-      }
-    }
-
-    .stages-container {
-      &::before {
-        color: $color-background;
-      }
-
-      .stages-container-stages {
-        span.stages, span.max-stages {
+    .status-containers {
+      .status-container {
+        &::before {
           color: $color-background;
         }
 
-        span.delimiter {
-          color: $color-background;
-          text-align: center;
-          width: 1rem;
-        }
-      }
-    }
+        .status-container-values {
+          span.value, span.max-value {
+            color: $color-background;
+          }
 
-    .score-container {
-      &::before {
-        color: $color-background;
-      }
-
-      .score-container-scores {
-        span.score, span.max-score {
-          color: $color-background;
-        }
-
-        span.delimiter {
-          color: $color-background;
-          text-align: center;
-          width: 1rem;
+          span.delimiter {
+            color: $color-background;
+            text-align: center;
+            width: 1rem;
+          }
         }
       }
     }
@@ -103,6 +75,29 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .status-containers {
+    .status-container-lives {
+      &::before {
+        content: "\f004";
+        font-family: "H5PFontAwesome4", sans-serif;
+      }
+    }
+
+    .status-container-stages {
+      &::before {
+        content: "\f10c";
+        font-family: "H5PFontAwesome4", sans-serif;
+      }
+    }
+
+    .status-container-score {
+      &::before {
+        content: "\f005";
+        font-family: "H5PFontAwesome4", sans-serif;
+      }
+    }
   }
 
   .toolbar-buttons {

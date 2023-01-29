@@ -1,0 +1,10 @@
+.status-containers {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  gap: 1.25rem;
+
+  &.display-none {
+    display: none;
+  }
+}
