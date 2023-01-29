@@ -136,6 +136,8 @@ export default class FocusTrap {
       'keydown', this.handleKeydownEvent, true
     );
 
+    this.currentFocusElement = null;
+
     if (this.params.initialFocus && this.isChild(this.params.initialFocus)) {
       this.currentFocusElement = this.params.initialFocus;
     }
