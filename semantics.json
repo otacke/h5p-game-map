@@ -731,6 +731,14 @@
             "optional": true
           },
           {
+            "name": "lostLife",
+            "type": "audio",
+            "label": "Lost a life",
+            "description": "Will be played when the user loses a life.",
+            "importance": "low",
+            "optional": true
+          },
+          {
             "name": "gameOver",
             "type": "audio",
             "label": "Game over",
@@ -743,14 +751,6 @@
             "type": "audio",
             "label": "Timeout warning",
             "description": "Will be played when the user is running out of time for an exercise.",
-            "importance": "low",
-            "optional": true
-          },
-          {
-            "name": "timeout",
-            "type": "audio",
-            "label": "Timeout",
-            "description": "Will be played when the user runs out of time.",
             "importance": "low",
             "optional": true
           }

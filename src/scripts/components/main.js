@@ -497,7 +497,9 @@ export default class Main {
     this.exercises.start(id);
 
     if (Globals.get('params').audio.backgroundMusic.muteDuringExercise) {
-      Jukebox.fade('backgroundMusic', { type: 'out' });
+      Jukebox.fade(
+        'backgroundMusic', { type: 'out', time: Main.MUSIC_FADE_TIME }
+      );
     }
 
     Jukebox.play('openExercise');
@@ -763,7 +765,12 @@ export default class Main {
    * Handle user lost a life.
    */
   handleLostLife() {
+    if (this.livesLeft === 0) {
+      return;
+    }
+
     this.livesLeft--;
+    Jukebox.play('lostLife');
 
     this.toolbar.setStatusContainerStatus('lives', { value: this.livesLeft });
 
@@ -801,7 +808,9 @@ export default class Main {
     Jukebox.play('closeExercise');
 
     if (Globals.get('params').audio.backgroundMusic.muteDuringExercise) {
-      Jukebox.fade('backgroundMusic', { type: 'in' });
+      Jukebox.fade(
+        'backgroundMusic', { type: 'in', time: Main.MUSIC_FADE_TIME }
+      );
     }
 
     this.stages.enable();
@@ -985,6 +994,7 @@ export default class Main {
       }
     );
 
+    Jukebox.stopAll();
     Jukebox.play('gameOver');
 
     this.confirmationDialog.show();
@@ -1028,13 +1038,12 @@ export default class Main {
       return;
     }
 
-    // this.handleLostLife();
+    this.handleLostLife();
 
-    // if (this.livesLeft > 0) {
-    //   Jukebox.play('timeout');
-    //   this.exercises.reset(id);
-    //   this.handleExerciseClosed();
-    // }
+    if (this.livesLeft > 0) {
+      this.exercises.reset(id);
+      this.handleExerciseClosed();
+    }
 
     // TODO: Dialog?
   }
@@ -1154,6 +1163,7 @@ export default class Main {
 
     if (this.isAudioOn) {
       Jukebox.unmute();
+      Jukebox.play('backgroundMusic');
     }
   }
 
@@ -1231,5 +1241,8 @@ export default class Main {
   }
 }
 
-/** @constant {number} CONVENIENCE_MARGIN_PX Extra margin for height limit */
+/** @constant {number} CONVENIENCE_MARGIN_PX Extra margin for height limit. */
 Main.CONVENIENCE_MARGIN_PX = 32;
+
+/** @constant {number} MUSIC_FADE_TIME Music fade time in ms. */
+Main.MUSIC_FADE_TIME = 2000;

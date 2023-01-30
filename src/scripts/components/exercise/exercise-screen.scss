@@ -134,6 +134,16 @@
             height: 100%;
           }
 
+          &.h5p-advanced-text {
+            p:first-child {
+              margin-top: 1rem;
+            }
+
+            p:last-child {
+              margin-bottom: 1rem;
+            }
+          }
+
           &.h5p-interactive-video {
             overflow: inherit;
           }
