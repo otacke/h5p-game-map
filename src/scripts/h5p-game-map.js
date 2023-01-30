@@ -234,6 +234,10 @@ export default class GameMap extends H5P.Question {
    * @returns {object} Current state to be retrieved later.
    */
   getCurrentState() {
+    if (!this.main) {
+      return {};
+    }
+
     return {
       content: this.main.getCurrentState()
     };
