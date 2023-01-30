@@ -101,12 +101,23 @@
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
+        gap: 1rem;
+        justify-content: space-between;
         height: 2rem;
         padding: 0 0.25rem;
 
         .h5p-game-map-exercise-headline-text {
           font-size: 1.25rem;
           font-weight: bold;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .h5p-game-map-exercise-headline-timer {
+          font-size: 1.25rem;
+          font-weight: bold;
+          justify-self: flex-end;
         }
       }
 

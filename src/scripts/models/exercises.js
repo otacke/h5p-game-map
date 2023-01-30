@@ -9,13 +9,19 @@ export default class Exercises {
    * @param {object} [callbacks={}] Callbacks.
    * @param {function} [callbacks.onStateChanged] Callback when state changed.
    * @param {function} [callbacks.onScoreChanged] Callback when score changed.
+   * @param {function} [callbacks.onTimerTicked] Callback when timer ticked.
+   * @param {function} [callbacks.onTimeoutWarning] Callback when timer warned.
+   * @param {function} [callbacks.onTimeout] Callback when time ran out.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = params;
 
     this.callbacks = Util.extend({
       onStateChanged: () => {},
-      onScoreChanged: () => {}
+      onScoreChanged: () => {},
+      onTimerTicked: () => {},
+      onTimeoutWarning: () => {},
+      onTimeout: () => {}
     }, callbacks);
 
     this.exercises = {};
@@ -27,6 +33,15 @@ export default class Exercises {
         },
         onScoreChanged: (scoreParams) => {
           this.callbacks.onScoreChanged(element.id, scoreParams);
+        },
+        onTimerTicked: (remainingTime) => {
+          this.callbacks.onTimerTicked(element.id, remainingTime);
+        },
+        onTimeoutWarning: () => {
+          this.callbacks.onTimeoutWarning(element.id);
+        },
+        onTimeout: () => {
+          this.callbacks.onTimeout(element.id);
         }
       });
     });
@@ -50,9 +65,7 @@ export default class Exercises {
   getCurrentState() {
     return Object.values(this.exercises).map((exercise) => {
       return {
-        id: exercise.getId(),
-        state: exercise.getState(),
-        instanceState: exercise.getCurrentState()
+        exercise: exercise.getCurrentState()
       };
     });
   }
@@ -113,14 +126,53 @@ export default class Exercises {
   }
 
   /**
-   * Reset.
+   * Reset all exercises.
    *
    * @param {object} [params={}] Parameters.
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
-  reset(params = {}) {
+  resetAll(params = {}) {
     Object.values(this.exercises).forEach((exercise) => {
       exercise.reset({ isInitial: params.isInitial });
     });
+  }
+
+  /**
+   * Reset.
+   *
+   * @param {number} id Id of exercise to reset.
+   */
+  reset(id) {
+    if (!this.exercises[id]) {
+      return;
+    }
+
+    this.exercises[id].reset();
+  }
+
+  /**
+   * Stop exercise.
+   *
+   * @param {string} id Id of exercise to start.
+   */
+  start(id) {
+    if (!this.exercises[id]) {
+      return;
+    }
+
+    this.exercises[id].start();
+  }
+
+  /**
+   * Stop exercise.
+   *
+   * @param {string} id Id of exercise to stop.
+   */
+  stop(id) {
+    if (!this.exercises[id]) {
+      return;
+    }
+
+    this.exercises[id].stop();
   }
 }

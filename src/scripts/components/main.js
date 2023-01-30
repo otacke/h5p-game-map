@@ -233,7 +233,7 @@ export default class Main {
 
     // Toolbar
     this.toolbar = new Toolbar({
-      ...(globalParams.headline && {headline: globalParams.headline}),
+      ...(globalParams.headline && { headline: globalParams.headline }),
       buttons: toolbarButtons,
       statusContainers: toolbarStatusContainers
     });
@@ -311,6 +311,15 @@ export default class Main {
         },
         onScoreChanged: (id, scoreParams) => {
           this.handleExerciseScoreChanged(id, scoreParams);
+        },
+        onTimerTicked: (id, remainingTime) => {
+          this.handleTimerTicked(id, remainingTime);
+        },
+        onTimeoutWarning: (id) => {
+          this.handleTimeoutWarning(id);
+        },
+        onTimeout: (id) => {
+          this.handleTimeout(id);
         }
       }
     );
@@ -477,9 +486,15 @@ export default class Main {
     const stage = this.stages.getStage(id);
     const exercise = this.exercises.getExercise(id);
 
+    const remainingTime = exercise.getRemainingTime();
+    if (typeof remainingTime === 'number') {
+      this.exerciseScreen.setTime(remainingTime);
+    }
+
     this.exerciseScreen.setH5PContent(exercise.getDOM());
     this.exerciseScreen.setTitle(stage.getLabel());
     this.exerciseScreen.show();
+    this.exercises.start(id);
 
     if (Globals.get('params').audio.backgroundMusic.muteDuringExercise) {
       Jukebox.fade('backgroundMusic', { type: 'out' });
@@ -496,9 +511,7 @@ export default class Main {
     }
 
     // Store to restore focus when exercise screen is closed
-    this.currentlyOpenStage = stage;
-
-    this.isExerciseOpen = true;
+    this.openExerciseId = id;
 
     window.requestAnimationFrame(() => {
       Globals.get('resize')();
@@ -640,7 +653,7 @@ export default class Main {
       skipQueue: false
     }, params);
 
-    if (!this.isExerciseOpen || params.skipQueue) {
+    if (!this.openExerciseId || params.skipQueue) {
       callback();
       return;
     }
@@ -738,22 +751,7 @@ export default class Main {
     }
 
     if (typeof params.score === 'number' && params.score !== params.maxScore) {
-      this.livesLeft--;
-
-      this.toolbar.setStatusContainerStatus('lives', { value: this.livesLeft });
-
-      if (this.livesLeft === 0) {
-        // Clear all animations that were about to be played
-        this.queueAnimation = [];
-
-        // Store current state and seal stage
-        this.stagesGameOverState = this.stages.getCurrentState();
-        this.stages.forEach((stage) => {
-          stage.setState('sealed');
-        });
-
-        this.handleExerciseClosed();
-      }
+      this.handleLostLife();
     }
 
     this.toolbar.setStatusContainerStatus(
@@ -762,9 +760,39 @@ export default class Main {
   }
 
   /**
+   * Handle user lost a life.
+   */
+  handleLostLife() {
+    this.livesLeft--;
+
+    this.toolbar.setStatusContainerStatus('lives', { value: this.livesLeft });
+
+    if (this.livesLeft === 0) {
+      // Clear all animations that were about to be played
+      this.queueAnimation = [];
+
+      // Store current state and seal stage
+      this.stagesGameOverState = this.stages.getCurrentState();
+      this.stages.forEach((stage) => {
+        stage.setState('sealed');
+      });
+
+      this.handleExerciseClosed();
+    }
+  }
+
+  /**
    * Handle exercise was closed.
    */
   handleExerciseClosed() {
+    if (!this.openExerciseId) {
+      return;
+    }
+
+    this.addToQueue(() => {
+      this.exerciseScreen.setTime('');
+    });
+
     this.map.dom.setAttribute(
       'aria-label', Dictionary.get('a11y.applicationInstructions')
     );
@@ -778,10 +806,12 @@ export default class Main {
 
     this.stages.enable();
 
-    this.currentlyOpenStage.focus({ skipNextFocusHandler: true });
-    this.currentlyOpenStage = null;
+    this.stages
+      .getStage(this.openExerciseId)
+      .focus({ skipNextFocusHandler: true });
 
-    this.isExerciseOpen = false;
+    this.exercises.stop(this.openExerciseId);
+    this.openExerciseId = false;
   }
 
   /**
@@ -962,6 +992,54 @@ export default class Main {
   }
 
   /**
+   * Handle timer ticked.
+   *
+   * @param {number} id Id of exercise that had a timer tick.
+   * @param {number} remainingTime Remaining time in ms.
+   */
+  handleTimerTicked(id, remainingTime) {
+    if (!id || id !== this.openExerciseId) {
+      return;
+    }
+
+    this.exerciseScreen.setTime(remainingTime);
+  }
+
+  /**
+   * Handle timeout warning.
+   *
+   * @param {number} id Id of exercise that is about to time out.
+   */
+  handleTimeoutWarning(id) {
+    if (!id || id !== this.openExerciseId) {
+      return;
+    }
+
+    Jukebox.play('timeoutWarning');
+  }
+
+  /**
+   * Handle timeout.
+   *
+   * @param {number} id Id of exercise that timed out.
+   */
+  handleTimeout(id) {
+    if (!id || id !== this.openExerciseId) {
+      return;
+    }
+
+    // this.handleLostLife();
+
+    // if (this.livesLeft > 0) {
+    //   Jukebox.play('timeout');
+    //   this.exercises.reset(id);
+    //   this.handleExerciseClosed();
+    // }
+
+    // TODO: Dialog?
+  }
+
+  /**
    * Show solutions.
    */
   showSolutions() {
@@ -1013,7 +1091,7 @@ export default class Main {
     this.currentStageIndex = 0;
     this.confirmationDialog.hide();
 
-    this.isExerciseOpen = false;
+    this.openExerciseId = false;
     this.queueAnimation = [];
     this.scheduledAnimations = [];
 
@@ -1025,7 +1103,7 @@ export default class Main {
 
     this.paths.reset({ isInitial: params.isInitial });
     this.stages.reset({ isInitial: params.isInitial });
-    this.exercises.reset({ isInitial: params.isInitial });
+    this.exercises.resetAll({ isInitial: params.isInitial });
 
     // Set start state stages
     if (globalParams.behaviour.map.roaming === 'free') {

@@ -145,6 +145,30 @@
                   "default": false
                 },
                 {
+                  "name": "time",
+                  "type": "group",
+                  "label": "Time limit",
+                  "description": "Define timer related settings.",
+                  "fields": [
+                    {
+                      "name": "timeLimit",
+                      "type": "number",
+                      "label": "Time limit",
+                      "description": "Optional time limit in seconds. If a user exceeds this time, the exercise will close, be reset, and the user will loose a life if lives are limited.",
+                      "min": 1,
+                      "optional": true
+                    },
+                    {
+                      "name": "timeoutWarning",
+                      "type": "number",
+                      "label": "Timeout warning time",
+                      "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings.",
+                      "min": 1,
+                      "optional": true
+                    }
+                  ]
+                },
+                {
                   "name": "accessRestrictions",
                   "type": "group",
                   "label": "Access restrictions",
@@ -710,7 +734,23 @@
             "name": "gameOver",
             "type": "audio",
             "label": "Game over",
-            "description": "Will be played when the user loses all lives.",
+            "description": "Will be played when the user is game over.",
+            "importance": "low",
+            "optional": true
+          },
+          {
+            "name": "timeoutWarning",
+            "type": "audio",
+            "label": "Timeout warning",
+            "description": "Will be played when the user is running out of time for an exercise.",
+            "importance": "low",
+            "optional": true
+          },
+          {
+            "name": "timeout",
+            "type": "audio",
+            "label": "Timeout",
+            "description": "Will be played when the user runs out of time.",
             "importance": "low",
             "optional": true
           }

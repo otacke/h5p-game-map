@@ -1,5 +1,6 @@
 import Globals from '@services/globals';
 import Jukebox from '@services/jukebox';
+import Timer from '@services/timer';
 import Util from '@services/util';
 
 export default class Exercise {
@@ -10,6 +11,9 @@ export default class Exercise {
    * @param {object} [callbacks={}] Callbacks.
    * @param {function} [callbacks.onStateChanged] Callback when state changed.
    * @param {function} [callbacks.onScoreChanged] Callback when score changed.
+   * @param {function} [callbacks.onTimerTicked] Callback when timer ticked.
+   * @param {function} [callbacks.onTimeoutWarning] Callback when timer warned.
+   * @param {function} [callbacks.onTimeout] Callback when time ran out.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -18,7 +22,10 @@ export default class Exercise {
 
     this.callbacks = Util.extend({
       onStateChanged: () => {},
-      onScoreChanged: () => {}
+      onScoreChanged: () => {},
+      onTimerTicked: () => {},
+      onTimeoutWarning: () => {},
+      onTimeout: () => {}
     }, callbacks);
 
     this.setState(Globals.get('states')['unstarted']);
@@ -78,9 +85,10 @@ export default class Exercise {
     // Get previous instance state
     const exercisesState = Globals.get('extras').previousState?.content?.
       exercises ?? [];
-    let previousState = exercisesState
-      .find((exercise) => exercise.id === this.getId());
-    previousState = (previousState || {}).instanceState;
+
+    this.previousState = exercisesState
+      .find((item) => item.exercise?.id === this.getId());
+    this.previousState = this.previousState?.exercise || {};
 
     if (!this.instance) {
       this.instance = H5P.newRunnable(
@@ -88,7 +96,7 @@ export default class Exercise {
         Globals.get('contentId'),
         undefined,
         true,
-        { previousState: previousState }
+        { previousState: this.previousState?.instanceState }
       );
     }
 
@@ -124,7 +132,13 @@ export default class Exercise {
    * @returns {object} Current state to be retrieved later.
    */
   getCurrentState() {
-    return this.instance?.getCurrentState?.();
+    return {
+      state: this.state,
+      id: this.params.id,
+      remainingTime: this.remainingTime,
+      isCompleted: this.isCompleted,
+      instanceState: this.instance?.getCurrentState?.()
+    };
   }
 
   /**
@@ -173,6 +187,15 @@ export default class Exercise {
     const maxScore = this.instance?.getMaxScore?.();
 
     return (typeof maxScore === 'number') ? maxScore : 0;
+  }
+
+  /**
+   * Get remaining time.
+   *
+   * @returns {number} Remaining time in ms.
+   */
+  getRemainingTime() {
+    return this.remainingTime;
   }
 
   /**
@@ -251,21 +274,53 @@ export default class Exercise {
       return; // Not relevant
     }
 
+    const isCompletedEnough =
+      Globals.get('params').behaviour.map.roaming !== 'success';
+
     this.score = event.getScore();
 
     if (this.score < this.instance.getMaxScore()) {
       this.setState(Globals.get('states')['completed']);
       Jukebox.play('checkExerciseNotFullScore');
+
+      if (isCompletedEnough) {
+        this.stop();
+        this.isCompleted = true;
+      }
     }
     else {
       this.setState(Globals.get('states')['cleared']);
       Jukebox.play('checkExerciseFullScore');
+      this.stop();
+      this.isCompleted = true;
     }
 
     this.callbacks.onScoreChanged({
       score: this.score,
       maxScore: this.instance.getMaxScore()
     });
+  }
+
+  /**
+   * Stop.
+   */
+  stop() {
+    this.timer?.stop();
+  }
+
+  /**
+   * Start.
+   */
+  start() {
+    if (!this.isAttached) {
+      return; // Will start when viewed
+    }
+
+    if (this.isCompleted) {
+      return; // Exercise already completed
+    }
+
+    this.timer?.start(this.remainingTime);
   }
 
   /**
@@ -346,6 +401,10 @@ export default class Exercise {
 
     this.setState('opened');
 
+    if (!this.isCompleted) {
+      this.start();
+    }
+
     window.requestAnimationFrame(() => {
       Globals.get('resize')();
     });
@@ -360,11 +419,50 @@ export default class Exercise {
   reset(params = {}) {
     this.score = 0;
 
-    const state = params.isInitial ?
-      this.params.state :
-      Globals.get('states')['unstarted'];
+    let timeLimit;
+    let state;
+
+    if (params.isInitial) {
+      timeLimit = this.previousState?.remainingTime;
+      if (typeof timeLimit !== 'number') {
+        timeLimit = (this.params.time?.timeLimit ?? -1) * 1000;
+      }
+
+      this.isCompleted = this.previousState.isCompleted ?? false;
+
+      state = this.previousState.state ?? this.params.state;
+    }
+    else {
+      timeLimit = (this.params.time?.timeLimit ?? -1) * 1000;
+      this.isCompleted = false;
+      state = Globals.get('states')['unstarted'];
+    }
+
+    if (timeLimit > -1) {
+      this.timer = new Timer(
+        { interval: 500 },
+        {
+          onExpired: () => {
+            this.handleTimeout();
+          },
+          ...(this.params.time.timeoutWarning && {
+            onTick: () => {
+              this.handleTimeoutWarning();
+            }
+          })
+        }
+      );
+
+      this.remainingTime = timeLimit;
+    }
+
+    if (!params.isInitial) {
+      this.timer?.reset();
+    }
 
     this.setState(state);
+
+    this.hasPlayedTimeoutWarning = false;
 
     /*
      * If not attached yet, some contents can fail (e. g. CP), but contents
@@ -395,5 +493,29 @@ export default class Exercise {
     });
 
     this.isShowingSolutions = false;
+  }
+
+  /**
+   * Handle timeout.
+   */
+  handleTimeout() {
+    this.callbacks.onTimeout();
+  }
+
+  /**
+   * Handle timeout warning.
+   */
+  handleTimeoutWarning() {
+    this.remainingTime = this.timer.getTime();
+
+    this.callbacks.onTimerTicked(this.remainingTime);
+
+    if (
+      this.remainingTime <= this.params.time?.timeoutWarning * 1000 &&
+      !this.hasPlayedTimeoutWarning
+    ) {
+      this.hasPlayedTimeoutWarning = true;
+      this.callbacks.onTimeoutWarning();
+    }
   }
 }

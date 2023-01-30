@@ -67,6 +67,10 @@ export default class ExerciseScreen {
     this.headlineText.classList.add('h5p-game-map-exercise-headline-text');
     headline.append(this.headlineText);
 
+    this.headlineTimer = document.createElement('div');
+    this.headlineTimer.classList.add('h5p-game-map-exercise-headline-timer');
+    headline.append(this.headlineTimer);
+
     // H5P instance
     this.h5pInstance = document.createElement('div');
     this.h5pInstance.classList.add('h5p-game-map-exercise-instance-container');
@@ -239,13 +243,38 @@ export default class ExerciseScreen {
   }
 
   /**
+   * Set time.
+   *
+   * @param {number} timeMs Time to display on timer.
+   */
+  setTime(timeMs) {
+    if (timeMs === null || timeMs === '') {
+      this.headlineTimer.innerText = '';
+      return;
+    }
+
+    if (typeof timeMs !== 'number') {
+      return;
+    }
+
+    const date = new Date(0);
+    date.setSeconds(Math.round(Math.max(0, timeMs / 1000)));
+
+    this.headlineTimer.innerText = date
+      .toISOString()
+      .split('T')[1]
+      .split('.')[0]
+      .replace(/^[0:]+/, '');
+  }
+
+  /**
    * Get computed size.
    *
    * @returns {object} Size with width and height.
    */
   getSize() {
     const rect = this.dom.getBoundingClientRect();
-    return { width: rect.width, height: rect.height};
+    return { width: rect.width, height: rect.height };
   }
 
   /**
