@@ -966,6 +966,7 @@ export default class Main {
     this.gameDone = true;
     this.queueAnimation = [];
     this.stages.togglePlayfulness(false);
+    Jukebox.stopAll();
 
     this.callbacks.onFinished();
     this.showEndscreen({ focusButton: true });
