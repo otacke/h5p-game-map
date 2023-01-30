@@ -2,7 +2,7 @@
   .media-screen-button-start {
     button::before {
       content: "\F278";
-      font-family: H5PFontAwesome4;
+      font-family: "H5PFontAwesome4", sans-serif;
       padding-right: 0.5rem;
     }
   }

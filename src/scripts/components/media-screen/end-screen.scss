@@ -21,7 +21,7 @@
   .media-screen-button-show-solutions {
     button::before {
       content: "\F06E";
-      font-family: H5PFontAwesome4;
+      font-family: "H5PFontAwesome4", sans-serif;
       padding-right: 0.5rem;
     }
   }
@@ -29,7 +29,7 @@
   .media-screen-button-restart {
     button::before {
       content: "\F01E";
-      font-family: H5PFontAwesome4;
+      font-family: "H5PFontAwesome4", sans-serif;
       padding-right: 0.5rem;
     }
   }

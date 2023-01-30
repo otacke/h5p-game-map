@@ -15,57 +15,6 @@
   overflow: hidden;
   padding: 0.5rem;
 
-  &.solution-mode {
-    background-color: $color-text;
-
-    .toolbar-headline {
-      color: $color-background;
-
-      &::after {
-        content: "\f06e";
-        font-family: "H5PFontAwesome4", sans-serif;
-        font-weight: normal;
-        margin-left: 0.5rem;
-      }
-    }
-
-    .status-containers {
-      .status-container {
-        &::before {
-          color: $color-background;
-        }
-
-        .status-container-values {
-          span.value, span.max-value {
-            color: $color-background;
-          }
-
-          span.delimiter {
-            color: $color-background;
-            text-align: center;
-            width: 1rem;
-          }
-        }
-      }
-    }
-
-    .toolbar-buttons .toolbar-button {
-      background-color: rgba(166, 166, 166, .1);
-      border-color: $color-text;
-      color: $color-background;
-
-      &:not(.toolbar-button-disabled) {
-        &:hover {
-          background-color: rgba(166, 166, 166, .2);
-        }
-
-        &:active {
-          background-color: rgba(166, 166, 166, .3);
-        }
-      }
-    }
-  }
-
   .toolbar-headline {
     color: $color-text;
     flex-grow: 1;
@@ -152,5 +101,56 @@
 
   &.display-none {
     display: none;
+  }
+
+  &.solution-mode {
+    background-color: $color-text;
+
+    .toolbar-headline {
+      color: $color-background;
+
+      &::after {
+        content: "\f06e";
+        font-family: "H5PFontAwesome4", sans-serif;
+        font-weight: normal;
+        margin-left: 0.5rem;
+      }
+    }
+
+    .status-containers {
+      .status-container {
+        &::before {
+          color: $color-background;
+        }
+
+        .status-container-values {
+          span.value, span.max-value {
+            color: $color-background;
+          }
+
+          span.delimiter {
+            color: $color-background;
+            text-align: center;
+            width: 1rem;
+          }
+        }
+      }
+    }
+
+    .toolbar-buttons .toolbar-button {
+      background-color: rgba(166, 166, 166, .1);
+      border-color: $color-text;
+      color: $color-background;
+
+      &:not(.toolbar-button-disabled) {
+        &:hover {
+          background-color: rgba(166, 166, 166, .2);
+        }
+
+        &:active {
+          background-color: rgba(166, 166, 166, .3);
+        }
+      }
+    }
   }
 }
