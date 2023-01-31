@@ -552,9 +552,7 @@ export default class Main {
     }
 
     if (this.stages) {
-      this.addToQueue(() => {
-        this.stages.updateNeighborsState(id, state);
-      });
+      this.stages.updateNeighborsState(id, state);
 
       // Set filters for completed/cleared stages
       const filters = {

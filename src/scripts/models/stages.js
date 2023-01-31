@@ -236,7 +236,7 @@ export default class Stages {
           return;
         }
 
-        targetStage.show();
+        targetStage.show({ queue: true });
       });
     }
 

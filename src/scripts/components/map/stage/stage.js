@@ -238,9 +238,19 @@ export default class Stage {
 
   /**
    * Show.
+   *
+   * @param {object} [params={}] Parameters.
    */
-  show() {
-    this.dom.classList.remove('display-none');
+  show(params = {}) {
+    if (params.queue) {
+      this.callbacks.onAddedToQueue(() => {
+        this.dom.classList.remove('display-none');
+      });
+    }
+    else {
+      this.dom.classList.remove('display-none');
+    }
+
     this.isVisibleState = true;
   }
 
@@ -590,25 +600,25 @@ export default class Stage {
     if (!this.state || this.state !== newState) {
       this.state = newState;
 
-      for (const [key, value] of Object.entries(states)) {
-        if (value !== this.state) {
-          this.content.classList.remove(`h5p-game-map-stage-${key}`);
+      // Callback to run once exercise screen closed
+      const callback = () => {
+        for (const [key, value] of Object.entries(states)) {
+          if (value !== this.state) {
+            this.content.classList.remove(`h5p-game-map-stage-${key}`);
+          }
+          else {
+            this.content.classList.add(`h5p-game-map-stage-${key}`);
+          }
         }
-        else {
-          this.content.classList.add(`h5p-game-map-stage-${key}`);
-        }
-      }
 
-      this.updateAriaLabel();
+        this.updateAriaLabel();
 
-      window.requestAnimationFrame(() => {
-        this.updateColor();
-      });
+        window.requestAnimationFrame(() => {
+          this.updateColor();
+        });
 
-      // Put animation and sound in queue
-      if (this.shouldBePlayful) {
-        // Callback to execute once ready
-        const callback = () => {
+        // Put animation and sound in queue
+        if (this.shouldBePlayful) {
           if (newState === states['open'] || newState === states['opened']) {
             this.animate('bounce');
             Jukebox.play('unlockStage');
@@ -617,19 +627,26 @@ export default class Stage {
             this.animate('bounce');
             Jukebox.play('clearStage');
           }
-        };
+        }
+      };
 
-        // Optional queue params, e.g. stalling following callbacks in queue
-        const params = {};
+      // Optional queue params, e.g. stalling following callbacks in queue
+      const params = {};
+
+      // Make sure to add a blocking delay for when stages are cleared
+      if (this.shouldBePlayful) {
         if (newState === states['cleared']) {
           params.block = Stage.ANIMATION_CLEARED_BLOCK_MS;
         }
         else if (newState === states['sealed']) {
           params.skipQueue = true;
         }
-
-        this.callbacks.onAddedToQueue(callback, params);
       }
+      else {
+        params.block = 0;
+      }
+
+      this.callbacks.onAddedToQueue(callback, params);
 
       this.callbacks.onStateChanged(this.params.id, this.state);
     }
