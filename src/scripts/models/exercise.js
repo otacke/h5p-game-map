@@ -154,6 +154,10 @@ export default class Exercise {
    * Show solutions.
    */
   showSolutions() {
+    if (!this.isAttached) {
+      this.attachInstance();
+    }
+
     this.instance?.showSolutions?.();
     this.isShowingSolutions = true;
   }
