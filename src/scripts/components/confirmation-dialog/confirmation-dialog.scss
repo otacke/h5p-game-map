@@ -1,4 +1,8 @@
 .h5p-game-map-confirmation-dialog {
+  .h5p-confirmation-dialog-popup {
+    min-width: 15rem;
+  }
+
   &.prefers-reduced-motion {
     .h5p-confirmation-dialog-background {
       .h5p-confirmation-dialog-popup {
