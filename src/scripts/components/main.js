@@ -1202,28 +1202,17 @@ export default class Main {
    * Handle visibility change.
    */
   startVisibilityObserver() {
-    // iOS is behind ... Again ...
-    const callback = window.requestIdleCallback ?
-      window.requestIdleCallback :
-      window.requestAnimationFrame;
-
-    callback(() => {
-      Jukebox.observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          if (this.unmuteWhenVisible === true) {
-            Jukebox.unmute();
-            Jukebox.play('backgroundMusic');
-          }
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        this.unmuteWhenVisible = !Jukebox.isMuted();
+        Jukebox.mute();
+      }
+      else {
+        if (this.unmuteWhenVisible === true) {
+          Jukebox.unmute();
+          Jukebox.play('backgroundMusic');
         }
-        else {
-          this.unmuteWhenVisible = !Jukebox.isMuted();
-          Jukebox.mute();
-        }
-      }, {
-        threshold: 0
-      });
-
-      Jukebox.observer.observe(this.dom);
+      }
     });
   }
 
