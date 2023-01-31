@@ -57,8 +57,12 @@ export default class Toolbar {
       );
     }
 
+    const nonHeadline = document.createElement('div');
+    nonHeadline.classList.add('toolbar-non-headline');
+    this.dom.append(nonHeadline);
+
     this.statusContainers = new StatusContainers();
-    this.dom.append(this.statusContainers.getDOM());
+    nonHeadline.append(this.statusContainers.getDOM());
 
     this.params.statusContainers.forEach((container) => {
       this.statusContainers.addContainer(container);
@@ -67,7 +71,7 @@ export default class Toolbar {
     // Buttons
     this.buttonsContainer = document.createElement('div');
     this.buttonsContainer.classList.add('toolbar-buttons');
-    this.dom.append(this.buttonsContainer);
+    nonHeadline.append(this.buttonsContainer);
 
     this.params.buttons.forEach((button) => {
       this.addButton(button);

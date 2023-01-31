@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
-  gap: 1.25em;
+  flex-wrap: wrap;
   justify-content: flex-end;
   margin-bottom : .5em;
   overflow: hidden;
@@ -19,31 +19,41 @@
     flex-grow: 1;
     font-weight: bold;
     justify-self: flex-start;
-    margin-left: 0.5em;
+    padding-right: 1.25em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .status-containers {
-    .status-container-lives {
-      &::before {
-        content: "\f004";
-        font-family: "H5PFontAwesome4", sans-serif;
-      }
-    }
+  .toolbar-non-headline {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: right;
 
-    .status-container-stages {
-      &::before {
-        content: "\f10c";
-        font-family: "H5PFontAwesome4", sans-serif;
-      }
-    }
+    .status-containers {
+      padding-right: 1.25em;
 
-    .status-container-score {
-      &::before {
-        content: "\f005";
-        font-family: "H5PFontAwesome4", sans-serif;
+      .status-container-lives {
+        &::before {
+          content: "\f004";
+          font-family: "H5PFontAwesome4", sans-serif;
+        }
+      }
+
+      .status-container-stages {
+        &::before {
+          content: "\f10c";
+          font-family: "H5PFontAwesome4", sans-serif;
+        }
+      }
+
+      .status-container-score {
+        &::before {
+          content: "\f005";
+          font-family: "H5PFontAwesome4", sans-serif;
+        }
       }
     }
   }
