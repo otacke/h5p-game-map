@@ -3,14 +3,15 @@
 .h5p-game-map-exercise {
   align-items: center;
   background-color: rgba(44,44,44,.8);
-  transition: background-color 0.25s;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  grid-area: 1/1/1/1;
   height: 100%;
   left: 0;
-  position: absolute;
+  position: relative;
   top: 0;
+  transition: background-color 0.25s;
   width: 100%;
   z-index: 1;
 
@@ -94,6 +95,7 @@
       margin-left: 2rem;
       margin-top: 2rem;
       max-width: calc(100% - 4rem);
+      min-width: 0;
 
       .h5p-game-map-exercise-headline {
         align-items: center;

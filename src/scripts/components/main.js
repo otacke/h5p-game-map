@@ -807,6 +807,8 @@ export default class Main {
         .focus({ skipNextFocusHandler: true });
 
       this.openExerciseId = false;
+
+      Globals.get('resize')();
     });
     Jukebox.play('closeExercise');
 
