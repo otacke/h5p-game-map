@@ -8,19 +8,18 @@
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
-  font-size: 1.25rem;
-  gap: 1.25rem;
+  gap: 1.25em;
   justify-content: flex-end;
   margin-bottom : .5em;
   overflow: hidden;
-  padding: 0.5rem;
+  padding: 0.5em;
 
   .toolbar-headline {
     color: $color-text;
     flex-grow: 1;
     font-weight: bold;
     justify-self: flex-start;
-    margin-left: 0.5rem;
+    margin-left: 0.5em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -63,14 +62,14 @@
         &::before {
           content: "\f026";
           font-family: "H5PFontAwesome4", sans-serif;
-          font-size: 1.15rem;
-          height: 1.15rem;
+          font-size: 1.15em;
+          height: 1.15em;
           left: 50%;
-          margin-left: -0.575rem;
-          margin-top: -0.575rem;
+          margin-left: -0.575em;
+          margin-top: -0.575em;
           position: absolute;
           top: 50%;
-          width: 1.15rem;
+          width: 1.15em;
         }
 
         &.toolbar-button-active {
@@ -86,14 +85,14 @@
         &::before {
           content: "\f11e";
           font-family: "H5PFontAwesome4", sans-serif;
-          font-size: 1.15rem;
-          height: 1.15rem;
+          font-size: 1.15em;
+          height: 1.15em;
           left: 50%;
-          margin-left: -0.575rem;
-          margin-top: -0.575rem;
+          margin-left: -0.575em;
+          margin-top: -0.575em;
           position: absolute;
           top: 50%;
-          width: 1.15rem;
+          width: 1.15em;
         }
       }
     }
@@ -113,7 +112,7 @@
         content: "\f06e";
         font-family: "H5PFontAwesome4", sans-serif;
         font-weight: normal;
-        margin-left: 0.5rem;
+        margin-left: 0.5em;
       }
     }
 
@@ -131,7 +130,7 @@
           span.delimiter {
             color: $color-background;
             text-align: center;
-            width: 1rem;
+            width: 1em;
           }
         }
       }

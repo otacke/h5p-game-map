@@ -1,5 +1,8 @@
 @import '@styles/main';
 
+$titlebarButtonSize: 3em;
+$titlebarButtonBackgroundSize: 1.25em;
+
 .toolbar-button {
   align-items: center;
   background-color: $color-primary-5;
@@ -10,7 +13,7 @@
   border-radius: 3px; /* Same px value as used by Joubel in Interactive Book */
   display: flex;
   flex-shrink: 0;
-  font-size: 1rem;
+  font-size: 1em;
   height: $titlebarButtonSize;
   padding: 0;
   width: $titlebarButtonSize;
