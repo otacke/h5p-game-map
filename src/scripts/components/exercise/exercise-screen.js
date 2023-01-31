@@ -111,8 +111,10 @@ export default class ExerciseScreen {
         );
       }
 
-      this.animate('bounce-in');
-      this.focusTrap.activate();
+      this.animate('bounce-in', () => {
+        this.focusTrap.activate();
+      });
+
       document.addEventListener('click', this.handleGlobalClick);
       document.addEventListener('keydown', this.handleKeyDown);
     });
@@ -128,29 +130,38 @@ export default class ExerciseScreen {
    *
    * @param {object} [params={}] Parameters.
    * @param {boolean} [params.animate = false] If true, animate.
+   * @param {function} [callback] Callback when animation done.
    */
-  hide(params = {}) {
+  hide(params = {}, callback) {
     document.removeEventListener('click', this.handleGlobalClick);
     document.removeEventListener('keydown', this.handleKeyDown);
 
     if (params.animate) {
       this.dom.classList.add('transparent');
 
-      this.animate('bounce-out');
-
-      if (!Globals.get('params').visual.misc.useAnimation) {
-        this.handleCloseAnimationEnded();
+      if (Globals.get('params').visual.misc.useAnimation) {
+        this.animate('bounce-out', () => {
+          this.handleCloseAnimationEnded();
+          if (typeof callback === 'function') {
+            callback();
+          }
+        });
       }
       else {
-        this.contentContainer.addEventListener(
-          'animationend', this.handleCloseAnimationEnded
-        );
+        this.handleCloseAnimationEnded();
+        if (typeof callback === 'function') {
+          callback();
+        }
       }
     }
     else {
       this.contentContainer.classList.add('transparent');
       this.dom.classList.add('display-none');
       this.dom.classList.add('transparent');
+
+      if (typeof callback === 'function') {
+        callback();
+      }
     }
 
     this.focusTrap.deactivate();
@@ -160,8 +171,9 @@ export default class ExerciseScreen {
    * Animate
    *
    * @param {string} animationName Animation name.
+   * @param {function} callback Callback when animation ended.
    */
-  animate(animationName) {
+  animate(animationName, callback) {
     if (typeof animationName !== 'string' || this.isAnimating) {
       return;
     }
@@ -171,6 +183,9 @@ export default class ExerciseScreen {
     }
 
     this.isAnimating = true;
+
+    // Cannot make this work with this.handleAnimationEnded.bind(this, callback)
+    this.animationEndedCallback = callback;
 
     this.contentContainer.addEventListener(
       'animationend', this.handleAnimationEnded
@@ -193,6 +208,11 @@ export default class ExerciseScreen {
     );
 
     this.isAnimating = false;
+
+    if (typeof this.animationEndedCallback === 'function') {
+      this.animationEndedCallback();
+      this.animationEndedCallback = null;
+    }
   }
 
   /**

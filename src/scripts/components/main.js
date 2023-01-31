@@ -796,15 +796,18 @@ export default class Main {
       return;
     }
 
-    this.addToQueue(() => {
-      this.exerciseScreen.setTime('');
-    });
-
     this.map.dom.setAttribute(
       'aria-label', Dictionary.get('a11y.applicationInstructions')
     );
 
-    this.exerciseScreen.hide({ animate: true });
+    this.exerciseScreen.hide({ animate: true }, () => {
+      this.exerciseScreen.setTime('');
+      this.stages
+        .getStage(this.openExerciseId)
+        .focus({ skipNextFocusHandler: true });
+
+      this.openExerciseId = false;
+    });
     Jukebox.play('closeExercise');
 
     if (Globals.get('params').audio.backgroundMusic.muteDuringExercise) {
@@ -815,12 +818,7 @@ export default class Main {
 
     this.stages.enable();
 
-    this.stages
-      .getStage(this.openExerciseId)
-      .focus({ skipNextFocusHandler: true });
-
     this.exercises.stop(this.openExerciseId);
-    this.openExerciseId = false;
   }
 
   /**
