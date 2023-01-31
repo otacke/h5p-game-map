@@ -5,10 +5,6 @@
       "description": "Wenn gewählt, wird zu Beginn ein Titelbildschirm eingeblendet."
     },
     {
-      "label": "Überschrift",
-      "description": "Optionale Überschrift für die Titelleiste."
-    },
-    {
       "label": "Titelbildschirm",
       "fields": [
         {
@@ -20,6 +16,10 @@
           "label": "Titelbildschirm-Medium"
         }
       ]
+    },
+    {
+      "label": "Überschrift",
+      "description": "Optionale Überschrift für die Titelleiste."
     },
     {
       "label": "Spiellandkarten-Editor",
@@ -40,9 +40,6 @@
           "label": "Spiellandkarte",
           "fields": [
             {
-              "label": "Dummy"
-            },
-            {
               "label": "Elemente",
               "entity": "Element",
               "field": {
@@ -61,6 +58,20 @@
                   {
                     "label": "Nutzerinnen und Nutzer können hier starten",
                     "description": "Wenn ängewählt, können Nutzerinnen und Nutzer bei dieser Etappe starten. Wenn bei keinre Etappe oder mehr als einer gestartet werden kann, wird die Startetappe zufällig bestimmt."
+                  },
+                  {
+                    "label": "Zeitlimit",
+                    "description": "Stelle ein Zeitlimit ein.",
+                    "fields": [
+                      {
+                        "label": "Zeitlimit",
+                        "description": "Du kannst optional ein Zeitlimit in Sekunden setzen. Wenn die Nutzerinnen und Nutzer dieses Limit überschreiten, wird die Aufgabe geschlossen und zurückgesetzt und die Nutzerinnen und Nutzer verlieren ein Leben, falls diese begrenzt sind."
+                      },
+                      {
+                        "label": "Zeitlimitwarnung",
+                        "description": "Du kannst optional einstellen, wann ein Tonsignal als Warnung ertönen soll (Anzahl der verbleibenden Sekunden). Eine Tondatei muss in den Audioeinstellungen dafür hinterlegt sein."
+                      }
+                    ]
                   },
                   {
                     "label": "Zugangsbeschränkungen",
@@ -171,39 +182,48 @@
           "label": "Pfade",
           "fields": [
             {
-              "label": "Pfadfarbe"
+              "label": "Zeige Pfade",
+              "description": "Wähle, ob die Pfade auf der Karte angezeigt werden. Bitte beachte: Im Editor werden die Pfade immer angezeigt."
             },
             {
-              "label": "Pfadfarbe geschafft"
-            },
-            {
-              "label": "Pfadbreite",
-              "options": [
+              "label": "Style",
+              "fields": [
                 {
-                  "label": "dünn"
+                  "label": "Pfadfarbe"
                 },
                 {
-                  "label": "mittel"
+                  "label": "Pfadfarbe geschafft"
                 },
                 {
-                  "label": "dick"
-                }
-              ]
-            },
-            {
-              "label": "Pfadstil",
-              "options": [
-                {
-                  "label": "Durchgezogen"
+                  "label": "Pfadbreite",
+                  "options": [
+                    {
+                      "label": "dünn"
+                    },
+                    {
+                      "label": "mittel"
+                    },
+                    {
+                      "label": "dick"
+                    }
+                  ]
                 },
                 {
-                  "label": "Gepunktet"
-                },
-                {
-                  "label": "Gestrichelt"
-                },
-                {
-                  "label": "Doppelt"
+                  "label": "Pfadstil",
+                  "options": [
+                    {
+                      "label": "Durchgezogen"
+                    },
+                    {
+                      "label": "Gepunktet"
+                    },
+                    {
+                      "label": "Gestrichelt"
+                    },
+                    {
+                      "label": "Doppelt"
+                    }
+                  ]
                 }
               ]
             }
@@ -212,6 +232,10 @@
         {
           "label": "Verschiedenes",
           "fields": [
+            {
+              "label": "Karte animieren",
+              "description": "Entscheide, ob die Karte animiert sein soll. Selbst dann wenn du diese Option setzt, respektiert der Inhaltstyp ggf. die Browsereinstellungen der Nutzerinnen und Nutzer, falls diese weniger Animationen wünschen."
+            },
             {
               "label": "Höhenbegrenzungsmodus",
               "description": "Du kannst hier die Höhe des Bingobretts begrenzen, um in den sichtbaren Teil des Bildschirms zu passen. Die Automatische Begrenzung wird unter Umständen nicht perfekt funktionieren. Das kann von der Website abhängen, zum Beispiel bei solchen mit festen Navigationsleisten. Gute eigene Werte sind manuell nur schwer zu setzen.",
@@ -236,8 +260,78 @@
       ]
     },
     {
+      "label": "Audio settings",
+      "fields": [
+        {
+          "label": "Background music",
+          "fields": [
+            {
+              "label": "Background music",
+              "description": "The background music will be played automatically, but please note that the browser's Autoplay Policy may prevent to autoplay before the user has interacted with the content."
+            },
+            {
+              "label": "Mute when taking exercises"
+            }
+          ]
+        },
+        {
+          "label": "Ambient sounds",
+          "fields": [
+            {
+              "label": "Click on locked stage",
+              "description": "Will be played on the map when clicking on a locked stage."
+            },
+            {
+              "label": "Check exercise (not full score)",
+              "description": "Will be played when an answer is checked and the user did not get full score."
+            },
+            {
+              "label": "Check exercise (full score)",
+              "description": "Will be played when an answer is checked and the user did get full score."
+            },
+            {
+              "label": "Unlocking a stage",
+              "description": "Will be played on the map when a stage gets unlocked."
+            },
+            {
+              "label": "Open exercise",
+              "description": "Will be played when an exercise is opened."
+            },
+            {
+              "label": "Close exercise",
+              "description": "Will be played when an exercise is opened."
+            },
+            {
+              "label": "Show dialog",
+              "description": "Will be played when a confirmation dialog is shown."
+            },
+            {
+              "label": "Full score",
+              "description": "Will be played when the user reaches full score on the map."
+            },
+            {
+              "label": "Lost a life",
+              "description": "Will be played when the user loses a life."
+            },
+            {
+              "label": "Game over",
+              "description": "Will be played when the user is game over."
+            },
+            {
+              "label": "Timeout warning",
+              "description": "Will be played when the user is running out of time for an exercise."
+            }
+          ]
+        }
+      ]
+    },
+    {
       "label": "Verhaltenseinstellungen",
       "fields": [
+        {
+          "label": "Leben",
+          "description": "Setze die Anzahl Leben fest, die Nutzerinnen und Nutzer erhalten sollen, oder lasse das Feld leer für unendlich viele Leben. Nutzerinnen und Nutzer verlieren ein Leben, wenn sie eine Aufgabe nicht mit voller Punktzahl abschließen oder das Zeitlimit abläuft."
+        },
         {
           "label": "\"Wiederholen\"-Button anzeigen"
         },
@@ -270,10 +364,6 @@
                   "label": "Erfolgreich absolvieren zum Freigeben"
                 }
               ]
-            },
-            {
-              "label": "Zeige Pfade",
-              "description": "Wähle, ob die Pfade auf der Karte angezeigt werden. Bitte beachte: Im Editor werden die Pfade immer angezeigt."
             },
             {
               "label": "Nebel aktivieren",
@@ -350,6 +440,18 @@
           "default": "Nein"
         },
         {
+          "label": "Dialog header game over",
+          "default": "Game over!"
+        },
+        {
+          "label": "Dialog text game over",
+          "default": "You have lost all your lives. Please try again!"
+        },
+        {
+          "label": "OK",
+          "default": "OK"
+        },
+        {
           "label": "Kein Hintergrundbild gesetzt",
           "default": "Es wurde für die Karte kein Hintergrundbild gesetzt."
         },
@@ -367,8 +469,12 @@
           "default": "Beenden"
         },
         {
-          "label": "Beenden nicht möglich",
-          "default": "Beenden ist gerade nicht möglich"
+          "label": "Ton-Button (eingeschaltet)",
+          "default": "Ton ausschalten. Derzeit eingeschaltet."
+        },
+        {
+          "label": "Audio button (ausgeschaltet)",
+          "default": "Ton einschalten. Derzeit ausgeschaltet."
         },
         {
           "label": "Schließen",
@@ -435,6 +541,10 @@
           "label": "Etappe freigeschaltet",
           "description": "@stagelabel ist ein Platzhalter und wird durch die entsprechende Beschriftung ersetzt.",
           "default": "Etappe @stagelabel wurde freigeschaltet."
+        },
+        {
+          "label": "Rückzugs-Label für die Werkzeugleiste",
+          "default": "Game Map"
         }
       ]
     }

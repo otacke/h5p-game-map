@@ -5,10 +5,6 @@
       "description": "If checked, a title screen will show up when starting."
     },
     {
-      "label": "Headline",
-      "description": "Optional headline for the titlebar."
-    },
-    {
       "label": "Title screen",
       "fields": [
         {
@@ -20,6 +16,10 @@
           "label": "Title screen medium"
         }
       ]
+    },
+    {
+      "label": "Headline",
+      "description": "Optional headline for the titlebar."
     },
     {
       "label": "Game map editor",
@@ -40,9 +40,6 @@
           "label": "Game map",
           "fields": [
             {
-              "label": "Dummy"
-            },
-            {
               "label": "Elements",
               "entity": "Element",
               "field": {
@@ -61,6 +58,20 @@
                   {
                     "label": "User can start here",
                     "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly."
+                  },
+                  {
+                    "label": "Time limit",
+                    "description": "Define timer related settings.",
+                    "fields": [
+                      {
+                        "label": "Time limit",
+                        "description": "Optional time limit in seconds. If a user exceeds this time, the exercise will close, be reset, and the user will loose a life if lives are limited."
+                      },
+                      {
+                        "label": "Timeout warning time",
+                        "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
+                      }
+                    ]
                   },
                   {
                     "label": "Access restrictions",
@@ -171,39 +182,48 @@
           "label": "Paths",
           "fields": [
             {
-              "label": "Color path"
+              "label": "Display paths",
+              "description": "Choose whether paths will be displayed on the map. Please note: The paths are always visible in the editor."
             },
             {
-              "label": "Color path cleared"
-            },
-            {
-              "label": "Path width",
-              "options": [
+              "label": "Style",
+              "fields": [
                 {
-                  "label": "thin"
+                  "label": "Color path"
                 },
                 {
-                  "label": "medium"
+                  "label": "Color path cleared"
                 },
                 {
-                  "label": "thick"
-                }
-              ]
-            },
-            {
-              "label": "Path style",
-              "options": [
-                {
-                  "label": "Solid"
+                  "label": "Path width",
+                  "options": [
+                    {
+                      "label": "thin"
+                    },
+                    {
+                      "label": "medium"
+                    },
+                    {
+                      "label": "thick"
+                    }
+                  ]
                 },
                 {
-                  "label": "Dotted"
-                },
-                {
-                  "label": "Dashed"
-                },
-                {
-                  "label": "Double"
+                  "label": "Path style",
+                  "options": [
+                    {
+                      "label": "Solid"
+                    },
+                    {
+                      "label": "Dotted"
+                    },
+                    {
+                      "label": "Dashed"
+                    },
+                    {
+                      "label": "Double"
+                    }
+                  ]
                 }
               ]
             }
@@ -212,6 +232,10 @@
         {
           "label": "Miscellaneous",
           "fields": [
+            {
+              "label": "Animate map",
+              "description": "Decide if the map should be animated. Even if you set this option, the content type will honor the users' browser setting if they prefer reduced motion."
+            },
             {
               "label": "Height limit mode",
               "description": "Decide if you want to limit the content height to fit the visible area. Automatic detection may not be perfect depending on your website's setup, e.g. if it has sticky top navigation bars. Good custom values are hard to set manually.",
@@ -236,8 +260,78 @@
       ]
     },
     {
+      "label": "Audio settings",
+      "fields": [
+        {
+          "label": "Background music",
+          "fields": [
+            {
+              "label": "Background music",
+              "description": "The background music will be played automatically, but please note that the browser's Autoplay Policy may prevent to autoplay before the user has interacted with the content."
+            },
+            {
+              "label": "Mute when taking exercises"
+            }
+          ]
+        },
+        {
+          "label": "Ambient sounds",
+          "fields": [
+            {
+              "label": "Click on locked stage",
+              "description": "Will be played on the map when clicking on a locked stage."
+            },
+            {
+              "label": "Check exercise (not full score)",
+              "description": "Will be played when an answer is checked and the user did not get full score."
+            },
+            {
+              "label": "Check exercise (full score)",
+              "description": "Will be played when an answer is checked and the user did get full score."
+            },
+            {
+              "label": "Unlocking a stage",
+              "description": "Will be played on the map when a stage gets unlocked."
+            },
+            {
+              "label": "Open exercise",
+              "description": "Will be played when an exercise is opened."
+            },
+            {
+              "label": "Close exercise",
+              "description": "Will be played when an exercise is opened."
+            },
+            {
+              "label": "Show dialog",
+              "description": "Will be played when a confirmation dialog is shown."
+            },
+            {
+              "label": "Full score",
+              "description": "Will be played when the user reaches full score on the map."
+            },
+            {
+              "label": "Lost a life",
+              "description": "Will be played when the user loses a life."
+            },
+            {
+              "label": "Game over",
+              "description": "Will be played when the user is game over."
+            },
+            {
+              "label": "Timeout warning",
+              "description": "Will be played when the user is running out of time for an exercise."
+            }
+          ]
+        }
+      ]
+    },
+    {
       "label": "Behavioural settings",
       "fields": [
+        {
+          "label": "Lives",
+          "description": "Set the number of lives for a user or leave empty for unlimited lives. Users will lose a life when they do not get full score and they cannot continue once all lives are lost."
+        },
         {
           "label": "Enable \"Retry\" button"
         },
@@ -270,10 +364,6 @@
                   "label": "Succeed to clear stage"
                 }
               ]
-            },
-            {
-              "label": "Display paths",
-              "description": "Choose whether paths will be displayed on the map. Please note: The paths are always visible in the editor."
             },
             {
               "label": "Activate fog",
@@ -350,6 +440,18 @@
           "default": "No"
         },
         {
+          "label": "Dialog header game over",
+          "default": "Game over!"
+        },
+        {
+          "label": "Dialog text game over",
+          "default": "You have lost all your lives. Please try again!"
+        },
+        {
+          "label": "OK",
+          "default": "OK"
+        },
+        {
           "label": "No background image was set",
           "default": "No background image was set for the map."
         },
@@ -364,11 +466,15 @@
       "fields": [
         {
           "label": "Finish",
-          "default": "Finish"
+          "default": "Finish the map"
         },
         {
-          "label": "Finishing not possible",
-          "default": "Finishing is currently not possible"
+          "label": "Audio button (unmuted)",
+          "default": "Mute audio. Currently unmuted."
+        },
+        {
+          "label": "Audio button (muted)",
+          "default": "Unmute audio. Currently muted."
         },
         {
           "label": "Close",
@@ -435,6 +541,10 @@
           "label": "Unlocked stage",
           "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
           "default": "Stage @stagelabel was unlocked."
+        },
+        {
+          "label": "Toolbar fallback label",
+          "default": "Game Map"
         }
       ]
     }

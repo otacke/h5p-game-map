@@ -1005,13 +1005,13 @@
       {
         "name": "buttonAudioActive",
         "type": "text",
-        "label": "Audio button ()",
+        "label": "Audio button (unmuted)",
         "default": "Mute audio. Currently unmuted."
       },
       {
         "name": "buttonAudioInactive",
         "type": "text",
-        "label": "Audio button ()",
+        "label": "Audio button (muted)",
         "default": "Unmute audio. Currently muted."
       },
       {
