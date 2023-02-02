@@ -770,6 +770,7 @@ export default class Main {
     if (this.getScore() === this.getMaxScore()) {
       this.addToQueue(() => {
         Jukebox.play('fullScore');
+        this.showFullScoreConfirmation();
       });
     }
 
@@ -1096,6 +1097,28 @@ export default class Main {
       {
         headerText: Dictionary.get('l10n.confirmTimeoutHeader'),
         dialogText: dialogText,
+        confirmText: Dictionary.get('l10n.ok'),
+        hideCancel: true
+      }, {
+        onConfirmed: () => {
+          this.toolbar.enableButton('finish');
+        }
+      }
+    );
+
+    this.confirmationDialog.show();
+  }
+
+  /**
+   * Show full score confirmation.
+   */
+  showFullScoreConfirmation() {
+    this.toolbar.disableButton('finish');
+
+    this.confirmationDialog.update(
+      {
+        headerText: Dictionary.get('l10n.confirmFullScoreHeader'),
+        dialogText: Dictionary.get('l10n.confirmFullScoreDialog'),
         confirmText: Dictionary.get('l10n.ok'),
         hideCancel: true
       }, {

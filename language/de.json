@@ -466,6 +466,14 @@
           "default": "You ran out of time and lost a life."
         },
         {
+          "label": "Dialog header full score",
+          "default": "You achieved full score!"
+        },
+        {
+          "label": "Dialog text full score",
+          "default": "You have collected enough points to finish this map with a full score, but you are free to explore the rest if you wish to."
+        },
+        {
           "label": "OK",
           "default": "OK"
         },

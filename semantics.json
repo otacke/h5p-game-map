@@ -1009,14 +1009,26 @@
       {
         "name": "confirmTimeoutDialog",
         "type": "text",
-        "label": "Dialog text timeout",
+        "label": "Dialog text time out",
         "default": "You ran out of time."
       },
       {
         "name": "confirmTimeoutDialogLostLife",
         "type": "text",
-        "label": "Dialog text timeout (lost a life)",
+        "label": "Dialog text time out (lost a life)",
         "default": "You ran out of time and lost a life."
+      },
+      {
+        "name": "confirmFullScoreHeader",
+        "type": "text",
+        "label": "Dialog header full score",
+        "default": "You achieved full score!"
+      },
+      {
+        "name": "confirmFullScoreDialog",
+        "type": "text",
+        "label": "Dialog text full score",
+        "default": "You have collected enough points to finish this map with a full score, but you are free to explore the rest if you wish to."
       },
       {
         "name": "ok",
