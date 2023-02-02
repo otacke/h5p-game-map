@@ -286,7 +286,7 @@ export default class ExerciseScreen {
       .toISOString()
       .split('T')[1]
       .split('.')[0]
-      .replace(/^[0:]+/, '');
+      .replace(/^[0:]+/, '') || '0';
 
     this.headlineTimer.classList.remove('display-none');
   }

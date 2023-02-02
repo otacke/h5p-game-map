@@ -17,7 +17,8 @@ export default class Exercise {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      state: Globals.get('states')['unstarted']
+      state: Globals.get('states')['unstarted'],
+      animDuration: 0
     }, params);
 
     this.callbacks = Util.extend({
@@ -457,7 +458,7 @@ export default class Exercise {
         }
       );
 
-      this.remainingTime = timeLimit;
+      this.remainingTime = this.params.animDuration + timeLimit;
     }
 
     if (!params.isInitial) {
@@ -481,7 +482,6 @@ export default class Exercise {
       window.requestIdleCallback :
       window.requestAnimationFrame;
 
-    // TODO: Is this sufficient for YouTube Videos if not, add exceptions
     callback(() => {
       this.observer = this.observer || new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {

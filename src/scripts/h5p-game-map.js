@@ -97,12 +97,6 @@ export default class GameMap extends H5P.Question {
       }
     }, params);
 
-    // Sanitize stages
-    this.params.gamemapSteps.gamemap.elements =
-      this.params.gamemapSteps.gamemap.elements.filter((element) => {
-        return element.contentType?.library;
-      });
-
     // Determine mediaQuery result for prefers-reduced-motion preference
     const reduceMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
@@ -110,6 +104,20 @@ export default class GameMap extends H5P.Question {
 
     this.params.visual.misc.useAnimation =
       this.params.visual.misc.useAnimation && !reduceMotion;
+
+    // Sanitize stages
+    this.params.gamemapSteps.gamemap.elements =
+      this.params.gamemapSteps.gamemap.elements
+        .filter((element) => {
+          return element.contentType?.library;
+        })
+        .map((element) => {
+          element.animDuration = (this.params.visual.misc.useAnimation) ?
+            GameMap.EXERCISE_SCREEN_ANIM_DURATION_MS :
+            0;
+
+          return element;
+        });
 
     this.contentId = contentId;
     this.extras = extras;
@@ -291,3 +299,6 @@ GameMap.STATES = {
   cleared: 6, // Exercise, Stage, Path,
   sealed: 7 // Stage
 };
+
+/** @constant {number} EXERCISE_SCREEN_ANIM_DURATION_MS Duration from CSS. */
+GameMap.EXERCISE_SCREEN_ANIM_DURATION_MS = 1000;
