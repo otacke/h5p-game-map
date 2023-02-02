@@ -69,6 +69,7 @@ export default class ExerciseScreen {
 
     this.headlineTimer = document.createElement('div');
     this.headlineTimer.classList.add('h5p-game-map-exercise-headline-timer');
+    this.headlineTimer.classList.add('display-none');
     headline.append(this.headlineTimer);
 
     // H5P instance
@@ -270,6 +271,7 @@ export default class ExerciseScreen {
   setTime(timeMs) {
     if (timeMs === null || timeMs === '') {
       this.headlineTimer.innerText = '';
+      this.headlineTimer.classList.add('display-none');
       return;
     }
 
@@ -285,6 +287,8 @@ export default class ExerciseScreen {
       .split('T')[1]
       .split('.')[0]
       .replace(/^[0:]+/, '');
+
+    this.headlineTimer.classList.remove('display-none');
   }
 
   /**
