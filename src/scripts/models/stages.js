@@ -298,6 +298,20 @@ export default class Stages {
   }
 
   /**
+   * Return next best open stage.
+   *
+   * @returns {Stage|null} Next best open stage.
+   */
+  getNextOpenStage() {
+    return this.stages.filter((stage) => {
+      const state = stage.getState();
+
+      return state === Globals.get('states')['open'] ||
+        state === Globals.get('states')['opened'];
+    })[0] || null;
+  }
+
+  /**
    * Handle stage focussed.
    *
    * @param {string} id Id of stage that was focussed.

@@ -39,6 +39,7 @@
         {
           "label": "Spiellandkarte",
           "fields": [
+            {},
             {
               "label": "Elemente",
               "entity": "Element",
@@ -150,9 +151,10 @@
                   {
                     "label": "Punktebereich"
                   },
+                  {},
                   {
-                    "label": "Rückmeldung für jeweiligen Punktebereich",
-                    "placeholder": "Trage die Rückmeldung ein"
+                    "label": "Feedback for defined score range",
+                    "placeholder": "Fill in the feedback"
                   }
                 ]
               }
@@ -168,13 +170,16 @@
           "label": "Etappen",
           "fields": [
             {
-              "label": "Etappenfarbe"
+              "label": "Etappenfarbe",
+              "default": "rgba(250, 223, 10, 0.7)"
             },
             {
-              "label": "Etappenfarbe verschlossen"
+              "label": "Etappenfarbe verschlossen",
+              "default": "rgba(153, 0, 0, 0.7)"
             },
             {
-              "label": "Etappenfarbe geschafft"
+              "label": "Etappenfarbe geschafft",
+              "default": "rgba(0, 130, 0, 0.7)"
             }
           ]
         },
@@ -189,10 +194,12 @@
               "label": "Style",
               "fields": [
                 {
-                  "label": "Pfadfarbe"
+                  "label": "Pfadfarbe",
+                  "default": "rgba(0, 0, 0, 0.7)"
                 },
                 {
-                  "label": "Pfadfarbe geschafft"
+                  "label": "Pfadfarbe geschafft",
+                  "default": "rgba(0, 130, 0, 0.7)"
                 },
                 {
                   "label": "Pfadbreite",
@@ -347,8 +354,7 @@
           "fields": [
             {
               "label": "Zeige Etappenbeschriftungen",
-              "description": "Wähle, ob die Beschriftung einer Etappe während des Schwebens mit der Maus angezeit wird. Die Beschriftung wir auf Geräten mit \"Touch\"-Bedienung nicht angezeit.",
-              "default": "true"
+              "description": "Wähle, ob die Beschriftung einer Etappe während des Schwebens mit der Maus angezeit wird. Die Beschriftung wir auf Geräten mit \"Touch\"-Bedienung nicht angezeit."
             },
             {
               "label": "Umherwandern",
@@ -446,6 +452,18 @@
         {
           "label": "Dialog text game over",
           "default": "You have lost all your lives. Please try again!"
+        },
+        {
+          "label": "Dialog header time out",
+          "default": "Time out!"
+        },
+        {
+          "label": "Dialog text timeout",
+          "default": "You ran out of time."
+        },
+        {
+          "label": "Dialog text timeout (lost a life)",
+          "default": "You ran out of time and lost a life."
         },
         {
           "label": "OK",

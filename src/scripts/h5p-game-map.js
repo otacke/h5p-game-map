@@ -67,6 +67,9 @@ export default class GameMap extends H5P.Question {
         yes: 'Yes',
         confirmGameOverHeader: 'Game over!',
         confirmGameOverDialog: 'You have lost all your lives. Please try again!',
+        confirmTimeoutHeader: 'Time out!',
+        confirmTimeoutDialog: 'You ran out of time.',
+        confirmTimeoutDialogLostLife: 'You ran out of time and lost a life.',
         ok: 'OK',
         noBackground: 'No background image was set for the map.',
         noStages: 'No valid stages were set for the map.'

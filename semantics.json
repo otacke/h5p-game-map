@@ -881,7 +881,10 @@
               "rules": [
                 {
                   "field": "roaming",
-                  "equals": ["complete", "success"]
+                  "equals": [
+                    "complete",
+                    "success"
+                  ]
                 }
               ]
             }
@@ -907,7 +910,10 @@
               "rules": [
                 {
                   "field": "roaming",
-                  "equals": ["complete", "success"]
+                  "equals": [
+                    "complete",
+                    "success"
+                  ]
                 }
               ]
             }
@@ -993,6 +999,24 @@
         "type": "text",
         "label": "Dialog text game over",
         "default": "You have lost all your lives. Please try again!"
+      },
+      {
+        "name": "confirmTimeoutHeader",
+        "type": "text",
+        "label": "Dialog header time out",
+        "default": "Time out!"
+      },
+      {
+        "name": "confirmTimeoutDialog",
+        "type": "text",
+        "label": "Dialog text timeout",
+        "default": "You ran out of time."
+      },
+      {
+        "name": "confirmTimeoutDialogLostLife",
+        "type": "text",
+        "label": "Dialog text timeout (lost a life)",
+        "default": "You ran out of time and lost a life."
       },
       {
         "name": "ok",

@@ -373,6 +373,10 @@ export default class Main {
       }
     }, 100);
 
+    if (!this.stageAttentionSeekerTimeout) {
+      this.seekAttention();
+    }
+
     // Initially, two resizes are required
     window.requestAnimationFrame(() => {
       Globals.get('resize')();
@@ -381,6 +385,23 @@ export default class Main {
         Globals.get('resize')();
       });
     });
+  }
+
+  /**
+   * Seek attention.
+   */
+  seekAttention() {
+    window.clearTimeout(this.stageAttentionSeekerTimeout);
+    this.stageAttentionSeekerTimeout = window.setTimeout(() => {
+      this.stages.getNextOpenStage();
+
+      const nextOpenStage = this.stages.getNextOpenStage();
+      if (nextOpenStage) {
+        nextOpenStage.animate('bounce');
+      }
+
+      this.seekAttention();
+    }, Main.ATTENTION_SEEKER_TIMEOUT_MS);
   }
 
   /**
@@ -482,6 +503,7 @@ export default class Main {
    */
   handleStageClicked(id) {
     this.stages.disable();
+    window.clearTimeout(this.stageAttentionSeekerTimeout);
 
     const stage = this.stages.getStage(id);
     const exercise = this.exercises.getExercise(id);
@@ -723,8 +745,9 @@ export default class Main {
 
     this.playAnimationQueue();
 
-    if (this.livesLeft === 0) {
-      this.handleGameOver();
+    if (this.exerciseClosedCallback) {
+      this.exerciseClosedCallback();
+      this.exerciseClosedCallback = null;
     }
   }
 
@@ -782,17 +805,26 @@ export default class Main {
         stage.setState('sealed');
       });
 
-      this.handleExerciseClosed();
+      this.handleExerciseClosed({
+        animationEndedCallback: () => {
+          this.handleGameOver();
+        }
+      });
     }
   }
 
   /**
    * Handle exercise was closed.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {function} [params.animationEndedCallback] Callback.
    */
-  handleExerciseClosed() {
+  handleExerciseClosed(params = {}) {
     if (!this.openExerciseId) {
       return;
     }
+
+    this.exerciseClosedCallback = params.animationEndedCallback;
 
     this.map.dom.setAttribute(
       'aria-label', Dictionary.get('a11y.applicationInstructions')
@@ -1041,10 +1073,39 @@ export default class Main {
 
     if (this.livesLeft > 0) {
       this.exercises.reset(id);
-      this.handleExerciseClosed();
+      this.handleExerciseClosed({
+        animationEndedCallback: () => {
+          this.showTimeoutConfirmation();
+        }
+      });
     }
+  }
 
-    // TODO: Dialog?
+
+  /**
+   * Show timeout confirmation.
+   */
+  showTimeoutConfirmation() {
+    this.toolbar.disableButton('finish');
+
+    const dialogText = (this.livesLeft === Infinity) ?
+      Dictionary.get('l10n.confirmTimeoutDialog') :
+      Dictionary.get('l10n.confirmTimeoutDialogLostLife');
+
+    this.confirmationDialog.update(
+      {
+        headerText: Dictionary.get('l10n.confirmTimeoutHeader'),
+        dialogText: dialogText,
+        confirmText: Dictionary.get('l10n.ok'),
+        hideCancel: true
+      }, {
+        onConfirmed: () => {
+          this.toolbar.enableButton('finish');
+        }
+      }
+    );
+
+    this.confirmationDialog.show();
   }
 
   /**
@@ -1074,6 +1135,7 @@ export default class Main {
    */
   reset(params = {}) {
     Jukebox.mute();
+    this.stageAttentionSeekerTimeout = null;
 
     const globalParams = Globals.get('params');
     const previousState = Globals.get('extras')?.previousState?.content ?? {};
@@ -1234,3 +1296,6 @@ Main.CONVENIENCE_MARGIN_PX = 32;
 
 /** @constant {number} MUSIC_FADE_TIME Music fade time in ms. */
 Main.MUSIC_FADE_TIME = 2000;
+
+/** @constant {number} ATTENTION_SEEKER_TIMEOUT_MS Attention seeker timeout. */
+Main.ATTENTION_SEEKER_TIMEOUT_MS = 10000;
