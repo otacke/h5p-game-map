@@ -1073,9 +1073,9 @@ export default class Main {
     this.handleLostLife();
 
     if (this.livesLeft > 0) {
-      this.exercises.reset(id);
       this.handleExerciseClosed({
         animationEndedCallback: () => {
+          this.exercises.reset(id);
           this.showTimeoutConfirmation();
         }
       });

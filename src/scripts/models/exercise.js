@@ -444,7 +444,7 @@ export default class Exercise {
     }
 
     if (timeLimit > -1) {
-      this.timer = new Timer(
+      this.timer = this.timer ?? new Timer(
         { interval: 500 },
         {
           onExpired: () => {
@@ -463,6 +463,7 @@ export default class Exercise {
 
     if (!params.isInitial) {
       this.timer?.reset();
+      this.timer?.setTime(this.remainingTime);
     }
 
     this.setState(state);
