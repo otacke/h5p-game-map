@@ -28,6 +28,7 @@ export default class Jukebox {
    * @param {object} [params.options] Options for the audio.
    * @param {boolean} [params.options.loop] If true, loop the audio.
    * @param {boolean} [params.options.muted] If true, be muted.
+   * @param {string} [params.options.groupId] Optional group id.
    */
   static add(params = {}) {
     Jukebox.audios[params.id] = {
@@ -58,6 +59,7 @@ export default class Jukebox {
     Jukebox.audios[params.id].gainNode = gainNode;
 
     Jukebox.audios[params.id].isMuted = params.options.muted || false;
+    Jukebox.audios[params.id].groupId = params.options.groupId || 'default';
   }
 
   /**
@@ -105,8 +107,25 @@ export default class Jukebox {
     }
 
     Jukebox.audios[id].dom.pause();
-
+    Jukebox.audios[id].dom.currentTime = 0;
     Jukebox.audios[id].isPlaying = false;
+  }
+
+  /**
+   * Stop audio group.
+   *
+   * @param {string} groupId GroupId of audios to stop.
+   */
+  static stopGroup(groupId) {
+    if (!groupId) {
+      return;
+    }
+
+    for (const id in Jukebox.audios) {
+      if (Jukebox.audios[id].groupId === groupId) {
+        Jukebox.stop(id);
+      }
+    }
   }
 
   /**

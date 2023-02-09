@@ -286,6 +286,7 @@ export default class Exercise {
 
     if (this.score < this.instance.getMaxScore()) {
       this.setState(Globals.get('states')['completed']);
+      Jukebox.stopGroup('default');
       Jukebox.play('checkExerciseNotFullScore');
 
       if (isCompletedEnough) {
@@ -295,7 +296,9 @@ export default class Exercise {
     }
     else {
       this.setState(Globals.get('states')['cleared']);
+      Jukebox.stopGroup('default');
       Jukebox.play('checkExerciseFullScore');
+
       this.stop();
       this.isCompleted = true;
     }

@@ -515,6 +515,7 @@ export default class Main {
 
     this.exerciseScreen.setH5PContent(exercise.getDOM());
     this.exerciseScreen.setTitle(stage.getLabel());
+    Jukebox.stopGroup('default');
     this.exerciseScreen.show();
     this.exercises.start(id);
 
@@ -841,6 +842,7 @@ export default class Main {
 
       Globals.get('resize')();
     });
+    Jukebox.stopGroup('default');
     Jukebox.play('closeExercise');
 
     if (Globals.get('params').audio.backgroundMusic.muteDuringExercise) {
@@ -982,10 +984,14 @@ export default class Main {
       }, {
         onConfirmed: () => {
           this.handleConfirmedFinish();
+        },
+        onCanceled: () => {
+          Jukebox.stopGroup('default');
         }
       }
     );
 
+    Jukebox.stopGroup('default');
     this.confirmationDialog.show();
     Jukebox.play('showDialog');
   }
@@ -1020,6 +1026,7 @@ export default class Main {
         hideCancel: true
       }, {
         onConfirmed: () => {
+          Jukebox.stopAll();
           this.callbacks.onFinished();
           this.showEndscreen({ focusButton: true });
         }
@@ -1101,6 +1108,7 @@ export default class Main {
         hideCancel: true
       }, {
         onConfirmed: () => {
+          Jukebox.stopGroup('default');
           this.toolbar.enableButton('finish');
         }
       }
@@ -1123,6 +1131,7 @@ export default class Main {
         hideCancel: true
       }, {
         onConfirmed: () => {
+          Jukebox.stopGroup('default');
           this.toolbar.enableButton('finish');
         }
       }

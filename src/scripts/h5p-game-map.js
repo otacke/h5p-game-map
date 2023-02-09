@@ -214,7 +214,8 @@ export default class GameMap extends H5P.Question {
         src: src,
         crossOrigin: crossOrigin,
         options: {
-          loop: true
+          loop: true,
+          groupId: 'background'
         }
       };
     }
