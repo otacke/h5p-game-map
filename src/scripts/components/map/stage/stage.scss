@@ -72,7 +72,10 @@
         content: "\f023";
         font-family: "H5PFontAwesome4", sans-serif;
         font-size: max(0.75rem, var(--stage-font-size));
+        inset: 0;
         line-height: max(1rem, var(--stage-line-height));
+        position: absolute;
+        top: -1px;
       }
     }
 
@@ -87,7 +90,10 @@
         content: "\f00c";
         font-family: "H5PFontAwesome4", sans-serif;
         font-size: max(0.75rem, var(--stage-font-size));
+        inset: 0;
         line-height: max(1rem, var(--stage-line-height));
+        position: absolute;
+        top: -1px;
       }
     }
   }
