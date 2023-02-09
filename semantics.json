@@ -688,7 +688,7 @@
         "name": "ambient",
         "type": "group",
         "importance": "low",
-        "label": "Ambient sounds",
+        "label": "Events",
         "fields": [
           {
             "name": "clickStageLocked",
@@ -750,7 +750,7 @@
             "name": "fullScore",
             "type": "audio",
             "label": "Full score",
-            "description": "Will be played when the user reaches full score on the map.",
+            "description": "Will be played when the user reaches full score for the map.",
             "importance": "low",
             "optional": true
           },
@@ -779,18 +779,18 @@
             "optional": true
           },
           {
-            "name": "endscreenSuccess",
+            "name": "endscreenNoSuccess",
             "type": "audio",
-            "label": "End screen (success)",
-            "description": "Will be played on the end screen if the user was successful.",
+            "label": "End screen (not full score)",
+            "description": "Will be played on the end screen if the user did not get full score.",
             "importance": "low",
             "optional": true
           },
           {
-            "name": "endscreenNoSuccess",
+            "name": "endscreenSuccess",
             "type": "audio",
-            "label": "End screen (no success)",
-            "description": "Will be played on the end screen if the user was not successful.",
+            "label": "End screen (full score)",
+            "description": "Will be played on the end screen if the user got full score.",
             "importance": "low",
             "optional": true
           }

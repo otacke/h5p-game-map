@@ -153,8 +153,8 @@
                   },
                   {},
                   {
-                    "label": "Feedback for defined score range",
-                    "placeholder": "Fill in the feedback"
+                    "label": "Rückmeldung für jeweiligen Punktebereich",
+                    "placeholder": "Trage die Rückmeldung ein"
                   }
                 ]
               }
@@ -164,7 +164,7 @@
       ]
     },
     {
-      "label": "Optische Einstellungen",
+      "label": "Visuelles",
       "fields": [
         {
           "label": "Etappen",
@@ -267,74 +267,74 @@
       ]
     },
     {
-      "label": "Audio settings",
+      "label": "Audio",
       "fields": [
         {
-          "label": "Background music",
+          "label": "Hintergrundmusik",
           "fields": [
             {
-              "label": "Background music",
-              "description": "The background music will be played automatically, but please note that the browser's Autoplay Policy may prevent to autoplay before the user has interacted with the content."
+              "label": "Hintergrundmusik",
+              "description": "Die Hintergrundmusik wird automatisch abgespielt, aber bitte habe Verständnis dafür, dass die Autoplay-Regeln eines Browsers das automatische Abspielen verhindern können, solange die Nutzenden nicht mit der Seite interagiert haben."
             },
             {
-              "label": "Mute when taking exercises"
+              "label": "Schalte innerhalb von Aufgaben stumm"
             }
           ]
         },
         {
-          "label": "Ambient sounds",
+          "label": "Ereignisse",
           "fields": [
             {
-              "label": "Click on locked stage",
-              "description": "Will be played on the map when clicking on a locked stage."
+              "label": "Klick auf eine gesperrte Etappe",
+              "description": "Wird abgespielt, wenn auf der Karte auf eine gesperrte Etappe geklickt wird."
             },
             {
-              "label": "Check exercise (not full score)",
-              "description": "Will be played when an answer is checked and the user did not get full score."
+              "label": "Überprüfe Aufgabe (nicht volle Punktzahl)",
+              "description": "Wird abgespielt, wenn eine Antwort überprüft wird und der Nutzer/die Nutzerin nicht die volle Punktzahl erreicht hat."
             },
             {
-              "label": "Check exercise (full score)",
-              "description": "Will be played when an answer is checked and the user did get full score."
+              "label": "Überprüfe Aufgabe (volle Punktzahl)",
+              "description": "Wird abgespielt, wenn eine Antwort überprüft wird und der Nutzer/die Nutzerin die volle Punktzahl erreicht hat."
             },
             {
-              "label": "Unlocking a stage",
-              "description": "Will be played on the map when a stage gets unlocked."
+              "label": "Etappe freigeschaltet",
+              "description": "Wird abgespielt, wenn eine Etappe freigeschaltet wurde."
             },
             {
-              "label": "Open exercise",
-              "description": "Will be played when an exercise is opened."
+              "label": "Aufgabe geöffnet ",
+              "description": "Wird abgespielt, wenn eine Aufgabe geöffnet wird."
             },
             {
-              "label": "Close exercise",
-              "description": "Will be played when an exercise is opened."
+              "label": "Aufgabe geschlossen",
+              "description": "Wird abgespielt, wenn eine Aufgabe geschlossen wird."
             },
             {
-              "label": "Show dialog",
-              "description": "Will be played when a confirmation dialog is shown."
+              "label": "Zeige Dialog",
+              "description": "Wird abgespielt, wenn ein Bestätigungsdialog geöffnet wird."
             },
             {
-              "label": "Full score",
-              "description": "Will be played when the user reaches full score on the map."
+              "label": "Volle Punktzahl",
+              "description": "Wird angezeigt, wenn der Nutzer/die Nutzerin die volle Punktzahl für die Karte erreicht."
             },
             {
-              "label": "Lost a life",
-              "description": "Will be played when the user loses a life."
+              "label": "Leben verloren",
+              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin ein Leben verliert."
             },
             {
               "label": "Game over",
-              "description": "Will be played when the user is game over."
+              "description": "Wird abgespielt, wenn das Spiel vorüber ist und der Nutzer/die Nutzerin nicht mehr fortfahren kann."
             },
             {
-              "label": "Timeout warning",
-              "description": "Will be played when the user is running out of time for an exercise."
+              "label": "Warnung vor Zeitüberschreitung",
+              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin droht das Zeitlimit zu überschreiten."
             },
             {
-              "label": "End screen (success)",
-              "description": "Will be played on the end screen if the user was successful."
+              "label": "Endbildschirm (volle Punktzahl)",
+              "description": "Wird auf dem Endbildschirm abgespielt, wenn der Nutzer/die Nutzerin die volle Punktzahl erreicht hat."
             },
             {
-              "label": "End screen (no success)",
-              "description": "Will be played on the end screen if the user was not successful."
+              "label": "Endbildschirm (nicht volle Punktzahl)",
+              "description": "Wird auf dem Endbildschirm abgespielt, wenn der Nutzer/die Nutzerin nicht die volle Punktzahl erreicht hat."
             }
           ]
         }
@@ -454,32 +454,32 @@
           "default": "Nein"
         },
         {
-          "label": "Dialog header game over",
+          "label": "Dialogüberschrift Game Over",
           "default": "Game over!"
         },
         {
-          "label": "Dialog text game over",
-          "default": "You have lost all your lives. Please try again!"
+          "label": "Dialogtext Game Over",
+          "default": "Du hast alle deine Leben verloren. Versuche es noch einmal!"
         },
         {
-          "label": "Dialog header time out",
-          "default": "Time out!"
+          "label": "Dialogüberschrift Zeitüberschreitung",
+          "default": "Zeit abgelaufen!"
         },
         {
-          "label": "Dialog text timeout",
-          "default": "You ran out of time."
+          "label": "Dialogtext Zeitüberschreitung",
+          "default": "Die Zeit für die Aufgabe ist abgelaufen."
         },
         {
-          "label": "Dialog text timeout (lost a life)",
-          "default": "You ran out of time and lost a life."
+          "label": "Dialogtext Zeitüberschreitung (Leben verloren)",
+          "default": "Die Zeit für die Aufgabe ist abgelaufen, und du hast ein Leben verloren."
         },
         {
-          "label": "Dialog header full score",
-          "default": "You achieved full score!"
+          "label": "Dialogüberschrift Volle Punktzahl",
+          "default": "Du hast die volle Punktzahl erreicht!"
         },
         {
-          "label": "Dialog text full score",
-          "default": "You have collected enough points to finish this map with a full score, but you are free to explore the rest if you wish to."
+          "label": "Dialogtext Volle Punktzahl",
+          "default": "Du hast genügend Punkte gesammelt, um die Karte mit voller Punktzahl abzuschließen, aber du darfst gerne den Rest der Karte erkunden, wenn du möchtest."
         },
         {
           "label": "OK",

@@ -282,7 +282,7 @@
           ]
         },
         {
-          "label": "Ambient sounds",
+          "label": "Events",
           "fields": [
             {
               "label": "Click on locked stage",
@@ -314,7 +314,7 @@
             },
             {
               "label": "Full score",
-              "description": "Will be played when the user reaches full score on the map."
+              "description": "Will be played when the user reaches full score for the map."
             },
             {
               "label": "Lost a life",
@@ -322,19 +322,19 @@
             },
             {
               "label": "Game over",
-              "description": "Will be played when the user is game over."
+              "description": "Will be played when the game is over and the user cannot continue."
             },
             {
               "label": "Timeout warning",
               "description": "Will be played when the user is running out of time for an exercise."
             },
             {
-              "label": "End screen (success)",
-              "description": "Will be played on the end screen if the user was successful."
+              "label": "End screen (not full score)",
+              "description": "Will be played on the end screen if the user did not get full score."
             },
             {
-              "label": "End screen (no success)",
-              "description": "Will be played on the end screen if the user was not successful."
+              "label": "End screen (full score)",
+              "description": "Will be played on the end screen if the user did get full score."
             }
           ]
         }
@@ -466,11 +466,11 @@
           "default": "Time out!"
         },
         {
-          "label": "Dialog text timeout",
+          "label": "Dialog text time out",
           "default": "You ran out of time."
         },
         {
-          "label": "Dialog text timeout (lost a life)",
+          "label": "Dialog text time out (lost a life)",
           "default": "You ran out of time and lost a life."
         },
         {
