@@ -765,15 +765,17 @@ export default class Main {
       return; // Just cautious ...
     }
 
-    // Check whether previously not unlockable stages can not be unlocked
-    this.stages.updateUnlockingStages();
+    if (!this.fullScoreWasAnnounced && this.getScore() === this.getMaxScore()) {
+      this.fullScoreWasAnnounced = true;
 
-    if (this.getScore() === this.getMaxScore()) {
       this.addToQueue(() => {
         Jukebox.play('fullScore');
         this.showFullScoreConfirmation();
       });
     }
+
+    // Check whether previously not unlockable stages can not be unlocked
+    this.stages.updateUnlockingStages();
 
     if (typeof params.score === 'number' && params.score !== params.maxScore) {
       this.handleLostLife();
@@ -1201,6 +1203,7 @@ export default class Main {
     this.currentStageIndex = 0;
     this.confirmationDialog.hide();
 
+    this.fullScoreWasAnnounced = false;
     this.openExerciseId = false;
     this.queueAnimation = [];
     this.scheduledAnimations = [];
