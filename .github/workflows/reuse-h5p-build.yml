@@ -9,3 +9,5 @@ on:
 jobs:
   build:
     uses: otacke/github-action-h5p-build/.github/workflows/h5p-build.yml@v1
+    with:
+      expected-unsafe-translations: 3
