@@ -5,6 +5,7 @@
   background-color: $color-background;
   box-shadow: 10px 10px 30px $color-shadow-light;
   box-sizing: border-box;
+  column-gap: 1.25rem;
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
@@ -13,13 +14,13 @@
   margin-bottom : .5em;
   overflow: hidden;
   padding: 0.5em;
+  row-gap: 0.25rem;
 
   .toolbar-headline {
     color: $color-text;
     flex-grow: 1;
     font-weight: bold;
     justify-self: flex-start;
-    padding-right: 1.25em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -27,14 +28,14 @@
 
   .toolbar-non-headline {
     align-items: center;
+    column-gap: 1.25rem;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: right;
+    row-gap: 0.25rem;
 
     .status-containers {
-      padding-right: 1.25em;
-
       .status-container-lives {
         &::before {
           content: "\f004";
