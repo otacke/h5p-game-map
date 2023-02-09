@@ -475,14 +475,6 @@ export default class Stage {
     this.label.hide();
   }
 
-  mute() {
-    this.isMuted = true;
-  }
-
-  unmute() {
-    this.isMuted = false;
-  }
-
   /**
    * Reset.
    *

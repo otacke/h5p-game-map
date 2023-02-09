@@ -27,6 +27,7 @@ export default class Jukebox {
    * @param {string} params.src URL to audio file.
    * @param {object} [params.options] Options for the audio.
    * @param {boolean} [params.options.loop] If true, loop the audio.
+   * @param {boolean} [params.options.muted] If true, be muted.
    */
   static add(params = {}) {
     Jukebox.audios[params.id] = {
@@ -55,6 +56,8 @@ export default class Jukebox {
       .connect(Jukebox.audioContext.destination);
 
     Jukebox.audios[params.id].gainNode = gainNode;
+
+    Jukebox.audios[params.id].isMuted = params.options.muted || false;
   }
 
   /**
@@ -64,8 +67,12 @@ export default class Jukebox {
    * @returns {boolean} True, if audio could be played. Else false.
    */
   static async play(id) {
-    if (Jukebox.isMutedState || !Jukebox.audios[id]) {
+    if (!Jukebox.audios[id]) {
       return false;
+    }
+
+    if (Jukebox.audios[id].isMuted) {
+      return false; // Muted
     }
 
     // Check if context is in suspended state (autoplay policy)
@@ -135,7 +142,7 @@ export default class Jukebox {
    * @param {number} [params.interval] Interval for fading update.
    */
   static fade(id, params = {}) {
-    if (!Jukebox.audios[id] || this.isMutedState) {
+    if (!Jukebox.audios[id] || Jukebox.audios[id].isMuted) {
       return; // Nothing to do here
     }
 
@@ -227,27 +234,62 @@ export default class Jukebox {
   }
 
   /**
-   * Mute.
+   * Mute all audios.
    */
-  static mute() {
-    Jukebox.stopAll();
-    Jukebox.isMutedState = true;
+  static muteAll() {
+    for (const id in Jukebox.audios) {
+      Jukebox.mute(id);
+    }
   }
 
   /**
    * Unmute.
+   *
+   * @param {string} id Id of sound to unmute.
    */
-  static unmute() {
-    Jukebox.isMutedState = false;
+  static mute(id) {
+    if (!Jukebox.audios[id]) {
+      return;
+    }
+
+    Jukebox.stop(id);
+    Jukebox.audios[id].isMuted = true;
   }
 
   /**
-   * Determine whether Jukebox is muted.
-   *
-   * @returns {boolean} True, if Jukebox is muted. Else false.
+   * Unmute all audios.
    */
-  static isMuted() {
-    return Jukebox.isMutedState;
+  static unmuteAll() {
+    for (const id in Jukebox.audios) {
+      Jukebox.unmute(id);
+    }
+  }
+
+  /**
+   * Unmute.
+   *
+   * @param {string} id Id of sound to unmute.
+   */
+  static unmute(id) {
+    if (!Jukebox.audios[id]) {
+      return;
+    }
+
+    Jukebox.audios[id].isMuted = false;
+  }
+
+  /**
+   * Determine whether an audio is muted.
+   *
+   * @param {string} id Id of sound to check.
+   * @returns {boolean} True, if audio is muted. Else false.
+   */
+  static isMuted(id) {
+    if (!Jukebox.audios[id]) {
+      return false;
+    }
+
+    return Jukebox.audios[id].isMuted;
   }
 }
 
@@ -256,9 +298,6 @@ Jukebox.audios = {};
 
 /** @param {AudioContext} audioContext WebAudio API content. */
 Jukebox.audioContext = new AudioContext();
-
-/** @param {boolean} isMutedState Muted state. */
-Jukebox.isMutedState = false;
 
 /** @constant {number} DEFAULT_TIMER_INTERVAL_MS Default timer interval. */
 Jukebox.DEFAULT_TIMER_INTERVAL_MS = 100;

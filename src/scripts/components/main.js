@@ -920,10 +920,10 @@ export default class Main {
     this.isAudioOn = (typeof state === 'boolean') ? state : !this.isAudioOn;
 
     if (!this.isAudioOn) {
-      Jukebox.mute();
+      Jukebox.muteAll();
     }
     else {
-      Jukebox.unmute();
+      Jukebox.unmuteAll();
       Jukebox.play('backgroundMusic');
     }
   }
@@ -1287,12 +1287,12 @@ export default class Main {
   startVisibilityObserver() {
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
-        this.unmuteWhenVisible = !Jukebox.isMuted();
-        Jukebox.mute();
+        this.unmuteWhenVisible = !Jukebox.isMuted('backgroundMusic');
+        Jukebox.muteAll();
       }
       else {
         if (this.unmuteWhenVisible === true) {
-          Jukebox.unmute();
+          Jukebox.unmuteAll();
           Jukebox.play('backgroundMusic');
         }
       }
