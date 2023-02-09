@@ -7,13 +7,19 @@
   height: max(1rem, var(--stage-height));
   left: var(--stage-left);
   margin: 0;
+  opacity: 1;
   padding: 0;
   position: absolute;
   top: var(--stage-top);
+  transition: opacity 0.5s ease-in-out;
   width: max(1rem, var(--stage-width));
 
   &.display-none {
     display: none;
+  }
+
+  &.transparent {
+    opacity: 0;
   }
 
   &.animate {

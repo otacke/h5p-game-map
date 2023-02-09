@@ -1,10 +1,16 @@
 .h5p-game-map-path {
   border-top: 4px var(--path-style, solid) var(--path-color, rgba(0, 0, 0, 0.7));
+  opacity: 1;
   position: absolute;
   transform-origin: 0 center;
+  transition: opacity 0.5s ease-in-out, border-color 0.5s ease-in-out;
 
   &.display-none {
     display: none;
+  }
+
+  &.transparent {
+    opacity: 0;
   }
 
   &.h5p-game-map-path-open {

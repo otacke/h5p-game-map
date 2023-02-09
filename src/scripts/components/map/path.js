@@ -75,6 +75,10 @@ export default class Path {
     }
 
     this.dom.classList.remove('display-none');
+    window.requestAnimationFrame(() => {
+      this.dom.classList.remove('transparent');
+    });
+
     this.isVisibleState = true;
   }
 
@@ -83,6 +87,7 @@ export default class Path {
    */
   hide() {
     this.dom.classList.add('display-none');
+    this.dom.classList.add('transparent');
     this.isVisibleState = false;
   }
 

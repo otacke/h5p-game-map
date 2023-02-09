@@ -8,7 +8,7 @@ import './stage.scss';
 
 export default class Stage {
   /**
-   * Construct a path.
+   * Construct a Stage.
    *
    * @class
    * @param {object} [params={}] Parameters.
@@ -242,13 +242,21 @@ export default class Stage {
    * @param {object} [params={}] Parameters.
    */
   show(params = {}) {
+
+    const makeVisible = () => {
+      this.dom.classList.remove('display-none');
+      window.requestAnimationFrame(() => {
+        this.dom.classList.remove('transparent');
+      });
+    };
+
     if (params.queue) {
       this.callbacks.onAddedToQueue(() => {
-        this.dom.classList.remove('display-none');
+        makeVisible();
       });
     }
     else {
-      this.dom.classList.remove('display-none');
+      makeVisible();
     }
 
     this.isVisibleState = true;
@@ -259,6 +267,7 @@ export default class Stage {
    */
   hide() {
     this.dom.classList.add('display-none');
+    this.dom.classList.add('transparent');
     this.isVisibleState = false;
   }
 
