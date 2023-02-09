@@ -897,6 +897,10 @@ export default class Main {
         defaultTitle;
 
       this.endScreen.setIntroduction(html);
+
+      if (!this.isShowingSolutions) {
+        Jukebox.play('endscreenSuccess');
+      }
     }
     else {
       const noSuccess = endscreenParams.noSuccess;
@@ -907,6 +911,9 @@ export default class Main {
         defaultTitle;
 
       this.endScreen.setIntroduction(html);
+      if (!this.isShowingSolutions) {
+        Jukebox.play('endscreenNoSuccess');
+      }
     }
 
     this.hide();
@@ -1151,6 +1158,7 @@ export default class Main {
       this.stages.updateState(previousState.id, previousState.state);
     });
 
+    Jukebox.stopAll();
     this.show();
 
     this.exercises.showSolutions();
@@ -1166,7 +1174,7 @@ export default class Main {
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {
-    Jukebox.mute();
+    Jukebox.muteAll();
     this.stageAttentionSeekerTimeout = null;
 
     const globalParams = Globals.get('params');
@@ -1255,7 +1263,7 @@ export default class Main {
     this.isAudioOn = this.isAudioOn ?? false;
 
     if (this.isAudioOn) {
-      Jukebox.unmute();
+      Jukebox.unmuteAll();
       Jukebox.play('backgroundMusic');
     }
   }

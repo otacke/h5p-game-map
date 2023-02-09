@@ -327,6 +327,14 @@
             {
               "label": "Timeout warning",
               "description": "Will be played when the user is running out of time for an exercise."
+            },
+            {
+              "label": "End screen (success)",
+              "description": "Will be played on the end screen if the user was successful."
+            },
+            {
+              "label": "End screen (no success)",
+              "description": "Will be played on the end screen if the user was not successful."
             }
           ]
         }
