@@ -68,7 +68,7 @@ export default class FocusTrap {
       return;
     }
 
-    this.observer.unobserve(this.params.trapElement);
+    this.observer?.unobserve(this.params.trapElement);
 
     this.params.trapElement.removeEventListener('keydown', this.handleKeydownEvent, true);
     this.isActivated = false;
