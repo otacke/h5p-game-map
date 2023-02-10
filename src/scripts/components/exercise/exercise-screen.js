@@ -184,6 +184,8 @@ export default class ExerciseScreen {
    * @param {string} text Headline text to set.
    */
   setTitle(text) {
+    text = Util.purifyHTML(text);
+
     this.headlineText.innerText = text;
     this.dom.setAttribute(
       'aria-label',

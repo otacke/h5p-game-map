@@ -48,7 +48,7 @@ export default class Toolbar {
       const headline = document.createElement('div');
       headline.classList.add('toolbar-headline');
       headline.setAttribute('id', headLineId);
-      headline.innerText = this.params.headline;
+      headline.innerText = Util.purifyHTML(this.params.headline);
       this.dom.append(headline);
     }
     else {
