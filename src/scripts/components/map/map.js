@@ -142,7 +142,7 @@ export default class Map {
       this.pathWrapper.style.height = `${clientRect.height}px`;
       this.stageWrapper.style.height = `${clientRect.height}px`;
 
-      const heightPercentage = parseInt(
+      const heightPercentage = parseFloat(
         this.dom.style.getPropertyValue('--stage-height')
       );
 
