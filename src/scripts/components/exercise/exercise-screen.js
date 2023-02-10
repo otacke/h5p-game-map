@@ -222,6 +222,28 @@ export default class ExerciseScreen {
   }
 
   /**
+   * Set offset to screen border.
+   *
+   * @param {number} mapWidth Map width in px.
+   */
+  setScreenOffset(mapWidth) {
+    const project = (value, lo1, hi1, lo2, hi2) => {
+      return lo2 + (hi2 - lo2) * (value - lo1) / (hi1 - lo1);
+    };
+
+    const size = project(
+      Math.max(
+        ExerciseScreen.MAPSIZE_MIN_PX,
+        Math.min(mapWidth, ExerciseScreen.MAPSIZE_MAX_PX)
+      ),
+      ExerciseScreen.MAPSIZE_MIN_PX, ExerciseScreen.MAPSIZE_MAX_PX,
+      ExerciseScreen.OFFSET_MIN_REM, ExerciseScreen.OFFSET_MAX_REM
+    );
+
+    this.dom.style.setProperty('--exercise-screen-offset', `${size}rem`);
+  }
+
+  /**
    * Get computed size.
    *
    * @returns {object} Size with width and height.
@@ -329,3 +351,15 @@ export default class ExerciseScreen {
     }
   }
 }
+
+/** @constant {number} OFFSET_MIN_REM Minimum offset for screen in rem. */
+ExerciseScreen.OFFSET_MIN_REM = 2;
+
+/** @constant {number} OFFSET_MAX_REM Maximum offset for screen in rem. */
+ExerciseScreen.OFFSET_MAX_REM = 4;
+
+/** @constant {number} MAPSIZE_MIN_PX Minimum mapsize for projection in px. */
+ExerciseScreen.MAPSIZE_MIN_PX = 480;
+
+/** @constant {number} MAPSIZE_MAX_PX Maximum mapsize for projection in px. */
+ExerciseScreen.MAPSIZE_MAX_PX = 640;

@@ -207,6 +207,9 @@ export default class Main {
       this.limitMapHeight(paramsMisc.heightLimit);
     }
 
+    // This should be dome with a container selector when support is better.
+    this.exerciseScreen.setScreenOffset(mapSize.width);
+
     this.map.resize();
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(() => {

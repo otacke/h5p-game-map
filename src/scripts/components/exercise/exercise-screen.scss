@@ -60,11 +60,11 @@
       cursor: pointer;
       height: 2.25em;
       justify-self: end;
-      left: -1.25rem;
+      left: calc( (var(--exercise-screen-offset, 4rem) - 2rem) / -2 - 0.25rem);
       line-height: 1;
       padding: 3px;
       position: relative;
-      top: 1.25rem;
+      top: calc( (var(--exercise-screen-offset, 4rem) - 2rem) / 2 + 0.25rem);
       transition: transform .1s ease-in-out;
       width: 2.25em;
 
@@ -91,10 +91,10 @@
       border: 0.75rem solid #fff;
       border-radius: 0.5rem;
       box-sizing: border-box;
-      margin-bottom: 2rem;
-      margin-left: 2rem;
-      margin-top: 2rem;
-      max-width: calc(100% - 4rem);
+      margin-bottom: calc(var(--exercise-screen-offset, 4rem) / 2);
+      margin-left: calc(var(--exercise-screen-offset, 4rem) / 2);
+      margin-top: calc(var(--exercise-screen-offset, 4rem) / 2);
+      max-width: calc(100% - var(--exercise-screen-offset, 4rem));
       min-width: 0;
 
       .h5p-game-map-exercise-headline {
