@@ -579,6 +579,14 @@
         {
           "label": "Rückzugs-Label für die Werkzeugleiste",
           "default": "Game Map"
+        },
+        {
+          "label": "Vollbildmodus aktivieren",
+          "default": "Gehe in den Vollbildmodus"
+        },
+        {
+          "label": "Vollbildmodus deaktivieren",
+          "default": "Verlasse den Vollbildmodus"
         }
       ]
     }

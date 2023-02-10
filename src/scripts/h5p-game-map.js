@@ -95,7 +95,9 @@ export default class GameMap extends H5P.Question {
         applicationDescription: 'Map.',
         movedToStage: 'Moved to stage @stagelabel',
         stageUnlocked: 'Stage @stagelabel was unlocked.',
-        toolbaFallbackLabel: 'Game Map'
+        toolbaFallbackLabel: 'Game Map',
+        enterFullscreen: 'Enter fullscreen mode',
+        exitFullscreen: 'Exit fullscreen mode'
       }
     }, params);
 
@@ -124,12 +126,15 @@ export default class GameMap extends H5P.Question {
     this.contentId = contentId;
     this.extras = extras;
 
+    const fullScreenSupported = this.isRoot() && H5P.fullscreenSupported;
+
     // Set globals
     Globals.set('mainInstance', this);
     Globals.set('contentId', this.contentId);
     Globals.set('params', this.params);
     Globals.set('extras', this.extras);
     Globals.set('states', GameMap.STATES);
+    Globals.set('isFullscreenSupported', fullScreenSupported);
     Globals.set('resize', () => {
       this.trigger('resize');
     });
@@ -166,6 +171,9 @@ export default class GameMap extends H5P.Question {
         },
         onFinished: () => {
           this.handleFinished();
+        },
+        onFullscreenClicked: () => {
+          this.handleFullscreenClicked();
         }
       });
       this.dom.append(this.main.getDOM());
@@ -173,6 +181,42 @@ export default class GameMap extends H5P.Question {
       this.on('resize', () => {
         this.main.resize();
       });
+    }
+
+    if (fullScreenSupported) {
+      this.on('enterFullScreen', () => {
+        window.setTimeout(() => {
+          this.main.setFullscreen(true);
+        }, 50);
+      });
+
+      this.on('exitFullScreen', () => {
+        this.main.setFullscreen(false);
+      });
+
+      const recomputeDimensions = () => {
+        if (H5P.isFullscreen) {
+          setTimeout(() => { // Needs time to rotate for window.innerHeight
+            this.main.setFullscreen(true);
+          }, 200);
+        }
+      };
+
+      // Resize fullscreen dimensions when rotating screen
+      if (ScreenOrientation?.onchange) {
+        ScreenOrientation.onchange(() => {
+          recomputeDimensions();
+        });
+      }
+      else {
+        /*
+        * `orientationchange` is deprecated, but guess what browser doesn't
+        * support the Screen Orientation API ... From something with fruit.
+        */
+        window.addEventListener('orientationchange', () => {
+          recomputeDimensions();
+        }, false);
+      }
     }
   }
 
@@ -288,6 +332,49 @@ export default class GameMap extends H5P.Question {
     );
 
     this.trigger(xAPIEvent);
+  }
+
+  /**
+   * Handle fullscreen button clicked.
+   */
+  handleFullscreenClicked() {
+    setTimeout(() => {
+      this.toggleFullscreen();
+    }, 300); // Some devices don't register user gesture before call to to requestFullscreen
+  }
+
+  /**
+   * Toggle fullscreen button.
+   *
+   * @param {string|boolean} state enter|false for enter, exit|true for exit.
+   */
+  toggleFullscreen(state) {
+    if (!this.dom) {
+      return;
+    }
+
+    if (typeof state === 'string') {
+      if (state === 'enter') {
+        state = false;
+      }
+      else if (state === 'exit') {
+        state = true;
+      }
+    }
+
+    if (typeof state !== 'boolean') {
+      state = !H5P.isFullscreen;
+    }
+
+    if (state) {
+      this.container = this.container || this.dom.closest('.h5p-container');
+      if (this.container) {
+        H5P.fullScreen(H5P.jQuery(this.container), this);
+      }
+    }
+    else {
+      H5P.exitFullScreen();
+    }
   }
 }
 

@@ -94,6 +94,19 @@ export default class Toolbar {
   }
 
   /**
+   * Get full height.
+   *
+   * @returns {number} Full height in px.
+   */
+  getFullHeight() {
+    const styles = window.getComputedStyle(this.dom);
+    const margin = parseFloat(styles.getPropertyValue('margin-top')) +
+      parseFloat(styles.getPropertyValue('margin-bottom'));
+
+    return Math.ceil(this.dom.offsetHeight + margin);
+  }
+
+  /**
    * Focus whatever should get focus.
    */
   focus() {

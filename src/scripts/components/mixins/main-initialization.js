@@ -179,6 +179,26 @@ export default class MainInitialization {
       }
     });
 
+    if (Globals.get('isFullscreenSupported')) {
+      toolbarButtons.push({
+        id: 'fullscreen',
+        type: 'pulse',
+        pulseStates: [
+          {
+            id: 'enter-fullscreen',
+            label: Dictionary.get('a11y.enterFullscreen')
+          },
+          {
+            id: 'exit-fullscreen',
+            label: Dictionary.get('a11y.exitFullscreen')
+          }
+        ],
+        onClick: () => {
+          this.callbacks.onFullscreenClicked();
+        }
+      });
+    }
+
     // Toolbar
     this.toolbar = new Toolbar({
       ...(globalParams.headline && { headline: globalParams.headline }),

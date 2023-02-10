@@ -1206,6 +1206,20 @@
         "label": "Toolbar fallback label",
         "importance": "low",
         "default": "Game Map"
+      },
+      {
+        "name": "enterFullscreen",
+        "type": "text",
+        "label": "Enter fullscreen",
+        "importance": "low",
+        "default": "Enter fullscreen mode"
+      },
+      {
+        "name": "exitFullscreen",
+        "type": "text",
+        "label": "Exit fullscreen",
+        "importance": "low",
+        "default": "Exit fullscreen mode"
       }
     ]
   }

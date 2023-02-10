@@ -117,6 +117,37 @@ export default class Map {
   }
 
   /**
+   * Set fullscreen.
+   *
+   * @param {boolean} state If true, fullscreen on.
+   * @param {object} [availableSpace={}] Available width and height.
+   */
+  setFullscreen(state, availableSpace = {}) {
+    if (!availableSpace.height || !availableSpace.width) {
+      return;
+    }
+
+    if (!state) {
+      this.forceSize(null);
+      return;
+    }
+
+    const mapSize = this.getSize();
+
+    let width, height;
+    if (mapSize.width / mapSize.height > availableSpace.width / availableSpace.height) {
+      width = availableSpace.width;
+      height = availableSpace.width * mapSize.height / mapSize.width;
+    }
+    else {
+      width = availableSpace.height * mapSize.width / mapSize.height;
+      height = availableSpace.height;
+    }
+
+    this.forceSize({ width: width, height: height });
+  }
+
+  /**
    * Get map size.
    *
    * @returns {object} Height and width of map.
@@ -155,6 +186,44 @@ export default class Map {
         '--stage-line-height', `${fontSize}px`
       );
     }, 0);
+  }
+
+  /**
+   * Force size.
+   *
+   * @param {object|null} size Size to force into.
+   * @param {number} [size.width] Width in px.
+   * @param {number} [size.height] Height in px.
+   */
+  forceSize(size) {
+    if (size === null) {
+      this.dom.style.height = '';
+      this.dom.style.width = '';
+      this.dom.style.margin = '';
+
+      this.image.style.height = '';
+      this.image.style.width = '';
+      this.pathWrapper.style.height = '';
+      this.pathWrapper.style.width = '';
+      this.stageWrapper.style.height = '';
+      this.stageWrapper.style.width = '';
+    }
+    else if (size?.width && size?.height) {
+      this.dom.style.height = `${size.height}px`;
+      this.dom.style.width = `${size.width}px`;
+      this.dom.style.margin = 'auto';
+
+      this.image.style.height = `${size.height}px`;
+      this.image.style.width = `${size.width}px`;
+      this.pathWrapper.style.height = `${size.height}px`;
+      this.pathWrapper.style.width = `${size.width}px`;
+      this.stageWrapper.style.height = `${size.height}px`;
+      this.stageWrapper.style.width = `${size.width}px`;
+    }
+
+    window.requestAnimationFrame(() => {
+      Globals.get('resize')();
+    });
   }
 
   /**

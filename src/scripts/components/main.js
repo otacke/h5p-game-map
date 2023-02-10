@@ -39,7 +39,8 @@ export default class Main {
 
     this.callbacks = Util.extend({
       onProgressChanged: () => {},
-      onFinished: () => {}
+      onFinished: () => {},
+      onFullscreenClicked: () => {}
     }, callbacks);
 
     // Without animations requested, schedule whole queue for same time
@@ -207,7 +208,7 @@ export default class Main {
       this.limitMapHeight(paramsMisc.heightLimit);
     }
 
-    // This should be dome with a container selector when support is better.
+    // This should be done with a container selector when support is better.
     this.exerciseScreen.setScreenOffset(mapSize.width);
 
     this.map.resize();
@@ -360,6 +361,28 @@ export default class Main {
 
     this.hide();
     this.endScreen.show(params);
+  }
+
+  /**
+   * Set fullscreen state.
+   *
+   * @param {boolean} state If true, fullscreen is active.
+   */
+  setFullscreen(state) {
+    this.isFullscreenActive = state;
+
+    // Compute size of container space
+    const style = window.getComputedStyle(this.contentDOM);
+    const marginHorizontal = parseFloat(style.getPropertyValue('margin-left')) +
+      parseFloat(style.getPropertyValue('margin-right'));
+
+    const marginVertical = parseFloat(style.getPropertyValue('margin-top')) +
+      parseFloat(style.getPropertyValue('margin-bottom'));
+
+    this.map.setFullscreen(state, {
+      width: window.innerWidth - marginHorizontal,
+      height: window.innerHeight - marginVertical - this.toolbar.getFullHeight()
+    });
   }
 
   /**
