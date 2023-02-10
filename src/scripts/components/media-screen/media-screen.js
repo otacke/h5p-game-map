@@ -269,7 +269,7 @@ export default class MediaScreen {
 
     // Preparation
     if ((this.medium.library || '').split(' ')[0] === 'H5P.Video') {
-      this.medium.params.visuals.fit = false; // TODO: for all types?
+      this.medium.params.visuals.fit = false;
     }
 
     H5P.newRunnable(
@@ -294,7 +294,7 @@ export default class MediaScreen {
   /**
    * Show.
    *
-   * @param {object} params Parameters.
+   * @param {object} [params={}] Parameters.
    * @param {boolean} [params.focusButton] If true, start button will get focus.
    * @param {boolean} [params.readOpened] If true, announce screen was opened.
    */
@@ -305,12 +305,11 @@ export default class MediaScreen {
       this.callbacks.read(this.params.a11y.screenOpened);
     }
 
-    // Read before focussing button
     window.setTimeout(() => {
       if (params.focusButton && this.buttons.length) {
         this.buttons[0].querySelector('button').focus();
       }
-    }, 100);
+    }, 100); // Give polite text time to read before announcing button
   }
 
   /**

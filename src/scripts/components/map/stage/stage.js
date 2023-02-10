@@ -28,7 +28,7 @@ export default class Stage {
     this.callbacks = Util.extend({
       onClicked: () => {},
       onStateChanged: () => {},
-      onFocussed: () => {},
+      onFocused: () => {},
       onBecameActiveDescendant: () => {},
       onAddedToQueue: () => {}
     }, callbacks);
@@ -46,7 +46,7 @@ export default class Stage {
       this.handleClick(event);
     });
     this.dom.addEventListener('focus', () => {
-      this.callbacks.onFocussed(this.params.id);
+      this.callbacks.onFocused(this.params.id);
     });
 
     if (Globals.get('params').behaviour.map.showLabels) {

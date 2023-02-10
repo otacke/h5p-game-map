@@ -5,6 +5,17 @@ import Stage from '@components/map/stage/stage';
 
 export default class Stages {
 
+  /**
+   * @class
+   * @param {object} [params={}] Parameters.
+   * @param {object} [params.elements] Semantics parameters for stages.
+   * @param {object} [callbacks={}] Callbacks.
+   * @param {function} [callbacks.onStageClicked] Called when stage is clicked.
+   * @param {function} [callbacks.onStageStageChanged] Called on state changed.
+   * @param {function} [callbacks.onStageFocused] Called on stage focused.
+   * @param {function} [callbacks.onBecameActiveDescendant] Called when stage became active descendant.
+   * @param {function} [callbacks.onAddedToQueue] Called when function added to queue for main.
+   */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       elements: {}
@@ -13,7 +24,7 @@ export default class Stages {
     this.callbacks = Util.extend({
       onStageClicked: () => {},
       onStageStateChanged: () => {},
-      onStageFocussed: () => {},
+      onStageFocused: () => {},
       onBecameActiveDescendant: () => {},
       onAddedToQueue: () => {}
     }, callbacks);
@@ -30,31 +41,6 @@ export default class Stages {
    */
   getDOMs() {
     return this.stages.map((path) => path.getDOM());
-  }
-
-  /**
-   * Get number of stages (after filtering).
-   *
-   * @param {object} [params={}] Parameters.
-   * @param {object} [params.filters={}] Filters with string/string[] pairs.
-   * @returns {number} Number of stages.
-   */
-  getCount(params = {}) {
-    let stages = [...this.stages];
-
-    params = Util.extend({ filters: {} }, params);
-
-    for (const key in params.filters) {
-      stages = stages.filter((stage) => {
-        if (key === 'state') {
-          return params.filters[key].includes(stage.getState());
-        }
-
-        return true;
-      });
-    }
-
-    return stages.length;
   }
 
   /**
@@ -105,13 +91,13 @@ export default class Stages {
           onStateChanged: (id, state) => {
             this.callbacks.onStageStateChanged(id, state);
           },
-          onFocussed: (id) => {
+          onFocused: (id) => {
             // If reading while selecting, other read call will be interrupted
             if (!this.selectionStage) {
-              this.callbacks.onFocussed();
+              this.callbacks.onFocused();
             }
 
-            this.handleStageFocussed(id);
+            this.handleStageFocused(id);
           },
           onBecameActiveDescendant: (id) => {
             this.callbacks.onBecameActiveDescendant(id);
@@ -144,12 +130,36 @@ export default class Stages {
   }
 
   /**
+   * Get number of stages (after filtering).
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {object} [params.filters={}] Filters with string/string[] pairs.
+   * @returns {number} Number of stages.
+   */
+  getCount(params = {}) {
+    let stages = [...this.stages];
+
+    params = Util.extend({ filters: {} }, params);
+
+    for (const key in params.filters) {
+      stages = stages.filter((stage) => {
+        if (key === 'state') {
+          return params.filters[key].includes(stage.getState());
+        }
+
+        return true;
+      });
+    }
+
+    return stages.length;
+  }
+
+  /**
    * Get stage by id.
    *
    * @param {string} id Id of stage.
    * @returns {Stage} Stage with respective id.
    */
-
   getStage(id) {
     return this.stages.find((stage) => stage.getId() === id);
   }
@@ -312,11 +322,11 @@ export default class Stages {
   }
 
   /**
-   * Handle stage focussed.
+   * Handle stage focused.
    *
-   * @param {string} id Id of stage that was focussed.
+   * @param {string} id Id of stage that was focused.
    */
-  handleStageFocussed(id) {
+  handleStageFocused(id) {
     if (this.selectionNeighbors?.map((stage) => stage.getId()).includes(id)) {
       return; // Id of stage in focus already part of selection
     }

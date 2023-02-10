@@ -6,6 +6,7 @@ export default class Exercises {
   /**
    * @class
    * @param {object} [params={}] Parameters.
+   * @param {object} [params.elements] Element parameters for exercises.
    * @param {object} [callbacks={}] Callbacks.
    * @param {function} [callbacks.onStateChanged] Callback when state changed.
    * @param {function} [callbacks.onScoreChanged] Callback when score changed.

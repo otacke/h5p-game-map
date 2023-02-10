@@ -259,8 +259,8 @@ export default class Main {
         onStageStateChanged: (id, state) => {
           this.handleStageStateChanged(id, state);
         },
-        onFocussed: () => {
-          this.handleStageFocussed();
+        onFocused: () => {
+          this.handleStageFocused();
         },
         onBecameActiveDescendant: (id) => {
           this.map?.setActiveDescendant(id);
@@ -593,9 +593,9 @@ export default class Main {
   }
 
   /**
-   * Handle stage focussed.
+   * Handle stage focused.
    */
-  handleStageFocussed() {
+  handleStageFocused() {
     window.setTimeout(() => {
       Globals.get('read')(Dictionary.get('a11y.applicationInstructions'));
     }, 250); // Make sure everything else is read already
@@ -1097,7 +1097,6 @@ export default class Main {
       });
     }
   }
-
 
   /**
    * Show timeout confirmation.

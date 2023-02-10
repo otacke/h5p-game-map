@@ -18,6 +18,7 @@ export default class Paths {
 
   /**
    * Build paths.
+   * Might be replaced by SVGs at some point.
    *
    * @param {object} elements Elements with stages.
    * @returns {Path[]} Paths.
