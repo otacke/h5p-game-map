@@ -242,7 +242,6 @@ export default class Stage {
    * @param {object} [params={}] Parameters.
    */
   show(params = {}) {
-
     const makeVisible = () => {
       this.dom.classList.remove('display-none');
       window.requestAnimationFrame(() => {
@@ -366,7 +365,6 @@ export default class Stage {
         backgroundColor.lighten(0.3).rgb().string()
       );
     }
-
   }
 
   /**
@@ -515,25 +513,6 @@ export default class Stage {
   }
 
   /**
-   * Toggle tabbable.
-   *
-   * @param {string|number} state Tabindex state.
-   * @param {object} params Parameters.
-   * @param {boolean} [params.skipActiveDescendant] If false, don't get active.
-   */
-  setTabIndex(state, params = {}) {
-    if (typeof state !== 'number' && typeof state !== 'string') {
-      return;
-    }
-
-    this.dom.setAttribute('tabindex', `${state}`);
-
-    if (state === '0' && !params.skipActiveDescendant) {
-      this.callbacks.onBecameActiveDescendant(this.params.id);
-    }
-  }
-
-  /**
    * Set exercise state.
    *
    * @param {number|string} state State constant.
@@ -650,6 +629,25 @@ export default class Stage {
       this.callbacks.onAddedToQueue(callback, params);
 
       this.callbacks.onStateChanged(this.params.id, this.state);
+    }
+  }
+
+  /**
+   * Toggle tabbable.
+   *
+   * @param {string|number} state Tabindex state.
+   * @param {object} params Parameters.
+   * @param {boolean} [params.skipActiveDescendant] If false, don't get active.
+   */
+  setTabIndex(state, params = {}) {
+    if (typeof state !== 'number' && typeof state !== 'string') {
+      return;
+    }
+
+    this.dom.setAttribute('tabindex', `${state}`);
+
+    if (state === '0' && !params.skipActiveDescendant) {
+      this.callbacks.onBecameActiveDescendant(this.params.id);
     }
   }
 }

@@ -169,6 +169,67 @@ export default class ExerciseScreen {
   }
 
   /**
+   * Set H5P DOM.
+   *
+   * @param {HTMLElement} h5pDOM DOM of H5P instance.
+   */
+  setH5PContent(h5pDOM) {
+    this.h5pInstance.innerHTML = '';
+    this.h5pInstance.appendChild(h5pDOM);
+  }
+
+  /**
+   * Set headline text.
+   *
+   * @param {string} text Headline text to set.
+   */
+  setTitle(text) {
+    this.headlineText.innerText = text;
+    this.dom.setAttribute(
+      'aria-label',
+      Dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, text)
+    );
+  }
+
+  /**
+   * Set time.
+   *
+   * @param {number} timeMs Time to display on timer.
+   */
+  setTime(timeMs) {
+    if (timeMs === null || timeMs === '') {
+      this.headlineTimer.innerText = '';
+      this.headlineTimer.classList.add('display-none');
+      return;
+    }
+
+    if (typeof timeMs !== 'number') {
+      return;
+    }
+
+    const date = new Date(0);
+    date.setSeconds(Math.round(Math.max(0, timeMs / 1000)));
+
+    this.headlineTimer.innerText = date
+      .toISOString()
+      .split('T')[1]
+      .split('.')[0]
+      .replace(/^[0:]+/, '') || '0';
+
+    this.headlineTimer.classList.remove('display-none');
+  }
+
+  /**
+   * Get computed size.
+   *
+   * @returns {object} Size with width and height.
+   */
+  getSize() {
+    const rect = this.dom.getBoundingClientRect();
+    return { width: rect.width, height: rect.height };
+  }
+
+  /**
    * Animate
    *
    * @param {string} animationName Animation name.
@@ -238,67 +299,6 @@ export default class ExerciseScreen {
     this.dom.classList.add('display-none');
 
     this.callbacks.onCloseAnimationEnded();
-  }
-
-  /**
-   * Set H5P DOM.
-   *
-   * @param {HTMLElement} h5pDOM DOM of H5P instance.
-   */
-  setH5PContent(h5pDOM) {
-    this.h5pInstance.innerHTML = '';
-    this.h5pInstance.appendChild(h5pDOM);
-  }
-
-  /**
-   * Set headline text.
-   *
-   * @param {string} text Headline text to set.
-   */
-  setTitle(text) {
-    this.headlineText.innerText = text;
-    this.dom.setAttribute(
-      'aria-label',
-      Dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, text)
-    );
-  }
-
-  /**
-   * Set time.
-   *
-   * @param {number} timeMs Time to display on timer.
-   */
-  setTime(timeMs) {
-    if (timeMs === null || timeMs === '') {
-      this.headlineTimer.innerText = '';
-      this.headlineTimer.classList.add('display-none');
-      return;
-    }
-
-    if (typeof timeMs !== 'number') {
-      return;
-    }
-
-    const date = new Date(0);
-    date.setSeconds(Math.round(Math.max(0, timeMs / 1000)));
-
-    this.headlineTimer.innerText = date
-      .toISOString()
-      .split('T')[1]
-      .split('.')[0]
-      .replace(/^[0:]+/, '') || '0';
-
-    this.headlineTimer.classList.remove('display-none');
-  }
-
-  /**
-   * Get computed size.
-   *
-   * @returns {object} Size with width and height.
-   */
-  getSize() {
-    const rect = this.dom.getBoundingClientRect();
-    return { width: rect.width, height: rect.height };
   }
 
   /**
