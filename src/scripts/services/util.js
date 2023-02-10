@@ -9,7 +9,10 @@ export default class Util {
     for (let i = 1; i < arguments.length; i++) {
       for (let key in arguments[i]) {
         if (Object.prototype.hasOwnProperty.call(arguments[i], key)) {
-          if (typeof arguments[0][key] === 'object' && typeof arguments[i][key] === 'object') {
+          if (
+            typeof arguments[0][key] === 'object' &&
+            typeof arguments[i][key] === 'object'
+          ) {
             this.extend(arguments[0][key], arguments[i][key]);
           }
           else {
@@ -110,10 +113,8 @@ export default class Util {
    * @returns {boolean} True, if user is running iOS.
    */
   static isIOS() {
-    return (
-      ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) ||
-      (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
-    );
+    return /(iPad|iPhone|iPod)/g.test(navigator.userAgent) ||
+      (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
   }
 
   /**

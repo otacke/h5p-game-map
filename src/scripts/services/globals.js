@@ -1,3 +1,4 @@
+/* Simple shared storage for variables */
 export default class Globals {
 
   /**

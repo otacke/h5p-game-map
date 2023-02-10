@@ -154,17 +154,17 @@ export default class Timer {
   }
 }
 
-/** @constant {number} State ended (or not started) */
+/** @constant {number} STATE_ENDED State ended (or not started) */
 Timer.STATE_ENDED = 0;
 
-/** @constant {number} State playing */
+/** @constant {number} STATE_PLAYING State playing */
 Timer.STATE_PLAYING = 1;
 
-/** @constant {number} State paused */
+/** @constant {number} STATE_PAUSED State paused */
 Timer.STATE_PAUSED = 2;
 
-/** @constant {number} */
+/** @constant {number} FORWARD Timer running forward */
 Timer.FORWARD = 1;
 
-/** @constant {number} */
+/** @constant {number} BACKWARD Timer running backward */
 Timer.BACKWARD = -1;

@@ -1,3 +1,4 @@
+/* Service to handle sounds via WebAudio */
 export default class Jukebox {
 
   /**

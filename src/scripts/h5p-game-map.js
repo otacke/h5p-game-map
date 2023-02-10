@@ -4,7 +4,7 @@ import Globals from '@services/globals';
 import Jukebox from '@services/jukebox';
 import Main from '@components/main';
 import '@styles/h5p-game-map.scss';
-import MessageBox from './components/messageBox/message-box';
+import MessageBox from '@components/messageBox/message-box';
 import QuestionTypeContract from '@mixins/question-type-contract';
 import XAPI from '@mixins/xapi';
 

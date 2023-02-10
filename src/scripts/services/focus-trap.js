@@ -70,7 +70,8 @@ export default class FocusTrap {
 
     this.observer?.unobserve(this.params.trapElement);
 
-    this.params.trapElement.removeEventListener('keydown', this.handleKeydownEvent, true);
+    this.params.trapElement
+      .removeEventListener('keydown', this.handleKeydownEvent, true);
     this.isActivated = false;
   }
 
@@ -191,11 +192,11 @@ export default class FocusTrap {
     this.updateFocusableElements();
 
     if (!this.focusableElements.length) {
-      return;
+      return; // No focusable elements
     }
 
     if (event.key !== 'Tab') {
-      return;
+      return; // we only care about the tab key
     }
 
     event.preventDefault();
