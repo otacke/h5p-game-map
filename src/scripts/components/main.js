@@ -2,15 +2,11 @@ import Dictionary from '@services/dictionary';
 import Jukebox from '@services/jukebox';
 import Util from '@services/util';
 import Globals from '@services/globals';
-import Paths from '@models/paths';
-import Stages from '@models/stages';
-import StartScreen from './media-screen/start-screen';
-import EndScreen from './media-screen/end-screen';
-import Map from '@components/map/map';
-import Toolbar from '@components/toolbar/toolbar';
-import Exercises from '@models/exercises';
-import ExerciseScreen from '@components/exercise/exercise-screen';
-import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog';
+import MainInitialization from './mixins/main-initialization';
+import MainHandlersStage from './mixins/main-handlers-stage';
+import MainHandlersExercise from './mixins/main-handlers-exercise';
+import MainHandlersExerciseScreen from './mixins/main-handlers-exercise-screen';
+import MainQuestionTypeContract from './mixins/main-question-type-contract';
 import './main.scss';
 
 /**
@@ -29,6 +25,17 @@ export default class Main {
     this.params = Util.extend({
     }, params);
 
+    Util.addMixins(
+      Main,
+      [
+        MainInitialization,
+        MainHandlersStage,
+        MainHandlersExercise,
+        MainHandlersExerciseScreen,
+        MainQuestionTypeContract
+      ]
+    );
+
     this.callbacks = Util.extend({
       onProgressChanged: () => {},
       onFinished: () => {}
@@ -38,10 +45,10 @@ export default class Main {
       return this.getScore();
     });
 
+    this.musicFadeTime = Main.MUSIC_FADE_TIME;
+
     this.buildDOM();
-
     this.startVisibilityObserver();
-
     this.reset({ isInitial: true });
 
     if (typeof Globals.get('params').behaviour.lives === 'number') {
@@ -66,281 +73,6 @@ export default class Main {
 
       this.handleAutoplay();
     });
-  }
-
-  /**
-   * Grab H5P.Question feedback and scorebar.
-   * H5P.Question already handles scores nicely, no need to recreate all that.
-   * Issue here: We can relocate the DOMs for feedback and scorbar, but those
-   * are created after setting feedback the first time only. It's also
-   * required to set the maximum score now. Cannot be changed later.
-   *
-   * @param {object} [params={}] Parameters.
-   * @param {number} [params.maxScore] Maximum score possible.
-   * @returns {HTMLElement|null} Wrapper with H5P.Question feedback.
-   */
-  grabH5PQuestionFeedback(params = {}) {
-    const content = this.dom.closest('.h5p-question-content');
-    if (!content) {
-      return null;
-    }
-
-    const container = content.parentNode;
-    if (!container) {
-      return null;
-    }
-
-    const main = Globals.get('mainInstance');
-    main.setFeedback('', 0, params.maxScore);
-
-    const feedbackWrapper = document.createElement('div');
-    feedbackWrapper.classList.add('h5p-game-map-feedback-wrapper');
-
-    const feedback = container.querySelector('.h5p-question-feedback');
-    if (feedback) {
-      feedbackWrapper.append(feedback.parentNode.removeChild(feedback));
-    }
-
-    const scorebar = container.querySelector('.h5p-question-scorebar');
-    if (scorebar) {
-      feedbackWrapper.append(scorebar.parentNode.removeChild(scorebar));
-    }
-
-    main.removeFeedback();
-
-    return feedbackWrapper;
-  }
-
-  /**
-   * Build the DOM.
-   */
-  buildDOM() {
-    this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-game-map-container');
-
-    const globalParams = Globals.get('params');
-
-    // Title screen if set
-    if (globalParams.showTitleScreen) {
-      this.startScreen = new StartScreen({
-        id: 'start',
-        contentId: Globals.get('contentId'),
-        introduction: globalParams.titleScreen.titleScreenIntroduction,
-        medium: globalParams.titleScreen.titleScreenMedium,
-        buttons: [
-          { id: 'start', text: Dictionary.get('l10n.start') }
-        ],
-        a11y: {
-          screenOpened: Dictionary.get('a11y.startScreenWasOpened')
-        }
-      }, {
-        onButtonClicked: () => {
-          this.show({ focusButton: true, readOpened: true });
-
-          if (!Jukebox.isPlaying('backgroundMusic')) {
-            this.handleAutoplay();
-          }
-        },
-        read: (text) => {
-          Globals.get('read')(text);
-        }
-      });
-      this.startScreen.hide();
-      this.dom.append(this.startScreen.getDOM());
-    }
-
-    const endscreenButtons = [];
-    if (globalParams.behaviour.enableSolutionsButton) {
-      endscreenButtons.push(
-        { id: 'show-solutions', text: Dictionary.get('l10n.showSolutions') }
-      );
-    }
-    if (globalParams.behaviour.enableRetry) {
-      endscreenButtons.push(
-        { id: 'restart', text: Dictionary.get('l10n.restart') }
-      );
-    }
-
-    // End screen
-    this.endScreen = new EndScreen({
-      id: 'end',
-      contentId: Globals.get('contentId'),
-      buttons: endscreenButtons,
-      a11y: {
-        screenOpened: Dictionary.get('a11y.endScreenWasOpened')
-      }
-    }, {
-      onButtonClicked: (id) => {
-        if (id === 'restart') {
-          this.reset();
-          this.start();
-        }
-        else if (id === 'show-solutions') {
-          this.showSolutions();
-
-          Globals.get('read')(Dictionary.get('a11y.mapSolutionsWasOpened'));
-          window.setTimeout(() => {
-            this.toolbar.focus();
-          }, 100);
-        }
-      },
-      read: (text) => {
-        Globals.get('read')(text);
-      }
-    });
-    this.endScreen.hide();
-    this.dom.append(this.endScreen.getDOM());
-
-    // Content incl. tool/statusbar and map
-    this.contentDOM = document.createElement('div');
-    this.contentDOM.classList.add('h5p-game-map-main');
-    this.dom.append(this.contentDOM);
-
-    // Set up toolbar's status containers
-    const toolbarStatusContainers = [
-      { id: 'lives' },
-      { id: 'stages', hasMaxValue: true },
-      { id: 'score', hasMaxValue: true }
-    ];
-
-    // Set up toolbar's buttons
-    const toolbarButtons = [];
-
-    if (Jukebox.getAudioIds().length) {
-      toolbarButtons.push({
-        id: 'audio',
-        type: 'toggle',
-        a11y: {
-          active: Dictionary.get('a11y.buttonAudioActive'),
-          inactive: Dictionary.get('a11y.buttonAudioInactive')
-        },
-        onClick: (ignore, params) => {
-          this.toggleAudio(params.active);
-        }
-      });
-    }
-
-    toolbarButtons.push({
-      id: 'finish',
-      type: 'pulse',
-      a11y: {
-        active: Dictionary.get('a11y.buttonFinish')
-      },
-      onClick: () => {
-        this.handleFinish();
-      }
-    });
-
-    // Toolbar
-    this.toolbar = new Toolbar({
-      ...(globalParams.headline && { headline: globalParams.headline }),
-      buttons: toolbarButtons,
-      statusContainers: toolbarStatusContainers
-    });
-    this.contentDOM.append(this.toolbar.getDOM());
-
-    // Map incl. models
-    const backgroundImage = H5P.getPath(
-      globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundImage
-        ?.path ?? '',
-      Globals.get('contentId')
-    );
-
-    // Stages
-    this.stages = new Stages(
-      {
-        elements: globalParams.gamemapSteps.gamemap.elements,
-        visuals: globalParams.visual.stages
-      },
-      {
-        onStageClicked: (id, state) => {
-          this.handleStageClicked(id, state);
-        },
-        onStageStateChanged: (id, state) => {
-          this.handleStageStateChanged(id, state);
-        },
-        onFocused: () => {
-          this.handleStageFocused();
-        },
-        onBecameActiveDescendant: (id) => {
-          this.map?.setActiveDescendant(id);
-        },
-        onAddedToQueue: (callback, params) => {
-          this.addToQueue(callback, params);
-        }
-      }
-    );
-
-    // Paths
-    this.paths = new Paths(
-      {
-        elements: globalParams.gamemapSteps.gamemap.elements,
-        visuals: globalParams.visual.paths.style
-      }
-    );
-
-    // Map
-    this.map = new Map(
-      {
-        backgroundImage: backgroundImage,
-        paths: this.paths,
-        stages: this.stages
-      },
-      {
-        onImageLoaded: () => {
-          // Resize when image is loaded
-          Globals.get('resize')();
-
-          // Resize when image resize is done
-          window.requestAnimationFrame(() => {
-            Globals.get('resize')();
-          });
-        }
-      }
-    );
-    this.contentDOM.append(this.map.getDOM());
-
-    // Exercise
-    this.exercises = new Exercises(
-      {
-        elements: globalParams.gamemapSteps.gamemap.elements
-      },
-      {
-        onStateChanged: (id, state) => {
-          this.handleExerciseStateChanged(id, state);
-        },
-        onScoreChanged: (id, scoreParams) => {
-          this.handleExerciseScoreChanged(id, scoreParams);
-        },
-        onTimerTicked: (id, remainingTime) => {
-          this.handleTimerTicked(id, remainingTime);
-        },
-        onTimeoutWarning: (id) => {
-          this.handleTimeoutWarning(id);
-        },
-        onTimeout: (id) => {
-          this.handleTimeout(id);
-        }
-      }
-    );
-
-    this.exerciseScreen = new ExerciseScreen({}, {
-      onClosed: () => {
-        this.handleExerciseClosed();
-      },
-      onOpenAnimationEnded: () => {
-        Globals.get('resize')();
-      },
-      onCloseAnimationEnded: () => {
-        this.handleExerciseCloseAnimationEnded();
-      }
-    });
-    this.exerciseScreen.hide();
-    this.map.getDOM().append(this.exerciseScreen.getDOM());
-
-    // Confirmation Dialog
-    this.confirmationDialog = new ConfirmationDialog();
-    document.body.append(this.confirmationDialog.getDOM());
   }
 
   /**
@@ -388,6 +120,14 @@ export default class Main {
   }
 
   /**
+   * Hide.
+   */
+  hide() {
+    this.map.hide();
+    this.contentDOM.classList.add('display-none');
+  }
+
+  /**
    * Seek attention.
    */
   seekAttention() {
@@ -402,14 +142,6 @@ export default class Main {
 
       this.seekAttention();
     }, Main.ATTENTION_SEEKER_TIMEOUT_MS);
-  }
-
-  /**
-   * Hide.
-   */
-  hide() {
-    this.map.hide();
-    this.contentDOM.classList.add('display-none');
   }
 
   /**
@@ -497,166 +229,6 @@ export default class Main {
   }
 
   /**
-   * Handle stage clicked.
-   *
-   * @param {string} id Id of stage that was clicked on.
-   */
-  handleStageClicked(id) {
-    this.stages.disable();
-    window.clearTimeout(this.stageAttentionSeekerTimeout);
-
-    const stage = this.stages.getStage(id);
-    const exercise = this.exercises.getExercise(id);
-
-    const remainingTime = exercise.getRemainingTime();
-    if (typeof remainingTime === 'number') {
-      this.exerciseScreen.setTime(remainingTime);
-    }
-
-    this.exerciseScreen.setH5PContent(exercise.getDOM());
-    this.exerciseScreen.setTitle(stage.getLabel());
-    Jukebox.stopGroup('default');
-    this.exerciseScreen.show();
-    this.exercises.start(id);
-
-    if (Globals.get('params').audio.backgroundMusic.muteDuringExercise) {
-      Jukebox.fade(
-        'backgroundMusic', { type: 'out', time: Main.MUSIC_FADE_TIME }
-      );
-    }
-
-    Jukebox.play('openExercise');
-
-    if (!this.isShowingSolutions) {
-      // Update context for confusion report contract
-      const stageIndex = Globals.get('params').gamemapSteps.gamemap.elements
-        .findIndex((element) => element.id === id);
-      this.currentStageIndex = stageIndex + 1;
-      this.callbacks.onProgressChanged(this.currentStageIndex);
-    }
-
-    // Store to restore focus when exercise screen is closed
-    this.openExerciseId = id;
-
-    window.requestAnimationFrame(() => {
-      Globals.get('resize')();
-    });
-  }
-
-  /**
-   * Handle exercise state changed.
-   *
-   * @param {string} id Id of exercise that was changed.
-   * @param {number} state State code.
-   */
-  handleExerciseStateChanged(id, state) {
-    if (this.isShowingSolutions) {
-      return;
-    }
-
-    this.stages.updateState(id, state);
-  }
-
-  /**
-   * Handle stage state changed.
-   *
-   * @param {string} id Id of exercise that was changed.
-   * @param {number} state State code.
-   */
-  handleStageStateChanged(id, state) {
-    if (this.isShowingSolutions) {
-      return;
-    }
-
-    if (this.paths) {
-      this.addToQueue(() => {
-        this.paths.updateState(id, state);
-      });
-    }
-
-    if (this.stages) {
-      this.stages.updateNeighborsState(id, state);
-
-      // Set filters for completed/cleared stages
-      const filters = {
-        state: [
-          Globals.get('states')['completed'],
-          Globals.get('states')['cleared']
-        ]
-      };
-
-      this.toolbar.setStatusContainerStatus('stages', {
-        value: this.stages.getCount({ filters: filters }),
-        maxValue: this.stages.getCount()
-      });
-    }
-  }
-
-  /**
-   * Handle stage focused.
-   */
-  handleStageFocused() {
-    window.setTimeout(() => {
-      Globals.get('read')(Dictionary.get('a11y.applicationInstructions'));
-    }, 250); // Make sure everything else is read already
-  }
-
-  /**
-   * Get xAPI data from exercises.
-   *
-   * @returns {object[]} XAPI data objects used to build report.
-   */
-  getXAPIData() {
-    return this.exercises.getXAPIData();
-  }
-
-  /**
-   * Determine whether some answer was given.
-   *
-   * @returns {boolean} True, if some answer was given.
-   */
-  getAnswerGiven() {
-    return this.exercises.getAnswerGiven();
-  }
-
-  /**
-   * Get score.
-   *
-   * @returns {number} Score.
-   */
-  getScore() {
-    return Math.min(
-      this.exercises.getScore(),
-      this.getMaxScore()
-    );
-  }
-
-  /**
-   * Get max score.
-   *
-   * @returns {number} Max score.
-   */
-  getMaxScore() {
-    const maxScore = this.exercises.getMaxScore();
-    const finishScore = Globals.get('params').behaviour.finishScore;
-
-    return Math.min(finishScore, maxScore);
-  }
-
-  /**
-   * Get context data.
-   * Contract used for confusion report.
-   *
-   * @returns {object} Context data.
-   */
-  getContext() {
-    return {
-      type: 'stage',
-      value: this.currentStageIndex
-    };
-  }
-
-  /**
    * Add callback to animation queue.
    *
    * @param {function} callback Callback to execute.
@@ -736,57 +308,6 @@ export default class Main {
   }
 
   /**
-   * Handle exercise close animation ended.
-   */
-  handleExerciseCloseAnimationEnded() {
-    if (this.gameDone) {
-      this.queueAnimation = [];
-      return;
-    }
-
-    this.playAnimationQueue();
-
-    if (this.exerciseClosedCallback) {
-      this.exerciseClosedCallback();
-      this.exerciseClosedCallback = null;
-    }
-  }
-
-  /**
-   * Handle exercise score changed.
-   *
-   * @param {string} id Id of stage that was changed.
-   * @param {object} [params={}] Parameters for scores.
-   * @param {number} params.score Score.
-   * @param {number} params.maxScore Maximum possible score.
-   */
-  handleExerciseScoreChanged(id, params = {}) {
-    if (this.gameDone) {
-      return; // Just cautious ...
-    }
-
-    if (!this.fullScoreWasAnnounced && this.getScore() === this.getMaxScore()) {
-      this.fullScoreWasAnnounced = true;
-
-      this.addToQueue(() => {
-        Jukebox.play('fullScore');
-        this.showFullScoreConfirmation();
-      });
-    }
-
-    // Check whether previously not unlockable stages can not be unlocked
-    this.stages.updateUnlockingStages();
-
-    if (typeof params.score === 'number' && params.score !== params.maxScore) {
-      this.handleLostLife();
-    }
-
-    this.toolbar.setStatusContainerStatus(
-      'score', { value: this.getScore(), maxValue: this.getMaxScore() }
-    );
-  }
-
-  /**
    * Handle user lost a life.
    */
   handleLostLife() {
@@ -809,53 +330,12 @@ export default class Main {
         stage.setState('sealed');
       });
 
-      this.handleExerciseClosed({
+      this.handleExerciseScreenClosed({
         animationEndedCallback: () => {
           this.handleGameOver();
         }
       });
     }
-  }
-
-  /**
-   * Handle exercise was closed.
-   *
-   * @param {object} [params={}] Parameters.
-   * @param {function} [params.animationEndedCallback] Callback.
-   */
-  handleExerciseClosed(params = {}) {
-    if (!this.openExerciseId) {
-      return;
-    }
-
-    this.exerciseClosedCallback = params.animationEndedCallback;
-
-    this.map.dom.setAttribute(
-      'aria-label', Dictionary.get('a11y.applicationInstructions')
-    );
-
-    this.exerciseScreen.hide({ animate: true }, () => {
-      this.exerciseScreen.setTime('');
-      this.stages
-        .getStage(this.openExerciseId)
-        .focus({ skipNextFocusHandler: true });
-
-      this.openExerciseId = false;
-
-      Globals.get('resize')();
-    });
-    Jukebox.stopGroup('default');
-    Jukebox.play('closeExercise');
-
-    if (Globals.get('params').audio.backgroundMusic.muteDuringExercise) {
-      Jukebox.fade(
-        'backgroundMusic', { type: 'in', time: Main.MUSIC_FADE_TIME }
-      );
-    }
-
-    this.stages.enable();
-
-    this.exercises.stop(this.openExerciseId);
   }
 
   /**
@@ -1089,7 +569,7 @@ export default class Main {
     this.handleLostLife();
 
     if (this.livesLeft > 0) {
-      this.handleExerciseClosed({
+      this.handleExerciseScreenClosed({
         animationEndedCallback: () => {
           this.exercises.reset(id);
           this.showTimeoutConfirmation();
@@ -1149,128 +629,6 @@ export default class Main {
   }
 
   /**
-   * Show solutions.
-   */
-  showSolutions() {
-    this.confirmationDialog.hide();
-    this.endScreen.hide();
-
-    this.stagesGameOverState.forEach((previousState) => {
-      this.stages.updateState(previousState.id, previousState.state);
-    });
-
-    Jukebox.stopAll();
-    this.show();
-
-    this.exercises.showSolutions();
-
-    this.isShowingSolutions = true;
-    this.toolbar.toggleSolutionMode(true);
-  }
-
-  /**
-   * Reset.
-   *
-   * @param {object} [params={}] Parameters.
-   * @param {boolean} [params.isInitial] If true, don't overwrite presets.
-   */
-  reset(params = {}) {
-    Jukebox.muteAll();
-    this.stageAttentionSeekerTimeout = null;
-
-    const globalParams = Globals.get('params');
-    const previousState = Globals.get('extras')?.previousState?.content ?? {};
-
-    if (params.isInitial && typeof previousState.livesLeft === 'number') {
-      this.livesLeft = previousState.livesLeft;
-    }
-    else {
-      this.livesLeft = globalParams.behaviour.lives ?? Infinity;
-    }
-
-    if (this.livesLeft === 0) {
-      this.stages.forEach((stage) => {
-        stage.setState('sealed');
-      });
-    }
-
-    this.gameDone = false;
-    this.stages.togglePlayfulness(true);
-
-    this.stagesGameOverState = [];
-
-    this.currentStageIndex = 0;
-    this.confirmationDialog.hide();
-
-    this.fullScoreWasAnnounced = false;
-    this.openExerciseId = false;
-    this.queueAnimation = [];
-    this.scheduledAnimations = [];
-
-    if (!params.isInitial) {
-      this.isShowingSolutions = false;
-    }
-
-    this.toolbar.toggleSolutionMode(false);
-
-    this.paths.reset({ isInitial: params.isInitial });
-    this.stages.reset({ isInitial: params.isInitial });
-    this.exercises.resetAll({ isInitial: params.isInitial });
-
-    // Set start state stages
-    if (globalParams.behaviour.map.roaming === 'free') {
-      this.stages.forEach((stage) => {
-        stage.setState('open');
-      });
-      this.paths.forEach((path) => {
-        path.setState('cleared');
-        path.show();
-      });
-    }
-
-    this.stages.setStartStages();
-
-    // Initialize lives
-    this.toolbar.setStatusContainerStatus(
-      'lives', { value: this.livesLeft }
-    );
-
-    // Initialize stage counter
-    const filters = {
-      state: [
-        Globals.get('states')['completed'],
-        Globals.get('states')['cleared']
-      ]
-    };
-
-    // Initialize stages
-    this.toolbar.setStatusContainerStatus(
-      'stages',
-      {
-        value: this.stages.getCount({ filters: filters }),
-        maxValue: this.stages.getCount()
-      }
-    );
-
-    // Initialize score
-    this.toolbar.setStatusContainerStatus(
-      'score',
-      {
-        value: this.getScore(),
-        maxValue: this.getMaxScore()
-      }
-    );
-
-    // When *re*starting the map, keep audio on/off as set by user.
-    this.isAudioOn = this.isAudioOn ?? false;
-
-    if (this.isAudioOn) {
-      Jukebox.unmuteAll();
-      Jukebox.play('backgroundMusic');
-    }
-  }
-
-  /**
    * Start.
    *
    * @param {object} [params={}] Parameters.
@@ -1298,24 +656,6 @@ export default class Main {
     }
 
     Globals.get('resize')();
-  }
-
-  /**
-   * Handle visibility change.
-   */
-  startVisibilityObserver() {
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        this.unmuteWhenVisible = !Jukebox.isMuted('backgroundMusic');
-        Jukebox.muteAll();
-      }
-      else {
-        if (this.unmuteWhenVisible === true) {
-          Jukebox.unmuteAll();
-          Jukebox.play('backgroundMusic');
-        }
-      }
-    });
   }
 
   /**
