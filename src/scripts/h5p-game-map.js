@@ -203,8 +203,8 @@ export default class GameMap extends H5P.Question {
       };
 
       // Resize fullscreen dimensions when rotating screen
-      if (ScreenOrientation?.onchange) {
-        ScreenOrientation.onchange(() => {
+      if (screen?.orientation?.addEventListener) {
+        screen?.orientation?.addEventListener('change', () => {
           recomputeDimensions();
         });
       }
