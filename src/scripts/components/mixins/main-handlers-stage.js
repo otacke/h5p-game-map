@@ -1,3 +1,4 @@
+import CallbackQueue from '@services/callback-queue';
 import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Jukebox from '@services/jukebox';
@@ -47,6 +48,7 @@ export default class MainHandlersStage {
 
     // Store to restore focus when exercise screen is closed
     this.openExerciseId = id;
+    CallbackQueue.setSkippable(false);
 
     window.requestAnimationFrame(() => {
       Globals.get('resize')();
@@ -65,7 +67,7 @@ export default class MainHandlersStage {
     }
 
     if (this.paths) {
-      this.addToQueue(() => {
+      CallbackQueue.add(() => {
         this.paths.updateState(id, state);
       });
     }
@@ -113,6 +115,6 @@ export default class MainHandlersStage {
    * @param {object} params Parameters for queue.
    */
   handleStageAddedToQueue(callback, params) {
-    this.addToQueue(callback, params);
+    CallbackQueue.add(callback, params);
   }
 }

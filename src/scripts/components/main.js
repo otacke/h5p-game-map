@@ -8,6 +8,7 @@ import MainHandlersExercise from './mixins/main-handlers-exercise';
 import MainHandlersExerciseScreen from './mixins/main-handlers-exercise-screen';
 import MainQuestionTypeContract from './mixins/main-question-type-contract';
 import './main.scss';
+import CallbackQueue from '../services/callback-queue';
 
 /**
  * Main DOM component incl. main controller
@@ -40,6 +41,11 @@ export default class Main {
       onProgressChanged: () => {},
       onFinished: () => {}
     }, callbacks);
+
+    // Without animations requested, schedule whole queue for same time
+    CallbackQueue.setRespectsDelay(
+      Globals.get('params').visual.misc.useAnimation
+    );
 
     Globals.set('getScore', () => {
       return this.getScore();
@@ -226,85 +232,6 @@ export default class Main {
         Main.CONVENIENCE_MARGIN_PX
       );
     }
-  }
-
-  /**
-   * Add callback to animation queue.
-   *
-   * @param {function} callback Callback to execute.
-   * @param {object} [params={}] Parameters.
-   * @param {number} [params.delay=0] Delay before calling callback.
-   * @param {number} [params.block=0] Delay before calling next callback.
-   * @param {boolean} [params.skipQueue=false] If true, skip queue.
-   */
-  addToQueue(callback, params = {}) {
-    if (typeof callback !== 'function') {
-      return;
-    }
-
-    params = Util.extend({
-      delay: 0,
-      block: 0,
-      skipQueue: false
-    }, params);
-
-    if (!this.openExerciseId || params.skipQueue) {
-      callback();
-      return;
-    }
-
-    this.queueAnimation.push({ callback, params });
-  }
-
-  /**
-   * Clear animation queue.
-   */
-  clearQueueAnimation() {
-    // More animations might be added meanwhile
-    const animationsToClear = [...this.scheduledAnimations];
-
-    animationsToClear.forEach((animation) => {
-      window.clearTimeout(animation);
-      this.scheduledAnimations = this.scheduledAnimations.filter((anim) => {
-        anim !== animation;
-      });
-    });
-  }
-
-  /**
-   * Play animation queue.
-   */
-  playAnimationQueue() {
-    if (Globals.get('params').visual.misc.useAnimation) {
-      // Compute absolute delay for each animation
-      this.queueAnimation = this.queueAnimation.map((queueItem, index, all) => {
-        if (index === 0) {
-          return queueItem;
-        }
-
-        const previousParams = all[index - 1].params;
-        queueItem.params.delay += previousParams.delay + previousParams.block;
-
-        return queueItem;
-      }, []);
-    }
-    else {
-      this.queueAnimation = this.queueAnimation.map((queueItem) => {
-        queueItem.params.delay = 0;
-        queueItem.params.block = 0;
-        return queueItem;
-      });
-    }
-
-    this.queueAnimation.forEach((queueItem) => {
-      const scheduledAnimation = window.setTimeout(() => {
-        queueItem.callback();
-      }, queueItem.params.delay);
-
-      this.scheduledAnimations.push(scheduledAnimation);
-    });
-
-    this.queueAnimation = [];
   }
 
   /**

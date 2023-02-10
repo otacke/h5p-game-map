@@ -10,6 +10,7 @@ import Toolbar from '@components/toolbar/toolbar';
 import Exercises from '@models/exercises';
 import ExerciseScreen from '@components/exercise/exercise-screen';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog';
+import CallbackQueue from '../../services/callback-queue';
 
 /**
  * Mixin containing main init stuff.
@@ -344,6 +345,8 @@ export default class MainInitialization {
 
     this.fullScoreWasAnnounced = false;
     this.openExerciseId = false;
+    CallbackQueue.setSkippable(true);
+
     this.queueAnimation = [];
     this.scheduledAnimations = [];
 

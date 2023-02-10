@@ -1,4 +1,5 @@
 import Jukebox from '@services/jukebox';
+import CallbackQueue from '../../services/callback-queue';
 
 /**
  * Mixin containing handlers for exercise.
@@ -34,7 +35,7 @@ export default class MainHandlersExercise {
     if (!this.fullScoreWasAnnounced && this.getScore() === this.getMaxScore()) {
       this.fullScoreWasAnnounced = true;
 
-      this.addToQueue(() => {
+      CallbackQueue.add(() => {
         Jukebox.play('fullScore');
         this.showFullScoreConfirmation();
       });
