@@ -79,4 +79,18 @@ export default class MainQuestionTypeContract {
     this.isShowingSolutions = true;
     this.toolbar.toggleSolutionMode(true);
   }
+
+  /**
+   * Get current state. Not strictly question type contract.
+   *
+   * @returns {object} Current state to be retrieved later.
+   */
+  getCurrentState() {
+    return {
+      exercises: this.exercises.getCurrentState(),
+      stages: this.stages.getCurrentState(),
+      paths: this.paths.getCurrentState(),
+      livesLeft: this.livesLeft
+    };
+  }
 }

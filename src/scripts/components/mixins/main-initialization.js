@@ -175,7 +175,7 @@ export default class MainInitialization {
         active: Dictionary.get('a11y.buttonFinish')
       },
       onClick: () => {
-        this.handleFinish();
+        this.showFinishConfirmation();
       }
     });
 

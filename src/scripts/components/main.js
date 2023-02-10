@@ -134,6 +134,36 @@ export default class Main {
   }
 
   /**
+   * Start.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.isInitial] If true, don't overwrite presets.
+   */
+  start(params = {}) {
+    this.endScreen.hide();
+
+    const hasTitleScreen = Globals.get('params').showTitleScreen;
+
+    if (hasTitleScreen) {
+      this.hide();
+
+      const startParams = !params.isInitial ?
+        { focusButton: true, readOpened: true } :
+        {};
+
+      this.startScreen.show(startParams);
+    }
+    else if (!params.isInitial) {
+      this.show({ focusButton: true, readOpened: true });
+    }
+    else {
+      this.show();
+    }
+
+    Globals.get('resize')();
+  }
+
+  /**
    * Seek attention.
    */
   seekAttention() {
@@ -259,7 +289,7 @@ export default class Main {
 
       this.handleExerciseScreenClosed({
         animationEndedCallback: () => {
-          this.handleGameOver();
+          this.showGameOverConfirmation();
         }
       });
     }
@@ -371,9 +401,58 @@ export default class Main {
   }
 
   /**
+   * Handle timer ticked.
+   *
+   * @param {number} id Id of exercise that had a timer tick.
+   * @param {number} remainingTime Remaining time in ms.
+   */
+  handleTimerTicked(id, remainingTime) {
+    if (!id || id !== this.openExerciseId) {
+      return;
+    }
+
+    this.exerciseScreen.setTime(remainingTime);
+  }
+
+  /**
+   * Handle timeout warning.
+   *
+   * @param {number} id Id of exercise that is about to time out.
+   */
+  handleTimeoutWarning(id) {
+    if (!id || id !== this.openExerciseId) {
+      return;
+    }
+
+    Jukebox.play('timeoutWarning');
+  }
+
+  /**
+   * Handle timeout.
+   *
+   * @param {number} id Id of exercise that timed out.
+   */
+  handleTimeout(id) {
+    if (!id || id !== this.openExerciseId) {
+      return;
+    }
+
+    this.handleLostLife();
+
+    if (this.livesLeft > 0) {
+      this.handleExerciseScreenClosed({
+        animationEndedCallback: () => {
+          this.exercises.reset(id);
+          this.showTimeoutConfirmation();
+        }
+      });
+    }
+  }
+
+  /**
    * Handle finish.
    */
-  handleFinish() {
+  showFinishConfirmation() {
     // In solution mode, no dialog and no xAPI necessary
     if (this.isShowingSolutions) {
       this.showEndscreen({ focusButton: true, readOpened: true });
@@ -428,7 +507,7 @@ export default class Main {
   /**
    * Handle game over.
    */
-  handleGameOver() {
+  showGameOverConfirmation() {
     this.gameDone = true;
     this.stages.togglePlayfulness(false);
 
@@ -454,55 +533,6 @@ export default class Main {
 
     this.confirmationDialog.show();
     this.toolbar.enableButton('finish');
-  }
-
-  /**
-   * Handle timer ticked.
-   *
-   * @param {number} id Id of exercise that had a timer tick.
-   * @param {number} remainingTime Remaining time in ms.
-   */
-  handleTimerTicked(id, remainingTime) {
-    if (!id || id !== this.openExerciseId) {
-      return;
-    }
-
-    this.exerciseScreen.setTime(remainingTime);
-  }
-
-  /**
-   * Handle timeout warning.
-   *
-   * @param {number} id Id of exercise that is about to time out.
-   */
-  handleTimeoutWarning(id) {
-    if (!id || id !== this.openExerciseId) {
-      return;
-    }
-
-    Jukebox.play('timeoutWarning');
-  }
-
-  /**
-   * Handle timeout.
-   *
-   * @param {number} id Id of exercise that timed out.
-   */
-  handleTimeout(id) {
-    if (!id || id !== this.openExerciseId) {
-      return;
-    }
-
-    this.handleLostLife();
-
-    if (this.livesLeft > 0) {
-      this.handleExerciseScreenClosed({
-        animationEndedCallback: () => {
-          this.exercises.reset(id);
-          this.showTimeoutConfirmation();
-        }
-      });
-    }
   }
 
   /**
@@ -553,50 +583,6 @@ export default class Main {
     );
 
     this.confirmationDialog.show();
-  }
-
-  /**
-   * Start.
-   *
-   * @param {object} [params={}] Parameters.
-   * @param {boolean} [params.isInitial] If true, don't overwrite presets.
-   */
-  start(params = {}) {
-    this.endScreen.hide();
-
-    const hasTitleScreen = Globals.get('params').showTitleScreen;
-
-    if (hasTitleScreen) {
-      this.hide();
-
-      const startParams = !params.isInitial ?
-        { focusButton: true, readOpened: true } :
-        {};
-
-      this.startScreen.show(startParams);
-    }
-    else if (!params.isInitial) {
-      this.show({ focusButton: true, readOpened: true });
-    }
-    else {
-      this.show();
-    }
-
-    Globals.get('resize')();
-  }
-
-  /**
-   * Get current state.
-   *
-   * @returns {object} Current state to be retrieved later.
-   */
-  getCurrentState() {
-    return {
-      exercises: this.exercises.getCurrentState(),
-      stages: this.stages.getCurrentState(),
-      paths: this.paths.getCurrentState(),
-      livesLeft: this.livesLeft
-    };
   }
 }
 
