@@ -126,7 +126,9 @@ export default class GameMap extends H5P.Question {
     this.contentId = contentId;
     this.extras = extras;
 
-    const fullScreenSupported = this.isRoot() && H5P.fullscreenSupported;
+    // TODO: Fix resizing when rotating devices multiple times
+    // TODO: Fix overflow, so one can scroll exercises that overflow map
+    const fullScreenSupported = false; //this.isRoot() && H5P.fullscreenSupported;
 
     // Set globals
     Globals.set('mainInstance', this);
