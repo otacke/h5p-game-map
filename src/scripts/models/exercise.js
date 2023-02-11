@@ -400,6 +400,12 @@ export default class Exercise {
    * Handle viewed.
    */
   handleViewed() {
+    if (this.wasViewed) {
+      return; // already viewed, required for iOS workaround
+    }
+
+    this.wasViewed = true;
+
     this.attachInstance();
 
     // Some content types build/initialize DOM when attaching
@@ -480,6 +486,8 @@ export default class Exercise {
     if (this.isAttached) {
       this.instance?.resetTask?.();
     }
+
+    this.wasViewed = false;
 
     // iOS is behind ... Again ...
     const callback = window.requestIdleCallback ?
