@@ -200,6 +200,7 @@ export default class Map {
       this.dom.style.height = '';
       this.dom.style.width = '';
       this.dom.style.margin = '';
+      this.dom.style.overflow = '';
 
       this.image.style.height = '';
       this.image.style.width = '';
@@ -212,6 +213,7 @@ export default class Map {
       this.dom.style.height = `${size.height}px`;
       this.dom.style.width = `${size.width}px`;
       this.dom.style.margin = 'auto';
+      this.dom.style.overflow = 'hidden auto';
 
       this.image.style.height = `${size.height}px`;
       this.image.style.width = `${size.width}px`;
