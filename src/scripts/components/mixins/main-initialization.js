@@ -52,6 +52,10 @@ export default class MainInitialization {
     const scorebar = container.querySelector('.h5p-question-scorebar');
     if (scorebar) {
       feedbackWrapper.append(scorebar.parentNode.removeChild(scorebar));
+      // Keeping attached to prevent potential issues when missing
+      if (params.maxScore === 0) {
+        scorebar.classList.add('display-none');
+      }
     }
 
     main.removeFeedback();
