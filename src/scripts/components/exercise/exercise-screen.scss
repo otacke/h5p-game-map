@@ -32,6 +32,10 @@
     max-width: 1080px;
     width: 100%;
 
+    &.offscreen {
+      transform: translate3d(0, -200rem, 0) scaleY(3);
+    }
+
     &.transparent {
       opacity: 0;
     }

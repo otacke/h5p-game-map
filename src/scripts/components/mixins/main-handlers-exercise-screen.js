@@ -53,9 +53,6 @@ export default class MainHandlersExerciseScreen {
    * Handle exercise screen open animation ended.
    */
   handleExerciseScreenOpenAnimationEnded() {
-    // Fallback for iOS that doesn't always run exercise intersection observer
-    this.exercises.getExercise(this.openExerciseId).handleViewed();
-
     Globals.get('resize')();
   }
 

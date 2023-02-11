@@ -320,15 +320,24 @@ export default class Exercise {
    * Start.
    */
   start() {
-    if (!this.isAttached) {
-      return; // Will start when viewed
-    }
-
     if (this.isCompleted) {
       return; // Exercise already completed
     }
 
+    this.attachInstance();
+
+    // Some content types build/initialize DOM when attaching
+    if (this.isShowingSolutions) {
+      this.showSolutions();
+    }
+
+    this.setState('opened');
+
     this.timer?.start(this.remainingTime);
+
+    window.requestAnimationFrame(() => {
+      Globals.get('resize')();
+    });
   }
 
   /**
@@ -397,34 +406,6 @@ export default class Exercise {
   }
 
   /**
-   * Handle viewed.
-   */
-  handleViewed() {
-    if (this.wasViewed) {
-      return; // already viewed, required for iOS workaround
-    }
-
-    this.wasViewed = true;
-
-    this.attachInstance();
-
-    // Some content types build/initialize DOM when attaching
-    if (this.isShowingSolutions) {
-      this.showSolutions();
-    }
-
-    this.setState('opened');
-
-    if (!this.isCompleted) {
-      this.start();
-    }
-
-    window.requestAnimationFrame(() => {
-      Globals.get('resize')();
-    });
-  }
-
-  /**
    * Reset.
    *
    * @param {object} [params={}] Parameters.
@@ -488,25 +469,6 @@ export default class Exercise {
     }
 
     this.wasViewed = false;
-
-    // iOS is behind ... Again ...
-    const callback = window.requestIdleCallback ?
-      window.requestIdleCallback :
-      window.requestAnimationFrame;
-
-    callback(() => {
-      this.observer = this.observer || new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          this.observer.unobserve(this.dom);
-
-          this.handleViewed();
-        }
-      }, {
-        root: document.documentElement,
-        threshold: 0
-      });
-      this.observer.observe(this.dom);
-    });
 
     this.isShowingSolutions = false;
   }

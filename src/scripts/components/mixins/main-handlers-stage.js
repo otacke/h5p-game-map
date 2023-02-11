@@ -24,6 +24,10 @@ export default class MainHandlersStage {
       this.exerciseScreen.setTime(remainingTime);
     }
 
+    // Store to restore focus when exercise screen is closed
+    this.openExerciseId = id;
+    CallbackQueue.setSkippable(false);
+
     this.exerciseScreen.setH5PContent(exercise.getDOM());
     this.exerciseScreen.setTitle(stage.getLabel());
     Jukebox.stopGroup('default');
@@ -45,10 +49,6 @@ export default class MainHandlersStage {
       this.currentStageIndex = stageIndex + 1;
       this.callbacks.onProgressChanged(this.currentStageIndex);
     }
-
-    // Store to restore focus when exercise screen is closed
-    this.openExerciseId = id;
-    CallbackQueue.setSkippable(false);
 
     window.requestAnimationFrame(() => {
       Globals.get('resize')();

@@ -43,6 +43,7 @@ export default class ExerciseScreen {
       'h5p-game-map-exercise-content-container'
     );
     this.contentContainer.classList.add('transparent');
+    this.contentContainer.classList.add('offscreen');
     this.dom.append(this.contentContainer);
 
     this.content = document.createElement('div');
@@ -157,6 +158,7 @@ export default class ExerciseScreen {
     }
     else {
       this.contentContainer.classList.add('transparent');
+      this.contentContainer.classList.add('offscreen');
       this.dom.classList.add('display-none');
       this.dom.classList.add('transparent');
 
@@ -308,6 +310,9 @@ export default class ExerciseScreen {
     this.contentContainer.removeEventListener(
       'animationend', this.handleOpenAnimationEnded
     );
+
+    this.contentContainer.classList.remove('offscreen');
+
     this.callbacks.onOpenAnimationEnded();
   }
 
@@ -320,6 +325,7 @@ export default class ExerciseScreen {
     );
 
     this.contentContainer.classList.add('transparent');
+    this.contentContainer.classList.add('offscreen');
     this.dom.classList.add('display-none');
 
     this.callbacks.onCloseAnimationEnded();
