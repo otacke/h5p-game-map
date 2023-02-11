@@ -401,6 +401,11 @@ export default class Main {
     }
   }
 
+  /**
+   * Try start background music.
+   *
+   * @returns {boolean} True, id audio could be started.
+   */
   async tryStartBackgroundMusic() {
     if (Jukebox.audioContext.state === 'suspended') {
       await Jukebox.audioContext.resume();
