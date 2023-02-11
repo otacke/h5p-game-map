@@ -90,7 +90,7 @@ export default class MainInitialization {
           this.show({ focusButton: true, readOpened: true });
 
           if (!Jukebox.isPlaying('backgroundMusic')) {
-            this.handleAutoplay();
+            this.tryStartBackgroundMusic();
           }
         },
         read: (text) => {

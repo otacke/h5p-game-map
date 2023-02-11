@@ -397,8 +397,19 @@ export default class Main {
       Jukebox.muteAll();
     }
     else {
+      this.tryStartBackgroundMusic();
+    }
+  }
+
+  async tryStartBackgroundMusic() {
+    if (Jukebox.audioContext.state === 'suspended') {
+      await Jukebox.audioContext.resume();
       Jukebox.unmuteAll();
-      Jukebox.play('backgroundMusic');
+      return Jukebox.play('backgroundMusic');
+    }
+    else {
+      Jukebox.unmuteAll();
+      return Jukebox.play('backgroundMusic');
     }
   }
 
@@ -406,24 +417,18 @@ export default class Main {
    * Handle autoplay of audio.
    */
   async handleAutoplay() {
-    if (
-      Jukebox.getAudioIds().includes('backgroundMusic')
-    ) {
-      let couldPlay = false;
-
-      try {
-        Jukebox.unmute();
-        couldPlay = await Jukebox.play('backgroundMusic');
-      }
-      catch (error) {
-        // Intentionally left blank
-      }
-
-      this.toolbar.forceButton('audio', couldPlay);
-    }
-    else {
+    if (!Jukebox.getAudioIds().includes('backgroundMusic')) {
       this.toolbar.forceButton('audio', true);
     }
+
+    if (this.autoplayHandlerRunning) {
+      return;
+    }
+
+    this.autoplayHandlerRunning = true;
+
+    const couldPlay = await this.tryStartBackgroundMusic();
+    this.toolbar.forceButton('audio', couldPlay);
   }
 
   /**

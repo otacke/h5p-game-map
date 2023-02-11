@@ -37,34 +37,100 @@ export default class Jukebox {
     }
 
     Jukebox.audios[params.id] = {
-      loaded: false
+      loop: params.options.loop || false,
+      isMuted: params.options.muted || false,
+      groupId: params.options.groupId || 'default'
     };
 
-    const dom = document.createElement('audio');
-    dom.addEventListener('load', () => {
-      Jukebox.audios[params.id].loaded = true;
-    });
-    dom.src = params.src;
+    Jukebox.bufferSound({ id: params.id, url: params.src });
+  }
 
-    // Handle loops
-    if (params.options.loop) {
-      dom.addEventListener('ended', () => {
-        Jukebox.play(params.id);
-      }, false);
+  /**
+   * Get audio's state.
+   *
+   * @param {string} id Id of audio.
+   * @returns {number|undefined} State id.
+   */
+  static getState(id) {
+    if (!Jukebox.audios[id]) {
+      return;
     }
 
-    Jukebox.audios[params.id].dom = dom;
+    return Jukebox.audios[id].state;
+  }
 
-    const track = Jukebox.audioContext.createMediaElementSource(dom);
-    const gainNode = Jukebox.audioContext.createGain();
-    track
-      .connect(gainNode)
-      .connect(Jukebox.audioContext.destination);
+  /**
+   * Set state for audio.
+   *
+   * @param {string} id Id of audio to set state for.
+   * @param {string|number} newState New state id.
+   */
+  static setState(id, newState) {
+    if (typeof newState === 'string') {
+      newState = Jukebox.STATES[newState];
+    }
 
-    Jukebox.audios[params.id].gainNode = gainNode;
+    if (
+      typeof newState !== 'number' ||
+      Object.values(Jukebox.STATES).indexOf(newState) === -1
+    ) {
+      return; // Not a valid state
+    }
 
-    Jukebox.audios[params.id].isMuted = params.options.muted || false;
-    Jukebox.audios[params.id].groupId = params.options.groupId || 'default';
+    if (!Jukebox.audios[id] || Jukebox.audios[id].state === newState) {
+      return; // Same state or no audio
+    }
+
+    Jukebox.audios[id].state = newState;
+    Jukebox.dispatcher.dispatchEvent(
+      new CustomEvent('stateChanged', { detail: { id: id, state: newState } })
+    );
+  }
+
+  /**
+   * Set audio buffer.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {string} params.id Id of audio to set buffer for.
+   * @param {object} params.buffer Audio buffer.
+   */
+  static setAudioBuffer(params = {}) {
+    if (!Jukebox.audios[params.id]) {
+      return;
+    }
+
+    Jukebox.audios[params.id].buffer = params.buffer;
+    Jukebox.setState(params.id, Jukebox.STATES['stopped']);
+  }
+
+  /**
+   * Buffer sound.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {string} params.id Id of audio.
+   * @param {string} params.url URL of audio to buffer.
+   */
+  static bufferSound(params = {}) {
+    if (!Jukebox.audios[params.id]) {
+      return;
+    }
+
+    Jukebox.setState(params.id, Jukebox.STATES['buffering']);
+
+    var request = new XMLHttpRequest();
+    request.open('GET', params.url, true);
+    request.responseType = 'arraybuffer';
+
+    // Decode asynchronously
+    request.onload = () => {
+      Jukebox.audioContext.decodeAudioData(request.response, (buffer) => {
+        const event = new CustomEvent(
+          'bufferloaded', { detail: { id: params.id, buffer: buffer } }
+        );
+        Jukebox.dispatcher.dispatchEvent(event);
+      });
+    };
+    request.send();
   }
 
   /**
@@ -73,7 +139,7 @@ export default class Jukebox {
    * @param {string} id Id of audio to play.
    * @returns {boolean} True, if audio could be played. Else false.
    */
-  static async play(id) {
+  static play(id) {
     if (!Jukebox.audios[id]) {
       return false;
     }
@@ -82,23 +148,60 @@ export default class Jukebox {
       return false; // Muted
     }
 
-    // Check if context is in suspended state (autoplay policy)
+    if (Jukebox.getState(id) === Jukebox.STATES['playing']) {
+      return false; // Already playing
+    }
+
     if (Jukebox.audioContext.state === 'suspended') {
-      Jukebox.audioContext.resume();
+      return false;
     }
 
-    let canPlay = false;
-    try {
-      await Jukebox.audios[id].dom.play();
-      canPlay = true;
-    }
-    catch (error) {
-      // Intentionally left blank
+    if (Jukebox.getState(id) === Jukebox.STATES['buffering']) {
+      Jukebox.addToQueue(id);
+      return false;
     }
 
-    Jukebox.audios[id].isPlaying = canPlay;
+    const audio = Jukebox.audios[id];
 
-    return canPlay;
+    const source = Jukebox.audioContext.createBufferSource();
+    source.buffer = audio.buffer;
+
+    // Add gain node
+    const gainNode = Jukebox.audioContext.createGain();
+    source
+      .connect(gainNode)
+      .connect(Jukebox.audioContext.destination);
+    Jukebox.audios[id].gainNode = gainNode;
+
+    // Set loop if necessary
+    source.loop = Jukebox.audios[id].loop;
+
+    audio.source = source;
+
+    audio.source.start();
+    Jukebox.setState(id, Jukebox.STATES['playing']);
+
+    return true;
+  }
+
+  /**
+   * Add audio to play queue.
+   *
+   * @param {string} id of audio to add to play queue.
+   */
+  static addToQueue(id) {
+    if (!Jukebox.queued.includes(id)) {
+      Jukebox.queued.push(id);
+    }
+  }
+
+  /**
+   * Remove audio to play queue.
+   *
+   * @param {string} id of audio to remove from play queue.
+   */
+  static removeFromQueue(id) {
+    Jukebox.queued = Jukebox.queued.filter((entry) => entry !== id);
   }
 
   /**
@@ -111,9 +214,14 @@ export default class Jukebox {
       return;
     }
 
-    Jukebox.audios[id].dom.pause();
-    Jukebox.audios[id].dom.currentTime = 0;
-    Jukebox.audios[id].isPlaying = false;
+    Jukebox.removeFromQueue(id);
+
+    if (Jukebox.getState(id) !== Jukebox.STATES['playing']) {
+      return;
+    }
+
+    Jukebox.audios[id].source?.stop();
+    Jukebox.setState(id, Jukebox.STATES['stopped']);
   }
 
   /**
@@ -153,7 +261,7 @@ export default class Jukebox {
       return false;
     }
 
-    return Jukebox.audios[id].isPlaying ?? false;
+    return Jukebox.getState(id) === Jukebox.STATES['playing'];
   }
 
   /**
@@ -176,6 +284,12 @@ export default class Jukebox {
 
     // Clear previous fade timeout
     window.clearTimeout(Jukebox.audios[id].fadeTimeout);
+    if (
+      params.type === 'out' && Jukebox.audios[id].gainNode.gain.value === 0 ||
+      params.type === 'in' && Jukebox.audios[id].gainNode.gain.value === 1
+    ) {
+      return; // Done
+    }
 
     // Sanitize time
     if (typeof params.time !== 'number') {
@@ -317,11 +431,30 @@ export default class Jukebox {
   }
 }
 
+// Set up simple dispatcher for events
+Jukebox.dispatcher = document.createElement('div');
+
+// Handle audio was buffered successfully
+Jukebox.dispatcher.addEventListener('bufferloaded', (event) => {
+  Jukebox.setAudioBuffer(event.detail);
+
+  if (Jukebox.queued.includes(event.detail.id)) {
+    Jukebox.removeFromQueue(event.detail.id);
+    Jukebox.play();
+  }
+});
+
 /** @param {object} audios Key based audio storage. */
 Jukebox.audios = {};
 
-/** @param {AudioContext} audioContext WebAudio API content. */
+/** @param {string[]} queued Ids of queued audios. */
+Jukebox.queued = [];
+
+// webkit prefix still required for older iOS versions.
 const audioContext = window.AudioContext || window.webkitAudioContext;
+
+// This is not best practice, but we want to try to autoplay at least
+/** @param {AudioContext} audioContext WebAudio API content. */
 Jukebox.audioContext = audioContext ? new audioContext() : null;
 
 /** @constant {number} DEFAULT_TIMER_INTERVAL_MS Default timer interval. */
@@ -329,3 +462,12 @@ Jukebox.DEFAULT_TIMER_INTERVAL_MS = 100;
 
 /** @constant {number} DEFAULT_FADE_TIME_MS Default fade time. */
 Jukebox.DEFAULT_FADE_TIME_MS = 1000;
+
+/** @constant {object} STATES Stated of audios in jukebox. */
+Jukebox.STATES = {
+  buffering: 0,
+  stopped: 1,
+  queued: 2,
+  playing: 3,
+  paused: 4
+};
