@@ -32,6 +32,10 @@ export default class Jukebox {
    * @param {string} [params.options.groupId] Optional group id.
    */
   static add(params = {}) {
+    if (!Jukebox.audioContext) {
+      return;
+    }
+
     Jukebox.audios[params.id] = {
       loaded: false
     };
@@ -317,7 +321,8 @@ export default class Jukebox {
 Jukebox.audios = {};
 
 /** @param {AudioContext} audioContext WebAudio API content. */
-Jukebox.audioContext = new AudioContext();
+const audioContext = window.AudioContext || window.webkitAudioContext;
+Jukebox.audioContext = audioContext ? new audioContext() : null;
 
 /** @constant {number} DEFAULT_TIMER_INTERVAL_MS Default timer interval. */
 Jukebox.DEFAULT_TIMER_INTERVAL_MS = 100;
