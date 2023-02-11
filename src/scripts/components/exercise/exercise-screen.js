@@ -116,6 +116,7 @@ export default class ExerciseScreen {
       this.animate('bounce-in', () => {
         this.focusTrap.activate();
       });
+      this.contentContainer.classList.remove('offscreen');
 
       document.addEventListener('click', this.handleGlobalClick);
       document.addEventListener('keydown', this.handleKeyDown);
@@ -310,8 +311,6 @@ export default class ExerciseScreen {
     this.contentContainer.removeEventListener(
       'animationend', this.handleOpenAnimationEnded
     );
-
-    this.contentContainer.classList.remove('offscreen');
 
     this.callbacks.onOpenAnimationEnded();
   }
