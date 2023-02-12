@@ -85,7 +85,9 @@
         }
 
         &.toolbar-button-active {
-          background-color: $color-primary-5;
+          &:not(.toolbar-button-disabled) {
+            background-color: $color-primary-5;
+          }
 
           &::before {
             content: "\f028";
