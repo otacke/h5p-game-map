@@ -45,6 +45,14 @@ $titlebarButtonBackgroundSize: 1.25em;
       }
     }
   }
+
+  &.toolbar-button-disabled {
+    background-color: rgba(128,128,128,.95);
+
+    &::before {
+      color: #fff;
+    }
+  }
 }
 
 .toolbar-button-display-none {

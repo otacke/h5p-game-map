@@ -35,6 +35,7 @@ export default class MainHandlersExerciseScreen {
 
       Globals.get('resize')();
     });
+    this.toolbar.enable();
     Jukebox.stopGroup('default');
     Jukebox.play('closeExercise');
 

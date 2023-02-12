@@ -32,6 +32,7 @@ export default class MainHandlersStage {
     this.exerciseScreen.setTitle(stage.getLabel());
     Jukebox.stopGroup('default');
     this.exerciseScreen.show();
+    this.toolbar.disable();
     this.exercises.start(id);
 
     if (Globals.get('params').audio.backgroundMusic.muteDuringExercise) {

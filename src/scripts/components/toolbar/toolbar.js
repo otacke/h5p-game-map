@@ -179,6 +179,24 @@ export default class Toolbar {
   }
 
   /**
+   * Enable.
+   */
+  enable() {
+    for (const id in this.buttons) {
+      this.enableButton(id);
+    }
+  }
+
+  /**
+   * Disable.
+   */
+  disable() {
+    for (const id in this.buttons) {
+      this.disableButton(id);
+    }
+  }
+
+  /**
    * Enable button.
    *
    * @param {string} id Button id.
