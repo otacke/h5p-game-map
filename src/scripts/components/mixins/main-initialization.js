@@ -308,6 +308,7 @@ export default class MainInitialization {
       }
     });
     this.exerciseScreen.hide();
+    this.toolbar.enable();
     this.map.getDOM().append(this.exerciseScreen.getDOM());
 
     // Confirmation Dialog
