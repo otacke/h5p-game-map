@@ -6,6 +6,7 @@
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
+  justify-items: center;
   position: relative;
   user-select: none;
   z-index: 0;
@@ -22,7 +23,10 @@
     grid-area: 1/1/1/1;
     height: 100%;
     left: 0;
+    margin-left: auto;
+    margin-right: auto;
     position: absolute;
+    right: 0;
     top: 0;
     width: 100%;
   }
@@ -31,7 +35,10 @@
     grid-area: 1/1/1/1;
     height: 100%;
     left: 0;
+    margin-left: auto;
+    margin-right: auto;
     position: absolute;
+    right: 0;
     top: 0;
     width: 100%;
   }

@@ -244,23 +244,7 @@
               "description": "Decide if the map should be animated. Even if you set this option, the content type will honor the users' browser setting if they prefer reduced motion."
             },
             {
-              "label": "Height limit mode",
-              "description": "Decide if you want to limit the content height to fit the visible area. Automatic detection may not be perfect depending on your website's setup, e.g. if it has sticky top navigation bars. Good custom values are hard to set manually.",
-              "options": [
-                {
-                  "label": "No limit"
-                },
-                {
-                  "label": "Automatic"
-                },
-                {
-                  "label": "Custom"
-                }
-              ]
-            },
-            {
-              "label": "Height limit",
-              "description": "Maximum height of content in pixels."
+              "label": "Dummy"
             }
           ]
         }

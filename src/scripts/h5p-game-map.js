@@ -40,8 +40,7 @@ export default class GameMap extends H5P.Question {
           displayPaths: true,
         },
         misc: {
-          useAnimation: true,
-          heightLimitMode: 'none'
+          useAnimation: true
         }
       },
       behaviour: {
@@ -126,8 +125,6 @@ export default class GameMap extends H5P.Question {
     this.contentId = contentId;
     this.extras = extras;
 
-    // TODO: Fix resizing when rotating devices multiple times
-    // TODO: Fix overflow, so one can scroll exercises that overflow map
     const fullScreenSupported = this.isRoot() && H5P.fullscreenSupported;
 
     // Set globals

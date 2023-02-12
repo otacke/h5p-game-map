@@ -135,7 +135,10 @@ export default class Map {
     const mapSize = this.getSize();
 
     let width, height;
-    if (mapSize.width / mapSize.height > availableSpace.width / availableSpace.height) {
+    if (
+      mapSize.width / mapSize.height >
+      availableSpace.width / availableSpace.height
+    ) {
       width = availableSpace.width;
       height = availableSpace.width * mapSize.height / mapSize.width;
     }
@@ -144,7 +147,10 @@ export default class Map {
       height = availableSpace.height;
     }
 
-    this.forceSize({ width: width, height: height });
+    this.forceSize({
+      container: { width: availableSpace.width, height: availableSpace.height },
+      map: { width: width, height: height }
+    });
   }
 
   /**
@@ -153,13 +159,9 @@ export default class Map {
    * @returns {object} Height and width of map.
    */
   getSize() {
-    const clientRect = this.dom.getBoundingClientRect();
+    const clientRect = this.image.getBoundingClientRect();
 
-    const height = window.getComputedStyle(this.dom).overflowY !== 'hidden' ?
-      this.dom.scrollHeight :
-      clientRect.height;
-
-    return { height: height, width: clientRect.width };
+    return { height: clientRect.height, width: clientRect.width };
   }
 
   /**
@@ -191,57 +193,57 @@ export default class Map {
   /**
    * Force size.
    *
-   * @param {object|null} size Size to force into.
-   * @param {number} [size.width] Width in px.
-   * @param {number} [size.height] Height in px.
+   * @param {object|null} sizes Size to force into.
+   * @param {object} sizes.container Container size.
+   * @param {number} [sizes.container.width] Container width in px.
+   * @param {number} [sizes.container.height] Container height in px.
+   * @param {object} sizes.map Map size.
+   * @param {number} [sizes.map.width] Map width in px.
+   * @param {number} [sizes.map.height] Map height in px.
    */
-  forceSize(size) {
-    if (size === null) {
-      this.dom.style.height = '';
-      this.dom.style.width = '';
-      this.dom.style.margin = '';
-      this.dom.style.overflow = '';
+  forceSize(sizes) {
+    this.dom.style.height = '';
+    this.dom.style.width = '';
+    this.dom.style.margin = '';
+    this.dom.style.overflow = '';
 
-      this.image.style.height = '';
-      this.image.style.width = '';
-      this.pathWrapper.style.height = '';
-      this.pathWrapper.style.width = '';
-      this.stageWrapper.style.height = '';
-      this.stageWrapper.style.width = '';
+    this.image.style.height = '';
+    this.image.style.width = '';
+    this.pathWrapper.style.height = '';
+    this.pathWrapper.style.width = '';
+    this.stageWrapper.style.height = '';
+    this.stageWrapper.style.width = '';
+
+    if (sizes === null) {
+      return;
     }
-    else if (size?.width && size?.height) {
-      this.dom.style.height = `${size.height}px`;
-      this.dom.style.width = `${size.width}px`;
-      this.dom.style.margin = 'auto';
-      this.dom.style.overflow = 'hidden auto';
 
-      this.image.style.height = `${size.height}px`;
-      this.image.style.width = `${size.width}px`;
-      this.pathWrapper.style.height = `${size.height}px`;
-      this.pathWrapper.style.width = `${size.width}px`;
-      this.stageWrapper.style.height = `${size.height}px`;
-      this.stageWrapper.style.width = `${size.width}px`;
+    else if (
+      sizes?.container?.width && sizes?.container?.height &&
+      sizes?.map?.width && sizes?.map?.height
+    ) {
+      window.requestAnimationFrame(() => {
+        this.dom.style.height = `${sizes.container.height}px`;
+        this.dom.style.width = `${sizes.container.width}px`;
+        this.dom.style.margin = 'auto';
+        this.dom.style.overflow = 'hidden auto';
+
+        this.image.style.height = `${sizes.map.height}px`;
+        this.image.style.width = `${sizes.map.width}px`;
+        this.pathWrapper.style.height = `${sizes.map.height}px`;
+        this.pathWrapper.style.width = `${sizes.map.width}px`;
+        this.stageWrapper.style.height = `${sizes.map.height}px`;
+        this.stageWrapper.style.width = `${sizes.map.width}px`;
+
+        window.requestAnimationFrame(() => {
+          Globals.get('resize')();
+        });
+      });
     }
 
     window.requestAnimationFrame(() => {
       Globals.get('resize')();
     });
-  }
-
-  /**
-   * Set maximum height.
-   *
-   * @param {number} [heightPx] Max height.
-   */
-  setMaxHeight(heightPx) {
-    if (typeof heightPx !== 'number') {
-      this.dom.style.maxHeight = '';
-      this.dom.style.overflow = 'hidden';
-    }
-    else {
-      this.dom.style.maxHeight = `${heightPx}px`;
-      this.dom.style.overflow = 'auto';
-    }
   }
 
   /**

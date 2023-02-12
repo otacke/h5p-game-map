@@ -244,23 +244,7 @@
               "description": "Entscheide, ob die Karte animiert sein soll. Selbst dann wenn du diese Option setzt, respektiert der Inhaltstyp ggf. die Browsereinstellungen der Nutzerinnen und Nutzer, falls diese weniger Animationen wünschen."
             },
             {
-              "label": "Höhenbegrenzungsmodus",
-              "description": "Du kannst hier die Höhe des Bingobretts begrenzen, um in den sichtbaren Teil des Bildschirms zu passen. Die Automatische Begrenzung wird unter Umständen nicht perfekt funktionieren. Das kann von der Website abhängen, zum Beispiel bei solchen mit festen Navigationsleisten. Gute eigene Werte sind manuell nur schwer zu setzen.",
-              "options": [
-                {
-                  "label": "Keine Begrenzung"
-                },
-                {
-                  "label": "Automatisch"
-                },
-                {
-                  "label": "Eigener Wert"
-                }
-              ]
-            },
-            {
-              "label": "Höhenbegrenzung",
-              "description": "Maximale Höhe des Bingobretts in Pixeln."
+              "label": "Dummy"
             }
           ]
         }

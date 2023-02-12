@@ -614,42 +614,10 @@
             "default": true
           },
           {
-            "name": "heightLimitMode",
-            "type": "select",
-            "label": "Height limit mode",
-            "description": "Decide if you want to limit the content height to fit the visible area. Automatic detection may not be perfect depending on your website's setup, e.g. if it has sticky top navigation bars. Good custom values are hard to set manually.",
-            "options": [
-              {
-                "value": "none",
-                "label": "No limit"
-              },
-              {
-                "value": "auto",
-                "label": "Automatic"
-              },
-              {
-                "value": "custom",
-                "label": "Custom"
-              }
-            ],
-            "default": "none"
-          },
-          {
-            "name": "heightLimit",
-            "type": "number",
-            "label": "Height limit",
-            "min": 200,
-            "description": "Maximum height of content in pixels.",
-            "optional": true,
-            "widget": "showWhen",
-            "showWhen": {
-              "rules": [
-                {
-                  "field": "heightLimitMode",
-                  "equals": "custom"
-                }
-              ]
-            }
+            "name": "dummy",
+            "type": "boolean",
+            "label": "Dummy",
+            "widget": "none"
           }
         ]
       }

@@ -190,24 +190,6 @@ export default class Main {
       return;
     }
 
-    const paramsMisc = Globals.get('params').visual.misc;
-    if (paramsMisc.heightLimitMode === 'auto') {
-      // Try to compute maximum visible height
-      const displayLimits = Util.computeDisplayLimits(this.dom);
-      if (!displayLimits?.height) {
-        return;
-      }
-
-      this.limitMapHeight(displayLimits.height);
-    }
-    else if (
-      paramsMisc.heightLimitMode === 'custom' &&
-      typeof paramsMisc.heightLimit === 'number' &&
-      paramsMisc.heightLimit > 200
-    ) {
-      this.limitMapHeight(paramsMisc.heightLimit);
-    }
-
     // This should be done with a container selector when support is better.
     this.exerciseScreen.setScreenOffset(mapSize.width);
 
@@ -230,41 +212,6 @@ export default class Main {
       this.exersizeScreenResizeTimeout = setTimeout(() => {
         Globals.get('resize')();
       }, 0);
-    }
-  }
-
-  /**
-   * Limit map height
-   *
-   * @param {number} maxHeight Maximum wanted height.
-   */
-  limitMapHeight(maxHeight) {
-    // Reset to get intrinsic height
-    this.map.setMaxHeight();
-
-    // Height of content
-    const contentHeight = this.contentDOM.getBoundingClientRect().height;
-
-    // Margin around content
-    const contentStyle = window.getComputedStyle(this.contentDOM);
-    const contentMargin =
-      parseFloat(contentStyle.getPropertyValue('margin-top')) +
-      parseFloat(contentStyle.getPropertyValue('margin-bottom'));
-
-    // Toolbar height
-    const toolbarStyle = window.getComputedStyle(this.toolbar.getDOM());
-    const toolbarHeight = this.toolbar.getDOM().getBoundingClientRect().height +
-      parseFloat(toolbarStyle.getPropertyValue('margin-top')) +
-      parseFloat(toolbarStyle.getPropertyValue('margin-bottom'));
-
-    /*
-     * If maximum set height for all display is not sufficient, limit map height
-     */
-    if (maxHeight - contentMargin < contentHeight) {
-      this.map.setMaxHeight(
-        maxHeight - contentMargin - toolbarHeight -
-        Main.CONVENIENCE_MARGIN_PX
-      );
     }
   }
 
@@ -383,6 +330,8 @@ export default class Main {
       width: window.innerWidth - marginHorizontal,
       height: window.innerHeight - marginVertical - this.toolbar.getFullHeight()
     });
+
+    // TODO: Set button state in toolbar
   }
 
   /**
