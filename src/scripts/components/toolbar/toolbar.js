@@ -168,13 +168,14 @@ export default class Toolbar {
    *
    * @param {string} id Button id.
    * @param {boolean|number} active If true, toggle active, else inactive.
+   * @param {object} [options={}] Options.
    */
-  forceButton(id = '', active) {
+  forceButton(id = '', active, options = {}) {
     if (!this.buttons[id]) {
       return; // Button not available
     }
 
-    this.buttons[id].force(active);
+    this.buttons[id].force(active, options);
   }
 
   /**

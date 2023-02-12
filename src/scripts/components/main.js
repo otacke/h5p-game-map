@@ -331,7 +331,7 @@ export default class Main {
       height: window.innerHeight - marginVertical - this.toolbar.getFullHeight()
     });
 
-    // TODO: Set button state in toolbar
+    this.toolbar.forceButton('fullscreen', state ? 1 : 0, { noCallback: true });
   }
 
   /**

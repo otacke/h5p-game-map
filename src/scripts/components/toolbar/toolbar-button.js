@@ -205,8 +205,11 @@ export default class ToolbarButton {
    * Force button click.
    *
    * @param {boolean} [active] If set to boolean, activate accordingly.
+   * @param {object} [options={}] Options.
+   * @param {boolean} [options.noCallback=false] If true, will not call back.
    */
-  force(active) {
+  force(active, options = {}) {
+
     if (this.params.type === 'toggle') {
       if (active === true) {
         this.activate();
@@ -239,7 +242,9 @@ export default class ToolbarButton {
       });
     }
 
-    this.callbacks.onClick({}, { active: this.active });
+    if (!options.noCallback) {
+      this.callbacks.onClick({}, { active: this.active });
+    }
   }
 
   /**
