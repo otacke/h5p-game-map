@@ -39,17 +39,18 @@ export default class Toolbar {
     }
 
     // Headline
+    const headline = document.createElement('div');
+    headline.classList.add('toolbar-headline');
+    headline.innerText = Util.purifyHTML(this.params.headline);
+    this.dom.append(headline);
+
     if (this.params.headline) {
       const headLineId = H5P.createUUID();
 
+      headline.setAttribute('id', headLineId);
+
       // Use headline as label for toolbar
       this.dom.setAttribute('aria-labelledby', headLineId);
-
-      const headline = document.createElement('div');
-      headline.classList.add('toolbar-headline');
-      headline.setAttribute('id', headLineId);
-      headline.innerText = Util.purifyHTML(this.params.headline);
-      this.dom.append(headline);
     }
     else {
       this.dom.setAttribute(
