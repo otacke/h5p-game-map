@@ -71,6 +71,9 @@ export default class GameMap extends H5P.Question {
         confirmTimeoutDialogLostLife: 'You ran out of time and lost a life.',
         confirmFullScoreHeader: 'You achieved full score!',
         confirmFullScoreDialog: 'You have collected enough points to finish this map with a full score, but you are free to explore the rest if you wish to.',
+        confirmAccessDeniedHeader: 'Stage locked',
+        confirmAccessDeniedDialog: 'This stage requires you to meet some goals before it can be opened.',
+        confirmAccessDeniedMinScore: 'You need at least @minScore points.',
         ok: 'OK',
         noBackground: 'No background image was set for the map.',
         noStages: 'No valid stages were set for the map.'

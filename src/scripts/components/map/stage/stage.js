@@ -16,6 +16,7 @@ export default class Stage {
    * @param {function} [callbacks.onClicked] Stage was clicked on.
    * @param {function} [callbacks.onStageChanged] State of stage changed.
    * @param {function} [callbacks.onFocusChanged] State of focus changed.
+   * @param {function} [callbacks.onAccessRestrictionsHit] Handle no access.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -30,7 +31,8 @@ export default class Stage {
       onStateChanged: () => {},
       onFocused: () => {},
       onBecameActiveDescendant: () => {},
-      onAddedToQueue: () => {}
+      onAddedToQueue: () => {},
+      onAccessRestrictionsHit: () => {}
     }, callbacks);
 
     this.isDisabledState = false;
@@ -438,6 +440,20 @@ export default class Stage {
     ) {
       this.animate('shake');
       Jukebox.play('clickStageLocked');
+
+      if (
+        (typeof this.params.accessRestrictions?.minScore === 'number') &&
+        (
+          this.state === Globals.get('states')['locked'] ||
+          this.state === Globals.get('states')['unlocking']
+        )
+      ) {
+        this.callbacks.onAccessRestrictionsHit({
+          id: this.params.id,
+          minScore: this.params.accessRestrictions?.minScore
+        });
+      }
+
       return;
     }
 

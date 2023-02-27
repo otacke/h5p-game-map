@@ -960,6 +960,25 @@
         "default": "Do you really want to finish the map?"
       },
       {
+        "name": "confirmAccessDeniedHeader",
+        "type": "text",
+        "label": "Dialog header access denied",
+        "default": "Stage locked"
+      },
+      {
+        "name": "confirmAccessDeniedDialog",
+        "type": "text",
+        "label": "Dialog text access denied: General",
+        "default": "This stage requires you to meet some goals before it can be opened."
+      },
+      {
+        "name": "confirmAccessDeniedMinScore",
+        "type": "text",
+        "label": "Dialog text access denied: Minimum score",
+        "description": "@minScore is a placeholder and will be replaced with the respective value.",
+        "default": "You need at least @minScore points."
+      },
+      {
         "name": "yes",
         "type": "text",
         "label": "Yes",

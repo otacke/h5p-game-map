@@ -239,6 +239,9 @@ export default class MainInitialization {
         },
         onAddedToQueue: (callback, params) => {
           this.handleStageAddedToQueue(callback, params);
+        },
+        onAccessRestrictionsHit: (params) => {
+          this.handleStageAccessRestrictionsHit(params);
         }
       }
     );

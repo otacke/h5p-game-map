@@ -509,6 +509,9 @@ export default class Main {
           Jukebox.stopAll();
           this.callbacks.onFinished();
           this.showEndscreen({ focusButton: true });
+        },
+        onCanceled: () => {
+          this.toolbar.enableButton('finish');
         }
       }
     );
@@ -540,6 +543,10 @@ export default class Main {
         onConfirmed: () => {
           Jukebox.stopGroup('default');
           this.toolbar.enableButton('finish');
+        },
+        onCanceled: () => {
+          Jukebox.stopGroup('default');
+          this.toolbar.enableButton('finish');
         }
       }
     );
@@ -561,6 +568,10 @@ export default class Main {
         hideCancel: true
       }, {
         onConfirmed: () => {
+          Jukebox.stopGroup('default');
+          this.toolbar.enableButton('finish');
+        },
+        onCanceled: () => {
           Jukebox.stopGroup('default');
           this.toolbar.enableButton('finish');
         }

@@ -430,6 +430,19 @@
           "default": "Willst du die Karte wirklich beenden?"
         },
         {
+          "label": "Dialogüberschrift Zugang verweigert",
+          "default": "Etappe gesperrt"
+        },
+        {
+          "label": "Dialogtext Zugang verweigert: Allgemein",
+          "default": "Um diese Etappe zu öffnen, musst du einige Voraussetzungen erfüllen."
+        },
+        {
+          "label": "Dialogtext Zugang verweigert: Mindestpunktzahl",
+          "description": "@minScore is a placeholder and will be replaced with the respective value.",
+          "default": "Du brauchst mindestens @minScore Punkte."
+        },
+        {
           "label": "Ja",
           "default": "Ja"
         },

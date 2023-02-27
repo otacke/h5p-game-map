@@ -15,6 +15,7 @@ export default class Stages {
    * @param {function} [callbacks.onStageFocused] Called on stage focused.
    * @param {function} [callbacks.onBecameActiveDescendant] Called when stage became active descendant.
    * @param {function} [callbacks.onAddedToQueue] Called when function added to queue for main.
+   * @param {function} [callbacks.onAccessRestrictionsHit] Handle no access.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -26,7 +27,8 @@ export default class Stages {
       onStageStateChanged: () => {},
       onStageFocused: () => {},
       onBecameActiveDescendant: () => {},
-      onAddedToQueue: () => {}
+      onAddedToQueue: () => {},
+      onAccessRestrictionsHit: () => {}
     }, callbacks);
 
     this.handleSelectionKeydown = this.handleSelectionKeydown.bind(this);
@@ -104,6 +106,9 @@ export default class Stages {
           },
           onAddedToQueue: (callback, params) => {
             this.callbacks.onAddedToQueue(callback, params);
+          },
+          onAccessRestrictionsHit: (params = {}) => {
+            this.callbacks.onAccessRestrictionsHit(params);
           }
         }));
     }
