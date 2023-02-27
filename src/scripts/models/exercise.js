@@ -320,7 +320,7 @@ export default class Exercise {
    * Start.
    */
   start() {
-    if (this.isCompleted) {
+    if (this.isCompleted && this.isAttached) {
       return; // Exercise already completed
     }
 
