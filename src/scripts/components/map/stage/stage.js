@@ -335,6 +335,10 @@ export default class Stage {
    * Will set text color based on contrast to background color.
    */
   updateColor() {
+    if (!this.dom.isConnected) {
+      return; // Not attached yet, no values.
+    }
+
     const backgroundColor = Color(
       this.contentComputedStyle.getPropertyValue('background-color')
     );
