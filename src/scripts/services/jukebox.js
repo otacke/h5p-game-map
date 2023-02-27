@@ -178,6 +178,10 @@ export default class Jukebox {
 
     audio.source = source;
 
+    audio.source.onended = () => {
+      Jukebox.stop(id);
+    };
+
     audio.source.start();
     Jukebox.setState(id, Jukebox.STATES['playing']);
 
