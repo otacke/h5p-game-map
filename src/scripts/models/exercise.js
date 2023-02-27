@@ -464,7 +464,11 @@ export default class Exercise {
      * If not attached yet, some contents can fail (e. g. CP), but contents
      * that are not attached never had a previous state change, so okay
      */
-    if (this.isAttached) {
+    if (!this.isAttached) {
+      this.attachInstance();
+    }
+
+    if (!params.isInitial) {
       this.instance?.resetTask?.();
     }
 
