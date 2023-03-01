@@ -285,7 +285,7 @@
               "description": "Wird abgespielt, wenn eine Etappe freigeschaltet wurde."
             },
             {
-              "label": "Aufgabe geöffnet ",
+              "label": "Aufgabe geöffnet",
               "description": "Wird abgespielt, wenn eine Aufgabe geöffnet wird."
             },
             {
@@ -419,7 +419,7 @@
         },
         {
           "label": "Dialogtext Karte geschafft: Allgemein",
-          "default": "If you finish now, you will not be able to explore the map any longer."
+          "default": "Wenn du jetzt aufhörst, kannst du die Karte nicht weiter erkunden."
         },
         {
           "label": "Dialogtext Karte geschafft: Absenden",
@@ -439,7 +439,7 @@
         },
         {
           "label": "Dialogtext Zugang verweigert: Mindestpunktzahl",
-          "description": "@minScore is a placeholder and will be replaced with the respective value.",
+          "description": "@minScore ist ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
           "default": "Du brauchst mindestens @minScore Punkte."
         },
         {
