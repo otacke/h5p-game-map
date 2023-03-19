@@ -275,6 +275,13 @@ export default class Exercise {
    * @param {Event} event Event.
    */
   trackXAPI(event) {
+    const isEventFromInstance = new RegExp(this.instance.subContentId)
+      .test(event.getVerifiedStatementValue(['object', 'id']));
+
+    if (!isEventFromInstance) {
+      return; // Not an event from the instance directly
+    }
+
     if (!event || event.getScore() === null) {
       return; // Not relevant
     }
