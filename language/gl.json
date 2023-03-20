@@ -1,37 +1,37 @@
 {
   "semantics": [
     {
-      "label": "Show title screen",
-      "description": "If checked, a title screen will show up when starting."
+      "label": "Mostrar a pantalla de título",
+      "description": "Se está marcado, aparecerá unha pantalla de título ao comezar."
     },
     {
-      "label": "Title screen",
+      "label": "Pantalla de título",
       "fields": [
         {
-          "label": "Introduction",
-          "placeholder": "Welcome to ...",
+          "label": "Introdución",
+          "placeholder": "Benvido a ...",
           "default": "<p style=\"text-align: center;\"></p>"
         },
         {
-          "label": "Title screen medium"
+          "label": "Medio de pantalla de título"
         }
       ]
     },
     {
-      "label": "Headline",
-      "description": "Optional headline for the titlebar."
+      "label": "Cabeceira",
+      "description": "Cabeceira opcional para a barra de título."
     },
     {
       "fields": [
         {
-          "label": "Background image",
+          "label": "Imaxe de fondo",
           "fields": [
             {
-              "label": "Background image",
-              "description": "Select an image to use as the background of the game map."
+              "label": "Imaxe de fondo",
+              "description": "Selecciona unha imaxe para usar como fondo do mapa do xogo."
             },
             {
-              "label": "Dummy"
+              "label": "Maniquí"
             }
           ]
         },
@@ -45,97 +45,97 @@
                     "label": "Id"
                   },
                   {
-                    "label": "Type"
+                    "label": "Tipo"
                   },
                   {
-                    "label": "Stage label",
-                    "description": "This label will be displayed on top of your exercise and will help you to connect different stages with one another."
+                    "label": "Etiqueta de escenario",
+                    "description": "Esta etiqueta mostrarase enriba do teu exercicio e axudarache a conectar diferentes etapas entre si."
                   },
                   {
-                    "label": "User can start here",
-                    "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly."
+                    "label": "O usuario pode comezar aquí",
+                    "description": "Se está marcada, esta etapa será unha etapa na que o usuario comeza. Se ningunha etapa ou máis dunha etapa poden ser a etapa de saída, a etapa elixirase aleatoriamente."
                   },
                   {
-                    "label": "Time limit",
-                    "description": "Define timer related settings.",
+                    "label": "Límite de tempo",
+                    "description": "Definir axustes relacionados co temporizador.",
                     "fields": [
                       {
-                        "label": "Time limit",
-                        "description": "Optional time limit in seconds. If a user exceeds this time, the exercise will close, be reset, and the user will loose a life if lives are limited."
+                        "label": "Límite de tempo",
+                        "description": "Límite de tempo opcional en segundos. Se un usuario supera este tempo, o exercicio pecharase, restablecerase e o usuario perderá unha vida se as vidas son limitadas."
                       },
                       {
-                        "label": "Timeout warning time",
-                        "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
+                        "label": "Tempo de aviso de límite de tempo",
+                        "description": "Opcionalmente, define cando se debe reproducir un son de límite de tempo (número de segundos restantes). É necesario configurar un son na configuración de son."
                       }
                     ]
                   },
                   {
-                    "label": "Access restrictions",
-                    "description": "Define restrictions for unlocking.",
+                    "label": "Restricións de acceso",
+                    "description": "Define restricións para o desbloqueo.",
                     "fields": [
                       {
-                        "label": "Minimum score to unlock",
-                        "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages."
+                        "label": "Puntuación mínima para desbloquear",
+                        "description": "O usuario non poderá desbloquear esta etapa se non obtivo polo menos esta puntuación mínima ao completar outras etapas."
                       },
                       {
-                        "label": "Open once score sufficient",
-                        "description": "If there has been an attempt to unlock the stage with insufficient score, should the stage unlock automatically once the score becomes sufficient."
+                        "label": "Abrir unha vez puntuación suficiente",
+                        "description": "Se houbo un intento de desbloquear o escenario con puntuación insuficiente, o escenario se desbloqueará automaticamente unha vez que a puntuación sexa suficiente."
                       }
                     ]
                   },
                   {
-                    "label": "Stage content",
-                    "description": "Choose the type of content you would like to add."
+                    "label": "Contido da escena",
+                    "description": "Escolle o tipo de contido que che gustaría engadir."
                   },
                   {
-                    "label": "Connected stages"
+                    "label": "Etapas conectadas"
                   },
                   {
-                    "label": "Telemetry"
+                    "label": "Telemetría"
                   }
                 ],
-                "label": "Elements"
+                "label": "Elementos"
               },
-              "label": "Elements",
-              "entity": "Element"
+              "label": "Elementos",
+              "entity": "Elemento"
             }
           ],
-          "label": "Game map"
+          "label": "Mapa do xogo"
         }
       ],
-      "label": "Game map editor"
+      "label": "Editor de mapas do xogo"
     },
     {
-      "label": "End screen",
+      "label": "Pantalla final",
       "fields": [
         {
-          "label": "User not successful",
+          "label": "Usuario non exitoso",
           "fields": [
             {
-              "label": "Message (user not successful)",
-              "placeholder": "You did not make it this time ...",
+              "label": "Mensaxe (usuario non exitoso)",
+              "placeholder": "Esta vez non o conseguiches...",
               "default": "<p style=\"text-align: center;\"></p>"
             },
             {
-              "label": "End screen medium (user not successful)"
+              "label": "Medio da pantalla final (usuario non exitoso)"
             }
           ]
         },
         {
-          "label": "User successful",
+          "label": "Usuario exitoso",
           "fields": [
             {
-              "label": "Message (user successful)",
-              "placeholder": "You made it ...",
+              "label": "Mensaxe (usuario exitoso)",
+              "placeholder": "Conseguíchelo...",
               "default": "<p style=\"text-align: center;\"></p>"
             },
             {
-              "label": "End screen medium (user successful)"
+              "label": "Medio da pantalla final (usuario exitoso)"
             }
           ]
         },
         {
-          "label": "Overall Feedback",
+          "label": "Comentarios xerais",
           "fields": [
             {
               "widgets": [
@@ -143,18 +143,18 @@
                   "label": "Default"
                 }
               ],
-              "label": "Define custom feedback for any score range",
-              "description": "Click the \"Add range\" button to add as many ranges as you need. Example: 0-20% Bad score, 21-91% Average Score, 91-100% Great Score!",
-              "entity": "range",
+              "label": "Definir comentarios por defecto para calquera rango de puntuación",
+              "description": "Preme o botón \"Engadir rango\" para engadir os rangos que precises. Por exemplo: 0-20% Puntuación Mala, 21-91% Puntuación Media, 91-100% Puntuación Xenial!",
+              "entity": "rango",
               "field": {
                 "fields": [
                   {
-                    "label": "Score Range"
+                    "label": "Rango de Puntuación"
                   },
                   {},
                   {
-                    "label": "Feedback for defined score range",
-                    "placeholder": "Fill in the feedback"
+                    "label": "Retroalimentación para rango de puntuación definido",
+                    "placeholder": "Escribe a túa retroalimentación"
                   }
                 ]
               }
@@ -166,18 +166,18 @@
     {
       "fields": [
         {
-          "label": "Stages",
+          "label": "Etapas",
           "fields": [
             {
-              "label": "Color stage",
+              "label": "Etapa de cor",
               "default": "rgba(250, 223, 10, 0.7)"
             },
             {
-              "label": "Color stage locked",
+              "label": "Etapa de cor bloqueada",
               "default": "rgba(153, 0, 0, 0.7)"
             },
             {
-              "label": "Color stage cleared",
+              "label": "Etapa de cor desbloqueada",
               "default": "rgba(0, 130, 0, 0.7)"
             }
           ]
@@ -185,208 +185,208 @@
         {
           "fields": [
             {
-              "label": "Display paths",
-              "description": "Choose whether paths will be displayed on the map. Please note: The paths are always visible in the editor."
+              "label": "Mostrar camiños",
+              "description": "Escolle se os camiños se mostrarán no mapa. Ten en conta: os camiños sempre están visibles no editor."
             },
             {
-              "label": "Style",
+              "label": "Estilo",
               "fields": [
                 {
-                  "label": "Color path",
+                  "label": "Camiño da cor",
                   "default": "rgba(0, 0, 0, 0.7)"
                 },
                 {
-                  "label": "Color path cleared",
+                  "label": "Etapa de cor desbloqueada",
                   "default": "rgba(0, 130, 0, 0.7)"
                 },
                 {
-                  "label": "Path width",
+                  "label": "Ancho do camiño",
                   "options": [
                     {
-                      "label": "thin"
+                      "label": "delgado"
                     },
                     {
-                      "label": "medium"
+                      "label": "medio"
                     },
                     {
-                      "label": "thick"
+                      "label": "groso"
                     }
                   ]
                 },
                 {
-                  "label": "Path style",
+                  "label": "Estilo do camiño",
                   "options": [
                     {
-                      "label": "Solid"
+                      "label": "Sólido"
                     },
                     {
-                      "label": "Dotted"
+                      "label": "Punteado"
                     },
                     {
-                      "label": "Dashed"
+                      "label": "Con trazos"
                     },
                     {
-                      "label": "Double"
+                      "label": "Dobre"
                     }
                   ]
                 }
               ]
             }
           ],
-          "label": "Paths"
+          "label": "Camiños"
         },
         {
-          "label": "Miscellaneous",
+          "label": "Varios",
           "fields": [
             {
-              "label": "Animate map",
-              "description": "Decide if the map should be animated. Even if you set this option, the content type will honor the users' browser setting if they prefer reduced motion."
+              "label": "Animar mapa",
+              "description": "Decide se o mapa debe ser animado. Aínda que establezas esta opción, o tipo de contido respectará a configuración do navegador dos usuarios se prefiren o movemento reducido."
             },
             {
-              "label": "Dummy"
+              "label": "Maniquí"
             }
           ]
         }
       ],
-      "label": "Visual settings"
+      "label": "Configuración visual"
     },
     {
       "fields": [
         {
-          "label": "Background music",
+          "label": "Música de fondo",
           "fields": [
             {
-              "label": "Background music",
-              "description": "The background music will be played automatically, but please note that the browser's Autoplay Policy may prevent to autoplay before the user has interacted with the content."
+              "label": "Música de fondo",
+              "description": "A música de fondo reproducirase automaticamente, pero ten en conta que a Política de reprodución automática do navegador pode impedir a reprodución automática antes de que o usuario interactúe co contido."
             },
             {
-              "label": "Mute when taking exercises"
+              "label": "Silenciar ao facer exercicios"
             }
           ]
         },
         {
           "fields": [
             {
-              "label": "Click on locked stage",
-              "description": "Will be played on the map when clicking on a locked stage."
+              "label": "Fai clic no escenario bloqueado",
+              "description": "Reproducirase no mapa ao facer clic nun escenario bloqueado."
             },
             {
-              "label": "Check exercise (not full score)",
-              "description": "Will be played when an answer is checked and the user did not get full score."
+              "label": "Comprobar o exercicio (puntuación non completa)",
+              "description": "Reproducirase cando se comprobe unha resposta e o usuario non obteña a puntuación total."
             },
             {
-              "label": "Check exercise (full score)",
-              "description": "Will be played when an answer is checked and the user did get full score."
+              "label": "Comprobar o exercicio (puntuación completa)",
+              "description": "Reproducirase cando se comprobe unha resposta e o usuario si obteña a puntuación total."
             },
             {
-              "label": "Unlocking a stage",
-              "description": "Will be played on the map when a stage gets unlocked."
+              "label": "Desbloqueando un escenario",
+              "description": "Reproducirase no mapa cando se desbloquee un escenario."
             },
             {
-              "label": "Open exercise",
-              "description": "Will be played when an exercise is opened."
+              "label": "Exercicio aberto",
+              "description": "Reproducirase cando se abra un exercicio."
             },
             {
-              "label": "Close exercise",
-              "description": "Will be played when an exercise is opened."
+              "label": "Pechar exercicio",
+              "description": "Reproducirase cando se peche un exercicio."
             },
             {
-              "label": "Show dialog",
-              "description": "Will be played when a confirmation dialog is shown."
+              "label": "Mostrar diálogo",
+              "description": "Reproducirase cando se mostre un diálogo de confirmación."
             },
             {
-              "label": "Full score",
-              "description": "Will be played when the user reaches full score for the map."
+              "label": "Puntuación completa",
+              "description": "Reproducirase cando o usuario alcance a puntuación total do mapa."
             },
             {
-              "label": "Lost a life",
-              "description": "Will be played when the user loses a life."
+              "label": "Perdeu unha vida",
+              "description": "Reproducirase cando o usuario perda unha vida."
             },
             {
-              "label": "Game over",
-              "description": "Will be played when the game is over and the user cannot continue."
+              "label": "Xogo rematado",
+              "description": "Reproducirase cando a partida remate e o usuario non poida continuar."
             },
             {
-              "label": "Timeout warning",
-              "description": "Will be played when the user is running out of time for an exercise."
+              "label": "Aviso de límite de tempo",
+              "description": "Reproducirase cando o usuario estea sen tempo para realizar un exercicio."
             },
             {
-              "label": "End screen (not full score)",
-              "description": "Will be played on the end screen if the user did not get full score."
+              "label": "Pantalla final (puntuación non completa)",
+              "description": "Reproducirase na pantalla final se o usuario non obtivo a puntuación completa."
             },
             {
-              "label": "End screen (full score)",
-              "description": "Will be played on the end screen if the user did get full score."
+              "label": "Pantalla final (puntuación completa)",
+              "description": "Reproducirase na pantalla final se o usuario obtivo a puntuación completa."
             }
           ],
-          "label": "Events"
+          "label": "Eventos"
         }
       ],
-      "label": "Audio settings"
+      "label": "Configuración de son"
     },
     {
-      "label": "Behavioural settings",
+      "label": "Configuración do comportamento",
       "fields": [
         {
-          "label": "Lives",
-          "description": "Set the number of lives for a user or leave empty for unlimited lives. Users will lose a life when they do not get full score and they cannot continue once all lives are lost."
+          "label": "Vidas",
+          "description": "Establece o número de vidas para un usuario ou déixao baleiro para vidas ilimitadas. Os usuarios perderán unha vida cando non obteñan a puntuación completa e non poderán continuar unha vez que se perdan todas as vidas."
         },
         {
-          "label": "Enable \"Retry\" button"
+          "label": "Activar o botón \"Tentar de novo\""
         },
         {
-          "label": "Enable \"Show solutions\" button"
+          "label": "Activar botón \"Amosar solucións\""
         },
         {
-          "label": "Finish score",
-          "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises."
+          "label": "Puntuación de finalización",
+          "description": "Puntuación opcional que pode ser inferior á puntuación máxima sumada de todos os exercicios, polo que os usuarios poden recibir a puntuación completa sen completar todos os exercicios."
         },
         {
-          "label": "Map",
+          "label": "Mapa",
           "fields": [
             {
-              "label": "Show stage labels",
-              "description": "Choose whether a stage's label will be shown on hovering a stage with the mouse. The label will not show on touch devices."
+              "label": "Mostrar etiquetas do escenario",
+              "description": "Escolle se se mostrará a etiqueta dun escenario ao pasar o rato por el. A etiqueta non se mostrará nos dispositivos táctiles."
             },
             {
-              "label": "Roaming",
-              "description": "Choose whether users can roam all stages freely, need to finish a stage to get access to that stage's neighbors, or need to pass a stage to get access to that stage's neigbors.",
+              "label": "Itinerancia",
+              "description": "Escolle se os usuarios poden percorrer todas as etapas libremente, necesitan rematar unha etapa para acceder aos veciños desa etapa ou deben pasar unha etapa para acceder aos veciños desa etapa.",
               "options": [
                 {
-                  "label": "Roam freely"
+                  "label": "Moverse libremente"
                 },
                 {
-                  "label": "Complete to clear stage"
+                  "label": "Completa para despexar a etapa"
                 },
                 {
-                  "label": "Succeed to clear stage"
+                  "label": "Ter éxito para completar o escenario"
                 }
               ]
             },
             {
-              "label": "Activate fog",
-              "description": "Select how far the user can see ahead",
+              "label": "Activa a néboa",
+              "description": "Selecciona ata onde pode ver o usuario por diante",
               "options": [
                 {
-                  "label": "No fog, see all stages"
+                  "label": "Sen néboa, ver todas as etapas"
                 },
                 {
-                  "label": "See all unlocked stages and their adjacent neighbors"
+                  "label": "Ver todas as etapas desbloqueadas e os seus veciños adxacentes"
                 },
                 {
-                  "label": "See only unlocked stages"
+                  "label": "Ver só as etapas desbloqueadas"
                 }
               ]
             },
             {
-              "label": "Start stages",
-              "description": "Decide what stages the user can start at. If no stage is set as start stage, all stages are considered to be potential start stages.",
+              "label": "Etapas de inicio",
+              "description": "Decide en que fases pode comezar o usuario. Se non se establece ningunha etapa como etapa de inicio, todas as etapas considéranse etapas de inicio potenciais.",
               "options": [
                 {
-                  "label": "All stages that are defined as start stage"
+                  "label": "Todas as etapas que se definen como etapa de inicio"
                 },
                 {
-                  "label": "One stage randomly chosen form start stages"
+                  "label": "Unha etapa escollida ao azar das etapas de inicio"
                 }
               ]
             }
@@ -395,197 +395,197 @@
       ]
     },
     {
-      "label": "User interface",
+      "label": "Interface de usuario",
       "fields": [
         {
-          "label": "Start",
-          "default": "Start"
+          "label": "Empezar",
+          "default": "Empezar"
         },
         {
-          "label": "Restart",
-          "default": "Restart"
+          "label": "Reiniciar",
+          "default": "Reiniciar"
         },
         {
-          "label": "Show solutions",
-          "default": "Show solutions"
+          "label": "Amosar solucións",
+          "default": "Amosar solucións"
         },
         {
-          "label": "Completed the map",
-          "default": "You have completed the map!"
+          "label": "Completado o mapa",
+          "default": "Completaches o mapa!"
         },
         {
-          "label": "Dialog header finish map",
-          "default": "Finish map?"
+          "label": "Cabeceira do diálogo do mapa de finalización",
+          "default": "Rematar o mapa?"
         },
         {
-          "label": "Dialog text finish map: General",
-          "default": "If you finish now, you will not be able to explore the map any longer."
+          "label": "Texto do diálogo de remate de mapa: Xeral",
+          "default": "Se rematas agora, xa non poderás explorar o mapa."
         },
         {
-          "label": "Dialog text finish map: Submission",
-          "default": "Your score will be submitted."
+          "label": "Texto do diálogo de remate do mapa : envío",
+          "default": "Enviarase a tua puntuación."
         },
         {
-          "label": "Dialog text finish map: Question",
-          "default": "Do you really want to finish the map?"
+          "label": "Texto do diálogo de remate do mapa : pregunta",
+          "default": "Realmente queres rematar o mapa?"
         },
         {
-          "label": "Dialog header access denied",
-          "default": "Stage locked"
+          "label": "Cabeceira do cadro de diálogo de acceso denegado",
+          "default": "Escenario pechado"
         },
         {
-          "label": "Dialog text access denied: General",
-          "default": "This stage requires you to meet some goals before it can be opened."
+          "label": "Texto do diálogo de acceso denegado: General",
+          "default": "Esta etapa esixe que cumpras algúns obxectivos antes de poder abrila."
         },
         {
-          "label": "Dialog text access denied: Minimum score",
-          "description": "@minScore is a placeholder and will be replaced with the respective value.",
-          "default": "You need at least @minScore points."
+          "label": "Texto do cadro de diálogo de acceso denegado: puntuación mínima",
+          "description": "@minScore é un marcador de posición e substituirase polo valor respectivo.",
+          "default": "Necesitas polo menos @minScore puntos."
         },
         {
-          "label": "Yes",
-          "default": "Yes"
+          "label": "Si",
+          "default": "Si"
         },
         {
-          "label": "No",
-          "default": "No"
+          "label": "Non",
+          "default": "Non"
         },
         {
-          "label": "Dialog header game over",
-          "default": "Game over!"
+          "label": "Cabeceira do diálogo de xogo rematado",
+          "default": "Xogo rematado!"
         },
         {
-          "label": "Dialog text game over",
-          "default": "You have lost all your lives. Please try again!"
+          "label": "Texto do diálogo de xogo rematado",
+          "default": "Perdiches todas as túas vidas. Por favor inténtao de novo!"
         },
         {
-          "label": "Dialog header time out",
-          "default": "Time out!"
+          "label": "Cabeceira do diálogo de tempo rematado",
+          "default": "Tempo rematado!"
         },
         {
-          "label": "Dialog text time out",
-          "default": "You ran out of time."
+          "label": "Texto do diálogo de tempo rematado",
+          "default": "Quedaches sen tempo."
         },
         {
-          "label": "Dialog text time out (lost a life)",
-          "default": "You ran out of time and lost a life."
+          "label": "Texto do diálogo de límite de tempo (perdeu unha vida)",
+          "default": "Quedaches sen tempo e perdes unha vida."
         },
         {
-          "label": "Dialog header full score",
-          "default": "You achieved full score!"
+          "label": "Cabeceira do diálogo de puntuación completa",
+          "default": "Conseguiches a puntuación total!"
         },
         {
-          "label": "Dialog text full score",
-          "default": "You have collected enough points to finish this map with a full score, but you are free to explore the rest if you wish to."
+          "label": "Texto do diálogo de puntuación completa",
+          "default": "Acumulaches puntos suficientes para rematar este mapa cunha puntuación completa, pero podes explorar o resto se queres."
         },
         {
           "label": "OK",
           "default": "OK"
         },
         {
-          "label": "No background image was set",
-          "default": "No background image was set for the map."
+          "label": "Non se definiu ningunha imaxe de fondo",
+          "default": "Non se definiu ningunha imaxe de fondo para o mapa."
         },
         {
-          "label": "No stages were set",
-          "default": "No valid stages were set for the map."
+          "label": "Non se estableceron escenarios",
+          "default": "Non se estableceron etapas válidas para o mapa."
         }
       ]
     },
     {
       "fields": [
         {
-          "label": "Finish",
-          "default": "Finish the map"
+          "label": "Rematar",
+          "default": "Remata o mapa"
         },
         {
-          "label": "Audio button (unmuted)",
-          "default": "Mute audio. Currently unmuted."
+          "label": "Botón de son (desactivado)",
+          "default": "Silenciar o son, actualmente activado."
         },
         {
-          "label": "Audio button (muted)",
-          "default": "Unmute audio. Currently muted."
+          "label": "Botón de son (silenciado)",
+          "default": "Activar o son, actualmente silenciado."
         },
         {
-          "label": "Close",
-          "default": "Close"
+          "label": "Pechar",
+          "default": "Pechar"
         },
         {
-          "label": "Your result",
-          "description": "@score will be replaced by the number of points. @total will be replaced by the maximum possible points.",
-          "default": "You got @score out of @total points"
+          "label": "O teu resultado",
+          "description": "Substituirase @score polo número de puntos. Substituirase @total polo número máximo de puntos posible.",
+          "default": "Conseguiches @score dun máximo de @total puntos"
         },
         {
-          "label": "Map was opened",
-          "default": "The map was opened."
+          "label": "Abriuse o mapa",
+          "default": "O mapa foi aberto."
         },
         {
-          "label": "Map was opened (solutions mode)",
-          "default": "The map was opened in solutions mode."
+          "label": "Abriuse o mapa (modo de solucións)",
+          "default": "O mapa abriuse no modo de solucións."
         },
         {
-          "label": "Title screen was opened",
-          "default": "The title screen was opened."
+          "label": "Abriuse a pantalla de título",
+          "default": "Abriuse a pantalla de título."
         },
         {
-          "label": "End screen was opened",
-          "default": "The end screen was opened."
+          "label": "Abriuse a pantalla final",
+          "default": "Abriuse a pantalla final."
         },
         {
-          "label": "Exercise label",
-          "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
-          "default": ". Exercise for @stagelabel"
+          "label": "Etiqueta do exercicio",
+          "description": "@stagelabel é un marcador de posición e substituirase pola etiqueta de escenario respectiva.",
+          "default": ". Exercicio para @stagelabel"
         },
         {
-          "label": "Stage button label",
-          "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
-          "default": "Stage: @stagelabel"
+          "label": "Etiqueta do botón de escenario",
+          "description": "@stagelabel é un marcador de posición e substituirase pola etiqueta de escenario respectiva.",
+          "default": "Escenario: @stagelabel"
         },
         {
-          "label": "adjacent stage label",
-          "description": "@stagelabelOrigin and @stagelabelNeighbor are placeholders and will be replaced with the respective stage labels.",
-          "default": "Adjacent stage of @stagelabelOrigin: @stagelabelNeighbor"
+          "label": "etiqueta de escenario adxacente",
+          "description": "@stagelabelOrigin e @stagelabelNeighbor son marcadores de posición e substituiranse polas respectivas etiquetas de escenario.",
+          "default": "Etapa adxacente de @stagelabelOrigin: @stagelabelNeighbor"
         },
         {
-          "label": "Locked",
-          "default": "Locked"
+          "label": "Pechado",
+          "default": "Pechado"
         },
         {
-          "label": "Cleared",
-          "default": "Cleared"
+          "label": "Despexado",
+          "default": "Despexado"
         },
         {
-          "label": "Description of map navigation",
-          "default": "Use space or enter key to activate current stage. Use arrow keys to select adjacent stage. Use space or enter key on adjacent stage to navigate there."
+          "label": "Descrición da navegación do mapa",
+          "default": "Usa espazo ou a tecla Intro para activar a fase actual. Use as frechas para seleccionar o escenario adxacente. Usa espazo ou a tecla Intro no escenario adxacente para navegar alí."
         },
         {
-          "default": "Map",
-          "label": "Description of map"
+          "default": "Mapa",
+          "label": "Descrición do mapa"
         },
         {
-          "label": "Moved to stage",
-          "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
-          "default": "Moved to @stagelabel"
+          "label": "Trasladado ao escenario",
+          "description": "@stagelabel é un marcador de posición e substituirase pola etiqueta de escenario respectiva.",
+          "default": "Trasladouse a @stagelabel"
         },
         {
-          "label": "Unlocked stage",
-          "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
-          "default": "Stage @stagelabel was unlocked."
+          "label": "Etapa desbloqueada",
+          "description": "@percentage é un marcador de posición e substituirase polo valor respectivo.",
+          "default": "Desbloqueouse o escenario @stagelabel."
         },
         {
-          "label": "Toolbar fallback label",
-          "default": "Game Map"
+          "label": "Etiqueta alternativa da barra de ferramentas",
+          "default": "Mapa do xogo"
         },
         {
-          "label": "Enter fullscreen",
-          "default": "Enter fullscreen mode"
+          "label": "Pasar a pantalla completa",
+          "default": "Entrar modo de pantalla completa"
         },
         {
-          "label": "Exit fullscreen",
-          "default": "Exit fullscreen mode"
+          "label": "Saír de Pantalla Completa",
+          "default": "Saír do modo de pantalla completa"
         }
       ],
-      "label": "Accessibility texts"
+      "label": "Textos de accesibilidade"
     }
   ]
 }
