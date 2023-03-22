@@ -410,23 +410,23 @@
           "default": "Zeige Lösungen"
         },
         {
-          "label": "Karte geschafft",
-          "default": "Du hast die Karte geschafft!"
+          "label": "Karte abgeschlossen",
+          "default": "Du hast die Karte abgeschlossen!"
         },
         {
-          "label": "Dialogüberschrift Karte geschafft",
+          "label": "Dialogüberschrift Karte abgeschlossen",
           "default": "Karte beenden?"
         },
         {
-          "label": "Dialogtext Karte geschafft: Allgemein",
+          "label": "Dialogtext Karte abgeschlossen: Allgemein",
           "default": "Wenn du jetzt aufhörst, kannst du die Karte nicht weiter erkunden."
         },
         {
-          "label": "Dialogtext Karte geschafft: Absenden",
+          "label": "Dialogtext Karte abgeschlossen: Absenden",
           "default": "Deine Punkte werden übertragen."
         },
         {
-          "label": "Dialogtext Karte geschafft: Frage",
+          "label": "Dialogtext Karte abgeschlossen: Frage",
           "default": "Willst du die Karte wirklich beenden?"
         },
         {
