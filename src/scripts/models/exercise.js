@@ -133,10 +133,15 @@ export default class Exercise {
    * @returns {object} Current state to be retrieved later.
    */
   getCurrentState() {
+    const remainingTime = Math.min(
+      this.remainingTime,
+      (this.params.time?.timeLimit || 0) * 1000 + this.params.animDuration
+    );
+
     return {
       state: this.state,
       id: this.params.id,
-      remainingTime: this.remainingTime,
+      remainingTime: remainingTime,
       isCompleted: this.isCompleted,
       instanceState: this.instance?.getCurrentState?.()
     };
@@ -340,7 +345,11 @@ export default class Exercise {
 
     this.setState('opened');
 
-    this.timer?.start(this.remainingTime);
+    const remainingTime = Math.min(
+      this.remainingTime,
+      (this.params.time?.timeLimit || 0) * 1000 + this.params.animDuration
+    );
+    this.timer?.start(remainingTime);
 
     window.requestAnimationFrame(() => {
       Globals.get('resize')();
