@@ -447,11 +447,14 @@ export default class Exercise {
           onExpired: () => {
             this.handleTimeout();
           },
-          ...(this.params.time.timeoutWarning && {
-            onTick: () => {
+          onTick: () => {
+            this.remainingTime = this.timer.getTime();
+            this.callbacks.onTimerTicked(this.remainingTime);
+
+            if (this.params.time.timeoutWarning) {
               this.handleTimeoutWarning();
             }
-          })
+          }
         }
       );
 
@@ -495,10 +498,6 @@ export default class Exercise {
    * Handle timeout warning.
    */
   handleTimeoutWarning() {
-    this.remainingTime = this.timer.getTime();
-
-    this.callbacks.onTimerTicked(this.remainingTime);
-
     if (
       this.remainingTime <= this.params.time?.timeoutWarning * 1000 &&
       !this.hasPlayedTimeoutWarning
