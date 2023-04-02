@@ -1,37 +1,37 @@
 {
   "semantics": [
     {
-      "label": "Show title screen",
-      "description": "If checked, a title screen will show up when starting."
+      "label": "Erakutsi izenburu-pantaila",
+      "description": "Hautatuta, izenburu-pantaila bat agertuko da abiaraztean."
     },
     {
-      "label": "Title screen",
+      "label": "Izenburu-pantaila",
       "fields": [
         {
-          "label": "Introduction",
-          "placeholder": "Welcome to ...",
+          "label": "Sarrera",
+          "placeholder": "Ongi etorri ...",
           "default": "<p style=\"text-align: center;\"></p>"
         },
         {
-          "label": "Title screen medium"
+          "label": "Izenburu-pantaila ertaina"
         }
       ]
     },
     {
-      "label": "Headline",
-      "description": "Optional headline for the titlebar."
+      "label": "Goiburua",
+      "description": "Izenburu-barrarako aukerako goiburua."
     },
     {
       "fields": [
         {
-          "label": "Background image",
+          "label": "Atzeko planoko irudia",
           "fields": [
             {
-              "label": "Background image",
-              "description": "Select an image to use as the background of the game map."
+              "label": "Atzeko planoko irudia",
+              "description": "Hautatu jolasaren maparen atzeko plano gisa erabiltzeko irudi bat."
             },
             {
-              "label": "Dummy"
+              "label": "Manikia"
             }
           ]
         },
@@ -45,15 +45,15 @@
                     "label": "Id"
                   },
                   {
-                    "label": "Type"
+                    "label": "Mota"
                   },
                   {
-                    "label": "Stage label",
-                    "description": "This label will be displayed on top of your exercise and will help you to connect different stages with one another."
+                    "label": "Etaparen etiketa",
+                    "description": "Etiketa hau zure ariketaren gainean bistaratuko da eta etapa desberdinak elkarren artean konektatzen lagunduko dizu."
                   },
                   {
-                    "label": "User can start here",
-                    "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly."
+                    "label": "Erabiltzailea hemen has daiteke",
+                    "description": "Hautatzen bada, etapa hau erabiltzailea hasten den etapa izango da. Etaparik ez badago edo etapa bat baino gehiago badago hasierako etapa ausaz aukeratuko da."
                   },
                   {
                     "fields": [
@@ -66,7 +66,7 @@
                         "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
                       }
                     ],
-                    "label": "Time limit",
+                    "label": "Denbora-muga",
                     "description": "Define timer related settings."
                   },
                   {
@@ -94,16 +94,16 @@
                     "label": "Telemetry"
                   }
                 ],
-                "label": "Elements"
+                "label": "Elementuak"
               },
-              "label": "Elements",
-              "entity": "Element"
+              "label": "Elementuak",
+              "entity": "Elementua"
             }
           ],
-          "label": "Game map"
+          "label": "Jolasaren mapa"
         }
       ],
-      "label": "Game map editor"
+      "label": "Jolasaren mapa editorea"
     },
     {
       "fields": [
