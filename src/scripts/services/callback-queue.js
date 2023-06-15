@@ -1,6 +1,10 @@
 /** Simple callback queue to schedule function calls with delay */
 export default class CallbackQueue {
 
+  /**
+   * Callback Queue.
+   * @class
+   */
   constructor() {
     this.queued = []; // Queued Callback items for queue.
     this.scheduled = []; // Timeout ids of scheduled callbacks.
