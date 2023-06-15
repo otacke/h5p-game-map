@@ -1,4 +1,3 @@
-import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Jukebox from '@services/jukebox';
 
@@ -93,7 +92,7 @@ export default class MainHandlersStage {
    */
   handleStageFocused() {
     window.setTimeout(() => {
-      Globals.get('read')(Dictionary.get('a11y.applicationInstructions'));
+      Globals.get('read')(this.params.dictionary.get('a11y.applicationInstructions'));
     }, 250); // Make sure everything else is read already
   }
 
@@ -131,7 +130,7 @@ export default class MainHandlersStage {
 
     if (params.minScore) {
       restrictions.push(
-        Dictionary.get('l10n.confirmAccessDeniedMinScore')
+        this.params.dictionary.get('l10n.confirmAccessDeniedMinScore')
           .replace(/@minScore/g, params.minScore)
       );
     }
@@ -144,9 +143,9 @@ export default class MainHandlersStage {
 
     this.confirmationDialog.update(
       {
-        headerText: Dictionary.get('l10n.confirmAccessDeniedHeader'),
-        dialogText: `${Dictionary.get('l10n.confirmAccessDeniedDialog')}${restriction}`,
-        confirmText: Dictionary.get('l10n.ok'),
+        headerText: this.params.dictionary.get('l10n.confirmAccessDeniedHeader'),
+        dialogText: `${this.params.dictionary.get('l10n.confirmAccessDeniedDialog')}${restriction}`,
+        confirmText: this.params.dictionary.get('l10n.ok'),
         hideCancel: true
       }, {
         onConfirmed: () => {

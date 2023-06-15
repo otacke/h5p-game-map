@@ -1,13 +1,21 @@
-import he from 'he';
+import { decode } from 'he';
 
 export default class Dictionary {
+
+  /**
+   * Dictionary storage.
+   * @class
+   */
+  constructor() {
+    this.translation = {};
+  }
 
   /**
    * Fill dictionary with translations.
    * @param {object} translation Translations.
    */
-  static fill(translation = {}) {
-    Dictionary.translation = Dictionary.sanitize(translation);
+  fill(translation = {}) {
+    this.translation = this.sanitize(translation);
   }
 
   /**
@@ -16,7 +24,7 @@ export default class Dictionary {
    * @param {object} [base] Base to start looking.
    * @returns {string} Translation.
    */
-  static get(key, base = Dictionary.translation) {
+  get(key, base = this.translation) {
     const splits = key.split(/[./]+/);
 
     if (splits.length === 1) {
@@ -29,7 +37,7 @@ export default class Dictionary {
       return; // Path doesn't exist
     }
 
-    return Dictionary.get(splits.join('.'), base[key]);
+    return this.get(splits.join('.'), base[key]);
   }
 
   /**
@@ -37,14 +45,14 @@ export default class Dictionary {
    * @param {string|object} translation Translation.
    * @returns {string} Translation value.
    */
-  static sanitize(translation) {
+  sanitize(translation) {
     if (typeof translation === 'object') {
       for (let key in translation) {
-        translation[key] = Dictionary.sanitize(translation[key]);
+        translation[key] = this.sanitize(translation[key]);
       }
     }
     else if (typeof translation === 'string') {
-      translation = he.decode(translation);
+      translation = decode(translation);
       const div = document.createElement('div');
       div.innerHTML = translation;
       translation = div.textContent || div.innerText || '';
@@ -56,5 +64,3 @@ export default class Dictionary {
     return translation;
   }
 }
-
-Dictionary.translation = {};

@@ -1,4 +1,3 @@
-import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Util from '@services/util';
 import FocusTrap from '@services/focus-trap';
@@ -52,7 +51,7 @@ export default class ExerciseScreen {
     // Close button
     this.buttonClose = document.createElement('button');
     this.buttonClose.classList.add('h5p-game-map-exercise-button-close');
-    this.buttonClose.setAttribute('aria-label', Dictionary.get('a11y.close'));
+    this.buttonClose.setAttribute('aria-label', this.params.dictionary.get('a11y.close'));
     this.buttonClose.addEventListener('click', () => {
       this.callbacks.onClosed();
     });
@@ -187,7 +186,7 @@ export default class ExerciseScreen {
     this.headlineText.innerText = text;
     this.dom.setAttribute(
       'aria-label',
-      Dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, text)
+      this.params.dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, text)
     );
   }
 

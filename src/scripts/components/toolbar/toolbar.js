@@ -1,6 +1,5 @@
 import StatusContainers from './status-containers/status-containers';
 import ToolbarButton from './toolbar-button';
-import Dictionary from '@services/dictionary';
 import Util from '@services/util';
 import './toolbar.scss';
 
@@ -54,7 +53,7 @@ export default class Toolbar {
     }
     else {
       this.dom.setAttribute(
-        'aria-label', Dictionary.get('a11y.toolbarFallbackLabel')
+        'aria-label', this.params.dictionary.get('a11y.toolbarFallbackLabel')
       );
     }
 

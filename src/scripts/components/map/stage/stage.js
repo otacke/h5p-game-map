@@ -1,5 +1,4 @@
 import Color from 'color';
-import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Jukebox from '@services/jukebox';
 import Util from '@services/util';
@@ -164,7 +163,7 @@ export default class Stage {
    */
   updateAriaLabel(params = {}) {
     const stageLabel = params.customText ||
-      Dictionary.get('a11y.stageButtonLabel')
+      this.params.dictionary.get('a11y.stageButtonLabel')
         .replace(/@stagelabel/, this.params.label);
 
     let stateLabel;
@@ -172,13 +171,13 @@ export default class Stage {
       this.state === Globals.get('states')['locked'] ||
       this.state === Globals.get('states')['unlocking']
     ) {
-      stateLabel = Dictionary.get('a11y.locked');
+      stateLabel = this.params.dictionary.get('a11y.locked');
     }
     else if (
       this.state === Globals.get('states')['completed'] ||
       this.state === Globals.get('states')['cleared']
     ) {
-      stateLabel = Dictionary.get('a11y.cleared');
+      stateLabel = this.params.dictionary.get('a11y.cleared');
     }
 
     const stageState = params.customState || stateLabel;
@@ -275,7 +274,7 @@ export default class Stage {
         return;
       }
 
-      Globals.get('read')(Dictionary
+      Globals.get('read')(this.params.dictionary
         .get('a11y.stageUnlocked')
         .replace(/@stagelabel/, this.params.label)
       );

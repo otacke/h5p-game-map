@@ -1,4 +1,3 @@
-import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Jukebox from '@services/jukebox';
 import Paths from '@models/paths';
@@ -78,10 +77,10 @@ export default class MainInitialization {
         introduction: globalParams.titleScreen.titleScreenIntroduction,
         medium: globalParams.titleScreen.titleScreenMedium,
         buttons: [
-          { id: 'start', text: Dictionary.get('l10n.start') }
+          { id: 'start', text: this.params.dictionary.get('l10n.start') }
         ],
         a11y: {
-          screenOpened: Dictionary.get('a11y.startScreenWasOpened')
+          screenOpened: this.params.dictionary.get('a11y.startScreenWasOpened')
         }
       }, {
         onButtonClicked: () => {
@@ -102,12 +101,12 @@ export default class MainInitialization {
     const endscreenButtons = [];
     if (globalParams.behaviour.enableSolutionsButton) {
       endscreenButtons.push(
-        { id: 'show-solutions', text: Dictionary.get('l10n.showSolutions') }
+        { id: 'show-solutions', text: this.params.dictionary.get('l10n.showSolutions') }
       );
     }
     if (globalParams.behaviour.enableRetry) {
       endscreenButtons.push(
-        { id: 'restart', text: Dictionary.get('l10n.restart') }
+        { id: 'restart', text: this.params.dictionary.get('l10n.restart') }
       );
     }
 
@@ -117,7 +116,7 @@ export default class MainInitialization {
       contentId: Globals.get('contentId'),
       buttons: endscreenButtons,
       a11y: {
-        screenOpened: Dictionary.get('a11y.endScreenWasOpened')
+        screenOpened: this.params.dictionary.get('a11y.endScreenWasOpened')
       }
     }, {
       onButtonClicked: (id) => {
@@ -128,7 +127,7 @@ export default class MainInitialization {
         else if (id === 'show-solutions') {
           this.showSolutions();
 
-          Globals.get('read')(Dictionary.get('a11y.mapSolutionsWasOpened'));
+          Globals.get('read')(this.params.dictionary.get('a11y.mapSolutionsWasOpened'));
           window.setTimeout(() => {
             this.toolbar.focus();
           }, 100);
@@ -161,8 +160,8 @@ export default class MainInitialization {
         id: 'audio',
         type: 'toggle',
         a11y: {
-          active: Dictionary.get('a11y.buttonAudioActive'),
-          inactive: Dictionary.get('a11y.buttonAudioInactive')
+          active: this.params.dictionary.get('a11y.buttonAudioActive'),
+          inactive: this.params.dictionary.get('a11y.buttonAudioInactive')
         },
         onClick: (ignore, params) => {
           this.toggleAudio(params.active);
@@ -174,7 +173,7 @@ export default class MainInitialization {
       id: 'finish',
       type: 'pulse',
       a11y: {
-        active: Dictionary.get('a11y.buttonFinish')
+        active: this.params.dictionary.get('a11y.buttonFinish')
       },
       onClick: () => {
         this.showFinishConfirmation();
@@ -188,11 +187,11 @@ export default class MainInitialization {
         pulseStates: [
           {
             id: 'enter-fullscreen',
-            label: Dictionary.get('a11y.enterFullscreen')
+            label: this.params.dictionary.get('a11y.enterFullscreen')
           },
           {
             id: 'exit-fullscreen',
-            label: Dictionary.get('a11y.exitFullscreen')
+            label: this.params.dictionary.get('a11y.exitFullscreen')
           }
         ],
         onClick: () => {
@@ -203,6 +202,7 @@ export default class MainInitialization {
 
     // Toolbar
     this.toolbar = new Toolbar({
+      dictionary: this.params.dictionary,
       ...(globalParams.headline && { headline: globalParams.headline }),
       buttons: toolbarButtons,
       statusContainers: toolbarStatusContainers
@@ -219,6 +219,7 @@ export default class MainInitialization {
     // Stages
     this.stages = new Stages(
       {
+        dictionary: this.params.dictionary,
         elements: globalParams.gamemapSteps.gamemap.elements,
         visuals: globalParams.visual.stages
       },
@@ -255,6 +256,7 @@ export default class MainInitialization {
     // Map
     this.map = new Map(
       {
+        dictionary: this.params.dictionary,
         backgroundImage: backgroundImage,
         paths: this.paths,
         stages: this.stages
@@ -297,17 +299,22 @@ export default class MainInitialization {
       }
     );
 
-    this.exerciseScreen = new ExerciseScreen({}, {
-      onClosed: () => {
-        this.handleExerciseScreenClosed();
+    this.exerciseScreen = new ExerciseScreen(
+      {
+        dictionary: this.params.dictionary
       },
-      onOpenAnimationEnded: () => {
-        this.handleExerciseScreenOpenAnimationEnded();
-      },
-      onCloseAnimationEnded: () => {
-        this.handleExerciseScreenCloseAnimationEnded();
+      {
+        onClosed: () => {
+          this.handleExerciseScreenClosed();
+        },
+        onOpenAnimationEnded: () => {
+          this.handleExerciseScreenOpenAnimationEnded();
+        },
+        onCloseAnimationEnded: () => {
+          this.handleExerciseScreenCloseAnimationEnded();
+        }
       }
-    });
+    );
     this.exerciseScreen.hide();
     this.toolbar.enable();
     this.map.getDOM().append(this.exerciseScreen.getDOM());

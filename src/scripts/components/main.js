@@ -1,5 +1,4 @@
 import CallbackQueue from '@services/callback-queue';
-import Dictionary from '@services/dictionary';
 import Jukebox from '@services/jukebox';
 import Util from '@services/util';
 import Globals from '@services/globals';
@@ -103,7 +102,7 @@ export default class Main {
     this.contentDOM.classList.remove('display-none');
 
     if (params.readOpened) {
-      Globals.get('read')(Dictionary.get('a11y.mapWasOpened'));
+      Globals.get('read')(this.params.dictionary.get('a11y.mapWasOpened'));
     }
 
     window.setTimeout(() => {
@@ -263,7 +262,7 @@ export default class Main {
     );
 
     // Output via H5P.Question - expects :num and :total
-    const ariaMessage = Dictionary.get('a11y.yourResult')
+    const ariaMessage = this.params.dictionary.get('a11y.yourResult')
       .replace('@score', ':num')
       .replace('@total', ':total');
 
@@ -274,7 +273,7 @@ export default class Main {
       ariaMessage
     );
 
-    const defaultTitle = `<p style="text-align: center;">${Dictionary.get('l10n.completedMap')}</p>`;
+    const defaultTitle = `<p style="text-align: center;">${this.params.dictionary.get('l10n.completedMap')}</p>`;
 
     if (score === maxScore) {
       const success = endscreenParams.success;
@@ -441,18 +440,18 @@ export default class Main {
     const isScoringEnabled = extras.standalone &&
       (extras.isScoringEnabled || extras.isReportingEnabled);
 
-    const dialogTexts = [Dictionary.get('l10n.confirmFinishDialog')];
+    const dialogTexts = [this.params.dictionary.get('l10n.confirmFinishDialog')];
     if (isScoringEnabled) {
-      dialogTexts.push(Dictionary.get('l10n.confirmFinishDialogSubmission'));
+      dialogTexts.push(this.params.dictionary.get('l10n.confirmFinishDialogSubmission'));
     }
-    dialogTexts.push(Dictionary.get('l10n.confirmFinishDialogQuestion'));
+    dialogTexts.push(this.params.dictionary.get('l10n.confirmFinishDialogQuestion'));
 
     this.confirmationDialog.update(
       {
-        headerText: Dictionary.get('l10n.confirmFinishHeader'),
+        headerText: this.params.dictionary.get('l10n.confirmFinishHeader'),
         dialogText: dialogTexts.join(' '),
-        cancelText: Dictionary.get('l10n.no'),
-        confirmText: Dictionary.get('l10n.yes')
+        cancelText: this.params.dictionary.get('l10n.no'),
+        confirmText: this.params.dictionary.get('l10n.yes')
       }, {
         onConfirmed: () => {
           this.handleConfirmedFinish();
@@ -492,9 +491,9 @@ export default class Main {
 
     this.confirmationDialog.update(
       {
-        headerText: Dictionary.get('l10n.confirmGameOverHeader'),
-        dialogText: Dictionary.get('l10n.confirmGameOverDialog'),
-        confirmText: Dictionary.get('l10n.ok'),
+        headerText: this.params.dictionary.get('l10n.confirmGameOverHeader'),
+        dialogText: this.params.dictionary.get('l10n.confirmGameOverDialog'),
+        confirmText: this.params.dictionary.get('l10n.ok'),
         hideCancel: true
       }, {
         onConfirmed: () => {
@@ -522,14 +521,14 @@ export default class Main {
     this.toolbar.disableButton('finish');
 
     const dialogText = (this.livesLeft === Infinity) ?
-      Dictionary.get('l10n.confirmTimeoutDialog') :
-      Dictionary.get('l10n.confirmTimeoutDialogLostLife');
+      this.params.dictionary.get('l10n.confirmTimeoutDialog') :
+      this.params.dictionary.get('l10n.confirmTimeoutDialogLostLife');
 
     this.confirmationDialog.update(
       {
-        headerText: Dictionary.get('l10n.confirmTimeoutHeader'),
+        headerText: this.params.dictionary.get('l10n.confirmTimeoutHeader'),
         dialogText: dialogText,
-        confirmText: Dictionary.get('l10n.ok'),
+        confirmText: this.params.dictionary.get('l10n.ok'),
         hideCancel: true
       }, {
         onConfirmed: () => {
@@ -554,9 +553,9 @@ export default class Main {
 
     this.confirmationDialog.update(
       {
-        headerText: Dictionary.get('l10n.confirmFullScoreHeader'),
-        dialogText: Dictionary.get('l10n.confirmFullScoreDialog'),
-        confirmText: Dictionary.get('l10n.ok'),
+        headerText: this.params.dictionary.get('l10n.confirmFullScoreHeader'),
+        dialogText: this.params.dictionary.get('l10n.confirmFullScoreDialog'),
+        confirmText: this.params.dictionary.get('l10n.ok'),
         hideCancel: true
       }, {
         onConfirmed: () => {

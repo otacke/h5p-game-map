@@ -1,4 +1,3 @@
-import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Util from '@services/util';
 import Path from './path';
@@ -84,7 +83,7 @@ export default class Map {
     this.stageWrapper.classList.add('h5p-game-map-stage-wrapper');
     this.stageWrapper.setAttribute('role', 'application');
     this.stageWrapper.setAttribute(
-      'aria-label', Dictionary.get('a11y.applicationDescription')
+      'aria-label', this.params.dictionary.get('a11y.applicationDescription')
     );
 
     this.params.stages.getDOMs().forEach((dom) => {

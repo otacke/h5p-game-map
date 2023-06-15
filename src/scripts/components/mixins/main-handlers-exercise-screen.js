@@ -1,4 +1,3 @@
-import Dictionary from '@services/dictionary';
 import Jukebox from '@services/jukebox';
 import Globals from '@services/globals';
 
@@ -19,7 +18,7 @@ export default class MainHandlersExerciseScreen {
     this.exerciseClosedCallback = params.animationEndedCallback;
 
     this.map.dom.setAttribute(
-      'aria-label', Dictionary.get('a11y.applicationInstructions')
+      'aria-label', this.params.dictionary.get('a11y.applicationInstructions')
     );
 
     this.exerciseScreen.hide({ animate: true }, () => {

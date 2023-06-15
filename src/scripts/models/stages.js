@@ -1,4 +1,3 @@
-import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
 import Util from '@services/util';
 import Stage from '@components/map/stage/stage';
@@ -75,6 +74,7 @@ export default class Stages {
       stages.push(new Stage(
         {
           id: elementParams.id,
+          dictionary: this.params.dictionary,
           canBeStartStage: elementParams.canBeStartStage,
           accessRestrictions: elementParams.accessRestrictions,
           contentType: elementParams.contentType,
@@ -404,7 +404,7 @@ export default class Stages {
         highlightedStage.animate('pulse');
 
         Globals.get('read')(
-          Dictionary.get('a11y.movedToStage')
+          this.params.dictionary.get('a11y.movedToStage')
             .replace(
               /@stagelabel/,
               highlightedStage.getLabel()
@@ -453,7 +453,7 @@ export default class Stages {
 
     if (index !== 0) {
       highlightStage.updateAriaLabel({
-        customText: Dictionary.get('a11y.adjacentStageLabel')
+        customText: this.params.dictionary.get('a11y.adjacentStageLabel')
           .replace(
             /@stagelabelOrigin/, this.selectionStages[0].getLabel()
           )

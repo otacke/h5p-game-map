@@ -145,7 +145,8 @@ export default class GameMap extends H5P.Question {
     });
 
     // Fill dictionary
-    Dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
+    this.dictionary = new Dictionary();
+    this.dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
 
     this.fillJukebox();
 
@@ -156,28 +157,33 @@ export default class GameMap extends H5P.Question {
 
     if (!this.params.gamemapSteps.backgroundImageSettings?.backgroundImage) {
       const messageBox = new MessageBox({
-        text: Dictionary.get('l10n.noBackground')
+        text: this.dictionary.get('l10n.noBackground')
       });
       this.dom.append(messageBox.getDOM());
     }
     else if (!this.params.gamemapSteps.gamemap.elements.length) {
       const messageBox = new MessageBox({
-        text: Dictionary.get('l10n.noStages')
+        text: this.dictionary.get('l10n.noStages')
       });
       this.dom.append(messageBox.getDOM());
     }
     else {
-      this.main = new Main({}, {
-        onProgressChanged: (index) => {
-          this.handleProgressChanged(index);
+      this.main = new Main(
+        {
+          dictionary: this.dictionary
         },
-        onFinished: () => {
-          this.handleFinished();
-        },
-        onFullscreenClicked: () => {
-          this.handleFullscreenClicked();
+        {
+          onProgressChanged: (index) => {
+            this.handleProgressChanged(index);
+          },
+          onFinished: () => {
+            this.handleFinished();
+          },
+          onFullscreenClicked: () => {
+            this.handleFullscreenClicked();
+          }
         }
-      });
+      );
       this.dom.append(this.main.getDOM());
 
       this.on('resize', () => {
