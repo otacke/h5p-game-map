@@ -50,7 +50,9 @@ export default class ExerciseScreen {
     // Close button
     this.buttonClose = document.createElement('button');
     this.buttonClose.classList.add('h5p-game-map-exercise-button-close');
-    this.buttonClose.setAttribute('aria-label', this.params.dictionary.get('a11y.close'));
+    this.buttonClose.setAttribute(
+      'aria-label', this.params.dictionary.get('a11y.close')
+    );
     this.buttonClose.addEventListener('click', () => {
       this.callbacks.onClosed();
     });
@@ -185,7 +187,9 @@ export default class ExerciseScreen {
     this.headlineText.innerText = text;
     this.dom.setAttribute(
       'aria-label',
-      this.params.dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, text)
+      this.params.dictionary
+        .get('a11y.exerciseLabel')
+        .replace(/@stagelabel/, text)
     );
   }
 

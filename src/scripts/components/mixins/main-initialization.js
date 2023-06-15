@@ -99,12 +99,18 @@ export default class MainInitialization {
     const endscreenButtons = [];
     if (globalParams.behaviour.enableSolutionsButton) {
       endscreenButtons.push(
-        { id: 'show-solutions', text: this.params.dictionary.get('l10n.showSolutions') }
+        {
+          id: 'show-solutions',
+          text: this.params.dictionary.get('l10n.showSolutions')
+        }
       );
     }
     if (globalParams.behaviour.enableRetry) {
       endscreenButtons.push(
-        { id: 'restart', text: this.params.dictionary.get('l10n.restart') }
+        {
+          id: 'restart',
+          text: this.params.dictionary.get('l10n.restart')
+        }
       );
     }
 
@@ -125,7 +131,9 @@ export default class MainInitialization {
         else if (id === 'show-solutions') {
           this.showSolutions();
 
-          this.params.globals.get('read')(this.params.dictionary.get('a11y.mapSolutionsWasOpened'));
+          this.params.globals.get('read')(
+            this.params.dictionary.get('a11y.mapSolutionsWasOpened')
+          );
           window.setTimeout(() => {
             this.toolbar.focus();
           }, 100);
@@ -337,7 +345,8 @@ export default class MainInitialization {
   startVisibilityObserver() {
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
-        this.unmuteWhenVisible = !this.params.jukebox.isMuted('backgroundMusic');
+        this.unmuteWhenVisible =
+          !this.params.jukebox.isMuted('backgroundMusic');
         this.params.jukebox.muteAll();
       }
       else {
@@ -359,7 +368,8 @@ export default class MainInitialization {
     this.stageAttentionSeekerTimeout = null;
 
     const globalParams = this.params.globals.get('params');
-    const previousState = this.params.globals.get('extras')?.previousState?.content ?? {};
+    const previousState =
+      this.params.globals.get('extras')?.previousState?.content ?? {};
 
     if (params.isInitial && typeof previousState.livesLeft === 'number') {
       this.livesLeft = previousState.livesLeft;

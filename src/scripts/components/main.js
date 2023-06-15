@@ -100,7 +100,9 @@ export default class Main {
     this.contentDOM.classList.remove('display-none');
 
     if (params.readOpened) {
-      this.params.globals.get('read')(this.params.dictionary.get('a11y.mapWasOpened'));
+      this.params.globals.get('read')(
+        this.params.dictionary.get('a11y.mapWasOpened')
+      );
     }
 
     window.setTimeout(() => {
@@ -438,11 +440,17 @@ export default class Main {
     const isScoringEnabled = extras.standalone &&
       (extras.isScoringEnabled || extras.isReportingEnabled);
 
-    const dialogTexts = [this.params.dictionary.get('l10n.confirmFinishDialog')];
+    const dialogTexts = [
+      this.params.dictionary.get('l10n.confirmFinishDialog')
+    ];
     if (isScoringEnabled) {
-      dialogTexts.push(this.params.dictionary.get('l10n.confirmFinishDialogSubmission'));
+      dialogTexts.push(
+        this.params.dictionary.get('l10n.confirmFinishDialogSubmission')
+      );
     }
-    dialogTexts.push(this.params.dictionary.get('l10n.confirmFinishDialogQuestion'));
+    dialogTexts.push(
+      this.params.dictionary.get('l10n.confirmFinishDialogQuestion')
+    );
 
     this.confirmationDialog.update(
       {

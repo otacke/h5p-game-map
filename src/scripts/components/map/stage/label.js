@@ -56,7 +56,9 @@ export default class Label {
     const fontSize = parseFloat(
       window.getComputedStyle(this.labelInner).getPropertyValue('font-size')
     );
-    const labelSize = Math.floor(this.labelInner.getBoundingClientRect().height);
+    const labelSize = Math.floor(
+      this.labelInner.getBoundingClientRect().height
+    );
     this.dom.classList.toggle('multiline', fontSize * 1.5 < labelSize);
 
     this.dom.classList.toggle('touch-device', params.isTouch || false);

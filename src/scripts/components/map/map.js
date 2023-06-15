@@ -25,8 +25,10 @@ export default class Map {
 
     const globalParams = this.params.globals.get('params');
 
-    const stageWidthPercentage = globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.width;
-    const stageHeightPercentage = globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.height;
+    const stageWidthPercentage =
+      globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.width;
+    const stageHeightPercentage =
+      globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.height;
 
     // Custom CSS variables for stages
     this.dom.style.setProperty(

@@ -33,7 +33,9 @@ export default class MainHandlersExerciseScreen {
     this.params.jukebox.stopGroup('default');
     this.params.jukebox.play('closeExercise');
 
-    if (this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise) {
+    if (
+      this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise
+    ) {
       this.params.jukebox.fade(
         'backgroundMusic', { type: 'in', time: this.musicFadeTime }
       );

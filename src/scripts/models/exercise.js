@@ -82,8 +82,8 @@ export default class Exercise {
     }
 
     // Get previous instance state
-    const exercisesState = this.params.globals.get('extras').previousState?.content?.
-      exercises ?? [];
+    const exercisesState =
+      this.params.globals.get('extras').previousState?.content?.exercises ?? [];
 
     this.previousState = exercisesState
       .find((item) => item.exercise?.id === this.getId());
@@ -104,10 +104,14 @@ export default class Exercise {
     }
 
     // Resize parent when children resize
-    this.bubbleUp(this.instance, 'resize', this.params.globals.get('mainInstance'));
+    this.bubbleUp(
+      this.instance, 'resize', this.params.globals.get('mainInstance')
+    );
 
     // Resize children to fit inside parent
-    this.bubbleDown(this.params.globals.get('mainInstance'), 'resize', [this.instance]);
+    this.bubbleDown(
+      this.params.globals.get('mainInstance'), 'resize', [this.instance]
+    );
 
     if (this.isInstanceTask(this.instance)) {
       this.instance.on('xAPI', (event) => {

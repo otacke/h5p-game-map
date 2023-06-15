@@ -268,7 +268,8 @@ export default class Stage {
       // Do not unlock if there's a restriction that is not yet met
       if (
         typeof (this.params?.accessRestrictions?.minScore) === 'number' &&
-        this.params?.accessRestrictions?.minScore > this.params.globals.get('getScore')()
+        this.params?.accessRestrictions?.minScore >
+          this.params.globals.get('getScore')()
       ) {
         this.setState('unlocking');
         return;
@@ -488,7 +489,10 @@ export default class Stage {
     this.setState(state);
 
     if (
-      [this.params.globals.get('states')['locked'], this.params.globals.get('states')['unlocking']]
+      [
+        this.params.globals.get('states')['locked'],
+        this.params.globals.get('states')['unlocking']
+      ]
         .includes(state)
     ) {
       this.setTabIndex('-1');

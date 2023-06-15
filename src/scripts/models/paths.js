@@ -29,8 +29,8 @@ export default class Paths {
     }
 
     // Get previous instance state
-    const pathsState = this.params.globals.get('extras').previousState?.content?.
-      paths ?? [];
+    const pathsState =
+      this.params.globals.get('extras').previousState?.content?.paths ?? [];
 
     const pathsCreated = [];
     for (let index in elements) {

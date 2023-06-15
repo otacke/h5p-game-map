@@ -29,7 +29,9 @@ export default class MainHandlersStage {
     this.toolbar.disable();
     this.exercises.start(id);
 
-    if (this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise) {
+    if (
+      this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise
+    ) {
       this.params.jukebox.fade(
         'backgroundMusic', { type: 'out', time: this.musicFadeTime }
       );
@@ -39,8 +41,9 @@ export default class MainHandlersStage {
 
     if (!this.isShowingSolutions) {
       // Update context for confusion report contract
-      const stageIndex = this.params.globals.get('params').gamemapSteps.gamemap.elements
-        .findIndex((element) => element.id === id);
+      const stageIndex =
+        this.params.globals.get('params').gamemapSteps.gamemap.elements
+          .findIndex((element) => element.id === id);
       this.currentStageIndex = stageIndex + 1;
       this.callbacks.onProgressChanged(this.currentStageIndex);
     }
@@ -89,7 +92,9 @@ export default class MainHandlersStage {
    */
   handleStageFocused() {
     window.setTimeout(() => {
-      this.params.globals.get('read')(this.params.dictionary.get('a11y.applicationInstructions'));
+      this.params.globals.get('read')(
+        this.params.dictionary.get('a11y.applicationInstructions')
+      );
     }, 250); // Make sure everything else is read already
   }
 

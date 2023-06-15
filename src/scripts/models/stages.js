@@ -55,8 +55,8 @@ export default class Stages {
     }
 
     // Get previous instance state
-    const stagesState = this.params.globals.get('extras').previousState?.content?.
-      stages ?? [];
+    const stagesState =
+      this.params.globals.get('extras').previousState?.content?.stages ?? [];
 
     for (let index in elements) {
       const elementParams = elements[index];
@@ -290,7 +290,9 @@ export default class Stages {
       startStages = this.stages; // Use all stages, because none selected
     }
 
-    if (this.params.globals.get('params').behaviour.map.startStages === 'random') {
+    if (
+      this.params.globals.get('params').behaviour.map.startStages === 'random'
+    ) {
       startStages = [
         startStages[Math.floor(Math.random() * startStages.length)]
       ];
