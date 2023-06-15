@@ -1,7 +1,6 @@
 import Dictionary from '@services/dictionary';
 import Jukebox from '@services/jukebox';
 import Globals from '@services/globals';
-import CallbackQueue from '../../services/callback-queue';
 
 /**
  * Mixin containing handlers for exercise screen.
@@ -30,7 +29,7 @@ export default class MainHandlersExerciseScreen {
         .focus({ skipNextFocusHandler: true });
 
       this.openExerciseId = false;
-      CallbackQueue.setSkippable(true);
+      this.callbackQueue.setSkippable(true);
 
       Globals.get('resize')();
     });
@@ -66,7 +65,7 @@ export default class MainHandlersExerciseScreen {
     }
 
     // Schedule all queed callbacks to be called
-    CallbackQueue.scheduleQueued();
+    this.callbackQueue.scheduleQueued();
 
     if (this.exerciseClosedCallback) {
       this.exerciseClosedCallback();

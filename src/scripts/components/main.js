@@ -1,3 +1,4 @@
+import CallbackQueue from '@services/callback-queue';
 import Dictionary from '@services/dictionary';
 import Jukebox from '@services/jukebox';
 import Util from '@services/util';
@@ -8,7 +9,6 @@ import MainHandlersExercise from './mixins/main-handlers-exercise';
 import MainHandlersExerciseScreen from './mixins/main-handlers-exercise-screen';
 import MainQuestionTypeContract from './mixins/main-question-type-contract';
 import './main.scss';
-import CallbackQueue from '../services/callback-queue';
 
 /**
  * Main DOM component incl. main controller
@@ -26,6 +26,13 @@ export default class Main {
     this.params = Util.extend({
     }, params);
 
+    this.callbackQueue = new CallbackQueue();
+
+    // Without animations requested, schedule whole queue for same time
+    this.callbackQueue.setRespectsDelay(
+      Globals.get('params').visual.misc.useAnimation
+    );
+
     Util.addMixins(
       Main,
       [
@@ -42,11 +49,6 @@ export default class Main {
       onFinished: () => {},
       onFullscreenClicked: () => {}
     }, callbacks);
-
-    // Without animations requested, schedule whole queue for same time
-    CallbackQueue.setRespectsDelay(
-      Globals.get('params').visual.misc.useAnimation
-    );
 
     Globals.set('getScore', () => {
       return this.getScore();

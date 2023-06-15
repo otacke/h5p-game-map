@@ -1,5 +1,14 @@
 /** Simple callback queue to schedule function calls with delay */
 export default class CallbackQueue {
+
+  constructor() {
+    this.queued = []; // Queued Callback items for queue.
+    this.scheduled = []; // Timeout ids of scheduled callbacks.
+    this.isClosed = false; // True if queue is closed for new callbacks.
+    this.isSkippable = true; // True if queue can be skipped currently.
+    this.respectsDelay = true; // True if delay should be respected.
+  }
+
   /**
    * Add callback to animation queue.
    * @param {function} callback Callback to execute.
@@ -8,8 +17,8 @@ export default class CallbackQueue {
    * @param {number} [params.block] Delay before calling next callback.
    * @param {boolean} [params.skipQueue] If true, skip queue.
    */
-  static add(callback, params = {}) {
-    if (CallbackQueue.isClosed) {
+  add(callback, params = {}) {
+    if (this.isClosed) {
       return;
     }
 
@@ -21,30 +30,30 @@ export default class CallbackQueue {
     params.block = params.block || 0;
     params.skipQueue = params.skipQueue ?? false;
 
-    if (CallbackQueue.isSkippable || params.skipQueue) {
+    if (this.isSkippable || params.skipQueue) {
       callback();
       return;
     }
 
-    CallbackQueue.queued.push({ callback, params });
+    this.queued.push({ callback, params });
   }
 
   /**
    * Clear all queued callbacks.
    */
-  static clearQueued() {
-    CallbackQueue.queued = [];
+  clearQueued() {
+    this.queued = [];
   }
 
   /**
    * Clear all scheduled callbacks.
    */
-  static clearScheduled() {
+  clearScheduled() {
     // Clone scheduled, because more might be scheduled after call
-    [...CallbackQueue.scheduled].forEach((scheduledId) => {
+    [...this.scheduled].forEach((scheduledId) => {
       window.clearTimeout(scheduledId);
 
-      CallbackQueue.scheduled = CallbackQueue.scheduled
+      this.scheduled = this.scheduled
         .filter((id) => id !== scheduledId );
     });
   }
@@ -52,10 +61,10 @@ export default class CallbackQueue {
   /**
    * Schedule all items currently in queue.
    */
-  static scheduleQueued() {
-    if (CallbackQueue.respectsDelay) {
+  scheduleQueued() {
+    if (this.respectsDelay) {
       // Compute absolute delay for each animation
-      CallbackQueue.queued = CallbackQueue.queued
+      this.queued = this.queued
         .map((queueItem, index, all) => {
           if (index === 0) {
             return queueItem;
@@ -68,7 +77,7 @@ export default class CallbackQueue {
         }, []);
     }
     else {
-      CallbackQueue.queued = CallbackQueue.queued.map((queueItem) => {
+      this.queued = this.queued.map((queueItem) => {
         queueItem.params.delay = 0;
         queueItem.params.block = 0;
 
@@ -76,67 +85,52 @@ export default class CallbackQueue {
       });
     }
 
-    CallbackQueue.queued.forEach((queueItem) => {
+    this.queued.forEach((queueItem) => {
       const scheduledId = window.setTimeout(() => {
         queueItem.callback();
       }, queueItem.params.delay);
 
-      CallbackQueue.scheduled.push(scheduledId);
+      this.scheduled.push(scheduledId);
     });
 
-    CallbackQueue.queued = [];
+    this.queued = [];
   }
 
   /**
    * Open queue for new callbacks.
    */
-  static open() {
-    CallbackQueue.isClosed = false;
+  open() {
+    this.isClosed = false;
   }
 
   /**
    * Close queue for new callbacks. They will be ignored.
    */
-  static close() {
-    CallbackQueue.isClosed = true;
+  close() {
+    this.isClosed = true;
   }
 
   /**
    * Set whether subsequent
    * @param {boolean} isSkippable If true, callback will be called immediately.
    */
-  static setSkippable(isSkippable) {
+  setSkippable(isSkippable) {
     if (typeof isSkippable !== 'boolean') {
       return;
     }
 
-    CallbackQueue.isSkippable = isSkippable;
+    this.isSkippable = isSkippable;
   }
 
   /**
    * Set whether callbacks' delay is respected to schedule at different times.
    * @param {boolean} respectsDelay If false, callbacks scheduled for same time.
    */
-  static setRespectsDelay(respectsDelay) {
+  setRespectsDelay(respectsDelay) {
     if (typeof respectsDelay !== 'boolean') {
       return;
     }
 
-    CallbackQueue.respectsDelay = respectsDelay;
+    this.respectsDelay = respectsDelay;
   }
 }
-
-/** @constant {object[]} queued Callback items for queue. */
-CallbackQueue.queued = [];
-
-/** @constant {number[]} scheduled Timeout ids of scheduled callbacks. */
-CallbackQueue.scheduled = [];
-
-/** @constant {boolean} isClosed True if queue is closed for new callbacks. */
-CallbackQueue.isClosed = false;
-
-/** @constant {boolean} isSkippable True if queue can be skipped currently. */
-CallbackQueue.isSkippable = true;
-
-/** @constant {boolean} respectsDelay True if delay should be respected. */
-CallbackQueue.respectsDelay = true;
