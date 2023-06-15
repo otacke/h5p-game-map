@@ -4,7 +4,6 @@ import he from 'he';
 export default class Util {
   /**
    * Extend an array just like JQuery's extend.
-   *
    * @returns {object} Merged objects.
    */
   static extend() {
@@ -29,7 +28,6 @@ export default class Util {
   /**
    * Format language tag (RFC 5646). Assuming "language-coutry". No validation.
    * Cmp. https://tools.ietf.org/html/rfc5646
-   *
    * @param {string} languageCode Language tag.
    * @returns {string} Formatted language tag.
    */
@@ -54,7 +52,6 @@ export default class Util {
 
   /**
    * Determine whether a device supports touch events
-   *
    * @returns {boolean} True, if device supports touch events, else false.
    */
   static supportsTouch() {
@@ -65,7 +62,6 @@ export default class Util {
 
   /**
    * Check whether a HTML widget is filled with text.
-   *
    * @param {string} html HTML string.
    * @returns {boolean} True, if widget is filled, else false.
    */
@@ -78,9 +74,8 @@ export default class Util {
 
   /**
    * Add mixins to a class, useful for splitting files.
-   *
-   * @param {object} [master={}] Master class to add mixins to.
-   * @param {object[]|object} [mixins=[]] Mixins to be added to master.
+   * @param {object} [master] Master class to add mixins to.
+   * @param {object[]|object} [mixins] Mixins to be added to master.
    */
   static addMixins(master = {}, mixins = []) {
     if (!master.prototype) {
@@ -111,7 +106,6 @@ export default class Util {
 
   /**
    * HTML decode and strip HTML.
-   *
    * @param {string|object} html html.
    * @returns {string} html value.
    */

@@ -5,9 +5,8 @@ import './path.scss';
 export default class Path {
   /**
    * Construct a path.
-   *
    * @class
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    */
   constructor(params = {}) {
     this.params = Util.extend({
@@ -32,7 +31,6 @@ export default class Path {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} DOM.
    */
   getDOM() {
@@ -41,7 +39,6 @@ export default class Path {
 
   /**
    * Get state.
-   *
    * @returns {number} State.
    */
   getState() {
@@ -50,7 +47,6 @@ export default class Path {
 
   /**
    * Get stage ids.
-   *
    * @returns {object} FromID and ToID of respective stages.
    */
   getStageIds() {
@@ -59,7 +55,6 @@ export default class Path {
 
   /**
    * Get visibility state.
-   *
    * @returns {boolean} True, if stage is visible, else false.
    */
   isVisible() {
@@ -93,8 +88,7 @@ export default class Path {
 
   /**
    * Update telemetry.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {number} params.x Start position x in percent.
    * @param {number} params.y Start position y in percent.
    * @param {number} params.length length in px.
@@ -125,8 +119,7 @@ export default class Path {
 
   /**
    * Resize path.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    */
   resize(params = {}) {
     const telemetry = this.computePathTelemetry({ mapSize: params.mapSize });
@@ -145,8 +138,7 @@ export default class Path {
 
   /**
    * Compute path telemetry.
-   *
-   * @param {object} [params = {}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {object} params.mapSize Map width and height.
    * @returns {object} Telemetry date for an path
    */
@@ -211,8 +203,7 @@ export default class Path {
 
   /**
    * Reset.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {
@@ -232,9 +223,8 @@ export default class Path {
 
   /**
    * Set path state.
-   *
    * @param {number|string} state State constant.
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {

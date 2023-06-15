@@ -2,12 +2,11 @@
 export default class CallbackQueue {
   /**
    * Add callback to animation queue.
-   *
    * @param {function} callback Callback to execute.
-   * @param {object} [params={}] Parameters.
-   * @param {number} [params.delay=0] Delay before calling callback.
-   * @param {number} [params.block=0] Delay before calling next callback.
-   * @param {boolean} [params.skipQueue=false] If true, skip queue.
+   * @param {object} [params] Parameters.
+   * @param {number} [params.delay] Delay before calling callback.
+   * @param {number} [params.block] Delay before calling next callback.
+   * @param {boolean} [params.skipQueue] If true, skip queue.
    */
   static add(callback, params = {}) {
     if (CallbackQueue.isClosed) {
@@ -104,7 +103,6 @@ export default class CallbackQueue {
 
   /**
    * Set whether subsequent
-   *
    * @param {boolean} isSkippable If true, callback will be called immediately.
    */
   static setSkippable(isSkippable) {
@@ -117,7 +115,6 @@ export default class CallbackQueue {
 
   /**
    * Set whether callbacks' delay is respected to schedule at different times.
-   *
    * @param {boolean} respectsDelay If false, callbacks scheduled for same time.
    */
   static setRespectsDelay(respectsDelay) {

@@ -5,7 +5,7 @@ export default class Label {
 
   /**
    * @class
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    */
   constructor(params = {}) {
     this.params = Util.extend({
@@ -31,7 +31,6 @@ export default class Label {
 
   /**
    * Get label DOM.
-   *
    * @returns {HTMLElement} Label DOM.
    */
   getDOM() {
@@ -40,8 +39,7 @@ export default class Label {
 
   /**
    * Show.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.isTouch] If true, was called by touch device.
    * @param {boolean} [params.skipDelay] If true, will immediately show label.
    */
@@ -90,7 +88,6 @@ export default class Label {
 
   /**
    * Determine whether label is showing.
-   *
    * @returns {boolean} True, if label is showing. Else false.
    */
   isShowing() {

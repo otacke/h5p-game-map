@@ -17,8 +17,8 @@ export default class Main {
 
   /**
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onProgressChanged] Called on progress change.
    * @param {function} [callbacks.onFinished] Called when finished.
    */
@@ -84,7 +84,6 @@ export default class Main {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} Content DOM.
    */
   getDOM() {
@@ -93,7 +92,6 @@ export default class Main {
 
   /**
    * Show.
-   *
    * @param {object} params Parameters.
    * @param {boolean} [params.focusButton] If true, start button will get focus.
    * @param {boolean} [params.readOpened] If true, announce screen was opened.
@@ -136,8 +134,7 @@ export default class Main {
 
   /**
    * Start.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   start(params = {}) {
@@ -248,7 +245,6 @@ export default class Main {
 
   /**
    * Show end screen.
-   *
    * @param {object} params Parameters.
    * @param {boolean} [params.focusButton] If true, start button will get focus.
    * @param {boolean} [params.readOpened] If true, announce screen was opened.
@@ -312,7 +308,6 @@ export default class Main {
 
   /**
    * Set fullscreen state.
-   *
    * @param {boolean} state If true, fullscreen is active.
    */
   setFullscreen(state) {
@@ -336,7 +331,6 @@ export default class Main {
 
   /**
    * Toggle audio.
-   *
    * @param {boolean} [state] State to set audio to.
    */
   toggleAudio(state) {
@@ -352,7 +346,6 @@ export default class Main {
 
   /**
    * Try start background music.
-   *
    * @returns {boolean} True, id audio could be started.
    */
   async tryStartBackgroundMusic() {
@@ -387,7 +380,6 @@ export default class Main {
 
   /**
    * Handle timer ticked.
-   *
    * @param {number} id Id of exercise that had a timer tick.
    * @param {number} remainingTime Remaining time in ms.
    */
@@ -401,7 +393,6 @@ export default class Main {
 
   /**
    * Handle timeout warning.
-   *
    * @param {number} id Id of exercise that is about to time out.
    */
   handleTimeoutWarning(id) {
@@ -414,7 +405,6 @@ export default class Main {
 
   /**
    * Handle timeout.
-   *
    * @param {number} id Id of exercise that timed out.
    */
   handleTimeout(id) {

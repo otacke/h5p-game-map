@@ -231,7 +231,6 @@ export default class GameMap extends H5P.Question {
 
   /**
    * Build main DOM.
-   *
    * @returns {HTMLElement} Main DOM.
    */
   buildDOM() {
@@ -290,7 +289,6 @@ export default class GameMap extends H5P.Question {
 
   /**
    * Get current state.
-   *
    * @returns {object} Current state to be retrieved later.
    */
   getCurrentState() {
@@ -305,7 +303,6 @@ export default class GameMap extends H5P.Question {
 
   /**
    * Handle progress changed.
-   *
    * @param {number} index Index of stage + 1.
    */
   handleProgressChanged(index) {
@@ -347,7 +344,6 @@ export default class GameMap extends H5P.Question {
 
   /**
    * Toggle fullscreen button.
-   *
    * @param {string|boolean} state enter|false for enter, exit|true for exit.
    */
   toggleFullscreen(state) {

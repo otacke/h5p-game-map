@@ -7,7 +7,6 @@ import CallbackQueue from '../../services/callback-queue';
 export default class MainHandlersExercise {
   /**
    * Handle exercise state changed.
-   *
    * @param {string} id Id of exercise that was changed.
    * @param {number} state State code.
    */
@@ -21,9 +20,8 @@ export default class MainHandlersExercise {
 
   /**
    * Handle exercise score changed.
-   *
    * @param {string} id Id of stage that was changed.
-   * @param {object} [params={}] Parameters for scores.
+   * @param {object} [params] Parameters for scores.
    * @param {number} params.score Score.
    * @param {number} params.maxScore Maximum possible score.
    */
@@ -55,7 +53,6 @@ export default class MainHandlersExercise {
 
   /**
    * Handle exercise timer ticked.
-   *
    * @param {number} id Id of exercise that had a timer tick.
    * @param {number} remainingTime Remaining time in ms.
    */
@@ -65,7 +62,6 @@ export default class MainHandlersExercise {
 
   /**
    * Handle exercise time out warning.
-   *
    * @param {number} id Id of exercise that is about to time out.
    */
   handleExerciseTimeoutWarning(id) {
@@ -74,7 +70,6 @@ export default class MainHandlersExercise {
 
   /**
    * Handle exercise time out.
-   *
    * @param {number} id Id of exercise that timed out.
    */
   handleExerciseTimeout(id) {

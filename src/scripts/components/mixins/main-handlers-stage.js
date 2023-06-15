@@ -9,7 +9,6 @@ import Jukebox from '@services/jukebox';
 export default class MainHandlersStage {
   /**
    * Handle stage clicked.
-   *
    * @param {string} id Id of stage that was clicked on.
    */
   handleStageClicked(id) {
@@ -58,7 +57,6 @@ export default class MainHandlersStage {
 
   /**
    * Handle stage state changed.
-   *
    * @param {string} id Id of exercise that was changed.
    * @param {number} state State code.
    */
@@ -102,7 +100,6 @@ export default class MainHandlersStage {
 
   /**
    * Handle stage became active descendant.
-   *
    * @param {string} id Stage's id.
    */
   handleStageBecameActiveDescendant(id) {
@@ -111,7 +108,6 @@ export default class MainHandlersStage {
 
   /**
    * Handle stage added function to main queue.
-   *
    * @param {function} callback Function to add to queue.
    * @param {object} params Parameters for queue.
    */
@@ -121,8 +117,7 @@ export default class MainHandlersStage {
 
   /**
    * Handle stage to be opened with restrictions.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} [params.id] Stage id.
    * @param {number} [params.minScore] Minimum score to open stage.
    */

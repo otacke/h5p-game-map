@@ -4,9 +4,8 @@ export default class MessageBox {
 
   /**
    * General purpose message box.
-   *
    * @class
-   * @param {object} [params={}] Parameters, same as H5P.ConfirmationDialog.
+   * @param {object} [params] Parameters, same as H5P.ConfirmationDialog.
    */
   constructor(params = {}) {
     this.dom = document.createElement('div');
@@ -20,7 +19,6 @@ export default class MessageBox {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} DOM.
    */
   getDOM() {

@@ -22,8 +22,7 @@ export default class MainInitialization {
    * Issue here: We can relocate the DOMs for feedback and scorbar, but those
    * are created after setting feedback the first time only. It's also
    * required to set the maximum score now. Cannot be changed later.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {number} [params.maxScore] Maximum score possible.
    * @returns {HTMLElement|null} Wrapper with H5P.Question feedback.
    */
@@ -339,8 +338,7 @@ export default class MainInitialization {
 
   /**
    * Reset.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {

@@ -8,10 +8,10 @@ export default class Map {
 
   /**
    * @class
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} [params.backgroundImage] Source string for image.
    * @param {Path[]} [params.paths] Paths.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onImageLoaded] Image loaded.
    */
   constructor(params = {}, callbacks = {}) {
@@ -95,7 +95,6 @@ export default class Map {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} DOM.
    */
   getDOM() {
@@ -118,9 +117,8 @@ export default class Map {
 
   /**
    * Set fullscreen.
-   *
    * @param {boolean} state If true, fullscreen on.
-   * @param {object} [availableSpace={}] Available width and height.
+   * @param {object} [availableSpace] Available width and height.
    */
   setFullscreen(state, availableSpace = {}) {
     if (!availableSpace.height || !availableSpace.width) {
@@ -155,7 +153,6 @@ export default class Map {
 
   /**
    * Get map size.
-   *
    * @returns {object} Height and width of map.
    */
   getSize() {
@@ -192,7 +189,6 @@ export default class Map {
 
   /**
    * Force size.
-   *
    * @param {object|null} sizes Size to force into.
    * @param {object} sizes.container Container size.
    * @param {number} [sizes.container.width] Container width in px.
@@ -248,7 +244,6 @@ export default class Map {
 
   /**
    * Set active descendant for aria composite pattern.
-   *
    * @param {string} id Id of active descendant.
    */
   setActiveDescendant(id) {

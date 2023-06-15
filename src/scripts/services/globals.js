@@ -3,7 +3,6 @@ export default class Globals {
 
   /**
    * Set value for key.
-   *
    * @param {string} key Key.
    * @param {object|string|number|boolean|function|undefined|null} value Value.
    */
@@ -17,7 +16,6 @@ export default class Globals {
 
   /**
    * Get value for key.
-   *
    * @param {string} key Key.
    * @returns {object|string|number|boolean|function|undefined|null} Value.
    */

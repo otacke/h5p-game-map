@@ -5,9 +5,9 @@ export default class Exercises {
 
   /**
    * @class
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {object} [params.elements] Element parameters for exercises.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onStateChanged] Callback when state changed.
    * @param {function} [callbacks.onScoreChanged] Callback when score changed.
    * @param {function} [callbacks.onTimerTicked] Callback when timer ticked.
@@ -50,7 +50,6 @@ export default class Exercises {
 
   /**
    * Get exercise.
-   *
    * @param {string} id Id of exercise to get.
    * @returns {Exercise} Exercise.
    */
@@ -60,7 +59,6 @@ export default class Exercises {
 
   /**
    * Get current state.
-   *
    * @returns {object} Current state to be retrieved later.
    */
   getCurrentState() {
@@ -73,7 +71,6 @@ export default class Exercises {
 
   /**
    * Get xAPI data from exercises.
-   *
    * @returns {object[]} XAPI data objects used to build report.
    */
   getXAPIData() {
@@ -95,7 +92,6 @@ export default class Exercises {
 
   /**
    * Determine whether some answer was given.
-   *
    * @returns {boolean} True, if some answer was given.
    */
   getAnswerGiven() {
@@ -106,7 +102,6 @@ export default class Exercises {
 
   /**
    * Get summed up score of all exercises.
-   *
    * @returns {number} Summed up score of all instances or 0.
    */
   getScore() {
@@ -117,7 +112,6 @@ export default class Exercises {
 
   /**
    * Get max score of all exercises.
-   *
    * @returns {number} Maximum score of instance or 0.
    */
   getMaxScore() {
@@ -128,8 +122,7 @@ export default class Exercises {
 
   /**
    * Reset all exercises.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   resetAll(params = {}) {
@@ -140,7 +133,6 @@ export default class Exercises {
 
   /**
    * Reset.
-   *
    * @param {number} id Id of exercise to reset.
    */
   reset(id) {
@@ -153,7 +145,6 @@ export default class Exercises {
 
   /**
    * Stop exercise.
-   *
    * @param {string} id Id of exercise to start.
    */
   start(id) {
@@ -166,7 +157,6 @@ export default class Exercises {
 
   /**
    * Stop exercise.
-   *
    * @param {string} id Id of exercise to stop.
    */
   stop(id) {

@@ -7,7 +7,6 @@ import Jukebox from '@services/jukebox';
 export default class MainQuestionTypeContract {
   /**
    * Get xAPI data from exercises.
-   *
    * @returns {object[]} XAPI data objects used to build report.
    */
   getXAPIData() {
@@ -16,7 +15,6 @@ export default class MainQuestionTypeContract {
 
   /**
    * Determine whether some answer was given.
-   *
    * @returns {boolean} True, if some answer was given.
    */
   getAnswerGiven() {
@@ -25,7 +23,6 @@ export default class MainQuestionTypeContract {
 
   /**
    * Get score.
-   *
    * @returns {number} Score.
    */
   getScore() {
@@ -37,7 +34,6 @@ export default class MainQuestionTypeContract {
 
   /**
    * Get max score.
-   *
    * @returns {number} Max score.
    */
   getMaxScore() {
@@ -50,7 +46,6 @@ export default class MainQuestionTypeContract {
   /**
    * Get context data.
    * Contract used for confusion report.
-   *
    * @returns {object} Context data.
    */
   getContext() {
@@ -82,7 +77,6 @@ export default class MainQuestionTypeContract {
 
   /**
    * Get current state. Not strictly question type contract.
-   *
    * @returns {object} Current state to be retrieved later.
    */
   getCurrentState() {

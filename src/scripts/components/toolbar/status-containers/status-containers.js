@@ -5,8 +5,8 @@ import './status-containers.scss';
 export default class StatusContainers {
   /**
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {object} [callbacks] Callbacks.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -23,7 +23,6 @@ export default class StatusContainers {
 
   /**
    * Get container DOM.
-   *
    * @returns {HTMLElement} lives container DOM.
    */
   getDOM() {
@@ -46,7 +45,6 @@ export default class StatusContainers {
 
   /**
    * Add container.
-   *
    * @param {object} params Parameters for container.
    */
   addContainer(params = {}) {
@@ -60,7 +58,6 @@ export default class StatusContainers {
 
   /**
    * Show container.
-   *
    * @param {string} id Id of container to show.
    */
   showContainer(id) {
@@ -73,7 +70,6 @@ export default class StatusContainers {
 
   /**
    * Hide container.
-   *
    * @param {string} id Id of container to hide.
    */
   hideContainer(id) {
@@ -86,7 +82,6 @@ export default class StatusContainers {
 
   /**
    * Set container status.
-   *
    * @param {string} id Id of container to set status for.
    * @param {object} params Parameters to set.
    */

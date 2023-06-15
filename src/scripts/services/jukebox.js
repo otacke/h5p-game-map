@@ -3,8 +3,7 @@ export default class Jukebox {
 
   /**
    * Fill the jukebox with audios.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    */
   static fill(params = {}) {
     for (const key in params) {
@@ -22,8 +21,7 @@ export default class Jukebox {
 
   /**
    * Add audio.
-   *
-   * @param {object} [params = {}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} params.id Id of audio to add.
    * @param {string} params.src URL to audio file.
    * @param {object} [params.options] Options for the audio.
@@ -47,7 +45,6 @@ export default class Jukebox {
 
   /**
    * Get audio's state.
-   *
    * @param {string} id Id of audio.
    * @returns {number|undefined} State id.
    */
@@ -61,7 +58,6 @@ export default class Jukebox {
 
   /**
    * Set state for audio.
-   *
    * @param {string} id Id of audio to set state for.
    * @param {string|number} newState New state id.
    */
@@ -89,8 +85,7 @@ export default class Jukebox {
 
   /**
    * Set audio buffer.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} params.id Id of audio to set buffer for.
    * @param {object} params.buffer Audio buffer.
    */
@@ -105,8 +100,7 @@ export default class Jukebox {
 
   /**
    * Buffer sound.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} params.id Id of audio.
    * @param {string} params.url URL of audio to buffer.
    */
@@ -135,7 +129,6 @@ export default class Jukebox {
 
   /**
    * Play audio.
-   *
    * @param {string} id Id of audio to play.
    * @returns {boolean} True, if audio could be played. Else false.
    */
@@ -190,7 +183,6 @@ export default class Jukebox {
 
   /**
    * Add audio to play queue.
-   *
    * @param {string} id of audio to add to play queue.
    */
   static addToQueue(id) {
@@ -201,7 +193,6 @@ export default class Jukebox {
 
   /**
    * Remove audio to play queue.
-   *
    * @param {string} id of audio to remove from play queue.
    */
   static removeFromQueue(id) {
@@ -210,7 +201,6 @@ export default class Jukebox {
 
   /**
    * Stop audio.
-   *
    * @param {string} id Id of audio to stop.
    */
   static stop(id) {
@@ -230,7 +220,6 @@ export default class Jukebox {
 
   /**
    * Stop audio group.
-   *
    * @param {string} groupId GroupId of audios to stop.
    */
   static stopGroup(groupId) {
@@ -256,7 +245,6 @@ export default class Jukebox {
 
   /**
    * Determine whether audio is playing.
-   *
    * @param {string} id Id of audio to be checked.
    * @returns {boolean} True, if audio is playing. Else false.
    */
@@ -270,9 +258,8 @@ export default class Jukebox {
 
   /**
    * Fade audio.
-   *
    * @param {string} id Id of audio to fade.
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} params.type `in` to fade in, `out` to fade out.
    * @param {number} [params.time] Time for fading.
    * @param {number} [params.interval] Interval for fading update.
@@ -354,7 +341,6 @@ export default class Jukebox {
 
   /**
    * Get DOM element of audio.
-   *
    * @param {string} id Id of audio to get DOM element for.
    * @returns {HTMLElement|undefined} Audio element.
    */
@@ -368,7 +354,6 @@ export default class Jukebox {
 
   /**
    * Get audio ids.
-   *
    * @returns {string[]} Audio ids.
    */
   static getAudioIds() {
@@ -386,7 +371,6 @@ export default class Jukebox {
 
   /**
    * Unmute.
-   *
    * @param {string} id Id of sound to unmute.
    */
   static mute(id) {
@@ -409,7 +393,6 @@ export default class Jukebox {
 
   /**
    * Unmute.
-   *
    * @param {string} id Id of sound to unmute.
    */
   static unmute(id) {
@@ -422,7 +405,6 @@ export default class Jukebox {
 
   /**
    * Determine whether an audio is muted.
-   *
    * @param {string} id Id of sound to check.
    * @returns {boolean} True, if audio is muted. Else false.
    */

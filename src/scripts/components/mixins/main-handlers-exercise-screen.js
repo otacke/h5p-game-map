@@ -9,8 +9,7 @@ import CallbackQueue from '../../services/callback-queue';
 export default class MainHandlersExerciseScreen {
   /**
    * Handle exercise was closed.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {function} [params.animationEndedCallback] Callback.
    */
   handleExerciseScreenClosed(params = {}) {

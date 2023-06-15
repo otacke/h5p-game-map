@@ -7,9 +7,9 @@ export default class Stages {
 
   /**
    * @class
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {object} [params.elements] Semantics parameters for stages.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onStageClicked] Called when stage is clicked.
    * @param {function} [callbacks.onStageStageChanged] Called on state changed.
    * @param {function} [callbacks.onStageFocused] Called on stage focused.
@@ -38,7 +38,6 @@ export default class Stages {
 
   /**
    * Get doms.
-   *
    * @returns {HTMLElement[]} Stage DOMs.
    */
   getDOMs() {
@@ -47,7 +46,6 @@ export default class Stages {
 
   /**
    * Build paths.
-   *
    * @param {object} elements Parameters.
    * @returns {Stage[]} Stages.
    */
@@ -136,9 +134,8 @@ export default class Stages {
 
   /**
    * Get number of stages (after filtering).
-   *
-   * @param {object} [params={}] Parameters.
-   * @param {object} [params.filters={}] Filters with string/string[] pairs.
+   * @param {object} [params] Parameters.
+   * @param {object} [params.filters] Filters with string/string[] pairs.
    * @returns {number} Number of stages.
    */
   getCount(params = {}) {
@@ -161,7 +158,6 @@ export default class Stages {
 
   /**
    * Get stage by id.
-   *
    * @param {string} id Id of stage.
    * @returns {Stage} Stage with respective id.
    */
@@ -171,7 +167,6 @@ export default class Stages {
 
   /**
    * Get current state.
-   *
    * @returns {object} Current state to be retrieved later.
    */
   getCurrentState() {
@@ -186,7 +181,6 @@ export default class Stages {
 
   /**
    * Update state of a stage.
-   *
    * @param {string} id Id of exercise that was changed.
    * @param {number} state State code.
    */
@@ -223,7 +217,6 @@ export default class Stages {
 
   /**
    * Update the state of a stages neighbors.
-   *
    * @param {string} id Id of exercise that was changed.
    * @param {number} state State code.
    */
@@ -270,7 +263,6 @@ export default class Stages {
 
   /**
    * Unlock a stage or stages.
-   *
    * @param {string} id Id to unlock or 'random' for random procedure.
    */
   unlockStage(id) {
@@ -314,7 +306,6 @@ export default class Stages {
 
   /**
    * Return next best open stage.
-   *
    * @returns {Stage|null} Next best open stage.
    */
   getNextOpenStage() {
@@ -328,7 +319,6 @@ export default class Stages {
 
   /**
    * Handle stage focused.
-   *
    * @param {string} id Id of stage that was focused.
    */
   handleStageFocused(id) {
@@ -365,7 +355,6 @@ export default class Stages {
 
   /**
    * Handle key up on selected stages.
-   *
    * @param {KeyboardEvent} event Event.
    */
   handleSelectionKeydown(event) {
@@ -449,7 +438,6 @@ export default class Stages {
 
   /**
    * Highlight a stage.
-   *
    * @param {number} index Index of selection stages to highlight.
    */
   highlightStage(index) {
@@ -482,7 +470,6 @@ export default class Stages {
 
   /**
    * Set tab index.
-   *
    * @param {string} id Stage id.
    * @param {string|number} state Tabindex state.
    */
@@ -495,7 +482,6 @@ export default class Stages {
 
   /**
    * Toggle playfulness.
-   *
    * @param {boolean} state If true, be playful, else not.
    */
   togglePlayfulness(state) {
@@ -510,7 +496,6 @@ export default class Stages {
 
   /**
    * Do for each stage.
-   *
    * @param {function} callback Callback.
    */
   forEach(callback) {
@@ -521,8 +506,7 @@ export default class Stages {
 
   /**
    * Reset.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {

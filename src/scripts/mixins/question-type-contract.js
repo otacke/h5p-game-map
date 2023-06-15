@@ -4,7 +4,6 @@
 export default class QuestionTypeContract {
   /**
    * Determine whether the task was answered already.
-   *
    * @returns {boolean} True if answer was given by user, else false.
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-1}
    */
@@ -14,7 +13,6 @@ export default class QuestionTypeContract {
 
   /**
    * Get current score.
-   *
    * @returns {number} Current score.
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-2}
    */
@@ -24,7 +22,6 @@ export default class QuestionTypeContract {
 
   /**
    * Get maximum possible score.
-   *
    * @returns {number} Maximum possible score.
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-3}
    */
@@ -34,7 +31,6 @@ export default class QuestionTypeContract {
 
   /**
    * Show solutions.
-   *
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-4}
    */
   showSolutions() {
@@ -43,7 +39,6 @@ export default class QuestionTypeContract {
 
   /**
    * Reset task.
-   *
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-5}
    */
   resetTask() {
@@ -53,7 +48,6 @@ export default class QuestionTypeContract {
 
   /**
    * Get xAPI data.
-   *
    * @returns {object} XAPI statement.
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
    */
@@ -72,7 +66,6 @@ export default class QuestionTypeContract {
   /**
    * Get context data.
    * Contract used for confusion report.
-   *
    * @returns {object} Context data.
    */
   getContext() {

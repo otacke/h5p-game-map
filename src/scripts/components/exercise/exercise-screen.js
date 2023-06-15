@@ -9,10 +9,9 @@ export default class ExerciseScreen {
 
   /**
    * Exercise holding H5P content.
-   *
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onClosed] Callback when exercise closed.
    */
   constructor(params = {}, callbacks = {}) {
@@ -87,7 +86,6 @@ export default class ExerciseScreen {
 
   /**
    * Get DOM for exercise.
-   *
    * @returns {HTMLElement} DOM for exercise.
    */
   getDOM() {
@@ -130,9 +128,8 @@ export default class ExerciseScreen {
 
   /**
    * Hide.
-   *
-   * @param {object} [params={}] Parameters.
-   * @param {boolean} [params.animate = false] If true, animate.
+   * @param {object} [params] Parameters.
+   * @param {boolean} [params.animate] If true, animate.
    * @param {function} [callback] Callback when animation done.
    */
   hide(params = {}, callback) {
@@ -173,7 +170,6 @@ export default class ExerciseScreen {
 
   /**
    * Set H5P DOM.
-   *
    * @param {HTMLElement} h5pDOM DOM of H5P instance.
    */
   setH5PContent(h5pDOM) {
@@ -183,7 +179,6 @@ export default class ExerciseScreen {
 
   /**
    * Set headline text.
-   *
    * @param {string} text Headline text to set.
    */
   setTitle(text) {
@@ -198,7 +193,6 @@ export default class ExerciseScreen {
 
   /**
    * Set time.
-   *
    * @param {number} timeMs Time to display on timer.
    */
   setTime(timeMs) {
@@ -226,7 +220,6 @@ export default class ExerciseScreen {
 
   /**
    * Set offset to screen border.
-   *
    * @param {number} mapWidth Map width in px.
    */
   setScreenOffset(mapWidth) {
@@ -248,7 +241,6 @@ export default class ExerciseScreen {
 
   /**
    * Get computed size.
-   *
    * @returns {object} Size with width and height.
    */
   getSize() {
@@ -258,7 +250,6 @@ export default class ExerciseScreen {
 
   /**
    * Animate
-   *
    * @param {string} animationName Animation name.
    * @param {function} callback Callback when animation ended.
    */
@@ -332,7 +323,6 @@ export default class ExerciseScreen {
 
   /**
    * Handle global click event.
-   *
    * @param {Event} event Click event.
    */
   handleGlobalClick(event) {
@@ -346,7 +336,6 @@ export default class ExerciseScreen {
 
   /**
    * Handle key down.
-   *
    * @param {KeyboardEvent} event Keyboard event.
    */
   handleKeyDown(event) {

@@ -9,10 +9,10 @@ export default class Toolbar {
 
   /**
    * @class
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {object[]} [params.buttons] Button parameters.
-   * @param {boolean} [params.hidden=false] If true, hide toolbar.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {boolean} [params.hidden] If true, hide toolbar.
+   * @param {object} [callbacks] Callbacks.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -87,7 +87,6 @@ export default class Toolbar {
 
   /**
    * Return the DOM for this class.
-   *
    * @returns {HTMLElement} DOM for this class.
    */
   getDOM() {
@@ -96,7 +95,6 @@ export default class Toolbar {
 
   /**
    * Get full height.
-   *
    * @returns {number} Full height in px.
    */
   getFullHeight() {
@@ -116,8 +114,7 @@ export default class Toolbar {
 
   /**
    * Add button.
-   *
-   * @param {object} [button={}] Button parameters.
+   * @param {object} [button] Button parameters.
    */
   addButton(button = {}) {
     if (typeof button.id !== 'string') {
@@ -150,7 +147,6 @@ export default class Toolbar {
 
   /**
    * Set button attributes.
-   *
    * @param {string} id Button id.
    * @param {object} attributes HTML attributes to set.
    */
@@ -166,10 +162,9 @@ export default class Toolbar {
 
   /**
    * Force button state.
-   *
    * @param {string} id Button id.
    * @param {boolean|number} active If true, toggle active, else inactive.
-   * @param {object} [options={}] Options.
+   * @param {object} [options] Options.
    */
   forceButton(id = '', active, options = {}) {
     if (!this.buttons[id]) {
@@ -199,7 +194,6 @@ export default class Toolbar {
 
   /**
    * Enable button.
-   *
    * @param {string} id Button id.
    */
   enableButton(id = '') {
@@ -212,7 +206,6 @@ export default class Toolbar {
 
   /**
    * Disable button.
-   *
    * @param {string} id Button id.
    */
   disableButton(id = '') {
@@ -225,7 +218,6 @@ export default class Toolbar {
 
   /**
    * Show button.
-   *
    * @param {string} id Button id.
    */
   showButton(id = '') {
@@ -238,7 +230,6 @@ export default class Toolbar {
 
   /**
    * Hide button.
-   *
    * @param {string} id Button id.
    */
   hideButton(id = '') {
@@ -251,7 +242,6 @@ export default class Toolbar {
 
   /**
    * Decloak button.
-   *
    * @param {string} id Button id.
    */
   decloakButton(id = '') {
@@ -264,7 +254,6 @@ export default class Toolbar {
 
   /**
    * Cloak button.
-   *
    * @param {string} id Button id.
    */
   cloakButton(id = '') {
@@ -277,7 +266,6 @@ export default class Toolbar {
 
   /**
    * Focus a button.
-   *
    * @param {string} id Button id.
    */
   focusButton(id = '') {
@@ -304,7 +292,6 @@ export default class Toolbar {
 
   /**
    * Move button focus.
-   *
    * @param {number} offset Offset to move position by.
    */
   moveButtonFocus(offset) {
@@ -327,7 +314,6 @@ export default class Toolbar {
 
   /**
    * Handle key down.
-   *
    * @param {KeyboardEvent} event Keyboard event.
    */
   handleKeydown(event) {
@@ -353,7 +339,6 @@ export default class Toolbar {
 
   /**
    * Add status container.
-   *
    * @param {object} params Parameters for status container.
    */
   addStatusContainer(params = {}) {
@@ -362,7 +347,6 @@ export default class Toolbar {
 
   /**
    * Status status of container.
-   *
    * @param {string} id Id of container to set status of.
    * @param {object} params Parameters for status container.
    */
@@ -372,7 +356,6 @@ export default class Toolbar {
 
   /**
    * Show status container
-   *
    * @param {string} id Id of container to show.
    */
   showStatusContainer(id) {
@@ -381,7 +364,6 @@ export default class Toolbar {
 
   /**
    * Hide status container
-   *
    * @param {string} id Id of container to show.
    */
   hideStatusContainer(id) {
@@ -390,7 +372,6 @@ export default class Toolbar {
 
   /**
    * Toggle solution mode on and off.
-   *
    * @param {boolean} state If true, solution mode is on, else off.
    */
   toggleSolutionMode(state) {

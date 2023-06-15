@@ -5,14 +5,14 @@ import './media-screen.scss';
 export default class MediaScreen {
   /**
    * @class
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {number} [params.contentId] H5P content id.
    * @param {string} [params.titleText] Title text.
-   * @param {object} [params.l10n={}] Localization strings.
-   * @param {string} [params.l10n.buttonText='Close'] Default button text.
-   * @param {object} [params.a11y={}] Screen reader strings.
+   * @param {object} [params.l10n] Localization strings.
+   * @param {string} [params.l10n.buttonText] Default button text.
+   * @param {object} [params.a11y] Screen reader strings.
    * @param {object} [params.a11y.screenOpened] Screen opened text.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onButtonClicked] Callback when button clicked.
    * @param {function} [callbacks.read] Callback to read on screen reader.
    */
@@ -67,7 +67,6 @@ export default class MediaScreen {
 
   /**
    * Return the DOM for this class.
-   *
    * @returns {HTMLElement} DOM for this class.
    */
   getDOM() {
@@ -76,7 +75,6 @@ export default class MediaScreen {
 
   /**
    * Create the top level element.
-   *
    * @returns {HTMLElement} Cover.
    */
   buildDOM() {
@@ -91,7 +89,6 @@ export default class MediaScreen {
 
   /**
    * Create an element which contains both medium and the background bar.
-   *
    * @returns {HTMLElement} Visual stuff for cover.
    */
   buildVisualsElement() {
@@ -103,7 +100,6 @@ export default class MediaScreen {
 
   /**
    * Build element responsible for the bar behind medium.
-   *
    * @returns {HTMLElement} Horizontal bar in the background.
    */
   buildBar() {
@@ -115,7 +111,6 @@ export default class MediaScreen {
 
   /**
    * Build introduction.
-   *
    * @returns {HTMLElement} Title element.
    */
   buildIntroduction() {
@@ -127,7 +122,6 @@ export default class MediaScreen {
 
   /**
    * Build content.
-   *
    * @returns {HTMLElement} Content element.
    */
   buildContent() {
@@ -139,7 +133,6 @@ export default class MediaScreen {
 
   /**
    * Build button.
-   *
    * @param {string} id Button id.
    * @param {string} buttonText Button text.
    * @returns {HTMLElement} Button element.
@@ -162,7 +155,6 @@ export default class MediaScreen {
 
   /**
    * Set introduction text.
-   *
    * @param {string} html Text for title element.
    */
   setIntroduction(html) {
@@ -177,7 +169,6 @@ export default class MediaScreen {
 
   /**
    * Set content.
-   *
    * @param {HTMLElement} content Content.
    */
   setContent(content) {
@@ -193,7 +184,6 @@ export default class MediaScreen {
 
   /**
    * Set medium.
-   *
    * @param {object} medium object.
    */
   setMedium(medium) {
@@ -236,7 +226,6 @@ export default class MediaScreen {
 
   /**
    * Get medium file data.
-   *
    * @param {object} medium H5P medium file data.
    * @returns {object|null} Media file data.
    */
@@ -293,8 +282,7 @@ export default class MediaScreen {
 
   /**
    * Show.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.focusButton] If true, start button will get focus.
    * @param {boolean} [params.readOpened] If true, announce screen was opened.
    */

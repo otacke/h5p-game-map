@@ -19,7 +19,6 @@ export default class Paths {
   /**
    * Build paths.
    * Might be replaced by SVGs at some point.
-   *
    * @param {object} elements Elements with stages.
    * @returns {Path[]} Paths.
    */
@@ -69,7 +68,6 @@ export default class Paths {
 
   /**
    * Get current state.
-   *
    * @returns {object} Current state to be retrieved later.
    */
   getCurrentState() {
@@ -84,8 +82,7 @@ export default class Paths {
 
   /**
    * Update.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {object} [params.mapSize] Map size.
    */
   update(params = {}) {
@@ -96,7 +93,6 @@ export default class Paths {
 
   /**
    * Update state.
-   *
    * @param {string} id Id of stage/exercise that was updated.
    * @param {number} state If of state that was changed to.
    */
@@ -132,7 +128,6 @@ export default class Paths {
 
   /**
    * Do for each path.
-   *
    * @param {function} callback Callback.
    */
   forEach(callback) {
@@ -143,8 +138,7 @@ export default class Paths {
 
   /**
    * Reset.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {

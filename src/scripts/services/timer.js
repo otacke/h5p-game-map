@@ -3,12 +3,11 @@ import Util from './util';
 export default class Timer {
   /**
    * Timer.
-   *
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {string} [params.mode='timer'] Mode: timer|stopwatch.
-   * @param {number} [params.interval=1000] Tick interval.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {string} [params.mode] Mode: timer|stopwatch.
+   * @param {number} [params.interval] Tick interval.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onStateChanged] Timer state changed.
    * @param {function} [callbacks.onExpired] Timer has expired.
    * @param {function} [callbacks.onTick] Timer has completed an interval.
@@ -37,7 +36,6 @@ export default class Timer {
 
   /**
    * Set current state.
-   *
    * @param {number} state Current state.
    */
   setState(state) {
@@ -47,7 +45,6 @@ export default class Timer {
 
   /**
    * Start.
-   *
    * @param {number} [defaultTime] Time to start with.
    */
   start(defaultTime) {
@@ -113,7 +110,6 @@ export default class Timer {
 
   /**
    * Set time.
-   *
    * @param {number} timeMs time in ms.
    */
   setTime(timeMs) {
@@ -122,7 +118,6 @@ export default class Timer {
 
   /**
    * Get time.
-   *
    * @returns {number} Time in ms.
    */
   getTime() {

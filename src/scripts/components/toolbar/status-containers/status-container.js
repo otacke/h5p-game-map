@@ -6,8 +6,8 @@ export default class StatusContainer {
 
   /**
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {object} [callbacks] Callbacks.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -44,7 +44,6 @@ export default class StatusContainer {
 
   /**
    * Get container DOM.
-   *
    * @returns {HTMLElement} Container DOM.
    */
   getDOM() {
@@ -53,7 +52,6 @@ export default class StatusContainer {
 
   /**
    * Set score.
-   *
    * @param {object} params Parameters.
    */
   setStatus(params = {}) {

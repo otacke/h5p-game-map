@@ -7,8 +7,8 @@ export default class Exercise {
 
   /**
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onStateChanged] Callback when state changed.
    * @param {function} [callbacks.onScoreChanged] Callback when score changed.
    * @param {function} [callbacks.onTimerTicked] Callback when timer ticked.
@@ -41,7 +41,6 @@ export default class Exercise {
 
   /**
    * Get DOM with H5P exercise.
-   *
    * @returns {HTMLElement} DOM with H5P exercise.
    */
   getDOM() {
@@ -50,7 +49,6 @@ export default class Exercise {
 
   /**
    * Get state.
-   *
    * @returns {number} State.
    */
   getState() {
@@ -120,7 +118,6 @@ export default class Exercise {
 
   /**
    * Get Id.
-   *
    * @returns {string} Exercise Id.
    */
   getId() {
@@ -129,7 +126,6 @@ export default class Exercise {
 
   /**
    * Get current state.
-   *
    * @returns {object} Current state to be retrieved later.
    */
   getCurrentState() {
@@ -149,7 +145,6 @@ export default class Exercise {
 
   /**
    * Get xAPI data from exercises.
-   *
    * @returns {object[]} XAPI data objects used to build report.
    */
   getXAPIData() {
@@ -170,7 +165,6 @@ export default class Exercise {
 
   /**
    * Determine whether some answer was given.
-   *
    * @returns {boolean} True, if some answer was given.
    */
   getAnswerGiven() {
@@ -179,7 +173,6 @@ export default class Exercise {
 
   /**
    * Get score of instance.
-   *
    * @returns {number} Score of instance or 0.
    */
   getScore() {
@@ -190,7 +183,6 @@ export default class Exercise {
 
   /**
    * Get max score of instance.
-   *
    * @returns {number} Maximum score of instance or 0.
    */
   getMaxScore() {
@@ -201,7 +193,6 @@ export default class Exercise {
 
   /**
    * Get remaining time.
-   *
    * @returns {number} Remaining time in ms.
    */
   getRemainingTime() {
@@ -210,7 +201,6 @@ export default class Exercise {
 
   /**
    * Make it easy to bubble events from child to parent.
-   *
    * @param {object} origin Origin of event.
    * @param {string} eventName Name of event.
    * @param {object} target Target to trigger event on.
@@ -230,7 +220,6 @@ export default class Exercise {
 
   /**
    * Make it easy to bubble events from parent to children.
-   *
    * @param {object} origin Origin of event.
    * @param {string} eventName Name of event.
    * @param {object[]} targets Targets to trigger event on.
@@ -252,7 +241,6 @@ export default class Exercise {
 
   /**
    * Determine whether an H5P instance is a task.
-   *
    * @param {H5P.ContentType} instance Instance.
    * @returns {boolean} True, if instance is a task.
    */
@@ -276,7 +264,6 @@ export default class Exercise {
 
   /**
    * Track scoring of contents.
-   *
    * @param {Event} event Event.
    */
   trackXAPI(event) {
@@ -358,9 +345,8 @@ export default class Exercise {
 
   /**
    * Set exercise state.
-   *
    * @param {number|string} state State constant.
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {
@@ -423,8 +409,7 @@ export default class Exercise {
 
   /**
    * Reset.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {

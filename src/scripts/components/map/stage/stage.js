@@ -9,10 +9,9 @@ import './stage.scss';
 export default class Stage {
   /**
    * Construct a Stage.
-   *
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onClicked] Stage was clicked on.
    * @param {function} [callbacks.onStageChanged] State of stage changed.
    * @param {function} [callbacks.onFocusChanged] State of focus changed.
@@ -100,7 +99,6 @@ export default class Stage {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} DOM.
    */
   getDOM() {
@@ -109,7 +107,6 @@ export default class Stage {
 
   /**
    * Get stage id.
-   *
    * @returns {string} Stage id.
    */
   getId() {
@@ -118,7 +115,6 @@ export default class Stage {
 
   /**
    * Get stage label.
-   *
    * @returns {string} Stage label.
    */
   getLabel() {
@@ -127,7 +123,6 @@ export default class Stage {
 
   /**
    * Get neighbors.
-   *
    * @returns {string[]} Neighbors.
    */
   getNeighbors() {
@@ -136,7 +131,6 @@ export default class Stage {
 
   /**
    * Get visibility state.
-   *
    * @returns {boolean} True, if stage is visible, else false.
    */
   isVisible() {
@@ -145,7 +139,6 @@ export default class Stage {
 
   /**
    * Toggle playfulness.
-   *
    * @param {boolean} [state] If true, be playful, else not.
    */
   togglePlayfulness(state) {
@@ -156,8 +149,7 @@ export default class Stage {
 
   /**
    * Focus.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.skipNextFocusHandler] If true, prevent show label.
    */
   focus(params = {}) {
@@ -167,8 +159,7 @@ export default class Stage {
 
   /**
    * Update ARIA label.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string} [params.customText] Custom aria label text.
    */
   updateAriaLabel(params = {}) {
@@ -202,7 +193,6 @@ export default class Stage {
 
   /**
    * Add event listener.
-   *
    * @param {string} type Event type.
    * @param {function} callback Callback function.
    */
@@ -212,7 +202,6 @@ export default class Stage {
 
   /**
    * Remove event listener.
-   *
    * @param {string} type Event type.
    * @param {function} callback Callback function.
    */
@@ -222,7 +211,6 @@ export default class Stage {
 
   /**
    * Determine whether stage can be start stage.
-   *
    * @returns {boolean} True, if stage can be start stage. Else false.
    */
   canBeStartStage() {
@@ -231,7 +219,6 @@ export default class Stage {
 
   /**
    * Get access restrictions.
-   *
    * @returns {object} Settings for access restrictions.
    */
   getAccessRestrictions() {
@@ -240,8 +227,7 @@ export default class Stage {
 
   /**
    * Show.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    */
   show(params = {}) {
     const makeVisible = () => {
@@ -300,8 +286,7 @@ export default class Stage {
 
   /**
    * Update telemetry.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {number} params.x Start position x in percent.
    * @param {number} params.y Start position y in percent.
    * @param {number} params.width Width in px.
@@ -391,7 +376,6 @@ export default class Stage {
 
   /**
    * Animate
-   *
    * @param {string} animationName Animation name.
    */
   animate(animationName) {
@@ -462,7 +446,6 @@ export default class Stage {
 
   /**
    * Handle mouseover.
-   *
    * @param {Event} event Event that triggered.
    */
   handleMouseOver(event) {
@@ -495,8 +478,7 @@ export default class Stage {
 
   /**
    * Reset.
-   *
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {
@@ -525,7 +507,6 @@ export default class Stage {
 
   /**
    * Get state.
-   *
    * @returns {number} State id.
    */
   getState() {
@@ -534,9 +515,8 @@ export default class Stage {
 
   /**
    * Set exercise state.
-   *
    * @param {number|string} state State constant.
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {
@@ -654,7 +634,6 @@ export default class Stage {
 
   /**
    * Toggle tabbable.
-   *
    * @param {string|number} state Tabindex state.
    * @param {object} params Parameters.
    * @param {boolean} [params.skipActiveDescendant] If false, don't get active.
