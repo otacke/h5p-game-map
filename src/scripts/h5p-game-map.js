@@ -149,6 +149,7 @@ export default class GameMap extends H5P.Question {
     this.dictionary = new Dictionary();
     this.dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
 
+    this.jukebox = new Jukebox();
     this.fillJukebox();
 
     const defaultLanguage = extras?.metadata?.defaultLanguage || 'en';
@@ -172,7 +173,8 @@ export default class GameMap extends H5P.Question {
       this.main = new Main(
         {
           dictionary: this.dictionary,
-          globals: this.globals
+          globals: this.globals,
+          jukebox: this.jukebox
         },
         {
           onProgressChanged: (index) => {
@@ -292,7 +294,7 @@ export default class GameMap extends H5P.Question {
       };
     }
 
-    Jukebox.fill(audios);
+    this.jukebox.fill(audios);
   }
 
   /**

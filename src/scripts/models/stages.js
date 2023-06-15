@@ -75,6 +75,7 @@ export default class Stages {
           id: elementParams.id,
           dictionary: this.params.dictionary,
           globals: this.params.globals,
+          jukebox: this.params.jukebox,
           canBeStartStage: elementParams.canBeStartStage,
           accessRestrictions: elementParams.accessRestrictions,
           contentType: elementParams.contentType,

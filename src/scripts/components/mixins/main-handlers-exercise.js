@@ -1,5 +1,3 @@
-import Jukebox from '@services/jukebox';
-
 /**
  * Mixin containing handlers for exercise.
  */
@@ -33,7 +31,7 @@ export default class MainHandlersExercise {
       this.fullScoreWasAnnounced = true;
 
       this.callbackQueue.add(() => {
-        Jukebox.play('fullScore');
+        this.params.jukebox.play('fullScore');
         this.showFullScoreConfirmation();
       });
     }

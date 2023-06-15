@@ -1,5 +1,3 @@
-import Jukebox from '@services/jukebox';
-
 /**
  * Mixin containing handlers for stage.
  */
@@ -26,18 +24,18 @@ export default class MainHandlersStage {
 
     this.exerciseScreen.setH5PContent(exercise.getDOM());
     this.exerciseScreen.setTitle(stage.getLabel());
-    Jukebox.stopGroup('default');
+    this.params.jukebox.stopGroup('default');
     this.exerciseScreen.show();
     this.toolbar.disable();
     this.exercises.start(id);
 
     if (this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise) {
-      Jukebox.fade(
+      this.params.jukebox.fade(
         'backgroundMusic', { type: 'out', time: this.musicFadeTime }
       );
     }
 
-    Jukebox.play('openExercise');
+    this.params.jukebox.play('openExercise');
 
     if (!this.isShowingSolutions) {
       // Update context for confusion report contract

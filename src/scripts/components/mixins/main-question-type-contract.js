@@ -1,5 +1,3 @@
-import Jukebox from '@services/jukebox';
-
 /**
  * Mixin containing methods for H5P Question Type contract.
  */
@@ -65,7 +63,7 @@ export default class MainQuestionTypeContract {
       this.stages.updateState(previousState.id, previousState.state);
     });
 
-    Jukebox.stopAll();
+    this.params.jukebox.stopAll();
     this.show();
 
     this.exercises.showSolutions();

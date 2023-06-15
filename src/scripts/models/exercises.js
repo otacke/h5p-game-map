@@ -30,7 +30,8 @@ export default class Exercises {
     this.params.elements.forEach((element) => {
       this.exercises[element.id] = new Exercise(
         { ...element,
-          globals: this.params.globals
+          globals: this.params.globals,
+          jukebox: this.params.jukebox
         },
         {
           onStateChanged: (state) => {

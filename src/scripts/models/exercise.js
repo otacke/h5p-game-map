@@ -1,4 +1,3 @@
-import Jukebox from '@services/jukebox';
 import Timer from '@services/timer';
 import Util from '@services/util';
 
@@ -286,8 +285,8 @@ export default class Exercise {
 
     if (this.score < this.instance.getMaxScore()) {
       this.setState(this.params.globals.get('states')['completed']);
-      Jukebox.stopGroup('default');
-      Jukebox.play('checkExerciseNotFullScore');
+      this.params.jukebox.stopGroup('default');
+      this.params.jukebox.play('checkExerciseNotFullScore');
 
       if (isCompletedEnough) {
         this.stop();
@@ -296,8 +295,8 @@ export default class Exercise {
     }
     else {
       this.setState(this.params.globals.get('states')['cleared']);
-      Jukebox.stopGroup('default');
-      Jukebox.play('checkExerciseFullScore');
+      this.params.jukebox.stopGroup('default');
+      this.params.jukebox.play('checkExerciseFullScore');
 
       this.stop();
       this.isCompleted = true;

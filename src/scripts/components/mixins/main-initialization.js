@@ -1,4 +1,3 @@
-import Jukebox from '@services/jukebox';
 import Paths from '@models/paths';
 import Stages from '@models/stages';
 import StartScreen from '@components/media-screen/start-screen';
@@ -85,7 +84,7 @@ export default class MainInitialization {
         onButtonClicked: () => {
           this.show({ focusButton: true, readOpened: true });
 
-          if (!Jukebox.isPlaying('backgroundMusic')) {
+          if (!this.params.jukebox.isPlaying('backgroundMusic')) {
             this.tryStartBackgroundMusic();
           }
         },
@@ -154,7 +153,7 @@ export default class MainInitialization {
     // Set up toolbar's buttons
     const toolbarButtons = [];
 
-    if (Jukebox.getAudioIds().length) {
+    if (this.params.jukebox.getAudioIds().length) {
       toolbarButtons.push({
         id: 'audio',
         type: 'toggle',
@@ -220,6 +219,7 @@ export default class MainInitialization {
       {
         dictionary: this.params.dictionary,
         globals: this.params.globals,
+        jukebox: this.params.jukebox,
         elements: globalParams.gamemapSteps.gamemap.elements,
         visuals: globalParams.visual.stages
       },
@@ -281,6 +281,7 @@ export default class MainInitialization {
     this.exercises = new Exercises(
       {
         globals: this.params.globals,
+        jukebox: this.params.jukebox,
         elements: globalParams.gamemapSteps.gamemap.elements
       },
       {
@@ -336,13 +337,13 @@ export default class MainInitialization {
   startVisibilityObserver() {
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
-        this.unmuteWhenVisible = !Jukebox.isMuted('backgroundMusic');
-        Jukebox.muteAll();
+        this.unmuteWhenVisible = !this.params.jukebox.isMuted('backgroundMusic');
+        this.params.jukebox.muteAll();
       }
       else {
         if (this.unmuteWhenVisible === true) {
-          Jukebox.unmuteAll();
-          Jukebox.play('backgroundMusic');
+          this.params.jukebox.unmuteAll();
+          this.params.jukebox.play('backgroundMusic');
         }
       }
     });
@@ -354,7 +355,7 @@ export default class MainInitialization {
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {
-    Jukebox.muteAll();
+    this.params.jukebox.muteAll();
     this.stageAttentionSeekerTimeout = null;
 
     const globalParams = this.params.globals.get('params');
@@ -446,8 +447,8 @@ export default class MainInitialization {
     this.isAudioOn = this.isAudioOn ?? false;
 
     if (this.isAudioOn) {
-      Jukebox.unmuteAll();
-      Jukebox.play('backgroundMusic');
+      this.params.jukebox.unmuteAll();
+      this.params.jukebox.play('backgroundMusic');
     }
   }
 }

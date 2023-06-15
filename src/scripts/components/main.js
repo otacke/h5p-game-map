@@ -1,5 +1,4 @@
 import CallbackQueue from '@services/callback-queue';
-import Jukebox from '@services/jukebox';
 import Util from '@services/util';
 import MainInitialization from './mixins/main-initialization';
 import MainHandlersStage from './mixins/main-handlers-stage';
@@ -221,7 +220,7 @@ export default class Main {
     }
 
     this.livesLeft--;
-    Jukebox.play('lostLife');
+    this.params.jukebox.play('lostLife');
 
     this.toolbar.setStatusContainerStatus('lives', { value: this.livesLeft });
 
@@ -285,7 +284,7 @@ export default class Main {
       this.endScreen.setIntroduction(html);
 
       if (!this.isShowingSolutions) {
-        Jukebox.play('endscreenSuccess');
+        this.params.jukebox.play('endscreenSuccess');
       }
     }
     else {
@@ -298,7 +297,7 @@ export default class Main {
 
       this.endScreen.setIntroduction(html);
       if (!this.isShowingSolutions) {
-        Jukebox.play('endscreenNoSuccess');
+        this.params.jukebox.play('endscreenNoSuccess');
       }
     }
 
@@ -337,7 +336,7 @@ export default class Main {
     this.isAudioOn = (typeof state === 'boolean') ? state : !this.isAudioOn;
 
     if (!this.isAudioOn) {
-      Jukebox.muteAll();
+      this.params.jukebox.muteAll();
     }
     else {
       this.tryStartBackgroundMusic();
@@ -349,14 +348,14 @@ export default class Main {
    * @returns {boolean} True, id audio could be started.
    */
   async tryStartBackgroundMusic() {
-    if (Jukebox.audioContext.state === 'suspended') {
-      await Jukebox.audioContext.resume();
-      Jukebox.unmuteAll();
-      return Jukebox.play('backgroundMusic');
+    if (this.params.jukebox.audioContext.state === 'suspended') {
+      await this.params.jukebox.audioContext.resume();
+      this.params.jukebox.unmuteAll();
+      return this.params.jukebox.play('backgroundMusic');
     }
     else {
-      Jukebox.unmuteAll();
-      return Jukebox.play('backgroundMusic');
+      this.params.jukebox.unmuteAll();
+      return this.params.jukebox.play('backgroundMusic');
     }
   }
 
@@ -364,7 +363,7 @@ export default class Main {
    * Handle autoplay of audio.
    */
   async handleAutoplay() {
-    if (!Jukebox.getAudioIds().includes('backgroundMusic')) {
+    if (!this.params.jukebox.getAudioIds().includes('backgroundMusic')) {
       this.toolbar.forceButton('audio', true);
     }
 
@@ -400,7 +399,7 @@ export default class Main {
       return;
     }
 
-    Jukebox.play('timeoutWarning');
+    this.params.jukebox.play('timeoutWarning');
   }
 
   /**
@@ -456,14 +455,14 @@ export default class Main {
           this.handleConfirmedFinish();
         },
         onCanceled: () => {
-          Jukebox.stopGroup('default');
+          this.params.jukebox.stopGroup('default');
         }
       }
     );
 
-    Jukebox.stopGroup('default');
+    this.params.jukebox.stopGroup('default');
     this.confirmationDialog.show();
-    Jukebox.play('showDialog');
+    this.params.jukebox.play('showDialog');
   }
 
   /**
@@ -473,7 +472,7 @@ export default class Main {
     this.gameDone = true;
     this.queueAnimation = [];
     this.stages.togglePlayfulness(false);
-    Jukebox.stopAll();
+    this.params.jukebox.stopAll();
 
     this.callbacks.onFinished();
     this.showEndscreen({ focusButton: true });
@@ -496,7 +495,7 @@ export default class Main {
         hideCancel: true
       }, {
         onConfirmed: () => {
-          Jukebox.stopAll();
+          this.params.jukebox.stopAll();
           this.callbacks.onFinished();
           this.showEndscreen({ focusButton: true });
         },
@@ -506,8 +505,8 @@ export default class Main {
       }
     );
 
-    Jukebox.stopAll();
-    Jukebox.play('gameOver');
+    this.params.jukebox.stopAll();
+    this.params.jukebox.play('gameOver');
 
     this.confirmationDialog.show();
     this.toolbar.enableButton('finish');
@@ -531,11 +530,11 @@ export default class Main {
         hideCancel: true
       }, {
         onConfirmed: () => {
-          Jukebox.stopGroup('default');
+          this.params.jukebox.stopGroup('default');
           this.toolbar.enableButton('finish');
         },
         onCanceled: () => {
-          Jukebox.stopGroup('default');
+          this.params.jukebox.stopGroup('default');
           this.toolbar.enableButton('finish');
         }
       }
@@ -558,11 +557,11 @@ export default class Main {
         hideCancel: true
       }, {
         onConfirmed: () => {
-          Jukebox.stopGroup('default');
+          this.params.jukebox.stopGroup('default');
           this.toolbar.enableButton('finish');
         },
         onCanceled: () => {
-          Jukebox.stopGroup('default');
+          this.params.jukebox.stopGroup('default');
           this.toolbar.enableButton('finish');
         }
       }

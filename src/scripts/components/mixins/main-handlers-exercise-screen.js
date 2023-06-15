@@ -1,5 +1,3 @@
-import Jukebox from '@services/jukebox';
-
 /**
  * Mixin containing handlers for exercise screen.
  */
@@ -32,11 +30,11 @@ export default class MainHandlersExerciseScreen {
       this.params.globals.get('resize')();
     });
     this.toolbar.enable();
-    Jukebox.stopGroup('default');
-    Jukebox.play('closeExercise');
+    this.params.jukebox.stopGroup('default');
+    this.params.jukebox.play('closeExercise');
 
     if (this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise) {
-      Jukebox.fade(
+      this.params.jukebox.fade(
         'backgroundMusic', { type: 'in', time: this.musicFadeTime }
       );
     }

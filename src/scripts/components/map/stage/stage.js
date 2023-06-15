@@ -1,5 +1,4 @@
 import Color from 'color';
-import Jukebox from '@services/jukebox';
 import Util from '@services/util';
 import Label from './label';
 import './stage.scss';
@@ -423,7 +422,7 @@ export default class Stage {
       this.state === this.params.globals.get('states')['sealed']
     ) {
       this.animate('shake');
-      Jukebox.play('clickStageLocked');
+      this.params.jukebox.play('clickStageLocked');
 
       if (
         (typeof this.params.accessRestrictions?.minScore === 'number') &&
@@ -601,11 +600,11 @@ export default class Stage {
         if (this.shouldBePlayful) {
           if (newState === states['open'] || newState === states['opened']) {
             this.animate('bounce');
-            Jukebox.play('unlockStage');
+            this.params.jukebox.play('unlockStage');
           }
           else if (newState === states['cleared']) {
             this.animate('bounce');
-            Jukebox.play('clearStage');
+            this.params.jukebox.play('clearStage');
           }
         }
       };
