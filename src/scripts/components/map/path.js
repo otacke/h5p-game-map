@@ -1,4 +1,3 @@
-import Globals from '@services/globals';
 import Util from '@services/util';
 import './path.scss';
 
@@ -13,8 +12,10 @@ export default class Path {
       visuals: {
         pathWidth: '0.2'
       },
-      state: Globals.get('states')['open']
     }, params);
+
+    this.params.state = this.params.state ??
+      this.params.globals.get('states')['open'];
 
     this.params.visuals.pathWidth = parseFloat(this.params.visuals.pathWidth);
 
@@ -65,7 +66,7 @@ export default class Path {
    * Show.
    */
   show() {
-    if (!Globals.get('params').visual.paths.displayPaths) {
+    if (!this.params.globals.get('params').visual.paths.displayPaths) {
       return;
     }
 
@@ -209,7 +210,7 @@ export default class Path {
   reset(params = {}) {
     const state = params.isInitial ?
       this.params.state :
-      Globals.get('states')['open'];
+      this.params.globals.get('states')['open'];
 
     this.setState(state);
 
@@ -228,7 +229,7 @@ export default class Path {
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {
-    const states = Globals.get('states');
+    const states = this.params.globals.get('states');
 
     if (typeof state === 'string') {
       state = Object.entries(states)

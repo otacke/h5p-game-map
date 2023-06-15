@@ -131,16 +131,17 @@ export default class GameMap extends H5P.Question {
     const fullScreenSupported = this.isRoot() && H5P.fullscreenSupported;
 
     // Set globals
-    Globals.set('mainInstance', this);
-    Globals.set('contentId', this.contentId);
-    Globals.set('params', this.params);
-    Globals.set('extras', this.extras);
-    Globals.set('states', GameMap.STATES);
-    Globals.set('isFullscreenSupported', fullScreenSupported);
-    Globals.set('resize', () => {
+    this.globals = new Globals();
+    this.globals.set('mainInstance', this);
+    this.globals.set('contentId', this.contentId);
+    this.globals.set('params', this.params);
+    this.globals.set('extras', this.extras);
+    this.globals.set('states', GameMap.STATES);
+    this.globals.set('isFullscreenSupported', fullScreenSupported);
+    this.globals.set('resize', () => {
       this.trigger('resize');
     });
-    Globals.set('read', (text) => {
+    this.globals.set('read', (text) => {
       this.read(text);
     });
 
@@ -170,7 +171,8 @@ export default class GameMap extends H5P.Question {
     else {
       this.main = new Main(
         {
-          dictionary: this.dictionary
+          dictionary: this.dictionary,
+          globals: this.globals
         },
         {
           onProgressChanged: (index) => {

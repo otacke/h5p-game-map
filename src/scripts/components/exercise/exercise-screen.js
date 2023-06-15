@@ -1,4 +1,3 @@
-import Globals from '@services/globals';
 import Util from '@services/util';
 import FocusTrap from '@services/focus-trap';
 import './exercise-screen.scss';
@@ -101,7 +100,7 @@ export default class ExerciseScreen {
     window.requestAnimationFrame(() => {
       this.dom.classList.remove('transparent');
 
-      if (!Globals.get('params').visual.misc.useAnimation) {
+      if (!this.params.globals.get('params').visual.misc.useAnimation) {
         this.handleOpenAnimationEnded();
       }
       else {
@@ -138,7 +137,7 @@ export default class ExerciseScreen {
     if (params.animate) {
       this.dom.classList.add('transparent');
 
-      if (Globals.get('params').visual.misc.useAnimation) {
+      if (this.params.globals.get('params').visual.misc.useAnimation) {
         this.animate('bounce-out', () => {
           this.handleCloseAnimationEnded();
           if (typeof callback === 'function') {
@@ -257,7 +256,7 @@ export default class ExerciseScreen {
       return;
     }
 
-    if (!Globals.get('params').visual.misc.useAnimation) {
+    if (!this.params.globals.get('params').visual.misc.useAnimation) {
       return; // Animation deactivated by author or user preference
     }
 

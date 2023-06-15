@@ -1,4 +1,3 @@
-import Globals from '@services/globals';
 import Jukebox from '@services/jukebox';
 
 /**
@@ -38,7 +37,7 @@ export default class MainQuestionTypeContract {
    */
   getMaxScore() {
     const maxScore = this.exercises.getMaxScore();
-    const finishScore = Globals.get('params').behaviour.finishScore;
+    const finishScore = this.params.globals.get('params').behaviour.finishScore;
 
     return Math.min(finishScore, maxScore);
   }

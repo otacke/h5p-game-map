@@ -1,7 +1,6 @@
 import CallbackQueue from '@services/callback-queue';
 import Jukebox from '@services/jukebox';
 import Util from '@services/util';
-import Globals from '@services/globals';
 import MainInitialization from './mixins/main-initialization';
 import MainHandlersStage from './mixins/main-handlers-stage';
 import MainHandlersExercise from './mixins/main-handlers-exercise';
@@ -29,7 +28,7 @@ export default class Main {
 
     // Without animations requested, schedule whole queue for same time
     this.callbackQueue.setRespectsDelay(
-      Globals.get('params').visual.misc.useAnimation
+      this.params.globals.get('params').visual.misc.useAnimation
     );
 
     Util.addMixins(
@@ -49,7 +48,7 @@ export default class Main {
       onFullscreenClicked: () => {}
     }, callbacks);
 
-    Globals.set('getScore', () => {
+    this.params.globals.set('getScore', () => {
       return this.getScore();
     });
 
@@ -59,7 +58,7 @@ export default class Main {
     this.startVisibilityObserver();
     this.reset({ isInitial: true });
 
-    if (typeof Globals.get('params').behaviour.lives === 'number') {
+    if (typeof this.params.globals.get('params').behaviour.lives === 'number') {
       this.toolbar.showStatusContainer('lives');
     }
 
@@ -102,7 +101,7 @@ export default class Main {
     this.contentDOM.classList.remove('display-none');
 
     if (params.readOpened) {
-      Globals.get('read')(this.params.dictionary.get('a11y.mapWasOpened'));
+      this.params.globals.get('read')(this.params.dictionary.get('a11y.mapWasOpened'));
     }
 
     window.setTimeout(() => {
@@ -117,10 +116,10 @@ export default class Main {
 
     // Initially, two resizes are required
     window.requestAnimationFrame(() => {
-      Globals.get('resize')();
+      this.params.globals.get('resize')();
 
       window.requestAnimationFrame(() => {
-        Globals.get('resize')();
+        this.params.globals.get('resize')();
       });
     });
   }
@@ -141,7 +140,7 @@ export default class Main {
   start(params = {}) {
     this.endScreen.hide();
 
-    const hasTitleScreen = Globals.get('params').showTitleScreen;
+    const hasTitleScreen = this.params.globals.get('params').showTitleScreen;
 
     if (hasTitleScreen) {
       this.hide();
@@ -159,7 +158,7 @@ export default class Main {
       this.show();
     }
 
-    Globals.get('resize')();
+    this.params.globals.get('resize')();
   }
 
   /**
@@ -208,7 +207,7 @@ export default class Main {
     ) {
       clearTimeout(this.exersizeScreenResizeTimeout);
       this.exersizeScreenResizeTimeout = setTimeout(() => {
-        Globals.get('resize')();
+        this.params.globals.get('resize')();
       }, 0);
     }
   }
@@ -251,7 +250,7 @@ export default class Main {
    * @param {boolean} [params.readOpened] If true, announce screen was opened.
    */
   showEndscreen(params = {}) {
-    const endscreenParams = Globals.get('params').endScreen;
+    const endscreenParams = this.params.globals.get('params').endScreen;
 
     // Prepare end screen
     const score = this.getScore();
@@ -266,7 +265,7 @@ export default class Main {
       .replace('@score', ':num')
       .replace('@total', ':total');
 
-    Globals.get('mainInstance').setFeedback(
+    this.params.globals.get('mainInstance').setFeedback(
       textScore,
       score,
       maxScore,
@@ -435,7 +434,7 @@ export default class Main {
       return;
     }
 
-    const extras = Globals.get('extras');
+    const extras = this.params.globals.get('extras');
     extras.isScoringEnabled = true;
     const isScoringEnabled = extras.standalone &&
       (extras.isScoringEnabled || extras.isReportingEnabled);

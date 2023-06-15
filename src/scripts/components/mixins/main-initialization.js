@@ -1,4 +1,3 @@
-import Globals from '@services/globals';
 import Jukebox from '@services/jukebox';
 import Paths from '@models/paths';
 import Stages from '@models/stages';
@@ -35,7 +34,7 @@ export default class MainInitialization {
       return null;
     }
 
-    const main = Globals.get('mainInstance');
+    const main = this.params.globals.get('mainInstance');
     main.setFeedback('', 0, params.maxScore);
 
     const feedbackWrapper = document.createElement('div');
@@ -67,13 +66,13 @@ export default class MainInitialization {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-container');
 
-    const globalParams = Globals.get('params');
+    const globalParams = this.params.globals.get('params');
 
     // Title screen if set
     if (globalParams.showTitleScreen) {
       this.startScreen = new StartScreen({
         id: 'start',
-        contentId: Globals.get('contentId'),
+        contentId: this.params.globals.get('contentId'),
         introduction: globalParams.titleScreen.titleScreenIntroduction,
         medium: globalParams.titleScreen.titleScreenMedium,
         buttons: [
@@ -91,7 +90,7 @@ export default class MainInitialization {
           }
         },
         read: (text) => {
-          Globals.get('read')(text);
+          this.params.globals.get('read')(text);
         }
       });
       this.startScreen.hide();
@@ -113,7 +112,7 @@ export default class MainInitialization {
     // End screen
     this.endScreen = new EndScreen({
       id: 'end',
-      contentId: Globals.get('contentId'),
+      contentId: this.params.globals.get('contentId'),
       buttons: endscreenButtons,
       a11y: {
         screenOpened: this.params.dictionary.get('a11y.endScreenWasOpened')
@@ -127,14 +126,14 @@ export default class MainInitialization {
         else if (id === 'show-solutions') {
           this.showSolutions();
 
-          Globals.get('read')(this.params.dictionary.get('a11y.mapSolutionsWasOpened'));
+          this.params.globals.get('read')(this.params.dictionary.get('a11y.mapSolutionsWasOpened'));
           window.setTimeout(() => {
             this.toolbar.focus();
           }, 100);
         }
       },
       read: (text) => {
-        Globals.get('read')(text);
+        this.params.globals.get('read')(text);
       }
     });
     this.endScreen.hide();
@@ -180,7 +179,7 @@ export default class MainInitialization {
       }
     });
 
-    if (Globals.get('isFullscreenSupported')) {
+    if (this.params.globals.get('isFullscreenSupported')) {
       toolbarButtons.push({
         id: 'fullscreen',
         type: 'pulse',
@@ -213,13 +212,14 @@ export default class MainInitialization {
     const backgroundImage = H5P.getPath(
       globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundImage
         ?.path ?? '',
-      Globals.get('contentId')
+      this.params.globals.get('contentId')
     );
 
     // Stages
     this.stages = new Stages(
       {
         dictionary: this.params.dictionary,
+        globals: this.params.globals,
         elements: globalParams.gamemapSteps.gamemap.elements,
         visuals: globalParams.visual.stages
       },
@@ -248,6 +248,7 @@ export default class MainInitialization {
     // Paths
     this.paths = new Paths(
       {
+        globals: this.params.globals,
         elements: globalParams.gamemapSteps.gamemap.elements,
         visuals: globalParams.visual.paths.style
       }
@@ -257,6 +258,7 @@ export default class MainInitialization {
     this.map = new Map(
       {
         dictionary: this.params.dictionary,
+        globals: this.params.globals,
         backgroundImage: backgroundImage,
         paths: this.paths,
         stages: this.stages
@@ -264,11 +266,11 @@ export default class MainInitialization {
       {
         onImageLoaded: () => {
           // Resize when image is loaded
-          Globals.get('resize')();
+          this.params.globals.get('resize')();
 
           // Resize when image resize is done
           window.requestAnimationFrame(() => {
-            Globals.get('resize')();
+            this.params.globals.get('resize')();
           });
         }
       }
@@ -278,6 +280,7 @@ export default class MainInitialization {
     // Exercise
     this.exercises = new Exercises(
       {
+        globals: this.params.globals,
         elements: globalParams.gamemapSteps.gamemap.elements
       },
       {
@@ -301,7 +304,8 @@ export default class MainInitialization {
 
     this.exerciseScreen = new ExerciseScreen(
       {
-        dictionary: this.params.dictionary
+        dictionary: this.params.dictionary,
+        globals: this.params.globals
       },
       {
         onClosed: () => {
@@ -320,7 +324,9 @@ export default class MainInitialization {
     this.map.getDOM().append(this.exerciseScreen.getDOM());
 
     // Confirmation Dialog
-    this.confirmationDialog = new ConfirmationDialog();
+    this.confirmationDialog = new ConfirmationDialog({
+      globals: this.params.globals
+    });
     document.body.append(this.confirmationDialog.getDOM());
   }
 
@@ -351,8 +357,8 @@ export default class MainInitialization {
     Jukebox.muteAll();
     this.stageAttentionSeekerTimeout = null;
 
-    const globalParams = Globals.get('params');
-    const previousState = Globals.get('extras')?.previousState?.content ?? {};
+    const globalParams = this.params.globals.get('params');
+    const previousState = this.params.globals.get('extras')?.previousState?.content ?? {};
 
     if (params.isInitial && typeof previousState.livesLeft === 'number') {
       this.livesLeft = previousState.livesLeft;
@@ -413,8 +419,8 @@ export default class MainInitialization {
     // Initialize stage counter
     const filters = {
       state: [
-        Globals.get('states')['completed'],
-        Globals.get('states')['cleared']
+        this.params.globals.get('states')['completed'],
+        this.params.globals.get('states')['cleared']
       ]
     };
 

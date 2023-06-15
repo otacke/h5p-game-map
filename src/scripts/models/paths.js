@@ -1,4 +1,3 @@
-import Globals from '@services/globals';
 import Util from '@services/util';
 import Path from '@components/map/path';
 
@@ -30,7 +29,7 @@ export default class Paths {
     }
 
     // Get previous instance state
-    const pathsState = Globals.get('extras').previousState?.content?.
+    const pathsState = this.params.globals.get('extras').previousState?.content?.
       paths ?? [];
 
     const pathsCreated = [];
@@ -49,6 +48,7 @@ export default class Paths {
             });
 
           paths.push(new Path({
+            globals: this.params.globals,
             fromId: elements[index].id,
             toId: elements[neighbor].id,
             telemetryFrom: elements[index].telemetry,
@@ -97,7 +97,7 @@ export default class Paths {
    * @param {number} state If of state that was changed to.
    */
   updateState(id, state) {
-    const globalParams = Globals.get('params');
+    const globalParams = this.params.globals.get('params');
 
     if (globalParams.behaviour.map.roaming === 'free') {
       return;
@@ -109,7 +109,7 @@ export default class Paths {
     });
 
     if (
-      state === Globals.get('states')['open'] &&
+      state === this.params.globals.get('states')['open'] &&
       globalParams.visual.paths.displayPaths &&
       globalParams.behaviour.map.fog !== '0'
     ) {
@@ -118,7 +118,7 @@ export default class Paths {
       });
     }
 
-    if (state === Globals.get('states')['cleared']) {
+    if (state === this.params.globals.get('states')['cleared']) {
       affectedPaths.forEach((path) => {
         path.setState('cleared');
         path.show();

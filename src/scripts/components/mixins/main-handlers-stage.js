@@ -1,4 +1,3 @@
-import Globals from '@services/globals';
 import Jukebox from '@services/jukebox';
 
 /**
@@ -32,7 +31,7 @@ export default class MainHandlersStage {
     this.toolbar.disable();
     this.exercises.start(id);
 
-    if (Globals.get('params').audio.backgroundMusic.muteDuringExercise) {
+    if (this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise) {
       Jukebox.fade(
         'backgroundMusic', { type: 'out', time: this.musicFadeTime }
       );
@@ -42,14 +41,14 @@ export default class MainHandlersStage {
 
     if (!this.isShowingSolutions) {
       // Update context for confusion report contract
-      const stageIndex = Globals.get('params').gamemapSteps.gamemap.elements
+      const stageIndex = this.params.globals.get('params').gamemapSteps.gamemap.elements
         .findIndex((element) => element.id === id);
       this.currentStageIndex = stageIndex + 1;
       this.callbacks.onProgressChanged(this.currentStageIndex);
     }
 
     window.requestAnimationFrame(() => {
-      Globals.get('resize')();
+      this.params.globals.get('resize')();
     });
   }
 
@@ -75,8 +74,8 @@ export default class MainHandlersStage {
       // Set filters for completed/cleared stages
       const filters = {
         state: [
-          Globals.get('states')['completed'],
-          Globals.get('states')['cleared']
+          this.params.globals.get('states')['completed'],
+          this.params.globals.get('states')['cleared']
         ]
       };
 
@@ -92,7 +91,7 @@ export default class MainHandlersStage {
    */
   handleStageFocused() {
     window.setTimeout(() => {
-      Globals.get('read')(this.params.dictionary.get('a11y.applicationInstructions'));
+      this.params.globals.get('read')(this.params.dictionary.get('a11y.applicationInstructions'));
     }, 250); // Make sure everything else is read already
   }
 

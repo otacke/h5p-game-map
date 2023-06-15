@@ -1,4 +1,3 @@
-import Globals from '@services/globals';
 import Jukebox from '@services/jukebox';
 import Timer from '@services/timer';
 import Util from '@services/util';
@@ -17,9 +16,11 @@ export default class Exercise {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      state: Globals.get('states')['unstarted'],
       animDuration: 0
     }, params);
+
+    this.params.state = this.params.state ??
+      this.params.globals.get('states')['unstarted'];
 
     this.callbacks = Util.extend({
       onStateChanged: () => {},
@@ -29,7 +30,7 @@ export default class Exercise {
       onTimeout: () => {}
     }, callbacks);
 
-    this.setState(Globals.get('states')['unstarted']);
+    this.setState(this.params.globals.get('states')['unstarted']);
 
     this.instance;
 
@@ -82,7 +83,7 @@ export default class Exercise {
     }
 
     // Get previous instance state
-    const exercisesState = Globals.get('extras').previousState?.content?.
+    const exercisesState = this.params.globals.get('extras').previousState?.content?.
       exercises ?? [];
 
     this.previousState = exercisesState
@@ -92,7 +93,7 @@ export default class Exercise {
     if (!this.instance) {
       this.instance = H5P.newRunnable(
         this.params.contentType,
-        Globals.get('contentId'),
+        this.params.globals.get('contentId'),
         undefined,
         true,
         { previousState: this.previousState?.instanceState }
@@ -104,10 +105,10 @@ export default class Exercise {
     }
 
     // Resize parent when children resize
-    this.bubbleUp(this.instance, 'resize', Globals.get('mainInstance'));
+    this.bubbleUp(this.instance, 'resize', this.params.globals.get('mainInstance'));
 
     // Resize children to fit inside parent
-    this.bubbleDown(Globals.get('mainInstance'), 'resize', [this.instance]);
+    this.bubbleDown(this.params.globals.get('mainInstance'), 'resize', [this.instance]);
 
     if (this.isInstanceTask(this.instance)) {
       this.instance.on('xAPI', (event) => {
@@ -279,12 +280,12 @@ export default class Exercise {
     }
 
     const isCompletedEnough =
-      Globals.get('params').behaviour.map.roaming !== 'success';
+      this.params.globals.get('params').behaviour.map.roaming !== 'success';
 
     this.score = event.getScore();
 
     if (this.score < this.instance.getMaxScore()) {
-      this.setState(Globals.get('states')['completed']);
+      this.setState(this.params.globals.get('states')['completed']);
       Jukebox.stopGroup('default');
       Jukebox.play('checkExerciseNotFullScore');
 
@@ -294,7 +295,7 @@ export default class Exercise {
       }
     }
     else {
-      this.setState(Globals.get('states')['cleared']);
+      this.setState(this.params.globals.get('states')['cleared']);
       Jukebox.stopGroup('default');
       Jukebox.play('checkExerciseFullScore');
 
@@ -339,7 +340,7 @@ export default class Exercise {
     this.timer?.start(remainingTime);
 
     window.requestAnimationFrame(() => {
-      Globals.get('resize')();
+      this.params.globals.get('resize')();
     });
   }
 
@@ -350,7 +351,7 @@ export default class Exercise {
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {
-    const states = Globals.get('states');
+    const states = this.params.globals.get('states');
 
     if (typeof state === 'string') {
       state = Object.entries(states)
@@ -431,7 +432,7 @@ export default class Exercise {
     else {
       timeLimit = (this.params.time?.timeLimit ?? -1) * 1000;
       this.isCompleted = false;
-      state = Globals.get('states')['unstarted'];
+      state = this.params.globals.get('states')['unstarted'];
     }
 
     if (timeLimit > -1) {

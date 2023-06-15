@@ -28,23 +28,28 @@ export default class Exercises {
     this.exercises = {};
 
     this.params.elements.forEach((element) => {
-      this.exercises[element.id] = new Exercise(element, {
-        onStateChanged: (state) => {
-          this.callbacks.onStateChanged(element.id, state);
+      this.exercises[element.id] = new Exercise(
+        { ...element,
+          globals: this.params.globals
         },
-        onScoreChanged: (scoreParams) => {
-          this.callbacks.onScoreChanged(element.id, scoreParams);
-        },
-        onTimerTicked: (remainingTime) => {
-          this.callbacks.onTimerTicked(element.id, remainingTime);
-        },
-        onTimeoutWarning: () => {
-          this.callbacks.onTimeoutWarning(element.id);
-        },
-        onTimeout: () => {
-          this.callbacks.onTimeout(element.id);
+        {
+          onStateChanged: (state) => {
+            this.callbacks.onStateChanged(element.id, state);
+          },
+          onScoreChanged: (scoreParams) => {
+            this.callbacks.onScoreChanged(element.id, scoreParams);
+          },
+          onTimerTicked: (remainingTime) => {
+            this.callbacks.onTimerTicked(element.id, remainingTime);
+          },
+          onTimeoutWarning: () => {
+            this.callbacks.onTimeoutWarning(element.id);
+          },
+          onTimeout: () => {
+            this.callbacks.onTimeout(element.id);
+          }
         }
-      });
+      );
     });
   }
 

@@ -1,5 +1,4 @@
 import Util from '@services/util';
-import Globals from '@services/globals';
 import './confirmation-dialog.scss';
 
 export default class ConfirmationDialog {
@@ -8,12 +7,14 @@ export default class ConfirmationDialog {
    * General purpose confirmation dialog.
    * Currently wrapping H5P.ConfirmationDialog. May be replaced later on.
    * @class
-   * @param {object} [params] Parameters, same as H5P.ConfirmationDialog.
+   * @param {object} [params] Parameters, same as H5P.ConfirmationDialog+extras.
    * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onConfirmed] Called when user confirms.
    * @param {function} [callbacks.onCanceled] Called when user cancels.
    */
   constructor(params = {}, callbacks = {}) {
+    this.params = Util.extend({}, params);
+
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-confirmation-dialog');
 
@@ -41,9 +42,9 @@ export default class ConfirmationDialog {
    * @param {function} [callbacks.onCanceled] Called when user cancels.
    */
   update(params = {}, callbacks = {}) {
-    params = Util.extend({
-      instance: Globals.get('mainInstance'),
-    }, params);
+    params = Util.extend({}, params);
+
+    params.instance = params.instance ?? this.params.globals.get('mainInstance');
 
     callbacks = Util.extend({
       onConfirmed: () => {},

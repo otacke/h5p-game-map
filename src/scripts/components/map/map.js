@@ -1,4 +1,3 @@
-import Globals from '@services/globals';
 import Util from '@services/util';
 import Path from './path';
 import './map.scss';
@@ -24,7 +23,7 @@ export default class Map {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-map');
 
-    const globalParams = Globals.get('params');
+    const globalParams = this.params.globals.get('params');
 
     const stageWidthPercentage = globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.width;
     const stageHeightPercentage = globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.height;
@@ -231,13 +230,13 @@ export default class Map {
         this.stageWrapper.style.width = `${sizes.map.width}px`;
 
         window.requestAnimationFrame(() => {
-          Globals.get('resize')();
+          this.params.globals.get('resize')();
         });
       });
     }
 
     window.requestAnimationFrame(() => {
-      Globals.get('resize')();
+      this.params.globals.get('resize')();
     });
   }
 

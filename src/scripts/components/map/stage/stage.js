@@ -1,5 +1,4 @@
 import Color from 'color';
-import Globals from '@services/globals';
 import Jukebox from '@services/jukebox';
 import Util from '@services/util';
 import Label from './label';
@@ -18,11 +17,13 @@ export default class Stage {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      state: Globals.get('states')['locked'],
       accessRestrictions: {
         openOnScoreSufficient: false
       }
     }, params);
+
+    this.params.state = this.params.state ??
+      this.params.globals.get('states')['locked'];
 
     this.callbacks = Util.extend({
       onClicked: () => {},
@@ -49,7 +50,7 @@ export default class Stage {
       this.callbacks.onFocused(this.params.id);
     });
 
-    if (Globals.get('params').behaviour.map.showLabels) {
+    if (this.params.globals.get('params').behaviour.map.showLabels) {
       this.dom.addEventListener('mouseenter', (event) => {
         this.handleMouseOver(event);
       });
@@ -168,14 +169,14 @@ export default class Stage {
 
     let stateLabel;
     if (
-      this.state === Globals.get('states')['locked'] ||
-      this.state === Globals.get('states')['unlocking']
+      this.state === this.params.globals.get('states')['locked'] ||
+      this.state === this.params.globals.get('states')['unlocking']
     ) {
       stateLabel = this.params.dictionary.get('a11y.locked');
     }
     else if (
-      this.state === Globals.get('states')['completed'] ||
-      this.state === Globals.get('states')['cleared']
+      this.state === this.params.globals.get('states')['completed'] ||
+      this.state === this.params.globals.get('states')['cleared']
     ) {
       stateLabel = this.params.dictionary.get('a11y.cleared');
     }
@@ -262,19 +263,19 @@ export default class Stage {
    */
   unlock() {
     if (
-      this.state === Globals.get('states')['locked'] ||
-      this.state === Globals.get('states')['unlocking']
+      this.state === this.params.globals.get('states')['locked'] ||
+      this.state === this.params.globals.get('states')['unlocking']
     ) {
       // Do not unlock if there's a restriction that is not yet met
       if (
         typeof (this.params?.accessRestrictions?.minScore) === 'number' &&
-        this.params?.accessRestrictions?.minScore > Globals.get('getScore')()
+        this.params?.accessRestrictions?.minScore > this.params.globals.get('getScore')()
       ) {
         this.setState('unlocking');
         return;
       }
 
-      Globals.get('read')(this.params.dictionary
+      this.params.globals.get('read')(this.params.dictionary
         .get('a11y.stageUnlocked')
         .replace(/@stagelabel/, this.params.label)
       );
@@ -382,7 +383,7 @@ export default class Stage {
       return;
     }
 
-    if (!Globals.get('params').visual.misc.useAnimation) {
+    if (!this.params.globals.get('params').visual.misc.useAnimation) {
       return; // Animation deactivated by author or user preference
     }
 
@@ -417,9 +418,9 @@ export default class Stage {
     this.label.hide();
 
     if (
-      this.state === Globals.get('states')['locked'] ||
-      this.state === Globals.get('states')['unlocking'] ||
-      this.state === Globals.get('states')['sealed']
+      this.state === this.params.globals.get('states')['locked'] ||
+      this.state === this.params.globals.get('states')['unlocking'] ||
+      this.state === this.params.globals.get('states')['sealed']
     ) {
       this.animate('shake');
       Jukebox.play('clickStageLocked');
@@ -427,8 +428,8 @@ export default class Stage {
       if (
         (typeof this.params.accessRestrictions?.minScore === 'number') &&
         (
-          this.state === Globals.get('states')['locked'] ||
-          this.state === Globals.get('states')['unlocking']
+          this.state === this.params.globals.get('states')['locked'] ||
+          this.state === this.params.globals.get('states')['unlocking']
         )
       ) {
         this.callbacks.onAccessRestrictionsHit({
@@ -483,12 +484,12 @@ export default class Stage {
   reset(params = {}) {
     const state = params.isInitial ?
       this.params.state :
-      Globals.get('states')['locked'];
+      this.params.globals.get('states')['locked'];
 
     this.setState(state);
 
     if (
-      [Globals.get('states')['locked'], Globals.get('states')['unlocking']]
+      [this.params.globals.get('states')['locked'], this.params.globals.get('states')['unlocking']]
         .includes(state)
     ) {
       this.setTabIndex('-1');
@@ -519,8 +520,8 @@ export default class Stage {
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {
-    const states = Globals.get('states');
-    const globalParams = Globals.get('params');
+    const states = this.params.globals.get('states');
+    const globalParams = this.params.globals.get('params');
 
     if (typeof state === 'string') {
       state = Object.entries(states)

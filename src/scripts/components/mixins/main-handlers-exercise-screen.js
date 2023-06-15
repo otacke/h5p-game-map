@@ -1,5 +1,4 @@
 import Jukebox from '@services/jukebox';
-import Globals from '@services/globals';
 
 /**
  * Mixin containing handlers for exercise screen.
@@ -30,13 +29,13 @@ export default class MainHandlersExerciseScreen {
       this.openExerciseId = false;
       this.callbackQueue.setSkippable(true);
 
-      Globals.get('resize')();
+      this.params.globals.get('resize')();
     });
     this.toolbar.enable();
     Jukebox.stopGroup('default');
     Jukebox.play('closeExercise');
 
-    if (Globals.get('params').audio.backgroundMusic.muteDuringExercise) {
+    if (this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise) {
       Jukebox.fade(
         'backgroundMusic', { type: 'in', time: this.musicFadeTime }
       );
@@ -51,7 +50,7 @@ export default class MainHandlersExerciseScreen {
    * Handle exercise screen open animation ended.
    */
   handleExerciseScreenOpenAnimationEnded() {
-    Globals.get('resize')();
+    this.params.globals.get('resize')();
   }
 
   /**

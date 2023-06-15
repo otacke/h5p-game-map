@@ -1,4 +1,3 @@
-import Globals from '@services/globals';
 import Util from '@services/util';
 import Stage from '@components/map/stage/stage';
 
@@ -56,7 +55,7 @@ export default class Stages {
     }
 
     // Get previous instance state
-    const stagesState = Globals.get('extras').previousState?.content?.
+    const stagesState = this.params.globals.get('extras').previousState?.content?.
       stages ?? [];
 
     for (let index in elements) {
@@ -75,6 +74,7 @@ export default class Stages {
         {
           id: elementParams.id,
           dictionary: this.params.dictionary,
+          globals: this.params.globals,
           canBeStartStage: elementParams.canBeStartStage,
           accessRestrictions: elementParams.accessRestrictions,
           contentType: elementParams.contentType,
@@ -197,7 +197,7 @@ export default class Stages {
    * Update stages that are in unlocking state.
    */
   updateUnlockingStages() {
-    const globalParams = Globals.get('params');
+    const globalParams = this.params.globals.get('params');
 
     if (globalParams.behaviour.map.roaming === 'free') {
       return; // Not relevant
@@ -205,7 +205,7 @@ export default class Stages {
 
     const unlockingStages = this.stages.filter((stage) => {
       return (
-        stage.getState() === Globals.get('states')['unlocking'] &&
+        stage.getState() === this.params.globals.get('states')['unlocking'] &&
         stage.getAccessRestrictions().openOnScoreSufficient
       );
     });
@@ -221,7 +221,7 @@ export default class Stages {
    * @param {number} state State code.
    */
   updateNeighborsState(id, state) {
-    const globalParams = Globals.get('params');
+    const globalParams = this.params.globals.get('params');
 
     if (globalParams.behaviour.map.roaming === 'free') {
       return; // Neighbors are not influenced
@@ -235,7 +235,7 @@ export default class Stages {
     const neighborIds = stage.getNeighbors();
 
     if (
-      state === Globals.get('states')['open'] &&
+      state === this.params.globals.get('states')['open'] &&
       globalParams.behaviour.map.fog !== '0'
     ) {
       neighborIds.forEach((id) => {
@@ -249,7 +249,7 @@ export default class Stages {
     }
 
     // Get neigbors and unlock if current stage was cleared
-    if (state === Globals.get('states')['cleared']) {
+    if (state === this.params.globals.get('states')['cleared']) {
       neighborIds.forEach((id) => {
         const targetStage = this.getStage(id);
         if (!targetStage) {
@@ -289,7 +289,7 @@ export default class Stages {
       startStages = this.stages; // Use all stages, because none selected
     }
 
-    if (Globals.get('params').behaviour.map.startStages === 'random') {
+    if (this.params.globals.get('params').behaviour.map.startStages === 'random') {
       startStages = [
         startStages[Math.floor(Math.random() * startStages.length)]
       ];
@@ -312,8 +312,8 @@ export default class Stages {
     return this.stages.filter((stage) => {
       const state = stage.getState();
 
-      return state === Globals.get('states')['open'] ||
-        state === Globals.get('states')['opened'];
+      return state === this.params.globals.get('states')['open'] ||
+        state === this.params.globals.get('states')['opened'];
     })[0] || null;
   }
 
@@ -403,7 +403,7 @@ export default class Stages {
         highlightedStage.updateAriaLabel();
         highlightedStage.animate('pulse');
 
-        Globals.get('read')(
+        this.params.globals.get('read')(
           this.params.dictionary.get('a11y.movedToStage')
             .replace(
               /@stagelabel/,
