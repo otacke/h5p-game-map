@@ -103,6 +103,16 @@ export default class GameMap extends H5P.Question {
       }
     }, params);
 
+    /*
+     * All paths are cleared by default in roaming mode, but that's not obvious
+     * to the user. Copy color set for path as color for cleared path is hidden
+     * in the editor.
+     */
+    if (this.params.behaviour.roaming === 'free') {
+      this.params.visual.paths.style.colorPathCleared =
+        this.params.visual.paths.style.colorPath;
+    }
+
     // Determine mediaQuery result for prefers-reduced-motion preference
     const reduceMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
