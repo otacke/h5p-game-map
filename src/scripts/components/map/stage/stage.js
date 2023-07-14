@@ -654,8 +654,5 @@ export default class Stage {
   }
 }
 
-/** @constant {number} LABEL_TIMEOUT_MS Timeout for showing label */
-Stage.LABEL_TIMEOUT_MS = 3000;
-
 /** @constant {number} ANIMATION_CLEARED_BLOCK_MS Blockign time */
 Stage.ANIMATION_CLEARED_BLOCK_MS = 1000;
