@@ -101,7 +101,8 @@ export default class ExerciseScreen {
     this.dom.classList.remove('display-none');
 
     this.headlineTimer.classList.toggle(
-      'display-none', params.isShowingSolutions
+      'display-none',
+      params.isShowingSolutions || (this.headlineTimer.innerText ?? '') === ''
     );
 
     // Wait to allow DOM to progress
