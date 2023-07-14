@@ -101,7 +101,8 @@ export default class MainInitialization {
       endscreenButtons.push(
         {
           id: 'show-solutions',
-          text: this.params.dictionary.get('l10n.showSolutions')
+          text: this.params.dictionary.get('l10n.showSolutions'),
+          className: 'h5p-joubelui-button'
         }
       );
     }
@@ -109,7 +110,8 @@ export default class MainInitialization {
       endscreenButtons.push(
         {
           id: 'restart',
-          text: this.params.dictionary.get('l10n.restart')
+          text: this.params.dictionary.get('l10n.restart'),
+          className: 'h5p-joubelui-button'
         }
       );
     }

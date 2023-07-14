@@ -59,7 +59,9 @@ export default class MediaScreen {
 
     // Button
     this.params.buttons.forEach((buttonParams) => {
-      const button = this.buildButton(buttonParams.id, buttonParams.text);
+      const button = this.buildButton(
+        buttonParams.id, buttonParams.text, buttonParams.className
+      );
       buttonsWrapper.append(button);
       this.buttons.push(button);
     });
@@ -135,10 +137,15 @@ export default class MediaScreen {
    * Build button.
    * @param {string} id Button id.
    * @param {string} buttonText Button text.
+   * @param {string} [className] Extra CSS class name.
    * @returns {HTMLElement} Button element.
    */
-  buildButton(id, buttonText) {
+  buildButton(id, buttonText, className) {
     const button = document.createElement('button');
+    if (className) {
+      button.classList.add(className);
+    }
+
     button.innerText = buttonText;
     button.addEventListener('click', () => {
       this.hide();
@@ -146,7 +153,9 @@ export default class MediaScreen {
     });
 
     const buttonWrapper = document.createElement('div');
-    buttonWrapper.classList.add('media-screen-button');
+    if (!className) {
+      buttonWrapper.classList.add('media-screen-button');
+    }
     buttonWrapper.classList.add(`media-screen-button-${id}`);
     buttonWrapper.appendChild(button);
 
