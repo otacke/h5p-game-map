@@ -456,7 +456,7 @@
           {
             "name": "colorStage",
             "type": "text",
-            "label": "Color stage",
+            "label": "Color not visited stage",
             "optional": true,
             "default": "rgba(250, 223, 10, 0.7)",
             "widget": "colorSelector",
@@ -470,7 +470,7 @@
           {
             "name": "colorStageLocked",
             "type": "text",
-            "label": "Color stage locked",
+            "label": "Color locked stage",
             "optional": true,
             "default": "rgba(153, 0, 0, 0.7)",
             "widget": "colorSelector",
@@ -484,7 +484,7 @@
           {
             "name": "colorStageCleared",
             "type": "text",
-            "label": "Color stage cleared",
+            "label": "Color cleared stage",
             "optional": true,
             "default": "rgba(0, 130, 0, 0.7)",
             "widget": "colorSelector",

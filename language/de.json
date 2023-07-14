@@ -170,15 +170,15 @@
           "label": "Etappen",
           "fields": [
             {
-              "label": "Etappenfarbe",
+              "label": "Farbe für unbesuchte Etappe",
               "default": "rgba(250, 223, 10, 0.7)"
             },
             {
-              "label": "Etappenfarbe verschlossen",
+              "label": "Farbe für verschlossene Etappe",
               "default": "rgba(153, 0, 0, 0.7)"
             },
             {
-              "label": "Etappenfarbe geschafft",
+              "label": "Farbe für geschaffte Etappe",
               "default": "rgba(0, 130, 0, 0.7)"
             }
           ]
