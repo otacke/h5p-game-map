@@ -25,7 +25,7 @@ export default class MainHandlersStage {
     this.exerciseScreen.setH5PContent(exercise.getDOM());
     this.exerciseScreen.setTitle(stage.getLabel());
     this.params.jukebox.stopGroup('default');
-    this.exerciseScreen.show();
+    this.exerciseScreen.show({ isShowingSolutions: this.isShowingSolutions });
     this.toolbar.disable();
     this.exercises.start(id);
 

@@ -94,9 +94,15 @@ export default class ExerciseScreen {
 
   /**
    * Show.
+   * @param {object} [params] Parameters.
+   * @param {boolean} [params.isShowingSolutions] If true, showing solutions.
    */
-  show() {
+  show(params = {}) {
     this.dom.classList.remove('display-none');
+
+    this.headlineTimer.classList.toggle(
+      'display-none', params.isShowingSolutions
+    );
 
     // Wait to allow DOM to progress
     window.requestAnimationFrame(() => {

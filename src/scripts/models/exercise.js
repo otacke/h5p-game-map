@@ -333,14 +333,15 @@ export default class Exercise {
     if (this.isShowingSolutions) {
       this.showSolutions();
     }
+    else {
+      const remainingTime = Math.min(
+        this.remainingTime,
+        (this.params.time?.timeLimit || 0) * 1000 + this.params.animDuration
+      );
+      this.timer?.start(remainingTime);
+    }
 
     this.setState('opened');
-
-    const remainingTime = Math.min(
-      this.remainingTime,
-      (this.params.time?.timeLimit || 0) * 1000 + this.params.animDuration
-    );
-    this.timer?.start(remainingTime);
 
     window.requestAnimationFrame(() => {
       this.params.globals.get('resize')();
