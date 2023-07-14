@@ -362,11 +362,11 @@
               ]
             },
             {
-              "label": "Activate fog",
+              "label": "Visibility range",
               "description": "Select how far the user can see ahead",
               "options": [
                 {
-                  "label": "No fog, see all stages"
+                  "label": "See all stages"
                 },
                 {
                   "label": "See all unlocked stages and their adjacent neighbors"

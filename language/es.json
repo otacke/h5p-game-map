@@ -364,11 +364,11 @@
               ]
             },
             {
-              "label": "Activar niebla",
+              "label": "Visibility range",
               "description": "Selecciona a qué distancia puede ver el usuario",
               "options": [
                 {
-                  "label": "Sin niebla, ver todas las etapas"
+                  "label": "Ver todas las etapas"
                 },
                 {
                   "label": "Ver todas las etapas desbloqueadas y sus vecinos adyacentes"

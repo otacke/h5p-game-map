@@ -364,11 +364,11 @@
               ]
             },
             {
-              "label": "关卡视障设置",
+              "label": "Visibility range",
               "description": "选择用户可以看到的关卡",
               "options": [
                 {
-                  "label": "无障碍，可以看到所有关卡"
+                  "label": "可以看到所有关卡"
                 },
                 {
                   "label": "所有未锁定的关卡及其邻居"

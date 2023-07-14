@@ -364,11 +364,11 @@
               ]
             },
             {
-              "label": "Activa a néboa",
+              "label": "Visibility range",
               "description": "Selecciona ata onde pode ver o usuario por diante",
               "options": [
                 {
-                  "label": "Sen néboa, ver todas as etapas"
+                  "label": "Ver todas as etapas"
                 },
                 {
                   "label": "Ver todas as etapas desbloqueadas e os seus veciños adxacentes"

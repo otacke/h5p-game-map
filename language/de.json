@@ -364,11 +364,11 @@
               ]
             },
             {
-              "label": "Nebel aktivieren",
+              "label": "Visibility range",
               "description": "Wähle, wie weit die Nutzerinnen und Nutzer sehen können",
               "options": [
                 {
-                  "label": "Keine Nebel, alle Etappen sichtbar"
+                  "label": "Alle Etappen sichtbar"
                 },
                 {
                   "label": "Alle freigeschalteten Etappen und deren Nachbarn sichtbar"

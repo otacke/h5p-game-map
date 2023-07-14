@@ -840,13 +840,13 @@
           {
             "name": "fog",
             "type": "select",
-            "label": "Activate fog",
+            "label": "Visibility range",
             "description": "Select how far the user can see ahead",
             "optional": true,
             "options": [
               {
                 "value": "all",
-                "label": "No fog, see all stages"
+                "label": "See all stages"
               },
               {
                 "value": "1",
