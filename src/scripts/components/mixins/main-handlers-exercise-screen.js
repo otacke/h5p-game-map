@@ -22,7 +22,7 @@ export default class MainHandlersExerciseScreen {
       this.exerciseScreen.setTime('');
       this.stages
         .getStage(this.openExerciseId)
-        .focus({ skipNextFocusHandler: true });
+        ?.focus({ skipNextFocusHandler: true });
 
       this.openExerciseId = false;
       this.callbackQueue.setSkippable(true);
