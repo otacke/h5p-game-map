@@ -13,7 +13,7 @@
           "default": "<p style=\"text-align: center;\"></p>"
         },
         {
-          "label": "Pantalla de título mediana"
+          "label": "Medio de pantalla de título"
         }
       ]
     },
@@ -364,7 +364,7 @@
               ]
             },
             {
-              "label": "Visibility range",
+              "label": "Rango de visibilidad",
               "description": "Selecciona a qué distancia puede ver el usuario",
               "options": [
                 {
