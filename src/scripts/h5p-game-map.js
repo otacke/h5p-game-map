@@ -44,10 +44,12 @@ export default class GameMap extends H5P.Question {
         }
       },
       behaviour: {
-        showLabels: true,
-        roaming: 'free',
-        fog: false,
-        startStages: 'all',
+        map: {
+          showLabels: true,
+          roaming: 'free',
+          fog: 'all',
+          startStages: 'all',
+        },
         finishScore: Infinity,
         enableRetry: true, // @see {@link https://h5p.org/documentation/developers/contracts#guides-header-9}
         enableSolutionsButton: true, // @see {@link https://h5p.org/documentation/developers/contracts#guides-header-8}
