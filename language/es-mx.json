@@ -13,7 +13,7 @@
           "default": "<p style=\"text-align: center;\"></p>"
         },
         {
-          "label": "Pantalla de título mediana"
+          "label": "Medio de pantalla de título"
         }
       ]
     },
@@ -116,7 +116,7 @@
               "default": "<p style=\"text-align: center;\"></p>"
             },
             {
-              "label": "Pantalla final mediana (usuario no exitoso)"
+              "label": "Medio de la pantalla final (el usuario no tuvo éxito)"
             }
           ]
         },
@@ -129,7 +129,7 @@
               "default": "<p style=\"text-align: center;\"></p>"
             },
             {
-              "label": "Pantalla final mediana (usuario exitoso)"
+              "label": "Medio de pantalla final (usuario exitoso)"
             }
           ]
         },
@@ -170,15 +170,15 @@
           "label": "Etapas",
           "fields": [
             {
-              "label": "Colorear etapa",
+              "label": "Etapa de color",
               "default": "rgba(250, 223, 10, 0.7)"
             },
             {
-              "label": "Colorear etapa bloqueada",
+              "label": "Etapa de color bloqueada",
               "default": "rgba(153, 0, 0, 0.7)"
             },
             {
-              "label": "Colorear etapa despejada",
+              "label": "Etapa de color despejada",
               "default": "rgba(0, 130, 0, 0.7)"
             }
           ]
@@ -364,7 +364,7 @@
               ]
             },
             {
-              "label": "Visibility range",
+              "label": "Rango de visibilidad",
               "description": "Seleccionar que tanto puede ver adelante un usuario",
               "options": [
                 {
