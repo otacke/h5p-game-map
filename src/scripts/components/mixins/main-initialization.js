@@ -409,6 +409,16 @@ export default class MainInitialization {
     this.stages.reset({ isInitial: params.isInitial });
     this.exercises.resetAll({ isInitial: params.isInitial });
 
+    // Show everything if fog is deactivated
+    if (globalParams.behaviour.map.fog === 'all') {
+      this.stages.forEach((stage) => {
+        stage.show();
+      });
+      this.paths.forEach((path) => {
+        path.show();
+      });
+    }
+
     // Set start state stages
     if (globalParams.behaviour.map.roaming === 'free') {
       this.stages.forEach((stage) => {
