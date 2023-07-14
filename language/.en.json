@@ -13,7 +13,7 @@
           "default": "<p style=\"text-align: center;\"></p>"
         },
         {
-          "label": "Title screen medium"
+          "label": "Title screen media"
         }
       ]
     },
@@ -117,7 +117,7 @@
               "default": "<p style=\"text-align: center;\"></p>"
             },
             {
-              "label": "End screen medium (user not successful)"
+              "label": "End screen media (user not successful)"
             }
           ]
         },
@@ -130,7 +130,7 @@
               "default": "<p style=\"text-align: center;\"></p>"
             },
             {
-              "label": "End screen medium (user successful)"
+              "label": "End screen media (user successful)"
             }
           ]
         },
