@@ -517,6 +517,15 @@
             "label": "Style",
             "importance": "low",
             "expanded": true,
+            "widget": "showWhen",
+            "showWhen": {
+              "rules": [
+                {
+                  "field": "displayPaths",
+                  "equals": true
+                }
+              ]
+            },
             "fields": [
               {
                 "name": "colorPath",
