@@ -513,8 +513,15 @@ export default class Exercise {
       this.attachInstance();
     }
 
-    if (!params.isInitial) {
-      this.instance?.resetTask?.();
+    if (!params.isInitial && this.instance) {
+      if (typeof this.instance.resetTask === 'function') {
+        this.instance.resetTask();
+      }
+      else {
+        delete this.instance;
+        this.initializeInstance();
+        this.isAttached = false;
+      }
     }
 
     this.wasViewed = false;
