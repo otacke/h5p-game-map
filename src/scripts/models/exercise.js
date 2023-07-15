@@ -12,6 +12,7 @@ export default class Exercise {
    * @param {function} [callbacks.onTimerTicked] Callback when timer ticked.
    * @param {function} [callbacks.onTimeoutWarning] Callback when timer warned.
    * @param {function} [callbacks.onTimeout] Callback when time ran out.
+   * @param {function} [callbacks.onContinued] Callback when user clicked continue.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -26,15 +27,18 @@ export default class Exercise {
       onScoreChanged: () => {},
       onTimerTicked: () => {},
       onTimeoutWarning: () => {},
-      onTimeout: () => {}
+      onTimeout: () => {},
+      onContinued: () => {}
     }, callbacks);
 
     this.setState(this.params.globals.get('states')['unstarted']);
 
-    this.instance;
-
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-game-map-exercise-instance');
+    this.dom.classList.add('h5p-game-map-exercise-instance-wrapper');
+
+    this.instanceWrapper = document.createElement('div');
+    this.instanceWrapper.classList.add('h5p-game-map-exercise-instance');
+    this.dom.append(this.instanceWrapper);
 
     this.initializeInstance();
   }
@@ -321,6 +325,13 @@ export default class Exercise {
       score: this.score,
       maxScore: this.instance.getMaxScore()
     });
+
+    if (this.extendsH5PQuestion) {
+      this.instance.showButton('game-map-continue');
+    }
+    else {
+      this.continueButton.classList.remove('display-none');
+    }
   }
 
   /**
@@ -412,12 +423,44 @@ export default class Exercise {
       return; // Already attached. Listeners would go missing on re-attaching.
     }
 
-    this.instance.attach(H5P.jQuery(this.dom));
+    this.instance.attach(H5P.jQuery(this.instanceWrapper));
 
     if (this.instance?.libraryInfo.machineName === 'H5P.Audio') {
       if (!!window.chrome) {
         this.instance.audio.style.height = '54px';
       }
+    }
+
+    // If using H5P.Question, use its button functions.
+    if (
+      this.instance.registerDomElements &&
+      this.instance.addButton && this.instance.hasButton
+    ) {
+      this.extendsH5PQuestion = true;
+
+      this.instance.addButton(
+        'game-map-continue',
+        this.params.dictionary.get('l10n.continue'),
+        () => {
+          this.callbacks.onContinued();
+        },
+        false
+      );
+    }
+    else {
+      this.continueButton = document.createElement('button');
+      this.continueButton.classList.add(
+        'h5p-joubelui-button',
+        'h5p-game-map-exercise-instance-continue-button',
+        'display-none'
+      );
+      this.continueButton.innerText =
+        this.params.dictionary.get('l10n.continue');
+      this.continueButton.addEventListener('click', () => {
+        this.callbacks.onContinued();
+      });
+
+      this.dom.append(this.continueButton);
     }
 
     this.isAttached = true;
@@ -450,6 +493,13 @@ export default class Exercise {
   reset(params = {}) {
     this.score = 0;
     this.setReachable(true);
+
+    if (this.extendsH5PQuestion) {
+      this.instance.hideButton('game-map-continue');
+    }
+    else {
+      this.continueButton?.classList.add('display-none');
+    }
 
     let timeLimit;
     let state;

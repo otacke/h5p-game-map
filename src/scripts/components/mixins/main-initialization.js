@@ -290,6 +290,7 @@ export default class MainInitialization {
     // Exercise
     this.exercises = new Exercises(
       {
+        dictionary: this.params.dictionary,
         globals: this.params.globals,
         jukebox: this.params.jukebox,
         elements: globalParams.gamemapSteps.gamemap.elements
@@ -309,6 +310,9 @@ export default class MainInitialization {
         },
         onTimeout: (id) => {
           this.handleExerciseTimeout(id);
+        },
+        onContinued: () => {
+          this.handleExerciseScreenClosed();
         }
       }
     );

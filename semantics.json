@@ -890,6 +890,12 @@
         "default": "Start"
       },
       {
+        "name": "continue",
+        "type": "text",
+        "label": "Continue",
+        "default": "Continue"
+      },
+      {
         "name": "restart",
         "type": "text",
         "label": "Restart",

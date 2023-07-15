@@ -390,6 +390,10 @@
           "default": "Start"
         },
         {
+          "label": "Jarraitu",
+          "default": "Jarraitu"
+        },
+        {
           "label": "Restart",
           "default": "Restart"
         },

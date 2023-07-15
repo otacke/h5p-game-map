@@ -126,40 +126,62 @@
         height: calc(100% - 1rem);
         width: calc(100% - 0.25rem);
 
-        .h5p-game-map-exercise-instance {
-          box-sizing: border-box;
-          width: 100%;
+        .h5p-game-map-exercise-instance-wrapper {
+          .h5p-game-map-exercise-instance {
+            box-sizing: border-box;
+            width: 100%;
 
-          &.h5p-video {
-            overflow: inherit;
-            height: 100%;
-          }
+            .h5p-question-game-map-continue {
+              float: right;
 
-          &.h5p-advanced-text {
-            p:first-child {
-              margin-top: 1rem;
+              &::before {
+                content: "\f04b";
+              }
             }
 
-            p:last-child {
-              margin-bottom: 1rem;
+            &.h5p-video {
+              overflow: inherit;
+              height: 100%;
+            }
+
+            &.h5p-advanced-text {
+              p:first-child {
+                margin-top: 1rem;
+              }
+
+              p:last-child {
+                margin-bottom: 1rem;
+              }
+            }
+
+            &.h5p-interactive-video {
+              overflow: inherit;
+            }
+
+            &.h5p-image-hotspot-question > .h5p-question-content {
+              margin: 0;
+            }
+
+            &.h5p-transcript .h5p-transcript-text-container {
+              margin-left: 0;
+              margin-right: 0;
+            }
+
+            &.h5p-image-slider .h5p-image-slider-progress {
+              padding: 0.5em 0;
             }
           }
 
-          &.h5p-interactive-video {
-            overflow: inherit;
-          }
+          .h5p-game-map-exercise-instance-continue-button {
+            float: right;
 
-          &.h5p-image-hotspot-question > .h5p-question-content {
-            margin: 0;
-          }
+            &::before {
+              content: "\f04b";
+            }
 
-          &.h5p-transcript .h5p-transcript-text-container {
-            margin-left: 0;
-            margin-right: 0;
-          }
-
-          &.h5p-image-slider .h5p-image-slider-progress {
-            padding: 0.5em 0;
+            &.display-none {
+              display: none;
+            }
           }
         }
       }

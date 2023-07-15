@@ -13,6 +13,7 @@ export default class Exercises {
    * @param {function} [callbacks.onTimerTicked] Callback when timer ticked.
    * @param {function} [callbacks.onTimeoutWarning] Callback when timer warned.
    * @param {function} [callbacks.onTimeout] Callback when time ran out.
+   * @param {function} [callbacks.onContinued] Callback when user clicked continue.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = params;
@@ -22,7 +23,8 @@ export default class Exercises {
       onScoreChanged: () => {},
       onTimerTicked: () => {},
       onTimeoutWarning: () => {},
-      onTimeout: () => {}
+      onTimeout: () => {},
+      onContinued: () => {}
     }, callbacks);
 
     this.exercises = {};
@@ -30,6 +32,7 @@ export default class Exercises {
     this.params.elements.forEach((element) => {
       this.exercises[element.id] = new Exercise(
         { ...element,
+          dictionary: this.params.dictionary,
           globals: this.params.globals,
           jukebox: this.params.jukebox
         },
@@ -48,6 +51,9 @@ export default class Exercises {
           },
           onTimeout: () => {
             this.callbacks.onTimeout(element.id);
+          },
+          onContinued: () => {
+            this.callbacks.onContinued(element.id);
           }
         }
       );

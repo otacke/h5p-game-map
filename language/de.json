@@ -390,6 +390,10 @@
           "default": "Start"
         },
         {
+          "label": "Fortfahren",
+          "default": "Fortfahren"
+        },
+        {
           "label": "Neustart",
           "default": "Neustart"
         },

@@ -390,6 +390,10 @@
           "default": "开始"
         },
         {
+          "label": "继续",
+          "default": "继续"
+        },
+        {
           "label": "重新开始",
           "default": "重新开始"
         },

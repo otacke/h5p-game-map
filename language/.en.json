@@ -390,6 +390,10 @@
           "default": "Start"
         },
         {
+          "label": "Continue",
+          "default": "Continue"
+        },
+        {
           "label": "Restart",
           "default": "Restart"
         },

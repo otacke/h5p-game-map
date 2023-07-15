@@ -56,6 +56,7 @@ export default class GameMap extends H5P.Question {
       },
       l10n: {
         start: 'Start',
+        continue: 'Continue',
         restart: 'Restart',
         showSolutions: 'Show solutions',
         completedMap: 'You have completed the map!',

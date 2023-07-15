@@ -390,6 +390,10 @@
           "default": "Iniciar"
         },
         {
+          "label": "Continuar",
+          "default": "Continuar"
+        },
+        {
           "label": "Reiniciar",
           "default": "Reiniciar"
         },
