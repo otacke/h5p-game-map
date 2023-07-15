@@ -102,22 +102,23 @@
       min-width: 0;
 
       .h5p-game-map-exercise-headline {
-        align-items: center;
+        align-items: start;
         border-bottom: 1px solid $color-shadow-dark;
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
         gap: 1rem;
         justify-content: space-between;
-        height: 2rem;
         padding: 0 0.25rem;
 
         .h5p-game-map-exercise-headline-text {
+          display: -webkit-box;
           font-size: 1.25rem;
           font-weight: bold;
           overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+          overflow-wrap: anywhere;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
         }
       }
 
