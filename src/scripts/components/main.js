@@ -383,13 +383,15 @@ export default class Main {
    * Handle timer ticked.
    * @param {number} id Id of exercise that had a timer tick.
    * @param {number} remainingTime Remaining time in ms.
+   * @param {object} [options] Options.
+   * @param {boolean} [options.timeoutWarning] If true, timeout warning state.
    */
-  handleTimerTicked(id, remainingTime) {
+  handleTimerTicked(id, remainingTime, options = {}) {
     if (!id || id !== this.openExerciseId) {
       return;
     }
 
-    this.exerciseScreen.setTime(remainingTime);
+    this.exerciseScreen.setTime(remainingTime, options);
   }
 
   /**

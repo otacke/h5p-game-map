@@ -5,7 +5,7 @@ import EndScreen from '@components/media-screen/end-screen';
 import Map from '@components/map/map';
 import Toolbar from '@components/toolbar/toolbar';
 import Exercises from '@models/exercises';
-import ExerciseScreen from '@components/exercise/exercise-screen';
+import ExerciseScreen from '@components/exercise-screen/exercise-screen';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog';
 
 /**
@@ -301,8 +301,8 @@ export default class MainInitialization {
         onScoreChanged: (id, scoreParams) => {
           this.handleExerciseScoreChanged(id, scoreParams);
         },
-        onTimerTicked: (id, remainingTime) => {
-          this.handleExerciseTimerTicked(id, remainingTime);
+        onTimerTicked: (id, remainingTime, options) => {
+          this.handleExerciseTimerTicked(id, remainingTime, options);
         },
         onTimeoutWarning: (id) => {
           this.handleExerciseTimeoutWarning(id);

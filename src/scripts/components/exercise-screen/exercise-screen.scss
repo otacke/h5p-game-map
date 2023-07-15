@@ -119,22 +119,6 @@
           text-overflow: ellipsis;
           white-space: nowrap;
         }
-
-        .h5p-game-map-exercise-headline-timer {
-          font-size: 1.25rem;
-          font-weight: bold;
-          justify-self: flex-end;
-
-          &::before {
-            content: "\f017";
-            font-family: "H5PFontAwesome4", sans-serif;
-            margin-right: 0.5rem;
-          }
-
-          &.display-none {
-            display: none;
-          }
-        }
       }
 
       .h5p-game-map-exercise-instance-container {

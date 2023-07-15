@@ -204,6 +204,17 @@ export default class Exercise {
   }
 
   /**
+   * Determine whether exercise is in timeout warning state.
+   * @returns {boolean} True, if exercise is in timeout warning state.
+   */
+  isTimeoutWarning() {
+    return (
+      typeof this.params.time.timeoutWarning === 'number' &&
+      this.remainingTime <= this.params.time?.timeoutWarning * 1000
+    );
+  }
+
+  /**
    * Make it easy to bubble events from child to parent.
    * @param {object} origin Origin of event.
    * @param {string} eventName Name of event.
@@ -448,9 +459,14 @@ export default class Exercise {
           },
           onTick: () => {
             this.remainingTime = this.timer.getTime();
-            this.callbacks.onTimerTicked(this.remainingTime);
+            const isTimeoutWarning = this.isTimeoutWarning();
 
-            if (this.params.time.timeoutWarning) {
+            this.callbacks.onTimerTicked(
+              this.remainingTime,
+              { timeoutWarning: isTimeoutWarning }
+            );
+
+            if (!this.hasPlayedTimeoutWarning && isTimeoutWarning) {
               this.handleTimeoutWarning();
             }
           }
@@ -497,10 +513,7 @@ export default class Exercise {
    * Handle timeout warning.
    */
   handleTimeoutWarning() {
-    if (
-      this.remainingTime <= this.params.time?.timeoutWarning * 1000 &&
-      !this.hasPlayedTimeoutWarning
-    ) {
+    if (!this.hasPlayedTimeoutWarning && this.isTimeoutWarning()) {
       this.hasPlayedTimeoutWarning = true;
       this.callbacks.onTimeoutWarning();
     }

@@ -52,9 +52,11 @@ export default class MainHandlersExercise {
    * Handle exercise timer ticked.
    * @param {number} id Id of exercise that had a timer tick.
    * @param {number} remainingTime Remaining time in ms.
+   * @param {object} [options] Options.
+   * @param {boolean} [options.timeoutWarning] If true, timeout warning state.
    */
-  handleExerciseTimerTicked(id, remainingTime) {
-    this.handleTimerTicked(id, remainingTime);
+  handleExerciseTimerTicked(id, remainingTime, options) {
+    this.handleTimerTicked(id, remainingTime, options);
   }
 
   /**

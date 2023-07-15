@@ -40,8 +40,8 @@ export default class Exercises {
           onScoreChanged: (scoreParams) => {
             this.callbacks.onScoreChanged(element.id, scoreParams);
           },
-          onTimerTicked: (remainingTime) => {
-            this.callbacks.onTimerTicked(element.id, remainingTime);
+          onTimerTicked: (remainingTime, options) => {
+            this.callbacks.onTimerTicked(element.id, remainingTime, options);
           },
           onTimeoutWarning: () => {
             this.callbacks.onTimeoutWarning(element.id);

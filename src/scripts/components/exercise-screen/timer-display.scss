@@ -1,0 +1,39 @@
+.h5p-game-map-exercise-headline-timer {
+  font-size: 1.25rem;
+  font-weight: bold;
+  justify-self: flex-end;
+
+  &.timeout-warning {
+    color: #bb0000;
+  }
+
+  &::before {
+    content: "\f017";
+    font-family: "H5PFontAwesome4", sans-serif;
+    margin-right: 0.5rem;
+  }
+
+  &.display-none {
+    display: none;
+  }
+
+  &.notify-animation {
+    animation: pulse;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale3d(1, 1, 1);
+    }
+
+    50% {
+      transform: scale3d(1.25, 1.25, 1.25);
+    }
+
+    100% {
+      transform: scale3d(1, 1, 1);
+    }
+  }
+}

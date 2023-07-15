@@ -1,5 +1,6 @@
-import Util from '@services/util';
 import FocusTrap from '@services/focus-trap';
+import Util from '@services/util';
+import TimerDisplay from './timer-display';
 import './exercise-screen.scss';
 
 /** Class representing an exercise screen */
@@ -67,10 +68,8 @@ export default class ExerciseScreen {
     this.headlineText.classList.add('h5p-game-map-exercise-headline-text');
     headline.append(this.headlineText);
 
-    this.headlineTimer = document.createElement('div');
-    this.headlineTimer.classList.add('h5p-game-map-exercise-headline-timer');
-    this.headlineTimer.classList.add('display-none');
-    headline.append(this.headlineTimer);
+    this.timerDisplay = new TimerDisplay();
+    headline.append(this.timerDisplay.getDOM());
 
     // H5P instance
     this.h5pInstance = document.createElement('div');
@@ -100,10 +99,12 @@ export default class ExerciseScreen {
   show(params = {}) {
     this.dom.classList.remove('display-none');
 
-    this.headlineTimer.classList.toggle(
-      'display-none',
-      params.isShowingSolutions || (this.headlineTimer.innerText ?? '') === ''
-    );
+    if (params.isShowingSolutions) {
+      this.timerDisplay.hide();
+    }
+    else {
+      this.timerDisplay.show();
+    }
 
     // Wait to allow DOM to progress
     window.requestAnimationFrame(() => {
@@ -203,28 +204,12 @@ export default class ExerciseScreen {
   /**
    * Set time.
    * @param {number} timeMs Time to display on timer.
+   * @param {object} [options] Options.
+   * @param {boolean} [options.timeoutWarning] If true, timeout warning state.
    */
-  setTime(timeMs) {
-    if (timeMs === null || timeMs === '') {
-      this.headlineTimer.innerText = '';
-      this.headlineTimer.classList.add('display-none');
-      return;
-    }
-
-    if (typeof timeMs !== 'number') {
-      return;
-    }
-
-    const date = new Date(0);
-    date.setSeconds(Math.round(Math.max(0, timeMs / 1000)));
-
-    this.headlineTimer.innerText = date
-      .toISOString()
-      .split('T')[1]
-      .split('.')[0]
-      .replace(/^[0:]+/, '') || '0';
-
-    this.headlineTimer.classList.remove('display-none');
+  setTime(timeMs, options = {}) {
+    this.timerDisplay.setTime(timeMs);
+    this.timerDisplay.setTimeoutWarning(options.timeoutWarning);
   }
 
   /**
