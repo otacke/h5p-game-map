@@ -55,6 +55,38 @@ export default class Path {
   }
 
   /**
+   * Determines whether path connects to a stage via stage id.
+   * @param {string} stageId Stage id.
+   * @returns {boolean} True, if path connects to stage.
+   */
+  connectsTo(stageId) {
+    return this.params.fromId === stageId || this.params.toId === stageId;
+  }
+
+  /**
+   * Set path reachable or unreachable.
+   * @param {boolean} state If true, path is reachable. Else not.
+   */
+  setReachable(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.isReachableState = state;
+
+    if (!this.isReachable()) {
+      this.hide();
+    }
+  }
+
+  /**
+   * @returns {boolean} True, if path is reachable. Else false.
+   */
+  isReachable() {
+    return this.isReachableState;
+  }
+
+  /**
    * Get visibility state.
    * @returns {boolean} True, if stage is visible, else false.
    */
@@ -208,6 +240,8 @@ export default class Path {
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {
+    this.setReachable(true);
+
     const state = params.isInitial ?
       this.params.state :
       this.params.globals.get('states')['open'];

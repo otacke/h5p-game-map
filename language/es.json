@@ -377,18 +377,6 @@
                   "label": "Ver solo etapas desbloqueadas"
                 }
               ]
-            },
-            {
-              "label": "Etapas de inicio",
-              "description": "Decide en qué etapas puede comenzar el usuario. Si no se establece ninguna etapa como etapa de inicio, todas las etapas se consideran posibles etapas de inicio.",
-              "options": [
-                {
-                  "label": "Todas las etapas que se definen como etapa de inicio"
-                },
-                {
-                  "label": "Una etapa elegida al azar de las etapas de inicio"
-                }
-              ]
             }
           ]
         }

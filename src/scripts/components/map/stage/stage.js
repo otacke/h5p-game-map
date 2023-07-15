@@ -36,6 +36,7 @@ export default class Stage {
     this.isDisabledState = false;
     this.isAnimating = false;
     this.shouldBePlayful = true;
+    this.isReachableState = true;
 
     this.handleAnimationEnded = this.handleAnimationEnded.bind(this);
 
@@ -137,6 +138,29 @@ export default class Stage {
   }
 
   /**
+   * Set stage reachable or unreachable.
+   * @param {boolean} state If true, stage is reachable. Else not.
+   */
+  setReachable(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.isReachableState = state;
+
+    if (!this.isReachable()) {
+      this.hide();
+    }
+  }
+
+  /**
+   * @returns {boolean} True, if stage is reachable. Else false.
+   */
+  isReachable() {
+    return this.isReachableState;
+  }
+
+  /**
    * Toggle playfulness.
    * @param {boolean} [state] If true, be playful, else not.
    */
@@ -229,6 +253,10 @@ export default class Stage {
    * @param {object} [params] Parameters.
    */
   show(params = {}) {
+    if (!this.isReachable()) {
+      return;
+    }
+
     const makeVisible = () => {
       this.dom.classList.remove('display-none');
       window.requestAnimationFrame(() => {
@@ -482,6 +510,8 @@ export default class Stage {
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {
+    this.setReachable(true);
+
     const state = params.isInitial ?
       this.params.state :
       this.params.globals.get('states')['locked'];

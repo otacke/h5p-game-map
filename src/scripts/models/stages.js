@@ -116,6 +116,40 @@ export default class Stages {
   }
 
   /**
+   * Gather ids of sub graph.
+   * @param {string[]} newIds Ids to start with.
+   * @param {string[]} [oldIds] Ids already in sub graph.
+   * @returns {string[]} Ids of sub graph.
+   */
+  gatherSubGraphIds(newIds = [], oldIds = []) {
+    if (newIds.length === 0) {
+      return oldIds;
+    }
+
+    const isUnique = (value, index, array) => array.indexOf(value) === index;
+
+    const neighborIds = newIds
+      .reduce((all, id) => {
+        return [...all, ...this.getStage(id).getNeighbors()];
+      }, [])
+      .filter((newId) => !oldIds.includes(newId) && !newIds.includes(newId))
+      .filter(isUnique);
+
+    return [...oldIds, ...this.gatherSubGraphIds(neighborIds, newIds)]
+      .filter(isUnique);
+  }
+
+  /**
+   * Update reachability of stages.
+   * @param {string[]} reachableStageIds Ids of reachable stages.
+   */
+  updateReachability(reachableStageIds) {
+    this.stages.forEach((stage) => {
+      stage.setReachable(reachableStageIds.includes(stage.getId()));
+    });
+  }
+
+  /**
    * Enable stages.
    */
   enable() {
@@ -140,7 +174,7 @@ export default class Stages {
    * @returns {number} Number of stages.
    */
   getCount(params = {}) {
-    let stages = [...this.stages];
+    let stages = [...this.stages].filter((stage) => stage.isReachable());
 
     params = Util.extend({ filters: {} }, params);
 
@@ -280,6 +314,7 @@ export default class Stages {
 
   /**
    * Set start stages.
+   * @returns {string[]} IDs of reachable stages.
    */
   setStartStages() {
     // Choose all start stages (all if none selected) and choose one randomly
@@ -290,13 +325,8 @@ export default class Stages {
       startStages = this.stages; // Use all stages, because none selected
     }
 
-    if (
-      this.params.globals.get('params').behaviour.map.startStages === 'random'
-    ) {
-      startStages = [
-        startStages[Math.floor(Math.random() * startStages.length)]
-      ];
-    }
+    // Choose one randomly
+    startStages = [startStages[Math.floor(Math.random() * startStages.length)]];
 
     startStages.forEach((stage, index) => {
       stage.unlock();
@@ -305,6 +335,8 @@ export default class Stages {
         stage.setTabIndex('0');
       }
     });
+
+    return this.gatherSubGraphIds(startStages.map((stage) => stage.getId()));
   }
 
   /**

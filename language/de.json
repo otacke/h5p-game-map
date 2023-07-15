@@ -377,18 +377,6 @@
                   "label": "Nur freigeschaltete Etappen sichtbar"
                 }
               ]
-            },
-            {
-              "label": "Startetappen",
-              "description": "Wähle, bei welchen Etappen die Nutzerinnen und Nutzer starten können. Falls keine Etappe als Startetappe gesetzt ist, können alle Etappen Startetappen sein.",
-              "options": [
-                {
-                  "label": "Alle Etappen, die als Startetappen gesetzt sind"
-                },
-                {
-                  "label": "Eine Etappe, die zufällig aus den Startetappen gewählt wird"
-                }
-              ]
             }
           ]
         }

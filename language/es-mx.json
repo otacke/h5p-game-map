@@ -106,6 +106,7 @@
       ]
     },
     {
+      "label": "Pantalla final",
       "fields": [
         {
           "label": "Usuario no exitoso",
@@ -160,8 +161,7 @@
             }
           ]
         }
-      ],
-      "label": "Pantalla final"
+      ]
     },
     {
       "label": "Configuraciones visuales",
@@ -377,28 +377,17 @@
                   "label": "Ver solamente las etapas des-bloqueadas"
                 }
               ]
-            },
-            {
-              "label": "Etapas de inicio",
-              "description": "Decidir en cuales etapas puede iniciar el usuario. Si no se configura ninguna etapa como etapa inicial, todas las etapas son consideradas como etapas iniciales potenciales.",
-              "options": [
-                {
-                  "label": "Todas las etapas están definidas como etapa inicial"
-                },
-                {
-                  "label": "Una etapa elegida aleatoriamente entre las etapas iniciales"
-                }
-              ]
             }
           ]
         }
       ]
     },
     {
+      "label": "Interfaz del usuario",
       "fields": [
         {
-          "default": "Inicio",
-          "label": "Inicio"
+          "label": "Inicio",
+          "default": "Inicio"
         },
         {
           "label": "Reiniciar",
@@ -489,10 +478,10 @@
           "label": "No se configuraron etapas",
           "default": "No se configuraron etapas válidas para el mapa."
         }
-      ],
-      "label": "Interfaz del usuario"
+      ]
     },
     {
+      "label": "Textos de accesibilidad",
       "fields": [
         {
           "label": "Terminar",
@@ -584,8 +573,7 @@
           "label": "Salir de pantalla completa",
           "default": "Salir del modo de pantalla completa"
         }
-      ],
-      "label": "Textos de accesibilidad"
+      ]
     }
   ]
 }

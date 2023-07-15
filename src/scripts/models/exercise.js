@@ -424,12 +424,32 @@ export default class Exercise {
   }
 
   /**
+   * Set path reachable or unreachable.
+   * @param {boolean} state If true, path is reachable. Else not.
+   */
+  setReachable(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.isReachableState = state;
+  }
+
+  /**
+   * @returns {boolean} True, if path is reachable. Else false.
+   */
+  isReachable() {
+    return this.isReachableState;
+  }
+
+  /**
    * Reset.
    * @param {object} [params] Parameters.
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {
     this.score = 0;
+    this.setReachable(true);
 
     let timeLimit;
     let state;

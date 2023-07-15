@@ -872,35 +872,6 @@
                 }
               ]
             }
-          },
-          {
-            "name": "startStages",
-            "type": "select",
-            "label": "Start stages",
-            "description": "Decide what stages the user can start at. If no stage is set as start stage, all stages are considered to be potential start stages.",
-            "options": [
-              {
-                "value": "all",
-                "label": "All stages that are defined as start stage"
-              },
-              {
-                "value": "random",
-                "label": "One stage randomly chosen form start stages"
-              }
-            ],
-            "default": "all",
-            "widget": "showWhen",
-            "showWhen": {
-              "rules": [
-                {
-                  "field": "roaming",
-                  "equals": [
-                    "complete",
-                    "success"
-                  ]
-                }
-              ]
-            }
           }
         ]
       }

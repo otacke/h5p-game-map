@@ -92,6 +92,18 @@ export default class Paths {
   }
 
   /**
+   * Update reachability of paths.
+   * @param {string[]} reachableStageIds Ids of reachable stages.
+   */
+  updateReachability(reachableStageIds) {
+    this.paths.forEach((path) => {
+      path.setReachable(
+        reachableStageIds.some((id) => path.connectsTo(id))
+      );
+    });
+  }
+
+  /**
    * Update state.
    * @param {string} id Id of stage/exercise that was updated.
    * @param {number} state If of state that was changed to.

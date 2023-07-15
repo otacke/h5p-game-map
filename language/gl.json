@@ -22,6 +22,7 @@
       "description": "Cabeceira opcional para a barra de título."
     },
     {
+      "label": "Editor de mapas do xogo",
       "fields": [
         {
           "label": "Imaxe de fondo",
@@ -36,10 +37,14 @@
           ]
         },
         {
+          "label": "Mapa do xogo",
           "fields": [
             {},
             {
+              "label": "Elementos",
+              "entity": "Elemento",
               "field": {
+                "label": "Elementos",
                 "fields": [
                   {
                     "label": "Id"
@@ -93,17 +98,12 @@
                   {
                     "label": "Telemetría"
                   }
-                ],
-                "label": "Elementos"
-              },
-              "label": "Elementos",
-              "entity": "Elemento"
+                ]
+              }
             }
-          ],
-          "label": "Mapa do xogo"
+          ]
         }
-      ],
-      "label": "Editor de mapas do xogo"
+      ]
     },
     {
       "label": "Pantalla final",
@@ -164,6 +164,7 @@
       ]
     },
     {
+      "label": "Configuración visual",
       "fields": [
         {
           "label": "Etapas",
@@ -183,6 +184,7 @@
           ]
         },
         {
+          "label": "Camiños",
           "fields": [
             {
               "label": "Mostrar camiños",
@@ -232,8 +234,7 @@
                 }
               ]
             }
-          ],
-          "label": "Camiños"
+          ]
         },
         {
           "label": "Varios",
@@ -247,10 +248,10 @@
             }
           ]
         }
-      ],
-      "label": "Configuración visual"
+      ]
     },
     {
+      "label": "Configuración de son",
       "fields": [
         {
           "label": "Música de fondo",
@@ -265,6 +266,7 @@
           ]
         },
         {
+          "label": "Eventos",
           "fields": [
             {
               "label": "Fai clic no escenario bloqueado",
@@ -318,11 +320,9 @@
               "label": "Pantalla final (puntuación completa)",
               "description": "Reproducirase na pantalla final se o usuario obtivo a puntuación completa."
             }
-          ],
-          "label": "Eventos"
+          ]
         }
-      ],
-      "label": "Configuración de son"
+      ]
     },
     {
       "label": "Configuración do comportamento",
@@ -375,18 +375,6 @@
                 },
                 {
                   "label": "Ver só as etapas desbloqueadas"
-                }
-              ]
-            },
-            {
-              "label": "Etapas de inicio",
-              "description": "Decide en que fases pode comezar o usuario. Se non se establece ningunha etapa como etapa de inicio, todas as etapas considéranse etapas de inicio potenciais.",
-              "options": [
-                {
-                  "label": "Todas as etapas que se definen como etapa de inicio"
-                },
-                {
-                  "label": "Unha etapa escollida ao azar das etapas de inicio"
                 }
               ]
             }
@@ -493,6 +481,7 @@
       ]
     },
     {
+      "label": "Textos de accesibilidade",
       "fields": [
         {
           "label": "Rematar",
@@ -559,8 +548,8 @@
           "default": "Usa espazo ou a tecla Intro para activar a fase actual. Use as frechas para seleccionar o escenario adxacente. Usa espazo ou a tecla Intro no escenario adxacente para navegar alí."
         },
         {
-          "default": "Mapa",
-          "label": "Descrición do mapa"
+          "label": "Descrición do mapa",
+          "default": "Mapa"
         },
         {
           "label": "Trasladado ao escenario",
@@ -584,8 +573,7 @@
           "label": "Saír de Pantalla Completa",
           "default": "Saír do modo de pantalla completa"
         }
-      ],
-      "label": "Textos de accesibilidade"
+      ]
     }
   ]
 }

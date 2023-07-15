@@ -432,7 +432,11 @@ export default class MainInitialization {
       });
     }
 
-    this.stages.setStartStages();
+    const reachableStageIds = this.stages.setStartStages();
+
+    this.stages.updateReachability(reachableStageIds);
+    this.paths.updateReachability(reachableStageIds);
+    this.exercises.updateReachability(reachableStageIds);
 
     // Initialize lives
     this.toolbar.setStatusContainerStatus(

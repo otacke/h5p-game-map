@@ -22,6 +22,7 @@
       "description": "Izenburu-barrarako aukerako goiburua."
     },
     {
+      "label": "Jolasaren mapa editorea",
       "fields": [
         {
           "label": "Atzeko planoko irudia",
@@ -36,10 +37,14 @@
           ]
         },
         {
+          "label": "Jolasaren mapa",
           "fields": [
             {},
             {
+              "label": "Elementuak",
+              "entity": "Elementua",
               "field": {
+                "label": "Elementuak",
                 "fields": [
                   {
                     "label": "Id"
@@ -56,6 +61,8 @@
                     "description": "Hautatzen bada, etapa hau erabiltzailea hasten den etapa izango da. Etaparik ez badago edo etapa bat baino gehiago badago hasierako etapa ausaz aukeratuko da."
                   },
                   {
+                    "label": "Denbora-muga",
+                    "description": "Define timer related settings.",
                     "fields": [
                       {
                         "label": "Time limit",
@@ -65,9 +72,7 @@
                         "label": "Timeout warning time",
                         "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
                       }
-                    ],
-                    "label": "Denbora-muga",
-                    "description": "Define timer related settings."
+                    ]
                   },
                   {
                     "label": "Access restrictions",
@@ -93,19 +98,15 @@
                   {
                     "label": "Telemetry"
                   }
-                ],
-                "label": "Elementuak"
-              },
-              "label": "Elementuak",
-              "entity": "Elementua"
+                ]
+              }
             }
-          ],
-          "label": "Jolasaren mapa"
+          ]
         }
-      ],
-      "label": "Jolasaren mapa editorea"
+      ]
     },
     {
+      "label": "End screen",
       "fields": [
         {
           "label": "User not successful",
@@ -134,6 +135,7 @@
           ]
         },
         {
+          "label": "Overall Feedback",
           "fields": [
             {
               "widgets": [
@@ -157,11 +159,9 @@
                 ]
               }
             }
-          ],
-          "label": "Overall Feedback"
+          ]
         }
-      ],
-      "label": "End screen"
+      ]
     },
     {
       "label": "Visual settings",
@@ -251,6 +251,7 @@
       ]
     },
     {
+      "label": "Audio settings",
       "fields": [
         {
           "label": "Background music",
@@ -265,6 +266,7 @@
           ]
         },
         {
+          "label": "Events",
           "fields": [
             {
               "label": "Click on locked stage",
@@ -318,13 +320,12 @@
               "label": "End screen (full score)",
               "description": "Will be played on the end screen if the user did get full score."
             }
-          ],
-          "label": "Events"
+          ]
         }
-      ],
-      "label": "Audio settings"
+      ]
     },
     {
+      "label": "Behavioural settings",
       "fields": [
         {
           "label": "Lives",
@@ -341,6 +342,7 @@
           "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises."
         },
         {
+          "label": "Map",
           "fields": [
             {
               "label": "Show stage labels",
@@ -375,31 +377,17 @@
                   "label": "See only unlocked stages"
                 }
               ]
-            },
-            {
-              "label": "Start stages",
-              "description": "Decide what stages the user can start at. If no stage is set as start stage, all stages are considered to be potential start stages.",
-              "options": [
-                {
-                  "label": "All stages that are defined as start stage"
-                },
-                {
-                  "label": "One stage randomly chosen form start stages"
-                }
-              ]
             }
-          ],
-          "label": "Map"
+          ]
         }
-      ],
-      "label": "Behavioural settings"
+      ]
     },
     {
       "label": "User interface",
       "fields": [
         {
-          "default": "Start",
-          "label": "Start"
+          "label": "Start",
+          "default": "Start"
         },
         {
           "label": "Restart",
@@ -483,8 +471,8 @@
           "default": "OK"
         },
         {
-          "default": "No background image was set for the map.",
-          "label": "No background image was set"
+          "label": "No background image was set",
+          "default": "No background image was set for the map."
         },
         {
           "label": "No stages were set",
@@ -493,6 +481,7 @@
       ]
     },
     {
+      "label": "Accessibility texts",
       "fields": [
         {
           "label": "Finish",
@@ -516,8 +505,8 @@
           "default": "You got @score out of @total points"
         },
         {
-          "default": "The map was opened.",
-          "label": "Map was opened"
+          "label": "Map was opened",
+          "default": "The map was opened."
         },
         {
           "label": "Map was opened (solutions mode)",
@@ -584,8 +573,7 @@
           "label": "Exit fullscreen",
           "default": "Exit fullscreen mode"
         }
-      ],
-      "label": "Accessibility texts"
+      ]
     }
   ]
 }

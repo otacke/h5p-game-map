@@ -64,15 +64,27 @@ export default class Exercises {
   }
 
   /**
+   * Update reachability of exercises.
+   * @param {string[]} reachableStageIds Ids of reachable stages.
+   */
+  updateReachability(reachableStageIds) {
+    Object.keys(this.exercises).forEach((key) => {
+      this.exercises[key].setReachable(reachableStageIds.includes(key));
+    });
+  }
+
+  /**
    * Get current state.
    * @returns {object} Current state to be retrieved later.
    */
   getCurrentState() {
-    return Object.values(this.exercises).map((exercise) => {
-      return {
-        exercise: exercise.getCurrentState()
-      };
-    });
+    return Object.values(this.exercises)
+      .filter((exercise) => exercise.isReachable())
+      .map((exercise) => {
+        return {
+          exercise: exercise.getCurrentState()
+        };
+      });
   }
 
   /**
@@ -81,6 +93,7 @@ export default class Exercises {
    */
   getXAPIData() {
     return Object.values(this.exercises)
+      .filter((exercise) => exercise.isReachable())
       .map((exercise) => {
         return exercise?.getXAPIData?.();
       })
@@ -92,6 +105,10 @@ export default class Exercises {
    */
   showSolutions() {
     Object.values(this.exercises).forEach((exercise) => {
+      if (!exercise.isReachable()) {
+        return;
+      }
+
       exercise.showSolutions();
     });
   }
@@ -102,6 +119,10 @@ export default class Exercises {
    */
   getAnswerGiven() {
     return Object.values(this.exercises).some((exercise) => {
+      if (!exercise.isReachable()) {
+        return false;
+      }
+
       return exercise.getAnswerGiven();
     });
   }
@@ -112,6 +133,10 @@ export default class Exercises {
    */
   getScore() {
     return Object.values(this.exercises).reduce((score, exercise) => {
+      if (!exercise.isReachable()) {
+        return score;
+      }
+
       return score += exercise.getScore();
     }, 0);
   }
@@ -122,6 +147,10 @@ export default class Exercises {
    */
   getMaxScore() {
     return Object.values(this.exercises).reduce((score, exercise) => {
+      if (!exercise.isReachable()) {
+        return score;
+      }
+
       return score += exercise.getMaxScore();
     }, 0);
   }

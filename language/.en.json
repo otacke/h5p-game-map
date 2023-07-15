@@ -377,18 +377,6 @@
                   "label": "See only unlocked stages"
                 }
               ]
-            },
-            {
-              "label": "Start stages",
-              "description": "Decide what stages the user can start at. If no stage is set as start stage, all stages are considered to be potential start stages.",
-              "options": [
-                {
-                  "label": "All stages that are defined as start stage"
-                },
-                {
-                  "label": "One stage randomly chosen form start stages"
-                }
-              ]
             }
           ]
         }
