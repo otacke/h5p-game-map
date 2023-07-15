@@ -87,13 +87,13 @@
       background-color: var(--stage-color-cleared, rgba(0, 130, 0, 0.7));
 
       &::before {
-        content: "\f00c";
-        font-family: "H5PFontAwesome4", sans-serif;
+        content: "\f005";
+        font-family: "H5PGameMap", "H5PFontAwesome4", sans-serif;
         font-size: max(0.75rem, var(--stage-font-size));
         inset: 0;
         line-height: max(1rem, var(--stage-line-height));
         position: absolute;
-        top: -1px;
+        top: -2px;
       }
     }
   }

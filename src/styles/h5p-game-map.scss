@@ -1,5 +1,16 @@
 @import "@styles/main";
 
+@font-face {
+  font-family: 'H5PGameMap';
+  src:
+    url('@assets/fonts/H5PGameMap.eot') format('embedded-opentype'),
+    url('@assets/fonts/H5PGameMap.ttf') format('truetype'),
+    url('@assets/fonts/H5PGameMap.woff') format('woff'),
+    url('@assets/fonts/H5PGameMap.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .h5p-game-map {
   background-color: $color-background;
   color: $color-text;

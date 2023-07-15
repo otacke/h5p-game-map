@@ -10,6 +10,7 @@ module.exports = {
   mode: mode,
   resolve: {
     alias: {
+      '@assets': path.resolve(__dirname, 'src/assets'),
       '@components': path.resolve(__dirname, 'src/scripts/components'),
       '@mixins': path.resolve(__dirname, 'src/scripts/mixins'),
       '@models': path.resolve(__dirname, 'src/scripts/models'),
@@ -69,12 +70,12 @@ module.exports = {
       },
       {
         test: /\.svg|\.jpg|\.png$/,
-        include: path.join(__dirname, 'src/images'),
+        include: path.join(__dirname, 'src/assets/images'),
         type: 'asset/resource'
       },
       {
         test: /\.woff$/,
-        include: path.join(__dirname, 'src/fonts'),
+        include: path.join(__dirname, 'src/assetsfonts'),
         type: 'asset/resource'
       }
     ]
