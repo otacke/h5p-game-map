@@ -428,6 +428,21 @@ export default class Main {
   }
 
   /**
+   * Handle incomplete score.
+   */
+  handleIncompleteScore() {
+    if (this.livesLeft === Infinity) {
+      return;
+    }
+
+    this.handleLostLife();
+
+    if (this.livesLeft > 0) {
+      this.showIncompleteScoreConfirmation();
+    }
+  }
+
+  /**
    * Handle finish.
    */
   showFinishConfirmation() {
@@ -536,6 +551,33 @@ export default class Main {
       {
         headerText: this.params.dictionary.get('l10n.confirmTimeoutHeader'),
         dialogText: dialogText,
+        confirmText: this.params.dictionary.get('l10n.ok'),
+        hideCancel: true
+      }, {
+        onConfirmed: () => {
+          this.params.jukebox.stopGroup('default');
+          this.toolbar.enableButton('finish');
+        },
+        onCanceled: () => {
+          this.params.jukebox.stopGroup('default');
+          this.toolbar.enableButton('finish');
+        }
+      }
+    );
+
+    this.confirmationDialog.show();
+  }
+
+  /**
+   * Show incomplete score confirmation.
+   */
+  showIncompleteScoreConfirmation() {
+    this.toolbar.disableButton('finish');
+
+    this.confirmationDialog.update(
+      {
+        headerText: this.params.dictionary.get('l10n.confirmScoreIncompleteHeader'),
+        dialogText: this.params.dictionary.get('l10n.confirmIncompleteScoreDialogLostLife'),
         confirmText: this.params.dictionary.get('l10n.ok'),
         hideCancel: true
       }, {

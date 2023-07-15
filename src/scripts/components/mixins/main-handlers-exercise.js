@@ -40,7 +40,7 @@ export default class MainHandlersExercise {
     this.stages.updateUnlockingStages();
 
     if (typeof params.score === 'number' && params.score !== params.maxScore) {
-      this.handleLostLife();
+      this.handleIncompleteScore(id);
     }
 
     this.toolbar.setStatusContainerStatus(

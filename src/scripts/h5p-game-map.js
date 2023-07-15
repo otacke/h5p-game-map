@@ -71,6 +71,8 @@ export default class GameMap extends H5P.Question {
         confirmTimeoutHeader: 'Time out!',
         confirmTimeoutDialog: 'You ran out of time.',
         confirmTimeoutDialogLostLife: 'You ran out of time and lost a life.',
+        confirmScoreIncompleteHeader: 'Not full score!',
+        confirmIncompleteScoreDialogLostLife: 'You did not achieve full score and lost a life.',
         confirmFullScoreHeader: 'You achieved full score!',
         confirmFullScoreDialog: 'You have collected enough points to finish this map with a full score, but you are free to explore the rest if you wish to.',
         confirmAccessDeniedHeader: 'Stage locked',

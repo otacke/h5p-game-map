@@ -463,6 +463,14 @@
           "default": "Quedaches sen tempo e perdes unha vida."
         },
         {
+          "label": "Dialog header score incomplete",
+          "default": "Not full score!"
+        },
+        {
+          "label": "Dialog text score incomplete (lost a life)",
+          "default": "You did not achieve full score and lost a life."
+        },
+        {
           "label": "Cabeceira do diálogo de puntuación completa",
           "default": "Conseguiches a puntuación total!"
         },

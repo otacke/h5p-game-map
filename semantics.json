@@ -999,6 +999,18 @@
         "default": "You ran out of time and lost a life."
       },
       {
+        "name": "confirmScoreIncompleteHeader",
+        "type": "text",
+        "label": "Dialog header score incomplete",
+        "default": "Not full score!"
+      },
+      {
+        "name": "confirmIncompleteScoreDialogLostLife",
+        "type": "text",
+        "label": "Dialog text score incomplete (lost a life)",
+        "default": "You did not achieve full score and lost a life."
+      },
+      {
         "name": "confirmFullScoreHeader",
         "type": "text",
         "label": "Dialog header full score",

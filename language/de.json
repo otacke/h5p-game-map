@@ -463,6 +463,14 @@
           "default": "Die Zeit für die Aufgabe ist abgelaufen, und du hast ein Leben verloren."
         },
         {
+          "label": "Dialogüberschrift nicht volle Punktzahl",
+          "default": "Nicht volle Punktzahl!"
+        },
+        {
+          "label": "Dialogtext nicht volle Punktzahl (Leben verloren)",
+          "default": "Du hast nicht die volle Punktzahl erreicht, und du hast ein Leben verloren."
+        },
+        {
           "label": "Dialogüberschrift Volle Punktzahl",
           "default": "Du hast die volle Punktzahl erreicht!"
         },
