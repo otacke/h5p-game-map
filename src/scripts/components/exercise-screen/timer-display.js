@@ -73,7 +73,7 @@ export default class TimerDisplay {
    * Set timeout warning.
    * @param {boolean} state If true, set warning state. Else hide.
    */
-  setTimeoutWarning(state) {
+  setTimeoutWarning(state = false) {
     if (!this.isTimeoutwarning && state) {
       this.notify(); // Only notify if not yet notified.
     }
