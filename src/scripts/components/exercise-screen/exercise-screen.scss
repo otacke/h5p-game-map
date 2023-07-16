@@ -158,6 +158,14 @@
               overflow: inherit;
             }
 
+            &.h5p-memory-game {
+              position: relative;
+
+              .h5p-memory-reset {
+                width: fit-content;
+              }
+            }
+
             &.h5p-image-hotspot-question > .h5p-question-content {
               margin: 0;
             }
