@@ -1,4 +1,5 @@
 import Timer from '@services/timer';
+import H5PUtil from '@services/h5p-util';
 import Util from '@services/util';
 
 export default class Exercise {
@@ -117,7 +118,7 @@ export default class Exercise {
       this.params.globals.get('mainInstance'), 'resize', [this.instance]
     );
 
-    if (this.isInstanceTask(this.instance)) {
+    if (H5PUtil.isInstanceTask(this.instance)) {
       this.instance.on('xAPI', (event) => {
         this.trackXAPI(event);
       });
@@ -259,29 +260,6 @@ export default class Exercise {
   }
 
   /**
-   * Determine whether an H5P instance is a task.
-   * @param {H5P.ContentType} instance Instance.
-   * @returns {boolean} True, if instance is a task.
-   */
-  isInstanceTask(instance = {}) {
-    if (!instance) {
-      return false;
-    }
-
-    if (instance.isTask) {
-      return instance.isTask; // Content will determine if it's task on its own
-    }
-
-    // Check for maxScore > 0 as indicator for being a task
-    const hasGetMaxScore = (typeof instance.getMaxScore === 'function');
-    if (hasGetMaxScore && instance.getMaxScore() > 0) {
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
    * Track scoring of contents.
    * @param {Event} event Event.
    */
@@ -397,7 +375,7 @@ export default class Exercise {
       newState = states['unstarted'];
     }
     else if (state === states['opened']) {
-      newState = (this.isInstanceTask(this.instance)) ?
+      newState = (H5PUtil.isInstanceTask(this.instance)) ?
         states['opened'] :
         states['cleared'];
     }

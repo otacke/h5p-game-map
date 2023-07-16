@@ -1,10 +1,12 @@
 import CallbackQueue from '@services/callback-queue';
 import Util from '@services/util';
+import MainAudio from './mixins/main-audio';
 import MainInitialization from './mixins/main-initialization';
 import MainHandlersStage from './mixins/main-handlers-stage';
 import MainHandlersExercise from './mixins/main-handlers-exercise';
 import MainHandlersExerciseScreen from './mixins/main-handlers-exercise-screen';
 import MainQuestionTypeContract from './mixins/main-question-type-contract';
+import MainUserConfirmation from './mixins/main-user-confirmation';
 import './main.scss';
 
 /**
@@ -33,11 +35,13 @@ export default class Main {
     Util.addMixins(
       Main,
       [
+        MainAudio,
         MainInitialization,
         MainHandlersStage,
         MainHandlersExercise,
         MainHandlersExerciseScreen,
-        MainQuestionTypeContract
+        MainQuestionTypeContract,
+        MainUserConfirmation
       ]
     );
 
@@ -214,37 +218,6 @@ export default class Main {
   }
 
   /**
-   * Handle user lost a life.
-   */
-  handleLostLife() {
-    if (this.livesLeft === 0) {
-      return;
-    }
-
-    this.livesLeft--;
-    this.params.jukebox.play('lostLife');
-
-    this.toolbar.setStatusContainerStatus('lives', { value: this.livesLeft });
-
-    if (this.livesLeft === 0) {
-      // Clear all animations that were about to be played
-      this.queueAnimation = [];
-
-      // Store current state and seal stage
-      this.stagesGameOverState = this.stages.getCurrentState();
-      this.stages.forEach((stage) => {
-        stage.setState('sealed');
-      });
-
-      this.handleExerciseScreenClosed({
-        animationEndedCallback: () => {
-          this.showGameOverConfirmation();
-        }
-      });
-    }
-  }
-
-  /**
    * Show end screen.
    * @param {object} params Parameters.
    * @param {boolean} [params.focusButton] If true, start button will get focus.
@@ -328,298 +301,6 @@ export default class Main {
     });
 
     this.toolbar.forceButton('fullscreen', state ? 1 : 0, { noCallback: true });
-  }
-
-  /**
-   * Toggle audio.
-   * @param {boolean} [state] State to set audio to.
-   */
-  toggleAudio(state) {
-    this.isAudioOn = (typeof state === 'boolean') ? state : !this.isAudioOn;
-
-    if (!this.isAudioOn) {
-      this.params.jukebox.muteAll();
-    }
-    else {
-      this.tryStartBackgroundMusic();
-    }
-  }
-
-  /**
-   * Try start background music.
-   * @returns {boolean} True, id audio could be started.
-   */
-  async tryStartBackgroundMusic() {
-    if (this.params.jukebox.audioContext.state === 'suspended') {
-      await this.params.jukebox.audioContext.resume();
-      this.params.jukebox.unmuteAll();
-      return this.params.jukebox.play('backgroundMusic');
-    }
-    else {
-      this.params.jukebox.unmuteAll();
-      return this.params.jukebox.play('backgroundMusic');
-    }
-  }
-
-  /**
-   * Handle autoplay of audio.
-   */
-  async handleAutoplay() {
-    if (!this.params.jukebox.getAudioIds().includes('backgroundMusic')) {
-      this.toolbar.forceButton('audio', true);
-    }
-
-    if (this.autoplayHandlerRunning) {
-      return;
-    }
-
-    this.autoplayHandlerRunning = true;
-
-    const couldPlay = await this.tryStartBackgroundMusic();
-    this.toolbar.forceButton('audio', couldPlay);
-  }
-
-  /**
-   * Handle timer ticked.
-   * @param {number} id Id of exercise that had a timer tick.
-   * @param {number} remainingTime Remaining time in ms.
-   * @param {object} [options] Options.
-   * @param {boolean} [options.timeoutWarning] If true, timeout warning state.
-   */
-  handleTimerTicked(id, remainingTime, options = {}) {
-    if (!id || id !== this.openExerciseId) {
-      return;
-    }
-
-    this.exerciseScreen.setTime(remainingTime, options);
-  }
-
-  /**
-   * Handle timeout warning.
-   * @param {number} id Id of exercise that is about to time out.
-   */
-  handleTimeoutWarning(id) {
-    if (!id || id !== this.openExerciseId) {
-      return;
-    }
-
-    this.params.jukebox.play('timeoutWarning');
-  }
-
-  /**
-   * Handle timeout.
-   * @param {number} id Id of exercise that timed out.
-   */
-  handleTimeout(id) {
-    if (!id || id !== this.openExerciseId) {
-      return;
-    }
-
-    this.handleLostLife();
-
-    if (this.livesLeft > 0) {
-      this.handleExerciseScreenClosed({
-        animationEndedCallback: () => {
-          this.exercises.reset(id);
-          this.showTimeoutConfirmation();
-        }
-      });
-    }
-  }
-
-  /**
-   * Handle incomplete score.
-   */
-  handleIncompleteScore() {
-    if (this.livesLeft === Infinity) {
-      return;
-    }
-
-    this.handleLostLife();
-
-    if (this.livesLeft > 0) {
-      this.showIncompleteScoreConfirmation();
-    }
-  }
-
-  /**
-   * Handle finish.
-   */
-  showFinishConfirmation() {
-    // In solution mode, no dialog and no xAPI necessary
-    if (this.isShowingSolutions) {
-      this.showEndscreen({ focusButton: true, readOpened: true });
-      return;
-    }
-
-    const extras = this.params.globals.get('extras');
-    extras.isScoringEnabled = true;
-    const isScoringEnabled = extras.standalone &&
-      (extras.isScoringEnabled || extras.isReportingEnabled);
-
-    const dialogTexts = [
-      this.params.dictionary.get('l10n.confirmFinishDialog')
-    ];
-    if (isScoringEnabled) {
-      dialogTexts.push(
-        this.params.dictionary.get('l10n.confirmFinishDialogSubmission')
-      );
-    }
-    dialogTexts.push(
-      this.params.dictionary.get('l10n.confirmFinishDialogQuestion')
-    );
-
-    this.confirmationDialog.update(
-      {
-        headerText: this.params.dictionary.get('l10n.confirmFinishHeader'),
-        dialogText: dialogTexts.join(' '),
-        cancelText: this.params.dictionary.get('l10n.no'),
-        confirmText: this.params.dictionary.get('l10n.yes')
-      }, {
-        onConfirmed: () => {
-          this.handleConfirmedFinish();
-        },
-        onCanceled: () => {
-          this.params.jukebox.stopGroup('default');
-        }
-      }
-    );
-
-    this.params.jukebox.stopGroup('default');
-    this.confirmationDialog.show();
-    this.params.jukebox.play('showDialog');
-  }
-
-  /**
-   * Handle user confirmed to finish.
-   */
-  handleConfirmedFinish() {
-    this.gameDone = true;
-    this.queueAnimation = [];
-    this.stages.togglePlayfulness(false);
-    this.params.jukebox.stopAll();
-
-    this.callbacks.onFinished();
-    this.showEndscreen({ focusButton: true });
-  }
-
-  /**
-   * Handle game over.
-   */
-  showGameOverConfirmation() {
-    this.gameDone = true;
-    this.stages.togglePlayfulness(false);
-
-    this.toolbar.disableButton('finish');
-
-    this.confirmationDialog.update(
-      {
-        headerText: this.params.dictionary.get('l10n.confirmGameOverHeader'),
-        dialogText: this.params.dictionary.get('l10n.confirmGameOverDialog'),
-        confirmText: this.params.dictionary.get('l10n.ok'),
-        hideCancel: true
-      }, {
-        onConfirmed: () => {
-          this.params.jukebox.stopAll();
-          this.callbacks.onFinished();
-          this.showEndscreen({ focusButton: true });
-        },
-        onCanceled: () => {
-          this.toolbar.enableButton('finish');
-        }
-      }
-    );
-
-    this.params.jukebox.stopAll();
-    this.params.jukebox.play('gameOver');
-
-    this.confirmationDialog.show();
-    this.toolbar.enableButton('finish');
-  }
-
-  /**
-   * Show timeout confirmation.
-   */
-  showTimeoutConfirmation() {
-    this.toolbar.disableButton('finish');
-
-    const dialogText = (this.livesLeft === Infinity) ?
-      this.params.dictionary.get('l10n.confirmTimeoutDialog') :
-      this.params.dictionary.get('l10n.confirmTimeoutDialogLostLife');
-
-    this.confirmationDialog.update(
-      {
-        headerText: this.params.dictionary.get('l10n.confirmTimeoutHeader'),
-        dialogText: dialogText,
-        confirmText: this.params.dictionary.get('l10n.ok'),
-        hideCancel: true
-      }, {
-        onConfirmed: () => {
-          this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
-        },
-        onCanceled: () => {
-          this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
-        }
-      }
-    );
-
-    this.confirmationDialog.show();
-  }
-
-  /**
-   * Show incomplete score confirmation.
-   */
-  showIncompleteScoreConfirmation() {
-    this.toolbar.disableButton('finish');
-
-    this.confirmationDialog.update(
-      {
-        headerText: this.params.dictionary.get('l10n.confirmScoreIncompleteHeader'),
-        dialogText: this.params.dictionary.get('l10n.confirmIncompleteScoreDialogLostLife'),
-        confirmText: this.params.dictionary.get('l10n.ok'),
-        hideCancel: true
-      }, {
-        onConfirmed: () => {
-          this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
-        },
-        onCanceled: () => {
-          this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
-        }
-      }
-    );
-
-    this.confirmationDialog.show();
-  }
-
-  /**
-   * Show full score confirmation.
-   */
-  showFullScoreConfirmation() {
-    this.toolbar.disableButton('finish');
-
-    this.confirmationDialog.update(
-      {
-        headerText: this.params.dictionary.get('l10n.confirmFullScoreHeader'),
-        dialogText: this.params.dictionary.get('l10n.confirmFullScoreDialog'),
-        confirmText: this.params.dictionary.get('l10n.ok'),
-        hideCancel: true
-      }, {
-        onConfirmed: () => {
-          this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
-        },
-        onCanceled: () => {
-          this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
-        }
-      }
-    );
-
-    this.confirmationDialog.show();
   }
 }
 

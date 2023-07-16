@@ -49,6 +49,21 @@ export default class MainHandlersExercise {
   }
 
   /**
+   * Handle incomplete score.
+   */
+  handleIncompleteScore() {
+    if (this.livesLeft === Infinity) {
+      return;
+    }
+
+    this.handleLostLife();
+
+    if (this.livesLeft > 0) {
+      this.showIncompleteScoreConfirmation();
+    }
+  }
+
+  /**
    * Handle exercise timer ticked.
    * @param {number} id Id of exercise that had a timer tick.
    * @param {number} remainingTime Remaining time in ms.
@@ -56,7 +71,11 @@ export default class MainHandlersExercise {
    * @param {boolean} [options.timeoutWarning] If true, timeout warning state.
    */
   handleExerciseTimerTicked(id, remainingTime, options) {
-    this.handleTimerTicked(id, remainingTime, options);
+    if (!id || id !== this.openExerciseId) {
+      return;
+    }
+
+    this.exerciseScreen.setTime(remainingTime, options);
   }
 
   /**
@@ -64,7 +83,11 @@ export default class MainHandlersExercise {
    * @param {number} id Id of exercise that is about to time out.
    */
   handleExerciseTimeoutWarning(id) {
-    this.handleTimeoutWarning(id);
+    if (!id || id !== this.openExerciseId) {
+      return;
+    }
+
+    this.params.jukebox.play('timeoutWarning');
   }
 
   /**
@@ -72,6 +95,50 @@ export default class MainHandlersExercise {
    * @param {number} id Id of exercise that timed out.
    */
   handleExerciseTimeout(id) {
-    this.handleTimeout(id);
+    if (!id || id !== this.openExerciseId) {
+      return;
+    }
+
+    this.handleLostLife();
+
+    if (this.livesLeft > 0) {
+      this.handleExerciseScreenClosed({
+        animationEndedCallback: () => {
+          this.exercises.reset(id);
+          this.showTimeoutConfirmation();
+        }
+      });
+    }
+  }
+
+  /**
+   * Handle user lost a life.
+   */
+  handleLostLife() {
+    if (this.livesLeft === 0) {
+      return;
+    }
+
+    this.livesLeft--;
+    this.params.jukebox.play('lostLife');
+
+    this.toolbar.setStatusContainerStatus('lives', { value: this.livesLeft });
+
+    if (this.livesLeft === 0) {
+      // Clear all animations that were about to be played
+      this.queueAnimation = [];
+
+      // Store current state and seal stage
+      this.stagesGameOverState = this.stages.getCurrentState();
+      this.stages.forEach((stage) => {
+        stage.setState('sealed');
+      });
+
+      this.handleExerciseScreenClosed({
+        animationEndedCallback: () => {
+          this.showGameOverConfirmation();
+        }
+      });
+    }
   }
 }
