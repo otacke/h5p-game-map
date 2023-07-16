@@ -5,6 +5,13 @@
   flex-direction: row;
   flex-shrink: 0;
 
+  // Workaround for iOS < 14.5 which doesn't support gap for flexbox
+  @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+    &:not(:last-child) {
+      margin-right: 1.25rem;
+    }
+  }
+
   &::before {
     color: #1768C4;
     margin-right: 0.5rem;

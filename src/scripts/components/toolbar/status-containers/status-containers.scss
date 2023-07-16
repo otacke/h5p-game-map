@@ -4,6 +4,13 @@
   flex-direction: row;
   gap: 1.25rem;
 
+  // Workaround for iOS < 14.5 which doesn't support gap for flexbox
+  @supports (-webkit-touch-callout: none) and (not (translate: none)) {
+    &:not(:last-child) {
+      margin-right: 1.25rem;
+    }
+  }
+
   &.display-none {
     display: none;
   }
