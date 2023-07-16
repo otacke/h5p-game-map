@@ -72,9 +72,10 @@
         content: "\f023";
         font-family: "H5PFontAwesome4", sans-serif;
         font-size: max(0.75rem, var(--stage-font-size));
-        inset: 0;
+        left: 0;
         line-height: max(1rem, var(--stage-line-height));
         position: absolute;
+        right: 0;
         top: -1px;
       }
     }
@@ -90,9 +91,10 @@
         content: "\f005";
         font-family: "H5PGameMap", "H5PFontAwesome4", sans-serif;
         font-size: max(0.75rem, var(--stage-font-size));
-        inset: 0;
+        left: 0;
         line-height: max(1rem, var(--stage-line-height));
         position: absolute;
+        right: 0;
         top: -2px;
       }
     }
