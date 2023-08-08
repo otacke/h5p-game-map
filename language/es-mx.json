@@ -463,12 +463,12 @@
           "default": "A usted se le acabó el tiempo y perdió una vida."
         },
         {
-          "label": "Dialog header score incomplete",
-          "default": "Not full score!"
+          "label": "Encabezado de diálogo puntaje incompleto",
+          "default": "¡NO tiene puntaje total!"
         },
         {
-          "label": "Dialog text score incomplete (lost a life)",
-          "default": "You did not achieve full score and lost a life."
+          "label": "Texto de diálogo puntaje incompleto (perdió una vida)",
+          "default": "Usted no logró puntaje completo y perdió una vida."
         },
         {
           "label": "Encabezado de diálogo puntaje completo",
