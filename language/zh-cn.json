@@ -364,7 +364,7 @@
               ]
             },
             {
-              "label": "Visibility range",
+              "label": "关卡可见范围",
               "description": "选择用户可以看到的关卡",
               "options": [
                 {
@@ -463,12 +463,12 @@
           "default": "你超时了！很遗憾，你失去了一条生命。"
         },
         {
-          "label": "Dialog header score incomplete",
-          "default": "Not full score!"
+          "label": "对话框标题：得分不完整",
+          "default": "未达到满分！"
         },
         {
-          "label": "Dialog text score incomplete (lost a life)",
-          "default": "You did not achieve full score and lost a life."
+          "label": "对话框文本：得分不完整（失去一条生命）",
+          "default": "您没有达到满分，失去了一条生命。"
         },
         {
           "label": "满分对话框标题",
