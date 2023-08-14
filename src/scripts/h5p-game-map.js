@@ -1,3 +1,4 @@
+import H5PUtil from '@services/h5p-util';
 import Util from '@services/util';
 import Dictionary from '@services/dictionary';
 import Globals from '@services/globals';
@@ -7,7 +8,6 @@ import '@styles/h5p-game-map.scss';
 import MessageBox from '@components/messageBox/message-box';
 import QuestionTypeContract from '@mixins/question-type-contract';
 import XAPI from '@mixins/xapi';
-import { getSemanticsDefaults } from '@services/util-h5p';
 
 export default class GameMap extends H5P.Question {
   /**
@@ -28,7 +28,7 @@ export default class GameMap extends H5P.Question {
         finishScore: Infinity, // Cannot use Infinity in JSON
         enableCheckButton: true // Undocumented Question Type contract setting
       }
-    }, getSemanticsDefaults());
+    }, H5PUtil.getSemanticsDefaults());
 
     // Sanitize parameters
     this.params = Util.extend(defaults, params);
