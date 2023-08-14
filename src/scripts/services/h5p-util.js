@@ -46,7 +46,7 @@ export default class H5PUtil {
         defaults[entry.name] = entry.default;
       }
       if (entry.type === 'list') {
-        defaults[entry.name] = [];
+        defaults[entry.name] = []; // Does not set defaults within list items!
       }
       else if (entry.type === 'group' && entry.fields) {
         const groupDefaults = H5PUtil.getSemanticsDefaults(entry.fields);
