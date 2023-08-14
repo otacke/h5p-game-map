@@ -7,6 +7,7 @@ import '@styles/h5p-game-map.scss';
 import MessageBox from '@components/messageBox/message-box';
 import QuestionTypeContract from '@mixins/question-type-contract';
 import XAPI from '@mixins/xapi';
+import { getSemanticsDefaults } from '@services/util-h5p';
 
 export default class GameMap extends H5P.Question {
   /**
@@ -22,90 +23,15 @@ export default class GameMap extends H5P.Question {
       GameMap, [QuestionTypeContract, XAPI]
     );
 
-    // Sanitize parameters
-    this.params = Util.extend({
-      gamemapSteps: {
-        gamemap: {
-          elements: []
-        }
-      },
-      audio: {
-        backgroundMusic: {
-          autoplay: false,
-          muteDuringExercise: true
-        }
-      },
-      visual: {
-        paths: {
-          displayPaths: true,
-        },
-        misc: {
-          useAnimation: true
-        }
-      },
+    const defaults = Util.extend({
       behaviour: {
-        map: {
-          showLabels: true,
-          roaming: 'free',
-          fog: 'all'
-        },
-        finishScore: Infinity,
-        enableRetry: true, // @see {@link https://h5p.org/documentation/developers/contracts#guides-header-9}
-        enableSolutionsButton: true, // @see {@link https://h5p.org/documentation/developers/contracts#guides-header-8}
+        finishScore: Infinity, // Cannot use Infinity in JSON
         enableCheckButton: true // Undocumented Question Type contract setting
-      },
-      l10n: {
-        start: 'Start',
-        continue: 'Continue',
-        restart: 'Restart',
-        showSolutions: 'Show solutions',
-        completedMap: 'You have completed the map!',
-        confirmFinishHeader: 'Finish map?',
-        confirmFinishDialog: 'If you finish now, you will not be able to explore the map any longer.',
-        confirmFinishDialogSubmission: 'Your score will be submitted.',
-        confirmFinishDialogQuestion: 'Do you really want to finish the map?',
-        no: 'No',
-        yes: 'Yes',
-        confirmGameOverHeader: 'Game over!',
-        confirmGameOverDialog: 'You have lost all your lives. Please try again!',
-        confirmTimeoutHeader: 'Time out!',
-        confirmTimeoutDialog: 'You ran out of time.',
-        confirmTimeoutDialogLostLife: 'You ran out of time and lost a life.',
-        confirmScoreIncompleteHeader: 'Not full score!',
-        confirmIncompleteScoreDialogLostLife: 'You did not achieve full score and lost a life.',
-        confirmFullScoreHeader: 'You achieved full score!',
-        confirmFullScoreDialog: 'You have collected enough points to finish this map with a full score, but you are free to explore the rest if you wish to.',
-        confirmAccessDeniedHeader: 'Stage locked',
-        confirmAccessDeniedDialog: 'This stage requires you to meet some goals before it can be opened.',
-        confirmAccessDeniedMinScore: 'You need at least @minScore points.',
-        ok: 'OK',
-        noBackground: 'No background image was set for the map.',
-        noStages: 'No valid stages were set for the map.'
-      },
-      a11y: {
-        buttonFinish: 'Finish the map',
-        buttonAudioActive: 'Mute audio. Currently unmuted.',
-        buttonAudioInactive: 'Unmute audio. Currently muted.',
-        close: 'Close',
-        yourResult: 'You got @score out of @total points',
-        startScreenWasOpened: 'The start screen was opened',
-        mapWasOpened: 'The map was opened.',
-        mapSolutionsWasOpened: 'The map was opened in solutions mode.',
-        endScreenWasOpened: 'The end screen was opened',
-        exerciseLabel: '. Exercise for @stagelabel',
-        stageButtonLabel: 'Stage: @stagelabel',
-        adjacentStageLabel: 'Adjacent stage of @stagelabelOrigin: @stagelabelNeighbor',
-        locked: 'Locked',
-        cleared: 'Cleared',
-        applicationInstructions: 'Use space or enter key to activate current stage. Use arrow keys to select adjacent stage. Use space or enter key on adjacent stage to navigate there.',
-        applicationDescription: 'Map.',
-        movedToStage: 'Moved to stage @stagelabel',
-        stageUnlocked: 'Stage @stagelabel was unlocked.',
-        toolbaFallbackLabel: 'Game Map',
-        enterFullscreen: 'Enter fullscreen mode',
-        exitFullscreen: 'Exit fullscreen mode'
       }
-    }, params);
+    }, getSemanticsDefaults());
+
+    // Sanitize parameters
+    this.params = Util.extend(defaults, params);
 
     /*
      * All paths are cleared by default in roaming mode, but that's not obvious

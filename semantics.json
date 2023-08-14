@@ -815,7 +815,7 @@
             "type": "boolean",
             "label": "Show stage labels",
             "description": "Choose whether a stage's label will be shown on hovering a stage with the mouse. The label will not show on touch devices.",
-            "default": "true"
+            "default": true
           },
           {
             "name": "roaming",
