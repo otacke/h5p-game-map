@@ -45,6 +45,7 @@ export default class MainHandlersStage {
         this.params.globals.get('params').gamemapSteps.gamemap.elements
           .findIndex((element) => element.id === id);
       this.currentStageIndex = stageIndex + 1;
+      this.hasUserMadeProgress = true;
       this.callbacks.onProgressChanged(this.currentStageIndex);
     }
 
