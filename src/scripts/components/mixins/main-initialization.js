@@ -372,6 +372,7 @@ export default class MainInitialization {
   reset(params = {}) {
     this.params.jukebox.muteAll();
     this.stageAttentionSeekerTimeout = null;
+    this.hasUserMadeProgress = false;
 
     const globalParams = this.params.globals.get('params');
     const previousState =
