@@ -246,6 +246,10 @@ export default class GameMap extends H5P.Question {
       return {};
     }
 
+    if (!this.getAnswerGiven()) {
+      return; // Nothing relevant to store
+    }
+
     return {
       content: this.main.getCurrentState()
     };
