@@ -15,7 +15,7 @@ export default class MainQuestionTypeContract {
    * @returns {boolean} True, if some answer was given.
    */
   getAnswerGiven() {
-    return this.exercises.getAnswerGiven();
+    return this.exercises.getAnswerGiven() || this.hasUserMadeProgress;
   }
 
   /**
