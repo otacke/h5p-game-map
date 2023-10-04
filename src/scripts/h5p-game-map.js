@@ -247,7 +247,7 @@ export default class GameMap extends H5P.Question {
     }
 
     if (!this.getAnswerGiven()) {
-       // Nothing relevant to store, but previous state in DB must be cleared after reset
+      // Nothing relevant to store, but previous state in DB must be cleared after reset
       return this.contentWasReset ? {} : undefined;
     }
 
