@@ -1,6 +1,6 @@
-import Timer from '@services/timer';
-import H5PUtil from '@services/h5p-util';
-import Util from '@services/util';
+import Timer from '@services/timer.js';
+import H5PUtil from '@services/h5p-util.js';
+import Util from '@services/util.js';
 
 export default class Exercise {
 

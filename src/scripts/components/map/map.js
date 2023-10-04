@@ -1,5 +1,5 @@
-import Util from '@services/util';
-import Path from './path';
+import Util from '@services/util.js';
+import Path from './path.js';
 import './map.scss';
 
 export default class Map {

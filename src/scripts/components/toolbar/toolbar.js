@@ -1,6 +1,6 @@
-import StatusContainers from './status-containers/status-containers';
-import ToolbarButton from './toolbar-button';
-import Util from '@services/util';
+import StatusContainers from './status-containers/status-containers.js';
+import ToolbarButton from './toolbar-button.js';
+import Util from '@services/util.js';
 import './toolbar.scss';
 
 /** Class representing the button bar */

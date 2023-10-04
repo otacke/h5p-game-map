@@ -1,6 +1,6 @@
-import FocusTrap from '@services/focus-trap';
-import Util from '@services/util';
-import TimerDisplay from './timer-display';
+import FocusTrap from '@services/focus-trap.js';
+import Util from '@services/util.js';
+import TimerDisplay from './timer-display.js';
 import './exercise-screen.scss';
 
 /** Class representing an exercise screen */

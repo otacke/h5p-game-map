@@ -1,12 +1,12 @@
-import CallbackQueue from '@services/callback-queue';
-import Util from '@services/util';
-import MainAudio from './mixins/main-audio';
-import MainInitialization from './mixins/main-initialization';
-import MainHandlersStage from './mixins/main-handlers-stage';
-import MainHandlersExercise from './mixins/main-handlers-exercise';
-import MainHandlersExerciseScreen from './mixins/main-handlers-exercise-screen';
-import MainQuestionTypeContract from './mixins/main-question-type-contract';
-import MainUserConfirmation from './mixins/main-user-confirmation';
+import CallbackQueue from '@services/callback-queue.js';
+import Util from '@services/util.js';
+import MainAudio from './mixins/main-audio.js';
+import MainInitialization from './mixins/main-initialization.js';
+import MainHandlersStage from './mixins/main-handlers-stage.js';
+import MainHandlersExercise from './mixins/main-handlers-exercise.js';
+import MainHandlersExerciseScreen from './mixins/main-handlers-exercise-screen.js';
+import MainQuestionTypeContract from './mixins/main-question-type-contract.js';
+import MainUserConfirmation from './mixins/main-user-confirmation.js';
 import './main.scss';
 
 /**

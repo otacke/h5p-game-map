@@ -1,5 +1,5 @@
-import Util from '@services/util';
-import Path from '@components/map/path';
+import Util from '@services/util.js';
+import Path from '@components/map/path.js';
 
 export default class Paths {
 

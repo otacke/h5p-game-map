@@ -1,6 +1,6 @@
 import Color from 'color';
-import Util from '@services/util';
-import Label from './label';
+import Util from '@services/util.js';
+import Label from './label.js';
 import './stage.scss';
 
 export default class Stage {

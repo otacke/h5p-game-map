@@ -1,5 +1,5 @@
-import Util from '@services/util';
-import StatusContainer from './status-container';
+import Util from '@services/util.js';
+import StatusContainer from './status-container.js';
 import './status-containers.scss';
 
 export default class StatusContainers {

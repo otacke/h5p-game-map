@@ -19,6 +19,7 @@
   ],
   "author": "Oliver Tacke",
   "license": "MIT",
+  "type": "module",
   "devDependencies": {
     "@babel/cli": "^7.23.0",
     "@babel/core": "^7.23.0",

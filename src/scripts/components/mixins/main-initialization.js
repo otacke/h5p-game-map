@@ -1,12 +1,12 @@
-import Paths from '@models/paths';
-import Stages from '@models/stages';
-import StartScreen from '@components/media-screen/start-screen';
-import EndScreen from '@components/media-screen/end-screen';
-import Map from '@components/map/map';
-import Toolbar from '@components/toolbar/toolbar';
-import Exercises from '@models/exercises';
-import ExerciseScreen from '@components/exercise-screen/exercise-screen';
-import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog';
+import Paths from '@models/paths.js';
+import Stages from '@models/stages.js';
+import StartScreen from '@components/media-screen/start-screen.js';
+import EndScreen from '@components/media-screen/end-screen.js';
+import Map from '@components/map/map.js';
+import Toolbar from '@components/toolbar/toolbar.js';
+import Exercises from '@models/exercises.js';
+import ExerciseScreen from '@components/exercise-screen/exercise-screen.js';
+import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog.js';
 
 /**
  * Mixin containing main init stuff.

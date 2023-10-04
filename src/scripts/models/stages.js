@@ -1,5 +1,5 @@
-import Util from '@services/util';
-import Stage from '@components/map/stage/stage';
+import Util from '@services/util.js';
+import Stage from '@components/map/stage/stage.js';
 
 export default class Stages {
 

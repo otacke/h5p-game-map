@@ -1,13 +1,13 @@
-import H5PUtil from '@services/h5p-util';
-import Util from '@services/util';
-import Dictionary from '@services/dictionary';
-import Globals from '@services/globals';
-import Jukebox from '@services/jukebox';
-import Main from '@components/main';
+import H5PUtil from '@services/h5p-util.js';
+import Util from '@services/util.js';
+import Dictionary from '@services/dictionary.js';
+import Globals from '@services/globals.js';
+import Jukebox from '@services/jukebox.js';
+import Main from '@components/main.js';
+import MessageBox from '@components/messageBox/message-box.js';
+import QuestionTypeContract from '@mixins/question-type-contract.js';
+import XAPI from '@mixins/xapi.js';
 import '@styles/h5p-game-map.scss';
-import MessageBox from '@components/messageBox/message-box';
-import QuestionTypeContract from '@mixins/question-type-contract';
-import XAPI from '@mixins/xapi';
 
 export default class GameMap extends H5P.Question {
   /**

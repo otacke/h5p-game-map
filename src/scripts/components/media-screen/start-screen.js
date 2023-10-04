@@ -1,4 +1,4 @@
-import MediaScreen from './media-screen';
+import MediaScreen from './media-screen.js';
 import './start-screen.scss';
 
 /** Class representing the start screen */

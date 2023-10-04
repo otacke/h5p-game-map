@@ -1,5 +1,5 @@
-import Util from '@services/util';
-import Exercise from '@models/exercise';
+import Util from '@services/util.js';
+import Exercise from '@models/exercise.js';
 
 export default class Exercises {
 
