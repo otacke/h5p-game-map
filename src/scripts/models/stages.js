@@ -389,7 +389,21 @@ export default class Stages {
   }
 
   /**
-   * Handle key up on selected stages.
+   * Handle key up on selected stages. Implements keyboard navigation.
+   *
+   * The keyboard navigation here may not be ideal. It requires two steps in
+   * order to move from one node to another. First: Choose the neighbor that
+   * you want to move to with the arrow keys, then move to that node by pressing
+   * space/enter. The target node becomes the current one and can then be
+   * activated using space/enter, or one can use the arrow keys to select
+   * neighbors ...
+   * That's cumbersome for people who can see the map and who might expect to
+   * move to a node with all the arrow keys directly (comes with its own set of
+   * challenges if a node has many neighbors) and just need to use space/enter
+   * to activate the node. However, navigation for blind people then is
+   * intransparent and they have no way of gaining a sense of the structure or
+   * layout of the graph that they are traversing.
+   * Grateful for any good solution to this issue!
    * @param {KeyboardEvent} event Event.
    */
   handleSelectionKeydown(event) {
