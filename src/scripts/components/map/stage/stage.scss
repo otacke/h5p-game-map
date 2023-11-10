@@ -173,3 +173,9 @@
     transform: scale(1.25);
   }
 }
+
+@media (max-width: 768px) {
+  .h5p-game-map-stage {
+    scale: 1.5;
+  }
+}
