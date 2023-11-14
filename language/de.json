@@ -406,6 +406,10 @@
           "default": "Du hast die Karte abgeschlossen!"
         },
         {
+          "label": "Volle Punktzahl, aber keine Leben mehr",
+          "default": "Du hast die volle Punktzahl erreicht, aber alle deine Leben verloren!"
+        },
+        {
           "label": "Dialogüberschrift Karte abgeschlossen",
           "default": "Karte beenden?"
         },
@@ -477,6 +481,10 @@
         {
           "label": "Dialogtext Volle Punktzahl",
           "default": "Du hast genügend Punkte gesammelt, um die Karte mit voller Punktzahl abzuschließen, aber du darfst gerne den Rest der Karte erkunden, wenn du möchtest."
+        },
+        {
+          "label": "Dialogtext Volle Punktzahl (Erweiterung, falls Leben eingestellt sind)",
+          "default": "Aber Vorsicht! Du kannst immer noch Leben verlieren!"
         },
         {
           "label": "OK",
