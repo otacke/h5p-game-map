@@ -161,10 +161,16 @@ export default class MainUserConfirmation {
   showFullScoreConfirmation() {
     this.toolbar.disableButton('finish');
 
+    let dialogText = this.params.dictionary.get('l10n.confirmFullScoreDialog');
+
+    if (this.livesLeft !== Infinity) {
+      dialogText = `${dialogText} ${this.params.dictionary.get('l10n.confirmFullScoreDialogLoseLivesAmendmend')}`;
+    }
+
     this.confirmationDialog.update(
       {
         headerText: this.params.dictionary.get('l10n.confirmFullScoreHeader'),
-        dialogText: this.params.dictionary.get('l10n.confirmFullScoreDialog'),
+        dialogText: dialogText,
         confirmText: this.params.dictionary.get('l10n.ok'),
         hideCancel: true
       }, {

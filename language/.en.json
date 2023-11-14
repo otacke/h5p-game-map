@@ -406,6 +406,10 @@
           "default": "You have completed the map!"
         },
         {
+          "label": "Full score, but no lives left",
+          "default": "You have achieved full score, but lost all your lifes!"
+        },
+        {
           "label": "Dialog header finish map",
           "default": "Finish map?"
         },
@@ -477,6 +481,10 @@
         {
           "label": "Dialog text full score",
           "default": "You have collected enough points to finish this map with a full score, but you are free to explore the rest if you wish to."
+        },
+        {
+          "label": "Dialog text full score (amendment, if lives are set)",
+          "default": "But beware! You may still lose lives!"
         },
         {
           "label": "OK",

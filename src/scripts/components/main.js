@@ -248,7 +248,7 @@ export default class Main {
 
     const defaultTitle = `<p style="text-align: center;">${this.params.dictionary.get('l10n.completedMap')}</p>`;
 
-    if (score === maxScore) {
+    if (score >= maxScore && this.livesLeft > 0) {
       const success = endscreenParams.success;
       this.endScreen.setMedium(success.endScreenMediumSuccess);
 
@@ -266,9 +266,13 @@ export default class Main {
       const noSuccess = endscreenParams.noSuccess;
       this.endScreen.setMedium(noSuccess.endScreenMediumNoSuccess);
 
-      const html = Util.isHTMLWidgetFilled(noSuccess.endScreenTextNoSuccess) ?
+      let html = Util.isHTMLWidgetFilled(noSuccess.endScreenTextNoSuccess) ?
         noSuccess.endScreenTextNoSuccess :
         defaultTitle;
+
+      if (this.livesLeft === 0 && score >= maxScore) {
+        html = `${html}<p style="text-align: center;">${this.params.dictionary.get('l10n.fullScoreButnoLivesLeft')}</p>`;
+      }
 
       this.endScreen.setIntroduction(html);
       if (!this.isShowingSolutions) {

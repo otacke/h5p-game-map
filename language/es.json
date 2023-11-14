@@ -406,6 +406,10 @@
           "default": "¡Has completado el mapa!"
         },
         {
+          "label": "Full score, but no lives left",
+          "default": "You have achieved full score, but lost all your lifes!"
+        },
+        {
           "label": "Encabezado del cuadro de diálogo de finalización de mapa",
           "default": "¿Terminar mapa?"
         },
@@ -477,6 +481,10 @@
         {
           "label": "Texto del diálogo de puntuación completa",
           "default": "Has acumulado suficientes puntos para terminar este mapa con la puntuación completa, pero eres libre de explorar el resto si lo deseas."
+        },
+        {
+          "label": "Dialog text full score (amendment, if lives are set)",
+          "default": "But beware! You may still lose lives!"
         },
         {
           "label": "OK",
