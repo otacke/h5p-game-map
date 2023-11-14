@@ -280,7 +280,18 @@ export default class Exercise {
 
     this.score = event.getScore();
 
-    if (this.score < this.instance.getMaxScore()) {
+    if (
+      this.score >= this.instance.getMaxScore() ||
+      event.getVerifiedStatementValue(['result', 'success'])
+    ) {
+      this.setState(this.params.globals.get('states')['cleared']);
+      this.params.jukebox.stopGroup('default');
+      this.params.jukebox.play('checkExerciseFullScore');
+
+      this.stop();
+      this.isCompleted = true;
+    }
+    else {
       this.setState(this.params.globals.get('states')['completed']);
       this.params.jukebox.stopGroup('default');
       this.params.jukebox.play('checkExerciseNotFullScore');
@@ -289,14 +300,6 @@ export default class Exercise {
         this.stop();
         this.isCompleted = true;
       }
-    }
-    else {
-      this.setState(this.params.globals.get('states')['cleared']);
-      this.params.jukebox.stopGroup('default');
-      this.params.jukebox.play('checkExerciseFullScore');
-
-      this.stop();
-      this.isCompleted = true;
     }
 
     this.callbacks.onScoreChanged({
