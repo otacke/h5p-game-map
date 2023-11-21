@@ -9,8 +9,7 @@
       "fields": [
         {
           "label": "Einleitung",
-          "placeholder": "Willkommen zu ...",
-          "default": "<p style=\"text-align: center;\"></p>"
+          "placeholder": "Willkommen zu ..."
         },
         {
           "label": "Titelbildschirm-Medium"
@@ -113,8 +112,7 @@
           "fields": [
             {
               "label": "Nachricht (nicht erfolgreich)",
-              "placeholder": "Diesmal hast du es nicht geschafft ...",
-              "default": "<p style=\"text-align: center;\"></p>"
+              "placeholder": "Diesmal hast du es nicht geschafft ..."
             },
             {
               "label": "Endbildschirm-Medium (nicht erfolgreich)"
@@ -126,8 +124,7 @@
           "fields": [
             {
               "label": "Nachricht (erfolgreich)",
-              "placeholder": "Geschafft ...",
-              "default": "<p style=\"text-align: center;\"></p>"
+              "placeholder": "Geschafft ..."
             },
             {
               "label": "Endbildschirm-Medium (erfolgreich)"

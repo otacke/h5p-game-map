@@ -9,8 +9,7 @@
       "fields": [
         {
           "label": "Įvadas",
-          "placeholder": "Sveiki atvykę į ...",
-          "default": "<p style=\"text-align: center;\"></p>"
+          "placeholder": "Sveiki atvykę į ..."
         },
         {
           "label": "Title screen media"
@@ -113,8 +112,7 @@
           "fields": [
             {
               "label": "Message (user not successful)",
-              "placeholder": "You did not make it this time ...",
-              "default": "<p style=\"text-align: center;\"></p>"
+              "placeholder": "You did not make it this time ..."
             },
             {
               "label": "End screen media (user not successful)"
@@ -126,8 +124,7 @@
           "fields": [
             {
               "label": "Message (user successful)",
-              "placeholder": "You made it ...",
-              "default": "<p style=\"text-align: center;\"></p>"
+              "placeholder": "You made it ..."
             },
             {
               "label": "End screen media (user successful)"

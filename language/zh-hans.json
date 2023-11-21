@@ -9,8 +9,7 @@
       "fields": [
         {
           "label": "介绍",
-          "placeholder": "欢迎来到 ...",
-          "default": "<p style=\"text-align: center;\"></p>"
+          "placeholder": "欢迎来到 ..."
         },
         {
           "label": "标题屏幕媒介"
@@ -113,8 +112,7 @@
           "fields": [
             {
               "label": "消息",
-              "placeholder": "很遗憾，你失败了...",
-              "default": "<p style=\"text-align: center;\"></p>"
+              "placeholder": "很遗憾，你失败了..."
             },
             {
               "label": "结束屏幕媒体"
@@ -126,8 +124,7 @@
           "fields": [
             {
               "label": "消息",
-              "placeholder": "你成功了...",
-              "default": "<p style=\"text-align: center;\"></p>"
+              "placeholder": "你成功了..."
             },
             {
               "label": "结束屏幕媒体"
