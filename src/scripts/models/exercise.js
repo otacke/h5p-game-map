@@ -275,7 +275,7 @@ export default class Exercise {
       return; // Not relevant
     }
 
-    if (!this.extendsH5PQuestion && !this.continueButton) {
+    if (!this.isAttached) {
       return; // Guard to make robust against content types firing xAPI events when not attached
     }
 
