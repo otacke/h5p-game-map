@@ -342,7 +342,13 @@ export default class MainInitialization {
     this.confirmationDialog = new ConfirmationDialog({
       globals: this.params.globals
     });
-    document.body.append(this.confirmationDialog.getDOM());
+
+    /*
+     * It's important to not simply append the dialog to the document.body, or
+     * the dialog will not be shown when the user is in fullscreen mode and the
+     * content is embedded.
+     */
+    this.dom.append(this.confirmationDialog.getDOM());
   }
 
   /**
