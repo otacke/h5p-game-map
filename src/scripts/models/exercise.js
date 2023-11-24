@@ -275,6 +275,10 @@ export default class Exercise {
       return; // Not relevant
     }
 
+    if (!this.extendsH5PQuestion && !this.continueButton) {
+      return; // Guard to make robust against content types firing xAPI events when not attached
+    }
+
     const isCompletedEnough =
       this.params.globals.get('params').behaviour.map.roaming !== 'success';
 
