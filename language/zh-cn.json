@@ -403,8 +403,8 @@
           "default": "您已完成地图！"
         },
         {
-          "label": "Full score, but no lives left",
-          "default": "You have achieved full score, but lost all your lifes!"
+          "label": "满分，但没有生命了",
+          "default": "你已经取得了满分，但失去了所有的生命！"
         },
         {
           "label": "完成地图对话框标题",
@@ -480,12 +480,12 @@
           "default": "您已经得到了足够的分数，以满分完成了这张地图。如果您愿意，您可以自由探索其余部分。"
         },
         {
-          "label": "Dialog text full score (amendment, if lives are set)",
-          "default": "But beware! You may still lose lives!"
+          "label": "对话框文本满分（修订，如果生命值已设置）",
+          "default": "但还是要小心！你仍然可能失去生命！"
         },
         {
           "label": "OK",
-          "default": "OK"
+          "default": "知道了"
         },
         {
           "label": "未设置背景图像",
