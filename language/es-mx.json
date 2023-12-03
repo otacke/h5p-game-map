@@ -403,20 +403,20 @@
           "default": "¡Usted ha completado el mapa!"
         },
         {
-          "label": "Full score, but no lives left",
-          "default": "You have achieved full score, but lost all your lifes!"
+          "label": "Puntaje completo, pero sin vidas restantes",
+          "default": "¡Usted ha obtenido puntaje completo, pero perdió todas sus vidas!"
         },
         {
           "label": "Encabezado de diálogo de mapa terminado",
           "default": "¿Terminar mapa?"
         },
         {
-          "label": "Texto de diálogo de terminar mapa: General",
+          "label": "Texto de diálogo de finalización de mapa: General",
           "default": "Si usted termina ahora, usted no podrá explorar más el mapa."
         },
         {
-          "label": "Texto de diálogo terminar mapa: Envío",
-          "default": "Su puntaje será enviado."
+          "label": "Texto de diálogo de finalización de mapa: Envío",
+          "default": "Se enviará su puntaje."
         },
         {
           "label": "Texto de diálogo terminar mapa: Pregunta",
@@ -433,11 +433,11 @@
         {
           "label": "Texto de diálogo de acceso denegado: Puntaje mínimo",
           "description": "@minScore es un reemplazable y será remplazado con el valor respectivo.",
-          "default": "Usted necesita cuando menos @minScore puntos."
+          "default": "Usted necesita al menos @minScore puntos."
         },
         {
-          "label": "Si",
-          "default": "Si"
+          "label": "Sí",
+          "default": "Sí"
         },
         {
           "label": "No",
@@ -465,7 +465,7 @@
         },
         {
           "label": "Encabezado de diálogo puntaje incompleto",
-          "default": "¡NO tiene puntaje total!"
+          "default": "¡NO tiene el puntaje total!"
         },
         {
           "label": "Texto de diálogo puntaje incompleto (perdió una vida)",
@@ -480,8 +480,8 @@
           "default": "Usted ha reunido suficientes puntos para terminar este mapa con un puntaje completo, pero usted es libre de explorar el resto si así lo desea."
         },
         {
-          "label": "Dialog text full score (amendment, if lives are set)",
-          "default": "But beware! You may still lose lives!"
+          "label": "Texto de diálogo puntaje completo (corrección, si vidas configuradas)",
+          "default": "¡Pero tenga cuidado! ¡Usted aun puede perder vidas!"
         },
         {
           "label": "OK",
