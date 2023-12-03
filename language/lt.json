@@ -21,6 +21,7 @@
       "description": "Optional headline for the titlebar."
     },
     {
+      "label": "Game map editor",
       "fields": [
         {
           "label": "Background image",
@@ -35,11 +36,12 @@
           ]
         },
         {
+          "label": "Game map",
           "fields": [
             {},
             {
-              "entity": "Element",
               "label": "Elements",
+              "entity": "Element",
               "field": {
                 "label": "Elements",
                 "fields": [
@@ -98,11 +100,9 @@
                 ]
               }
             }
-          ],
-          "label": "Game map"
+          ]
         }
-      ],
-      "label": "Game map editor"
+      ]
     },
     {
       "label": "End screen",
@@ -161,6 +161,7 @@
       ]
     },
     {
+      "label": "Visual settings",
       "fields": [
         {
           "label": "Stages",
@@ -244,10 +245,10 @@
             }
           ]
         }
-      ],
-      "label": "Visual settings"
+      ]
     },
     {
+      "label": "Audio settings",
       "fields": [
         {
           "label": "Background music",
@@ -262,6 +263,7 @@
           ]
         },
         {
+          "label": "Events",
           "fields": [
             {
               "label": "Click on locked stage",
@@ -272,8 +274,8 @@
               "description": "Will be played when an answer is checked and the user did not get full score."
             },
             {
-              "description": "Will be played when an answer is checked and the user did get full score.",
-              "label": "Check exercise (full score)"
+              "label": "Check exercise (full score)",
+              "description": "Will be played when an answer is checked and the user did get full score."
             },
             {
               "label": "Unlocking a stage",
@@ -315,13 +317,12 @@
               "label": "End screen (full score)",
               "description": "Will be played on the end screen if the user did get full score."
             }
-          ],
-          "label": "Events"
+          ]
         }
-      ],
-      "label": "Audio settings"
+      ]
     },
     {
+      "label": "Behavioural settings",
       "fields": [
         {
           "label": "Lives",
@@ -338,6 +339,7 @@
           "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises."
         },
         {
+          "label": "Map",
           "fields": [
             {
               "label": "Show stage labels",
@@ -359,6 +361,8 @@
               ]
             },
             {
+              "label": "Visibility range",
+              "description": "Select how far the user can see ahead",
               "options": [
                 {
                   "label": "See all stages"
@@ -369,17 +373,14 @@
                 {
                   "label": "See only unlocked stages"
                 }
-              ],
-              "label": "Visibility range",
-              "description": "Select how far the user can see ahead"
+              ]
             }
-          ],
-          "label": "Map"
+          ]
         }
-      ],
-      "label": "Behavioural settings"
+      ]
     },
     {
+      "label": "User interface",
       "fields": [
         {
           "label": "Start",
@@ -400,6 +401,10 @@
         {
           "label": "Completed the map",
           "default": "You have completed the map!"
+        },
+        {
+          "label": "Full score, but no lives left",
+          "default": "You have achieved full score, but lost all your lifes!"
         },
         {
           "label": "Dialog header finish map",
@@ -432,8 +437,7 @@
         },
         {
           "label": "Yes",
-          "default": "Yes",
-          "description": "@minScore is a placeholder and will be replaced with the respective value."
+          "default": "Yes"
         },
         {
           "label": "No",
@@ -444,8 +448,8 @@
           "default": "Game over!"
         },
         {
-          "default": "You have lost all your lives. Please try again!",
-          "label": "Dialog text game over"
+          "label": "Dialog text game over",
+          "default": "You have lost all your lives. Please try again!"
         },
         {
           "label": "Dialog header time out",
@@ -476,6 +480,10 @@
           "default": "You have collected enough points to finish this map with a full score, but you are free to explore the rest if you wish to."
         },
         {
+          "label": "Dialog text full score (amendment, if lives are set)",
+          "default": "But beware! You may still lose lives!"
+        },
+        {
           "label": "OK",
           "default": "OK"
         },
@@ -486,17 +494,8 @@
         {
           "label": "No stages were set",
           "default": "No valid stages were set for the map."
-        },
-        {
-          "default": "No background image was set for the map.",
-          "label": "No background image was set"
-        },
-        {
-          "label": "No stages were set",
-          "default": "No valid stages were set for the map."
         }
-      ],
-      "label": "User interface"
+      ]
     },
     {
       "label": "Accessibility texts",
@@ -539,9 +538,9 @@
           "default": "The end screen was opened."
         },
         {
+          "label": "Exercise label",
           "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
-          "default": ". Exercise for @stagelabel",
-          "label": "Exercise label"
+          "default": ". Exercise for @stagelabel"
         },
         {
           "label": "Stage button label",
