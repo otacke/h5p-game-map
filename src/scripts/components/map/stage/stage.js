@@ -74,11 +74,10 @@ export default class Stage {
     this.contentComputedStyle = window.getComputedStyle(this.content);
 
     // Label
-    const positionX = (this.params.telemetry.x < 50) ? 'right' : 'left';
     const positionY = (this.params.telemetry.y < 50) ? 'bottom' : 'top';
 
     this.label = new Label({
-      position: `${positionY}-${positionX}`,
+      position: positionY,
       text: this.params.label
     });
     this.dom.appendChild(this.label.getDOM());
