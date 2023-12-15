@@ -52,14 +52,16 @@ export default class Label {
       return;
     }
 
-    // Determine whether there are multiple lines, need to adjust position
-    const fontSize = parseFloat(
-      window.getComputedStyle(this.labelInner).getPropertyValue('font-size')
-    );
-    const labelSize = Math.floor(
-      this.labelInner.getBoundingClientRect().height
-    );
-    this.dom.classList.toggle('multiline', fontSize * 1.5 < labelSize);
+    window.requestAnimationFrame(() => {
+      // Determine whether there are multiple lines, need to adjust position
+      const fontSize = parseFloat(
+        window.getComputedStyle(this.labelInner).getPropertyValue('font-size')
+      );
+      const labelSize = Math.floor(
+        this.labelInner.getBoundingClientRect().height
+      );
+      this.dom.classList.toggle('multiline', fontSize * 1.5 < labelSize);
+    });
 
     this.dom.classList.toggle('touch-device', params.isTouch || false);
 
