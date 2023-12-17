@@ -44,6 +44,8 @@ export default class Label {
    * @param {boolean} [params.skipDelay] If true, will immediately show label.
    */
   show(params = {}) {
+    params.scale = params.scale ?? 1;
+
     if (this.isShowing()) {
       return;
     }
@@ -60,7 +62,9 @@ export default class Label {
       const labelSize = Math.floor(
         this.labelInner.getBoundingClientRect().height
       );
-      this.dom.classList.toggle('multiline', fontSize * 1.5 < labelSize);
+      this.dom.classList.toggle(
+        'multiline', fontSize * params.scale * 1.5 < labelSize
+      );
     });
 
     this.dom.classList.toggle('touch-device', params.isTouch || false);

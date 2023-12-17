@@ -489,7 +489,15 @@ export default class Stage {
       return;
     }
 
-    this.label.show({ skipDelay: event instanceof FocusEvent });
+    let scale = parseFloat(
+      window.getComputedStyle(this.dom).getPropertyValue('scale')
+    );
+    scale = Number.isNaN(scale) ? 1 : scale;
+
+    this.label.show({
+      skipDelay: event instanceof FocusEvent,
+      scale: scale
+    });
   }
 
   /**
