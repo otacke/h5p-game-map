@@ -95,8 +95,6 @@ export default class MainUserConfirmation {
    * Show timeout confirmation.
    */
   showTimeoutConfirmation() {
-    this.toolbar.disableButton('finish');
-
     const dialogText = (this.livesLeft === Infinity) ?
       this.params.dictionary.get('l10n.confirmTimeoutDialog') :
       this.params.dictionary.get('l10n.confirmTimeoutDialogLostLife');
@@ -110,7 +108,6 @@ export default class MainUserConfirmation {
       }, {
         onConfirmed: () => {
           this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
         }
       }
     );
@@ -122,8 +119,6 @@ export default class MainUserConfirmation {
    * Show incomplete score confirmation.
    */
   showIncompleteScoreConfirmation() {
-    this.toolbar.disableButton('finish');
-
     this.confirmationDialog.update(
       {
         headerText: this.params.dictionary.get('l10n.confirmScoreIncompleteHeader'),
