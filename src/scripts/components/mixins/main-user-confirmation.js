@@ -83,9 +83,6 @@ export default class MainUserConfirmation {
           this.params.jukebox.stopAll();
           this.callbacks.onFinished();
           this.showEndscreen({ focusButton: true });
-        },
-        onCanceled: () => {
-          this.toolbar.enableButton('finish');
         }
       }
     );
