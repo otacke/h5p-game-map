@@ -376,6 +376,8 @@ export default class MainInitialization {
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {
+    this.toolbar.toggleHintFinishButton(false);
+
     this.params.jukebox.muteAll();
     this.stageAttentionSeekerTimeout = null;
     this.hasUserMadeProgress = false;
@@ -479,6 +481,11 @@ export default class MainInitialization {
         maxValue: this.getMaxScore()
       }
     );
+
+    if (this.getScore() >= this.getMaxScore()) {
+      this.fullScoreWasAnnounced = true;
+      this.toolbar.toggleHintFinishButton(true);
+    }
 
     // When *re*starting the map, keep audio on/off as set by user.
     this.isAudioOn = this.isAudioOn ?? false;

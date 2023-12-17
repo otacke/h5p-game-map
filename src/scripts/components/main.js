@@ -225,6 +225,7 @@ export default class Main {
    */
   showEndscreen(params = {}) {
     const endscreenParams = this.params.globals.get('params').endScreen;
+    this.toolbar.toggleHintFinishButton(false);
 
     // Prepare end screen
     const score = this.getScore();

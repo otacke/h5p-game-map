@@ -108,6 +108,12 @@
         }
       }
 
+      &.animate-pulse:not(.toolbar-button-disabled) {
+        animation: pulse;
+        animation-duration: 0.5s;
+        animation-timing-function: ease-in-out;
+      }
+
       &.toolbar-button-fullscreen {
         &.toolbar-button-exit-fullscreen {
           &::before {
@@ -189,5 +195,19 @@
         }
       }
     }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  100% {
+    transform: scale3d(1, 1, 1);
   }
 }

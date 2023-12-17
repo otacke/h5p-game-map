@@ -1,5 +1,6 @@
 import StatusContainers from './status-containers/status-containers.js';
 import ToolbarButton from './toolbar-button.js';
+import { animate } from '@services/animate.js';
 import Util from '@services/util.js';
 import './toolbar.scss';
 
@@ -276,6 +277,40 @@ export default class Toolbar {
   }
 
   /**
+   * Hint towards finish button.
+   * @param {boolean} state True to hint, false to "un"hint.
+   */
+  toggleHintFinishButton(state) {
+    state = (typeof state === 'boolean') ?
+      state :
+      typeof this.hintFinishButtonTimeout !== 'number';
+
+    if (state) {
+      this.animateButton('finish', 'pulse');
+
+      this.hintFinishButtonTimeout = window.setTimeout(() => {
+        this.toggleHintFinishButton(true);
+      }, HINT_INTERVAL_MS);
+    }
+    else {
+      window.clearTimeout(this.hintFinishButtonTimeout);
+    }
+  }
+
+  /**
+   * Animate button.
+   * @param {string} id Button id.
+   * @param {string} className Class name to animate with.
+   */
+  animateButton(id = '', className = '') {
+    if (!this.buttons[id]) {
+      return; // Button not available
+    }
+
+    animate(this.buttons[id].getDOM(), className);
+  }
+
+  /**
    * Show.
    */
   show() {
@@ -377,3 +412,6 @@ export default class Toolbar {
     this.dom.classList.toggle('solution-mode', state);
   }
 }
+
+/** @constant {number} HINT_INTERVAL_MS Default hint interval. */
+export const HINT_INTERVAL_MS = 5000;
