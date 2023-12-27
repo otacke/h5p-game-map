@@ -232,7 +232,8 @@
                     "H5P.AdvancedText 1.1",
                     "H5P.Transcript 1.1",
                     "H5P.TrueFalse 1.8",
-                    "H5P.Video 1.6"
+                    "H5P.Video 1.6",
+                    "H5P.XRay 0.1"
                   ]
                 },
                 {
