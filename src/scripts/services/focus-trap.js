@@ -29,7 +29,7 @@ export default class FocusTrap {
   /**
    * Activate.
    */
-  activate() {
+  async activate() {
     if (!this.params.trapElement) {
       return;
     }
@@ -40,7 +40,7 @@ export default class FocusTrap {
 
     this.isActivated = true;
 
-    Util.callOnceVisible(
+    this.observer = await Util.callOnceVisible(
       this.params.trapElement,
       () => {
         this.handleVisible();
@@ -58,6 +58,7 @@ export default class FocusTrap {
     }
 
     this.observer?.unobserve(this.params.trapElement);
+    this.observer?.disconnect();
 
     this.params.trapElement
       .removeEventListener('keydown', this.handleKeydownEvent, true);
