@@ -329,6 +329,14 @@
           "description": "设置用户的生命数，留空为无限生命。当用户在某一关卡没有得到满分时，将失去一条生命。一旦用户失去所有生命，则游戏结束。"
         },
         {
+          "label": "Global time limit",
+          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
+        },
+        {
+          "label": "超时警告时间设置",
+          "description": "（可选）设置何时播放超时警告音频（剩余秒数）。需要在音频设置中设置超时警告音频。"
+        },
+        {
           "label": "启用“重试”按钮"
         },
         {
@@ -337,14 +345,6 @@
         {
           "label": "完赛得分",
           "description": "可选分数。可以低于所有练习的总分数，因此用户无需完成所有练习即可获得满分。"
-        },
-        {
-          "label": "Global time limit",
-          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
-        },
-        {
-          "label": "超时警告时间设置",
-          "description": "（可选）设置何时播放超时警告音频（剩余秒数）。需要在音频设置中设置超时警告音频。"
         },
         {
           "label": "地图",

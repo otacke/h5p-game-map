@@ -329,6 +329,14 @@
           "description": "Establece el número de vidas para un usuario o déjalo en blanco para vidas ilimitadas. Los usuarios perderán una vida cuando no obtengan la puntuación completa y no podrán continuar una vez que hayan perdido todas las vidas."
         },
         {
+          "label": "Global time limit",
+          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
+        },
+        {
+          "label": "Tiempo de advertencia de límite de tiempo",
+          "description": "Configure opcionalmente cuándo debe reproducirse un audio de advertencia de límite de tiempo (número de segundos restantes). Es necesario configurar un audio en la configuración de audio."
+        },
+        {
           "label": "Habilitar el botón \"Reintentar\""
         },
         {
@@ -337,14 +345,6 @@
         {
           "label": "Puntuación final",
           "description": "Puntuación opcional que puede ser más baja que la puntuación máxima sumada de todos los ejercicios, de manera que los usuarios puedan recibir la puntuación completa sin completar todos los ejercicios."
-        },
-        {
-          "label": "Global time limit",
-          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
-        },
-        {
-          "label": "Tiempo de advertencia de límite de tiempo",
-          "description": "Configure opcionalmente cuándo debe reproducirse un audio de advertencia de límite de tiempo (número de segundos restantes). Es necesario configurar un audio en la configuración de audio."
         },
         {
           "label": "Mapa",

@@ -782,6 +782,22 @@
         "optional": true
       },
       {
+        "name": "timeLimitGlobal",
+        "type": "number",
+        "label": "Global time limit",
+        "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately.",
+        "min": 1,
+        "optional": true
+      },
+      {
+        "name": "timeoutWarningGlobal",
+        "type": "number",
+        "label": "Timeout warning time",
+        "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings.",
+        "min": 1,
+        "optional": true
+      },
+      {
         "name": "enableRetry",
         "label": "Enable \"Retry\" button",
         "type": "boolean",
@@ -803,22 +819,6 @@
         "label": "Finish score",
         "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises.",
         "min": 0,
-        "optional": true
-      },
-      {
-        "name": "timeLimitGlobal",
-        "type": "number",
-        "label": "Global time limit",
-        "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately.",
-        "min": 1,
-        "optional": true
-      },
-      {
-        "name": "timeoutWarningGlobal",
-        "type": "number",
-        "label": "Timeout warning time",
-        "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings.",
-        "min": 1,
         "optional": true
       },
       {
