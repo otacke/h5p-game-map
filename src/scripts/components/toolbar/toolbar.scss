@@ -35,6 +35,13 @@
     row-gap: 0.25rem;
 
     .status-containers {
+      .status-container-timer {
+        &::before {
+          content: "\f017";
+          font-family: "H5PFontAwesome4", sans-serif;
+        }
+      }
+
       .status-container-lives {
         &::before {
           content: "\f004";

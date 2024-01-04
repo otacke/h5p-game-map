@@ -21,6 +21,12 @@
     display: none;
   }
 
+  &.animate-pulse {
+    animation: pulse;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+  }
+
   .status-container-values {
     box-sizing: border-box;
     display: flex;
@@ -36,5 +42,19 @@
       text-align: center;
       width: 1rem;
     }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  100% {
+    transform: scale3d(1, 1, 1);
   }
 }

@@ -81,7 +81,8 @@ export default class MainQuestionTypeContract {
       exercises: this.exercises.getCurrentState(),
       stages: this.stages.getCurrentState(),
       paths: this.paths.getCurrentState(),
-      livesLeft: this.livesLeft
+      ...(this.livesLeft && { livesLeft: this.livesLeft }),
+      ...(this.remainingTime && { timeLeft: this.remainingTime })
     };
   }
 }

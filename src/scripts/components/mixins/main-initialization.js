@@ -155,6 +155,7 @@ export default class MainInitialization {
 
     // Set up toolbar's status containers
     const toolbarStatusContainers = [
+      { id: 'timer' },
       { id: 'lives' },
       { id: 'stages', hasMaxValue: true },
       { id: 'score', hasMaxValue: true }
@@ -213,7 +214,8 @@ export default class MainInitialization {
       dictionary: this.params.dictionary,
       ...(globalParams.headline && { headline: globalParams.headline }),
       buttons: toolbarButtons,
-      statusContainers: toolbarStatusContainers
+      statusContainers: toolbarStatusContainers,
+      useAnimation: globalParams.visual.misc.useAnimation
     });
     this.contentDOM.append(this.toolbar.getDOM());
 
@@ -377,6 +379,7 @@ export default class MainInitialization {
    */
   reset(params = {}) {
     this.toolbar.toggleHintFinishButton(false);
+    this.toolbar.toggleHintTimer(false);
 
     this.params.jukebox.muteAll();
     this.stageAttentionSeekerTimeout = null;
@@ -391,6 +394,15 @@ export default class MainInitialization {
     }
     else {
       this.livesLeft = globalParams.behaviour.lives ?? Infinity;
+    }
+
+    if (params.isInitial && typeof previousState.timeLeft === 'number') {
+      this.resetTimer(previousState.timeLeft);
+    }
+    else {
+      this.resetTimer(
+        this.params.globals.get('params').behaviour.timeLimitGlobal * 1000
+      );
     }
 
     if (this.livesLeft === 0) {

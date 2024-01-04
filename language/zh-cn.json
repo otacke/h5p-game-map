@@ -339,6 +339,14 @@
           "description": "可选分数。可以低于所有练习的总分数，因此用户无需完成所有练习即可获得满分。"
         },
         {
+          "label": "Global time limit",
+          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
+        },
+        {
+          "label": "超时警告时间设置",
+          "description": "（可选）设置何时播放超时警告音频（剩余秒数）。需要在音频设置中设置超时警告音频。"
+        },
+        {
           "label": "地图",
           "fields": [
             {
@@ -407,6 +415,10 @@
           "default": "你已经取得了满分，但失去了所有的生命！"
         },
         {
+          "label": "Full score, but timed out",
+          "default": "You have achieved full score, but ran out of time!"
+        },
+        {
           "label": "完成地图对话框标题",
           "default": "完成地图？"
         },
@@ -450,6 +462,10 @@
         {
           "label": "游戏结束对话文本",
           "default": "你已经失去了所有的生命。请重试！"
+        },
+        {
+          "label": "Dialog text game over by timeout",
+          "default": "You have run out of time. Please try again!"
         },
         {
           "label": "超时对话框标题",

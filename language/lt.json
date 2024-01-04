@@ -339,6 +339,14 @@
           "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises."
         },
         {
+          "label": "Global time limit",
+          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
+        },
+        {
+          "label": "Timeout warning time",
+          "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
+        },
+        {
           "label": "Map",
           "fields": [
             {
@@ -407,6 +415,10 @@
           "default": "You have achieved full score, but lost all your lifes!"
         },
         {
+          "label": "Full score, but timed out",
+          "default": "You have achieved full score, but ran out of time!"
+        },
+        {
           "label": "Dialog header finish map",
           "default": "Finish map?"
         },
@@ -450,6 +462,10 @@
         {
           "label": "Dialog text game over",
           "default": "You have lost all your lives. Please try again!"
+        },
+        {
+          "label": "Dialog text game over by timeout",
+          "default": "You have run out of time. Please try again!"
         },
         {
           "label": "Dialog header time out",

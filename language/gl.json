@@ -339,6 +339,14 @@
           "description": "Puntuación opcional que pode ser inferior á puntuación máxima sumada de todos os exercicios, polo que os usuarios poden recibir a puntuación completa sen completar todos os exercicios."
         },
         {
+          "label": "Global time limit",
+          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
+        },
+        {
+          "label": "Tempo de aviso de límite de tempo",
+          "description": "Opcionalmente, define cando se debe reproducir un son de límite de tempo (número de segundos restantes). É necesario configurar un son na configuración de son."
+        },
+        {
           "label": "Mapa",
           "fields": [
             {
@@ -407,6 +415,10 @@
           "default": "You have achieved full score, but lost all your lifes!"
         },
         {
+          "label": "Full score, but timed out",
+          "default": "You have achieved full score, but ran out of time!"
+        },
+        {
           "label": "Cabeceira do diálogo do mapa de finalización",
           "default": "Rematar o mapa?"
         },
@@ -450,6 +462,10 @@
         {
           "label": "Texto do diálogo de xogo rematado",
           "default": "Perdiches todas as túas vidas. Por favor inténtao de novo!"
+        },
+        {
+          "label": "Dialog text game over by timeout",
+          "default": "You have run out of time. Please try again!"
         },
         {
           "label": "Cabeceira do diálogo de tempo rematado",

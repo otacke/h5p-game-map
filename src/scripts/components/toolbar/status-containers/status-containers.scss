@@ -2,7 +2,9 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 1.25rem;
+  justify-content: center;
 
   // Workaround for iOS < 14.5 which doesn't support gap for flexbox
   @supports (-webkit-touch-callout: none) and (not (translate: none)) {

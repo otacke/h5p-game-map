@@ -65,6 +65,26 @@ export default class QuestionTypeContract {
   }
 
   /**
+   * Get current state.
+   * @returns {object} Current state to be retrieved later.
+   * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-7}
+   */
+  getCurrentState() {
+    if (!this.main) {
+      return {};
+    }
+
+    if (!this.getAnswerGiven() && !this.params.behaviour.timeLimitGlobal) {
+      // Nothing relevant to store, but previous state in DB must be cleared after reset
+      return this.contentWasReset ? {} : undefined;
+    }
+
+    return {
+      content: this.main.getCurrentState()
+    };
+  }
+
+  /**
    * Get context data.
    * Contract used for confusion report.
    * @returns {object} Context data.

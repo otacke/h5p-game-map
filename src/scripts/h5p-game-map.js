@@ -238,25 +238,6 @@ export default class GameMap extends H5P.Question {
   }
 
   /**
-   * Get current state.
-   * @returns {object} Current state to be retrieved later.
-   */
-  getCurrentState() {
-    if (!this.main) {
-      return {};
-    }
-
-    if (!this.getAnswerGiven()) {
-      // Nothing relevant to store, but previous state in DB must be cleared after reset
-      return this.contentWasReset ? {} : undefined;
-    }
-
-    return {
-      content: this.main.getCurrentState()
-    };
-  }
-
-  /**
    * Handle progress changed.
    * @param {number} index Index of stage + 1.
    */

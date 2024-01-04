@@ -1,3 +1,4 @@
+import Timer from '@services/timer.js';
 import './timer-display.scss';
 
 /** Class representing a timer on screen */
@@ -53,18 +54,12 @@ export default class TimerDisplay {
       return;
     }
 
-    if (typeof timeMs !== 'number') {
+    const timecode = Timer.toTimecode(timeMs);
+    if (!timecode) {
       return;
     }
 
-    const date = new Date(0);
-    date.setSeconds(Math.round(Math.max(0, timeMs / 1000)));
-
-    this.dom.innerText = date
-      .toISOString()
-      .split('T')[1]
-      .split('.')[0]
-      .replace(/^[0:]+/, '') || '0';
+    this.dom.innerText = timecode;
 
     this.show();
   }

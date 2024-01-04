@@ -65,15 +65,16 @@ export default class MainUserConfirmation {
 
   /**
    * Handle game over.
+   * @param {string} [dialogKey] Dialog key for message.
    */
-  showGameOverConfirmation() {
+  showGameOverConfirmation(dialogKey = 'confirmGameOverDialog') {
     this.gameDone = true;
     this.stages.togglePlayfulness(false);
 
     this.confirmationDialog.update(
       {
         headerText: this.params.dictionary.get('l10n.confirmGameOverHeader'),
-        dialogText: this.params.dictionary.get('l10n.confirmGameOverDialog'),
+        dialogText: this.params.dictionary.get(`l10n.${dialogKey}`),
         confirmText: this.params.dictionary.get('l10n.ok'),
         hideCancel: true
       }, {

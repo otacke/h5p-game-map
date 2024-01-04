@@ -1,4 +1,5 @@
 import Color from 'color';
+import { animate } from '@services/animate.js';
 import Util from '@services/util.js';
 import Label from './label.js';
 import './stage.scss';
@@ -37,8 +38,6 @@ export default class Stage {
     this.isAnimating = false;
     this.shouldBePlayful = true;
     this.isReachableState = true;
-
-    this.handleAnimationEnded = this.handleAnimationEnded.bind(this);
 
     this.dom = document.createElement('button');
     this.dom.classList.add('h5p-game-map-stage');
@@ -416,22 +415,9 @@ export default class Stage {
 
     this.isAnimating = true;
 
-    this.dom.addEventListener('animationend', this.handleAnimationEnded);
-
-    this.dom.classList.add('animate');
-    this.dom.classList.add(`animate-${animationName}`);
-  }
-
-  /**
-   * Handle animation ended.
-   */
-  handleAnimationEnded() {
-    this.dom.classList.remove('animate');
-    this.dom.className = this.dom.className.replace(/animate-\w*/g, '');
-
-    this.dom.removeEventListener('animationend', this.handleAnimationEnded);
-
-    this.isAnimating = false;
+    animate(this.dom, animationName, () => {
+      this.isAnimating = false;
+    });
   }
 
   /**

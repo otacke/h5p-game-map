@@ -1,3 +1,4 @@
+import { animate } from '@services/animate.js';
 import FocusTrap from '@services/focus-trap.js';
 import Util from '@services/util.js';
 import TimerDisplay from './timer-display.js';
@@ -22,7 +23,6 @@ export default class ExerciseScreen {
       onCloseAnimationEnded: () => {}
     }, callbacks);
 
-    this.handleAnimationEnded = this.handleAnimationEnded.bind(this);
     this.handleOpenAnimationEnded = this.handleOpenAnimationEnded.bind(this);
     this.handleCloseAnimationEnded = this.handleCloseAnimationEnded.bind(this);
 
@@ -258,35 +258,10 @@ export default class ExerciseScreen {
 
     this.isAnimating = true;
 
-    // Cannot make this work with this.handleAnimationEnded.bind(this, callback)
-    this.animationEndedCallback = callback;
-
-    this.contentContainer.addEventListener(
-      'animationend', this.handleAnimationEnded
-    );
-
-    this.contentContainer.classList.add('animate');
-    this.contentContainer.classList.add(`animate-${animationName}`);
-  }
-
-  /**
-   * Handle animation ended.
-   */
-  handleAnimationEnded() {
-    this.contentContainer.classList.remove('animate');
-    this.contentContainer.className = this.contentContainer.className
-      .replace(/animate-w*/g, '');
-
-    this.contentContainer.removeEventListener(
-      'animationend', this.handleAnimationEnded
-    );
-
-    this.isAnimating = false;
-
-    if (typeof this.animationEndedCallback === 'function') {
-      this.animationEndedCallback();
-      this.animationEndedCallback = null;
-    }
+    animate(this.contentContainer, animationName, () => {
+      this.isAnimating = false;
+      callback();
+    });
   }
 
   /**

@@ -339,11 +339,19 @@
           "description": "Optionale Punktzahl, die kleiner sein kann als die eigentlich durch alle Aufgaben erreichbaren Punkte, so dass Nutzerinnen und Nutzer auch volle Punktzahl erreichen können, ohne alle Etappen zu absolvieren."
         },
         {
+          "label": "Globales Zeitlimit",
+          "description": "Du kannst optional ein Zeitlimit in Sekunden setzen. Wenn die Nutzerinnen und Nutzer dieses Limit überschreiten, ist das Spiel sofort vorbei."
+        },
+        {
+          "label": "Zeitlimitwarnung",
+          "description": "Du kannst optional einstellen, wann ein Tonsignal als Warnung ertönen soll (Anzahl der verbleibenden Sekunden). Eine Tondatei muss in den Audioeinstellungen dafür hinterlegt sein."
+        },
+        {
           "label": "Karte",
           "fields": [
             {
               "label": "Zeige Etappenbeschriftungen",
-              "description": "Wähle, ob die Beschriftung einer Etappe während des Schwebens mit der Maus angezeit wird. Die Beschriftung wir auf Geräten mit \"Touch\"-Bedienung nicht angezeit."
+              "description": "Wähle, ob die Beschriftung einer Etappe während des Schwebens mit der Maus angezeigt wird. Die Beschriftung wir auf Geräten mit \"Touch\"-Bedienung nicht angezeit."
             },
             {
               "label": "Umherwandern",
@@ -407,6 +415,10 @@
           "default": "Du hast die volle Punktzahl erreicht, aber alle deine Leben verloren!"
         },
         {
+          "label": "Volle Punktzahl, aber Zeitüberschreitung",
+          "default": "Du hast die volle Punktzahl erreicht, aber die verfügbare Zeit überschritten!"
+        },
+        {
           "label": "Dialogüberschrift Karte abgeschlossen",
           "default": "Karte beenden?"
         },
@@ -450,6 +462,10 @@
         {
           "label": "Dialogtext Game Over",
           "default": "Du hast alle deine Leben verloren. Versuche es noch einmal!"
+        },
+        {
+          "label": "Dialogtext Game Over durch Zeitüberschreitung",
+          "default": "Dir ist die Zeit ausgegangen. Versuche es noch einmal!"
         },
         {
           "label": "Dialogüberschrift Zeitüberschreitung",

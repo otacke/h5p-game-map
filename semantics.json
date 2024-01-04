@@ -806,6 +806,22 @@
         "optional": true
       },
       {
+        "name": "timeLimitGlobal",
+        "type": "number",
+        "label": "Global time limit",
+        "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately.",
+        "min": 1,
+        "optional": true
+      },
+      {
+        "name": "timeoutWarningGlobal",
+        "type": "number",
+        "label": "Timeout warning time",
+        "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings.",
+        "min": 1,
+        "optional": true
+      },
+      {
         "name": "map",
         "type": "group",
         "label": "Map",
@@ -920,6 +936,12 @@
         "default": "You have achieved full score, but lost all your lifes!"
       },
       {
+        "name": "fullScoreButTimeout",
+        "type": "text",
+        "label": "Full score, but timed out",
+        "default": "You have achieved full score, but ran out of time!"
+      },
+      {
         "name": "confirmFinishHeader",
         "type": "text",
         "label": "Dialog header finish map",
@@ -985,6 +1007,12 @@
         "type": "text",
         "label": "Dialog text game over",
         "default": "You have lost all your lives. Please try again!"
+      },
+      {
+        "name": "confirmGameOverDialogTimeout",
+        "type": "text",
+        "label": "Dialog text game over by timeout",
+        "default": "You have run out of time. Please try again!"
       },
       {
         "name": "confirmTimeoutHeader",

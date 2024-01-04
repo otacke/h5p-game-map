@@ -339,6 +339,14 @@
           "description": "Puntaje opcional que puede ser menor que el puntaje máximo sumado de todos los ejercicios, de forma tal que los usuarios puedan recibir puntaje total sin completar todos los ejercicios."
         },
         {
+          "label": "Global time limit",
+          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
+        },
+        {
+          "label": "Hora de advertencia de tiempo agotado",
+          "description": "Opcionalmente configurar cuando debería de oírse una advertencia de audio (número de segundos restantes) de que se agota el tiempo. Un audio necesita configurarse en las configuraciones de audio."
+        },
+        {
           "label": "Mapa",
           "fields": [
             {
@@ -407,6 +415,10 @@
           "default": "¡Usted ha obtenido puntaje completo, pero perdió todas sus vidas!"
         },
         {
+          "label": "Full score, but timed out",
+          "default": "You have achieved full score, but ran out of time!"
+        },
+        {
           "label": "Encabezado de diálogo de mapa terminado",
           "default": "¿Terminar mapa?"
         },
@@ -450,6 +462,10 @@
         {
           "label": "Texto del diálogo fin del juego",
           "default": "Usted ha perdido todas sus vidas. ¡Por favor inténtelo de nuevo!"
+        },
+        {
+          "label": "Dialog text game over by timeout",
+          "default": "You have run out of time. Please try again!"
         },
         {
           "label": "Encabezado de diálogo de tiempo agotado",
