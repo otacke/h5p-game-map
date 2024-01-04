@@ -798,6 +798,14 @@
         "optional": true
       },
       {
+        "name": "finishScore",
+        "type": "number",
+        "label": "Finish score",
+        "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises.",
+        "min": 0,
+        "optional": true
+      },
+      {
         "name": "enableRetry",
         "label": "Enable \"Retry\" button",
         "type": "boolean",
@@ -811,14 +819,6 @@
         "type": "boolean",
         "importance": "low",
         "default": true,
-        "optional": true
-      },
-      {
-        "name": "finishScore",
-        "type": "number",
-        "label": "Finish score",
-        "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises.",
-        "min": 0,
         "optional": true
       },
       {

@@ -337,14 +337,14 @@
           "description": "Configure opcionalmente cuándo debe reproducirse un audio de advertencia de límite de tiempo (número de segundos restantes). Es necesario configurar un audio en la configuración de audio."
         },
         {
+          "label": "Puntuación final",
+          "description": "Puntuación opcional que puede ser más baja que la puntuación máxima sumada de todos los ejercicios, de manera que los usuarios puedan recibir la puntuación completa sin completar todos los ejercicios."
+        },
+        {
           "label": "Habilitar el botón \"Reintentar\""
         },
         {
           "label": "Habilitar botón \"Mostrar soluciones\""
-        },
-        {
-          "label": "Puntuación final",
-          "description": "Puntuación opcional que puede ser más baja que la puntuación máxima sumada de todos los ejercicios, de manera que los usuarios puedan recibir la puntuación completa sin completar todos los ejercicios."
         },
         {
           "label": "Mapa",

@@ -337,14 +337,14 @@
           "description": "Du kannst optional einstellen, wann ein Tonsignal als Warnung ertönen soll (Anzahl der verbleibenden Sekunden). Eine Tondatei muss in den Audioeinstellungen dafür hinterlegt sein."
         },
         {
+          "label": "Punktzahl zum Beenden",
+          "description": "Optionale Punktzahl, die kleiner sein kann als die eigentlich durch alle Aufgaben erreichbaren Punkte, so dass Nutzerinnen und Nutzer auch volle Punktzahl erreichen können, ohne alle Etappen zu absolvieren."
+        },
+        {
           "label": "\"Wiederholen\"-Button anzeigen"
         },
         {
           "label": "\"Lösung zeigen\"-Button anzeigen"
-        },
-        {
-          "label": "Punktzahl zum Beenden",
-          "description": "Optionale Punktzahl, die kleiner sein kann als die eigentlich durch alle Aufgaben erreichbaren Punkte, so dass Nutzerinnen und Nutzer auch volle Punktzahl erreichen können, ohne alle Etappen zu absolvieren."
         },
         {
           "label": "Karte",

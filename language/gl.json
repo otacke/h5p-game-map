@@ -337,14 +337,14 @@
           "description": "Opcionalmente, define cando se debe reproducir un son de límite de tempo (número de segundos restantes). É necesario configurar un son na configuración de son."
         },
         {
+          "label": "Puntuación de finalización",
+          "description": "Puntuación opcional que pode ser inferior á puntuación máxima sumada de todos os exercicios, polo que os usuarios poden recibir a puntuación completa sen completar todos os exercicios."
+        },
+        {
           "label": "Activar o botón \"Tentar de novo\""
         },
         {
           "label": "Activar botón \"Amosar solucións\""
-        },
-        {
-          "label": "Puntuación de finalización",
-          "description": "Puntuación opcional que pode ser inferior á puntuación máxima sumada de todos os exercicios, polo que os usuarios poden recibir a puntuación completa sen completar todos os exercicios."
         },
         {
           "label": "Mapa",

@@ -337,14 +337,14 @@
           "description": "Opcionalmente configurar cuando debería de oírse una advertencia de audio (número de segundos restantes) de que se agota el tiempo. Un audio necesita configurarse en las configuraciones de audio."
         },
         {
+          "label": "Puntaje final",
+          "description": "Puntaje opcional que puede ser menor que el puntaje máximo sumado de todos los ejercicios, de forma tal que los usuarios puedan recibir puntaje total sin completar todos los ejercicios."
+        },
+        {
           "label": "Habilitar botón \"Reintentar\""
         },
         {
           "label": "Habilitar botón \"Mostrar soluciones\""
-        },
-        {
-          "label": "Puntaje final",
-          "description": "Puntaje opcional que puede ser menor que el puntaje máximo sumado de todos los ejercicios, de forma tal que los usuarios puedan recibir puntaje total sin completar todos los ejercicios."
         },
         {
           "label": "Mapa",

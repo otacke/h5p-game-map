@@ -337,14 +337,14 @@
           "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
         },
         {
+          "label": "Finish score",
+          "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises."
+        },
+        {
           "label": "Enable \"Retry\" button"
         },
         {
           "label": "Enable \"Show solutions\" button"
-        },
-        {
-          "label": "Finish score",
-          "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises."
         },
         {
           "label": "Map",
