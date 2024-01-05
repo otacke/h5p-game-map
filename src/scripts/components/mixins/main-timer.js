@@ -13,7 +13,7 @@ export default class MainTimer {
         { interval: 500 },
         {
           onTick: () => {
-            this.remainingTime = this.timer.getTime();
+            this.timeLeft = this.timer.getTime();
             const isTimeoutWarning = this.isTimeoutWarning();
 
             if (isTimeoutWarning) {
@@ -24,7 +24,7 @@ export default class MainTimer {
 
             this.toolbar.setStatusContainerStatus(
               'timer',
-              { value: Timer.toTimecode(this.remainingTime) }
+              { value: Timer.toTimecode(this.timeLeft) }
             );
           },
           onExpired: () => {
@@ -49,8 +49,25 @@ export default class MainTimer {
 
     return (
       typeof timeoutWarning === 'number' &&
-      this.remainingTime <= timeoutWarning * 1000
+      this.timeLeft <= timeoutWarning * 1000
     );
+  }
+
+  /**
+   * Add extra time to timer.
+   * @param {number} timeS Time in seconds.
+   */
+  addExtraTime(timeS) {
+    if (typeof timeS !== 'number' || timeS < 1) {
+      return;
+    }
+
+    this.timer?.setTime(this.timer?.getTime() + timeS * 1000);
+    this.toolbar.setStatusContainerStatus(
+      'timer',
+      { value: Timer.toTimecode(this.timer.getTime()) }
+    );
+    this.params.jukebox.play('extraTime');
   }
 
   /**

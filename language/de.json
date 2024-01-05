@@ -92,6 +92,28 @@
                     "description": "Wähle die Art des Inhalts, die du der Etappe hinzufügen möchtest."
                   },
                   {
+                    "label": "Spezialetappentyp",
+                    "options": [
+                      {
+                        "label": "Beenden"
+                      },
+                      {
+                        "label": "Extraleben"
+                      },
+                      {
+                        "label": "Extrazeit"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Anzahl Extraleben",
+                    "description": "Lege fest, wie viele Leben die Nutzenden erhalten, wenn sie diese Etappe öffnen."
+                  },
+                  {
+                    "label": "Anzahl der Extrazeit in Sekunden",
+                    "description": "Lege fest, wie viele Sekunden die Nutzenden für ihre Gesamtzeit erhalten, wenn sie diese Etappe öffnen."
+                  },
+                  {
                     "label": "Verbundene Etappen"
                   },
                   {
@@ -302,8 +324,16 @@
               "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin ein Leben verliert."
             },
             {
+              "label": "Leben erhalten",
+              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin ein Leben erhält."
+            },
+            {
               "label": "Game over",
               "description": "Wird abgespielt, wenn das Spiel vorüber ist und der Nutzer/die Nutzerin nicht mehr fortfahren kann."
+            },
+            {
+              "label": "Extrazeit erhalten",
+              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin Extrazeit erhält."
             },
             {
               "label": "Warnung vor Zeitüberschreitung",

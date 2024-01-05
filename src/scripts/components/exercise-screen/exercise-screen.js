@@ -296,11 +296,14 @@ export default class ExerciseScreen {
    */
   handleGlobalClick(event) {
     if (
-      !this.content.contains(event.target) &&
-      event.target.isConnected // H5P content may have removed element already
+      this.isAnimating ||
+      !event.target.isConnected ||  // H5P content may have removed element already
+      this.content.contains(event.target)
     ) {
-      this.callbacks.onClosed();
+      return;
     }
+
+    this.callbacks.onClosed();
   }
 
   /**

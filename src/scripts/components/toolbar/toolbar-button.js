@@ -206,7 +206,6 @@ export default class ToolbarButton {
    * @param {boolean} [options.noCallback] If true, will not call back.
    */
   force(active, options = {}) {
-
     if (this.params.type === 'toggle') {
       if (active === true) {
         this.activate();

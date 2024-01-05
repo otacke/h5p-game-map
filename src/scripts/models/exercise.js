@@ -139,7 +139,7 @@ export default class Exercise {
    */
   getCurrentState() {
     const remainingTime = Math.min(
-      this.remainingTime,
+      this.timeLeft,
       (this.params.time?.timeLimit || 0) * 1000 + this.params.animDuration
     );
 
@@ -205,7 +205,7 @@ export default class Exercise {
    * @returns {number} Remaining time in ms.
    */
   getRemainingTime() {
-    return this.remainingTime;
+    return this.timeLeft;
   }
 
   /**
@@ -215,7 +215,7 @@ export default class Exercise {
   isTimeoutWarning() {
     return (
       typeof this.params.time.timeoutWarning === 'number' &&
-      this.remainingTime <= this.params.time?.timeoutWarning * 1000
+      this.timeLeft <= this.params.time?.timeoutWarning * 1000
     );
   }
 
@@ -342,7 +342,7 @@ export default class Exercise {
     }
     else {
       const remainingTime = Math.min(
-        this.remainingTime,
+        this.timeLeft,
         (this.params.time?.timeLimit || 0) * 1000 + this.params.animDuration
       );
       this.timer?.start(remainingTime);
@@ -513,11 +513,11 @@ export default class Exercise {
             this.handleTimeout();
           },
           onTick: () => {
-            this.remainingTime = this.timer.getTime();
+            this.timeLeft = this.timer.getTime();
             const isTimeoutWarning = this.isTimeoutWarning();
 
             this.callbacks.onTimerTicked(
-              this.remainingTime,
+              this.timeLeft,
               { timeoutWarning: isTimeoutWarning }
             );
 
@@ -528,12 +528,12 @@ export default class Exercise {
         }
       );
 
-      this.remainingTime = this.params.animDuration + timeLimit;
+      this.timeLeft = this.params.animDuration + timeLimit;
     }
 
     if (!params.isInitial) {
       this.timer?.reset();
-      this.timer?.setTime(this.remainingTime);
+      this.timer?.setTime(this.timeLeft);
     }
 
     this.setState(state);

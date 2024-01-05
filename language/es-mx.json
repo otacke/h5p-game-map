@@ -92,6 +92,28 @@
                     "description": "Elegir el tipo de contenido que le gustaría añadir."
                   },
                   {
+                    "label": "Special stage type",
+                    "options": [
+                      {
+                        "label": "Finish"
+                      },
+                      {
+                        "label": "Extra life"
+                      },
+                      {
+                        "label": "Extra time"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Number of extra lives",
+                    "description": "Set how many lives the user will get when entering this stage."
+                  },
+                  {
+                    "label": "Number of seconds of extra time",
+                    "description": "Set how many seceonds the user will gain for the global time limit when entering this stage."
+                  },
+                  {
                     "label": "Etapas conectadas"
                   },
                   {
@@ -302,8 +324,16 @@
               "description": "Será reproducido cuando el usuario pierda una vida."
             },
             {
+              "label": "Gained life",
+              "description": "Will be played when the user gains a life."
+            },
+            {
               "label": "Fin del juego",
               "description": "Será reproducido cuando el juego se termina y el usuario ya no puede continuar."
+            },
+            {
+              "label": "Gained extra time",
+              "description": "Will be played when the user gains extra time."
             },
             {
               "label": "Advertencia de tiempo agotado",

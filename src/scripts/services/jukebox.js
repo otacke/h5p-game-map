@@ -3,8 +3,13 @@ export default class Jukebox {
 
   /**
    * @class
+   * @param {object} [callbacks] Callbacks.
+   * @param {function} [callbacks.onAudioContextReady] Callback for when audio context is ready.
    */
-  constructor() {
+  constructor(callbacks = {}) {
+    this.callbacks = {};
+    this.callbacks.onAudioContextReady =
+      callbacks.onAudioContextReady || (() => {});
 
     // Set up simple dispatcher for events
     this.dispatcher = document.createElement('div');
@@ -23,12 +28,13 @@ export default class Jukebox {
     this.queued = []; // Ids of queued audios.
 
     // webkit prefix still required for older iOS versions.
-    const audioContext = window.AudioContext || window.webkitAudioContext;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
 
-    // This is not best practice, but we want to try to autoplay at least
-    this.audioContext = audioContext ?
-      new audioContext() : // WebAudio API content.
-      null;
+    if (this.audioContext) {
+      return;
+    }
+
+    this.audioContext = new AudioContext();
   }
 
   /**

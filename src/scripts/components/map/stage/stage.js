@@ -22,6 +22,11 @@ export default class Stage {
       }
     }, params);
 
+    this.params.type = STAGE_TYPES['stage'];
+    if (this.params.specialStageType) {
+      this.params.type = STAGE_TYPES['special-stage'];
+    }
+
     this.params.state = this.params.state ??
       this.params.globals.get('states')['locked'];
 
@@ -117,6 +122,14 @@ export default class Stage {
    */
   getLabel() {
     return this.params.label;
+  }
+
+  /**
+   * Get stage type.
+   * @returns {string} Stage type.
+   */
+  getType() {
+    return this.params.type;
   }
 
   /**
@@ -679,3 +692,9 @@ export default class Stage {
 
 /** @constant {number} ANIMATION_CLEARED_BLOCK_MS Blockign time */
 Stage.ANIMATION_CLEARED_BLOCK_MS = 1000;
+
+/** @constant {object} STAGE_TYPES types lookup */
+export const STAGE_TYPES = {
+  'stage': 0,
+  'special-stage': 1
+};

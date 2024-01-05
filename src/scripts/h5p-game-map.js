@@ -51,11 +51,18 @@ export default class GameMap extends H5P.Question {
     this.params.visual.misc.useAnimation =
       this.params.visual.misc.useAnimation && !reduceMotion;
 
-    // Sanitize stages
+    /*
+     * Sanitize stages
+     * Remove stages without content except for special stages
+     * Set animation duration if valid
+     */
     this.params.gamemapSteps.gamemap.elements =
       this.params.gamemapSteps.gamemap.elements
         .filter((element) => {
-          return element.contentType?.library;
+          return (
+            element.contentType?.library ||
+            element.specialStageType
+          );
         })
         .map((element) => {
           element.animDuration = (this.params.visual.misc.useAnimation) ?

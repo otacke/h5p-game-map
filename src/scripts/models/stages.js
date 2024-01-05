@@ -1,5 +1,7 @@
 import Util from '@services/util.js';
 import Stage from '@components/map/stage/stage.js';
+import SpecialStage from '@components/map/stage/special-stage.js';
+import { STAGE_TYPES } from '@components/map/stage/stage.js';
 
 export default class Stages {
 
@@ -70,46 +72,65 @@ export default class Stages {
         return stage.id === elementParams.id;
       });
 
-      stages.push(new Stage(
-        {
-          id: elementParams.id,
-          dictionary: this.params.dictionary,
-          globals: this.params.globals,
-          jukebox: this.params.jukebox,
-          canBeStartStage: elementParams.canBeStartStage,
-          accessRestrictions: elementParams.accessRestrictions,
-          contentType: elementParams.contentType,
-          label: elementParams.label,
-          neighbors: neighbors,
-          telemetry: elementParams.telemetry,
-          visuals: this.params.visuals,
-          visible: stageState?.visible,
-          ...(stageState?.state && { state: stageState?.state })
-        }, {
-          onClicked: (id, state) => {
-            this.callbacks.onStageClicked(id, state);
-          },
-          onStateChanged: (id, state) => {
-            this.callbacks.onStageStateChanged(id, state);
-          },
-          onFocused: (id) => {
-            // If reading while selecting, other read call will be interrupted
-            if (!this.selectionStage) {
-              this.callbacks.onFocused();
-            }
+      const stageParams = {
+        id: elementParams.id,
+        dictionary: this.params.dictionary,
+        globals: this.params.globals,
+        jukebox: this.params.jukebox,
+        canBeStartStage: elementParams.canBeStartStage,
+        accessRestrictions: elementParams.accessRestrictions,
+        ...(
+          elementParams.contentType &&
+          { contentType: elementParams.contentType }
+        ),
+        specialStageType: elementParams.specialStageType,
+        ...(
+          elementParams.specialStageExtraLives &&
+          { specialStageExtraLives: elementParams.specialStageExtraLives }
+        ),
+        ...(
+          elementParams.specialStageExtraTime &&
+          { specialStageExtraTime: elementParams.specialStageExtraTime }
+        ),
+        label: elementParams.label,
+        neighbors: neighbors,
+        telemetry: elementParams.telemetry,
+        visuals: this.params.visuals,
+        visible: stageState?.visible,
+        ...(stageState?.state && { state: stageState?.state })
+      };
 
-            this.handleStageFocused(id);
-          },
-          onBecameActiveDescendant: (id) => {
-            this.callbacks.onBecameActiveDescendant(id);
-          },
-          onAddedToQueue: (callback, params) => {
-            this.callbacks.onAddedToQueue(callback, params);
-          },
-          onAccessRestrictionsHit: (params = {}) => {
-            this.callbacks.onAccessRestrictionsHit(params);
+      const stageCallbacks = {
+        onClicked: (id, state) => {
+          this.callbacks.onStageClicked(id, state);
+        },
+        onStateChanged: (id, state) => {
+          this.callbacks.onStageStateChanged(id, state);
+        },
+        onFocused: (id) => {
+          // If reading while selecting, other read call will be interrupted
+          if (!this.selectionStage) {
+            this.callbacks.onFocused();
           }
-        }));
+
+          this.handleStageFocused(id);
+        },
+        onBecameActiveDescendant: (id) => {
+          this.callbacks.onBecameActiveDescendant(id);
+        },
+        onAddedToQueue: (callback, params) => {
+          this.callbacks.onAddedToQueue(callback, params);
+        },
+        onAccessRestrictionsHit: (params = {}) => {
+          this.callbacks.onAccessRestrictionsHit(params);
+        }
+      };
+
+      const newStage = !elementParams.specialStageType ?
+        new Stage(stageParams, stageCallbacks) :
+        new SpecialStage(stageParams, stageCallbacks);
+
+      stages.push(newStage);
     }
 
     return stages;
@@ -322,7 +343,9 @@ export default class Stages {
       .filter((stage) => stage.canBeStartStage());
 
     if (!startStages.length) {
-      startStages = this.stages; // Use all stages, because none selected
+      // Use all stages except special stages, because none selected
+      startStages = this.stages
+        .filter((stage) => stage.getType() === STAGE_TYPES['stage']);
     }
 
     // Choose one randomly

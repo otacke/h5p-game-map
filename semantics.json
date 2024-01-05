@@ -237,6 +237,65 @@
                   ]
                 },
                 {
+                  "name": "specialStageType",
+                  "type": "select",
+                  "label": "Special stage type",
+                  "options": [
+                    {
+                      "value": "finish",
+                      "label": "Finish"
+                    },
+                    {
+                      "value": "extra-life",
+                      "label": "Extra life"
+                    },
+                    {
+                      "value": "extra-time",
+                      "label": "Extra time"
+                    }
+                  ]
+                },
+                {
+                  "name": "specialStageExtraLives",
+                  "type": "number",
+                  "label": "Number of extra lives",
+                  "description": "Set how many lives the user will get when entering this stage.",
+                  "optional": true,
+                  "min": 1,
+                  "widget": "showWhen",
+                  "showWhen": {
+                    "nullWhenHidden": true,
+                    "rules": [
+                      {
+                        "field": "specialStageType",
+                        "equals": [
+                          "extra-life"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "specialStageExtraTime",
+                  "type": "number",
+                  "label": "Number of seconds of extra time",
+                  "description": "Set how many seceonds the user will gain for the global time limit when entering this stage.",
+                  "optional": true,
+                  "min": 1,
+                  "widget": "showWhen",
+                  "showWhen": {
+                    "nullWhenHidden": true,
+                    "rules": [
+                      {
+                        "field": "specialStageType",
+                        "equals": [
+                          "extra-time"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
                   "name": "neighbors",
                   "type": "select",
                   "label": "Connected stages",
@@ -731,10 +790,26 @@
             "optional": true
           },
           {
+            "name": "gainedLife",
+            "type": "audio",
+            "label": "Gained life",
+            "description": "Will be played when the user gains a life.",
+            "importance": "low",
+            "optional": true
+          },
+          {
             "name": "gameOver",
             "type": "audio",
             "label": "Game over",
             "description": "Will be played when the user is game over.",
+            "importance": "low",
+            "optional": true
+          },
+          {
+            "name": "extraTime",
+            "type": "audio",
+            "label": "Gained extra time",
+            "description": "Will be played when the user gains extra time.",
             "importance": "low",
             "optional": true
           },

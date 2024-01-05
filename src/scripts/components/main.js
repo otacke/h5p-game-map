@@ -90,8 +90,6 @@ export default class Main {
       });
 
       this.endScreen.setContent(feedbackWrapper);
-
-      this.handleAutoplay();
     });
   }
 
@@ -275,7 +273,7 @@ export default class Main {
     if (
       score >= maxScore &&
       this.livesLeft > 0 &&
-      (typeof this.remainingTime !== 'number' || this.remainingTime > 0)
+      (typeof this.timeLeft !== 'number' || this.timeLeft > 0)
     ) {
       const success = endscreenParams.success;
       this.endScreen.setMedium(success.endScreenMediumSuccess);

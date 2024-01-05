@@ -92,6 +92,28 @@
                     "description": "选择要添加的内容类型。"
                   },
                   {
+                    "label": "Special stage type",
+                    "options": [
+                      {
+                        "label": "Finish"
+                      },
+                      {
+                        "label": "Extra life"
+                      },
+                      {
+                        "label": "Extra time"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Number of extra lives",
+                    "description": "Set how many lives the user will get when entering this stage."
+                  },
+                  {
+                    "label": "Number of seconds of extra time",
+                    "description": "Set how many seceonds the user will gain for the global time limit when entering this stage."
+                  },
+                  {
                     "label": "连接的关卡"
                   },
                   {
@@ -302,8 +324,16 @@
               "description": "在用户失去生命时播放。"
             },
             {
+              "label": "Gained life",
+              "description": "Will be played when the user gains a life."
+            },
+            {
               "label": "游戏结束",
               "description": "在游戏结束且用户无法继续时播放。"
+            },
+            {
+              "label": "Gained extra time",
+              "description": "Will be played when the user gains extra time."
             },
             {
               "label": "超时警告",

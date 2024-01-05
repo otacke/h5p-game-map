@@ -92,6 +92,28 @@
                     "description": "Choose the type of content you would like to add."
                   },
                   {
+                    "label": "Special stage type",
+                    "options": [
+                      {
+                        "label": "Finish"
+                      },
+                      {
+                        "label": "Extra life"
+                      },
+                      {
+                        "label": "Extra time"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Number of extra lives",
+                    "description": "Set how many lives the user will get when entering this stage."
+                  },
+                  {
+                    "label": "Number of seconds of extra time",
+                    "description": "Set how many seceonds the user will gain for the global time limit when entering this stage."
+                  },
+                  {
                     "label": "Connected stages"
                   },
                   {
@@ -302,8 +324,16 @@
               "description": "Will be played when the user loses a life."
             },
             {
+              "label": "Gained life",
+              "description": "Will be played when the user gains a life."
+            },
+            {
               "label": "Game over",
               "description": "Will be played when the game is over and the user cannot continue."
+            },
+            {
+              "label": "Gained extra time",
+              "description": "Will be played when the user gains extra time."
             },
             {
               "label": "Timeout warning",
