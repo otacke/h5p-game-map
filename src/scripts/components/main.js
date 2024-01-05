@@ -154,7 +154,7 @@ export default class Main {
    */
   hide() {
     this.map.hide();
-    this.timer.pause();
+    this.timer?.pause();
 
     this.contentDOM.classList.add('display-none');
   }
