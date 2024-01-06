@@ -104,13 +104,18 @@ export default class GameMap extends H5P.Question {
 
     this.dom = this.buildDOM();
 
+    const hasExerciseStages =
+      this.params.gamemapSteps.gamemap.elements.some((stage) => {
+        return stage.contentType;
+      });
+
     if (!this.params.gamemapSteps.backgroundImageSettings?.backgroundImage) {
       const messageBox = new MessageBox({
         text: this.dictionary.get('l10n.noBackground')
       });
       this.dom.append(messageBox.getDOM());
     }
-    else if (!this.params.gamemapSteps.gamemap.elements.length) {
+    else if (!hasExerciseStages) {
       const messageBox = new MessageBox({
         text: this.dictionary.get('l10n.noStages')
       });
