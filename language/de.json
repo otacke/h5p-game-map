@@ -475,7 +475,7 @@
         {
           "label": "Dialogtext Zugang verweigert: Mindestpunktzahl",
           "description": "@minScore ist ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
-          "default": "Du brauchst mindestens @minScore Punkte."
+          "default": "Du brauchst eine Mindestpunktzahl: @minScore"
         },
         {
           "label": "Ja",
