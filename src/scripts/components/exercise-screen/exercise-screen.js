@@ -23,9 +23,6 @@ export default class ExerciseScreen {
       onCloseAnimationEnded: () => {}
     }, callbacks);
 
-    this.handleOpenAnimationEnded = this.handleOpenAnimationEnded.bind(this);
-    this.handleCloseAnimationEnded = this.handleCloseAnimationEnded.bind(this);
-
     this.handleGlobalClick = this.handleGlobalClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
 
@@ -115,7 +112,11 @@ export default class ExerciseScreen {
       }
       else {
         this.contentContainer.addEventListener(
-          'animationend', this.handleOpenAnimationEnded
+          'animationend',
+          () => {
+            this.handleOpenAnimationEnded();
+          },
+          { once: true }
         );
       }
 
@@ -148,12 +149,15 @@ export default class ExerciseScreen {
       this.dom.classList.add('transparent');
 
       if (this.params.globals.get('params').visual.misc.useAnimation) {
-        this.animate('bounce-out', () => {
-          this.handleCloseAnimationEnded();
-          if (typeof callback === 'function') {
-            callback();
-          }
-        });
+        this.animate(
+          'bounce-out',
+          () => {
+            this.handleCloseAnimationEnded();
+            if (typeof callback === 'function') {
+              callback();
+            }
+          },
+          { once: true });
       }
       else {
         this.handleCloseAnimationEnded();
@@ -268,10 +272,6 @@ export default class ExerciseScreen {
    * Handle opening animation ended.
    */
   handleOpenAnimationEnded() {
-    this.contentContainer.removeEventListener(
-      'animationend', this.handleOpenAnimationEnded
-    );
-
     this.callbacks.onOpenAnimationEnded();
   }
 
@@ -279,10 +279,6 @@ export default class ExerciseScreen {
    * Handle closing animation ended.
    */
   handleCloseAnimationEnded() {
-    this.contentContainer.removeEventListener(
-      'animationend', this.handleCloseAnimationEnded
-    );
-
     this.contentContainer.classList.add('transparent');
     this.contentContainer.classList.add('offscreen');
     this.dom.classList.add('display-none');

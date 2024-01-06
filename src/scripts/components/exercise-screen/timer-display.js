@@ -7,8 +7,6 @@ export default class TimerDisplay {
    * @class
    */
   constructor() {
-    this.handleNotifyingEnded = this.handleNotifyingEnded.bind(this);
-
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-exercise-headline-timer');
 
@@ -82,7 +80,11 @@ export default class TimerDisplay {
    */
   notify() {
     this.dom.addEventListener(
-      'animationend', this.handleNotifyingEnded
+      'animationend',
+      () => {
+        this.handleNotifyingEnded();
+      },
+      { once: true }
     );
 
     this.dom.classList.add('notify-animation');
@@ -92,9 +94,6 @@ export default class TimerDisplay {
    * Handle notification ended.
    */
   handleNotifyingEnded() {
-    this.dom.removeEventListener(
-      'animationend', this.handleNotifyingEnded
-    );
     this.dom.classList.remove('notify-animation');
   }
 }
