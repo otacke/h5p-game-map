@@ -268,9 +268,7 @@
                     "rules": [
                       {
                         "field": "specialStageType",
-                        "equals": [
-                          "extra-life"
-                        ]
+                        "equals": "extra-life"
                       }
                     ]
                   }
@@ -288,9 +286,7 @@
                     "rules": [
                       {
                         "field": "specialStageType",
-                        "equals": [
-                          "extra-time"
-                        ]
+                        "equals": "extra-time"
                       }
                     ]
                   }
