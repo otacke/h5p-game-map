@@ -260,7 +260,7 @@
                   "type": "number",
                   "label": "Number of extra lives",
                   "description": "Set how many lives the user will get when entering this stage.",
-                  "optional": true,
+                  "default": 1,
                   "min": 1,
                   "widget": "showWhen",
                   "showWhen": {
@@ -280,7 +280,7 @@
                   "type": "number",
                   "label": "Number of seconds of extra time",
                   "description": "Set how many seceonds the user will gain for the global time limit when entering this stage.",
-                  "optional": true,
+                  "default": 1,
                   "min": 1,
                   "widget": "showWhen",
                   "showWhen": {
