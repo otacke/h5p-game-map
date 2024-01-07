@@ -58,11 +58,11 @@ export default class MainTimer {
    * @param {number} timeS Time in seconds.
    */
   addExtraTime(timeS) {
-    if (typeof timeS !== 'number' || timeS < 1) {
+    if (typeof timeS !== 'number' || timeS < 1 || !this.timer) {
       return;
     }
 
-    this.timer?.setTime(this.timer?.getTime() + timeS * 1000);
+    this.timer.setTime(this.timer.getTime() + timeS * 1000);
     this.toolbar.setStatusContainerStatus(
       'timer',
       { value: Timer.toTimecode(this.timer.getTime()) }
