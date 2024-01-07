@@ -92,26 +92,26 @@
                     "description": "Elegir el tipo de contenido que le gustaría añadir."
                   },
                   {
-                    "label": "Special stage type",
+                    "label": "Tipo de etapa especial",
                     "options": [
                       {
-                        "label": "Finish"
+                        "label": "Final"
                       },
                       {
-                        "label": "Extra life"
+                        "label": "Vida extra"
                       },
                       {
-                        "label": "Extra time"
+                        "label": "Tiempo extra"
                       }
                     ]
                   },
                   {
-                    "label": "Number of extra lives",
-                    "description": "Set how many lives the user will get when entering this stage."
+                    "label": "Número de vidas extra",
+                    "description": "Configurar cuantas vidas obtendrá el usuario al entrar en esta etapa."
                   },
                   {
-                    "label": "Number of seconds of extra time",
-                    "description": "Set how many seceonds the user will gain for the global time limit when entering this stage."
+                    "label": "Número de segundos de tiempo extra",
+                    "description": "Configurar cuantos segundos ganará el usuario para el límite global de tiempo al entrar en esta etapa."
                   },
                   {
                     "label": "Etapas conectadas"
@@ -324,20 +324,20 @@
               "description": "Será reproducido cuando el usuario pierda una vida."
             },
             {
-              "label": "Gained life",
-              "description": "Will be played when the user gains a life."
+              "label": "Vida ganada",
+              "description": "Será reproducido cuando el usuario gane una vida."
             },
             {
-              "label": "Fin del juego",
-              "description": "Será reproducido cuando el juego se termina y el usuario ya no puede continuar."
+              "label": "Juego terminado",
+              "description": "Se reproducirá cuando el juego termine y el usuario no pueda continuar."
             },
             {
-              "label": "Gained extra time",
-              "description": "Will be played when the user gains extra time."
+              "label": "Tiempo extra ganado",
+              "description": "Será reproducido cuando el usuario gane tiempo extra."
             },
             {
-              "label": "Advertencia de tiempo agotado",
-              "description": "Será reproducido cuando al usuario se le está acabando el tiempo para un ejercicio."
+              "label": "Advertencia de límite de tiempo",
+              "description": "Se reproducirá cuando el usuario se esté quedando sin tiempo para realizar un ejercicio."
             },
             {
               "label": "Pantalla final (sin puntaje completo)",
@@ -359,12 +359,12 @@
           "description": "Configurar el número de vidas para un usuario o dejar vacío para vidas ilimitadas. Los usuario perderán una vida cuando no obtengan el puntaje completo y ellos no pueden continuar cuando todas las vidas se han perdido."
         },
         {
-          "label": "Global time limit",
-          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
+          "label": "Límite de tiempo global",
+          "description": "Límite de tiempo opcional en segundos para el juego completo. Si un usuario excede este tiempo, el juego terminará inmediatamente."
         },
         {
           "label": "Hora de advertencia de tiempo agotado",
-          "description": "Opcionalmente configurar cuando debería de oírse una advertencia de audio (número de segundos restantes) de que se agota el tiempo. Un audio necesita configurarse en las configuraciones de audio."
+          "description": "Configure opcionalmente cuándo debe reproducirse un audio de advertencia de límite de tiempo (número de segundos restantes). Es necesario configurar un audio en la configuración de audio."
         },
         {
           "label": "Puntaje final",
@@ -381,14 +381,14 @@
           "fields": [
             {
               "label": "Mostrar etiquetas de etapa",
-              "description": "elegir si es que la etiqueta de una etapa será mostrada al pasar el ratón encima de una etapa. La etiqueta so será mostrada en dispositivos táctiles."
+              "description": "Elegir si es que la etiqueta de una etapa será mostrada al pasar el ratón encima de una etapa. La etiqueta so será mostrada en dispositivos táctiles."
             },
             {
               "label": "Itinerancia",
-              "description": "Elegir si los usuarios pueden itinerar libremente en todas las etapas, o si necesitan terminar una etapa para tener acceso a las etapas vecinas, o si necesitan pasar una etapa para tener acceso a las vecinas de esa etapa.",
+              "description": "Elije si los usuarios pueden moverse libremente por todas las etapas, necesitan terminar una etapa para tener acceso a las etapas vecinas o necesitan pasar una etapa para tener acceso a las vecinas de esa etapa.",
               "options": [
                 {
-                  "label": "Itinerar libremente"
+                  "label": "Moverse libremente"
                 },
                 {
                   "label": "Completar para despejar la etapa"
@@ -409,7 +409,7 @@
                   "label": "Ver todas las etapas des-bloqueadas y sus vecinos adyacentes"
                 },
                 {
-                  "label": "Ver solamente las etapas des-bloqueadas"
+                  "label": "Ver solo etapas desbloqueadas"
                 }
               ]
             }
@@ -445,16 +445,16 @@
           "default": "¡Usted ha obtenido puntaje completo, pero perdió todas sus vidas!"
         },
         {
-          "label": "Full score, but timed out",
-          "default": "You have achieved full score, but ran out of time!"
+          "label": "Puntaje completo, pero tiempo agotado",
+          "default": "¡Usted ha obtenido el puntaje completo, pero se le acabó el tiempo!"
         },
         {
-          "label": "Encabezado de diálogo de mapa terminado",
+          "label": "Encabezado del cuadro de diálogo de finalización de mapa",
           "default": "¿Terminar mapa?"
         },
         {
           "label": "Texto de diálogo de finalización de mapa: General",
-          "default": "Si usted termina ahora, usted no podrá explorar más el mapa."
+          "default": "Si usted termina ahora, no podrás seguir explorando el mapa."
         },
         {
           "label": "Texto de diálogo de finalización de mapa: Envío",
@@ -474,8 +474,8 @@
         },
         {
           "label": "Texto de diálogo de acceso denegado: Puntaje mínimo",
-          "description": "@minScore es un reemplazable y será remplazado con el valor respectivo.",
-          "default": "You need at least a certain number of points: @minScore."
+          "description": "@minScore es un reemplazable y será reemplazado con el valor respectivo.",
+          "default": "Usted necesita al menos un cierto número de puntos: @minScore."
         },
         {
           "label": "Sí",
@@ -487,15 +487,15 @@
         },
         {
           "label": "Encabezado de diálogo Fin del juego",
-          "default": "¡Fin del juego!"
+          "default": "¡Juego terminado!"
         },
         {
-          "label": "Texto del diálogo fin del juego",
+          "label": "Texto del diálogo de juego terminado",
           "default": "Usted ha perdido todas sus vidas. ¡Por favor inténtelo de nuevo!"
         },
         {
-          "label": "Dialog text game over by timeout",
-          "default": "You have run out of time. Please try again!"
+          "label": "Texto de diálogo juego terminado por tiempo agotado",
+          "default": "Se le acabó el tiempo. ¡Por favor inténtelo de nuevo!"
         },
         {
           "label": "Encabezado de diálogo de tiempo agotado",
@@ -534,8 +534,8 @@
           "default": "OK"
         },
         {
-          "label": "No se configuró una imagen de fondo",
-          "default": "No se configuró una imagen de fondo para el mapa."
+          "label": "No se configuró ninguna imagen de fondo",
+          "default": "No se configuró ninguna imagen de fondo para el mapa."
         },
         {
           "label": "No se configuraron etapas",
