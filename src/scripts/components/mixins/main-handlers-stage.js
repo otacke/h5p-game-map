@@ -5,7 +5,7 @@ import { STAGE_TYPES } from '@components/map/stage/stage.js';
  */
 export default class MainHandlersStage {
   addExtraLives(amount) {
-    if (typeof amount !== 'number' || amount < 1) {
+    if (typeof amount !== 'number' || amount < 1 || this.livesLeft === Infinity) {
       return;
     }
 
