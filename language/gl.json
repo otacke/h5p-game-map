@@ -95,23 +95,23 @@
                     "label": "Special stage type",
                     "options": [
                       {
-                        "label": "Finish"
+                        "label": "Rematar"
                       },
                       {
-                        "label": "Extra life"
+                        "label": "Vida extra"
                       },
                       {
-                        "label": "Extra time"
+                        "label": "Tempo extra"
                       }
                     ]
                   },
                   {
                     "label": "Number of extra lives",
-                    "description": "Set how many lives the user will get when entering this stage."
+                    "description": "Establece cantas vidas terá o usuario ao entrar nesta etapa."
                   },
                   {
-                    "label": "Number of seconds of extra time",
-                    "description": "Set how many seceonds the user will gain for the global time limit when entering this stage."
+                    "label": "Número de segundos de tempo extra",
+                    "description": "Establece cantos segundos gañará o usuario para o límite de tempo global ao entrar nesta etapa."
                   },
                   {
                     "label": "Etapas conectadas"
@@ -360,7 +360,7 @@
         },
         {
           "label": "Global time limit",
-          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
+          "description": "Límite de tempo opcional en segundos para todo o xogo. Se un usuario supera este tempo, o xogo finalizará inmediatamente."
         },
         {
           "label": "Tempo de aviso de límite de tempo",
