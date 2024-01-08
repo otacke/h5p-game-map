@@ -1033,7 +1033,7 @@
         "type": "text",
         "label": "Dialog text access denied: Minimum score",
         "description": "@minScore is a placeholder and will be replaced with the respective value.",
-        "default": "You need at least a certain number of points: @minScore."
+        "default": "You need at least a certain number of points: @minscore"
       },
       {
         "name": "yes",
