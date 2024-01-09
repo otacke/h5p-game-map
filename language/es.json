@@ -92,7 +92,7 @@
                     "description": "Elije el tipo de contenido que te gustaría añadir."
                   },
                   {
-                    "label": "Special stage type",
+                    "label": "Tipo de etapa especial",
                     "options": [
                       {
                         "label": "Final"
@@ -106,7 +106,7 @@
                     ]
                   },
                   {
-                    "label": "Number of extra lives",
+                    "label": "Número de vidas extra",
                     "description": "Configurar cuantas vidas obtendrá el usuario al entrar en esta etapa."
                   },
                   {
@@ -324,16 +324,16 @@
               "description": "Se reproducirá cuando el usuario pierda una vida."
             },
             {
-              "label": "Gained life",
-              "description": "Will be played when the user gains a life."
+              "label": "Vida ganada",
+              "description": "Será reproducido cuando el usuario gane una vida."
             },
             {
               "label": "Juego terminado",
               "description": "Se jugará cuando el juego termine y el usuario no pueda continuar."
             },
             {
-              "label": "Gained extra time",
-              "description": "Will be played when the user gains extra time."
+              "label": "Tiempo extra ganado",
+              "description": "Será reproducido cuando el usuario gane tiempo extra."
             },
             {
               "label": "Advertencia de límite de tiempo",
@@ -359,7 +359,7 @@
           "description": "Establece el número de vidas para un usuario o déjalo en blanco para vidas ilimitadas. Los usuarios perderán una vida cuando no obtengan la puntuación completa y no podrán continuar una vez que hayan perdido todas las vidas."
         },
         {
-          "label": "Global time limit",
+          "label": "Límite de tiempo global",
           "description": "Límite de tiempo opcional en segundos para el juego completo. Si un usuario excede este tiempo, el juego terminará inmediatamente."
         },
         {
@@ -441,12 +441,12 @@
           "default": "¡Has completado el mapa!"
         },
         {
-          "label": "Full score, but no lives left",
-          "default": "You have achieved full score, but lost all your lifes!"
+          "label": "Puntaje completo, pero sin vidas restantes",
+          "default": "¡Has obtenido puntaje completo, pero perdiste todas tus vidas!"
         },
         {
-          "label": "Full score, but timed out",
-          "default": "You have achieved full score, but ran out of time!"
+          "label": "Puntaje completo, pero tiempo agotado",
+          "default": "¡Has obtenido el puntaje completo, pero se te acabó el tiempo!"
         },
         {
           "label": "Encabezado del cuadro de diálogo de finalización de mapa",
@@ -475,7 +475,7 @@
         {
           "label": "Texto del diálogo de acceso denegado: puntuación mínima",
           "description": "@minScore es un marcador de posición y se reemplazará con el valor respectivo.",
-          "default": "You need at least a certain number of points: @minscore"
+          "default": "Necesitas al menos un cierto número de puntos: @minScore."
         },
         {
           "label": "Sí",
@@ -494,8 +494,8 @@
           "default": "Has perdido todas tus vidas. ¡Inténtalo de nuevo!"
         },
         {
-          "label": "Dialog text game over by timeout",
-          "default": "You have run out of time. Please try again!"
+          "label": "Texto de diálogo juego terminado por tiempo agotado",
+          "default": "Se te acabó el tiempo. ¡Por favor inténtalo de nuevo!"
         },
         {
           "label": "Encabezado de diálogo de límite de tiempo",
@@ -526,8 +526,8 @@
           "default": "Has acumulado suficientes puntos para terminar este mapa con la puntuación completa, pero eres libre de explorar el resto si lo deseas."
         },
         {
-          "label": "Dialog text full score (amendment, if lives are set)",
-          "default": "But beware! You may still lose lives!"
+          "label": "Texto de diálogo puntaje completo (corrección, si vidas configuradas)",
+          "default": "¡Pero ten cuidado! ¡Tú aun puedes perder vidas!"
         },
         {
           "label": "OK",
