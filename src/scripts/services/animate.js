@@ -38,11 +38,12 @@ export const animate = (element, animationName = '', callback = () => {}) => {
 
     element.classList.remove('animate');
     element.classList.remove(className);
+    element.removeEventListener('animationend', listener);
 
     callback();
   };
 
-  element.addEventListener('animationend', listener, { once: true });
+  element.addEventListener('animationend', listener);
 
   element.classList.add('animate');
   element.classList.add(className);
