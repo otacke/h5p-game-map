@@ -83,10 +83,6 @@ export default class MainInitialization {
       }, {
         onButtonClicked: () => {
           this.show({ focusButton: true, readOpened: true });
-
-          if (!this.params.jukebox.isPlaying('backgroundMusic')) {
-            this.tryStartBackgroundMusic();
-          }
         },
         read: (text) => {
           this.params.globals.get('read')(text);
