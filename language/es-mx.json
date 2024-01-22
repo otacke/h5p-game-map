@@ -276,8 +276,7 @@
           "label": "Música de fondo",
           "fields": [
             {
-              "label": "Música de fondo",
-              "description": "La música de fondo será reproducida automáticamente, pero por favor tenga en cuenta que la Política de Auto Reproducción del navegador podría impedir la auto reproducción antes de que el usuario haya interactuado con el contenido."
+              "label": "Música de fondo"
             },
             {
               "label": "Mudo al tomar el ejercicio"

@@ -276,8 +276,7 @@
           "label": "Música de fondo",
           "fields": [
             {
-              "label": "Música de fondo",
-              "description": "A música de fondo reproducirase automaticamente, pero ten en conta que a Política de reprodución automática do navegador pode impedir a reprodución automática antes de que o usuario interactúe co contido."
+              "label": "Música de fondo"
             },
             {
               "label": "Silenciar ao facer exercicios"

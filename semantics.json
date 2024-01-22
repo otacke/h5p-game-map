@@ -674,7 +674,6 @@
             "name": "music",
             "type": "audio",
             "label": "Background music",
-            "description": "The background music will be played automatically, but please note that the browser's Autoplay Policy may prevent to autoplay before the user has interacted with the content.",
             "importance": "low",
             "optional": true
           },

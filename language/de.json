@@ -276,8 +276,7 @@
           "label": "Hintergrundmusik",
           "fields": [
             {
-              "label": "Hintergrundmusik",
-              "description": "Die Hintergrundmusik wird automatisch abgespielt, aber bitte habe Verständnis dafür, dass die Autoplay-Regeln eines Browsers das automatische Abspielen verhindern können, solange die Nutzenden nicht mit der Seite interagiert haben."
+              "label": "Hintergrundmusik"
             },
             {
               "label": "Schalte innerhalb von Aufgaben stumm"
