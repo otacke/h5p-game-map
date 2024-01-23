@@ -1,11 +1,11 @@
 {
   "semantics": [
     {
-      "label": "Show title screen",
-      "description": "If checked, a title screen will show up when starting."
+      "label": "Rodyti titulinį ekraną",
+      "description": "Jei pažymėta, paleidimo metu bus rodomas titulinis ekranas."
     },
     {
-      "label": "Title screen",
+      "label": "Titulinis ekranas",
       "fields": [
         {
           "label": "Įvadas",

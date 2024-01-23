@@ -12,7 +12,7 @@
           "placeholder": "Ongi etorri ..."
         },
         {
-          "label": "Izenburu-pantaila ertaina"
+          "label": "Izenburu-pantailaren euskarria"
         }
       ]
     },
@@ -61,63 +61,63 @@
                   },
                   {
                     "label": "Denbora-muga",
-                    "description": "Define timer related settings.",
+                    "description": "Definitu tenporizadoreari lotutako ezarpenak.",
                     "fields": [
                       {
-                        "label": "Time limit",
-                        "description": "Optional time limit in seconds. If a user exceeds this time, the exercise will close, be reset, and the user will loose a life if lives are limited."
+                        "label": "Denbora muga",
+                        "description": "Aukerako denbora-muga segundotan. Erabiltzaile batek denbora hori gainditzen badu, ariketa itxi egingo da, berrezarri egingo da eta erabiltzaileak bizitza galduko du bizitza mugatuak badira."
                       },
                       {
-                        "label": "Timeout warning time",
-                        "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
+                        "label": "Denbora-mugako abisuaren denbora",
+                        "description": "Aukeran ezarri denbora-muga abisuaren audioa noiz erreproduzitu behar den (geratzen diren segundoak). Audio bat ezarri behar da audio ezarpenetan."
                       }
                     ]
                   },
                   {
-                    "label": "Access restrictions",
-                    "description": "Define restrictions for unlocking.",
+                    "label": "Sarbide murrizketak",
+                    "description": "Definitu desblokeatzeko baldintzak.",
                     "fields": [
                       {
-                        "label": "Minimum score to unlock",
-                        "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages."
+                        "label": "Desblokeatzeko gutxieneko puntuazioa",
+                        "description": "Erabiltzaileak ezin izango du etapa hau desblokeatu gutxienez beste etapa batzuk burutuz gutxienez puntuazio hori jaso ez badu."
                       },
                       {
-                        "label": "Open once score sufficient",
-                        "description": "If there has been an attempt to unlock the stage with insufficient score, should the stage unlock automatically once the score becomes sufficient."
+                        "label": "Ireki behin puntuazioa nahikoa denean",
+                        "description": "Puntuazio nahikorik gabe etapa desblokeatzeko saiakera izan bada, etapa nahikoa denean automatikoki desblokeatu beharko litzateke."
                       }
                     ]
                   },
                   {
-                    "label": "Stage content",
-                    "description": "Choose the type of content you would like to add."
+                    "label": "Etaparen edukia",
+                    "description": "Aukeratu gehitu nahi duzun eduki mota."
                   },
                   {
                     "label": "Special stage type",
                     "options": [
                       {
-                        "label": "Finish"
+                        "label": "Bukaera"
                       },
                       {
-                        "label": "Extra life"
+                        "label": "Bizitza gehigarria"
                       },
                       {
-                        "label": "Extra time"
+                        "label": "Denbora gehigarria"
                       }
                     ]
                   },
                   {
                     "label": "Number of extra lives",
-                    "description": "Set how many lives the user will get when entering this stage."
+                    "description": "Ezarri erabiltzaileak zenbat bizitza lortuko duen etapa honetan sartzean."
                   },
                   {
-                    "label": "Number of seconds of extra time",
-                    "description": "Set how many seceonds the user will gain for the global time limit when entering this stage."
+                    "label": "Denbora gehigarriaren segundo kopurua",
+                    "description": "Ezarri erabiltzaileak zenbat segundo irabaziko dituen denbora-muga globalerako etapa honetan sartzean."
                   },
                   {
-                    "label": "Connected stages"
+                    "label": "Lotutako etapak"
                   },
                   {
-                    "label": "Telemetry"
+                    "label": "Telemetria"
                   }
                 ]
               }
@@ -127,53 +127,53 @@
       ]
     },
     {
-      "label": "End screen",
+      "label": "Azken pantaila",
       "fields": [
         {
-          "label": "User not successful",
+          "label": "Erabiltzaileak ez du arrakastarik izan",
           "fields": [
             {
-              "label": "Message (user not successful)",
-              "placeholder": "You did not make it this time ..."
+              "label": "Mezua (erabiltzaileak ez du arrakasta izan)",
+              "placeholder": "Oraingoan ez duzu lortu..."
             },
             {
-              "label": "End screen medium (user not successful)"
+              "label": "Amaierako pantailaren euskarria (erabiltzaileak ez du arrakasta izan)"
             }
           ]
         },
         {
-          "label": "User successful",
+          "label": "Erabiltzaileak arrakasta izan du",
           "fields": [
             {
-              "label": "Message (user successful)",
-              "placeholder": "You made it ..."
+              "label": "Mezua (erabiltzaileak arrakastatsua)",
+              "placeholder": "Lortu duzu..."
             },
             {
-              "label": "End screen medium (user successful)"
+              "label": "Azken pantailaren euskarria (erabiltzaile arrakastatsua)"
             }
           ]
         },
         {
-          "label": "Overall Feedback",
+          "label": "Iritzi orokorra",
           "fields": [
             {
               "widgets": [
                 {
-                  "label": "Default"
+                  "label": "Lehenetsia"
                 }
               ],
-              "label": "Define custom feedback for any score range",
-              "description": "Click the \"Add range\" button to add as many ranges as you need. Example: 0-20% Bad score, 21-91% Average Score, 91-100% Great Score!",
-              "entity": "range",
+              "label": "Definitu iruzkin pertsonalizatua edozein puntuazio tarterako",
+              "description": "Egin klik \"Gehitu tartea\" botoian behar adina tarte gehitzeko. Adibidez: % 0-20 puntuazio txarra, % 21-91 tarteko puntuazioa, % 91-100 puntuazio bikaina!",
+              "entity": "tartea",
               "field": {
                 "fields": [
                   {
-                    "label": "Score Range"
+                    "label": "Puntuazio tartea"
                   },
                   {},
                   {
-                    "label": "Feedback for defined score range",
-                    "placeholder": "Fill in the feedback"
+                    "label": "Definitutako puntuazio-tarteari buruzko iruzkina",
+                    "placeholder": "Idatzi iruzkina"
                   }
                 ]
               }
@@ -183,10 +183,10 @@
       ]
     },
     {
-      "label": "Visual settings",
+      "label": "Ikusizko ezarpenak",
       "fields": [
         {
-          "label": "Stages",
+          "label": "Etapak",
           "fields": [
             {
               "label": "Color not visited stage",
@@ -203,51 +203,51 @@
           ]
         },
         {
-          "label": "Paths",
+          "label": "Ibilbideak",
           "fields": [
             {
-              "label": "Display paths",
-              "description": "Choose whether paths will be displayed on the map. Please note: The paths are always visible in the editor."
+              "label": "Erakutsi ibilbideak",
+              "description": "Aukeratu ibilbideak mapan bistaratuko diren ala ez. Kontuan izan ibilbideak beti daudela ikusgai editorean."
             },
             {
-              "label": "Style",
+              "label": "Estiloa",
               "fields": [
                 {
-                  "label": "Color path",
+                  "label": "Ibilbidearen kolorea",
                   "default": "rgba(0, 0, 0, 0.7)"
                 },
                 {
-                  "label": "Color path cleared",
+                  "label": "Ibilbidearen kolorea garbitu da",
                   "default": "rgba(0, 130, 0, 0.7)"
                 },
                 {
-                  "label": "Path width",
+                  "label": "Ibilbidearen zabalera",
                   "options": [
                     {
-                      "label": "thin"
+                      "label": "estua"
                     },
                     {
-                      "label": "medium"
+                      "label": "tartekoa"
                     },
                     {
-                      "label": "thick"
+                      "label": "zabala"
                     }
                   ]
                 },
                 {
-                  "label": "Path style",
+                  "label": "Ibilbidearen estiloa",
                   "options": [
                     {
-                      "label": "Solid"
+                      "label": "Solidoa"
                     },
                     {
-                      "label": "Dotted"
+                      "label": "Puntuak"
                     },
                     {
-                      "label": "Dashed"
+                      "label": "Marratxoak"
                     },
                     {
-                      "label": "Double"
+                      "label": "Bikoitza"
                     }
                   ]
                 }
@@ -256,71 +256,71 @@
           ]
         },
         {
-          "label": "Miscellaneous",
+          "label": "Denetarikoa",
           "fields": [
             {
-              "label": "Animate map",
-              "description": "Decide if the map should be animated. Even if you set this option, the content type will honor the users' browser setting if they prefer reduced motion."
+              "label": "Animatu mapa",
+              "description": "Erabaki mapa animatu behar den ala ez. Nahiz eta aukera hau ezarri, eduki motak errespetatu egingo du erabiltzaileen arakatzailearen ezarpenak, mugimendu murriztua nahiago badute."
             },
             {
-              "label": "Dummy"
+              "label": "Gizonkiloa"
             }
           ]
         }
       ]
     },
     {
-      "label": "Audio settings",
+      "label": "Audio ezarpenak",
       "fields": [
         {
-          "label": "Background music",
+          "label": "Atzeko planoko musika",
           "fields": [
             {
-              "label": "Background music"
+              "label": "Atzeko planoko musika"
             },
             {
-              "label": "Mute when taking exercises"
+              "label": "Isildu ariketak egitean"
             }
           ]
         },
         {
-          "label": "Events",
+          "label": "Gertaerak",
           "fields": [
             {
-              "label": "Click on locked stage",
-              "description": "Will be played on the map when clicking on a locked stage."
+              "label": "Egin klik blokeatutako etapan",
+              "description": "Blokeatutako etapa batean klik egitean mapan erreproduzituko da."
             },
             {
-              "label": "Check exercise (not full score)",
-              "description": "Will be played when an answer is checked and the user did not get full score."
+              "label": "Egiaztatu ariketa (ez puntuazio osoa)",
+              "description": "Erantzutean erabiltzaileak puntuazio osoa lortzen ez badu erreproduzituko da."
             },
             {
-              "label": "Check exercise (full score)",
-              "description": "Will be played when an answer is checked and the user did get full score."
+              "label": "Egiaztatu ariketa (puntuazio osoa)",
+              "description": "Erantzutean erabiltzaileak puntuazio osoa lortzen badu erreproduzituko da."
             },
             {
-              "label": "Unlocking a stage",
-              "description": "Will be played on the map when a stage gets unlocked."
+              "label": "Desblokeatzen etapa bat",
+              "description": "Etapa bat desblokeatzean erreproduzituko da."
             },
             {
-              "label": "Open exercise",
-              "description": "Will be played when an exercise is opened."
+              "label": "Ariketa irekia",
+              "description": "Ariketa bat irekitzean erreproduzituko da."
             },
             {
-              "label": "Close exercise",
-              "description": "Will be played when an exercise is opened."
+              "label": "Ariketa itxi",
+              "description": "Ariketa ixtean erreproduzituko da."
             },
             {
-              "label": "Show dialog",
-              "description": "Will be played when a confirmation dialog is shown."
+              "label": "Erakutsi elkarrizketa",
+              "description": "Baieztapen elkarrizketa erakustean erreproduzituko da."
             },
             {
-              "label": "Full score",
-              "description": "Will be played when the user reaches full score for the map."
+              "label": "Puntuazio osoa",
+              "description": "Puntuazio osoa eskuratzean erreproduzituko da."
             },
             {
-              "label": "Lost a life",
-              "description": "Will be played when the user loses a life."
+              "label": "Bizitza bat galdu",
+              "description": "Bizitza bat galtzean erreproduzituko da."
             },
             {
               "label": "Gained life",
@@ -339,35 +339,35 @@
               "description": "Will be played when the user is running out of time for an exercise."
             },
             {
-              "label": "End screen (not full score)",
-              "description": "Will be played on the end screen if the user did not get full score."
+              "label": "Azken pantaila (puntuazioa osatu gabe)",
+              "description": "Azken pantailan puntuazio osoa osatzen ez denean erreproduzituko da."
             },
             {
-              "label": "End screen (full score)",
-              "description": "Will be played on the end screen if the user did get full score."
+              "label": "Azken pantaila (puntuazio osoa)",
+              "description": "Azken pantailan puntuazio osoa lortzen denean erreproduzituko da."
             }
           ]
         }
       ]
     },
     {
-      "label": "Behavioural settings",
+      "label": "Jokaera ezarpenak",
       "fields": [
         {
-          "label": "Lives",
-          "description": "Set the number of lives for a user or leave empty for unlimited lives. Users will lose a life when they do not get full score and they cannot continue once all lives are lost."
+          "label": "Bizitzak",
+          "description": "Ezarri erabiltzaile baten bizitza kopurua edo utzi hutsik mugarik gabeko bizitzetarako. Erabiltzaileek bizitza bat galduko dute puntuazio osoa lortzen ez dutenean eta ezin dute jarraitu bizitza guztiak galdu ondoren."
         },
         {
           "label": "Global time limit",
-          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
+          "description": "Aukerako denbora-muga segundotan joko osorako. Erabiltzaile batek denbora hori gainditzen badu, jokoa berehala amaituko da."
         },
         {
           "label": "Timeout warning time",
-          "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
+          "description": "Aukeran ezarri denbora-muga abisuaren audioa noiz erreproduzitu behar den (geratzen diren segundoak). Audio bat ezarri behar da audio ezarpenetan."
         },
         {
           "label": "Finish score",
-          "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises."
+          "description": "Aukerako puntuazioa, ariketa guztien gehienezko puntuazioa baino baxuagoa izan daitekeena, erabiltzaileek puntuazio osoa jaso dezakete ariketa guztiak amaitu gabe."
         },
         {
           "label": "Enable \"Retry\" button"
@@ -376,39 +376,39 @@
           "label": "Enable \"Show solutions\" button"
         },
         {
-          "label": "Map",
+          "label": "Mapa",
           "fields": [
             {
-              "label": "Show stage labels",
-              "description": "Choose whether a stage's label will be shown on hovering a stage with the mouse. The label will not show on touch devices."
+              "label": "Erakutsi etapen izenak",
+              "description": "Aukeratu sagua etapa baten gainean pasatzean izana erakutsiko den ala ez. Izena ez da erakutsiko ukipen-gailuetan."
             },
             {
-              "label": "Roaming",
-              "description": "Choose whether users can roam all stages freely, need to finish a stage to get access to that stage's neighbors, or need to pass a stage to get access to that stage's neigbors.",
+              "label": "Ibiltaritzan",
+              "description": "Aukeratu erabiltzaileak etapa guztietatik libreki ibil daitezkeen, etapa bat amaitu behar duten etapa horretako ondokoetan sartzeko edo etapa bat gainditu behar duten etapa horretako ondokoan sartzeko.",
               "options": [
                 {
-                  "label": "Roam freely"
+                  "label": "Mugitu libreki"
                 },
                 {
-                  "label": "Complete to clear stage"
+                  "label": "Osatu etapa garbitzeko"
                 },
                 {
-                  "label": "Succeed to clear stage"
+                  "label": "Asmatu etapa garbitzeko"
                 }
               ]
             },
             {
-              "label": "Visibility range",
-              "description": "Select how far the user can see ahead",
+              "label": "Ikusgarritasun tartea",
+              "description": "Hautatu erabiltzaileak noraino ikus dezakeen aurrera",
               "options": [
                 {
-                  "label": "See all stages"
+                  "label": "Erakutsi etapa guztiak"
                 },
                 {
-                  "label": "See all unlocked stages and their adjacent neighbors"
+                  "label": "Ikusi desblokeatutako etapa guztiak eta haien ondokoak"
                 },
                 {
-                  "label": "See only unlocked stages"
+                  "label": "Ikusi desblokeatutako etapak soilik"
                 }
               ]
             }
@@ -417,11 +417,11 @@
       ]
     },
     {
-      "label": "User interface",
+      "label": "Erabiltzailearen interfazea",
       "fields": [
         {
-          "label": "Start",
-          "default": "Start"
+          "label": "Hasi",
+          "default": "Hasi"
         },
         {
           "label": "Jarraitu",
@@ -473,7 +473,7 @@
         },
         {
           "label": "Dialog text access denied: Minimum score",
-          "description": "@minScore is a placeholder and will be replaced with the respective value.",
+          "description": "@minScore leku-marka bat da eta dagokion balioarekin ordezkatuko da.",
           "default": "You need at least a certain number of points: @minscore"
         },
         {
@@ -533,107 +533,107 @@
           "default": "OK"
         },
         {
-          "label": "No background image was set",
-          "default": "No background image was set for the map."
+          "label": "Ez da atzeko planoko irudirik ezarri",
+          "default": "Ez da atzeko planoko irudirik ezarri maparako."
         },
         {
-          "label": "No stages were set",
-          "default": "No valid stages were set for the map."
+          "label": "Ez da etaparik ezarri",
+          "default": "Ez da baliozko etaparik ezarri maparako."
         }
       ]
     },
     {
-      "label": "Accessibility texts",
+      "label": "Irisgarritasun testuak",
       "fields": [
         {
-          "label": "Finish",
-          "default": "Finish the map"
+          "label": "Bukatu",
+          "default": "Bukatu mapa"
         },
         {
-          "label": "Audio button (unmuted)",
-          "default": "Mute audio. Currently unmuted."
+          "label": "Audio botoia (mututu gabe)",
+          "default": "Mututu audioa. Une honetan mututu gabe dago."
         },
         {
-          "label": "Audio button (muted)",
-          "default": "Unmute audio. Currently muted."
+          "label": "Audio botoia (isilik)",
+          "default": "Aktibatu audioa. Une honetan isilik dago."
         },
         {
-          "label": "Close",
-          "default": "Close"
+          "label": "Itxi",
+          "default": "Itxi"
         },
         {
-          "label": "Your result",
-          "description": "@score will be replaced by the number of points. @total will be replaced by the maximum possible points.",
-          "default": "You got @score out of @total points"
+          "label": "Zure emaitza",
+          "description": "@score puntu kopuruarekin ordezkatuko da. @total gehienezko puntuazioarekin ordezkatuko da.",
+          "default": "@total puntuetatik @score eskuratu dituzu"
         },
         {
-          "label": "Map was opened",
-          "default": "The map was opened."
+          "label": "Mapa ireki da",
+          "default": "Mapa ireki da."
         },
         {
-          "label": "Map was opened (solutions mode)",
-          "default": "The map was opened in solutions mode."
+          "label": "Mapa ireki da (soluzio modua)",
+          "default": "Mapa soluzio moduan ireki da."
         },
         {
-          "label": "Title screen was opened",
-          "default": "The title screen was opened."
+          "label": "Izenburu-pantaila ireki da",
+          "default": "Izenburu-pantaila ireki da."
         },
         {
-          "label": "End screen was opened",
-          "default": "The end screen was opened."
+          "label": "Azken pantaila ireki da",
+          "default": "Bukaerako pantaila ireki da."
         },
         {
-          "label": "Exercise label",
-          "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
-          "default": ". Exercise for @stagelabel"
+          "label": "Ariketa etiketa",
+          "description": "@stagelabel leku-marka bat da eta dagokion etapa etiketarekin ordezkatuko da.",
+          "default": ". @stagelabel ariketa"
         },
         {
-          "label": "Stage button label",
-          "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
-          "default": "Stage: @stagelabel"
+          "label": "Etapa botoiaren etiketa",
+          "description": "@stagelabel leku-marka bat da eta dagokion etapa etiketarekin ordezkatuko da.",
+          "default": "Etapa: @stagelabel"
         },
         {
-          "label": "adjacent stage label",
-          "description": "@stagelabelOrigin and @stagelabelNeighbor are placeholders and will be replaced with the respective stage labels.",
-          "default": "Adjacent stage of @stagelabelOrigin: @stagelabelNeighbor"
+          "label": "ondoko etaparen izena",
+          "description": "@stagelabelOrigin eta @stagelabelNeighbor leku-markak dira eta dagozkien etapa-etiketekin ordezkatuko dira.",
+          "default": "@stagelabelOrigin-ren ondoko etapa: @stagelabelNeighbor"
         },
         {
-          "label": "Locked",
-          "default": "Locked"
+          "label": "Blokeatuta",
+          "default": "Blokeatuta"
         },
         {
-          "label": "Cleared",
-          "default": "Cleared"
+          "label": "Garbitua",
+          "default": "Garbitua"
         },
         {
-          "label": "Description of map navigation",
-          "default": "Use space or enter key to activate current stage. Use arrow keys to select adjacent stage. Use space or enter key on adjacent stage to navigate there."
+          "label": "Maparen nabigazioaren deskribapena",
+          "default": "Erabili Zuriunea edo Sartu tekla uneko etapa aktibatzeko. Erabili gezi-teklak ondoko etapa hautatzeko. Erabili Zuriunea edo Sartu tekla aldameneko etapan bertan nabigatzeko."
         },
         {
-          "label": "Description of map",
-          "default": "Map"
+          "label": "Maparen deskribapena",
+          "default": "Mapa"
         },
         {
-          "label": "Moved to stage",
-          "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
-          "default": "Moved to @stagelabel"
+          "label": "Etapara mugitu da",
+          "description": "@stagelabel leku-marka bat da eta dagokion etapa etiketarekin ordezkatuko da.",
+          "default": "@stagelabel-ra mugitu da"
         },
         {
-          "label": "Unlocked stage",
-          "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
-          "default": "Stage @stagelabel was unlocked."
+          "label": "Desblokeatutako etapa",
+          "description": "@stagelabel leku-marka bat da eta dagokion etapa etiketarekin ordezkatuko da.",
+          "default": "@stagelabel etapa desblokeatu da."
         },
         {
-          "label": "Toolbar fallback label",
-          "default": "Game Map"
+          "label": "Tresna-barraren ordezko etiketa",
+          "default": "Jolasaren mapa"
         },
         {
-          "label": "Enter fullscreen",
-          "default": "Enter fullscreen mode"
+          "label": "Sartu pantaila osoan",
+          "default": "Sartu pantaila osoko moduan"
         },
         {
-          "label": "Exit fullscreen",
-          "default": "Exit fullscreen mode"
+          "label": "Irten pantaila osotik",
+          "default": "Irten pantaila osoko modutik"
         }
       ]
     }

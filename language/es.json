@@ -474,7 +474,7 @@
         {
           "label": "Texto del diálogo de acceso denegado: puntuación mínima",
           "description": "@minScore es un marcador de posición y se reemplazará con el valor respectivo.",
-          "default": "Necesitas al menos un cierto número de puntos: @minScore."
+          "default": "Necesitas al menos un cierto número de puntos: @minScore"
         },
         {
           "label": "Sí",
