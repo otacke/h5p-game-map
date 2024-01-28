@@ -92,26 +92,26 @@
                     "description": "选择要添加的内容类型。"
                   },
                   {
-                    "label": "Special stage type",
+                    "label": "特殊关卡类型",
                     "options": [
                       {
-                        "label": "Finish"
+                        "label": "结束"
                       },
                       {
-                        "label": "Extra life"
+                        "label": "额外生命"
                       },
                       {
-                        "label": "Extra time"
+                        "label": "额外时间"
                       }
                     ]
                   },
                   {
-                    "label": "Number of extra lives",
-                    "description": "Set how many lives the user will get when entering this stage."
+                    "label": "额外生命数量",
+                    "description": "设置用户进入此关卡时将获得多少条生命。"
                   },
                   {
-                    "label": "Number of seconds of extra time",
-                    "description": "Set how many seceonds the user will gain for the global time limit when entering this stage."
+                    "label": "额外时间秒数",
+                    "description": "设置用户进入此关卡时全局时间限制将增加多少秒。"
                   },
                   {
                     "label": "连接的关卡"
@@ -145,11 +145,11 @@
           "label": "用户成功",
           "fields": [
             {
-              "label": "消息",
+              "label": "消息（用户成功）",
               "placeholder": "你成功了..."
             },
             {
-              "label": "结束屏幕媒体"
+              "label": "结束屏幕媒体(用户成功)"
             }
           ]
         },
@@ -323,16 +323,16 @@
               "description": "在用户失去生命时播放。"
             },
             {
-              "label": "Gained life",
-              "description": "Will be played when the user gains a life."
+              "label": "获得生命",
+              "description": "当用户获得生命时播放的声音。"
             },
             {
               "label": "游戏结束",
               "description": "在游戏结束且用户无法继续时播放。"
             },
             {
-              "label": "Gained extra time",
-              "description": "Will be played when the user gains extra time."
+              "label": "获得额外时间",
+              "description": "当用户获得额外时间时播放的声音。"
             },
             {
               "label": "超时警告",
@@ -358,8 +358,8 @@
           "description": "设置用户的生命数，留空为无限生命。当用户在某一关卡没有得到满分时，将失去一条生命。一旦用户失去所有生命，则游戏结束。"
         },
         {
-          "label": "Global time limit",
-          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
+          "label": "全局时间限制",
+          "description": "整个游戏的可选时间限制，以秒为单位。如果用户超过此时间，游戏将立即结束。"
         },
         {
           "label": "超时警告时间设置",
@@ -444,8 +444,8 @@
           "default": "你已经取得了满分，但失去了所有的生命！"
         },
         {
-          "label": "Full score, but timed out",
-          "default": "You have achieved full score, but ran out of time!"
+          "label": "满分，但超时",
+          "default": "您已经获得满分，但游戏时间已用尽！"
         },
         {
           "label": "完成地图对话框标题",
@@ -474,7 +474,7 @@
         {
           "label": "访问被拒绝对话框文本：最低分数",
           "description": "@minScore 是一个占位符，将替换为相应的值。",
-          "default": "You need at least a certain number of points: @minscore"
+          "default": "您需要的最低分数：@minscore"
         },
         {
           "label": "是的",
@@ -493,8 +493,8 @@
           "default": "你已经失去了所有的生命。请重试！"
         },
         {
-          "label": "Dialog text game over by timeout",
-          "default": "You have run out of time. Please try again!"
+          "label": "超时游戏结束对话框文本",
+          "default": "很遗憾，游戏时间已用尽。请再试一次！"
         },
         {
           "label": "超时对话框标题",
