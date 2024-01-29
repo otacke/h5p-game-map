@@ -75,11 +75,11 @@
                   },
                   {
                     "label": "Restricciones de acceso",
-                    "description": "Definir restricciones para el desbloqueo.",
+                    "description": "Definir restricciones para des-bloquear.",
                     "fields": [
                       {
                         "label": "Puntuación mínima para desbloquear",
-                        "description": "El usuario no podrá desbloquear esta etapa si no ha obtenido al menos esta puntuación mínima al completar otras etapas. Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
+                        "description": "El usuario no podrá des-bloquear esta etapa si no ha recibido al menos este puntaje mínimo por completar otras etapas.Por favor tenga en cuenta que esta configuración no tendrá efecto si está configurado \"itinerancia libre\" en las configuraciones del comportamiento."
                       },
                       {
                         "label": "Abierto una vez puntuación suficiente",
@@ -146,7 +146,7 @@
           "fields": [
             {
               "label": "Mensaje (usuario exitoso)",
-              "placeholder": "Lo hiciste ..."
+              "placeholder": "Lo lograste..."
             },
             {
               "label": "Medio de pantalla final (usuario exitoso)"
