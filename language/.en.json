@@ -79,7 +79,7 @@
                     "fields": [
                       {
                         "label": "Minimum score to unlock",
-                        "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages.  Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
+                        "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages. Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
                       },
                       {
                         "label": "Open once score sufficient",
