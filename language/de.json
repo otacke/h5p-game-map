@@ -79,7 +79,7 @@
                     "fields": [
                       {
                         "label": "Minimale Punktzahl zum Freischalten",
-                        "description": "Die Nutzerinnen und Nutzer können diese Etappe nicht freischalten, wenn sie nicht mindestens die eingestellte Minimalpunktzahl durch das Absolvieren anderer Etappen gesammelt haben. Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
+                        "description": "Die Nutzerinnen und Nutzer können diese Etappe nicht freischalten, wenn sie nicht mindestens die eingestellte Minimalpunktzahl durch das Absolvieren anderer Etappen gesammelt haben. Bitte beachte, dass diese Einstellungen nichts bewirkt, falls \"Freies Umherwandern\" in den Verhaltenseinstellungen aktiviert ist."
                       },
                       {
                         "label": "Öffne, sobald genügend Punkte",
