@@ -473,7 +473,7 @@
         },
         {
           "label": "访问被拒绝对话框文本：最低分数",
-          "description": "@minScore 是一个占位符，将替换为相应的值。",
+          "description": "@minscore 是一个占位符，将替换为相应的值。",
           "default": "您需要的最低分数：@minscore"
         },
         {

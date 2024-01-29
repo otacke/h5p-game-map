@@ -155,7 +155,7 @@ export default class MainHandlersStage {
     if (params.minScore) {
       restrictions.push(
         this.params.dictionary.get('l10n.confirmAccessDeniedMinScore')
-          .replace(/@minScore/g, params.minScore)
+          .replace(/@minscore/gi, params.minScore)
       );
     }
 
