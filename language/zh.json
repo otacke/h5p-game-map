@@ -79,7 +79,7 @@
                     "fields": [
                       {
                         "label": "解锁的最低分数",
-                        "description": "如果用户没有在其他关卡获得最低分数，将无法解锁这个关卡。"
+                        "description": "如果用户没有在其他关卡获得最低分数，将无法解锁这个关卡。 Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
                       },
                       {
                         "label": "分数足够时自动解锁",

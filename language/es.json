@@ -79,7 +79,7 @@
                     "fields": [
                       {
                         "label": "Puntuación mínima para desbloquear",
-                        "description": "El usuario no podrá desbloquear esta etapa si no ha obtenido al menos esta puntuación mínima al completar otras etapas."
+                        "description": "El usuario no podrá desbloquear esta etapa si no ha obtenido al menos esta puntuación mínima al completar otras etapas.  Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
                       },
                       {
                         "label": "Abierto una vez puntuación suficiente",

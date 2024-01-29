@@ -79,7 +79,7 @@
                     "fields": [
                       {
                         "label": "Desblokeatzeko gutxieneko puntuazioa",
-                        "description": "Erabiltzaileak ezin izango du etapa hau desblokeatu gutxienez beste etapa batzuk burutuz gutxienez puntuazio hori jaso ez badu."
+                        "description": "Erabiltzaileak ezin izango du etapa hau desblokeatu gutxienez beste etapa batzuk burutuz gutxienez puntuazio hori jaso ez badu.  Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
                       },
                       {
                         "label": "Ireki behin puntuazioa nahikoa denean",
