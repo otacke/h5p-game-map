@@ -1032,7 +1032,7 @@
         "name": "confirmAccessDeniedMinScore",
         "type": "text",
         "label": "Dialog text access denied: Minimum score",
-        "description": "@minScore is a placeholder and will be replaced with the respective value.",
+        "description": "@minscore is a placeholder and will be replaced with the respective value.",
         "default": "You need at least a certain number of points: @minscore"
       },
       {

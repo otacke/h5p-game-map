@@ -473,7 +473,7 @@
         },
         {
           "label": "Dialog text access denied: Minimum score",
-          "description": "@minScore leku-marka bat da eta dagokion balioarekin ordezkatuko da.",
+          "description": "@minscore leku-marka bat da eta dagokion balioarekin ordezkatuko da.",
           "default": "You need at least a certain number of points: @minscore"
         },
         {

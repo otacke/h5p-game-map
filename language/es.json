@@ -473,8 +473,8 @@
         },
         {
           "label": "Texto del diálogo de acceso denegado: puntuación mínima",
-          "description": "@minScore es un marcador de posición y se reemplazará con el valor respectivo.",
-          "default": "Necesitas al menos un cierto número de puntos: @minScore"
+          "description": "@minscore es un marcador de posición y se reemplazará con el valor respectivo.",
+          "default": "Necesitas al menos un cierto número de puntos: @minscore"
         },
         {
           "label": "Sí",
@@ -615,12 +615,12 @@
         },
         {
           "label": "Movido al escenario",
-          "description": "@minScore es un marcador de posición y se reemplazará con el valor respectivo.",
+          "description": "@minscore es un marcador de posición y se reemplazará con el valor respectivo.",
           "default": "Movido a @stagelabel"
         },
         {
           "label": "Etapa desbloqueada",
-          "description": "@minScore es un marcador de posición y se reemplazará con el valor respectivo.",
+          "description": "@minscore es un marcador de posición y se reemplazará con el valor respectivo.",
           "default": "Se desbloqueó el escenario @stagelabel."
         },
         {
