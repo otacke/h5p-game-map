@@ -185,6 +185,14 @@ export default class Exercise {
    * @returns {number} Score of instance or 0.
    */
   getScore() {
+    /*
+     * Does not work for H5P.MultiChoice and H5P.MultiMediaChoice if no answer
+     * option is correct.
+     * In both, `getAnswerGiven` should not try to derive the state from the
+     * DOM, but rather from the user actually having given an answer.
+     * Should be fixed in those two.
+     * Cmp. https://h5ptechnology.atlassian.net/issues/HFP-3682
+     */
     const score = this.instance?.getScore?.();
 
     return (typeof score === 'number') ? score : 0;
