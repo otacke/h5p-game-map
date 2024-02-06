@@ -308,7 +308,7 @@
             },
             {
               "label": "Close exercise",
-              "description": "Will be played when an exercise is opened."
+              "description": "Will be played when an exercise is closed."
             },
             {
               "label": "Show dialog",

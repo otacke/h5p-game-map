@@ -737,7 +737,7 @@
             "name": "closeExercise",
             "type": "audio",
             "label": "Close exercise",
-            "description": "Will be played when an exercise is opened.",
+            "description": "Will be played when an exercise is closed.",
             "importance": "low",
             "optional": true
           },
