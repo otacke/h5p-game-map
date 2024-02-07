@@ -308,7 +308,7 @@
             },
             {
               "label": "Ejercicio cerrado",
-              "description": "Se reproducirá cuando se abra un ejercicio."
+              "description": "Se reproducirá cuando se cierre un ejercicio."
             },
             {
               "label": "Mostrar cuadro de diálogo",
