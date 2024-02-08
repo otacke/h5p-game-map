@@ -12,52 +12,52 @@
           "placeholder": "Sveiki atvykę į ..."
         },
         {
-          "label": "Title screen media"
+          "label": "Titulinio ekrano medija"
         }
       ]
     },
     {
       "label": "Antraštė",
-      "description": "Optional headline for the titlebar."
+      "description": "Neprivaloma pavadinimo juostos antraštė."
     },
     {
-      "label": "Game map editor",
+      "label": "Žaidimo žemėlapio redaktorius",
       "fields": [
         {
-          "label": "Background image",
+          "label": "Fono vaizdas",
           "fields": [
             {
-              "label": "Background image",
-              "description": "Select an image to use as the background of the game map."
+              "label": "Fono paveikslas",
+              "description": "Pasirinkite vaizdą, kurį naudosite kaip žaidimo žemėlapio foną."
             },
             {
-              "label": "Dummy"
+              "label": "Pradedantis"
             }
           ]
         },
         {
-          "label": "Game map",
+          "label": "Žaidimo žemėlapis",
           "fields": [
             {},
             {
-              "label": "Elements",
-              "entity": "Element",
+              "label": "Elementai",
+              "entity": "Elementas",
               "field": {
-                "label": "Elements",
+                "label": "Elementai",
                 "fields": [
                   {
                     "label": "Id"
                   },
                   {
-                    "label": "Type"
+                    "label": "Tipas"
                   },
                   {
-                    "label": "Stage label",
-                    "description": "This label will be displayed on top of your exercise and will help you to connect different stages with one another."
+                    "label": "Lygio žyma",
+                    "description": "Ši etiketė bus rodoma pratimo viršuje ir padės sujungti skirtingus etapus."
                   },
                   {
-                    "label": "User can start here",
-                    "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly."
+                    "label": "Vartotojas gali pradėti čia",
+                    "description": "Jei pažymėta, šis etapas bus etapas, nuo kurio vartotojas pradeda. Jei starto etapu negali būti nė vienas etapas arba daugiau nei vienas etapas, startinis etapas bus parenkamas atsitiktine tvarka."
                   },
                   {
                     "label": "Time limit",
