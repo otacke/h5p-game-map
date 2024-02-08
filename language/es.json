@@ -311,11 +311,11 @@
               "description": "Se reproducirá cuando se cierre un ejercicio."
             },
             {
-              "label": "Mostrar cuadro de diálogo",
-              "description": "Se reproducirá cuando se muestre un cuadro de diálogo de confirmación."
+              "label": "Mostrar diálogo",
+              "description": "Será reproducido cuando un diálogo de confirmación es mostrado."
             },
             {
-              "label": "Puntuación completa",
+              "label": "Puntaje completo",
               "description": "Se reproducirá cuando el usuario alcance la puntuación máxima del mapa."
             },
             {
