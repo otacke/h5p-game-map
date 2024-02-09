@@ -315,7 +315,7 @@
               "description": "Será reproducido cuando un diálogo de confirmación es mostrado."
             },
             {
-              "label": "Puntaje completo",
+              "label": "Puntuación completa",
               "description": "Se reproducirá cuando el usuario alcance la puntuación máxima del mapa."
             },
             {
