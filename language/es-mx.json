@@ -308,7 +308,7 @@
             },
             {
               "label": "Cerrar ejercicio",
-              "description": "Será reproducido cuando un ejercicio es abierto."
+              "description": "Se reproducirá cuando se cierre un ejercicio."
             },
             {
               "label": "Mostrar diálogo",
