@@ -65,6 +65,7 @@ export default class Map {
 
     this.image = document.createElement('img');
     this.image.classList.add('h5p-game-map-background-image');
+    this.image.alt = ''; // No alt text for background image
     this.image.addEventListener('load', () => {
       this.callbacks.onImageLoaded(this.image);
     });
