@@ -56,6 +56,8 @@ export default class MainQuestionTypeContract {
    * Show solutions.
    */
   showSolutions() {
+    this.gameDone = true;
+
     this.confirmationDialog.hide();
     this.endScreen.hide();
 

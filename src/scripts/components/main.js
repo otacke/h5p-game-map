@@ -116,7 +116,7 @@ export default class Main {
       if (timerState === Timer.STATE_PAUSED) {
         this.timer.resume();
       }
-      else if (timerState === Timer.STATE_ENDED) {
+      else if (timerState === Timer.STATE_ENDED && !this.gameDone) {
         this.timer.start();
       }
     }
