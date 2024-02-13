@@ -8,31 +8,33 @@ export default class MainTimer {
    * Initialize timer.
    */
   initializeTimer() {
-    if (this.params.globals.get('params').behaviour.timeLimitGlobal) {
-      this.timer = new Timer(
-        { interval: 500 },
-        {
-          onTick: () => {
-            this.timeLeft = this.timer.getTime();
-            const isTimeoutWarning = this.isTimeoutWarning();
-
-            if (isTimeoutWarning) {
-              this.hasPlayedTimeoutWarningGlobal = true;
-              this.params.jukebox.play('timeoutWarning');
-              this.toolbar.toggleHintTimer(true);
-            }
-
-            this.toolbar.setStatusContainerStatus(
-              'timer',
-              { value: Timer.toTimecode(this.timeLeft) }
-            );
-          },
-          onExpired: () => {
-            this.showGameOverConfirmation('confirmGameOverDialogTimeout');
-          }
-        }
-      );
+    if (!this.params.globals.get('params').behaviour.timeLimitGlobal) {
+      return;
     }
+
+    this.timer = new Timer(
+      { interval: 500 },
+      {
+        onTick: () => {
+          this.timeLeft = this.timer.getTime();
+          const isTimeoutWarning = this.isTimeoutWarning();
+
+          if (isTimeoutWarning) {
+            this.hasPlayedTimeoutWarningGlobal = true;
+            this.params.jukebox.play('timeoutWarning');
+            this.toolbar.toggleHintTimer(true);
+          }
+
+          this.toolbar.setStatusContainerStatus(
+            'timer',
+            { value: Timer.toTimecode(this.timeLeft) }
+          );
+        },
+        onExpired: () => {
+          this.showGameOverConfirmation('confirmGameOverDialogTimeout');
+        }
+      }
+    );
   }
 
   /**
