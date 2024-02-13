@@ -58,7 +58,7 @@ export default class MainUserConfirmation {
     this.queueAnimation = [];
     this.stages.togglePlayfulness(false);
     this.params.jukebox.stopAll();
-    this.timer.stop();
+    this.timer?.stop();
 
     this.callbacks.onFinished();
     this.showEndscreen({ focusButton: true });
@@ -81,7 +81,7 @@ export default class MainUserConfirmation {
       }, {
         onConfirmed: () => {
           this.params.jukebox.stopAll();
-          this.timer.stop();
+          this.timer?.stop();
           this.callbacks.onFinished();
           this.showEndscreen({ focusButton: true });
         }
@@ -89,7 +89,7 @@ export default class MainUserConfirmation {
     );
 
     this.params.jukebox.stopAll();
-    this.timer.stop();
+    this.timer?.stop();
     this.params.jukebox.play('gameOver');
 
     this.confirmationDialog.show();
