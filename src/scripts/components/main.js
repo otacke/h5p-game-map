@@ -22,10 +22,14 @@ export default class Main {
    * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onProgressChanged] Called on progress change.
    * @param {function} [callbacks.onFinished] Called when finished.
+   * @param {function} [callbacks.onFullscreenClicked] Called when fullscreen is clicked.
+   * @param {function} [callbacks.onRestarted] Called when content is restarted.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
     }, params);
+
+    this.gameDone = false;
 
     this.callbackQueue = new CallbackQueue();
 
@@ -51,7 +55,8 @@ export default class Main {
     this.callbacks = Util.extend({
       onProgressChanged: () => {},
       onFinished: () => {},
-      onFullscreenClicked: () => {}
+      onFullscreenClicked: () => {},
+      onRestarted: () => {}
     }, callbacks);
 
     this.params.globals.set('getScore', () => {
@@ -90,6 +95,10 @@ export default class Main {
       });
 
       this.endScreen.setContent(feedbackWrapper);
+
+      if (this.gameDone) {
+        this.showEndscreen();
+      }
     });
   }
 
@@ -244,6 +253,8 @@ export default class Main {
    * @param {boolean} [params.readOpened] If true, announce screen was opened.
    */
   showEndscreen(params = {}) {
+    this.hasUserMadeProgress = true;
+
     const endscreenParams = this.params.globals.get('params').endScreen;
     this.toolbar.toggleHintFinishButton(false);
     this.toolbar.toggleHintTimer(false);

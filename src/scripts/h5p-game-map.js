@@ -137,6 +137,9 @@ export default class GameMap extends H5P.Question {
           },
           onFullscreenClicked: () => {
             this.handleFullscreenClicked();
+          },
+          onRestarted: () => {
+            this.resetTask();
           }
         }
       );

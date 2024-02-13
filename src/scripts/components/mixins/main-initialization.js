@@ -123,8 +123,7 @@ export default class MainInitialization {
     }, {
       onButtonClicked: (id) => {
         if (id === 'restart') {
-          this.reset();
-          this.start();
+          this.callbacks.onRestarted();
         }
         else if (id === 'show-solutions') {
           this.showSolutions();
@@ -410,7 +409,10 @@ export default class MainInitialization {
       });
     }
 
-    this.gameDone = false;
+    this.gameDone = params.isInitial ?
+      previousState.gameDone ?? false :
+      false;
+
     this.stages.togglePlayfulness(true);
 
     this.stagesGameOverState = [];
