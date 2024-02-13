@@ -335,8 +335,8 @@
               "description": "Will be played when the user gains extra time."
             },
             {
-              "label": "Aviso de límite de tempo",
-              "description": "Reproducirase cando o usuario estea sen tempo para realizar un exercicio."
+              "label": "Timeout warning",
+              "description": "Will be played when the user is running out of time for an exercise or if the global time runs out."
             },
             {
               "label": "Pantalla final (puntuación non completa)",

@@ -335,8 +335,8 @@
               "description": "Predvajanje zvoka, ko udeleženec pridobi dodaten čas."
             },
             {
-              "label": "Opozorilo o prekoračitvi časa",
-              "description": "Predvajanje zvoka ob skorajšnjem poteku časa."
+              "label": "Timeout warning",
+              "description": "Will be played when the user is running out of time for an exercise or if the global time runs out."
             },
             {
               "label": "Končni zaslon (brez vseh točk)",

@@ -335,8 +335,8 @@
               "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin Extrazeit erhält."
             },
             {
-              "label": "Warnung vor Zeitüberschreitung",
-              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin droht das Zeitlimit zu überschreiten."
+              "label": "Timeout warning",
+              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin droht das Zeitlimit für eine Aufgabe oder für die Karte zu überschreiten."
             },
             {
               "label": "Endbildschirm (volle Punktzahl)",

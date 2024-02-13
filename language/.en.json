@@ -336,7 +336,7 @@
             },
             {
               "label": "Timeout warning",
-              "description": "Will be played when the user is running out of time for an exercise."
+              "description": "Will be played when the user is running out of time for an exercise or if the global time runs out."
             },
             {
               "label": "End screen (not full score)",

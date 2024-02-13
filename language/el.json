@@ -335,8 +335,8 @@
               "description": "Θα αναπαράγεται όταν ο χρήστης κερδίζει επιπλέον χρόνο."
             },
             {
-              "label": "Προειδοποίηση χρονικού ορίου",
-              "description": "Θα αναπαράγεται όταν ο χρήστης αρχίζει να εξαντλείται ο χρόνος για μια δραστηριότητα."
+              "label": "Timeout warning",
+              "description": "Will be played when the user is running out of time for an exercise or if the global time runs out."
             },
             {
               "label": "Οθόνη τέλους (μη πλήρες σκορ)",
