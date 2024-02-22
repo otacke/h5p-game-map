@@ -454,5 +454,5 @@ export default class Toolbar {
 }
 
 /** @constant {number} HINT_INTERVAL_MS Default hint interval. */
-export const HINT_INTERVAL_MS = 5000;
+export const HINT_INTERVAL_MS = 3000;
 export const HINT_INTERVAL_TIMER_MS = 1000;
