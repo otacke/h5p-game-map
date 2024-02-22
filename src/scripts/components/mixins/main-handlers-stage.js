@@ -66,7 +66,12 @@ export default class MainHandlersStage {
     }
     else if (stageType === STAGE_TYPES['special-stage']) {
       if (!this.isShowingSolutions) {
-        stage.runSpecialFeature(this);
+        // Special stages should only run once, when open but not opened yet.
+        const states = this.params.globals.get('states');
+        const state = stage.getState();
+        if (state === states['open']) {
+          stage.runSpecialFeature(this);
+        }
       }
     }
 
