@@ -76,6 +76,19 @@ export default class MainHandlersStage {
   }
 
   /**
+   * Handle special feature has run.
+   * @param {string} feature Feature name.
+   */
+  handleSpecialFeatureRun(feature) {
+    if (feature === 'extra-life') {
+      this.toolbar.animateStatusContainer('lives', 'pulse');
+    }
+    else if (feature === 'extra-time') {
+      this.toolbar.animateStatusContainer('timer', 'pulse');
+    }
+  }
+
+  /**
    * Handle stage state changed.
    * @param {string} id Id of exercise that was changed.
    * @param {number} state State code.
