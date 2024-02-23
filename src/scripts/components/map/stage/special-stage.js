@@ -33,6 +33,7 @@ export default class SpecialStage extends Stage {
       main.showFinishConfirmation();
     }
     else if (this.params.specialStageType === 'extra-life') {
+      main.addExtraLives(this.params.specialStageExtraLives ?? 0);
       this.setState(this.params.globals.get('states')['cleared']);
       main.handleSpecialFeatureRun('extra-life');
       this.disable();
