@@ -30,6 +30,10 @@ export default class Exercises {
     this.exercises = {};
 
     this.params.elements.forEach((element) => {
+      if (element.specialStageType || !element.contentType) {
+        return;
+      }
+
       this.exercises[element.id] = new Exercise(
         { ...element,
           dictionary: this.params.dictionary,

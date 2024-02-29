@@ -1,4 +1,5 @@
 import Color from 'color';
+import { animate } from '@services/animate.js';
 import Util from '@services/util.js';
 import Label from './label.js';
 import './stage.scss';
@@ -21,6 +22,11 @@ export default class Stage {
       }
     }, params);
 
+    this.params.type = STAGE_TYPES['stage'];
+    if (this.params.specialStageType) {
+      this.params.type = STAGE_TYPES['special-stage'];
+    }
+
     this.params.state = this.params.state ??
       this.params.globals.get('states')['locked'];
 
@@ -37,8 +43,6 @@ export default class Stage {
     this.isAnimating = false;
     this.shouldBePlayful = true;
     this.isReachableState = true;
-
-    this.handleAnimationEnded = this.handleAnimationEnded.bind(this);
 
     this.dom = document.createElement('button');
     this.dom.classList.add('h5p-game-map-stage');
@@ -74,11 +78,10 @@ export default class Stage {
     this.contentComputedStyle = window.getComputedStyle(this.content);
 
     // Label
-    const positionX = (this.params.telemetry.x < 50) ? 'right' : 'left';
     const positionY = (this.params.telemetry.y < 50) ? 'bottom' : 'top';
 
     this.label = new Label({
-      position: `${positionY}-${positionX}`,
+      position: positionY,
       text: this.params.label
     });
     this.dom.appendChild(this.label.getDOM());
@@ -119,6 +122,14 @@ export default class Stage {
    */
   getLabel() {
     return this.params.label;
+  }
+
+  /**
+   * Get stage type.
+   * @returns {string} Stage type.
+   */
+  getType() {
+    return this.params.type;
   }
 
   /**
@@ -417,22 +428,9 @@ export default class Stage {
 
     this.isAnimating = true;
 
-    this.dom.addEventListener('animationend', this.handleAnimationEnded);
-
-    this.dom.classList.add('animate');
-    this.dom.classList.add(`animate-${animationName}`);
-  }
-
-  /**
-   * Handle animation ended.
-   */
-  handleAnimationEnded() {
-    this.dom.classList.remove('animate');
-    this.dom.className = this.dom.className.replace(/animate-\w*/g, '');
-
-    this.dom.removeEventListener('animationend', this.handleAnimationEnded);
-
-    this.isAnimating = false;
+    animate(this.dom, animationName, () => {
+      this.isAnimating = false;
+    });
   }
 
   /**
@@ -490,7 +488,15 @@ export default class Stage {
       return;
     }
 
-    this.label.show({ skipDelay: event instanceof FocusEvent });
+    let scale = parseFloat(
+      window.getComputedStyle(this.dom).getPropertyValue('scale')
+    );
+    scale = Number.isNaN(scale) ? 1 : scale;
+
+    this.label.show({
+      skipDelay: event instanceof FocusEvent,
+      scale: scale
+    });
   }
 
   /**
@@ -686,3 +692,9 @@ export default class Stage {
 
 /** @constant {number} ANIMATION_CLEARED_BLOCK_MS Blockign time */
 Stage.ANIMATION_CLEARED_BLOCK_MS = 1000;
+
+/** @constant {object} STAGE_TYPES types lookup */
+export const STAGE_TYPES = {
+  'stage': 0,
+  'special-stage': 1
+};

@@ -79,7 +79,7 @@
                     "fields": [
                       {
                         "label": "Puntuación mínima para desbloquear",
-                        "description": "O usuario non poderá desbloquear esta etapa se non obtivo polo menos esta puntuación mínima ao completar outras etapas."
+                        "description": "O usuario non poderá desbloquear esta etapa se non obtivo polo menos esta puntuación mínima ao completar outras etapas. Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
                       },
                       {
                         "label": "Abrir unha vez puntuación suficiente",
@@ -90,6 +90,28 @@
                   {
                     "label": "Contido da escena",
                     "description": "Escolle o tipo de contido que che gustaría engadir."
+                  },
+                  {
+                    "label": "Special stage type",
+                    "options": [
+                      {
+                        "label": "Rematar"
+                      },
+                      {
+                        "label": "Vida extra"
+                      },
+                      {
+                        "label": "Tempo extra"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Number of extra lives",
+                    "description": "Establece cantas vidas terá o usuario ao entrar nesta etapa."
+                  },
+                  {
+                    "label": "Número de segundos de tempo extra",
+                    "description": "Establece cantos segundos gañará o usuario para o límite de tempo global ao entrar nesta etapa."
                   },
                   {
                     "label": "Etapas conectadas"
@@ -254,8 +276,7 @@
           "label": "Música de fondo",
           "fields": [
             {
-              "label": "Música de fondo",
-              "description": "A música de fondo reproducirase automaticamente, pero ten en conta que a Política de reprodución automática do navegador pode impedir a reprodución automática antes de que o usuario interactúe co contido."
+              "label": "Música de fondo"
             },
             {
               "label": "Silenciar ao facer exercicios"
@@ -302,12 +323,20 @@
               "description": "Reproducirase cando o usuario perda unha vida."
             },
             {
+              "label": "Gained life",
+              "description": "Will be played when the user gains a life."
+            },
+            {
               "label": "Xogo rematado",
               "description": "Reproducirase cando a partida remate e o usuario non poida continuar."
             },
             {
-              "label": "Aviso de límite de tempo",
-              "description": "Reproducirase cando o usuario estea sen tempo para realizar un exercicio."
+              "label": "Gained extra time",
+              "description": "Will be played when the user gains extra time."
+            },
+            {
+              "label": "Timeout warning",
+              "description": "Will be played when the user is running out of time for an exercise or if the global time runs out."
             },
             {
               "label": "Pantalla final (puntuación non completa)",
@@ -329,14 +358,22 @@
           "description": "Establece o número de vidas para un usuario ou déixao baleiro para vidas ilimitadas. Os usuarios perderán unha vida cando non obteñan a puntuación completa e non poderán continuar unha vez que se perdan todas as vidas."
         },
         {
-          "label": "Activar o botón \"Tentar de novo\""
+          "label": "Global time limit",
+          "description": "Límite de tempo opcional en segundos para todo o xogo. Se un usuario supera este tempo, o xogo finalizará inmediatamente."
         },
         {
-          "label": "Activar botón \"Amosar solucións\""
+          "label": "Tempo de aviso de límite de tempo",
+          "description": "Opcionalmente, define cando se debe reproducir un son de límite de tempo (número de segundos restantes). É necesario configurar un son na configuración de son."
         },
         {
           "label": "Puntuación de finalización",
           "description": "Puntuación opcional que pode ser inferior á puntuación máxima sumada de todos os exercicios, polo que os usuarios poden recibir a puntuación completa sen completar todos os exercicios."
+        },
+        {
+          "label": "Activar o botón \"Tentar de novo\""
+        },
+        {
+          "label": "Activar botón \"Amosar solucións\""
         },
         {
           "label": "Mapa",
@@ -407,6 +444,10 @@
           "default": "You have achieved full score, but lost all your lifes!"
         },
         {
+          "label": "Full score, but timed out",
+          "default": "You have achieved full score, but ran out of time!"
+        },
+        {
           "label": "Cabeceira do diálogo do mapa de finalización",
           "default": "Rematar o mapa?"
         },
@@ -432,8 +473,8 @@
         },
         {
           "label": "Texto do cadro de diálogo de acceso denegado: puntuación mínima",
-          "description": "@minScore é un marcador de posición e substituirase polo valor respectivo.",
-          "default": "Necesitas polo menos @minScore puntos."
+          "description": "@minscore é un marcador de posición e substituirase polo valor respectivo.",
+          "default": "You need at least a certain number of points: @minscore"
         },
         {
           "label": "Si",
@@ -450,6 +491,10 @@
         {
           "label": "Texto do diálogo de xogo rematado",
           "default": "Perdiches todas as túas vidas. Por favor inténtao de novo!"
+        },
+        {
+          "label": "Dialog text game over by timeout",
+          "default": "You have run out of time. Please try again!"
         },
         {
           "label": "Cabeceira do diálogo de tempo rematado",

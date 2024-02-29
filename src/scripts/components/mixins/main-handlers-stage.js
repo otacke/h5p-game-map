@@ -1,57 +1,96 @@
+import { STAGE_TYPES } from '@components/map/stage/stage.js';
+
 /**
  * Mixin containing handlers for stage.
  */
 export default class MainHandlersStage {
+  addExtraLives(amount) {
+    if (typeof amount !== 'number' || amount < 1 || this.livesLeft === Infinity) {
+      return;
+    }
+
+    this.livesLeft += amount;
+    this.toolbar.setStatusContainerStatus('lives', { value: this.livesLeft });
+    this.params.jukebox.play('gainedLife');
+  }
+
   /**
    * Handle stage clicked.
    * @param {string} id Id of stage that was clicked on.
    */
   handleStageClicked(id) {
-    this.stages.disable();
-    window.clearTimeout(this.stageAttentionSeekerTimeout);
-
     const stage = this.stages.getStage(id);
-    const exercise = this.exercises.getExercise(id);
 
-    const remainingTime = exercise.getRemainingTime();
-    if (typeof remainingTime === 'number') {
-      this.exerciseScreen.setTime(remainingTime);
+    const stageType = stage.getType();
+
+    if (stageType === STAGE_TYPES['stage']) {
+      this.stages.disable();
+      window.clearTimeout(this.stageAttentionSeekerTimeout);
+      const exercise = this.exercises.getExercise(id);
+
+      const remainingTime = exercise.getRemainingTime();
+      if (typeof remainingTime === 'number') {
+        this.exerciseScreen.setTime(remainingTime);
+      }
+
+      // Store to restore focus when exercise screen is closed
+      this.openExerciseId = id;
+      this.callbackQueue.setSkippable(false);
+
+      this.exerciseScreen.setH5PContent(exercise.getDOM());
+      this.exerciseScreen.setTitle(stage.getLabel());
+      this.params.jukebox.stopGroup('default');
+      this.exerciseScreen.show({ isShowingSolutions: this.isShowingSolutions });
+      this.toolbar.disable();
+      this.exercises.start(id);
+
+      if (
+        this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise
+      ) {
+        this.params.jukebox.fade(
+          'backgroundMusic', { type: 'out', time: this.musicFadeTime }
+        );
+      }
+
+      this.params.jukebox.play('openExercise');
+
+      if (!this.isShowingSolutions) {
+        // Update context for confusion report contract
+        const stageIndex =
+          this.params.globals.get('params').gamemapSteps.gamemap.elements
+            .findIndex((element) => element.id === id);
+        this.currentStageIndex = stageIndex + 1;
+        this.hasUserMadeProgress = true;
+        this.callbacks.onProgressChanged(this.currentStageIndex);
+      }
     }
-
-    // Store to restore focus when exercise screen is closed
-    this.openExerciseId = id;
-    this.callbackQueue.setSkippable(false);
-
-    this.exerciseScreen.setH5PContent(exercise.getDOM());
-    this.exerciseScreen.setTitle(stage.getLabel());
-    this.params.jukebox.stopGroup('default');
-    this.exerciseScreen.show({ isShowingSolutions: this.isShowingSolutions });
-    this.toolbar.disable();
-    this.exercises.start(id);
-
-    if (
-      this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise
-    ) {
-      this.params.jukebox.fade(
-        'backgroundMusic', { type: 'out', time: this.musicFadeTime }
-      );
-    }
-
-    this.params.jukebox.play('openExercise');
-
-    if (!this.isShowingSolutions) {
-      // Update context for confusion report contract
-      const stageIndex =
-        this.params.globals.get('params').gamemapSteps.gamemap.elements
-          .findIndex((element) => element.id === id);
-      this.currentStageIndex = stageIndex + 1;
-      this.hasUserMadeProgress = true;
-      this.callbacks.onProgressChanged(this.currentStageIndex);
+    else if (stageType === STAGE_TYPES['special-stage']) {
+      if (!this.isShowingSolutions) {
+        // Special stages should only run once, when open but not opened yet.
+        const states = this.params.globals.get('states');
+        const state = stage.getState();
+        if (state === states['open']) {
+          stage.runSpecialFeature(this);
+        }
+      }
     }
 
     window.requestAnimationFrame(() => {
       this.params.globals.get('resize')();
     });
+  }
+
+  /**
+   * Handle special feature has run.
+   * @param {string} feature Feature name.
+   */
+  handleSpecialFeatureRun(feature) {
+    if (feature === 'extra-life') {
+      this.toolbar.animateStatusContainer('lives', 'pulse');
+    }
+    else if (feature === 'extra-time') {
+      this.toolbar.animateStatusContainer('timer', 'pulse');
+    }
   }
 
   /**
@@ -134,7 +173,7 @@ export default class MainHandlersStage {
     if (params.minScore) {
       restrictions.push(
         this.params.dictionary.get('l10n.confirmAccessDeniedMinScore')
-          .replace(/@minScore/g, params.minScore)
+          .replace(/@minscore/gi, params.minScore)
       );
     }
 

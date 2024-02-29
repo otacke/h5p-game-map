@@ -58,6 +58,7 @@ export default class MainUserConfirmation {
     this.queueAnimation = [];
     this.stages.togglePlayfulness(false);
     this.params.jukebox.stopAll();
+    this.timer?.stop();
 
     this.callbacks.onFinished();
     this.showEndscreen({ focusButton: true });
@@ -65,44 +66,39 @@ export default class MainUserConfirmation {
 
   /**
    * Handle game over.
+   * @param {string} [dialogKey] Dialog key for message.
    */
-  showGameOverConfirmation() {
+  showGameOverConfirmation(dialogKey = 'confirmGameOverDialog') {
     this.gameDone = true;
     this.stages.togglePlayfulness(false);
-
-    this.toolbar.disableButton('finish');
 
     this.confirmationDialog.update(
       {
         headerText: this.params.dictionary.get('l10n.confirmGameOverHeader'),
-        dialogText: this.params.dictionary.get('l10n.confirmGameOverDialog'),
+        dialogText: this.params.dictionary.get(`l10n.${dialogKey}`),
         confirmText: this.params.dictionary.get('l10n.ok'),
         hideCancel: true
       }, {
         onConfirmed: () => {
           this.params.jukebox.stopAll();
+          this.timer?.stop();
           this.callbacks.onFinished();
           this.showEndscreen({ focusButton: true });
-        },
-        onCanceled: () => {
-          this.toolbar.enableButton('finish');
         }
       }
     );
 
     this.params.jukebox.stopAll();
+    this.timer?.stop();
     this.params.jukebox.play('gameOver');
 
     this.confirmationDialog.show();
-    this.toolbar.enableButton('finish');
   }
 
   /**
    * Show timeout confirmation.
    */
   showTimeoutConfirmation() {
-    this.toolbar.disableButton('finish');
-
     const dialogText = (this.livesLeft === Infinity) ?
       this.params.dictionary.get('l10n.confirmTimeoutDialog') :
       this.params.dictionary.get('l10n.confirmTimeoutDialogLostLife');
@@ -116,11 +112,6 @@ export default class MainUserConfirmation {
       }, {
         onConfirmed: () => {
           this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
-        },
-        onCanceled: () => {
-          this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
         }
       }
     );
@@ -132,8 +123,6 @@ export default class MainUserConfirmation {
    * Show incomplete score confirmation.
    */
   showIncompleteScoreConfirmation() {
-    this.toolbar.disableButton('finish');
-
     this.confirmationDialog.update(
       {
         headerText: this.params.dictionary.get('l10n.confirmScoreIncompleteHeader'),
@@ -143,11 +132,6 @@ export default class MainUserConfirmation {
       }, {
         onConfirmed: () => {
           this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
-        },
-        onCanceled: () => {
-          this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
         }
       }
     );
@@ -159,8 +143,6 @@ export default class MainUserConfirmation {
    * Show full score confirmation.
    */
   showFullScoreConfirmation() {
-    this.toolbar.disableButton('finish');
-
     let dialogText = this.params.dictionary.get('l10n.confirmFullScoreDialog');
 
     if (this.livesLeft !== Infinity) {
@@ -176,11 +158,7 @@ export default class MainUserConfirmation {
       }, {
         onConfirmed: () => {
           this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
-        },
-        onCanceled: () => {
-          this.params.jukebox.stopGroup('default');
-          this.toolbar.enableButton('finish');
+          this.toolbar.toggleHintFinishButton(true);
         }
       }
     );

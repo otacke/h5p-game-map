@@ -79,7 +79,7 @@
                     "fields": [
                       {
                         "label": "Minimale Punktzahl zum Freischalten",
-                        "description": "Die Nutzerinnen und Nutzer können diese Etappe nicht freischalten, wenn sie nicht mindestens die eingestellte Minimalpunktzahl durch das Absolvieren anderer Etappen gesammelt haben."
+                        "description": "Die Nutzerinnen und Nutzer können diese Etappe nicht freischalten, wenn sie nicht mindestens die eingestellte Minimalpunktzahl durch das Absolvieren anderer Etappen gesammelt haben. Bitte beachte, dass diese Einstellungen nichts bewirkt, falls \"Freies Umherwandern\" in den Verhaltenseinstellungen aktiviert ist."
                       },
                       {
                         "label": "Öffne, sobald genügend Punkte",
@@ -90,6 +90,28 @@
                   {
                     "label": "Etappeninhalt",
                     "description": "Wähle die Art des Inhalts, die du der Etappe hinzufügen möchtest."
+                  },
+                  {
+                    "label": "Spezialetappentyp",
+                    "options": [
+                      {
+                        "label": "Beenden"
+                      },
+                      {
+                        "label": "Extraleben"
+                      },
+                      {
+                        "label": "Extrazeit"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Anzahl Extraleben",
+                    "description": "Lege fest, wie viele Leben die Nutzenden erhalten, wenn sie diese Etappe öffnen."
+                  },
+                  {
+                    "label": "Anzahl der Extrazeit in Sekunden",
+                    "description": "Lege fest, wie viele Sekunden die Nutzenden für ihre Gesamtzeit erhalten, wenn sie diese Etappe öffnen."
                   },
                   {
                     "label": "Verbundene Etappen"
@@ -254,8 +276,7 @@
           "label": "Hintergrundmusik",
           "fields": [
             {
-              "label": "Hintergrundmusik",
-              "description": "Die Hintergrundmusik wird automatisch abgespielt, aber bitte habe Verständnis dafür, dass die Autoplay-Regeln eines Browsers das automatische Abspielen verhindern können, solange die Nutzenden nicht mit der Seite interagiert haben."
+              "label": "Hintergrundmusik"
             },
             {
               "label": "Schalte innerhalb von Aufgaben stumm"
@@ -302,12 +323,20 @@
               "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin ein Leben verliert."
             },
             {
+              "label": "Leben erhalten",
+              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin ein Leben erhält."
+            },
+            {
               "label": "Game over",
               "description": "Wird abgespielt, wenn das Spiel vorüber ist und der Nutzer/die Nutzerin nicht mehr fortfahren kann."
             },
             {
-              "label": "Warnung vor Zeitüberschreitung",
-              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin droht das Zeitlimit zu überschreiten."
+              "label": "Extrazeit erhalten",
+              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin Extrazeit erhält."
+            },
+            {
+              "label": "Timeout warning",
+              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin droht das Zeitlimit für eine Aufgabe oder für die Karte zu überschreiten."
             },
             {
               "label": "Endbildschirm (volle Punktzahl)",
@@ -329,21 +358,29 @@
           "description": "Setze die Anzahl Leben fest, die Nutzerinnen und Nutzer erhalten sollen, oder lasse das Feld leer für unendlich viele Leben. Nutzerinnen und Nutzer verlieren ein Leben, wenn sie eine Aufgabe nicht mit voller Punktzahl abschließen oder das Zeitlimit abläuft."
         },
         {
-          "label": "\"Wiederholen\"-Button anzeigen"
+          "label": "Globales Zeitlimit",
+          "description": "Du kannst optional ein Zeitlimit in Sekunden setzen. Wenn die Nutzerinnen und Nutzer dieses Limit überschreiten, ist das Spiel sofort vorbei."
         },
         {
-          "label": "\"Lösung zeigen\"-Button anzeigen"
+          "label": "Zeitlimitwarnung",
+          "description": "Du kannst optional einstellen, wann ein Tonsignal als Warnung ertönen soll (Anzahl der verbleibenden Sekunden). Eine Tondatei muss in den Audioeinstellungen dafür hinterlegt sein."
         },
         {
           "label": "Punktzahl zum Beenden",
           "description": "Optionale Punktzahl, die kleiner sein kann als die eigentlich durch alle Aufgaben erreichbaren Punkte, so dass Nutzerinnen und Nutzer auch volle Punktzahl erreichen können, ohne alle Etappen zu absolvieren."
         },
         {
+          "label": "\"Wiederholen\"-Button anzeigen"
+        },
+        {
+          "label": "\"Lösung zeigen\"-Button anzeigen"
+        },
+        {
           "label": "Karte",
           "fields": [
             {
               "label": "Zeige Etappenbeschriftungen",
-              "description": "Wähle, ob die Beschriftung einer Etappe während des Schwebens mit der Maus angezeit wird. Die Beschriftung wir auf Geräten mit \"Touch\"-Bedienung nicht angezeit."
+              "description": "Wähle, ob die Beschriftung einer Etappe während des Schwebens mit der Maus angezeigt wird. Die Beschriftung wir auf Geräten mit \"Touch\"-Bedienung nicht angezeit."
             },
             {
               "label": "Umherwandern",
@@ -407,6 +444,10 @@
           "default": "Du hast die volle Punktzahl erreicht, aber alle deine Leben verloren!"
         },
         {
+          "label": "Volle Punktzahl, aber Zeitüberschreitung",
+          "default": "Du hast die volle Punktzahl erreicht, aber die verfügbare Zeit überschritten!"
+        },
+        {
           "label": "Dialogüberschrift Karte abgeschlossen",
           "default": "Karte beenden?"
         },
@@ -432,8 +473,8 @@
         },
         {
           "label": "Dialogtext Zugang verweigert: Mindestpunktzahl",
-          "description": "@minScore ist ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
-          "default": "Du brauchst mindestens @minScore Punkte."
+          "description": "@minscore ist ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
+          "default": "Du brauchst eine Mindestpunktzahl: @minscore"
         },
         {
           "label": "Ja",
@@ -450,6 +491,10 @@
         {
           "label": "Dialogtext Game Over",
           "default": "Du hast alle deine Leben verloren. Versuche es noch einmal!"
+        },
+        {
+          "label": "Dialogtext Game Over durch Zeitüberschreitung",
+          "default": "Dir ist die Zeit ausgegangen. Versuche es noch einmal!"
         },
         {
           "label": "Dialogüberschrift Zeitüberschreitung",

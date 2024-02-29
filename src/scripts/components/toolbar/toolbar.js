@@ -1,5 +1,6 @@
 import StatusContainers from './status-containers/status-containers.js';
 import ToolbarButton from './toolbar-button.js';
+import { animate } from '@services/animate.js';
 import Util from '@services/util.js';
 import './toolbar.scss';
 
@@ -276,6 +277,67 @@ export default class Toolbar {
   }
 
   /**
+   * Hint towards finish button.
+   * @param {boolean} state True to hint, false to "un"hint.
+   */
+  toggleHintFinishButton(state) {
+    state = (typeof state === 'boolean') ?
+      state :
+      typeof this.hintFinishButtonTimeout !== 'number';
+
+    if (state) {
+      this.animateButton('finish', 'pulse');
+
+      this.hintFinishButtonTimeout = window.setTimeout(() => {
+        this.toggleHintFinishButton(true);
+      }, HINT_INTERVAL_MS);
+    }
+    else {
+      window.clearTimeout(this.hintFinishButtonTimeout);
+      this.animateButton('finish', null);
+    }
+  }
+
+  /**
+   * Toggle hint for timer.
+   * @param {boolean} state True to hint, false to "un"hint.
+   */
+  toggleHintTimer(state) {
+    state = (typeof state === 'boolean') ?
+      state :
+      typeof this.hintTimerTimeout !== 'number';
+
+    if (state) {
+      this.animateStatusContainer('timer', 'pulse');
+
+      this.hintTimerTimeout = window.setTimeout(() => {
+        this.toggleHintTimer(true);
+      }, HINT_INTERVAL_TIMER_MS);
+    }
+    else {
+      window.clearTimeout(this.hintTimerTimeout);
+      this.animateStatusContainer('timer', null);
+    }
+  }
+
+  /**
+   * Animate button.
+   * @param {string} id Button id.
+   * @param {string|null} className Class name to animate with, null to stop animation.
+   */
+  animateButton(id = '', className) {
+    if (!this.buttons[id]) {
+      return; // Button not available
+    }
+
+    if (!this.params.useAnimation) {
+      return;
+    }
+
+    animate(this.buttons[id].getDOM(), className);
+  }
+
+  /**
    * Show.
    */
   show() {
@@ -370,6 +432,19 @@ export default class Toolbar {
   }
 
   /**
+   * Animate status container.
+   * @param {string} id Container id.
+   * @param {string|null} animationName Animation name, null to stop animation.
+   */
+  animateStatusContainer(id, animationName) {
+    if (!this.params.useAnimation) {
+      return;
+    }
+
+    this.statusContainers.animate(id, animationName);
+  }
+
+  /**
    * Toggle solution mode on and off.
    * @param {boolean} state If true, solution mode is on, else off.
    */
@@ -377,3 +452,7 @@ export default class Toolbar {
     this.dom.classList.toggle('solution-mode', state);
   }
 }
+
+/** @constant {number} HINT_INTERVAL_MS Default hint interval. */
+export const HINT_INTERVAL_MS = 3000;
+export const HINT_INTERVAL_TIMER_MS = 1000;

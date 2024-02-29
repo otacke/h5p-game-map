@@ -44,6 +44,14 @@ export default class Timer {
   }
 
   /**
+   * Get current state.
+   * @returns {number} Current state.
+   */
+  getState() {
+    return this.state;
+  }
+
+  /**
    * Start.
    * @param {number} [defaultTime] Time to start with.
    */
@@ -102,10 +110,11 @@ export default class Timer {
 
   /**
    * Reset.
+   * @param {number} [timeMs] Time in ms.
    */
-  reset() {
+  reset(timeMs = 0) {
     this.stop();
-    this.setTime(0);
+    this.setTime(timeMs);
   }
 
   /**
@@ -146,6 +155,26 @@ export default class Timer {
     this.timeout = setTimeout(() => {
       this.update();
     }, this.params.interval);
+  }
+
+  /**
+   * Convert time in ms to timecode.
+   * @param {number} timeMs Time in ms.
+   * @returns {string|undefined} Timecode.
+   */
+  static toTimecode(timeMs) {
+    if (typeof timeMs !== 'number') {
+      return;
+    }
+
+    const date = new Date(0);
+    date.setSeconds(Math.round(Math.max(0, timeMs / 1000)));
+
+    return date
+      .toISOString()
+      .split('T')[1]
+      .split('.')[0]
+      .replace(/^[0:]+/, '') || '0';
   }
 }
 

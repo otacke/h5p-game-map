@@ -79,7 +79,7 @@
                     "fields": [
                       {
                         "label": "解锁的最低分数",
-                        "description": "如果用户没有在其他关卡获得最低分数，将无法解锁这个关卡。"
+                        "description": "如果用户没有在其他关卡获得最低分数，将无法解锁这个关卡。 Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
                       },
                       {
                         "label": "分数足够时自动解锁",
@@ -90,6 +90,28 @@
                   {
                     "label": "关卡内容设置",
                     "description": "选择要添加的内容类型。"
+                  },
+                  {
+                    "label": "特殊关卡类型",
+                    "options": [
+                      {
+                        "label": "结束"
+                      },
+                      {
+                        "label": "额外生命"
+                      },
+                      {
+                        "label": "额外时间"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "额外生命数量",
+                    "description": "设置用户进入此关卡时将获得多少条生命。"
+                  },
+                  {
+                    "label": "额外时间秒数",
+                    "description": "设置用户进入此关卡时全局时间限制将增加多少秒。"
                   },
                   {
                     "label": "连接的关卡"
@@ -123,11 +145,11 @@
           "label": "用户成功",
           "fields": [
             {
-              "label": "消息",
+              "label": "消息（用户成功）",
               "placeholder": "你成功了..."
             },
             {
-              "label": "结束屏幕媒体"
+              "label": "结束屏幕媒体(用户成功)"
             }
           ]
         },
@@ -254,8 +276,7 @@
           "label": "背景音乐",
           "fields": [
             {
-              "label": "背景音乐",
-              "description": "背景音乐将自动播放。请注意，浏览器的自动播放策略可能会阻止在用户与内容交互之前自动播放。"
+              "label": "背景音乐"
             },
             {
               "label": "在用户做练习时静音"
@@ -302,12 +323,20 @@
               "description": "在用户失去生命时播放。"
             },
             {
+              "label": "获得生命",
+              "description": "当用户获得生命时播放的声音。"
+            },
+            {
               "label": "游戏结束",
               "description": "在游戏结束且用户无法继续时播放。"
             },
             {
-              "label": "超时警告",
-              "description": "在用户练习时间不足时播放。"
+              "label": "获得额外时间",
+              "description": "当用户获得额外时间时播放的声音。"
+            },
+            {
+              "label": "Timeout warning",
+              "description": "Will be played when the user is running out of time for an exercise or if the global time runs out."
             },
             {
               "label": "结束画面（非满分）",
@@ -329,14 +358,22 @@
           "description": "设置用户的生命数，留空为无限生命。当用户在某一关卡没有得到满分时，将失去一条生命。一旦用户失去所有生命，则游戏结束。"
         },
         {
-          "label": "启用“重试”按钮"
+          "label": "全局时间限制",
+          "description": "整个游戏的可选时间限制，以秒为单位。如果用户超过此时间，游戏将立即结束。"
         },
         {
-          "label": "启用“显示解决方案”按钮"
+          "label": "超时警告时间设置",
+          "description": "（可选）设置何时播放超时警告音频（剩余秒数）。需要在音频设置中设置超时警告音频。"
         },
         {
           "label": "完赛得分",
           "description": "可选分数。可以低于所有练习的总分数，因此用户无需完成所有练习即可获得满分。"
+        },
+        {
+          "label": "启用“重试”按钮"
+        },
+        {
+          "label": "启用“显示解决方案”按钮"
         },
         {
           "label": "地图",
@@ -403,8 +440,12 @@
           "default": "您已完成地图！"
         },
         {
-          "label": "Full score, but no lives left",
-          "default": "You have achieved full score, but lost all your lifes!"
+          "label": "满分，但没有生命了",
+          "default": "你已经取得了满分，但失去了所有的生命！"
+        },
+        {
+          "label": "满分，但超时",
+          "default": "您已经获得满分，但游戏时间已用尽！"
         },
         {
           "label": "完成地图对话框标题",
@@ -432,8 +473,8 @@
         },
         {
           "label": "访问被拒绝对话框文本：最低分数",
-          "description": "@minScore 是一个占位符，将替换为相应的值。",
-          "default": "你至少需要@minScore 分。"
+          "description": "@minscore 是一个占位符，将替换为相应的值。",
+          "default": "您需要的最低分数：@minscore"
         },
         {
           "label": "是的",
@@ -450,6 +491,10 @@
         {
           "label": "游戏结束对话文本",
           "default": "你已经失去了所有的生命。请重试！"
+        },
+        {
+          "label": "超时游戏结束对话框文本",
+          "default": "很遗憾，游戏时间已用尽。请再试一次！"
         },
         {
           "label": "超时对话框标题",
@@ -480,12 +525,12 @@
           "default": "您已经得到了足够的分数，以满分完成了这张地图。如果您愿意，您可以自由探索其余部分。"
         },
         {
-          "label": "Dialog text full score (amendment, if lives are set)",
-          "default": "But beware! You may still lose lives!"
+          "label": "对话框文本满分（修订，如果生命值已设置）",
+          "default": "但还是要小心！你仍然可能失去生命！"
         },
         {
           "label": "OK",
-          "default": "OK"
+          "default": "知道了"
         },
         {
           "label": "未设置背景图像",

@@ -1,3 +1,4 @@
+import { animate } from '@services/animate.js';
 import Util from '@services/util.js';
 import './status-container.scss';
 
@@ -76,5 +77,13 @@ export default class StatusContainer {
    */
   hide() {
     this.dom.classList.add('display-none');
+  }
+
+  /**
+   * Animate.
+   * @param {string|null} animationName Animation name, null to stop animation.
+   */
+  animate(animationName) {
+    animate(this.dom, animationName);
   }
 }

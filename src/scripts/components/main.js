@@ -1,4 +1,5 @@
 import CallbackQueue from '@services/callback-queue.js';
+import Timer from '@services/timer.js';
 import Util from '@services/util.js';
 import MainAudio from './mixins/main-audio.js';
 import MainInitialization from './mixins/main-initialization.js';
@@ -6,6 +7,7 @@ import MainHandlersStage from './mixins/main-handlers-stage.js';
 import MainHandlersExercise from './mixins/main-handlers-exercise.js';
 import MainHandlersExerciseScreen from './mixins/main-handlers-exercise-screen.js';
 import MainQuestionTypeContract from './mixins/main-question-type-contract.js';
+import MainTimer from './mixins/main-timer.js';
 import MainUserConfirmation from './mixins/main-user-confirmation.js';
 import './main.scss';
 
@@ -20,10 +22,14 @@ export default class Main {
    * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onProgressChanged] Called on progress change.
    * @param {function} [callbacks.onFinished] Called when finished.
+   * @param {function} [callbacks.onFullscreenClicked] Called when fullscreen is clicked.
+   * @param {function} [callbacks.onRestarted] Called when content is restarted.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
     }, params);
+
+    this.gameDone = false;
 
     this.callbackQueue = new CallbackQueue();
 
@@ -41,6 +47,7 @@ export default class Main {
         MainHandlersExercise,
         MainHandlersExerciseScreen,
         MainQuestionTypeContract,
+        MainTimer,
         MainUserConfirmation
       ]
     );
@@ -48,7 +55,8 @@ export default class Main {
     this.callbacks = Util.extend({
       onProgressChanged: () => {},
       onFinished: () => {},
-      onFullscreenClicked: () => {}
+      onFullscreenClicked: () => {},
+      onRestarted: () => {}
     }, callbacks);
 
     this.params.globals.set('getScore', () => {
@@ -59,7 +67,14 @@ export default class Main {
 
     this.buildDOM();
     this.startVisibilityObserver();
+
+    this.initializeTimer();
+
     this.reset({ isInitial: true });
+
+    if (this.params.globals.get('params').behaviour.timeLimitGlobal) {
+      this.toolbar.showStatusContainer('timer');
+    }
 
     if (typeof this.params.globals.get('params').behaviour.lives === 'number') {
       this.toolbar.showStatusContainer('lives');
@@ -81,7 +96,9 @@ export default class Main {
 
       this.endScreen.setContent(feedbackWrapper);
 
-      this.handleAutoplay();
+      if (this.gameDone) {
+        this.showEndscreen();
+      }
     });
   }
 
@@ -102,6 +119,16 @@ export default class Main {
   show(params = {}) {
     this.map.show();
     this.contentDOM.classList.remove('display-none');
+
+    if (this.timer) {
+      const timerState = this.timer.getState();
+      if (timerState === Timer.STATE_PAUSED) {
+        this.timer.resume();
+      }
+      else if (timerState === Timer.STATE_ENDED && !this.gameDone) {
+        this.timer.start();
+      }
+    }
 
     if (params.readOpened) {
       this.params.globals.get('read')(
@@ -134,6 +161,8 @@ export default class Main {
    */
   hide() {
     this.map.hide();
+    this.timer?.pause();
+
     this.contentDOM.classList.add('display-none');
   }
 
@@ -224,7 +253,11 @@ export default class Main {
    * @param {boolean} [params.readOpened] If true, announce screen was opened.
    */
   showEndscreen(params = {}) {
+    this.hasUserMadeProgress = true;
+
     const endscreenParams = this.params.globals.get('params').endScreen;
+    this.toolbar.toggleHintFinishButton(false);
+    this.toolbar.toggleHintTimer(false);
 
     // Prepare end screen
     const score = this.getScore();
@@ -248,7 +281,11 @@ export default class Main {
 
     const defaultTitle = `<p style="text-align: center;">${this.params.dictionary.get('l10n.completedMap')}</p>`;
 
-    if (score >= maxScore && this.livesLeft > 0) {
+    if (
+      score >= maxScore &&
+      this.livesLeft > 0 &&
+      (typeof this.timeLeft !== 'number' || this.timeLeft > 0)
+    ) {
       const success = endscreenParams.success;
       this.endScreen.setMedium(success.endScreenMediumSuccess);
 
@@ -272,6 +309,9 @@ export default class Main {
 
       if (this.livesLeft === 0 && score >= maxScore) {
         html = `${html}<p style="text-align: center;">${this.params.dictionary.get('l10n.fullScoreButnoLivesLeft')}</p>`;
+      }
+      else if (this.timer?.getTime() === 0 && score >= maxScore) {
+        html = `${html}<p style="text-align: center;">${this.params.dictionary.get('l10n.fullScoreButTimeout')}</p>`;
       }
 
       this.endScreen.setIntroduction(html);

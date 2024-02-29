@@ -1,3 +1,5 @@
+import Util from '@services/util.js';
+
 export default class FocusTrap {
 
   /**
@@ -27,7 +29,7 @@ export default class FocusTrap {
   /**
    * Activate.
    */
-  activate() {
+  async activate() {
     if (!this.params.trapElement) {
       return;
     }
@@ -38,24 +40,13 @@ export default class FocusTrap {
 
     this.isActivated = true;
 
-    // iOS is behind ... Again ...
-    const callback = window.requestIdleCallback ?
-      window.requestIdleCallback :
-      window.requestAnimationFrame;
-
-    callback(() => {
-      this.observer = this.observer || new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          this.observer.unobserve(this.params.trapElement);
-
-          this.handleVisible();
-        }
-      }, {
-        root: document.documentElement,
-        threshold: 0
-      });
-      this.observer.observe(this.params.trapElement);
-    });
+    this.observer = await Util.callOnceVisible(
+      this.params.trapElement,
+      () => {
+        this.handleVisible();
+      },
+      { root: document.documentElement }
+    );
   }
 
   /**
@@ -67,6 +58,7 @@ export default class FocusTrap {
     }
 
     this.observer?.unobserve(this.params.trapElement);
+    this.observer?.disconnect();
 
     this.params.trapElement
       .removeEventListener('keydown', this.handleKeydownEvent, true);

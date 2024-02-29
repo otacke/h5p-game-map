@@ -92,4 +92,17 @@ export default class StatusContainers {
 
     this.containers[id].setStatus(params);
   }
+
+  /**
+   * Animate container.
+   * @param {string} id Container id.
+   * @param {string|null} animationName Animation name, null to stop animation.
+   */
+  animate(id, animationName) {
+    if (!this.containers[id]) {
+      return;
+    }
+
+    this.containers[id].animate(animationName);
+  }
 }

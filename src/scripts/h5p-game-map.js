@@ -51,11 +51,18 @@ export default class GameMap extends H5P.Question {
     this.params.visual.misc.useAnimation =
       this.params.visual.misc.useAnimation && !reduceMotion;
 
-    // Sanitize stages
+    /*
+     * Sanitize stages
+     * Remove stages without content except for special stages
+     * Set animation duration if valid
+     */
     this.params.gamemapSteps.gamemap.elements =
       this.params.gamemapSteps.gamemap.elements
         .filter((element) => {
-          return element.contentType?.library;
+          return (
+            element.contentType?.library ||
+            element.specialStageType
+          );
         })
         .map((element) => {
           element.animDuration = (this.params.visual.misc.useAnimation) ?
@@ -97,13 +104,18 @@ export default class GameMap extends H5P.Question {
 
     this.dom = this.buildDOM();
 
+    const hasExerciseStages =
+      this.params.gamemapSteps.gamemap.elements.some((stage) => {
+        return stage.contentType;
+      });
+
     if (!this.params.gamemapSteps.backgroundImageSettings?.backgroundImage) {
       const messageBox = new MessageBox({
         text: this.dictionary.get('l10n.noBackground')
       });
       this.dom.append(messageBox.getDOM());
     }
-    else if (!this.params.gamemapSteps.gamemap.elements.length) {
+    else if (!hasExerciseStages) {
       const messageBox = new MessageBox({
         text: this.dictionary.get('l10n.noStages')
       });
@@ -125,6 +137,9 @@ export default class GameMap extends H5P.Question {
           },
           onFullscreenClicked: () => {
             this.handleFullscreenClicked();
+          },
+          onRestarted: () => {
+            this.resetTask();
           }
         }
       );
@@ -235,25 +250,6 @@ export default class GameMap extends H5P.Question {
     }
 
     this.jukebox.fill(audios);
-  }
-
-  /**
-   * Get current state.
-   * @returns {object} Current state to be retrieved later.
-   */
-  getCurrentState() {
-    if (!this.main) {
-      return {};
-    }
-
-    if (!this.getAnswerGiven()) {
-      // Nothing relevant to store, but previous state in DB must be cleared after reset
-      return this.contentWasReset ? {} : undefined;
-    }
-
-    return {
-      content: this.main.getCurrentState()
-    };
   }
 
   /**

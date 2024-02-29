@@ -83,10 +83,6 @@ export default class MainInitialization {
       }, {
         onButtonClicked: () => {
           this.show({ focusButton: true, readOpened: true });
-
-          if (!this.params.jukebox.isPlaying('backgroundMusic')) {
-            this.tryStartBackgroundMusic();
-          }
         },
         read: (text) => {
           this.params.globals.get('read')(text);
@@ -127,8 +123,7 @@ export default class MainInitialization {
     }, {
       onButtonClicked: (id) => {
         if (id === 'restart') {
-          this.reset();
-          this.start();
+          this.callbacks.onRestarted();
         }
         else if (id === 'show-solutions') {
           this.showSolutions();
@@ -155,6 +150,7 @@ export default class MainInitialization {
 
     // Set up toolbar's status containers
     const toolbarStatusContainers = [
+      { id: 'timer' },
       { id: 'lives' },
       { id: 'stages', hasMaxValue: true },
       { id: 'score', hasMaxValue: true }
@@ -213,7 +209,8 @@ export default class MainInitialization {
       dictionary: this.params.dictionary,
       ...(globalParams.headline && { headline: globalParams.headline }),
       buttons: toolbarButtons,
-      statusContainers: toolbarStatusContainers
+      statusContainers: toolbarStatusContainers,
+      useAnimation: globalParams.visual.misc.useAnimation
     });
     this.contentDOM.append(this.toolbar.getDOM());
 
@@ -376,6 +373,9 @@ export default class MainInitialization {
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {
+    this.toolbar.toggleHintFinishButton(false);
+    this.toolbar.toggleHintTimer(false);
+
     this.params.jukebox.muteAll();
     this.stageAttentionSeekerTimeout = null;
     this.hasUserMadeProgress = false;
@@ -391,13 +391,28 @@ export default class MainInitialization {
       this.livesLeft = globalParams.behaviour.lives ?? Infinity;
     }
 
+    if (params.isInitial && typeof previousState.timeLeft === 'number') {
+      this.resetTimer(previousState.timeLeft);
+    }
+    else if (
+      typeof this.params.globals.get('params').behaviour.timeLimitGlobal ===
+        'number'
+    ) {
+      this.resetTimer(
+        this.params.globals.get('params').behaviour.timeLimitGlobal * 1000
+      );
+    }
+
     if (this.livesLeft === 0) {
       this.stages.forEach((stage) => {
         stage.setState('sealed');
       });
     }
 
-    this.gameDone = false;
+    this.gameDone = params.isInitial ?
+      previousState.gameDone ?? false :
+      false;
+
     this.stages.togglePlayfulness(true);
 
     this.stagesGameOverState = [];
@@ -479,6 +494,11 @@ export default class MainInitialization {
         maxValue: this.getMaxScore()
       }
     );
+
+    if (this.getScore() >= this.getMaxScore()) {
+      this.fullScoreWasAnnounced = true;
+      this.toolbar.toggleHintFinishButton(true);
+    }
 
     // When *re*starting the map, keep audio on/off as set by user.
     this.isAudioOn = this.isAudioOn ?? false;

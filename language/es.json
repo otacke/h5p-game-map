@@ -75,11 +75,11 @@
                   },
                   {
                     "label": "Restricciones de acceso",
-                    "description": "Definir restricciones para el desbloqueo.",
+                    "description": "Definir restricciones para des-bloquear.",
                     "fields": [
                       {
                         "label": "Puntuación mínima para desbloquear",
-                        "description": "El usuario no podrá desbloquear esta etapa si no ha obtenido al menos esta puntuación mínima al completar otras etapas."
+                        "description": "El usuario no podrá des-bloquear esta etapa si no ha recibido al menos este puntaje mínimo por completar otras etapas.Por favor tenga en cuenta que esta configuración no tendrá efecto si está configurado \"itinerancia libre\" en las configuraciones del comportamiento."
                       },
                       {
                         "label": "Abierto una vez puntuación suficiente",
@@ -90,6 +90,28 @@
                   {
                     "label": "Contenido de la etapa",
                     "description": "Elije el tipo de contenido que te gustaría añadir."
+                  },
+                  {
+                    "label": "Tipo de etapa especial",
+                    "options": [
+                      {
+                        "label": "Final"
+                      },
+                      {
+                        "label": "Vida extra"
+                      },
+                      {
+                        "label": "Tiempo extra"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Número de vidas extra",
+                    "description": "Configurar cuantas vidas obtendrá el usuario al entrar en esta etapa."
+                  },
+                  {
+                    "label": "Número de segundos de tiempo extra",
+                    "description": "Configurar cuantos segundos ganará el usuario para el límite global de tiempo al entrar en esta etapa."
                   },
                   {
                     "label": "Etapas conectadas"
@@ -124,7 +146,7 @@
           "fields": [
             {
               "label": "Mensaje (usuario exitoso)",
-              "placeholder": "Lo hiciste ..."
+              "placeholder": "Lo lograste..."
             },
             {
               "label": "Medio de pantalla final (usuario exitoso)"
@@ -254,8 +276,7 @@
           "label": "Música de fondo",
           "fields": [
             {
-              "label": "Música de fondo",
-              "description": "La música de fondo se reproducirá automáticamente, pero ten en cuenta que la Política de Reproducción Automática del navegador puede impedir la reproducción automática antes de que el usuario haya interactuado con el contenido."
+              "label": "Música de fondo"
             },
             {
               "label": "Silencio al hacer ejercicios"
@@ -287,11 +308,11 @@
             },
             {
               "label": "Ejercicio cerrado",
-              "description": "Se reproducirá cuando se abra un ejercicio."
+              "description": "Se reproducirá cuando se cierre un ejercicio."
             },
             {
-              "label": "Mostrar cuadro de diálogo",
-              "description": "Se reproducirá cuando se muestre un cuadro de diálogo de confirmación."
+              "label": "Mostrar diálogo",
+              "description": "Será reproducido cuando un diálogo de confirmación es mostrado."
             },
             {
               "label": "Puntuación completa",
@@ -302,12 +323,20 @@
               "description": "Se reproducirá cuando el usuario pierda una vida."
             },
             {
+              "label": "Vida ganada",
+              "description": "Será reproducido cuando el usuario gane una vida."
+            },
+            {
               "label": "Juego terminado",
               "description": "Se jugará cuando el juego termine y el usuario no pueda continuar."
             },
             {
-              "label": "Advertencia de límite de tiempo",
-              "description": "Se reproducirá cuando el usuario se esté quedando sin tiempo para realizar un ejercicio."
+              "label": "Tiempo extra ganado",
+              "description": "Será reproducido cuando el usuario gane tiempo extra."
+            },
+            {
+              "label": "Timeout warning",
+              "description": "Will be played when the user is running out of time for an exercise or if the global time runs out."
             },
             {
               "label": "Pantalla final (puntuación no completa)",
@@ -329,14 +358,22 @@
           "description": "Establece el número de vidas para un usuario o déjalo en blanco para vidas ilimitadas. Los usuarios perderán una vida cuando no obtengan la puntuación completa y no podrán continuar una vez que hayan perdido todas las vidas."
         },
         {
-          "label": "Habilitar el botón \"Reintentar\""
+          "label": "Límite de tiempo global",
+          "description": "Límite de tiempo opcional en segundos para el juego completo. Si un usuario excede este tiempo, el juego terminará inmediatamente."
         },
         {
-          "label": "Habilitar botón \"Mostrar soluciones\""
+          "label": "Tiempo de advertencia de límite de tiempo",
+          "description": "Configure opcionalmente cuándo debe reproducirse un audio de advertencia de límite de tiempo (número de segundos restantes). Es necesario configurar un audio en la configuración de audio."
         },
         {
           "label": "Puntuación final",
           "description": "Puntuación opcional que puede ser más baja que la puntuación máxima sumada de todos los ejercicios, de manera que los usuarios puedan recibir la puntuación completa sin completar todos los ejercicios."
+        },
+        {
+          "label": "Habilitar el botón \"Reintentar\""
+        },
+        {
+          "label": "Habilitar botón \"Mostrar soluciones\""
         },
         {
           "label": "Mapa",
@@ -403,8 +440,12 @@
           "default": "¡Has completado el mapa!"
         },
         {
-          "label": "Full score, but no lives left",
-          "default": "You have achieved full score, but lost all your lifes!"
+          "label": "Puntaje completo, pero sin vidas restantes",
+          "default": "¡Has obtenido puntaje completo, pero perdiste todas tus vidas!"
+        },
+        {
+          "label": "Puntaje completo, pero tiempo agotado",
+          "default": "¡Has obtenido el puntaje completo, pero se te acabó el tiempo!"
         },
         {
           "label": "Encabezado del cuadro de diálogo de finalización de mapa",
@@ -432,8 +473,8 @@
         },
         {
           "label": "Texto del diálogo de acceso denegado: puntuación mínima",
-          "description": "@minScore es un marcador de posición y se reemplazará con el valor respectivo.",
-          "default": "Necesita al menos @minScore puntos."
+          "description": "@minscore es un marcador de posición y se reemplazará con el valor respectivo.",
+          "default": "Necesitas al menos un cierto número de puntos: @minscore"
         },
         {
           "label": "Sí",
@@ -450,6 +491,10 @@
         {
           "label": "Texto del diálogo de juego terminado",
           "default": "Has perdido todas tus vidas. ¡Inténtalo de nuevo!"
+        },
+        {
+          "label": "Texto de diálogo juego terminado por tiempo agotado",
+          "default": "Se te acabó el tiempo. ¡Por favor inténtalo de nuevo!"
         },
         {
           "label": "Encabezado de diálogo de límite de tiempo",
@@ -480,8 +525,8 @@
           "default": "Has acumulado suficientes puntos para terminar este mapa con la puntuación completa, pero eres libre de explorar el resto si lo deseas."
         },
         {
-          "label": "Dialog text full score (amendment, if lives are set)",
-          "default": "But beware! You may still lose lives!"
+          "label": "Texto de diálogo puntaje completo (corrección, si vidas configuradas)",
+          "default": "¡Pero ten cuidado! ¡Tú aun puedes perder vidas!"
         },
         {
           "label": "OK",
@@ -570,12 +615,12 @@
         },
         {
           "label": "Movido al escenario",
-          "description": "@minScore es un marcador de posición y se reemplazará con el valor respectivo.",
+          "description": "@minscore es un marcador de posición y se reemplazará con el valor respectivo.",
           "default": "Movido a @stagelabel"
         },
         {
           "label": "Etapa desbloqueada",
-          "description": "@minScore es un marcador de posición y se reemplazará con el valor respectivo.",
+          "description": "@minscore es un marcador de posición y se reemplazará con el valor respectivo.",
           "default": "Se desbloqueó el escenario @stagelabel."
         },
         {

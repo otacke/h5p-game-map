@@ -32,22 +32,4 @@ export default class MainAudio {
       return this.params.jukebox.play('backgroundMusic');
     }
   }
-
-  /**
-   * Handle autoplay of audio.
-   */
-  async handleAutoplay() {
-    if (!this.params.jukebox.getAudioIds().includes('backgroundMusic')) {
-      this.toolbar.forceButton('audio', true);
-    }
-
-    if (this.autoplayHandlerRunning) {
-      return;
-    }
-
-    this.autoplayHandlerRunning = true;
-
-    const couldPlay = await this.tryStartBackgroundMusic();
-    this.toolbar.forceButton('audio', couldPlay);
-  }
 }

@@ -35,6 +35,13 @@
     row-gap: 0.25rem;
 
     .status-containers {
+      .status-container-timer {
+        &::before {
+          content: "\f017";
+          font-family: "H5PFontAwesome4", sans-serif;
+        }
+      }
+
       .status-container-lives {
         &::before {
           content: "\f004";
@@ -106,6 +113,12 @@
           top: 50%;
           width: 1.15em;
         }
+      }
+
+      &.animate-pulse:not(.toolbar-button-disabled) {
+        animation: pulse;
+        animation-duration: 0.5s;
+        animation-timing-function: ease-in-out;
       }
 
       &.toolbar-button-fullscreen {
@@ -189,5 +202,19 @@
         }
       }
     }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  100% {
+    transform: scale3d(1, 1, 1);
   }
 }

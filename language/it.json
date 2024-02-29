@@ -79,7 +79,7 @@
                     "fields": [
                       {
                         "label": "Minimum score to unlock",
-                        "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages. Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
+                        "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages.  Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
                       },
                       {
                         "label": "Open once score sufficient",
@@ -308,7 +308,7 @@
             },
             {
               "label": "Close exercise",
-              "description": "Will be played when an exercise is closed."
+              "description": "Will be played when an exercise is opened."
             },
             {
               "label": "Show dialog",
@@ -473,7 +473,7 @@
         },
         {
           "label": "Dialog text access denied: Minimum score",
-          "description": "@minscore is a placeholder and will be replaced with the respective value.",
+          "description": "@minScore is a placeholder and will be replaced with the respective value.",
           "default": "You need at least a certain number of points: @minscore"
         },
         {

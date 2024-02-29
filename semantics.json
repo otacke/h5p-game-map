@@ -186,7 +186,7 @@
                       "name": "minScore",
                       "type": "number",
                       "label": "Minimum score to unlock",
-                      "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages.",
+                      "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages. Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings.",
                       "min": 0,
                       "optional": true
                     },
@@ -220,6 +220,7 @@
                     "H5P.Blanks 1.14",
                     "H5P.ImageHotspotQuestion 1.8",
                     "H5P.Image 1.1",
+                    "H5P.MultiMediaChoice 0.3",
                     "H5P.ImageHotspots 1.10",
                     "H5P.ImageSlider 1.1",
                     "H5P.InteractiveVideo 1.26",
@@ -232,8 +233,44 @@
                     "H5P.AdvancedText 1.1",
                     "H5P.Transcript 1.1",
                     "H5P.TrueFalse 1.8",
-                    "H5P.Video 1.6"
+                    "H5P.Video 1.6",
+                    "H5P.XRay 0.1"
                   ]
+                },
+                {
+                  "name": "specialStageType",
+                  "type": "select",
+                  "label": "Special stage type",
+                  "options": [
+                    {
+                      "value": "finish",
+                      "label": "Finish"
+                    },
+                    {
+                      "value": "extra-life",
+                      "label": "Extra life"
+                    },
+                    {
+                      "value": "extra-time",
+                      "label": "Extra time"
+                    }
+                  ]
+                },
+                {
+                  "name": "specialStageExtraLives",
+                  "type": "number",
+                  "label": "Number of extra lives",
+                  "description": "Set how many lives the user will get when entering this stage.",
+                  "default": 1,
+                  "min": 1
+                },
+                {
+                  "name": "specialStageExtraTime",
+                  "type": "number",
+                  "label": "Number of seconds of extra time",
+                  "description": "Set how many seceonds the user will gain for the global time limit when entering this stage.",
+                  "default": 1,
+                  "min": 1
                 },
                 {
                   "name": "neighbors",
@@ -638,7 +675,6 @@
             "name": "music",
             "type": "audio",
             "label": "Background music",
-            "description": "The background music will be played automatically, but please note that the browser's Autoplay Policy may prevent to autoplay before the user has interacted with the content.",
             "importance": "low",
             "optional": true
           },
@@ -701,7 +737,7 @@
             "name": "closeExercise",
             "type": "audio",
             "label": "Close exercise",
-            "description": "Will be played when an exercise is opened.",
+            "description": "Will be played when an exercise is closed.",
             "importance": "low",
             "optional": true
           },
@@ -730,6 +766,14 @@
             "optional": true
           },
           {
+            "name": "gainedLife",
+            "type": "audio",
+            "label": "Gained life",
+            "description": "Will be played when the user gains a life.",
+            "importance": "low",
+            "optional": true
+          },
+          {
             "name": "gameOver",
             "type": "audio",
             "label": "Game over",
@@ -738,10 +782,18 @@
             "optional": true
           },
           {
+            "name": "extraTime",
+            "type": "audio",
+            "label": "Gained extra time",
+            "description": "Will be played when the user gains extra time.",
+            "importance": "low",
+            "optional": true
+          },
+          {
             "name": "timeoutWarning",
             "type": "audio",
             "label": "Timeout warning",
-            "description": "Will be played when the user is running out of time for an exercise.",
+            "description": "Will be played when the user is running out of time for an exercise or if the global time runs out.",
             "importance": "low",
             "optional": true
           },
@@ -781,6 +833,30 @@
         "optional": true
       },
       {
+        "name": "timeLimitGlobal",
+        "type": "number",
+        "label": "Global time limit",
+        "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately.",
+        "min": 1,
+        "optional": true
+      },
+      {
+        "name": "timeoutWarningGlobal",
+        "type": "number",
+        "label": "Timeout warning time",
+        "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings.",
+        "min": 1,
+        "optional": true
+      },
+      {
+        "name": "finishScore",
+        "type": "number",
+        "label": "Finish score",
+        "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises.",
+        "min": 0,
+        "optional": true
+      },
+      {
         "name": "enableRetry",
         "label": "Enable \"Retry\" button",
         "type": "boolean",
@@ -794,14 +870,6 @@
         "type": "boolean",
         "importance": "low",
         "default": true,
-        "optional": true
-      },
-      {
-        "name": "finishScore",
-        "type": "number",
-        "label": "Finish score",
-        "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises.",
-        "min": 0,
         "optional": true
       },
       {
@@ -919,6 +987,12 @@
         "default": "You have achieved full score, but lost all your lifes!"
       },
       {
+        "name": "fullScoreButTimeout",
+        "type": "text",
+        "label": "Full score, but timed out",
+        "default": "You have achieved full score, but ran out of time!"
+      },
+      {
         "name": "confirmFinishHeader",
         "type": "text",
         "label": "Dialog header finish map",
@@ -958,8 +1032,8 @@
         "name": "confirmAccessDeniedMinScore",
         "type": "text",
         "label": "Dialog text access denied: Minimum score",
-        "description": "@minScore is a placeholder and will be replaced with the respective value.",
-        "default": "You need at least @minScore points."
+        "description": "@minscore is a placeholder and will be replaced with the respective value.",
+        "default": "You need at least a certain number of points: @minscore"
       },
       {
         "name": "yes",
@@ -984,6 +1058,12 @@
         "type": "text",
         "label": "Dialog text game over",
         "default": "You have lost all your lives. Please try again!"
+      },
+      {
+        "name": "confirmGameOverDialogTimeout",
+        "type": "text",
+        "label": "Dialog text game over by timeout",
+        "default": "You have run out of time. Please try again!"
       },
       {
         "name": "confirmTimeoutHeader",

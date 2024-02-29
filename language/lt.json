@@ -1,63 +1,63 @@
 {
   "semantics": [
     {
-      "label": "Show title screen",
-      "description": "If checked, a title screen will show up when starting."
+      "label": "Rodyti titulinį ekraną",
+      "description": "Jei pažymėta, paleidimo metu bus rodomas titulinis ekranas."
     },
     {
-      "label": "Title screen",
+      "label": "Titulinis ekranas",
       "fields": [
         {
           "label": "Įvadas",
           "placeholder": "Sveiki atvykę į ..."
         },
         {
-          "label": "Title screen media"
+          "label": "Titulinio ekrano medija"
         }
       ]
     },
     {
       "label": "Antraštė",
-      "description": "Optional headline for the titlebar."
+      "description": "Neprivaloma pavadinimo juostos antraštė."
     },
     {
-      "label": "Game map editor",
+      "label": "Žaidimo žemėlapio redaktorius",
       "fields": [
         {
-          "label": "Background image",
+          "label": "Fono vaizdas",
           "fields": [
             {
-              "label": "Background image",
-              "description": "Select an image to use as the background of the game map."
+              "label": "Fono paveikslas",
+              "description": "Pasirinkite vaizdą, kurį naudosite kaip žaidimo žemėlapio foną."
             },
             {
-              "label": "Dummy"
+              "label": "Pradedantis"
             }
           ]
         },
         {
-          "label": "Game map",
+          "label": "Žaidimo žemėlapis",
           "fields": [
             {},
             {
-              "label": "Elements",
-              "entity": "Element",
+              "label": "Elementai",
+              "entity": "Elementas",
               "field": {
-                "label": "Elements",
+                "label": "Elementai",
                 "fields": [
                   {
                     "label": "Id"
                   },
                   {
-                    "label": "Type"
+                    "label": "Tipas"
                   },
                   {
-                    "label": "Stage label",
-                    "description": "This label will be displayed on top of your exercise and will help you to connect different stages with one another."
+                    "label": "Lygio žyma",
+                    "description": "Ši etiketė bus rodoma pratimo viršuje ir padės sujungti skirtingus etapus."
                   },
                   {
-                    "label": "User can start here",
-                    "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly."
+                    "label": "Vartotojas gali pradėti čia",
+                    "description": "Jei pažymėta, šis etapas bus etapas, nuo kurio vartotojas pradeda. Jei starto etapu negali būti nė vienas etapas arba daugiau nei vienas etapas, startinis etapas bus parenkamas atsitiktine tvarka."
                   },
                   {
                     "label": "Time limit",
@@ -79,7 +79,7 @@
                     "fields": [
                       {
                         "label": "Minimum score to unlock",
-                        "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages."
+                        "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages. Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
                       },
                       {
                         "label": "Open once score sufficient",
@@ -90,6 +90,28 @@
                   {
                     "label": "Stage content",
                     "description": "Choose the type of content you would like to add."
+                  },
+                  {
+                    "label": "Special stage type",
+                    "options": [
+                      {
+                        "label": "Finish"
+                      },
+                      {
+                        "label": "Extra life"
+                      },
+                      {
+                        "label": "Extra time"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Number of extra lives",
+                    "description": "Set how many lives the user will get when entering this stage."
+                  },
+                  {
+                    "label": "Number of seconds of extra time",
+                    "description": "Set how many seceonds the user will gain for the global time limit when entering this stage."
                   },
                   {
                     "label": "Connected stages"
@@ -254,8 +276,7 @@
           "label": "Background music",
           "fields": [
             {
-              "label": "Background music",
-              "description": "The background music will be played automatically, but please note that the browser's Autoplay Policy may prevent to autoplay before the user has interacted with the content."
+              "label": "Background music"
             },
             {
               "label": "Mute when taking exercises"
@@ -302,12 +323,20 @@
               "description": "Will be played when the user loses a life."
             },
             {
+              "label": "Gained life",
+              "description": "Will be played when the user gains a life."
+            },
+            {
               "label": "Game over",
               "description": "Will be played when the game is over and the user cannot continue."
             },
             {
+              "label": "Gained extra time",
+              "description": "Will be played when the user gains extra time."
+            },
+            {
               "label": "Timeout warning",
-              "description": "Will be played when the user is running out of time for an exercise."
+              "description": "Will be played when the user is running out of time for an exercise or if the global time runs out."
             },
             {
               "label": "End screen (not full score)",
@@ -329,14 +358,22 @@
           "description": "Set the number of lives for a user or leave empty for unlimited lives. Users will lose a life when they do not get full score and they cannot continue once all lives are lost."
         },
         {
-          "label": "Enable \"Retry\" button"
+          "label": "Global time limit",
+          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
         },
         {
-          "label": "Enable \"Show solutions\" button"
+          "label": "Timeout warning time",
+          "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
         },
         {
           "label": "Finish score",
           "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises."
+        },
+        {
+          "label": "Enable \"Retry\" button"
+        },
+        {
+          "label": "Enable \"Show solutions\" button"
         },
         {
           "label": "Map",
@@ -407,6 +444,10 @@
           "default": "You have achieved full score, but lost all your lifes!"
         },
         {
+          "label": "Full score, but timed out",
+          "default": "You have achieved full score, but ran out of time!"
+        },
+        {
           "label": "Dialog header finish map",
           "default": "Finish map?"
         },
@@ -432,8 +473,8 @@
         },
         {
           "label": "Dialog text access denied: Minimum score",
-          "description": "@minScore is a placeholder and will be replaced with the respective value.",
-          "default": "You need at least @minScore points."
+          "description": "@minscore is a placeholder and will be replaced with the respective value.",
+          "default": "You need at least a certain number of points: @minscore"
         },
         {
           "label": "Yes",
@@ -450,6 +491,10 @@
         {
           "label": "Dialog text game over",
           "default": "You have lost all your lives. Please try again!"
+        },
+        {
+          "label": "Dialog text game over by timeout",
+          "default": "You have run out of time. Please try again!"
         },
         {
           "label": "Dialog header time out",
