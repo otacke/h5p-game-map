@@ -339,11 +339,11 @@
               "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin droht das Zeitlimit für eine Aufgabe oder für die Karte zu überschreiten."
             },
             {
-              "label": "Endbildschirm (volle Punktzahl)",
+              "label": "Endbildschirm (nicht volle Punktzahl)",
               "description": "Wird auf dem Endbildschirm abgespielt, wenn der Nutzer/die Nutzerin die volle Punktzahl erreicht hat."
             },
             {
-              "label": "Endbildschirm (nicht volle Punktzahl)",
+              "label": "Endbildschirm (volle Punktzahl)",
               "description": "Wird auf dem Endbildschirm abgespielt, wenn der Nutzer/die Nutzerin nicht die volle Punktzahl erreicht hat."
             }
           ]
