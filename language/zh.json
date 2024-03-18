@@ -189,16 +189,13 @@
           "label": "关卡颜色设置",
           "fields": [
             {
-              "label": "正常关卡",
-              "default": "rgba(250, 223, 10, 0.7)"
+              "label": "正常关卡"
             },
             {
-              "label": "待解锁关卡",
-              "default": "rgba(153, 0, 0, 0.7)"
+              "label": "待解锁关卡"
             },
             {
-              "label": "已通过关卡",
-              "default": "rgba(0, 130, 0, 0.7)"
+              "label": "已通过关卡"
             }
           ]
         },
@@ -213,12 +210,10 @@
               "label": "风格设置",
               "fields": [
                 {
-                  "label": "路径颜色",
-                  "default": "rgba(0, 0, 0, 0.7)"
+                  "label": "路径颜色"
                 },
                 {
-                  "label": "已清除路径颜色",
-                  "default": "rgba(0, 130, 0, 0.7)"
+                  "label": "已清除路径颜色"
                 },
                 {
                   "label": "路径宽度",

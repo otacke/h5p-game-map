@@ -189,16 +189,13 @@
           "label": "Etapas",
           "fields": [
             {
-              "label": "Cor para etapa non visitada",
-              "default": "rgba(250, 223, 10, 0.7)"
+              "label": "Cor para etapa non visitada"
             },
             {
-              "label": "Cor para etapa bloqueada",
-              "default": "rgba(153, 0, 0, 0.7)"
+              "label": "Cor para etapa bloqueada"
             },
             {
-              "label": "Cor para etapa desbloqueada",
-              "default": "rgba(0, 130, 0, 0.7)"
+              "label": "Cor para etapa desbloqueada"
             }
           ]
         },
@@ -213,12 +210,10 @@
               "label": "Estilo",
               "fields": [
                 {
-                  "label": "Camiño da cor",
-                  "default": "rgba(0, 0, 0, 0.7)"
+                  "label": "Camiño da cor"
                 },
                 {
-                  "label": "Etapa de cor desbloqueada",
-                  "default": "rgba(0, 130, 0, 0.7)"
+                  "label": "Etapa de cor desbloqueada"
                 },
                 {
                   "label": "Ancho do camiño",

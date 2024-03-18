@@ -189,16 +189,13 @@
           "label": "Etapas",
           "fields": [
             {
-              "label": "Etapa de color",
-              "default": "rgba(250, 223, 10, 0.7)"
+              "label": "Etapa de color"
             },
             {
-              "label": "Etapa de color bloqueada",
-              "default": "rgba(153, 0, 0, 0.7)"
+              "label": "Etapa de color bloqueada"
             },
             {
-              "label": "Etapa de color despejada",
-              "default": "rgba(0, 130, 0, 0.7)"
+              "label": "Etapa de color despejada"
             }
           ]
         },
@@ -213,12 +210,10 @@
               "label": "Estilo",
               "fields": [
                 {
-                  "label": "Ruta de color",
-                  "default": "rgba(0, 0, 0, 0.7)"
+                  "label": "Ruta de color"
                 },
                 {
-                  "label": "Ruta de color despejada",
-                  "default": "rgba(0, 130, 0, 0.7)"
+                  "label": "Ruta de color despejada"
                 },
                 {
                   "label": "Ancho de ruta",

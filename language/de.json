@@ -189,16 +189,13 @@
           "label": "Etappen",
           "fields": [
             {
-              "label": "Farbe für unbesuchte Etappe",
-              "default": "rgba(250, 223, 10, 0.7)"
+              "label": "Farbe für unbesuchte Etappe"
             },
             {
-              "label": "Farbe für verschlossene Etappe",
-              "default": "rgba(153, 0, 0, 0.7)"
+              "label": "Farbe für verschlossene Etappe"
             },
             {
-              "label": "Farbe für geschaffte Etappe",
-              "default": "rgba(0, 130, 0, 0.7)"
+              "label": "Farbe für geschaffte Etappe"
             }
           ]
         },
@@ -213,12 +210,10 @@
               "label": "Style",
               "fields": [
                 {
-                  "label": "Pfadfarbe",
-                  "default": "rgba(0, 0, 0, 0.7)"
+                  "label": "Pfadfarbe"
                 },
                 {
-                  "label": "Pfadfarbe geschafft",
-                  "default": "rgba(0, 130, 0, 0.7)"
+                  "label": "Pfadfarbe geschafft"
                 },
                 {
                   "label": "Pfadbreite",

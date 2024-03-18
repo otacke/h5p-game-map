@@ -189,16 +189,13 @@
           "label": "Stopnje",
           "fields": [
             {
-              "label": "Barva neobiskanih stopenj",
-              "default": "rgba(250, 223, 10, 0.7)"
+              "label": "Barva neobiskanih stopenj"
             },
             {
-              "label": "Barva zaklenjenih stopenj",
-              "default": "rgba(153, 0, 0, 0.7)"
+              "label": "Barva zaklenjenih stopenj"
             },
             {
-              "label": "Barva zaključenih stopenj",
-              "default": "rgba(0, 130, 0, 0.7)"
+              "label": "Barva zaključenih stopenj"
             }
           ]
         },
@@ -213,12 +210,10 @@
               "label": "Stil",
               "fields": [
                 {
-                  "label": "Barva poti",
-                  "default": "rgba(0, 0, 0, 0.7)"
+                  "label": "Barva poti"
                 },
                 {
-                  "label": "Barva zaključene poti",
-                  "default": "rgba(0, 130, 0, 0.7)"
+                  "label": "Barva zaključene poti"
                 },
                 {
                   "label": "Širina poti",
