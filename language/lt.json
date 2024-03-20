@@ -189,16 +189,13 @@
           "label": "Stages",
           "fields": [
             {
-              "label": "Color not visited stage",
-              "default": "rgba(250, 223, 10, 0.7)"
+              "label": "Color not visited stage"
             },
             {
-              "label": "Color locked stage",
-              "default": "rgba(153, 0, 0, 0.7)"
+              "label": "Color locked stage"
             },
             {
-              "label": "Color cleared stage",
-              "default": "rgba(0, 130, 0, 0.7)"
+              "label": "Color cleared stage"
             }
           ]
         },
@@ -213,12 +210,10 @@
               "label": "Style",
               "fields": [
                 {
-                  "label": "Color path",
-                  "default": "rgba(0, 0, 0, 0.7)"
+                  "label": "Color path"
                 },
                 {
-                  "label": "Color path cleared",
-                  "default": "rgba(0, 130, 0, 0.7)"
+                  "label": "Color path cleared"
                 },
                 {
                   "label": "Path width",

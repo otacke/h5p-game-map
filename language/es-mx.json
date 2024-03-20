@@ -189,16 +189,13 @@
           "label": "Etapas",
           "fields": [
             {
-              "label": "Etapa de color",
-              "default": "rgba(250, 223, 10, 0.7)"
+              "label": "Etapa de color"
             },
             {
-              "label": "Etapa de color bloqueada",
-              "default": "rgba(153, 0, 0, 0.7)"
+              "label": "Etapa de color bloqueada"
             },
             {
-              "label": "Etapa de color despejada",
-              "default": "rgba(0, 130, 0, 0.7)"
+              "label": "Etapa de color despejada"
             }
           ]
         },
@@ -213,12 +210,10 @@
               "label": "Estilo",
               "fields": [
                 {
-                  "label": "Colorear ruta",
-                  "default": "rgba(0, 0, 0, 0.7)"
+                  "label": "Colorear ruta"
                 },
                 {
-                  "label": "Ruta coloreada despejada",
-                  "default": "rgba(0, 130, 0, 0.7)"
+                  "label": "Ruta coloreada despejada"
                 },
                 {
                   "label": "Ancho de ruta",
@@ -335,8 +330,8 @@
               "description": "Será reproducido cuando el usuario gane tiempo extra."
             },
             {
-              "label": "Timeout warning",
-              "description": "Will be played when the user is running out of time for an exercise or if the global time runs out."
+              "label": "Advertencia de tiempo agotado",
+              "description": "Será reproducido cuando al usuario se le esté agotando el tiempo para un ejercicio o si el tiempo global se acaba."
             },
             {
               "label": "Pantalla final (sin puntaje completo)",
