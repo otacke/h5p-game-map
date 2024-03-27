@@ -1,0 +1,636 @@
+{
+  "semantics": [
+    {
+      "label": "Show title screen",
+      "description": "If checked, a title screen will show up when starting."
+    },
+    {
+      "label": "Title screen",
+      "fields": [
+        {
+          "label": "Introduction",
+          "placeholder": "Welcome to ..."
+        },
+        {
+          "label": "Title screen media"
+        }
+      ]
+    },
+    {
+      "label": "Headline",
+      "description": "Optional headline for the titlebar."
+    },
+    {
+      "label": "Game map editor",
+      "fields": [
+        {
+          "label": "Background image",
+          "fields": [
+            {
+              "label": "Background image",
+              "description": "Select an image to use as the background of the game map."
+            },
+            {
+              "label": "Dummy"
+            }
+          ]
+        },
+        {
+          "label": "Game map",
+          "fields": [
+            {},
+            {
+              "label": "Elements",
+              "entity": "Element",
+              "field": {
+                "label": "Elements",
+                "fields": [
+                  {
+                    "label": "Id"
+                  },
+                  {
+                    "label": "Type"
+                  },
+                  {
+                    "label": "Stage label",
+                    "description": "This label will be displayed on top of your exercise and will help you to connect different stages with one another."
+                  },
+                  {
+                    "label": "User can start here",
+                    "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly."
+                  },
+                  {
+                    "label": "Time limit",
+                    "description": "Define timer related settings.",
+                    "fields": [
+                      {
+                        "label": "Time limit",
+                        "description": "Optional time limit in seconds. If a user exceeds this time, the exercise will close, be reset, and the user will loose a life if lives are limited."
+                      },
+                      {
+                        "label": "Timeout warning time",
+                        "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Access restrictions",
+                    "description": "Define restrictions for unlocking.",
+                    "fields": [
+                      {
+                        "label": "Minimum score to unlock",
+                        "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages. Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
+                      },
+                      {
+                        "label": "Open once score sufficient",
+                        "description": "If there has been an attempt to unlock the stage with insufficient score, should the stage unlock automatically once the score becomes sufficient."
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Stage content",
+                    "description": "Choose the type of content you would like to add."
+                  },
+                  {
+                    "label": "Special stage type",
+                    "options": [
+                      {
+                        "label": "Finish"
+                      },
+                      {
+                        "label": "Extra life"
+                      },
+                      {
+                        "label": "Extra time"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Number of extra lives",
+                    "description": "Set how many lives the user will get when entering this stage."
+                  },
+                  {
+                    "label": "Number of seconds of extra time",
+                    "description": "Set how many seceonds the user will gain for the global time limit when entering this stage."
+                  },
+                  {
+                    "label": "Connected stages"
+                  },
+                  {
+                    "label": "Telemetry"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "End screen",
+      "fields": [
+        {
+          "label": "User not successful",
+          "fields": [
+            {
+              "label": "Message (user not successful)",
+              "placeholder": "You did not make it this time ..."
+            },
+            {
+              "label": "End screen media (user not successful)"
+            }
+          ]
+        },
+        {
+          "label": "User successful",
+          "fields": [
+            {
+              "label": "Message (user successful)",
+              "placeholder": "You made it ..."
+            },
+            {
+              "label": "End screen media (user successful)"
+            }
+          ]
+        },
+        {
+          "label": "Overall Feedback",
+          "fields": [
+            {
+              "widgets": [
+                {
+                  "label": "Default"
+                }
+              ],
+              "label": "Define custom feedback for any score range",
+              "description": "Click the \"Add range\" button to add as many ranges as you need. Example: 0-20% Bad score, 21-91% Average Score, 91-100% Great Score!",
+              "entity": "range",
+              "field": {
+                "fields": [
+                  {
+                    "label": "Score Range"
+                  },
+                  {},
+                  {
+                    "label": "Feedback for defined score range",
+                    "placeholder": "Fill in the feedback"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Visual settings",
+      "fields": [
+        {
+          "label": "Stages",
+          "fields": [
+            {
+              "label": "Color not visited stage"
+            },
+            {
+              "label": "Color locked stage"
+            },
+            {
+              "label": "Color cleared stage"
+            }
+          ]
+        },
+        {
+          "label": "Paths",
+          "fields": [
+            {
+              "label": "Display paths",
+              "description": "Choose whether paths will be displayed on the map. Please note: The paths are always visible in the editor."
+            },
+            {
+              "label": "Style",
+              "fields": [
+                {
+                  "label": "Color path"
+                },
+                {
+                  "label": "Color path cleared"
+                },
+                {
+                  "label": "Path width",
+                  "options": [
+                    {
+                      "label": "thin"
+                    },
+                    {
+                      "label": "medium"
+                    },
+                    {
+                      "label": "thick"
+                    }
+                  ]
+                },
+                {
+                  "label": "Path style",
+                  "options": [
+                    {
+                      "label": "Solid"
+                    },
+                    {
+                      "label": "Dotted"
+                    },
+                    {
+                      "label": "Dashed"
+                    },
+                    {
+                      "label": "Double"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Miscellaneous",
+          "fields": [
+            {
+              "label": "Animate map",
+              "description": "Decide if the map should be animated. Even if you set this option, the content type will honor the users' browser setting if they prefer reduced motion."
+            },
+            {
+              "label": "Dummy"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Audio settings",
+      "fields": [
+        {
+          "label": "Background music",
+          "fields": [
+            {
+              "label": "Background music"
+            },
+            {
+              "label": "Mute when taking exercises"
+            }
+          ]
+        },
+        {
+          "label": "Events",
+          "fields": [
+            {
+              "label": "Click on locked stage",
+              "description": "Will be played on the map when clicking on a locked stage."
+            },
+            {
+              "label": "Check exercise (not full score)",
+              "description": "Will be played when an answer is checked and the user did not get full score."
+            },
+            {
+              "label": "Check exercise (full score)",
+              "description": "Will be played when an answer is checked and the user did get full score."
+            },
+            {
+              "label": "Unlocking a stage",
+              "description": "Will be played on the map when a stage gets unlocked."
+            },
+            {
+              "label": "Open exercise",
+              "description": "Will be played when an exercise is opened."
+            },
+            {
+              "label": "Close exercise",
+              "description": "Will be played when an exercise is closed."
+            },
+            {
+              "label": "Show dialog",
+              "description": "Will be played when a confirmation dialog is shown."
+            },
+            {
+              "label": "Full score",
+              "description": "Will be played when the user reaches full score for the map."
+            },
+            {
+              "label": "Lost a life",
+              "description": "Will be played when the user loses a life."
+            },
+            {
+              "label": "Gained life",
+              "description": "Will be played when the user gains a life."
+            },
+            {
+              "label": "Game over",
+              "description": "Will be played when the game is over and the user cannot continue."
+            },
+            {
+              "label": "Gained extra time",
+              "description": "Will be played when the user gains extra time."
+            },
+            {
+              "label": "Timeout warning",
+              "description": "Will be played when the user is running out of time for an exercise or if the global time runs out."
+            },
+            {
+              "label": "End screen (not full score)",
+              "description": "Will be played on the end screen if the user did not get full score."
+            },
+            {
+              "label": "End screen (full score)",
+              "description": "Will be played on the end screen if the user did get full score."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Behavioural settings",
+      "fields": [
+        {
+          "label": "Lives",
+          "description": "Set the number of lives for a user or leave empty for unlimited lives. Users will lose a life when they do not get full score and they cannot continue once all lives are lost."
+        },
+        {
+          "label": "Global time limit",
+          "description": "Optional time limit in seconds for the whole game. If a user exceeds this time, the game will be over immediately."
+        },
+        {
+          "label": "Timeout warning time",
+          "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
+        },
+        {
+          "label": "Finish score",
+          "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises."
+        },
+        {
+          "label": "Enable \"Retry\" button"
+        },
+        {
+          "label": "Enable \"Show solutions\" button"
+        },
+        {
+          "label": "Map",
+          "fields": [
+            {
+              "label": "Show stage labels",
+              "description": "Choose whether a stage's label will be shown on hovering a stage with the mouse. The label will not show on touch devices."
+            },
+            {
+              "label": "Roaming",
+              "description": "Choose whether users can roam all stages freely, need to finish a stage to get access to that stage's neighbors, or need to pass a stage to get access to that stage's neigbors.",
+              "options": [
+                {
+                  "label": "Roam freely"
+                },
+                {
+                  "label": "Complete to clear stage"
+                },
+                {
+                  "label": "Succeed to clear stage"
+                }
+              ]
+            },
+            {
+              "label": "Visibility range",
+              "description": "Select how far the user can see ahead",
+              "options": [
+                {
+                  "label": "See all stages"
+                },
+                {
+                  "label": "See all unlocked stages and their adjacent neighbors"
+                },
+                {
+                  "label": "See only unlocked stages"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "User interface",
+      "fields": [
+        {
+          "label": "Start",
+          "default": "Start"
+        },
+        {
+          "label": "Continue",
+          "default": "Continue"
+        },
+        {
+          "label": "Restart",
+          "default": "Restart"
+        },
+        {
+          "label": "Show solutions",
+          "default": "Show solutions"
+        },
+        {
+          "label": "Completed the map",
+          "default": "You have completed the map!"
+        },
+        {
+          "label": "Full score, but no lives left",
+          "default": "You have achieved full score, but lost all your lifes!"
+        },
+        {
+          "label": "Full score, but timed out",
+          "default": "You have achieved full score, but ran out of time!"
+        },
+        {
+          "label": "Dialog header finish map",
+          "default": "Finish map?"
+        },
+        {
+          "label": "Dialog text finish map: General",
+          "default": "If you finish now, you will not be able to explore the map any longer."
+        },
+        {
+          "label": "Dialog text finish map: Submission",
+          "default": "Your score will be submitted."
+        },
+        {
+          "label": "Dialog text finish map: Question",
+          "default": "Do you really want to finish the map?"
+        },
+        {
+          "label": "Dialog header access denied",
+          "default": "Stage locked"
+        },
+        {
+          "label": "Dialog text access denied: General",
+          "default": "This stage requires you to meet some goals before it can be opened."
+        },
+        {
+          "label": "Dialog text access denied: Minimum score",
+          "description": "@minscore is a placeholder and will be replaced with the respective value.",
+          "default": "You need at least a certain number of points: @minscore"
+        },
+        {
+          "label": "Yes",
+          "default": "Yes"
+        },
+        {
+          "label": "No",
+          "default": "No"
+        },
+        {
+          "label": "Dialog header game over",
+          "default": "Game over!"
+        },
+        {
+          "label": "Dialog text game over",
+          "default": "You have lost all your lives. Please try again!"
+        },
+        {
+          "label": "Dialog text game over by timeout",
+          "default": "You have run out of time. Please try again!"
+        },
+        {
+          "label": "Dialog header time out",
+          "default": "Time out!"
+        },
+        {
+          "label": "Dialog text time out",
+          "default": "You ran out of time."
+        },
+        {
+          "label": "Dialog text time out (lost a life)",
+          "default": "You ran out of time and lost a life."
+        },
+        {
+          "label": "Dialog header score incomplete",
+          "default": "Not full score!"
+        },
+        {
+          "label": "Dialog text score incomplete (lost a life)",
+          "default": "You did not achieve full score and lost a life."
+        },
+        {
+          "label": "Dialog header full score",
+          "default": "You achieved full score!"
+        },
+        {
+          "label": "Dialog text full score",
+          "default": "You have collected enough points to finish this map with a full score, but you are free to explore the rest if you wish to."
+        },
+        {
+          "label": "Dialog text full score (amendment, if lives are set)",
+          "default": "But beware! You may still lose lives!"
+        },
+        {
+          "label": "OK",
+          "default": "OK"
+        },
+        {
+          "label": "No background image was set",
+          "default": "No background image was set for the map."
+        },
+        {
+          "label": "No stages were set",
+          "default": "No valid stages were set for the map."
+        }
+      ]
+    },
+    {
+      "label": "Accessibility texts",
+      "fields": [
+        {
+          "label": "Finish",
+          "default": "Finish the map"
+        },
+        {
+          "label": "Audio button (unmuted)",
+          "default": "Mute audio. Currently unmuted."
+        },
+        {
+          "label": "Audio button (muted)",
+          "default": "Unmute audio. Currently muted."
+        },
+        {
+          "label": "Close",
+          "default": "Close"
+        },
+        {
+          "label": "Your result",
+          "description": "@score will be replaced by the number of points. @total will be replaced by the maximum possible points.",
+          "default": "You got @score out of @total points"
+        },
+        {
+          "label": "Map was opened",
+          "default": "The map was opened."
+        },
+        {
+          "label": "Map was opened (solutions mode)",
+          "default": "The map was opened in solutions mode."
+        },
+        {
+          "label": "Title screen was opened",
+          "default": "The title screen was opened."
+        },
+        {
+          "label": "End screen was opened",
+          "default": "The end screen was opened."
+        },
+        {
+          "label": "Exercise label",
+          "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
+          "default": ". Exercise for @stagelabel"
+        },
+        {
+          "label": "Stage button label",
+          "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
+          "default": "Stage: @stagelabel"
+        },
+        {
+          "label": "adjacent stage label",
+          "description": "@stagelabelOrigin and @stagelabelNeighbor are placeholders and will be replaced with the respective stage labels.",
+          "default": "Adjacent stage of @stagelabelOrigin: @stagelabelNeighbor"
+        },
+        {
+          "label": "Locked",
+          "default": "Locked"
+        },
+        {
+          "label": "Cleared",
+          "default": "Cleared"
+        },
+        {
+          "label": "Description of map navigation",
+          "default": "Use space or enter key to activate current stage. Use arrow keys to select adjacent stage. Use space or enter key on adjacent stage to navigate there."
+        },
+        {
+          "label": "Description of map",
+          "default": "Map"
+        },
+        {
+          "label": "Moved to stage",
+          "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
+          "default": "Moved to @stagelabel"
+        },
+        {
+          "label": "Unlocked stage",
+          "description": "@stagelabel is a placeholder and will be replaced with the respective stage label.",
+          "default": "Stage @stagelabel was unlocked."
+        },
+        {
+          "label": "Toolbar fallback label",
+          "default": "Game Map"
+        },
+        {
+          "label": "Enter fullscreen",
+          "default": "Enter fullscreen mode"
+        },
+        {
+          "label": "Exit fullscreen",
+          "default": "Exit fullscreen mode"
+        }
+      ]
+    }
+  ]
+}
