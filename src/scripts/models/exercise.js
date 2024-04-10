@@ -324,6 +324,7 @@ export default class Exercise {
     }
     else {
       this.continueButton.classList.remove('display-none');
+      this.continueButton.removeAttribute('disabled');
     }
   }
 
@@ -447,6 +448,7 @@ export default class Exercise {
         'h5p-game-map-exercise-instance-continue-button',
         'display-none'
       );
+      this.continueButton.setAttribute('disabled', 'disabled');
       this.continueButton.innerText =
         this.params.dictionary.get('l10n.continue');
       this.continueButton.addEventListener('click', () => {
@@ -492,6 +494,7 @@ export default class Exercise {
     }
     else {
       this.continueButton?.classList.add('display-none');
+      this.continueButton?.setAttribute('disabled', 'disabled');
     }
 
     let timeLimit;
