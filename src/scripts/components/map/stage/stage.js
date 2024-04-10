@@ -90,7 +90,7 @@ export default class Stage {
 
     this.setTabIndex('-1');
 
-    if (!this.params.visible) {
+    if (!this.params.visible && !this.params.alwaysVisible) {
       this.hide();
     }
     else {
@@ -150,6 +150,7 @@ export default class Stage {
 
   /**
    * Set stage reachable or unreachable.
+   * Reachable means: Based on a starting node, there is a path to this node.
    * @param {boolean} state If true, stage is reachable. Else not.
    */
   setReachable(state) {
@@ -165,6 +166,7 @@ export default class Stage {
   }
 
   /**
+   * Determine whether stage is reachable.
    * @returns {boolean} True, if stage is reachable. Else false.
    */
   isReachable() {
@@ -291,6 +293,10 @@ export default class Stage {
    * Hide.
    */
   hide() {
+    if (this.params.alwaysVisible && this.isReachable()) {
+      return; // Don't hide stages that should be always visible
+    }
+
     this.dom.classList.add('display-none');
     this.dom.classList.add('transparent');
     this.isVisibleState = false;

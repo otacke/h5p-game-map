@@ -273,6 +273,14 @@
                   "min": 1
                 },
                 {
+                  "name": "alwaysVisible",
+                  "type": "boolean",
+                  "label": "Always visible",
+                  "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise.",
+                  "default": false,
+                  "optional": true
+                },
+                {
                   "name": "neighbors",
                   "type": "select",
                   "label": "Connected stages",

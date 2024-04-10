@@ -114,6 +114,10 @@
                     "description": "Establece cantos segundos gañará o usuario para o límite de tempo global ao entrar nesta etapa."
                   },
                   {
+                    "label": "Always visible",
+                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
+                  },
+                  {
                     "label": "Etapas conectadas"
                   },
                   {

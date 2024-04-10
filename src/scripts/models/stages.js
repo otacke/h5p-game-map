@@ -97,6 +97,7 @@ export default class Stages {
         telemetry: elementParams.telemetry,
         visuals: this.params.visuals,
         visible: stageState?.visible,
+        alwaysVisible: elementParams.alwaysVisible,
         ...(stageState?.state && { state: stageState?.state })
       };
 
@@ -126,9 +127,17 @@ export default class Stages {
         }
       };
 
-      const newStage = !elementParams.specialStageType ?
-        new Stage(stageParams, stageCallbacks) :
-        new SpecialStage(stageParams, stageCallbacks);
+      let newStage;
+      if (!elementParams.specialStageType) {
+        newStage = new Stage(stageParams, stageCallbacks);
+      }
+      else {
+        if (stageParams.alwaysVisible) {
+          stageParams.overrideSymbol = true;
+        }
+
+        newStage = new SpecialStage(stageParams, stageCallbacks);
+      }
 
       stages.push(newStage);
     }

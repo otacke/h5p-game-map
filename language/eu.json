@@ -114,6 +114,10 @@
                     "description": "Ezarri erabiltzaileak zenbat segundo irabaziko dituen denbora-muga globalerako etapa honetan sartzean."
                   },
                   {
+                    "label": "Always visible",
+                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
+                  },
+                  {
                     "label": "Lotutako etapak"
                   },
                   {

@@ -114,6 +114,10 @@
                     "description": "设置用户进入此关卡时全局时间限制将增加多少秒。"
                   },
                   {
+                    "label": "Always visible",
+                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
+                  },
+                  {
                     "label": "连接的关卡"
                   },
                   {

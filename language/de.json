@@ -112,6 +112,9 @@
                   {
                     "label": "Anzahl der Extrazeit in Sekunden",
                     "description": "Lege fest, wie viele Sekunden die Nutzenden für ihre Gesamtzeit erhalten, wenn sie diese Etappe öffnen."
+                  },                  {
+                    "label": "Immer sichtbar",
+                    "description": "Wenn gewählt, wird diese Etappe immer sichtbar sein. Dies gilt auch dann, wenn die Einstellungen zur Sichtreichweite der Karte anderes vorgeben."
                   },
                   {
                     "label": "Verbundene Etappen"

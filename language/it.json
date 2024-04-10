@@ -114,6 +114,10 @@
                     "description": "Set how many seceonds the user will gain for the global time limit when entering this stage."
                   },
                   {
+                    "label": "Always visible",
+                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
+                  },
+                  {
                     "label": "Connected stages"
                   },
                   {

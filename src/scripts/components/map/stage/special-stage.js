@@ -17,6 +17,10 @@ export default class SpecialStage extends Stage {
 
     this.content.classList.add(this.params.specialStageType);
 
+    this.content.classList.toggle(
+      'override-symbol', this.params.overrideSymbol === true
+    );
+
     if (this.getState() === this.params.globals.get('states')['cleared']) {
       this.disable();
     }
