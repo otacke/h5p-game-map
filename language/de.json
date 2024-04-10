@@ -112,9 +112,14 @@
                   {
                     "label": "Anzahl der Extrazeit in Sekunden",
                     "description": "Lege fest, wie viele Sekunden die Nutzenden für ihre Gesamtzeit erhalten, wenn sie diese Etappe öffnen."
-                  },                  {
+                  },
+                  {
                     "label": "Immer sichtbar",
                     "description": "Wenn gewählt, wird diese Etappe immer sichtbar sein. Dies gilt auch dann, wenn die Einstellungen zur Sichtreichweite der Karte anderes vorgeben."
+                  },
+                  {
+                    "label": "Überschreibe das Schlosssymbol",
+                    "description": "Wenn gewählt, verwenden verschlossene Etappen nicht das Schlosssymbol, sondern das Symbol für den Spezialetappentyp."
                   },
                   {
                     "label": "Verbundene Etappen"
@@ -305,8 +310,8 @@
               "description": "Wird abgespielt, wenn eine Aufgabe geöffnet wird."
             },
             {
-              "label": "Aufgabe geschlossen",
-              "description": "Wird abgespielt, wenn eine Aufgabe geschlossen wird."
+              "label": "Aufgabe verschlossen",
+              "description": "Wird abgespielt, wenn eine Aufgabeverschlossen ist."
             },
             {
               "label": "Zeige Dialog",

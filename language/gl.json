@@ -118,6 +118,10 @@
                     "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
                   },
                   {
+                    "label": "Override lock symbol",
+                    "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type."
+                  },
+                  {
                     "label": "Etapas conectadas"
                   },
                   {
