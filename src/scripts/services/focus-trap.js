@@ -162,7 +162,6 @@ export default class FocusTrap {
       else {
         this.currentFocusElement = this.focusableElements[0];
       }
-
     }
 
     if (this.currentFocusElement) {
