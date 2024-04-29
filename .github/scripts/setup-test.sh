@@ -19,5 +19,3 @@ if [ -d "$H5P_CLI_DIR/content/" ]; then
   fi
   cd "$H5P_CONTENT_REPOSITORY_DIR"
 fi
-
-
