@@ -208,10 +208,10 @@ test.describe('demo', () => {
 
       await Promise.all([
         expect(dialog).not.toBeVisible(),
-        expect(h5pContainer).toHaveText('You have completed the map'),
-        expect(h5pContainer).toHaveText('1/17'),
-        expect(h5pContainer).toHaveText('Show solutions'),
-        expect(h5pContainer).toHaveText('Restart')
+        expect(h5pContainer).toContainText('You have completed the map'),
+        expect(h5pContainer).toContainText('1/17'),
+        expect(h5pContainer).toContainText('Show solutions'),
+        expect(h5pContainer).toContainText('Restart')
       ]);
     });
   });
