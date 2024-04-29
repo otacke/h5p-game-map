@@ -37,6 +37,7 @@ if [ -n "$GITHUB_ACTIONS" ]; then
     CONTENT_TYPE_DIR=$(find libraries -type d -name "${H5P_CLI_MACHINE_NAME}-*" -print -quit)
     if [ -n "$CONTENT_TYPE_DIR" ]; then
         cd $CONTENT_TYPE_DIR
+        echo "$$CONTENT_TYPE_DIR"
     else
         echo "Content type $H5P_CLI_MACHINE_NAME could not be set up properly."
         exit 1
