@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "stylelint './src/**/*.scss' && eslint './src/**/*.js'",
     "build": "webpack --mode=production",
-    "watch": "webpack --mode=development --watch"
+    "watch": "webpack --mode=development --watch",
+    "test": "./.github/scripts/test.sh"
   },
   "repository": {
     "type": "git",
@@ -39,8 +40,10 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "@playwright/test": "^1.43.1",
     "color": "^4.2.3",
-    "he": "^1.2.0"
+    "he": "^1.2.0",
+    "playwright": "^1.43.1"
   },
   "browserslist": "> 0.5%, last 3 versions, Firefox ESR, not dead"
 }
