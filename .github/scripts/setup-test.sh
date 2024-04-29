@@ -1,4 +1,6 @@
-# This should be the same for local testing
+#!/bin/bash
+
+echo "${COLOR_BLUE}Setting up test content${COLOR_OFF}"
 
 if [ ! -d "$H5P_CONTENT_REPOSITORY_DIR/assets" ]; then
   mkdir assets

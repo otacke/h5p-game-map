@@ -7,7 +7,7 @@
     "lint": "stylelint './src/**/*.scss' && eslint './src/**/*.js'",
     "build": "webpack --mode=production",
     "watch": "webpack --mode=development --watch",
-    "e2e-test": "./.github/scripts/test.sh"
+    "test-e2e": "./.github/scripts/test-e2e.sh"
   },
   "repository": {
     "type": "git",
