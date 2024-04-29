@@ -17,7 +17,7 @@ test.describe('demo', () => {
 
   test.describe(('start-up'), () => {
     test('has page title', async () => {
-      await page.goto('http://localhost:8080/view/h5p-game-map/testfile');
+      await page.goto('http://localhost:8080/view/h5p-game-map/testfile?session=null');
       h5pContainer = await page.frameLocator('.h5p-iframe').locator('.h5p-container');
       overlay = h5pContainer.locator('.h5p-game-map-exercise-content-container');
       toolbar = await h5pContainer.locator('.h5p-game-map-toolbar-tool-bar');
@@ -60,6 +60,11 @@ test.describe('demo', () => {
         .locator('.h5p-game-map-stage-content');
       await expect(stageButton).toHaveClass(/h5p-game-map-stage-locked/);
     });
+  });
+
+  test ('go to full screen', async () => {
+    await h5pContainer.getByLabel('Enter fullscreen mode').click();
+    await expect(h5pContainer).toHaveClass(/h5p-fullscreen/);
   });
 
   test.describe('complete 1st stage', () => {
@@ -164,6 +169,50 @@ test.describe('demo', () => {
         .getByLabel('Stage: Drag and drop words in')
         .locator('.h5p-game-map-stage-content');
       await expect(stageButton).toHaveClass(/h5p-game-map-stage-open/);
+    });
+  });
+
+  test.describe('user can finish the map', () => {
+    test ('Opens confirmation dialog', async () => {
+      await h5pContainer.getByLabel('Finish the map').click();
+      const dialog = await h5pContainer.locator('.h5p-confirmation-dialog-popup');
+
+      await Promise.all([
+        expect(dialog).toBeVisible(),
+        expect(dialog.getByText('No', { exact: true })).toBeVisible(),
+        expect(dialog.getByText('Yes')).toBeVisible()
+      ]);
+    });
+
+    test ('user can stay', async () => {
+      const dialog = await h5pContainer.locator('.h5p-confirmation-dialog-popup');
+      await dialog.getByText('No', { exact: true }).click();
+
+      await expect(dialog).not.toBeVisible();
+    });
+
+    test ('Opens confirmation dialog again', async () => {
+      await h5pContainer.getByLabel('Finish the map').click();
+      const dialog = await h5pContainer.locator('.h5p-confirmation-dialog-popup');
+
+      await Promise.all([
+        expect(dialog).toBeVisible(),
+        expect(dialog.getByText('No', { exact: true })).toBeVisible(),
+        expect(dialog.getByText('Yes')).toBeVisible()
+      ]);
+    });
+
+    test ('user actually finished the map', async () => {
+      const dialog = await h5pContainer.locator('.h5p-confirmation-dialog-popup');
+      await dialog.getByText('Yes').click();
+
+      await Promise.all([
+        expect(dialog).not.toBeVisible(),
+        expect(h5pContainer).toHaveText('You have completed the map'),
+        expect(h5pContainer).toHaveText('1/17'),
+        expect(h5pContainer).toHaveText('Show solutions'),
+        expect(h5pContainer).toHaveText('Restart')
+      ]);
     });
   });
 });
