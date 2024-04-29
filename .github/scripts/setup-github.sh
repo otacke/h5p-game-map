@@ -1,4 +1,5 @@
-# This is only intended to be run in the CI environment!
+# This is only intended to be run in the CI environment! When run locally,
+# we assume that we're running inside the H5P CLI environment.
 if [ -n "$GITHUB_ACTIONS" ]; then
 
     # determine H5P CLI short name as H5P CLI would
