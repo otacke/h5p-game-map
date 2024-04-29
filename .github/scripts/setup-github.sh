@@ -33,7 +33,7 @@ if [ -n "$GITHUB_ACTIONS" ]; then
     h5p setup $(machineToShort "$H5P_CLI_MACHINE_NAME")
 
     # Use regex pattern to match directory name
-    CONTENT_TYPE_DIR = $(find libraries -type d -name "${H5P_CLI_MACHINE_NAME}-*" -print -quit)
+    CONTENT_TYPE_DIR=$(find libraries -type d -name "${H5P_CLI_MACHINE_NAME}-*" -print -quit)
     if [ -n "$CONTENT_TYPE_DIR" ]; then
         cd $CONTENT_TYPE_DIR
     else
