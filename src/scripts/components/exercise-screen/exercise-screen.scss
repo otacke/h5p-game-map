@@ -162,6 +162,22 @@
 
             &.h5p-interactive-video {
               overflow: inherit;
+
+              .h5p-control.h5p-fullscreen {
+                display: none;
+              }
+            }
+
+            &.h5p-course-presentation {
+              .h5p-footer-button.h5p-footer-toggle-full-screen {
+                display: none;
+              }
+            }
+
+            &.h5p-dragquestion {
+              .h5p-my-fullscreen-button-enter {
+                display: none;
+              }
             }
 
             &.h5p-memory-game {
