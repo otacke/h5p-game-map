@@ -2,8 +2,7 @@
   "semantics": [
     {
       "label": "Afficher l'écran titre",
-      "description": "Si cette case est cochée, un écran de titre apparaîtra au démarrage.
-      ."
+      "description": "Si cette case est cochée, un écran de titre apparaîtra au démarrage."
     },
     {
       "label": "Écran titre",
@@ -58,8 +57,7 @@
                   },
                   {
                     "label": "L'utilisateur peut commencer ici",
-                    "description": "Si cette case est cochée, cette étape sera l'étape de départ. Si aucune étape ou plusieurs étapes ne peuvent être l'étape de départ, l'étape de départ sera choisie au hasard.
-                    "
+                    "description": "Si cette case est cochée, cette étape sera l'étape de départ. Si aucune étape ou plusieurs étapes ne peuvent être l'étape de départ, l'étape de départ sera choisie au hasard."
                   },
                   {
                     "label": "Limite de temps",
