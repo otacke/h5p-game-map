@@ -9,6 +9,7 @@ src
 .babelrc
 .gitmodules
 .eslintrc
+eslint.config.js
 .h5pignore
 .travis.yml
 karma.conf.js
