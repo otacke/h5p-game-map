@@ -22,7 +22,9 @@ if [ -d "$H5P_CLI_DIR/content/" ]; then
   # from scratch and works like container.
   cd "$H5P_CLI_DIR"
   if [ ! -d "$H5P_CLI_DIR/content/$H5P_CLI_TESTCONTENT" ]; then
-    h5p import "$H5P_CLI_TESTCONTENT" "$REPOSITORY_DIR/$H5P_CLI_TESTCONTENT.h5p"
+    h5p import "$H5P_CLI_TESTCONTENT" "$H5P_CONTENT_REPOSITORY_DIR/assets/$H5P_CLI_TESTCONTENT.h5p"
   fi
   cd "$H5P_CONTENT_REPOSITORY_DIR"
 fi
+
+echo "3"
