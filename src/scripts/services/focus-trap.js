@@ -97,11 +97,11 @@ export default class FocusTrap {
     ].join(', ');
 
     return Array.from(container.querySelectorAll(focusableElementsSelector))
-      .filter(element => {
+      .filter((element) => {
         return (
           element.disabled !== true &&
           element.getAttribute('tabindex') !== '-1'
-        )
+        );
       });
   }
 
