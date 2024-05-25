@@ -86,23 +86,22 @@ export default class FocusTrap {
       return;
     }
 
-    const focusableElementsString = [
+    const focusableElementsSelector = [
       'a[href]:not([disabled])',
       'button:not([disabled])',
       'textarea:not([disabled])',
       'input:not([disabled])',
       'select:not([disabled])',
       'video',
-      'audio',
-      '[tabindex]:not([tabindex="-1"])'
+      'audio'
     ].join(', ');
 
-    return []
-      .slice
-      .call(container.querySelectorAll(focusableElementsString))
-      .filter((element) => {
-        return element.getAttribute('disabled') !== 'true' &&
-          element.getAttribute('disabled') !== true;
+    return Array.from(container.querySelectorAll(focusableElementsSelector))
+      .filter(element => {
+        return (
+          element.disabled !== true &&
+          element.getAttribute('tabindex') !== '-1'
+        )
       });
   }
 
