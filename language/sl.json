@@ -114,12 +114,12 @@
                     "description": "Vnos sekund, ki jih udeleženec prejme za skupno časovno omejitev ob vstopu v stopnjo."
                   },
                   {
-                    "label": "Always visible",
-                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
+                    "label": "Vedno vidno",
+                    "description": "Nastavitev preglasi druge določitve glede vidnosti stopnje in jo vedno prikazuje."
                   },
                   {
-                    "label": "Override lock symbol",
-                    "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type."
+                    "label": "Preglasitev simbola ključavnice",
+                    "description": "Nastavitev določa, da se pri zaklenjenih stopnjah namesto ključavnice prikaže simbol za posebno stopnjo."
                   },
                   {
                     "label": "Povezane stopnje"
@@ -315,7 +315,7 @@
             },
             {
               "label": "Prikaz pogovornega okna",
-              "description": "Predvajanje zvoka ob prikazu potrditvenega pogovornega okna"
+              "description": "Predvajanje zvoka ob prikazu potrditvenega pogovornega okna."
             },
             {
               "label": "Popoln rezultat",
@@ -338,8 +338,8 @@
               "description": "Predvajanje zvoka, ko udeleženec pridobi dodaten čas."
             },
             {
-              "label": "Timeout warning",
-              "description": "Will be played when the user is running out of time for an exercise or if the global time runs out."
+              "label": "Opozorilo o poteku časa",
+              "description": "Predvajanje zvoka ob skorajšnjem poteku časa."
             },
             {
               "label": "Končni zaslon (brez vseh točk)",
