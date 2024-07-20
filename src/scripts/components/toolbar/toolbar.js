@@ -45,7 +45,7 @@ export default class Toolbar {
     this.dom.append(headline);
 
     if (this.params.headline) {
-      const headLineId = H5P.createUUID();
+      const headLineId = `headline-${H5P.createUUID()}`;
 
       headline.setAttribute('id', headLineId);
 
