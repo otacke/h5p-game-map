@@ -57,7 +57,7 @@
                   },
                   {
                     "label": "Nutzerinnen und Nutzer können hier starten",
-                    "description": "Wenn ängewählt, können Nutzerinnen und Nutzer bei dieser Etappe starten. Wenn bei keinre Etappe oder mehr als einer gestartet werden kann, wird die Startetappe zufällig bestimmt."
+                    "description": "Wenn gewählt, können Nutzerinnen und Nutzer bei dieser Etappe starten. Wenn bei keiner Etappe oder mehr als einer gestartet werden kann, wird die Startetappe zufällig bestimmt."
                   },
                   {
                     "label": "Zeitlimit",
