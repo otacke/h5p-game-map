@@ -93,7 +93,8 @@ export default class FocusTrap {
       'input:not([disabled])',
       'select:not([disabled])',
       'video',
-      'audio'
+      'audio',
+      '*[tabindex="0"]',
     ].join(', ');
 
     return Array.from(container.querySelectorAll(focusableElementsSelector))
