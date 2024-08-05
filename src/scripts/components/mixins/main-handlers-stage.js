@@ -23,7 +23,7 @@ export default class MainHandlersStage {
 
     const stageType = stage.getType();
 
-    if (stageType === STAGE_TYPES['stage']) {
+    if (stageType === STAGE_TYPES.stage) {
       this.stages.disable();
       window.clearTimeout(this.stageAttentionSeekerTimeout);
       const exercise = this.exercises.getExercise(id);
@@ -69,7 +69,7 @@ export default class MainHandlersStage {
         // Special stages should only run once, when open but not opened yet.
         const states = this.params.globals.get('states');
         const state = stage.getState();
-        if (state === states['open']) {
+        if (state === states.open) {
           stage.runSpecialFeature(this);
         }
       }
@@ -115,8 +115,8 @@ export default class MainHandlersStage {
       // Set filters for completed/cleared stages
       const filters = {
         state: [
-          this.params.globals.get('states')['completed'],
-          this.params.globals.get('states')['cleared']
+          this.params.globals.get('states').completed,
+          this.params.globals.get('states').cleared
         ]
       };
 

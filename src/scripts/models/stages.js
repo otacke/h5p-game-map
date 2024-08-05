@@ -263,7 +263,7 @@ export default class Stages {
 
     const unlockingStages = this.stages.filter((stage) => {
       return (
-        stage.getState() === this.params.globals.get('states')['unlocking'] &&
+        stage.getState() === this.params.globals.get('states').unlocking &&
         stage.getAccessRestrictions().openOnScoreSufficient
       );
     });
@@ -293,7 +293,7 @@ export default class Stages {
     const neighborIds = stage.getNeighbors();
 
     if (
-      state === this.params.globals.get('states')['open'] &&
+      state === this.params.globals.get('states').open &&
       globalParams.behaviour.map.fog !== '0'
     ) {
       neighborIds.forEach((id) => {
@@ -307,7 +307,7 @@ export default class Stages {
     }
 
     // Get neigbors and unlock if current stage was cleared
-    if (state === this.params.globals.get('states')['cleared']) {
+    if (state === this.params.globals.get('states').cleared) {
       neighborIds.forEach((id) => {
         const targetStage = this.getStage(id);
         if (!targetStage) {
@@ -347,7 +347,7 @@ export default class Stages {
     if (!startStages.length) {
       // Use all stages except special stages, because none selected
       startStages = this.stages
-        .filter((stage) => stage.getType() === STAGE_TYPES['stage']);
+        .filter((stage) => stage.getType() === STAGE_TYPES.stage);
     }
 
     // Choose one randomly
@@ -372,8 +372,8 @@ export default class Stages {
     return this.stages.filter((stage) => {
       const state = stage.getState();
 
-      return state === this.params.globals.get('states')['open'] ||
-        state === this.params.globals.get('states')['opened'];
+      return state === this.params.globals.get('states').open ||
+        state === this.params.globals.get('states').opened;
     })[0] || null;
   }
 

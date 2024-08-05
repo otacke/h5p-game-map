@@ -15,7 +15,7 @@ export default class Path {
     }, params);
 
     this.params.state = this.params.state ??
-      this.params.globals.get('states')['open'];
+      this.params.globals.get('states').open;
 
     this.params.visuals.pathWidth = parseFloat(this.params.visuals.pathWidth);
 
@@ -244,7 +244,7 @@ export default class Path {
 
     const state = params.isInitial ?
       this.params.state :
-      this.params.globals.get('states')['open'];
+      this.params.globals.get('states').open;
 
     this.setState(state);
 
@@ -279,11 +279,11 @@ export default class Path {
     if (params.force) {
       newState = states[state];
     }
-    else if (state === states['open']) {
-      newState = states['open'];
+    else if (state === states.open) {
+      newState = states.open;
     }
-    else if (state === states['cleared']) {
-      newState = states['cleared'];
+    else if (state === states.cleared) {
+      newState = states.cleared;
     }
 
     if (!this.state || this.state !== newState) {

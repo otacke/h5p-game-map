@@ -22,13 +22,13 @@ export default class Stage {
       }
     }, params);
 
-    this.params.type = STAGE_TYPES['stage'];
+    this.params.type = STAGE_TYPES.stage;
     if (this.params.specialStageType) {
       this.params.type = STAGE_TYPES['special-stage'];
     }
 
     this.params.state = this.params.state ??
-      this.params.globals.get('states')['locked'];
+      this.params.globals.get('states').locked;
 
     this.callbacks = Util.extend({
       onClicked: () => {},
@@ -205,14 +205,14 @@ export default class Stage {
 
     let stateLabel;
     if (
-      this.state === this.params.globals.get('states')['locked'] ||
-      this.state === this.params.globals.get('states')['unlocking']
+      this.state === this.params.globals.get('states').locked ||
+      this.state === this.params.globals.get('states').unlocking
     ) {
       stateLabel = this.params.dictionary.get('a11y.locked');
     }
     else if (
-      this.state === this.params.globals.get('states')['completed'] ||
-      this.state === this.params.globals.get('states')['cleared']
+      this.state === this.params.globals.get('states').completed ||
+      this.state === this.params.globals.get('states').cleared
     ) {
       stateLabel = this.params.dictionary.get('a11y.cleared');
     }
@@ -307,8 +307,8 @@ export default class Stage {
    */
   unlock() {
     if (
-      this.state === this.params.globals.get('states')['locked'] ||
-      this.state === this.params.globals.get('states')['unlocking']
+      this.state === this.params.globals.get('states').locked ||
+      this.state === this.params.globals.get('states').unlocking
     ) {
       // Do not unlock if there's a restriction that is not yet met
       if (
@@ -450,9 +450,9 @@ export default class Stage {
     this.label.hide();
 
     if (
-      this.state === this.params.globals.get('states')['locked'] ||
-      this.state === this.params.globals.get('states')['unlocking'] ||
-      this.state === this.params.globals.get('states')['sealed']
+      this.state === this.params.globals.get('states').locked ||
+      this.state === this.params.globals.get('states').unlocking ||
+      this.state === this.params.globals.get('states').sealed
     ) {
       this.animate('shake');
       this.params.jukebox.play('clickStageLocked');
@@ -460,8 +460,8 @@ export default class Stage {
       if (
         (typeof this.params.accessRestrictions?.minScore === 'number') &&
         (
-          this.state === this.params.globals.get('states')['locked'] ||
-          this.state === this.params.globals.get('states')['unlocking']
+          this.state === this.params.globals.get('states').locked ||
+          this.state === this.params.globals.get('states').unlocking
         )
       ) {
         this.callbacks.onAccessRestrictionsHit({
@@ -526,14 +526,14 @@ export default class Stage {
 
     const state = params.isInitial ?
       this.params.state :
-      this.params.globals.get('states')['locked'];
+      this.params.globals.get('states').locked;
 
     this.setState(state);
 
     if (
       [
-        this.params.globals.get('states')['locked'],
-        this.params.globals.get('states')['unlocking']
+        this.params.globals.get('states').locked,
+        this.params.globals.get('states').unlocking
       ]
         .includes(state)
     ) {
@@ -582,40 +582,40 @@ export default class Stage {
     if (params.force) {
       newState = states[state];
     }
-    else if (state === states['locked']) {
-      newState = states['locked'];
+    else if (state === states.locked) {
+      newState = states.locked;
     }
-    else if (state === states['unlocking']) {
-      newState = states['unlocking'];
+    else if (state === states.unlocking) {
+      newState = states.unlocking;
       this.show();
     }
     else if (
-      state === states['open'] ||
-      state === states['opened']
+      state === states.open ||
+      state === states.opened
     ) {
       if (
         // Was already completed.
-        this.state !== states['completed'] &&
-        this.state !== states['cleared']
+        this.state !== states.completed &&
+        this.state !== states.cleared
       ) {
-        newState = states['open'];
+        newState = states.open;
       }
       this.show();
     }
     else if (
-      state === states['completed'] &&
+      state === states.completed &&
       (
         globalParams.behaviour.map.roaming === 'free' ||
         globalParams.behaviour.map.roaming === 'complete'
       )
     ) {
-      newState = states['cleared'];
+      newState = states.cleared;
     }
-    else if (state === states['cleared']) {
-      newState = states['cleared'];
+    else if (state === states.cleared) {
+      newState = states.cleared;
     }
-    else if (state === states['sealed']) {
-      newState = states['sealed'];
+    else if (state === states.sealed) {
+      newState = states.sealed;
     }
 
     if (typeof newState !== 'number') {
@@ -644,11 +644,11 @@ export default class Stage {
 
         // Put animation and sound in queue
         if (this.shouldBePlayful) {
-          if (newState === states['open'] || newState === states['opened']) {
+          if (newState === states.open || newState === states.opened) {
             this.animate('bounce');
             this.params.jukebox.play('unlockStage');
           }
-          else if (newState === states['cleared']) {
+          else if (newState === states.cleared) {
             this.animate('bounce');
             this.params.jukebox.play('clearStage');
           }
@@ -660,10 +660,10 @@ export default class Stage {
 
       // Make sure to add a blocking delay for when stages are cleared
       if (this.shouldBePlayful) {
-        if (newState === states['cleared']) {
+        if (newState === states.cleared) {
           params.block = Stage.ANIMATION_CLEARED_BLOCK_MS;
         }
-        else if (newState === states['sealed']) {
+        else if (newState === states.sealed) {
           params.skipQueue = true;
         }
       }

@@ -121,7 +121,7 @@ export default class Paths {
     });
 
     if (
-      state === this.params.globals.get('states')['open'] &&
+      state === this.params.globals.get('states').open &&
       globalParams.visual.paths.displayPaths &&
       globalParams.behaviour.map.fog !== '0'
     ) {
@@ -130,7 +130,7 @@ export default class Paths {
       });
     }
 
-    if (state === this.params.globals.get('states')['cleared']) {
+    if (state === this.params.globals.get('states').cleared) {
       affectedPaths.forEach((path) => {
         path.setState('cleared');
         path.show();

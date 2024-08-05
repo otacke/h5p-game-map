@@ -21,7 +21,7 @@ export default class Exercise {
     }, params);
 
     this.params.state = this.params.state ??
-      this.params.globals.get('states')['unstarted'];
+      this.params.globals.get('states').unstarted;
 
     this.callbacks = Util.extend({
       onStateChanged: () => {},
@@ -32,7 +32,7 @@ export default class Exercise {
       onContinued: () => {}
     }, callbacks);
 
-    this.setState(this.params.globals.get('states')['unstarted']);
+    this.setState(this.params.globals.get('states').unstarted);
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-exercise-instance-wrapper');
@@ -296,7 +296,7 @@ export default class Exercise {
       this.score >= this.instance.getMaxScore() ||
       event.getVerifiedStatementValue(['result', 'success'])
     ) {
-      this.setState(this.params.globals.get('states')['cleared']);
+      this.setState(this.params.globals.get('states').cleared);
       this.params.jukebox.stopGroup('default');
       this.params.jukebox.play('checkExerciseFullScore');
 
@@ -304,7 +304,7 @@ export default class Exercise {
       this.isCompleted = true;
     }
     else {
-      this.setState(this.params.globals.get('states')['completed']);
+      this.setState(this.params.globals.get('states').completed);
       this.params.jukebox.stopGroup('default');
       this.params.jukebox.play('checkExerciseNotFullScore');
 
@@ -387,19 +387,19 @@ export default class Exercise {
     if (params.force) {
       newState = states[state];
     }
-    else if (state === states['unstarted']) {
-      newState = states['unstarted'];
+    else if (state === states.unstarted) {
+      newState = states.unstarted;
     }
-    else if (state === states['opened']) {
+    else if (state === states.opened) {
       newState = (H5PUtil.isInstanceTask(this.instance)) ?
-        states['opened'] :
-        states['cleared'];
+        states.opened :
+        states.cleared;
     }
-    else if (state === states['completed']) {
-      newState = states['completed'];
+    else if (state === states.completed) {
+      newState = states.completed;
     }
-    else if (state === states['cleared']) {
-      newState = states['cleared'];
+    else if (state === states.cleared) {
+      newState = states.cleared;
     }
 
     if (!this.state || this.state !== newState) {
@@ -513,7 +513,7 @@ export default class Exercise {
     else {
       timeLimit = (this.params.time?.timeLimit ?? -1) * 1000;
       this.isCompleted = false;
-      state = this.params.globals.get('states')['unstarted'];
+      state = this.params.globals.get('states').unstarted;
     }
 
     if (timeLimit > -1) {

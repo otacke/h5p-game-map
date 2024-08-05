@@ -472,8 +472,8 @@ export default class MainInitialization {
     // Initialize stage counter
     const filters = {
       state: [
-        this.params.globals.get('states')['completed'],
-        this.params.globals.get('states')['cleared']
+        this.params.globals.get('states').completed,
+        this.params.globals.get('states').cleared
       ]
     };
 

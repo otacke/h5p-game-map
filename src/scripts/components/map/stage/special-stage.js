@@ -21,7 +21,7 @@ export default class SpecialStage extends Stage {
       'override-symbol', this.params.overrideSymbol === true
     );
 
-    if (this.getState() === this.params.globals.get('states')['cleared']) {
+    if (this.getState() === this.params.globals.get('states').cleared) {
       this.disable();
     }
   }
@@ -38,13 +38,13 @@ export default class SpecialStage extends Stage {
     }
     else if (this.params.specialStageType === 'extra-life') {
       main.addExtraLives(this.params.specialStageExtraLives ?? 0);
-      this.setState(this.params.globals.get('states')['cleared']);
+      this.setState(this.params.globals.get('states').cleared);
       main.handleSpecialFeatureRun('extra-life');
       this.disable();
     }
     else if (this.params.specialStageType === 'extra-time') {
       main.addExtraTime(this.params.specialStageExtraTime ?? 0);
-      this.setState(this.params.globals.get('states')['cleared']);
+      this.setState(this.params.globals.get('states').cleared);
       main.handleSpecialFeatureRun('extra-time');
       this.disable();
     }

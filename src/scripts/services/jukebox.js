@@ -131,7 +131,7 @@ export default class Jukebox {
     }
 
     this.audios[params.id].buffer = params.buffer;
-    this.setState(params.id, Jukebox.STATES['stopped']);
+    this.setState(params.id, Jukebox.STATES.stopped);
   }
 
   /**
@@ -145,7 +145,7 @@ export default class Jukebox {
       return;
     }
 
-    this.setState(params.id, Jukebox.STATES['buffering']);
+    this.setState(params.id, Jukebox.STATES.buffering);
 
     var request = new XMLHttpRequest();
     request.open('GET', params.url, true);
@@ -177,7 +177,7 @@ export default class Jukebox {
       return false; // Muted
     }
 
-    if (this.getState(id) === Jukebox.STATES['playing']) {
+    if (this.getState(id) === Jukebox.STATES.playing) {
       return false; // Already playing
     }
 
@@ -185,7 +185,7 @@ export default class Jukebox {
       return false;
     }
 
-    if (this.getState(id) === Jukebox.STATES['buffering']) {
+    if (this.getState(id) === Jukebox.STATES.buffering) {
       this.addToQueue(id);
       return false;
     }
@@ -212,7 +212,7 @@ export default class Jukebox {
     };
 
     audio.source.start();
-    this.setState(id, Jukebox.STATES['playing']);
+    this.setState(id, Jukebox.STATES.playing);
 
     return true;
   }
@@ -246,12 +246,12 @@ export default class Jukebox {
 
     this.removeFromQueue(id);
 
-    if (this.getState(id) !== Jukebox.STATES['playing']) {
+    if (this.getState(id) !== Jukebox.STATES.playing) {
       return;
     }
 
     this.audios[id].source?.stop();
-    this.setState(id, Jukebox.STATES['stopped']);
+    this.setState(id, Jukebox.STATES.stopped);
   }
 
   /**
@@ -289,7 +289,7 @@ export default class Jukebox {
       return false;
     }
 
-    return this.getState(id) === Jukebox.STATES['playing'];
+    return this.getState(id) === Jukebox.STATES.playing;
   }
 
   /**
