@@ -4,6 +4,12 @@ import Util from '@services/util.js';
 import Label from './label.js';
 import './stage.scss';
 
+/** @constant {number} CONTRAST_DELTA Factor to darken color. */
+const CONTRAST_DELTA = 0.3;
+
+/** @constant {number} VERTICAL_CENTER_THRESHOLD Threshold for vertical centering. */
+const VERTICAL_CENTER_THRESHOLD = 50;
+
 export default class Stage {
   /**
    * Construct a Stage.
@@ -78,7 +84,9 @@ export default class Stage {
     this.contentComputedStyle = window.getComputedStyle(this.content);
 
     // Label
-    const positionY = (this.params.telemetry.y < 50) ? 'bottom' : 'top';
+    const positionY = (this.params.telemetry.y < VERTICAL_CENTER_THRESHOLD) ?
+      'bottom' :
+      'top';
 
     this.label = new Label({
       position: positionY,
@@ -392,13 +400,13 @@ export default class Stage {
     if (backgroundColor.isDark()) {
       this.content.style.setProperty(
         '--stage-color-border',
-        backgroundColor.darken(0.3).rgb().string()
+        backgroundColor.darken(CONTRAST_DELTA).rgb().string()
       );
     }
     else {
       this.content.style.setProperty(
         '--stage-color-border',
-        backgroundColor.lighten(0.3).rgb().string()
+        backgroundColor.lighten(CONTRAST_DELTA).rgb().string()
       );
     }
   }

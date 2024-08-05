@@ -1,6 +1,12 @@
 import Util from '@services/util.js';
 import './path.scss';
 
+/** @constant {number} MATH_TWO Two in math formulas */
+const MATH_TWO = 2;
+
+/** @constant {number} MATH_HUNDRED Hundred in math formulas */
+const MATH_HUNDRED = 100;
+
 export default class Path {
   /**
    * Construct a path.
@@ -188,12 +194,12 @@ export default class Path {
     const toX = this.params.telemetryTo.x;
     const toY = this.params.telemetryTo.y;
 
-    const fromXPx = parseFloat(fromX) / 100 * params.mapSize.width;
-    const fromYPx = parseFloat(fromY) / 100 * params.mapSize.height;
-    const toXPx = parseFloat(toX) / 100 * params.mapSize.width;
-    const toYPx = parseFloat(toY) / 100 * params.mapSize.height;
-    const width = parseFloat(fromWidth) / 100 * params.mapSize.width;
-    const height = parseFloat(fromHeight) / 100 * params.mapSize.height;
+    const fromXPx = parseFloat(fromX) / MATH_HUNDRED * params.mapSize.width;
+    const fromYPx = parseFloat(fromY) / MATH_HUNDRED * params.mapSize.height;
+    const toXPx = parseFloat(toX) / MATH_HUNDRED * params.mapSize.width;
+    const toYPx = parseFloat(toY) / MATH_HUNDRED * params.mapSize.height;
+    const width = parseFloat(fromWidth) / MATH_HUNDRED * params.mapSize.width;
+    const height = parseFloat(fromHeight) / MATH_HUNDRED * params.mapSize.height;
 
     const deltaXPx = fromXPx - toXPx;
     const deltaYPx = fromYPx - toYPx;
@@ -203,8 +209,10 @@ export default class Path {
 
     // Distance from center to border
     const offsetToBorder = {
-      x: width / 2 * Math.cos(angle) * 100 / params.mapSize.width,
-      y: height / 2 * Math.sin(angle) * 100 / params.mapSize.height
+      x: width / MATH_TWO * Math.cos(angle) *
+        MATH_HUNDRED / params.mapSize.width,
+      y: height / MATH_TWO * Math.sin(angle) *
+        MATH_HUNDRED / params.mapSize.height
     };
 
     // Border width
@@ -213,15 +221,16 @@ export default class Path {
       width * Path.MAX_FACTOR
     );
 
-    const offsetPathStroke = strokeWidth / 2 * 100 / params.mapSize.height;
+    const offsetPathStroke =
+      strokeWidth / MATH_TWO * MATH_HUNDRED / params.mapSize.height;
 
     // Position + offset for centering + offset for border (+ stroke offset)
     const x = parseFloat(fromX) +
-      parseFloat(fromWidth) / 2 +
+      parseFloat(fromWidth) / MATH_TWO +
       offsetToBorder.x;
 
     const y = parseFloat(fromY) +
-      parseFloat(fromHeight) / 2 +
+      parseFloat(fromHeight) / MATH_TWO +
       offsetToBorder.y -
       offsetPathStroke;
 

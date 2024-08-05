@@ -1,5 +1,8 @@
 import { STAGE_TYPES } from '@components/map/stage/stage.js';
 
+/** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
+const DEFAULT_READ_DELAY_MS = 250;
+
 /**
  * Mixin containing handlers for stage.
  */
@@ -135,7 +138,7 @@ export default class MainHandlersStage {
       this.params.globals.get('read')(
         this.params.dictionary.get('a11y.applicationInstructions')
       );
-    }, 250); // Make sure everything else is read already
+    }, DEFAULT_READ_DELAY_MS); // Make sure everything else is read already
   }
 
   /**

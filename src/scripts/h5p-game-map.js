@@ -9,6 +9,15 @@ import QuestionTypeContract from '@mixins/question-type-contract.js';
 import XAPI from '@mixins/xapi.js';
 import '@styles/h5p-game-map.scss';
 
+/** @constant {number} FULL_SCREEN_DELAY_SMALL_MS Time some browsers need to go to full screen. */
+const FULL_SCREEN_DELAY_SMALL_MS = 50;
+
+/** @constant {number} FULL_SCREEN_DELAY_MEDIUM_MS Time some browsers need to go to full screen. */
+const FULL_SCREEN_DELAY_MEDIUM_MS = 200;
+
+/** @constant {number} FULL_SCREEN_DELAY_LARGE_MS Time some browsers need to go to full screen. */
+const FULL_SCREEN_DELAY_LARGE_MS = 300;
+
 export default class GameMap extends H5P.Question {
   /**
    * @class
@@ -154,7 +163,7 @@ export default class GameMap extends H5P.Question {
       this.on('enterFullScreen', () => {
         window.setTimeout(() => {
           this.main.setFullscreen(true);
-        }, 50);
+        }, FULL_SCREEN_DELAY_SMALL_MS);
       });
 
       this.on('exitFullScreen', () => {
@@ -165,7 +174,7 @@ export default class GameMap extends H5P.Question {
         if (H5P.isFullscreen) {
           setTimeout(() => { // Needs time to rotate for window.innerHeight
             this.main.setFullscreen(true);
-          }, 200);
+          }, FULL_SCREEN_DELAY_MEDIUM_MS);
         }
       };
 
@@ -290,7 +299,7 @@ export default class GameMap extends H5P.Question {
   handleFullscreenClicked() {
     setTimeout(() => {
       this.toggleFullscreen();
-    }, 300); // Some devices don't register user gesture before call to to requestFullscreen
+    }, FULL_SCREEN_DELAY_LARGE_MS); // Some devices don't register user gesture before call to to requestFullscreen
   }
 
   /**

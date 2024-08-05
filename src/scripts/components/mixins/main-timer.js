@@ -1,4 +1,8 @@
 import Timer from '@services/timer.js';
+
+/** @constant {number} MS_IN_S Milliseconds in a second. */
+const MS_IN_S = 1000;
+
 /**
  * Mixin containing methods related to the timer.
  */
@@ -51,7 +55,7 @@ export default class MainTimer {
 
     return (
       typeof timeoutWarning === 'number' &&
-      this.timeLeft <= timeoutWarning * 1000
+      this.timeLeft <= timeoutWarning * MS_IN_S
     );
   }
 
@@ -64,7 +68,7 @@ export default class MainTimer {
       return;
     }
 
-    this.timer.setTime(this.timer.getTime() + timeS * 1000);
+    this.timer.setTime(this.timer.getTime() + timeS * MS_IN_S);
     this.toolbar.setStatusContainerStatus(
       'timer',
       { value: Timer.toTimecode(this.timer.getTime()) }

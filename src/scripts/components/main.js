@@ -1,5 +1,5 @@
 import CallbackQueue from '@services/callback-queue.js';
-import Timer from '@services/timer.js';
+import TIMER_STATES from '@services/timer.js';
 import Util from '@services/util.js';
 import MainAudio from './mixins/main-audio.js';
 import MainInitialization from './mixins/main-initialization.js';
@@ -10,6 +10,18 @@ import MainQuestionTypeContract from './mixins/main-question-type-contract.js';
 import MainTimer from './mixins/main-timer.js';
 import MainUserConfirmation from './mixins/main-user-confirmation.js';
 import './main.scss';
+
+/** @constant {number} FOCUS_DELAY_MS Delay before focus is set. */
+const FOCUS_DELAY_MS = 100;
+
+/** @constant {number} CONVENIENCE_MARGIN_PX Extra margin for height limit. */
+const CONVENIENCE_MARGIN_PX = 32;
+
+/** @constant {number} MUSIC_FADE_TIME_MS Music fade time in ms. */
+const MUSIC_FADE_TIME_MS = 2000;
+
+/** @constant {number} ATTENTION_SEEKER_TIMEOUT_MS Attention seeker timeout. */
+const ATTENTION_SEEKER_TIMEOUT_MS = 10000;
 
 /**
  * Main DOM component incl. main controller
@@ -63,7 +75,7 @@ export default class Main {
       return this.getScore();
     });
 
-    this.musicFadeTime = Main.MUSIC_FADE_TIME;
+    this.musicFadeTime = MUSIC_FADE_TIME_MS;
 
     this.buildDOM();
     this.startVisibilityObserver();
@@ -122,10 +134,10 @@ export default class Main {
 
     if (this.timer) {
       const timerState = this.timer.getState();
-      if (timerState === Timer.STATE_PAUSED) {
+      if (timerState === TIMER_STATES.PAUSED) {
         this.timer.resume();
       }
-      else if (timerState === Timer.STATE_ENDED && !this.gameDone) {
+      else if (timerState === TIMER_STATES.ENDED && !this.gameDone) {
         this.timer.start();
       }
     }
@@ -140,7 +152,7 @@ export default class Main {
       if (params.focusButton) {
         this.toolbar.focus();
       }
-    }, 100);
+    }, FOCUS_DELAY_MS);
 
     if (!this.stageAttentionSeekerTimeout) {
       this.seekAttention();
@@ -209,7 +221,7 @@ export default class Main {
       }
 
       this.seekAttention();
-    }, Main.ATTENTION_SEEKER_TIMEOUT_MS);
+    }, ATTENTION_SEEKER_TIMEOUT_MS);
   }
 
   /**
@@ -347,12 +359,3 @@ export default class Main {
     this.toolbar.forceButton('fullscreen', state ? 1 : 0, { noCallback: true });
   }
 }
-
-/** @constant {number} CONVENIENCE_MARGIN_PX Extra margin for height limit. */
-Main.CONVENIENCE_MARGIN_PX = 32;
-
-/** @constant {number} MUSIC_FADE_TIME Music fade time in ms. */
-Main.MUSIC_FADE_TIME = 2000;
-
-/** @constant {number} ATTENTION_SEEKER_TIMEOUT_MS Attention seeker timeout. */
-Main.ATTENTION_SEEKER_TIMEOUT_MS = 10000;

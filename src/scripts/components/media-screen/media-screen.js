@@ -1,6 +1,9 @@
 import Util from '@services/util.js';
 import './media-screen.scss';
 
+/** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
+const DEFAULT_READ_DELAY_MS = 100;
+
 /** Class representing a media screen */
 export default class MediaScreen {
   /**
@@ -292,7 +295,7 @@ export default class MediaScreen {
       if (params.focusButton && this.buttons.length) {
         this.buttons[0].querySelector('button').focus();
       }
-    }, 100); // Give polite text time to read before announcing button
+    }, DEFAULT_READ_DELAY_MS); // Give polite text time to read before announcing button
   }
 
   /**

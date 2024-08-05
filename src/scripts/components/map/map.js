@@ -2,6 +2,9 @@ import Util from '@services/util.js';
 import Path from './path.js';
 import './map.scss';
 
+/** @constant {number} MATH_HUNDRED Hundred in math formulas */
+const MATH_HUNDRED = 100;
+
 export default class Map {
 
   /**
@@ -177,7 +180,7 @@ export default class Map {
         this.dom.style.getPropertyValue('--stage-height')
       );
 
-      const fontSize = clientRect.height / 100 * heightPercentage;
+      const fontSize = clientRect.height / MATH_HUNDRED * heightPercentage;
 
       this.dom.style.setProperty(
         '--stage-font-size', `calc(${Map.STAGE_BORDER_RADIUS} * ${fontSize}px)`

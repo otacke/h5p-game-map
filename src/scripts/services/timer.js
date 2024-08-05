@@ -1,5 +1,36 @@
 import Util from '@services/util.js';
 
+/**
+ * @constant {object} TIMER_STATES Timer states.
+ * @property {number} ENDED Ended.
+ * @property {number} PLAYING Playing.
+ * @property {number} PAUSED Paused.
+ */
+export const TIMER_STATES = {
+  ENDED: 0,
+  PLAYING: 1,
+  PAUSED: 2
+};
+
+/**
+ * @constant {object} TIMER_MODES Timer modes.
+ * @property {number} FORWARD Forward.
+ * @property {number} BACKWARD Backward
+ */
+export const TIMER_MODES = {
+  FORWARD: 1,
+  BACKWARD: -1
+};
+
+/** @constant {number} DEFAULT_INTERVAL_MS Default interval in milliseconds */
+const DEFAULT_INTERVAL_MS = 1000;
+
+/** @constant {number} MS_IN_S Milliseconds in a second */
+const MS_IN_S = 1000;
+
+/** @constant {number} MINIMUM_INTERVAL_MS Minimum interval in milliseconds */
+const MINIMUM_INTERVAL_MS = 50;
+
 export default class Timer {
   /**
    * Timer.
@@ -15,7 +46,7 @@ export default class Timer {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       mode: 'timer',
-      interval: 1000
+      interval: DEFAULT_INTERVAL_MS
     }, params);
 
     this.callbacks = Util.extend({
@@ -25,12 +56,12 @@ export default class Timer {
     }, callbacks);
 
     this.mode = (this.params.mode === 'stopwatch') ?
-      Timer.FORWARD :
-      Timer.BACKWARD;
+      TIMER_MODES.FORWARD :
+      TIMER_MODES.BACKWARD;
 
     // Sanitize to 50ms at least
-    this.params.interval = Math.max(50, this.params.interval);
-    this.state = Timer.STATE_ENDED;
+    this.params.interval = Math.max(MINIMUM_INTERVAL_MS, this.params.interval);
+    this.state = TIMER_STATES.ENDED;
     this.timeMs = 0;
   }
 
@@ -56,7 +87,7 @@ export default class Timer {
    * @param {number} [defaultTime] Time to start with.
    */
   start(defaultTime) {
-    if (this.state !== Timer.STATE_ENDED) {
+    if (this.state !== TIMER_STATES.ENDED) {
       return;
     }
 
@@ -66,7 +97,7 @@ export default class Timer {
       this.setTime(defaultTime);
     }
 
-    this.setState(Timer.STATE_PLAYING);
+    this.setState(TIMER_STATES.PLAYING);
 
     this.timeout = setTimeout(() => {
       this.update();
@@ -77,11 +108,11 @@ export default class Timer {
    * Pause.
    */
   pause() {
-    if (this.state !== Timer.STATE_PLAYING) {
+    if (this.state !== TIMER_STATES.PLAYING) {
       return;
     }
 
-    this.setState(Timer.STATE_PAUSED);
+    this.setState(TIMER_STATES.PAUSED);
     this.startTime = this.getTime();
   }
 
@@ -89,11 +120,11 @@ export default class Timer {
    * Resume.
    */
   resume() {
-    if (this.state !== Timer.STATE_PAUSED) {
+    if (this.state !== TIMER_STATES.PAUSED) {
       return;
     }
 
-    this.setState(Timer.STATE_PLAYING);
+    this.setState(TIMER_STATES.PLAYING);
 
     this.timeout = setTimeout(() => {
       this.update();
@@ -105,7 +136,7 @@ export default class Timer {
    */
   stop() {
     clearTimeout(this.timeout);
-    this.setState(Timer.STATE_ENDED);
+    this.setState(TIMER_STATES.ENDED);
   }
 
   /**
@@ -137,14 +168,14 @@ export default class Timer {
    * Update timer.
    */
   update() {
-    if (this.state === Timer.STATE_PLAYING) {
+    if (this.state === TIMER_STATES.PLAYING) {
       const elapsed = new Date().getTime() - this.startTime;
       const newTime = this.getTime() + elapsed * this.mode;
       this.setTime(newTime);
       this.callbacks.onTick(newTime);
     }
 
-    if (this.mode === Timer.BACKWARD && this.getTime() <= 0) {
+    if (this.mode === BACKWARD && this.getTime() <= 0) {
       this.stop();
       this.callbacks.onExpired(0);
       return;
@@ -168,7 +199,7 @@ export default class Timer {
     }
 
     const date = new Date(0);
-    date.setSeconds(Math.round(Math.max(0, timeMs / 1000)));
+    date.setSeconds(Math.round(Math.max(0, timeMs / MS_IN_S)));
 
     return date
       .toISOString()
@@ -177,18 +208,3 @@ export default class Timer {
       .replace(/^[0:]+/, '') || '0';
   }
 }
-
-/** @constant {number} STATE_ENDED State ended (or not started) */
-Timer.STATE_ENDED = 0;
-
-/** @constant {number} STATE_PLAYING State playing */
-Timer.STATE_PLAYING = 1;
-
-/** @constant {number} STATE_PAUSED State paused */
-Timer.STATE_PAUSED = 2;
-
-/** @constant {number} FORWARD Timer running forward */
-Timer.FORWARD = 1;
-
-/** @constant {number} BACKWARD Timer running backward */
-Timer.BACKWARD = -1;

@@ -4,6 +4,9 @@ import Util from '@services/util.js';
 import TimerDisplay from './timer-display.js';
 import './exercise-screen.scss';
 
+/** @constant {number} CONTENT_ATTACH_DELAY_MS Delay before content is attached. */
+const CONTENT_ATTACH_DELAY_MS = 100;
+
 /** Class representing an exercise screen */
 export default class ExerciseScreen {
 
@@ -131,7 +134,7 @@ export default class ExerciseScreen {
     // H5P content needs time to attach
     window.setTimeout(() => {
       this.contentContainer.classList.remove('transparent');
-    }, 100);
+    }, CONTENT_ATTACH_DELAY_MS);
   }
 
   /**

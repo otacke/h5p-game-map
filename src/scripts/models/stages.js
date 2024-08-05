@@ -3,6 +3,9 @@ import Stage from '@components/map/stage/stage.js';
 import SpecialStage from '@components/map/stage/special-stage.js';
 import { STAGE_TYPES } from '@components/map/stage/stage.js';
 
+/** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
+const DEFAULT_READ_DELAY_MS = 100;
+
 export default class Stages {
 
   /**
@@ -488,7 +491,7 @@ export default class Stages {
         window.setTimeout(() => {
           highlightedStage.getDOM().blur();
           highlightedStage.getDOM().focus();
-        }, 100); // Make sure 'movedToStage' is being read already
+        }, DEFAULT_READ_DELAY_MS); // Make sure 'movedToStage' is being read already
 
         event.preventDefault();
       }

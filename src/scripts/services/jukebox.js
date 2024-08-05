@@ -330,7 +330,9 @@ export default class Jukebox {
     if (typeof params.interval !== 'number') {
       params.interval = Jukebox.DEFAULT_TIMER_INTERVAL_MS;
     }
-    params.interval = Math.max(50, params.interval);
+    params.interval = Math.max(
+      Jukebox.MINIMUM_TIMER_INTERVAL_MS, params.interval
+    );
 
     // Set gain delta for each interval
     if (typeof params.gainDelta !== 'number' || params.gainDelta <= 0) {
@@ -452,6 +454,9 @@ export default class Jukebox {
     return this.audios[id].isMuted;
   }
 }
+
+/** @constant {number} MINIMUM_TIMER_INTERVAL_MS Minimum timer interval. */
+Jukebox.MINIMUM_TIMER_INTERVAL_MS = 50;
 
 /** @constant {number} DEFAULT_TIMER_INTERVAL_MS Default timer interval. */
 Jukebox.DEFAULT_TIMER_INTERVAL_MS = 100;

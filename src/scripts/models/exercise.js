@@ -2,6 +2,9 @@ import Timer from '@services/timer.js';
 import H5PUtil from '@services/h5p-util.js';
 import Util from '@services/util.js';
 
+/** @constant {number} MS_IN_S Milliseconds in a second. */
+const MS_IN_S = 1000;
+
 export default class Exercise {
 
   /**
@@ -140,7 +143,7 @@ export default class Exercise {
   getCurrentState() {
     const remainingTime = Math.min(
       this.timeLeft,
-      (this.params.time?.timeLimit || 0) * 1000 + this.params.animDuration
+      (this.params.time?.timeLimit || 0) * MS_IN_S + this.params.animDuration
     );
 
     return {
@@ -223,7 +226,7 @@ export default class Exercise {
   isTimeoutWarning() {
     return (
       typeof this.params.time.timeoutWarning === 'number' &&
-      this.timeLeft <= this.params.time?.timeoutWarning * 1000
+      this.timeLeft <= this.params.time?.timeoutWarning * MS_IN_S
     );
   }
 
@@ -352,7 +355,7 @@ export default class Exercise {
     else {
       const remainingTime = Math.min(
         this.timeLeft,
-        (this.params.time?.timeLimit || 0) * 1000 + this.params.animDuration
+        (this.params.time?.timeLimit || 0) * MS_IN_S + this.params.animDuration
       );
       this.timer?.start(remainingTime);
     }
@@ -503,7 +506,7 @@ export default class Exercise {
     if (params.isInitial) {
       timeLimit = this.previousState?.remainingTime;
       if (typeof timeLimit !== 'number') {
-        timeLimit = (this.params.time?.timeLimit ?? -1) * 1000;
+        timeLimit = (this.params.time?.timeLimit ?? -1) * MS_IN_S;
       }
 
       this.isCompleted = this.previousState.isCompleted ?? false;
@@ -511,7 +514,7 @@ export default class Exercise {
       state = this.previousState.state ?? this.params.state;
     }
     else {
-      timeLimit = (this.params.time?.timeLimit ?? -1) * 1000;
+      timeLimit = (this.params.time?.timeLimit ?? -1) * MS_IN_S;
       this.isCompleted = false;
       state = this.params.globals.get('states').unstarted;
     }

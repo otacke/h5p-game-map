@@ -8,6 +8,12 @@ import Exercises from '@models/exercises.js';
 import ExerciseScreen from '@components/exercise-screen/exercise-screen.js';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog.js';
 
+/** @constant {number} MS_IN_S Milliseconds in a second. */
+const MS_IN_S = 1000;
+
+/** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
+const DEFAULT_READ_DELAY_MS = 100;
+
 /**
  * Mixin containing main init stuff.
  */
@@ -133,7 +139,7 @@ export default class MainInitialization {
           );
           window.setTimeout(() => {
             this.toolbar.focus();
-          }, 100);
+          }, DEFAULT_READ_DELAY_MS);
         }
       },
       read: (text) => {
@@ -399,7 +405,7 @@ export default class MainInitialization {
         'number'
     ) {
       this.resetTimer(
-        this.params.globals.get('params').behaviour.timeLimitGlobal * 1000
+        this.params.globals.get('params').behaviour.timeLimitGlobal * MS_IN_S
       );
     }
 

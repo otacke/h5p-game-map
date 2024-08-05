@@ -1,6 +1,12 @@
 import Util from '@services/util.js';
 import './label.scss';
 
+/** @constant {number} VISIBILITY_HIDDEN_DELAY_MS Delay before visibility hidden is added. */
+const VISIBILITY_HIDDEN_DELAY_MS = 10;
+
+/** @constant {number} MULTILINE_FACTOR Factor to determine whether label is multiline. */
+const MULTILINE_FACTOR = 1.5;
+
 export default class Label {
 
   /**
@@ -63,7 +69,7 @@ export default class Label {
         this.labelInner.getBoundingClientRect().height
       );
       this.dom.classList.toggle(
-        'multiline', fontSize * params.scale * 1.5 < labelSize
+        'multiline', fontSize * params.scale * MULTILINE_FACTOR < labelSize
       );
     });
 
@@ -75,7 +81,7 @@ export default class Label {
     else {
       window.setTimeout(() => {
         this.dom.classList.remove('visibility-hidden');
-      }, 10);
+      }, VISIBILITY_HIDDEN_DELAY_MS);
     }
 
     this.dom.classList.remove('display-none');
