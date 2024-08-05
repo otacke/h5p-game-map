@@ -146,10 +146,12 @@ export default class FocusTrap {
     }
 
     if (!this.currentFocusElement && this.focusableElements.length) {
+      this.currentFocusElement = this.focusableElements[0];
+
       if (
         this.focusableElements[0] === this.params.closeElement &&
-        this.params.fallbackContainer?.firstChild &&
-        this.focusableElements.length === 1
+        this.focusableElements.length === 1 &&
+        this.params.fallbackContainer?.firstChild
       ) {
         /*
          * Advisable to set tabindex -1 and focus on static element instead of
@@ -159,14 +161,9 @@ export default class FocusTrap {
         this.params.fallbackContainer.firstChild.setAttribute('tabindex', '-1');
         this.currentFocusElement = this.params.fallbackContainer.firstChild;
       }
-      else {
-        this.currentFocusElement = this.focusableElements[0];
-      }
     }
 
-    if (this.currentFocusElement) {
-      this.currentFocusElement.focus();
-    }
+    this.currentFocusElement?.focus();
   }
 
   /**

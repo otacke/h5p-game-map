@@ -123,15 +123,9 @@ export default class Main {
   }
 
   /**
-   * Show.
-   * @param {object} params Parameters.
-   * @param {boolean} [params.focusButton] If true, start button will get focus.
-   * @param {boolean} [params.readOpened] If true, announce screen was opened.
+   * Set timer state
    */
-  show(params = {}) {
-    this.map.show();
-    this.contentDOM.classList.remove('display-none');
-
+  setTimerState() {
     if (this.timer) {
       const timerState = this.timer.getState();
       if (timerState === TIMER_STATES.PAUSED) {
@@ -141,6 +135,19 @@ export default class Main {
         this.timer.start();
       }
     }
+  }
+
+  /**
+   * Show.
+   * @param {object} params Parameters.
+   * @param {boolean} [params.focusButton] If true, start button will get focus.
+   * @param {boolean} [params.readOpened] If true, announce screen was opened.
+   */
+  show(params = {}) {
+    this.map.show();
+    this.contentDOM.classList.remove('display-none');
+
+    this.setTimerState();
 
     if (params.readOpened) {
       this.params.globals.get('read')(
@@ -259,6 +266,56 @@ export default class Main {
   }
 
   /**
+   * Show end screen success.
+   * @param {object} endscreenParams Endscreen parameters.
+   * @param {string} defaultTitle Default title.
+   */
+  showEndscreenSuccess(endscreenParams, defaultTitle) {
+    const success = endscreenParams.success;
+    this.endScreen.setMedium(success.endScreenMediumSuccess);
+
+    const html = Util.isHTMLWidgetFilled(success.endScreenTextSuccess) ?
+      success.endScreenTextSuccess :
+      defaultTitle;
+
+    this.endScreen.setIntroduction(html);
+
+    if (!this.isShowingSolutions) {
+      this.params.jukebox.play('endscreenSuccess');
+    }
+  }
+
+  /**
+   * Show end screen no success.
+   * @param {object} endscreenParams Endscreen parameters.
+   * @param {string} defaultTitle Default title.
+   * @param {number} score Score.
+   * @param {number} maxScore Maximum score.
+   */
+  showEndscreenNoSuccess(endscreenParams, defaultTitle, score, maxScore) {
+    const noSuccess = endscreenParams.noSuccess;
+    this.endScreen.setMedium(noSuccess.endScreenMediumNoSuccess);
+
+    let html = '';
+    if (this.livesLeft === 0 && score >= maxScore) {
+      html = `${html}<p style="text-align: center;">${this.params.dictionary.get('l10n.fullScoreButnoLivesLeft')}</p>`;
+    }
+    else if (this.timer?.getTime() === 0 && score >= maxScore) {
+      html = `${html}<p style="text-align: center;">${this.params.dictionary.get('l10n.fullScoreButTimeout')}</p>`;
+    }
+    else {
+      html = Util.isHTMLWidgetFilled(noSuccess.endScreenTextNoSuccess) ?
+        noSuccess.endScreenTextNoSuccess :
+        defaultTitle;
+    }
+
+    this.endScreen.setIntroduction(html);
+    if (!this.isShowingSolutions) {
+      this.params.jukebox.play('endscreenNoSuccess');
+    }
+  }
+
+  /**
    * Show end screen.
    * @param {object} params Parameters.
    * @param {boolean} [params.focusButton] If true, start button will get focus.
@@ -291,45 +348,22 @@ export default class Main {
       ariaMessage
     );
 
-    const defaultTitle = `<p style="text-align: center;">${this.params.dictionary.get('l10n.completedMap')}</p>`;
+    const defaultTitle =
+      `<p style="text-align: center;">${this.params.dictionary.get('l10n.completedMap')}</p>`;
 
     if (
       score >= maxScore &&
       this.livesLeft > 0 &&
       (typeof this.timeLeft !== 'number' || this.timeLeft > 0)
     ) {
-      const success = endscreenParams.success;
-      this.endScreen.setMedium(success.endScreenMediumSuccess);
-
-      const html = Util.isHTMLWidgetFilled(success.endScreenTextSuccess) ?
-        success.endScreenTextSuccess :
-        defaultTitle;
-
-      this.endScreen.setIntroduction(html);
-
-      if (!this.isShowingSolutions) {
-        this.params.jukebox.play('endscreenSuccess');
-      }
+      this.showEndscreenSuccess(
+        endscreenParams, defaultTitle
+      );
     }
     else {
-      const noSuccess = endscreenParams.noSuccess;
-      this.endScreen.setMedium(noSuccess.endScreenMediumNoSuccess);
-
-      let html = Util.isHTMLWidgetFilled(noSuccess.endScreenTextNoSuccess) ?
-        noSuccess.endScreenTextNoSuccess :
-        defaultTitle;
-
-      if (this.livesLeft === 0 && score >= maxScore) {
-        html = `${html}<p style="text-align: center;">${this.params.dictionary.get('l10n.fullScoreButnoLivesLeft')}</p>`;
-      }
-      else if (this.timer?.getTime() === 0 && score >= maxScore) {
-        html = `${html}<p style="text-align: center;">${this.params.dictionary.get('l10n.fullScoreButTimeout')}</p>`;
-      }
-
-      this.endScreen.setIntroduction(html);
-      if (!this.isShowingSolutions) {
-        this.params.jukebox.play('endscreenNoSuccess');
-      }
+      this.showEndscreenNoSuccess(
+        endscreenParams, defaultTitle, score, maxScore
+      );
     }
 
     this.hide();
