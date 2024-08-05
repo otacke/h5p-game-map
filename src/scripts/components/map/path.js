@@ -1,11 +1,6 @@
 import Util from '@services/util.js';
+import { MATH_TWO, MATH_HUNDRED } from '@services/constants.js';
 import './path.scss';
-
-/** @constant {number} MATH_TWO Two in math formulas */
-const MATH_TWO = 2;
-
-/** @constant {number} MATH_HUNDRED Hundred in math formulas */
-const MATH_HUNDRED = 100;
 
 export default class Path {
   /**
