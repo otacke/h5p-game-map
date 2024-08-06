@@ -1,6 +1,5 @@
 import Util from '@services/util.js';
 import Path from './path.js';
-import { MATH_HUNDRED } from '@services/constants.js';
 import './map.scss';
 
 export default class Map {
@@ -178,7 +177,8 @@ export default class Map {
         this.dom.style.getPropertyValue('--stage-height')
       );
 
-      const fontSize = clientRect.height / MATH_HUNDRED * heightPercentage;
+      // eslint-disable-next-line no-magic-numbers
+      const fontSize = clientRect.height / 100 * heightPercentage;
 
       this.dom.style.setProperty(
         '--stage-font-size', `calc(${Map.STAGE_BORDER_RADIUS} * ${fontSize}px)`

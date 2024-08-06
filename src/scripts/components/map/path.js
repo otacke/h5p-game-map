@@ -1,5 +1,4 @@
 import Util from '@services/util.js';
-import { MATH_TWO, MATH_HUNDRED } from '@services/constants.js';
 import './path.scss';
 
 export default class Path {
@@ -189,12 +188,18 @@ export default class Path {
     const toX = this.params.telemetryTo.x;
     const toY = this.params.telemetryTo.y;
 
-    const fromXPx = parseFloat(fromX) / MATH_HUNDRED * params.mapSize.width;
-    const fromYPx = parseFloat(fromY) / MATH_HUNDRED * params.mapSize.height;
-    const toXPx = parseFloat(toX) / MATH_HUNDRED * params.mapSize.width;
-    const toYPx = parseFloat(toY) / MATH_HUNDRED * params.mapSize.height;
-    const width = parseFloat(fromWidth) / MATH_HUNDRED * params.mapSize.width;
-    const height = parseFloat(fromHeight) / MATH_HUNDRED * params.mapSize.height;
+    // eslint-disable-next-line no-magic-numbers
+    const fromXPx = parseFloat(fromX) / 100 * params.mapSize.width;
+    // eslint-disable-next-line no-magic-numbers
+    const fromYPx = parseFloat(fromY) / 100 * params.mapSize.height;
+    // eslint-disable-next-line no-magic-numbers
+    const toXPx = parseFloat(toX) / 100 * params.mapSize.width;
+    // eslint-disable-next-line no-magic-numbers
+    const toYPx = parseFloat(toY) / 100 * params.mapSize.height;
+    // eslint-disable-next-line no-magic-numbers
+    const width = parseFloat(fromWidth) / 100 * params.mapSize.width;
+    // eslint-disable-next-line no-magic-numbers
+    const height = parseFloat(fromHeight) / 100 * params.mapSize.height;
 
     const deltaXPx = fromXPx - toXPx;
     const deltaYPx = fromYPx - toYPx;
@@ -204,10 +209,10 @@ export default class Path {
 
     // Distance from center to border
     const offsetToBorder = {
-      x: width / MATH_TWO * Math.cos(angle) *
-        MATH_HUNDRED / params.mapSize.width,
-      y: height / MATH_TWO * Math.sin(angle) *
-        MATH_HUNDRED / params.mapSize.height
+      // eslint-disable-next-line no-magic-numbers
+      x: width / 2 * Math.cos(angle) * 100 / params.mapSize.width,
+      // eslint-disable-next-line no-magic-numbers
+      y: height / 2 * Math.sin(angle) * 100 / params.mapSize.height
     };
 
     // Border width
@@ -216,18 +221,17 @@ export default class Path {
       width * Path.MAX_FACTOR
     );
 
-    const offsetPathStroke =
-      strokeWidth / MATH_TWO * MATH_HUNDRED / params.mapSize.height;
+    // eslint-disable-next-line no-magic-numbers
+    const offsetPathStroke = strokeWidth / 2 * 100 / params.mapSize.height;
 
     // Position + offset for centering + offset for border (+ stroke offset)
     const x = parseFloat(fromX) +
-      parseFloat(fromWidth) / MATH_TWO +
-      offsetToBorder.x;
+      // eslint-disable-next-line no-magic-numbers
+      parseFloat(fromWidth) / 2 + offsetToBorder.x;
 
     const y = parseFloat(fromY) +
-      parseFloat(fromHeight) / MATH_TWO +
-      offsetToBorder.y -
-      offsetPathStroke;
+      // eslint-disable-next-line no-magic-numbers
+      parseFloat(fromHeight) / 2 + offsetToBorder.y - offsetPathStroke;
 
     // Good old Pythagoras
     const length = Math.sqrt(
