@@ -75,11 +75,11 @@ export default class Exercise {
 
     if (machineName === 'H5P.Video') {
       this.params.contentType.params.visuals.fit = (
-        this.params.contentType.params.sources.length && (
+        this.params.contentType.params.sources?.length && (
           this.params.contentType.params.sources[0].mime === 'video/mp4' ||
           this.params.contentType.params.sources[0].mime === 'video/webm' ||
           this.params.contentType.params.sources[0].mime === 'video/ogg'
-        )
+        ) || false
       );
     }
 
