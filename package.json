@@ -1,6 +1,6 @@
 {
   "name": "h5p-game-map",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Let your students choose their exercises on a game map.",
   "private": true,
   "scripts": {
