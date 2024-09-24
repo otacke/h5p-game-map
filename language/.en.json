@@ -331,7 +331,7 @@
             },
             {
               "label": "Game over",
-              "description": "Will be played when the game is over and the user cannot continue."
+              "description": "Will be played when the user is game over."
             },
             {
               "label": "Gained extra time",
@@ -347,7 +347,7 @@
             },
             {
               "label": "End screen (full score)",
-              "description": "Will be played on the end screen if the user did get full score."
+              "description": "Will be played on the end screen if the user got full score."
             }
           ]
         }
