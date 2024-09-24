@@ -115,7 +115,7 @@
                   },
                   {
                     "label": "Always visible",
-                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
+                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherwise."
                   },
                   {
                     "label": "Override lock symbol",
