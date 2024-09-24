@@ -180,7 +180,7 @@ test.describe('demo', () => {
       await Promise.all([
         expect(dialog).toBeVisible(),
         expect(dialog.locator('.h5p-core-cancel-button')).toBeVisible(),
-        expect(dialog.getByText('Yes')).toBeVisible()
+        expect(dialog.locator('.h5p-confirmation-dialog-confirm-button')).toBeVisible()
       ]);
     });
 
@@ -200,15 +200,15 @@ test.describe('demo', () => {
       await Promise.all([
         expect(dialog).toBeVisible(),
         expect(dialog.locator('.h5p-core-cancel-button')).toBeVisible(),
-        expect(dialog.getByText('Yes')).toBeVisible()
+        expect(dialog.locator('.h5p-confirmation-dialog-confirm-button')).toBeVisible()
       ]);
     });
 
     test ('user actually finished the map', async () => {
       const dialog = await h5pContainer.locator('.h5p-confirmation-dialog-popup');
       // Playwright seems to have trouble with the focus trap except when using --debug
-      // await dialog.getByText('Yes').click();
-      await dialog.getByText('Yes').press('Enter');
+      // await dialog.locator('.h5p-confirmation-dialog-confirm-button').click();
+      await dialog.locator('.h5p-confirmation-dialog-confirm-button').press('Enter');
 
       await Promise.all([
         expect(dialog).not.toBeVisible(),
