@@ -1,7 +1,7 @@
-@import "@styles/main";
+@use "@styles/main";
 
 .h5p-game-map-map {
-  background-color: $color-background;
+  background-color: main.$color-background;
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;

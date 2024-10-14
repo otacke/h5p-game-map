@@ -1,9 +1,9 @@
-@import '@styles/main';
+@use "@styles/main";
 
 .h5p-game-map-toolbar-tool-bar {
   align-items: center;
-  background-color: $color-background;
-  box-shadow: 10px 10px 30px $color-shadow-light;
+  background-color: main.$color-background;
+  box-shadow: 10px 10px 30px main.$color-shadow-light;
   box-sizing: border-box;
   column-gap: 1.25rem;
   display: flex;
@@ -17,7 +17,7 @@
   row-gap: 0.25rem;
 
   .toolbar-headline {
-    color: $color-text;
+    color: main.$color-text;
     flex-grow: 1;
     font-weight: bold;
     overflow: hidden;
@@ -91,7 +91,7 @@
 
         &.toolbar-button-active {
           &:not(.toolbar-button-disabled) {
-            background-color: $color-primary-5;
+            background-color: main.$color-primary-5;
           }
 
           &::before {
@@ -154,10 +154,10 @@
   }
 
   &.solution-mode {
-    background-color: $color-text;
+    background-color: main.$color-text;
 
     .toolbar-headline {
-      color: $color-background;
+      color: main.$color-background;
 
       &::after {
         content: "\f06e";
@@ -170,16 +170,16 @@
     .status-containers {
       .status-container {
         &::before {
-          color: $color-background;
+          color: main.$color-background;
         }
 
         .status-container-values {
           span.value, span.max-value {
-            color: $color-background;
+            color: main.$color-background;
           }
 
           span.delimiter {
-            color: $color-background;
+            color: main.$color-background;
             text-align: center;
             width: 1em;
           }
@@ -189,8 +189,8 @@
 
     .toolbar-buttons .toolbar-button {
       background-color: rgba(166, 166, 166, .1);
-      border-color: $color-text;
-      color: $color-background;
+      border-color: main.$color-text;
+      color: main.$color-background;
 
       &:not(.toolbar-button-disabled) {
         &:hover {
