@@ -1,5 +1,5 @@
 import CallbackQueue from '@services/callback-queue.js';
-import TIMER_STATES from '@services/timer.js';
+import { TIMER_STATES } from '@services/timer.js';
 import Util from '@services/util.js';
 import MainAudio from './mixins/main-audio.js';
 import MainInitialization from './mixins/main-initialization.js';
@@ -13,9 +13,6 @@ import './main.scss';
 
 /** @constant {number} FOCUS_DELAY_MS Delay before focus is set. */
 const FOCUS_DELAY_MS = 100;
-
-/** @constant {number} CONVENIENCE_MARGIN_PX Extra margin for height limit. */
-const CONVENIENCE_MARGIN_PX = 32;
 
 /** @constant {number} MUSIC_FADE_TIME_MS Music fade time in ms. */
 const MUSIC_FADE_TIME_MS = 2000;

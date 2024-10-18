@@ -400,13 +400,8 @@ export default class MainInitialization {
     if (params.isInitial && typeof previousState.timeLeft === 'number') {
       this.resetTimer(previousState.timeLeft);
     }
-    else if (
-      typeof this.params.globals.get('params').behaviour.timeLimitGlobal ===
-        'number'
-    ) {
-      this.resetTimer(
-        this.params.globals.get('params').behaviour.timeLimitGlobal * MS_IN_S
-      );
+    else if (typeof this.params.globals.get('params').behaviour.timeLimitGlobal === 'number') {
+      this.resetTimer(this.params.globals.get('params').behaviour.timeLimitGlobal * MS_IN_S);
     }
 
     if (this.livesLeft === 0) {

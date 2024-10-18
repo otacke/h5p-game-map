@@ -175,7 +175,7 @@ export default class Timer {
       this.callbacks.onTick(newTime);
     }
 
-    if (this.mode === BACKWARD && this.getTime() <= 0) {
+    if (this.mode === TIMER_MODES.BACKWARD && this.getTime() <= 0) {
       this.stop();
       this.callbacks.onExpired(0);
       return;
