@@ -99,9 +99,11 @@ export default class FocusTrap {
 
     return Array.from(container.querySelectorAll(focusableElementsSelector))
       .filter((element) => {
+
         return (
           element.disabled !== true &&
-          element.getAttribute('tabindex') !== '-1'
+          element.getAttribute('tabindex') !== '-1' &&
+          this.isElementVisible(element)
         );
       });
   }
@@ -182,6 +184,8 @@ export default class FocusTrap {
       return; // we only care about the tab key
     }
 
+    this.currentFocusElement = document.activeElement;
+
     event.preventDefault();
 
     const index = this.focusableElements.findIndex((element) => {
@@ -196,5 +200,23 @@ export default class FocusTrap {
 
     this.currentFocusElement = this.focusableElements[newIndex];
     this.currentFocusElement.focus();
+  }
+
+  /**
+   * Check whether element is visible.
+   * @param {HTMLElement} element Element to check.
+   * @returns {boolean} True, if element is visible, false otherwise.
+   */
+  isElementVisible(element) {
+    if (!element) {
+      return false;
+    }
+
+    const style = window.getComputedStyle(element);
+    if (style.display === 'none' || style.visibility === 'hidden') {
+      return false;
+    }
+
+    return element.parentElement ? this.isElementVisible(element.parentElement) : true;
   }
 }
