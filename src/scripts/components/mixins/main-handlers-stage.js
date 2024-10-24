@@ -40,6 +40,12 @@ export default class MainHandlersStage {
       this.openExerciseId = id;
       this.callbackQueue.setSkippable(false);
 
+      // Workaround for H5P Interactive Video with YouTube player
+      const instance = exercise.getInstance();
+      if (instance.libraryInfo.machineName === 'H5P.InteractiveVideo') {
+        this.runInteractiveVideoWorkaround(instance);
+      }
+
       this.exerciseScreen.setH5PContent(exercise.getDOM());
       this.exerciseScreen.setTitle(stage.getLabel());
       this.params.jukebox.stopGroup('default');
@@ -203,5 +209,37 @@ export default class MainHandlersStage {
     );
 
     this.confirmationDialog.show();
+  }
+
+  /**
+   * Workaround for H5P Interactive Video.
+   * If the YouTube handler is used and a previously opened stage is opened again - thus
+   * the video instance is re-attached, the YouTube player by Google does send events anymore and
+   * therefore Interactive Video does not work properly.
+   * This workaround forces the YouTube player to be recreated and the video to be seeked to the
+   * previous position.
+   * @param {H5P.InteractiveVideo} interactiveVideoInstance Instance of H5P Interactive Video.
+   */
+  runInteractiveVideoWorkaround(interactiveVideoInstance) {
+    const videoInstance = interactiveVideoInstance?.video;
+    if (videoInstance?.getHandlerName?.() !== 'YouTube') {
+      return; // No YouTube video used.
+    }
+
+    const currentTime = videoInstance.getCurrentTime();
+    videoInstance.once('loaded', () => {
+      if (typeof currentTime === 'number' && currentTime > 0) {
+        /*
+         * This seems to cause the YouTube player to play without a call to play, so
+         * we pause it immediately afterwards. This causes the video to be stuck on the
+         * buffering spinner. The alternative would be to wait for the next state change
+         * indicating that the video is playing (but was not triggered by the user) and
+         * then pause the video, but that leads the video to play slightly. Feels worse.
+         */
+        interactiveVideoInstance.seek(currentTime);
+        videoInstance.pause();
+      }
+    });
+    videoInstance.resetPlayback();
   }
 }

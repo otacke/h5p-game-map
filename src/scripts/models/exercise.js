@@ -137,6 +137,14 @@ export default class Exercise {
   }
 
   /**
+   * Get H5P instance.
+   * @returns {H5P.ContentType} H5P instance.
+   */
+  getInstance() {
+    return this.instance;
+  }
+
+  /**
    * Get current state.
    * @returns {object} Current state to be retrieved later.
    */
