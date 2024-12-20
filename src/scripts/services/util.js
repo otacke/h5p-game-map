@@ -4,10 +4,12 @@ import he from 'he';
 export default class Util {
   /**
    * Extend an array just like JQuery's extend.
+   * @param {*} target Target.
+   * @param {...*} sources Sources. 
    * @returns {object} Merged objects.
    */
   static extend(target, ...sources) {
-    sources.forEach(source => {
+    sources.forEach((source) => {
       for (let key in source) {
         if (Object.prototype.hasOwnProperty.call(source, key)) {
           if (key === '__proto__' || key === 'constructor') {
