@@ -20,9 +20,11 @@ export default class Util {
             typeof source[key] === 'object' && !Array.isArray(source[key])
           ) {
             this.extend(target[key], source[key]);
-          } else if (Array.isArray(source[key])) {
+          }
+          else if (Array.isArray(source[key])) {
             target[key] = source[key].slice();
-          } else {
+          }
+          else {
             target[key] = source[key];
           }
         }
