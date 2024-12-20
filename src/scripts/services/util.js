@@ -6,23 +6,27 @@ export default class Util {
    * Extend an array just like JQuery's extend.
    * @returns {object} Merged objects.
    */
-  static extend() {
-    for (let i = 1; i < arguments.length; i++) {
-      for (let key in arguments[i]) {
-        if (Object.prototype.hasOwnProperty.call(arguments[i], key)) {
-          if (
-            typeof arguments[0][key] === 'object' &&
-            typeof arguments[i][key] === 'object'
-          ) {
-            this.extend(arguments[0][key], arguments[i][key]);
+  static extend(target, ...sources) {
+    sources.forEach(source => {
+      for (let key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          if (key === '__proto__' || key === 'constructor') {
+            continue; // Prevent prototype pollution
           }
-          else {
-            arguments[0][key] = arguments[i][key];
+          if (
+            typeof target[key] === 'object' && !Array.isArray(target[key]) &&
+            typeof source[key] === 'object' && !Array.isArray(source[key])
+          ) {
+            this.extend(target[key], source[key]);
+          } else if (Array.isArray(source[key])) {
+            target[key] = source[key].slice();
+          } else {
+            target[key] = source[key];
           }
         }
       }
-    }
-    return arguments[0];
+    });
+    return target;
   }
 
   /**
