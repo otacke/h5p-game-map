@@ -24,14 +24,15 @@
       "label": "Urejevalnik igralnega zemljevida",
       "fields": [
         {
-          "label": "Slika za ozadje",
+          "label": "Ozadje",
           "fields": [
             {
               "label": "Slika za ozadje",
               "description": "Izbor slike za ozadje aktivnosti."
             },
             {
-              "label": "Vzorec"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },

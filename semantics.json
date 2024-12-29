@@ -90,13 +90,21 @@
             "type": "image",
             "label": "Background image",
             "importance": "high",
-            "description": "Select an image to use as the background of the game map."
+            "description": "Select an image to use as the background of the game map.",
+            "optional": true
           },
           {
-            "name": "dummy",
-            "type": "boolean",
-            "label": "Dummy",
-            "widget": "none"
+            "name": "backgroundColor",
+            "type": "text",
+            "label": "Background color",
+            "description": "Choose a color to use as the background of the game map.",
+            "default": "rgb(255, 255, 255)",
+            "widget": "colorSelector",
+            "spectrum": {
+              "showInput": true,
+              "showInitial": true,
+              "preferredFormat": "rgb"
+            }
           }
         ]
       },

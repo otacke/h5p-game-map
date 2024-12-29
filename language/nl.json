@@ -24,14 +24,15 @@
       "label": "Gamemap-editor",
       "fields": [
         {
-          "label": "Achtergrondafbeelding",
+          "label": "Achtergrond",
           "fields": [
             {
               "label": "Achtergrondafbeelding",
               "description": "Selecteer een afbeelding om te gebruiken als achtergrond van de spelkaart."
             },
             {
-              "label": "Dummy"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },

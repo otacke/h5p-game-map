@@ -24,14 +24,15 @@
       "label": "Éditeur de cartes de jeu",
       "fields": [
         {
-          "label": "Image de fond",
+          "label": "Arrière-plan",
           "fields": [
             {
               "label": "Image de fond",
               "description": "Sélectionnez une image à utiliser comme arrière-plan de la carte du jeu."
             },
             {
-              "label": "Factice"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },

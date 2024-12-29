@@ -24,14 +24,15 @@
       "label": "游戏地图编辑器",
       "fields": [
         {
-          "label": "背景图片",
+          "label": "背景",
           "fields": [
             {
               "label": "背景图片",
               "description": "选择要用作游戏地图背景的图片文件。"
             },
             {
-              "label": "虚设"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },

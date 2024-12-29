@@ -24,14 +24,15 @@
       "label": "Žaidimo žemėlapio redaktorius",
       "fields": [
         {
-          "label": "Fono vaizdas",
+          "label": "Fonas",
           "fields": [
             {
               "label": "Fono paveikslas",
               "description": "Pasirinkite vaizdą, kurį naudosite kaip žaidimo žemėlapio foną."
             },
             {
-              "label": "Pradedantis"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },

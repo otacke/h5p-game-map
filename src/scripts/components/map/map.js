@@ -8,6 +8,7 @@ export default class Map {
    * @class
    * @param {object} [params] Parameters.
    * @param {string} [params.backgroundImage] Source string for image.
+   * @param {string} [params.backgroundColor] Background color.
    * @param {Path[]} [params.paths] Paths.
    * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onImageLoaded] Image loaded.
@@ -72,6 +73,14 @@ export default class Map {
     if (this.params.backgroundImage) {
       this.image.src = this.params.backgroundImage;
     }
+    else {
+      this.dom.style.setProperty('--map-aspect-ratio', '16/9');
+    }
+
+    if (this.params.backgroundColor) {
+      this.dom.style.setProperty('--map-background-color', this.params.backgroundColor);
+    }
+
     this.dom.appendChild(this.image);
 
     this.pathWrapper = document.createElement('div');
