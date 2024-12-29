@@ -24,14 +24,15 @@
       "label": "Jolasaren mapa editorea",
       "fields": [
         {
-          "label": "Atzeko planoko irudia",
+          "label": "Aurrekariak",
           "fields": [
             {
               "label": "Atzeko planoko irudia",
               "description": "Hautatu jolasaren maparen atzeko plano gisa erabiltzeko irudi bat."
             },
             {
-              "label": "Manikia"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },

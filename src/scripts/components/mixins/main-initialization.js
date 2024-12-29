@@ -221,11 +221,13 @@ export default class MainInitialization {
     this.contentDOM.append(this.toolbar.getDOM());
 
     // Map incl. models
-    const backgroundImage = H5P.getPath(
-      globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundImage
-        ?.path ?? '',
-      this.params.globals.get('contentId')
-    );
+    let backgroundImage;
+    if (globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundImage) {
+      backgroundImage = H5P.getPath(
+        globalParams.gamemapSteps.backgroundImageSettings.backgroundImage.path ?? '',
+        this.params.globals.get('contentId')
+      );
+    }
 
     // Stages
     this.stages = new Stages(
@@ -273,6 +275,7 @@ export default class MainInitialization {
         dictionary: this.params.dictionary,
         globals: this.params.globals,
         backgroundImage: backgroundImage,
+        backgroundColor: globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundColor,
         paths: this.paths,
         stages: this.stages
       },

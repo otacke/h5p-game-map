@@ -24,14 +24,15 @@
       "label": "Spiellandkarten-Editor",
       "fields": [
         {
-          "label": "Hintergrundbild",
+          "label": "Hintergrund",
           "fields": [
             {
               "label": "Hintergrundbild",
               "description": "Wähle ein Hintergrundbild für den Hintergrund der Spiellandkarte."
             },
             {
-              "label": "Dummy"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },

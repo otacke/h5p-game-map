@@ -24,14 +24,15 @@
       "label": "Επεξεργαστής χάρτη παιχνιδιού",
       "fields": [
         {
-          "label": "Εικόνα φόντου",
+          "label": "Φόντο",
           "fields": [
             {
               "label": "Εικόνα φόντου",
               "description": "Επιλέξτε μια εικόνα που θα χρησιμοποιηθεί ως φόντο του χάρτη του παιχνιδιού."
             },
             {
-              "label": "Πρόχειρο"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },

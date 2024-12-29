@@ -118,13 +118,7 @@ export default class GameMap extends H5P.Question {
         return stage.contentType;
       });
 
-    if (!this.params.gamemapSteps.backgroundImageSettings?.backgroundImage) {
-      const messageBox = new MessageBox({
-        text: this.dictionary.get('l10n.noBackground')
-      });
-      this.dom.append(messageBox.getDOM());
-    }
-    else if (!hasExerciseStages) {
+    if (!hasExerciseStages) {
       const messageBox = new MessageBox({
         text: this.dictionary.get('l10n.noStages')
       });

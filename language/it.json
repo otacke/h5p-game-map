@@ -24,14 +24,15 @@
       "label": "Game map editor",
       "fields": [
         {
-          "label": "Background image",
+          "label": "Background",
           "fields": [
             {
               "label": "Background image",
               "description": "Select an image to use as the background of the game map."
             },
             {
-              "label": "Dummy"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },

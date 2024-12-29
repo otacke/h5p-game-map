@@ -1,7 +1,8 @@
 @use "@styles/main";
 
 .h5p-game-map-map {
-  background-color: main.$color-background;
+  aspect-ratio: var(--map-aspect-ratio);
+  background-color: var(--map-background-color, main.$color-background);
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;

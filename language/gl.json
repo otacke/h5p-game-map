@@ -24,14 +24,15 @@
       "label": "Editor de mapas do xogo",
       "fields": [
         {
-          "label": "Imaxe de fondo",
+          "label": "Fondo",
           "fields": [
             {
               "label": "Imaxe de fondo",
               "description": "Selecciona unha imaxe para usar como fondo do mapa do xogo."
             },
             {
-              "label": "Maniquí"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },
