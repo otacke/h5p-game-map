@@ -62,6 +62,49 @@ export default class Exercises {
         }
       );
     });
+
+    const subContentIds = Object.keys(this.exercises)
+      .map((id) => this.exercises[id].getSubContentIds())
+      .flat();
+
+    this.trackAllXAPI(subContentIds);
+  }
+
+  /**
+   * Track xAPI events from all exercises. Useful to cover subcontents that we do not know of.
+   * We'll receive all xAPI events from all subcontents, but also from potential siblings and ancestors!
+   * Known subcontents are still covered in thei respective exercise instance.
+   * @param {string[]} subContentIds SubContentIds of instances to track.
+   */
+  trackAllXAPI(subContentIds = []) {
+    H5P.externalDispatcher.on('xAPI', (event) => {
+      if (subContentIds.length) {
+        // Only care about events from contents with these subContentIds
+        const url = new URL(event.getVerifiedStatementValue(['object', 'id']));
+        const subContentId = url.searchParams.get('subContentId');
+
+        if (!subContentIds.includes(subContentId)) {
+          return;
+        }
+      }
+
+      const score = event.getScore();
+      if (score === null) {
+        return; // Not relevant
+      }
+
+      const maxScore = event.getMaxScore();
+      const success = event.getVerifiedStatementValue(['result', 'success']);
+
+      if (score >= maxScore || success) {
+        this.params.jukebox.stopGroup('default');
+        this.params.jukebox.play('checkExerciseFullScore');
+      }
+      else {
+        this.params.jukebox.stopGroup('default');
+        this.params.jukebox.play('checkExerciseNotFullScore');
+      }
+    });
   }
 
   /**
