@@ -1,6 +1,8 @@
 @use "@styles/main";
 
 .h5p-game-map-map {
+  --map-aspect-ratio: 16/9;
+
   background-color: var(--map-background-color, main.$color-background);
   box-sizing: border-box;
   display: grid;
@@ -12,12 +14,16 @@
   z-index: 0;
 
   .h5p-game-map-background-image {
-    aspect-ratio: var(--map-aspect-ratio);
     display: block;
     grid-area: 1/1/1/1;
     height: auto;
     pointer-events: none;
     width: 100%;
+
+    &.hidden {
+      aspect-ratio: var(--map-aspect-ratio);
+      visibility: hidden;
+    }
   }
 
   .h5p-game-map-path-wrapper {

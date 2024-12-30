@@ -74,8 +74,7 @@ export default class Map {
       this.image.src = this.params.backgroundImage;
     }
     else {
-      this.image.style.visibility = 'hidden';
-      this.dom.style.setProperty('--map-aspect-ratio', '16/9');
+      this.image.classList.add('hidden');
     }
 
     if (this.params.backgroundColor) {
