@@ -103,6 +103,9 @@
                       },
                       {
                         "label": "Extrazeit"
+                      },
+                      {
+                        "label": "Link zu externem Inhalt"
                       }
                     ]
                   },
@@ -113,6 +116,21 @@
                   {
                     "label": "Anzahl der Extrazeit in Sekunden",
                     "description": "Lege fest, wie viele Sekunden die Nutzenden für ihre Gesamtzeit erhalten, wenn sie diese Etappe öffnen."
+                  },
+                  {
+                    "label": "URL für externen Inhalt",
+                    "description": "Lege fest, wohin die Nutzenden geschickt werden, wenn sie auf den Link klicken."
+                  },
+                  {
+                    "label": "Ort, in dem der Link geöffnet wird",
+                    "options": [
+                      {
+                        "label": "Neuer Tab"
+                      },
+                      {
+                        "label": "Gleicher Tab"
+                      }
+                    ]
                   },
                   {
                     "label": "Immer sichtbar",

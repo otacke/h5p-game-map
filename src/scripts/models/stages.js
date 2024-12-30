@@ -95,6 +95,14 @@ export default class Stages {
           elementParams.specialStageExtraTime &&
           { specialStageExtraTime: elementParams.specialStageExtraTime }
         ),
+        ...(
+          elementParams.specialStageLinkURL &&
+          { specialStageLinkURL: elementParams.specialStageLinkURL }
+        ),
+        ...(
+          elementParams.specialStageLinkTarget &&
+          { specialStageLinkTarget: elementParams.specialStageLinkTarget }
+        ),
         label: elementParams.label,
         neighbors: neighbors,
         telemetry: elementParams.telemetry,

@@ -103,6 +103,9 @@
                       },
                       {
                         "label": "Denbora gehigarria"
+                      },
+                      {
+                        "label": "Link to external content"
                       }
                     ]
                   },
@@ -113,6 +116,21 @@
                   {
                     "label": "Denbora gehigarriaren segundo kopurua",
                     "description": "Ezarri erabiltzaileak zenbat segundo irabaziko dituen denbora-muga globalerako etapa honetan sartzean."
+                  },
+                  {
+                    "label": "URL to link to",
+                    "description": "Set where the user should be sent to when opening this stage."
+                  },
+                  {
+                    "label": "Place to open link in",
+                    "options": [
+                      {
+                        "label": "New tab"
+                      },
+                      {
+                        "label": "Same tab"
+                      }
+                    ]
                   },
                   {
                     "label": "Always visible",

@@ -262,6 +262,10 @@
                     {
                       "value": "extra-time",
                       "label": "Extra time"
+                    },
+                    {
+                      "value": "link",
+                      "label": "Link to external content"
                     }
                   ]
                 },
@@ -280,6 +284,29 @@
                   "description": "Set how many seconds the user will gain for the global time limit when entering this stage.",
                   "default": 1,
                   "min": 1
+                },
+                {
+                  "name": "specialStageLinkURL",
+                  "type": "text",
+                  "label": "URL to link to",
+                  "description": "Set where the user should be sent to when opening this stage.",
+                  "optional": false
+                },
+                {
+                  "name": "specialStageLinkTarget",
+                  "type": "select",
+                  "label": "Place to open link in",
+                  "options": [
+                    {
+                      "value": "_blank",
+                      "label": "New tab"
+                    },
+                    {
+                      "value": "_parent",
+                      "label": "Same tab"
+                    }
+                  ],
+                  "default": "_blank"
                 },
                 {
                   "name": "alwaysVisible",

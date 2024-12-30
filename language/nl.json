@@ -103,6 +103,9 @@
                       },
                       {
                         "label": "Extra tijd"
+                      },
+                      {
+                        "label": "Link to external content"
                       }
                     ]
                   },
@@ -113,6 +116,21 @@
                   {
                     "label": "Aantal seconden extra tijd",
                     "description": "Stel in hoeveel seconden de gebruiker wint voor de globale tijdslimiet bij het betreden van deze fase"
+                  },
+                  {
+                    "label": "URL to link to",
+                    "description": "Set where the user should be sent to when opening this stage."
+                  },
+                  {
+                    "label": "Place to open link in",
+                    "options": [
+                      {
+                        "label": "New tab"
+                      },
+                      {
+                        "label": "Same tab"
+                      }
+                    ]
                   },
                   {
                     "label": "Always visible",
