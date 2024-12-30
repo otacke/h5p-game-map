@@ -1,5 +1,8 @@
 import Util from '@services/util.js';
 
+/** @constant {string} XAPI_DEFAULT_DESCRIPTION Default description */
+export const XAPI_DEFAULT_DESCRIPTION = 'Game Map';
+
 /**
  * Mixin containing methods for xapi stuff.
  */
@@ -68,7 +71,7 @@ export default class XAPI {
   getTitle() {
     // H5P Core function: createTitle
     return H5P.createTitle(
-      this.extras?.metadata?.title || XAPI.DEFAULT_DESCRIPTION
+      this.extras?.metadata?.title || XAPI_DEFAULT_DESCRIPTION
     );
   }
 
@@ -77,9 +80,6 @@ export default class XAPI {
    * @returns {string} Description.
    */
   getDescription() {
-    return this.params.header || XAPI.DEFAULT_DESCRIPTION;
+    return this.params.header || XAPI_DEFAULT_DESCRIPTION;
   }
 }
-
-/** @constant {string} DEFAULT_DESCRIPTION Default description */
-XAPI.DEFAULT_DESCRIPTION = 'Game Map';
