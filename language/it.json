@@ -112,7 +112,7 @@
                   },
                   {
                     "label": "Number of seconds of extra time",
-                    "description": "Set how many seceonds the user will gain for the global time limit when entering this stage."
+                    "description": "Set how many seconds the user will gain for the global time limit when entering this stage."
                   },
                   {
                     "label": "Always visible",

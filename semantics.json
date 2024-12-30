@@ -277,7 +277,7 @@
                   "name": "specialStageExtraTime",
                   "type": "number",
                   "label": "Number of seconds of extra time",
-                  "description": "Set how many seceonds the user will gain for the global time limit when entering this stage.",
+                  "description": "Set how many seconds the user will gain for the global time limit when entering this stage.",
                   "default": 1,
                   "min": 1
                 },
