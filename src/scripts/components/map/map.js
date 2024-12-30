@@ -74,6 +74,7 @@ export default class Map {
       this.image.src = this.params.backgroundImage;
     }
     else {
+      this.image.style.visibility = 'hidden';
       this.dom.style.setProperty('--map-aspect-ratio', '16/9');
     }
 
@@ -178,7 +179,7 @@ export default class Map {
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(() => {
       // Ensure overlays for paths and stages have image dimensions
-      const clientRect = this.image.getBoundingClientRect();
+      const clientRect = this.getSize();
       this.pathWrapper.style.height = `${clientRect.height}px`;
       this.stageWrapper.style.height = `${clientRect.height}px`;
 
