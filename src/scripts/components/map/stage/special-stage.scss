@@ -1,36 +1,36 @@
 .h5p-game-map-stage-content.h5p-game-map-stage-locked.override-symbol,
 .h5p-game-map-stage-content.h5p-game-map-stage-open,
 .h5p-game-map-stage-content.h5p-game-map-stage-cleared {
-  &.finish::before {
-    content: "\f11e";
+  &::before {
     font-family: "H5PGameMap", "H5PFontAwesome4", sans-serif;
     font-size: max(0.75rem, var(--stage-font-size));
     left: 50%;
     line-height: max(1rem, var(--stage-line-height));
-    position: absolute;
     top: calc(50%);
     transform: translate(-50%, -50%);
   }
 
+  &.finish::before {
+    content: "\f11e";
+    left: 50%;
+    top: calc(50%);
+  }
+
   &.extra-life::before {
     content: "\f004";
-    font-family: "H5PGameMap", "H5PFontAwesome4", sans-serif;
-    font-size: max(0.75rem, var(--stage-font-size));
     left: 50%;
-    line-height: max(1rem, var(--stage-line-height));
-    position: absolute;
     top: calc(50% + 0.125em);
-    transform: translate(-50%, -50%);
   }
 
   &.extra-time::before {
     content: "\f017";
-    font-family: "H5PGameMap", "H5PFontAwesome4", sans-serif;
-    font-size: max(0.75rem, var(--stage-font-size));
     left: 50%;
-    line-height: max(1rem, var(--stage-line-height));
-    position: absolute;
     top: calc(50% + 0.05em);
-    transform: translate(-50%, -50%);
+  }
+
+  &.link::before {
+    content: "\f0c1";
+    left: 50%;
+    top: calc(50% + 0.05em);
   }
 }

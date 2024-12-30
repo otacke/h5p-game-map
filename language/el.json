@@ -103,6 +103,9 @@
                       },
                       {
                         "label": "Επιπλέον χρόνος"
+                      },
+                      {
+                        "label": "Link to external content"
                       }
                     ]
                   },
@@ -113,6 +116,21 @@
                   {
                     "label": "Αριθμός δευτερολέπτων παράτασης",
                     "description": "Ορίστε πόσα δευτερόλεπτα θα κερδίζει ο χρήστης για το συνολικό χρονικό όριο κατά την είσοδο σε αυτό το επείπεδο."
+                  },
+                  {
+                    "label": "URL to link to",
+                    "description": "Set where the user should be sent to when opening this stage."
+                  },
+                  {
+                    "label": "Place to open link in",
+                    "options": [
+                      {
+                        "label": "New tab"
+                      },
+                      {
+                        "label": "Same tab"
+                      }
+                    ]
                   },
                   {
                     "label": "Πάντα ορατό",

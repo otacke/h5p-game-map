@@ -48,5 +48,9 @@ export default class SpecialStage extends Stage {
       main.handleSpecialFeatureRun('extra-time');
       this.disable();
     }
+    else if (this.params.specialStageType === 'link') {
+      this.setState(this.params.globals.get('states').cleared);
+      window.open(this.params.specialStageLinkURL, this.params.specialStageLinkTarget);
+    }
   }
 }
