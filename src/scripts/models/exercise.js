@@ -303,16 +303,12 @@ export default class Exercise {
       event.getVerifiedStatementValue(['result', 'success'])
     ) {
       this.setState(this.params.globals.get('states').cleared);
-      this.params.jukebox.stopGroup('default');
-      this.params.jukebox.play('checkExerciseFullScore');
 
       this.stop();
       this.isCompleted = true;
     }
     else {
       this.setState(this.params.globals.get('states').completed);
-      this.params.jukebox.stopGroup('default');
-      this.params.jukebox.play('checkExerciseNotFullScore');
 
       if (isCompletedEnough) {
         this.stop();
@@ -596,5 +592,36 @@ export default class Exercise {
       this.hasPlayedTimeoutWarning = true;
       this.callbacks.onTimeoutWarning();
     }
+  }
+
+  /**
+   * Get all subContentIds from xAPI data.
+   * @param {object[]} [xAPIData] xAPI data.
+   * @returns {string[]} SubContentIds.
+   */
+  getSubContentIds(xAPIData) {
+    if (!this.instance?.getXAPIData) {
+      return [];
+    }
+
+    let subContentIds = [];
+
+    xAPIData = xAPIData ?? [this.instance.getXAPIData()];
+
+    xAPIData.forEach((entry) => {
+      if (entry.statement?.object?.id) {
+        const url = new URL(entry.statement.object.id);
+        const subContentId = url.searchParams.get('subContentId');
+        if (subContentId) {
+          subContentIds.push(subContentId);
+        }
+      }
+
+      if (Array.isArray(entry.children)) {
+        subContentIds = [...subContentIds, ...this.getSubContentIds(entry.children)];
+      }
+    });
+
+    return subContentIds;
   }
 }
