@@ -74,19 +74,15 @@ export default class Exercise {
     const machineName = this.params.contentType?.library?.split?.(' ')[0];
 
     if (machineName === 'H5P.Video') {
-      this.params.contentType.params.visuals.fit = (
-        this.params.contentType.params.sources?.length && (
-          this.params.contentType.params.sources[0].mime === 'video/mp4' ||
-          this.params.contentType.params.sources[0].mime === 'video/webm' ||
-          this.params.contentType.params.sources[0].mime === 'video/ogg'
-        ) || false
-      );
+      const sources = this.params.contentType.params.sources;
+      const hasSources = sources?.length > 0;
+      const isVideoFormat = hasSources && ['video/mp4', 'video/webm', 'video/ogg'].includes(sources[0].mime);
+
+      this.params.contentType.params.visuals.fit = isVideoFormat || false;
     }
 
     if (machineName === 'H5P.Audio') {
-      if (this.params.contentType.params.playerMode === 'full') {
-        this.params.contentType.params.fitToWrapper = true;
-      }
+      this.params.contentType.params.fitToWrapper = (this.params.contentType.params.playerMode === 'full');
     }
 
     // Get previous instance state
@@ -94,8 +90,7 @@ export default class Exercise {
       this.params.globals.get('extras').previousState?.content?.exercises ?? [];
 
     this.previousState = exercisesState
-      .find((item) => item.exercise?.id === this.getId());
-    this.previousState = this.previousState?.exercise || {};
+      .find((item) => item.exercise?.id === this.getId())?.exercise ?? {};
 
     if (!this.instance) {
       this.instance = H5P.newRunnable(
