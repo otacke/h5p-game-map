@@ -1,8 +1,6 @@
-@use "@styles/main";
-
 .media-screen {
   align-items: center;
-  background: main.$color-background;
+  background: var(--color-background);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -65,14 +63,14 @@
   }
 
   .media-screen-bar {
-    background-color: main.$color-primary-10;
+    background-color: var(--color-primary-10);
     background-size: cover;
     height: 70%;
     width: inherit;
   }
 
   .media-screen-image {
-    box-shadow: 10px 4px 47px 0 main.$color-shadow-dark;
+    box-shadow: 10px 4px 47px 0 var(--color-shadow-dark);
     height: 100%;
     left: 50%;
     position: absolute;
@@ -82,8 +80,8 @@
   }
 
   .media-screen-introduction {
-    color: main.$color-text;
-    text-decoration: none solid main.$color-text;
+    color: var(--color-text);
+    text-decoration: none solid var(--color-text);
 
     &.display-none {
       display: none;
@@ -108,27 +106,27 @@
 
     .media-screen-button {
       button {
-        background-color: main.$color-primary;
+        background-color: var(--color-primary);
         background-size: cover;
         border: 0;
         border-radius: 3px;
-        color: main.$color-background;
+        color: var(--color-background);
         cursor: pointer;
         font-size: 20px;
         font-weight: 400;
         padding: 0.5rem 2.5rem;
         text-align: center;
-        text-decoration: none solid main.$color-background;
+        text-decoration: none solid var(--color-background);
         white-space: nowrap;
 
         &:hover {
-          background-color: main.$color-primary-90;
+          background-color: var(--color-primary-90);
           background-size: cover;
           cursor: pointer;
         }
 
         &:active {
-          background-color: main.$color-primary-95;
+          background-color: var(--color-primary-95);
           background-size: cover;
         }
       }
