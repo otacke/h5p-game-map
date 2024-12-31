@@ -1,9 +1,7 @@
-@use "@styles/main";
-
 .h5p-game-map-map {
   --map-aspect-ratio: 16/9;
 
-  background-color: var(--map-background-color, main.$color-background);
+  background-color: var(--map-background-color, var(--color-background));
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;
