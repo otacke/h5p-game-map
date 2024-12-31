@@ -290,8 +290,7 @@
                   "type": "text",
                   "label": "URL to link to",
                   "description": "Set where the user should be sent to when opening this stage.",
-                  "optional": false,
-                  "default": "https://h5p.org"
+                  "optional": false
                 },
                 {
                   "name": "specialStageLinkTarget",
