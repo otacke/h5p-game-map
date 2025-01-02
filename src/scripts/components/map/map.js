@@ -2,6 +2,15 @@ import Util from '@services/util.js';
 import Path from './path.js';
 import './map.scss';
 
+/** @constant {string} COLOR_CONTRAST_DARK Dark color contrast */
+const COLOR_CONTRAST_DARK = '#000';
+
+/** @constant {string} COLOR_CONTRAST_LIGHT Light color contrast */
+const COLOR_CONTRAST_LIGHT = '#fff';
+
+/** @constant {number} STAGE_BORDER_RADIUS Border radius */
+const STAGE_BORDER_RADIUS = 0.5;
+
 export default class Map {
 
   /**
@@ -48,10 +57,10 @@ export default class Map {
       '--stage-color-locked', globalParams.visual.stages.colorStageLocked
     );
     this.dom.style.setProperty(
-      '--stage-color-contrast-dark', Map.COLOR_CONTRAST_DARK
+      '--stage-color-contrast-dark', COLOR_CONTRAST_DARK
     );
     this.dom.style.setProperty(
-      '--stage-color-contrast-light', Map.COLOR_CONTRAST_LIGHT
+      '--stage-color-contrast-light', COLOR_CONTRAST_LIGHT
     );
 
     // Custom CSS variables for paths
@@ -190,7 +199,7 @@ export default class Map {
       const fontSize = clientRect.height / 100 * heightPercentage;
 
       this.dom.style.setProperty(
-        '--stage-font-size', `calc(${Map.STAGE_BORDER_RADIUS} * ${fontSize}px)`
+        '--stage-font-size', `calc(${STAGE_BORDER_RADIUS} * ${fontSize}px)`
       );
       this.dom.style.setProperty(
         '--stage-line-height', `${fontSize}px`
@@ -263,12 +272,3 @@ export default class Map {
     );
   }
 }
-
-/** @constant {string} COLOR_CONTRAST_DARK Dark color contrast */
-Map.COLOR_CONTRAST_DARK = '#000';
-
-/** @constant {string} COLOR_CONTRAST_LIGHT Light color contrast */
-Map.COLOR_CONTRAST_LIGHT = '#fff';
-
-/** @constant {number} STAGE_BORDER_RADIUS Border radius */
-Map.STAGE_BORDER_RADIUS = 0.5;

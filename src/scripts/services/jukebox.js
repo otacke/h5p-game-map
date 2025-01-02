@@ -1,3 +1,21 @@
+/** @constant {number} MINIMUM_TIMER_INTERVAL_MS Minimum timer interval. */
+const MINIMUM_TIMER_INTERVAL_MS = 50;
+
+/** @constant {number} DEFAULT_TIMER_INTERVAL_MS Default timer interval. */
+const DEFAULT_TIMER_INTERVAL_MS = 100;
+
+/** @constant {number} DEFAULT_FADE_TIME_MS Default fade time. */
+const DEFAULT_FADE_TIME_MS = 1000;
+
+/** @constant {object} STATES Stated of audios in jukebox. */
+export const STATES = {
+  buffering: 0,
+  stopped: 1,
+  queued: 2,
+  playing: 3,
+  paused: 4
+};
+
 /* Service to handle sounds via WebAudio */
 export default class Jukebox {
 
@@ -100,12 +118,12 @@ export default class Jukebox {
    */
   setState(id, newState) {
     if (typeof newState === 'string') {
-      newState = Jukebox.STATES[newState];
+      newState = STATES[newState];
     }
 
     if (
       typeof newState !== 'number' ||
-      Object.values(Jukebox.STATES).indexOf(newState) === -1
+      Object.values(STATES).indexOf(newState) === -1
     ) {
       return; // Not a valid state
     }
@@ -132,7 +150,7 @@ export default class Jukebox {
     }
 
     this.audios[params.id].buffer = params.buffer;
-    this.setState(params.id, Jukebox.STATES.stopped);
+    this.setState(params.id, STATES.stopped);
   }
 
   /**
@@ -146,7 +164,7 @@ export default class Jukebox {
       return;
     }
 
-    this.setState(params.id, Jukebox.STATES.buffering);
+    this.setState(params.id, STATES.buffering);
 
     var request = new XMLHttpRequest();
     request.open('GET', params.url, true);
@@ -178,7 +196,7 @@ export default class Jukebox {
       return false; // Muted
     }
 
-    if (this.getState(id) === Jukebox.STATES.playing) {
+    if (this.getState(id) === STATES.playing) {
       return false; // Already playing
     }
 
@@ -186,7 +204,7 @@ export default class Jukebox {
       return false;
     }
 
-    if (this.getState(id) === Jukebox.STATES.buffering) {
+    if (this.getState(id) === STATES.buffering) {
       this.addToQueue(id);
       return false;
     }
@@ -217,7 +235,7 @@ export default class Jukebox {
     };
 
     audio.source.start();
-    this.setState(id, Jukebox.STATES.playing);
+    this.setState(id, STATES.playing);
 
     return true;
   }
@@ -251,12 +269,12 @@ export default class Jukebox {
 
     this.removeFromQueue(id);
 
-    if (this.getState(id) !== Jukebox.STATES.playing) {
+    if (this.getState(id) !== STATES.playing) {
       return;
     }
 
     this.audios[id].source?.stop();
-    this.setState(id, Jukebox.STATES.stopped);
+    this.setState(id, STATES.stopped);
   }
 
   /**
@@ -294,7 +312,7 @@ export default class Jukebox {
       return false;
     }
 
-    return this.getState(id) === Jukebox.STATES.playing;
+    return this.getState(id) === STATES.playing;
   }
 
   /**
@@ -326,19 +344,15 @@ export default class Jukebox {
 
     // Sanitize time
     if (typeof params.time !== 'number') {
-      params.time = Jukebox.DEFAULT_FADE_TIME_MS;
+      params.time = DEFAULT_FADE_TIME_MS;
     }
-    params.time = Math.max(
-      Jukebox.DEFAULT_TIMER_INTERVAL_MS, params.time
-    );
+    params.time = Math.max(DEFAULT_TIMER_INTERVAL_MS, params.time);
 
     // Sanitize interval
     if (typeof params.interval !== 'number') {
-      params.interval = Jukebox.DEFAULT_TIMER_INTERVAL_MS;
+      params.interval = DEFAULT_TIMER_INTERVAL_MS;
     }
-    params.interval = Math.max(
-      Jukebox.MINIMUM_TIMER_INTERVAL_MS, params.interval
-    );
+    params.interval = Math.max(MINIMUM_TIMER_INTERVAL_MS, params.interval);
 
     // Set gain delta for each interval
     if (typeof params.gainDelta !== 'number' || params.gainDelta <= 0) {
@@ -529,21 +543,3 @@ export default class Jukebox {
     }
   }
 }
-
-/** @constant {number} MINIMUM_TIMER_INTERVAL_MS Minimum timer interval. */
-Jukebox.MINIMUM_TIMER_INTERVAL_MS = 50;
-
-/** @constant {number} DEFAULT_TIMER_INTERVAL_MS Default timer interval. */
-Jukebox.DEFAULT_TIMER_INTERVAL_MS = 100;
-
-/** @constant {number} DEFAULT_FADE_TIME_MS Default fade time. */
-Jukebox.DEFAULT_FADE_TIME_MS = 1000;
-
-/** @constant {object} STATES Stated of audios in jukebox. */
-Jukebox.STATES = {
-  buffering: 0,
-  stopped: 1,
-  queued: 2,
-  playing: 3,
-  paused: 4
-};
