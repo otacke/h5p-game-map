@@ -46,8 +46,11 @@ export default class MainHandlersStage {
         this.runInteractiveVideoWorkaround(instance);
       }
 
-      this.exerciseScreen.setH5PContent(exercise.getDOM());
-      this.exerciseScreen.setTitle(stage.getLabel());
+      this.exerciseScreen.setContent(exercise.getDOM());
+      this.exerciseScreen.setTitle(
+        stage.getLabel(),
+        this.params.dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, stage.getLabel())
+      );
       this.params.jukebox.stopGroup('default');
       this.exerciseScreen.show({ isShowingSolutions: this.isShowingSolutions });
       this.toolbar.disable();

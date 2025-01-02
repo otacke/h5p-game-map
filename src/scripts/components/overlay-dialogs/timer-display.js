@@ -10,7 +10,7 @@ export default class TimerDisplay {
     this.handleNotifyingEnded = this.handleNotifyingEnded.bind(this);
 
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-game-map-exercise-headline-timer');
+    this.dom.classList.add('h5p-game-map-overlay-dialog-headline-timer');
 
     this.hide();
   }

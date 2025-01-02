@@ -5,9 +5,10 @@ import EndScreen from '@components/media-screen/end-screen.js';
 import Map from '@components/map/map.js';
 import Toolbar from '@components/toolbar/toolbar.js';
 import Exercises from '@models/exercises.js';
-import ExerciseScreen from '@components/exercise-screen/exercise-screen.js';
+// import ExerciseScreen from '@components/exercise-screen/exercise-screen.js';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog.js';
-import SettingsDialog from '@components/settings-dialog/settings-dialog.js';
+import ExerciseDialog from '@components/overlay-dialogs/exercise-dialog.js';
+import SettingsDialog from '@components/overlay-dialogs/settings-dialog.js';
 
 /** @constant {number} MS_IN_S Milliseconds in a second. */
 const MS_IN_S = 1000;
@@ -343,10 +344,11 @@ export default class MainInitialization {
       }
     );
 
-    this.exerciseScreen = new ExerciseScreen(
+    this.exerciseScreen = new ExerciseDialog(
       {
         dictionary: this.params.dictionary,
-        globals: this.params.globals
+        globals: this.params.globals,
+        cssMainSelector: 'exercise',
       },
       {
         onClosed: () => {
@@ -380,6 +382,7 @@ export default class MainInitialization {
       {
         dictionary: this.params.dictionary,
         globals: this.params.globals,
+        cssMainSelector: 'settings',
         values: {
           volumeMusic: this.params.jukebox.getVolumeGroup('background'),
           volumeSFX: this.params.jukebox.getVolumeGroup('default')
