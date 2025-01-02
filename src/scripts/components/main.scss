@@ -1,4 +1,6 @@
 .h5p-game-map-container {
+  container-name: map-container;
+  container-type: inline-size;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;

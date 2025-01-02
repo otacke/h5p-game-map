@@ -18,6 +18,21 @@ const FULL_SCREEN_DELAY_MEDIUM_MS = 200;
 /** @constant {number} FULL_SCREEN_DELAY_LARGE_MS Time some browsers need to go to full screen. */
 const FULL_SCREEN_DELAY_LARGE_MS = 300;
 
+/** @constant {number} EXERCISE_SCREEN_ANIM_DURATION_MS Duration from CSS. */
+const EXERCISE_SCREEN_ANIM_DURATION_MS = 1000;
+
+/** @constant {object} STATES States lookup. */
+export const STATES = {
+  unstarted: 0, // Exercise
+  locked: 1,
+  unlocking: 2,
+  open: 3,
+  opened: 4,
+  completed: 5,
+  cleared: 6, // Exercise, Stage, Path,
+  sealed: 7 // Stage
+};
+
 export default class GameMap extends H5P.Question {
   /**
    * @class
@@ -75,7 +90,7 @@ export default class GameMap extends H5P.Question {
         })
         .map((element) => {
           element.animDuration = (this.params.visual.misc.useAnimation) ?
-            GameMap.EXERCISE_SCREEN_ANIM_DURATION_MS :
+            EXERCISE_SCREEN_ANIM_DURATION_MS :
             0;
 
           return element;
@@ -92,7 +107,7 @@ export default class GameMap extends H5P.Question {
     this.globals.set('contentId', this.contentId);
     this.globals.set('params', this.params);
     this.globals.set('extras', this.extras);
-    this.globals.set('states', GameMap.STATES);
+    this.globals.set('states', STATES);
     this.globals.set('isFullscreenSupported', fullScreenSupported);
     this.globals.set('resize', () => {
       this.trigger('resize');
@@ -329,18 +344,3 @@ export default class GameMap extends H5P.Question {
     }
   }
 }
-
-/** @constant {object} STATES States lookup */
-GameMap.STATES = {
-  unstarted: 0, // Exercise
-  locked: 1,
-  unlocking: 2,
-  open: 3,
-  opened: 4,
-  completed: 5,
-  cleared: 6, // Exercise, Stage, Path,
-  sealed: 7 // Stage
-};
-
-/** @constant {number} EXERCISE_SCREEN_ANIM_DURATION_MS Duration from CSS. */
-GameMap.EXERCISE_SCREEN_ANIM_DURATION_MS = 1000;

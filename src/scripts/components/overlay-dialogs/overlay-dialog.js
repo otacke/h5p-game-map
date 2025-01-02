@@ -7,18 +7,6 @@ import './overlay-dialog.scss';
 /** @constant {number} CONTENT_ATTACH_DELAY_MS Delay before content is attached. */
 const CONTENT_ATTACH_DELAY_MS = 100;
 
-/** @constant {number} OFFSET_MIN_REM Minimum offset for screen in rem. */
-const OFFSET_MIN_REM = 2;
-
-/** @constant {number} OFFSET_MAX_REM Maximum offset for screen in rem. */
-const OFFSET_MAX_REM = 4;
-
-/** @constant {number} MAPSIZE_MIN_PX Minimum mapsize for projection in px. */
-const MAPSIZE_MIN_PX = 480;
-
-/** @constant {number} MAPSIZE_MAX_PX Maximum mapsize for projection in px. */
-const MAPSIZE_MAX_PX = 640;
-
 /** Class representing an overlay dialog */
 export default class OverlayDialog {
 
@@ -228,24 +216,6 @@ export default class OverlayDialog {
   setTime(timeMs, options = {}) {
     this.timerDisplay.setTime(timeMs);
     this.timerDisplay.setTimeoutWarning(options.timeoutWarning);
-  }
-
-  /**
-   * Set offset to screen border.
-   * @param {number} mapWidth Map width in px.
-   */
-  setScreenOffset(mapWidth) {
-    const project = (value, lo1, hi1, lo2, hi2) => {
-      return lo2 + (hi2 - lo2) * (value - lo1) / (hi1 - lo1);
-    };
-
-    const size = project(
-      Math.max(MAPSIZE_MIN_PX, Math.min(mapWidth, MAPSIZE_MAX_PX)),
-      MAPSIZE_MIN_PX, MAPSIZE_MAX_PX,
-      OFFSET_MIN_REM, OFFSET_MAX_REM
-    );
-
-    this.dom.style.setProperty('--overlay-dialog-screen-offset', `${size}rem`);
   }
 
   /**

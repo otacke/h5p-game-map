@@ -1,6 +1,12 @@
 import Util from '@services/util.js';
 import './path.scss';
 
+/** @constant {number} MIN_WIDTH_PX Path minimum width in px */
+const MIN_WIDTH_PX = 1;
+
+/** @constant {number} MAX_FACTOR Path max size factor, % of stage size */
+const MAX_FACTOR = 0.3;
+
 export default class Path {
   /**
    * Construct a path.
@@ -217,8 +223,8 @@ export default class Path {
 
     // Border width
     const strokeWidth = Math.min(
-      Math.max(Path.MIN_WIDTH_PX, width * this.params.visuals.pathWidth),
-      width * Path.MAX_FACTOR
+      Math.max(MIN_WIDTH_PX, width * this.params.visuals.pathWidth),
+      width * MAX_FACTOR
     );
 
     // eslint-disable-next-line no-magic-numbers
@@ -308,9 +314,3 @@ export default class Path {
     }
   }
 }
-
-/** @constant {number} Path.MIN_WIDTH_PX Path minimum width in px */
-Path.MIN_WIDTH_PX = 1;
-
-/** @constant {number} Path.MAX_FACTOR Path max size factor, % of stage size */
-Path.MAX_FACTOR = 0.3;

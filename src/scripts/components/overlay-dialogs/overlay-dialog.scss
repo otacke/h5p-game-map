@@ -1,4 +1,6 @@
 .h5p-game-map-overlay-dialog {
+  --overlay-dialog-screen-offset: 4rem;
+
   align-items: center;
   background-color: rgba(44,44,44,.8);
   box-sizing: border-box;
@@ -199,5 +201,16 @@
       transform: translate3d(0, -200rem, 0) scaleY(3);
     }
   }
+}
 
+@container map-container (max-width: 560px) {
+  .h5p-game-map-overlay-dialog {
+    --overlay-dialog-screen-offset: 3rem;
+  }
+}
+
+@container map-container (max-width: 480px) {
+  .h5p-game-map-overlay-dialog {
+    --overlay-dialog-screen-offset: 2rem;
+  }
 }

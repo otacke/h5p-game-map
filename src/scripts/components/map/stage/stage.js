@@ -10,6 +10,15 @@ const CONTRAST_DELTA = 0.3;
 /** @constant {number} VERTICAL_CENTER_THRESHOLD Threshold for vertical centering. */
 const VERTICAL_CENTER_THRESHOLD = 50;
 
+/** @constant {number} ANIMATION_CLEARED_BLOCK_MS Blocking time. */
+const ANIMATION_CLEARED_BLOCK_MS = 1000;
+
+/** @constant {object} STAGE_TYPES types lookup. */
+export const STAGE_TYPES = {
+  'stage': 0,
+  'special-stage': 1
+};
+
 export default class Stage {
   /**
    * Construct a Stage.
@@ -669,7 +678,7 @@ export default class Stage {
       // Make sure to add a blocking delay for when stages are cleared
       if (this.shouldBePlayful) {
         if (newState === states.cleared) {
-          params.block = Stage.ANIMATION_CLEARED_BLOCK_MS;
+          params.block = ANIMATION_CLEARED_BLOCK_MS;
         }
         else if (newState === states.sealed) {
           params.skipQueue = true;
@@ -704,11 +713,4 @@ export default class Stage {
   }
 }
 
-/** @constant {number} ANIMATION_CLEARED_BLOCK_MS Blockign time */
-Stage.ANIMATION_CLEARED_BLOCK_MS = 1000;
 
-/** @constant {object} STAGE_TYPES types lookup */
-export const STAGE_TYPES = {
-  'stage': 0,
-  'special-stage': 1
-};

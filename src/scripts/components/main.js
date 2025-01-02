@@ -239,10 +239,6 @@ export default class Main {
       return;
     }
 
-    // This should be done with a container selector when support is better.
-    this.exerciseScreen.setScreenOffset(mapSize.width);
-    this.settingsDialog.setScreenOffset(mapSize.width);
-
     this.map.resize();
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(() => {
@@ -262,6 +258,7 @@ export default class Main {
         this.params.globals.get('resize')();
       }, 0);
     }
+
     if (
       this.settingsDialog.getSize().width > this.dom.getBoundingClientRect().width
     ) {
