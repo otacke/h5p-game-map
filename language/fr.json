@@ -555,10 +555,6 @@
           "default": "OK"
         },
         {
-          "label": "Aucune image d'arrière-plan n'a été définie",
-          "default": "Aucune image d'arrière-plan n'a été définie pour la carte."
-        },
-        {
           "label": "No stages were set",
           "default": "Aucune étape n'a été fixée."
         },

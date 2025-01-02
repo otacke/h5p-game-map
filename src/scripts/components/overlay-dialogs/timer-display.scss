@@ -8,7 +8,7 @@
   }
 
   &::before {
-    content: "\f017";
+    content: var(--icon-fontawesome-clock);
     font-family: "H5PFontAwesome4", sans-serif;
     margin-right: 0.5rem;
   }

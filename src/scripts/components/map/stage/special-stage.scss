@@ -11,25 +11,25 @@
   }
 
   &.finish::before {
-    content: "\f11e";
+    content: var(--icon-fontawesome-flag-checkered);
     left: 50%;
     top: calc(50%);
   }
 
   &.extra-life::before {
-    content: "\f004";
+    content: var(--icon-fontawesome-heart);
     left: 50%;
     top: calc(50% + 0.125em);
   }
 
   &.extra-time::before {
-    content: "\f017";
+    content: var(--icon-fontawesome-clock);
     left: 50%;
     top: calc(50% + 0.05em);
   }
 
   &.link::before {
-    content: "\f0c1";
+    content: var(--icon-fontawesome-link);
     left: 50%;
     top: calc(50% + 0.05em);
   }

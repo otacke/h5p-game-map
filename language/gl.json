@@ -555,10 +555,6 @@
           "default": "OK"
         },
         {
-          "label": "Non se definiu ningunha imaxe de fondo",
-          "default": "Non se definiu ningunha imaxe de fondo para o mapa."
-        },
-        {
           "label": "Non se estableceron escenarios",
           "default": "Non se estableceron etapas válidas para o mapa."
         },

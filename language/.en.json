@@ -555,10 +555,6 @@
           "default": "OK"
         },
         {
-          "label": "No background image was set",
-          "default": "No background image was set for the map."
-        },
-        {
           "label": "No stages were set",
           "default": "No valid stages were set for the map."
         },

@@ -555,10 +555,6 @@
           "default": "OK"
         },
         {
-          "label": "Kein Hintergrundbild gesetzt",
-          "default": "Es wurde für die Karte kein Hintergrundbild gesetzt."
-        },
-        {
           "label": "Keine Etappen gesetzt",
           "default": "Es wurden keine gültigen Etappen für die Karte gesetzt."
         },

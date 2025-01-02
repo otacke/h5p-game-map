@@ -555,10 +555,6 @@
           "default": "OK"
         },
         {
-          "label": "Ez da atzeko planoko irudirik ezarri",
-          "default": "Ez da atzeko planoko irudirik ezarri maparako."
-        },
-        {
           "label": "Ez da etaparik ezarri",
           "default": "Ez da baliozko etaparik ezarri maparako."
         },

@@ -555,10 +555,6 @@
           "default": "OK"
         },
         {
-          "label": "Er is geen achtergrondafbeelding ingesteld",
-          "default": "Er is geen achtergrondafbeelding ingesteld voor de kaart."
-        },
-        {
           "label": "Er zijn geen fases ingesteld",
           "default": "Er zijn geen geldige fases ingesteld voor de kaart."
         },

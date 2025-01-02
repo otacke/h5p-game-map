@@ -35,28 +35,28 @@
     .status-containers {
       .status-container-timer {
         &::before {
-          content: "\f017";
+          content: var(--icon-fontawesome-clock);
           font-family: "H5PFontAwesome4", sans-serif;
         }
       }
 
       .status-container-lives {
         &::before {
-          content: "\f004";
+          content: var(--icon-fontawesome-heart);
           font-family: "H5PFontAwesome4", sans-serif;
         }
       }
 
       .status-container-stages {
         &::before {
-          content: "\f10c";
+          content: var(--icon-fontawesome-check);
           font-family: "H5PFontAwesome4", sans-serif;
         }
       }
 
       .status-container-score {
         &::before {
-          content: "\f005";
+          content: var(--icon-fontawesome-star);
           font-family: "H5PFontAwesome4", sans-serif;
         }
       }
@@ -73,18 +73,21 @@
       color: #1768C4;
       position: relative;
 
+      &::before {
+        font-family: "H5PFontAwesome4", sans-serif;
+        font-size: 1.15em;
+        height: 1.15em;
+        left: 50%;
+        margin-left: -0.575em;
+        margin-top: -0.575em;
+        position: absolute;
+        top: 50%;
+        width: 1.15em;
+      }
+
       &.toolbar-button-audio {
         &::before {
-          content: "\f026";
-          font-family: "H5PFontAwesome4", sans-serif;
-          font-size: 1.15em;
-          height: 1.15em;
-          left: 50%;
-          margin-left: -0.575em;
-          margin-top: -0.575em;
-          position: absolute;
-          top: 50%;
-          width: 1.15em;
+          content: var(--icon-fontawesome-volume-off);
         }
 
         &.toolbar-button-active {
@@ -93,23 +96,14 @@
           }
 
           &::before {
-            content: "\f028";
+            content: var(--icon-fontawesome-volume-high);
           }
         }
       }
 
       &.toolbar-button-settings {
         &::before {
-          content: "\f013";
-          font-family: "H5PFontAwesome4", sans-serif;
-          font-size: 1.15em;
-          height: 1.15em;
-          left: 50%;
-          margin-left: -0.575em;
-          margin-top: -0.575em;
-          position: absolute;
-          top: 50%;
-          width: 1.15em;
+          content: var(--icon-fontawesome-gear);
         }
 
         &.toolbar-button-active {
@@ -122,16 +116,7 @@
 
       &.toolbar-button-finish {
         &::before {
-          content: "\f11e";
-          font-family: "H5PFontAwesome4", sans-serif;
-          font-size: 1.15em;
-          height: 1.15em;
-          left: 50%;
-          margin-left: -0.575em;
-          margin-top: -0.575em;
-          position: absolute;
-          top: 50%;
-          width: 1.15em;
+          content: var(--icon-fontawesome-flag-checkered);
         }
       }
 
@@ -144,26 +129,14 @@
       &.toolbar-button-fullscreen {
         &.toolbar-button-exit-fullscreen {
           &::before {
-            content: "\f066";
+            content: var(--icon-fontawesome-compress);
           }
         }
 
         &.toolbar-button-enter-fullscreen {
           &::before {
-            content: "\f065";
+            content: var(--icon-fontawesome-expand);
           }
-        }
-
-        &::before {
-          font-family: "H5PFontAwesome4", sans-serif;
-          font-size: 1.15em;
-          height: 1.15em;
-          left: 50%;
-          margin-left: -0.575em;
-          margin-top: -0.575em;
-          position: absolute;
-          top: 50%;
-          width: 1.15em;
         }
       }
     }
@@ -180,7 +153,7 @@
       color: var(--color-background);
 
       &::after {
-        content: "\f06e";
+        content: var(--icon-fontawesome-eye);
         font-family: "H5PFontAwesome4", sans-serif;
         font-weight: normal;
         margin-left: 0.5em;
