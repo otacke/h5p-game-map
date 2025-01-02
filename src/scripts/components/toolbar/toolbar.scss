@@ -98,6 +98,28 @@
         }
       }
 
+      &.toolbar-button-settings {
+        &::before {
+          content: "\f013";
+          font-family: "H5PFontAwesome4", sans-serif;
+          font-size: 1.15em;
+          height: 1.15em;
+          left: 50%;
+          margin-left: -0.575em;
+          margin-top: -0.575em;
+          position: absolute;
+          top: 50%;
+          width: 1.15em;
+        }
+
+        &.toolbar-button-active {
+          &:not(.toolbar-button-disabled) {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+          }
+        }
+      }
+
       &.toolbar-button-finish {
         &::before {
           content: "\f11e";

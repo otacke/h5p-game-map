@@ -561,6 +561,18 @@
         {
           "label": "Keine Etappen gesetzt",
           "default": "Es wurden keine gültigen Etappen für die Karte gesetzt."
+        },
+        {
+          "label": "Einstellungen",
+          "default": "Einstellungen"
+        },
+        {
+          "label": "Lautstärke der Musik",
+          "default": "Lautstärke der Musik"
+        },
+        {
+          "label": "Lautstärke der Soundeffekte",
+          "default": "Lautstärke der Soundeffekte"
         }
       ]
     },

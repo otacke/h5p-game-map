@@ -1182,6 +1182,24 @@
         "type": "text",
         "label": "No stages were set",
         "default": "No valid stages were set for the map."
+      },
+      {
+        "name": "settings",
+        "type": "text",
+        "label": "Settings",
+        "default": "Settings"
+      },
+      {
+        "name": "volumeMusic",
+        "type": "text",
+        "label": "Volume of music",
+        "default": "Volume of music"
+      },
+      {
+        "name": "volumeSFX",
+        "type": "text",
+        "label": "Volume of sound effects",
+        "default": "Volume of sound effects"
       }
     ]
   },

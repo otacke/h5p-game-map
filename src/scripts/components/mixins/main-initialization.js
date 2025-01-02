@@ -7,6 +7,7 @@ import Toolbar from '@components/toolbar/toolbar.js';
 import Exercises from '@models/exercises.js';
 import ExerciseScreen from '@components/exercise-screen/exercise-screen.js';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog.js';
+import SettingsDialog from '@components/settings-dialog/settings-dialog.js';
 
 /** @constant {number} MS_IN_S Milliseconds in a second. */
 const MS_IN_S = 1000;
@@ -175,6 +176,25 @@ export default class MainInitialization {
         },
         onClick: (ignore, params) => {
           this.toggleAudio(params.active);
+        }
+      });
+
+      toolbarButtons.push({
+        id: 'settings',
+        type: 'toggle',
+        a11y: {
+          active: this.params.dictionary.get('a11y.buttonSettingsActive'),
+          inactive: this.params.dictionary.get('a11y.buttonSettingsInactive')
+        },
+        onClick: (ignore, params) => {
+          if (params.active) {
+            this.settingsDialog.show();
+            this.toolbar.disable();
+          }
+          else {
+            this.settingsDialog.hide();
+            this.toolbar.enable();
+          }
         }
       });
     }
@@ -355,6 +375,30 @@ export default class MainInitialization {
      * content is embedded.
      */
     this.dom.append(this.confirmationDialog.getDOM());
+
+    this.settingsDialog = new SettingsDialog(
+      {
+        dictionary: this.params.dictionary,
+        globals: this.params.globals,
+        values: {
+          volumeMusic: this.params.jukebox.getVolumeGroup('background'),
+          volumeSFX: this.params.jukebox.getVolumeGroup('default')
+        }
+      },
+      {
+        onClosed: () => {
+          this.handleSettingsDialogClosed();
+        },
+        onOpenAnimationEnded: () => {
+          this.handleSettingsDialogOpenAnimationEnded();
+        },
+        onValueChanged: (id, value) => {
+          this.handleSettingsDialogValueChanged(id, value);
+        }
+      }
+    );
+    this.settingsDialog.hide();
+    this.dom.append(this.settingsDialog.getDOM());
   }
 
   /**

@@ -561,6 +561,18 @@
         {
           "label": "Er zijn geen fases ingesteld",
           "default": "Er zijn geen geldige fases ingesteld voor de kaart."
+        },
+        {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
+          "label": "Volume of music",
+          "default": "Volume of music"
+        },
+        {
+          "label": "Volume of sound effects",
+          "default": "Volume of sound effects"
         }
       ]
     },

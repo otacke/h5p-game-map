@@ -1,0 +1,218 @@
+.h5p-game-map-settings-dialog {
+  align-items: center;
+  background-color: rgba(44,44,44,.8);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  grid-area: 1/1/1/1;
+  height: 100%;
+  left: 0;
+  position: relative;
+  top: 0;
+  transition: background-color 0.25s;
+  width: 100%;
+  z-index: 1;
+
+  &.display-none {
+    display: none;
+  }
+
+  &.transparent {
+    background-color: rgba(44,44,44, 0);
+    transition: background-color 0.25s 0.5s;
+  }
+
+  .h5p-game-map-settings-content-container {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    max-width: 1080px;
+    width: 100%;
+
+    &.offscreen {
+      transform: translate3d(0, -200rem, 0) scaleY(3);
+    }
+
+    &.transparent {
+      opacity: 0;
+    }
+
+    &.animate {
+      &.animate-bounce-in {
+        animation: bounce-in;
+        animation-delay: 10ms;
+        animation-duration: 1s;
+        transform-origin: center bottom
+      }
+
+      &.animate-bounce-out {
+        animation: bounce-out;
+        animation-duration: 0.75s;
+        transform-origin: center bottom
+      }
+    }
+
+    .h5p-game-map-settings-button-close {
+      grid-area: 1 / 1 / 1 / 1;
+      background: #fff;
+      border: none;
+      border-radius: 50%;
+      color: #222;
+      cursor: pointer;
+      height: 2.25em;
+      justify-self: end;
+      left: calc( (var(--settings-screen-offset, 4rem) - 2rem) / -2 - 0.25rem);
+      line-height: 1;
+      padding: 3px;
+      position: relative;
+      top: calc( (var(--settings-screen-offset, 4rem) - 2rem) / 2 + 0.25rem);
+      transition: transform .1s ease-in-out;
+      width: 2.25em;
+
+      &:hover {
+        transform: scale(1.25);
+      }
+
+      &::after {
+        font-family: "H5PFontAwesome4", sans-serif;
+        content: "\F00D";
+        border: 1px solid #222;
+        text-align: center;
+        border-radius: 50%;
+        width: 1.5em;
+        height: 1.5em;
+        display: inline-block;
+        line-height: 1.5;
+      }
+    }
+
+    .h5p-game-map-settings-content {
+      grid-area: 1 / 1 / 1 / 1;
+      background-color: #fff;
+      border: 0.75rem solid #fff;
+      border-radius: 0.5rem;
+      box-sizing: border-box;
+      margin-bottom: calc(var(--settings-screen-offset, 4rem) / 2);
+      margin-left: calc(var(--settings-screen-offset, 4rem) / 2);
+      margin-top: calc(var(--settings-screen-offset, 4rem) / 2);
+      max-width: calc(100% - var(--settings-screen-offset, 4rem));
+      min-width: 0;
+
+      .h5p-game-map-settings-headline {
+        align-items: start;
+        border-bottom: 1px solid var(--color-shadow-dark);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        justify-content: space-between;
+
+        .h5p-game-map-settings-headline-text {
+          display: -webkit-box;
+          font-size: 1.25rem;
+          font-weight: bold;
+          line-clamp: 3;
+          -webkit-line-clamp: 3;
+          overflow: hidden;
+          overflow-wrap: anywhere;
+          -webkit-box-orient: vertical;
+        }
+      }
+
+      .h5p-game-map-settings-wrapper {
+        container-name: settings-wrapper;
+        container-type: inline-size;
+        height: calc(100% - 1rem);
+        margin-top: 0.75rem;
+        overflow-y: auto;
+        overflow-x: hidden;
+        width: calc(100% - 0.25rem);
+
+        .h5p-game-map-settings-container {
+          column-gap: 1rem;
+          display: grid;
+          grid-template-columns: minmax(8ch, max-content) 1fr;
+          row-gap: 0.5rem;
+          padding: 0.25rem 0.5rem 0.25rem 0;
+
+          .h5p-game-map-settings-label {
+            line-height: 1.5rem;
+          }
+        }
+
+        @container settings-wrapper (max-width: calc(8ch + 0.5rem + 100px)) {
+          .h5p-game-map-settings-container {
+            grid-template-columns: 1fr;
+            padding: 0.25rem 0.5rem 0.25rem 0.5;
+          }
+        }
+      }
+    }
+  }
+
+  @keyframes bounce-in {
+    0% {
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      opacity: 0;
+      transform: translate3d(0, -200rem, 0) scaleY(3);
+    }
+
+    60% {
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      opacity: 1;
+      transform: translate3d(0, 1.5rem, 0) scaleY(0.9);
+    }
+
+    75% {
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      opacity: 1;
+      transform: translate3d(0, -0.75rem, 0) scaleY(0.95);
+    }
+
+    90% {
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      opacity: 1;
+      transform: translate3d(0, 0.25rem, 0) scaleY(0.985);
+    }
+
+    100% {
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes bounce-out {
+    0% {
+      animation-timing-function: cubic-bezier(0.355, 0.61, 0.215, 1);
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    10% {
+      animation-timing-function: cubic-bezier(0.355, 0.61, 0.215, 1);
+      opacity: 1;
+      transform: translate3d(0, 0.25rem, 0) scaleY(0.985);
+    }
+
+    25% {
+      animation-timing-function: cubic-bezier(0.355, 0.61, 0.215, 1);
+      opacity: 1;
+      transform: translate3d(0, -0.75rem, 0) scaleY(0.95);
+    }
+
+    40% {
+      animation-timing-function: cubic-bezier(0.355, 0.61, 0.215, 1);
+      opacity: 1;
+      transform: translate3d(0, 1.5rem, 0) scaleY(0.9);
+    }
+
+    100% {
+      animation-timing-function: cubic-bezier(0.355, 0.61, 0.215, 1);
+      opacity: 0;
+      transform: translate3d(0, -200rem, 0) scaleY(3);
+    }
+  }
+
+}
