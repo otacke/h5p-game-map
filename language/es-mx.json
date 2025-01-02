@@ -555,10 +555,6 @@
           "default": "OK"
         },
         {
-          "label": "No se configuró ninguna imagen de fondo",
-          "default": "No se configuró ninguna imagen de fondo para el mapa."
-        },
-        {
           "label": "No se configuraron etapas",
           "default": "No se configuraron etapas válidas para el mapa."
         },

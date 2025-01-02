@@ -3,7 +3,7 @@
     float: right;
 
     &::before {
-      content: "\f04b";
+      content: var(--icon-fontawesome-play);
     }
   }
 
@@ -74,7 +74,7 @@
   float: right;
 
   &::before {
-    content: "\f04b";
+    content: var(--icon-fontawesome-play);
   }
 
   &.display-none {

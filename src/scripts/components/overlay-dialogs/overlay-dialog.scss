@@ -76,7 +76,7 @@
 
       &::after {
         font-family: "H5PFontAwesome4", sans-serif;
-        content: "\F00D";
+        content: var(--icon-fontawesome-xmark);
         border: 1px solid #222;
         text-align: center;
         border-radius: 50%;

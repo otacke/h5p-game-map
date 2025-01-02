@@ -1172,12 +1172,6 @@
         "default": "OK"
       },
       {
-        "name": "noBackground",
-        "type": "text",
-        "label": "No background image was set",
-        "default": "No background image was set for the map."
-      },
-      {
         "name": "noStages",
         "type": "text",
         "label": "No stages were set",

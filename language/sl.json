@@ -555,10 +555,6 @@
           "default": "V redu"
         },
         {
-          "label": "Ni slike ozadja",
-          "default": "Ni slike ozadja za zemljevid."
-        },
-        {
           "label": "Ni veljavnih stopenj",
           "default": "Za zemljevid ni nastavljenih veljavnih stopenj."
         },

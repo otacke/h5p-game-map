@@ -33,12 +33,12 @@ export default class Slider {
 
     this.dom = document.createElement('div');
     this.dom.classList.add('slider-container');
-    if (this.params.vertical) {
-      this.dom.classList.add('vertical');
-    }
 
     this.slider = document.createElement('input');
     this.slider.classList.add('slider');
+    if (this.params.vertical) {
+      this.slider.classList.add('vertical');
+    }
     this.slider.setAttribute('type', 'range');
     this.slider.setAttribute('min', '0');
     this.slider.setAttribute('aria-valuemin', '0');
