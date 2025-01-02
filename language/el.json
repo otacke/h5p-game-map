@@ -561,6 +561,18 @@
         {
           "label": "Δεν καθορίστηκαν επίπεδα",
           "default": "Δεν έχουν οριστεί έγκυρα επίπεδα για τον χάρτη."
+        },
+        {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
+          "label": "Volume of music",
+          "default": "Volume of music"
+        },
+        {
+          "label": "Volume of sound effects",
+          "default": "Volume of sound effects"
         }
       ]
     },

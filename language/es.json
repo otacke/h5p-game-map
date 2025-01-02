@@ -561,6 +561,18 @@
         {
           "label": "No se establecieron escenarios",
           "default": "No se establecieron etapas válidas para el mapa."
+        },
+        {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
+          "label": "Volume of music",
+          "default": "Volume of music"
+        },
+        {
+          "label": "Volume of sound effects",
+          "default": "Volume of sound effects"
         }
       ]
     },

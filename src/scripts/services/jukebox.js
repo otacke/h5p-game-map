@@ -73,6 +73,7 @@ export default class Jukebox {
     this.audios[params.id] = {
       loop: params.options.loop || false,
       isMuted: params.options.muted || false,
+      volume: 100,
       groupId: params.options.groupId || 'default'
     };
 
@@ -202,6 +203,10 @@ export default class Jukebox {
       .connect(this.audioContext.destination);
     this.audios[id].gainNode = gainNode;
 
+    // Set volume
+    // eslint-disable-next-line no-magic-numbers
+    gainNode.gain.value = audio.volume / 100;
+
     // Set loop if necessary
     source.loop = this.audios[id].loop;
 
@@ -313,7 +318,8 @@ export default class Jukebox {
     window.clearTimeout(this.audios[id].fadeTimeout);
     if (
       params.type === 'out' && this.audios[id].gainNode.gain.value === 0 ||
-      params.type === 'in' && this.audios[id].gainNode.gain.value === 1
+      // eslint-disable-next-line no-magic-numbers
+      params.type === 'in' && this.audios[id].gainNode.gain.value >= this.audios[id].volume / 100
     ) {
       return; // Done
     }
@@ -452,6 +458,75 @@ export default class Jukebox {
     }
 
     return this.audios[id].isMuted;
+  }
+
+  /**
+   * Get volume.
+   * @param {string} id Id of sound to get volume for.
+   * @returns {number|undefined} Volume [0, 100] or undefined.
+   */
+  getVolume(id) {
+    if (!this.audios[id]) {
+      return;
+    }
+
+    return this.audios[id].volume;
+  }
+
+  /**
+   * Get volume of a group represented by first audio in group. May cause confusion, yes.
+   * @param {string} groupId Group id.
+   * @returns {number|undefined} Volume [0, 100] or undefined.
+   */
+  getVolumeGroup(groupId) {
+    for (const id in this.audios) {
+      if (this.audios[id].groupId === groupId) {
+        return this.getVolume(id);
+      }
+    }
+  }
+
+  /**
+   * Set volume.
+   * @param {string} id Id of sound to set volume for.
+   * @param {number} volume Volume [0, 100].
+   */
+  setVolume(id, volume = 100) {
+    if (!this.audios[id]) {
+      return;
+    }
+
+    // eslint-disable-next-line no-magic-numbers
+    volume = Math.max(0, Math.min(volume, 100));
+
+    this.audios[id].volume = volume;
+    if (this.audios[id].gainNode) {
+      // eslint-disable-next-line no-magic-numbers
+      this.audios[id].gainNode.gain.value = volume / 100;
+    }
+  }
+
+  /**
+   * Set volume for all audios in a group.
+   * @param {string} groupId Group id.
+   * @param {number} volume Volume [0, 100].
+   */
+  setVolumeGroup(groupId, volume) {
+    for (const id in this.audios) {
+      if (this.audios[id].groupId === groupId) {
+        this.setVolume(id, volume);
+      }
+    }
+  }
+
+  /**
+   * Set volume for all audios.
+   * @param {number} volume Volume [0, 100].
+   */
+  setVolumeAll(volume) {
+    for (const id in this.audios) {
+      this.setVolume(id, volume);
+    }
   }
 }
 
