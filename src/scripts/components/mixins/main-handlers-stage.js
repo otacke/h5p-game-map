@@ -29,9 +29,9 @@ export default class MainHandlersStage {
     if (stageType === STAGE_TYPES.stage) {
       this.stages.disable();
       window.clearTimeout(this.stageAttentionSeekerTimeout);
-      const exercise = this.exercises.getExercise(id);
+      const exerciseBundle = this.exerciseBundles.getExerciseBundle(id);
 
-      const remainingTime = exercise.getRemainingTime();
+      const remainingTime = exerciseBundle.getRemainingTime();
       if (typeof remainingTime === 'number') {
         this.exerciseScreen.setTime(remainingTime);
       }
@@ -40,13 +40,7 @@ export default class MainHandlersStage {
       this.openExerciseId = id;
       this.callbackQueue.setSkippable(false);
 
-      // Workaround for H5P Interactive Video with YouTube player
-      const instance = exercise.getInstance();
-      if (instance.libraryInfo.machineName === 'H5P.InteractiveVideo') {
-        this.runInteractiveVideoWorkaround(instance);
-      }
-
-      this.exerciseScreen.setContent(exercise.getDOM());
+      this.exerciseScreen.setContent(exerciseBundle.getDOM());
       this.exerciseScreen.setTitle(
         stage.getLabel(),
         this.params.dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, stage.getLabel())
@@ -54,7 +48,7 @@ export default class MainHandlersStage {
       this.params.jukebox.stopGroup('default');
       this.exerciseScreen.show({ isShowingSolutions: this.isShowingSolutions });
       this.toolbar.disable();
-      this.exercises.start(id);
+      this.exerciseBundles.start(id);
 
       if (
         this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise
@@ -212,37 +206,5 @@ export default class MainHandlersStage {
     );
 
     this.confirmationDialog.show();
-  }
-
-  /**
-   * Workaround for H5P Interactive Video.
-   * If the YouTube handler is used and a previously opened stage is opened again - thus
-   * the video instance is re-attached, the YouTube player by Google does send events anymore and
-   * therefore Interactive Video does not work properly.
-   * This workaround forces the YouTube player to be recreated and the video to be seeked to the
-   * previous position.
-   * @param {H5P.InteractiveVideo} interactiveVideoInstance Instance of H5P Interactive Video.
-   */
-  runInteractiveVideoWorkaround(interactiveVideoInstance) {
-    const videoInstance = interactiveVideoInstance?.video;
-    if (videoInstance?.getHandlerName?.() !== 'YouTube') {
-      return; // No YouTube video used.
-    }
-
-    const currentTime = videoInstance.getCurrentTime();
-    videoInstance.once('loaded', () => {
-      if (typeof currentTime === 'number' && currentTime > 0) {
-        /*
-         * This seems to cause the YouTube player to play without a call to play, so
-         * we pause it immediately afterwards. This causes the video to be stuck on the
-         * buffering spinner. The alternative would be to wait for the next state change
-         * indicating that the video is playing (but was not triggered by the user) and
-         * then pause the video, but that leads the video to play slightly. Feels worse.
-         */
-        interactiveVideoInstance.seek(currentTime);
-        videoInstance.pause();
-      }
-    });
-    videoInstance.resetPlayback();
   }
 }

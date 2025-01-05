@@ -4,8 +4,7 @@ import StartScreen from '@components/media-screen/start-screen.js';
 import EndScreen from '@components/media-screen/end-screen.js';
 import Map from '@components/map/map.js';
 import Toolbar from '@components/toolbar/toolbar.js';
-import Exercises from '@models/exercises.js';
-// import ExerciseScreen from '@components/exercise-screen/exercise-screen.js';
+import ExerciseBundles from '@models/exercise-bundles.js';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog.js';
 import ExerciseDialog from '@components/overlay-dialogs/exercise-dialog.js';
 import SettingsDialog from '@components/overlay-dialogs/settings-dialog.js';
@@ -314,8 +313,8 @@ export default class MainInitialization {
     );
     this.contentDOM.append(this.map.getDOM());
 
-    // Exercise
-    this.exercises = new Exercises(
+    // Exercise bundles
+    this.exerciseBundles = new ExerciseBundles(
       {
         dictionary: this.params.dictionary,
         globals: this.params.globals,
@@ -486,7 +485,7 @@ export default class MainInitialization {
 
     this.paths.reset({ isInitial: params.isInitial });
     this.stages.reset({ isInitial: params.isInitial });
-    this.exercises.resetAll({ isInitial: params.isInitial });
+    this.exerciseBundles.resetAll({ isInitial: params.isInitial });
 
     // Show everything if fog is deactivated
     if (globalParams.behaviour.map.fog === 'all') {
@@ -513,7 +512,7 @@ export default class MainInitialization {
 
     this.stages.updateReachability(reachableStageIds);
     this.paths.updateReachability(reachableStageIds);
-    this.exercises.updateReachability(reachableStageIds);
+    this.exerciseBundles.updateReachability(reachableStageIds);
 
     // Initialize lives
     this.toolbar.setStatusContainerStatus(

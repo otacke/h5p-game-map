@@ -89,8 +89,20 @@
                     ]
                   },
                   {
-                    "label": "关卡内容设置",
-                    "description": "选择要添加的内容类型。"
+                    "label": "Contents",
+                    "entity": "content",
+                    "field": {
+                      "label": "Content",
+                      "fields": [
+                        {
+                          "label": "关卡内容设置",
+                          "description": "选择要添加的内容类型。"
+                        },
+                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "特殊关卡类型",

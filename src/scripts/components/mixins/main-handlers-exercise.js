@@ -104,7 +104,7 @@ export default class MainHandlersExercise {
     if (this.livesLeft > 0) {
       this.handleExerciseScreenClosed({
         animationEndedCallback: () => {
-          this.exercises.reset(id);
+          this.exerciseBundles.reset(id);
           this.showTimeoutConfirmation();
         }
       });

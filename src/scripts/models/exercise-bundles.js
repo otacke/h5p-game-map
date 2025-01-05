@@ -1,7 +1,8 @@
 import Util from '@services/util.js';
 import Exercise from '@models/exercise.js';
+import ExerciseBundle from '@models/exercise-bundle.js';
 
-export default class Exercises {
+export default class ExerciseBundles {
 
   /**
    * @class
@@ -27,18 +28,22 @@ export default class Exercises {
       onContinued: () => {}
     }, callbacks);
 
-    this.exercises = {};
+    this.exerciseBundles = [];
 
     this.params.elements.forEach((element) => {
-      if (element.specialStageType || !element.contentType) {
+      if (element.specialStageType || !element.contentsList?.length) {
         return;
       }
 
-      this.exercises[element.id] = new Exercise(
+      const previousState = this.params.globals.get('extras').previousState?.content?.exerciseBundles
+        .find((bundle) => bundle.exerciseBundle.id === element.id)?.exerciseBundle ?? {};
+
+      this.exerciseBundles[element.id] = new ExerciseBundle(
         { ...element,
           dictionary: this.params.dictionary,
           globals: this.params.globals,
-          jukebox: this.params.jukebox
+          jukebox: this.params.jukebox,
+          previousState: previousState
         },
         {
           onStateChanged: (state) => {
@@ -63,8 +68,8 @@ export default class Exercises {
       );
     });
 
-    const subContentIds = Object.keys(this.exercises)
-      .map((id) => this.exercises[id].getSubContentIds())
+    const subContentIds = Object.keys(this.exerciseBundles)
+      .map((id) => this.exerciseBundles[id].getSubContentIds())
       .flat();
 
     this.trackAllXAPI(subContentIds);
@@ -108,12 +113,12 @@ export default class Exercises {
   }
 
   /**
-   * Get exercise.
-   * @param {string} id Id of exercise to get.
+   * Get exercise bundle.
+   * @param {string} id Id of exercise bundle to get.
    * @returns {Exercise} Exercise.
    */
-  getExercise(id) {
-    return this.exercises[id];
+  getExerciseBundle(id) {
+    return this.exerciseBundles[id];
   }
 
   /**
@@ -121,8 +126,8 @@ export default class Exercises {
    * @param {string[]} reachableStageIds Ids of reachable stages.
    */
   updateReachability(reachableStageIds) {
-    Object.keys(this.exercises).forEach((key) => {
-      this.exercises[key].setReachable(reachableStageIds.includes(key));
+    Object.keys(this.exerciseBundles).forEach((key) => {
+      this.exerciseBundles[key].setReachable(reachableStageIds.includes(key));
     });
   }
 
@@ -131,11 +136,11 @@ export default class Exercises {
    * @returns {object} Current state to be retrieved later.
    */
   getCurrentState() {
-    return Object.values(this.exercises)
-      .filter((exercise) => exercise.isReachable())
-      .map((exercise) => {
+    return Object.values(this.exerciseBundles)
+      .filter((exerciseBundle) => exerciseBundle.isReachable())
+      .map((exerciseBundle) => {
         return {
-          exercise: exercise.getCurrentState()
+          exerciseBundle: exerciseBundle.getCurrentState()
         };
       });
   }
@@ -145,7 +150,7 @@ export default class Exercises {
    * @returns {object[]} XAPI data objects used to build report.
    */
   getXAPIData() {
-    return Object.values(this.exercises)
+    return Object.values(this.exerciseBundles)
       .filter((exercise) => exercise.isReachable())
       .map((exercise) => {
         return exercise?.getXAPIData?.();
@@ -157,7 +162,7 @@ export default class Exercises {
    * Show solutions.
    */
   showSolutions() {
-    Object.values(this.exercises).forEach((exercise) => {
+    Object.values(this.exerciseBundles).forEach((exercise) => {
       if (!exercise.isReachable()) {
         return;
       }
@@ -171,7 +176,7 @@ export default class Exercises {
    * @returns {boolean} True, if some answer was given.
    */
   getAnswerGiven() {
-    return Object.values(this.exercises).some((exercise) => {
+    return Object.values(this.exerciseBundles).some((exercise) => {
       if (!exercise.isReachable()) {
         return false;
       }
@@ -185,12 +190,12 @@ export default class Exercises {
    * @returns {number} Summed up score of all instances or 0.
    */
   getScore() {
-    return Object.values(this.exercises).reduce((score, exercise) => {
-      if (!exercise.isReachable()) {
+    return Object.values(this.exerciseBundles).reduce((score, exerciseBundle) => {
+      if (!exerciseBundle.isReachable()) {
         return score;
       }
 
-      return score += exercise.getScore();
+      return score += exerciseBundle.getScore();
     }, 0);
   }
 
@@ -199,7 +204,7 @@ export default class Exercises {
    * @returns {number} Maximum score of instance or 0.
    */
   getMaxScore() {
-    return Object.values(this.exercises).reduce((score, exercise) => {
+    return Object.values(this.exerciseBundles).reduce((score, exercise) => {
       if (!exercise.isReachable()) {
         return score;
       }
@@ -214,8 +219,8 @@ export default class Exercises {
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   resetAll(params = {}) {
-    Object.values(this.exercises).forEach((exercise) => {
-      exercise.reset({ isInitial: params.isInitial });
+    Object.values(this.exerciseBundles).forEach((exerciseBundle) => {
+      exerciseBundle.reset({ isInitial: params.isInitial });
     });
   }
 
@@ -224,11 +229,11 @@ export default class Exercises {
    * @param {number} id Id of exercise to reset.
    */
   reset(id) {
-    if (!this.exercises[id]) {
+    if (!this.exerciseBundles[id]) {
       return;
     }
 
-    this.exercises[id].reset();
+    this.exerciseBundles[id].reset();
   }
 
   /**
@@ -236,11 +241,11 @@ export default class Exercises {
    * @param {string} id Id of exercise to start.
    */
   start(id) {
-    if (!this.exercises[id]) {
+    if (!this.exerciseBundles[id]) {
       return;
     }
 
-    this.exercises[id].start();
+    this.exerciseBundles[id].start();
   }
 
   /**
@@ -248,10 +253,10 @@ export default class Exercises {
    * @param {string} id Id of exercise to stop.
    */
   stop(id) {
-    if (!this.exercises[id]) {
+    if (!this.exerciseBundles[id]) {
       return;
     }
 
-    this.exercises[id].stop();
+    this.exerciseBundles[id].stop();
   }
 }

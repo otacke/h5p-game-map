@@ -89,8 +89,20 @@
                     ]
                   },
                   {
-                    "label": "Contenu de la scène",
-                    "description": "Choisissez le type de contenu que vous souhaitez ajouter."
+                    "label": "Contents",
+                    "entity": "content",
+                    "field": {
+                      "label": "Content",
+                      "fields": [
+                        {
+                          "label": "Contenu de la scène",
+                          "description": "Choisissez le type de contenu que vous souhaitez ajouter."
+                        },
+                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "Type de scène spéciale",

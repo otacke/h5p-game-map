@@ -89,8 +89,20 @@
                     ]
                   },
                   {
-                    "label": "Contenido de la etapa",
-                    "description": "Elije el tipo de contenido que te gustaría añadir."
+                    "label": "Contents",
+                    "entity": "content",
+                    "field": {
+                      "label": "Content",
+                      "fields": [
+                        {
+                          "label": "Contenido de la etapa",
+                          "description": "Elije el tipo de contenido que te gustaría añadir."
+                        },
+                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "Tipo de etapa especial",

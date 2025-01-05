@@ -87,6 +87,31 @@ H5PUpgrades['H5P.GameMap'] = (() => {
 
         finished(null, parameters, extras);
       }
+    },
+    1: {
+      /**
+       * Asynchronous content upgrade hook.
+       * Upgrades content parameters to support Game Map 1.4.
+       * Turns exercises into list of exercise bundles.
+       * @param {object} parameters Content parameters.
+       * @param {function} finished Callback when finished.
+       * @param {object} extras Extra parameters such as metadata, etc.
+       */
+      4: (parameters, finished, extras) => {
+        if (Array.isArray(parameters?.gamemapSteps?.gamemap?.elements)) {
+          parameters.gamemapSteps.gamemap.elements = parameters.gamemapSteps.gamemap.elements.map((element) => {
+            element.contentsList = [];
+            if (element.contentType) {
+              element.contentsList.push({ contentType: element.contentType });
+              delete element.contentType;
+            }
+
+            return element;
+          });
+        }
+
+        finished(null, parameters, extras);
+      }
     }
   };
 })();
