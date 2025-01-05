@@ -89,8 +89,20 @@
                     ]
                   },
                   {
-                    "label": "Inhoud fase",
-                    "description": "Kies het type inhoud dat je wil toevoegen."
+                    "label": "Contents",
+                    "entity": "content",
+                    "field": {
+                      "label": "Content",
+                      "fields": [
+                        {
+                          "label": "Inhoud fase",
+                          "description": "Kies het type inhoud dat je wil toevoegen."
+                        },
+                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "Speciaal type fase",

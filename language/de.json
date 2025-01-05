@@ -89,8 +89,19 @@
                     ]
                   },
                   {
-                    "label": "Etappeninhalt",
-                    "description": "Wähle die Art des Inhalts, die du der Etappe hinzufügen möchtest."
+                    "label": "Inhalte",
+                    "entity": "Inhalt",
+                    "field": {
+                      "label": "Inhalt",
+                      "fields": [
+                        {
+                          "label": "Etappeninhalt",
+                          "description": "Wähle die Art des Inhalts, die du der Etappe hinzufügen möchtest."
+                        },                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "Spezialetappentyp",

@@ -89,8 +89,20 @@
                     ]
                   },
                   {
-                    "label": "Contido da escena",
-                    "description": "Escolle o tipo de contido que che gustaría engadir."
+                    "label": "Contents",
+                    "entity": "content",
+                    "field": {
+                      "label": "Content",
+                      "fields": [
+                        {
+                          "label": "Contido da escena",
+                          "description": "Escolle o tipo de contido que che gustaría engadir."
+                        },
+                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "Special stage type",

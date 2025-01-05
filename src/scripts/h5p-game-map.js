@@ -83,10 +83,7 @@ export default class GameMap extends H5P.Question {
     this.params.gamemapSteps.gamemap.elements =
       this.params.gamemapSteps.gamemap.elements
         .filter((element) => {
-          return (
-            element.contentType?.library ||
-            element.specialStageType
-          );
+          return !!element.contentsList?.[0]?.contentType.library || !!element.specialStageType;
         })
         .map((element) => {
           element.animDuration = (this.params.visual.misc.useAnimation) ?
@@ -120,6 +117,9 @@ export default class GameMap extends H5P.Question {
     this.dictionary = new Dictionary();
     this.dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
 
+    // Migrate previous state to newer version
+    extras.previousState = this.migratePreviousState1_4(extras.previousState);
+
     this.jukebox = new Jukebox();
     this.fillJukebox();
 
@@ -130,7 +130,7 @@ export default class GameMap extends H5P.Question {
 
     const hasExerciseStages =
       this.params.gamemapSteps.gamemap.elements.some((stage) => {
-        return stage.contentType;
+        return stage.contentsList?.length;
       });
 
     if (!hasExerciseStages) {
@@ -203,6 +203,39 @@ export default class GameMap extends H5P.Question {
         }, false);
       }
     }
+  }
+
+  /**
+   * Migrate user state structure to version 1.4.
+   * @param {object} previousState Previous state.
+   * @returns {object} Migrated state.
+   */
+  migratePreviousState1_4(previousState) {
+    if (!previousState?.content || previousState.content.exerciseBundles) {
+      return previousState; // No state or already migrated
+    }
+
+    previousState.content.exerciseBundles = (previousState.content.exercises ?? []).map((exerciseObj) => {
+      const exerciseBundle = {
+        state: exerciseObj.exercise.state,
+        id: exerciseObj.exercise.id,
+        remainingTime: exerciseObj.exercise.remainingTime,
+        isCompleted: exerciseObj.exercise.isCompleted,
+        instances: [
+          {
+            completed: exerciseObj.exercise.instanceState?.isCompleted || exerciseObj.exercise.isCompleted,
+            successful: exerciseObj.exercise.instanceState?.isCompleted || exerciseObj.exercise.isCompleted,
+            instanceState: exerciseObj.exercise.instanceState,
+          }
+        ]
+      };
+
+      return { exerciseBundle: exerciseBundle };
+    });
+
+    delete previousState.content.exercises;
+
+    return previousState;
   }
 
   /**

@@ -89,8 +89,20 @@
                     ]
                   },
                   {
-                    "label": "Etaparen edukia",
-                    "description": "Aukeratu gehitu nahi duzun eduki mota."
+                    "label": "Contents",
+                    "entity": "content",
+                    "field": {
+                      "label": "Content",
+                      "fields": [
+                        {
+                          "label": "Etaparen edukia",
+                          "description": "Aukeratu gehitu nahi duzun eduki mota."
+                        },
+                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "Special stage type",

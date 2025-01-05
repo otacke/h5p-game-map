@@ -89,8 +89,20 @@
                     ]
                   },
                   {
-                    "label": "Vsebina stopnje",
-                    "description": "Izbor tipa vsebine."
+                    "label": "Contents",
+                    "entity": "content",
+                    "field": {
+                      "label": "Content",
+                      "fields": [
+                        {
+                          "label": "Vsebina stopnje",
+                          "description": "Izbor tipa vsebine."
+                        },
+                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "Poseben tip stopnje",

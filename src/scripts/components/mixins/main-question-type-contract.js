@@ -7,7 +7,7 @@ export default class MainQuestionTypeContract {
    * @returns {object[]} XAPI data objects used to build report.
    */
   getXAPIData() {
-    return this.exercises.getXAPIData();
+    return this.exerciseBundles.getXAPIData();
   }
 
   /**
@@ -15,7 +15,7 @@ export default class MainQuestionTypeContract {
    * @returns {boolean} True, if some answer was given.
    */
   getAnswerGiven() {
-    return this.exercises.getAnswerGiven() || this.hasUserMadeProgress;
+    return this.exerciseBundles.getAnswerGiven() || this.hasUserMadeProgress;
   }
 
   /**
@@ -24,7 +24,7 @@ export default class MainQuestionTypeContract {
    */
   getScore() {
     return Math.min(
-      this.exercises.getScore(),
+      this.exerciseBundles.getScore(),
       this.getMaxScore()
     );
   }
@@ -34,7 +34,7 @@ export default class MainQuestionTypeContract {
    * @returns {number} Max score.
    */
   getMaxScore() {
-    const maxScore = this.exercises.getMaxScore();
+    const maxScore = this.exerciseBundles.getMaxScore();
     const finishScore = this.params.globals.get('params').behaviour.finishScore;
 
     return Math.min(finishScore, maxScore);
@@ -68,7 +68,7 @@ export default class MainQuestionTypeContract {
     this.params.jukebox.stopAll();
     this.show();
 
-    this.exercises.showSolutions();
+    this.exerciseBundles.showSolutions();
 
     this.isShowingSolutions = true;
     this.toolbar.toggleSolutionMode(true);
@@ -80,7 +80,7 @@ export default class MainQuestionTypeContract {
    */
   getCurrentState() {
     return {
-      exercises: this.exercises.getCurrentState(),
+      exerciseBundles: this.exerciseBundles.getCurrentState(),
       stages: this.stages.getCurrentState(),
       paths: this.paths.getCurrentState(),
       ...(

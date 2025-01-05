@@ -89,8 +89,20 @@
                     ]
                   },
                   {
-                    "label": "Stage content",
-                    "description": "Choose the type of content you would like to add."
+                    "label": "Contents",
+                    "entity": "content",
+                    "field": {
+                      "label": "Content",
+                      "fields": [
+                        {
+                          "label": "Stage content",
+                          "description": "Choose the type of content you would like to add."
+                        },
+                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "Special stage type",

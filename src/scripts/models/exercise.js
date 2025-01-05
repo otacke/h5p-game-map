@@ -1,41 +1,25 @@
-import Timer from '@services/timer.js';
 import H5PUtil from '@services/h5p-util.js';
 import Util from '@services/util.js';
-
-/** @constant {number} MS_IN_S Milliseconds in a second. */
-const MS_IN_S = 1000;
 
 export default class Exercise {
 
   /**
    * @class
    * @param {object} [params] Parameters.
+   * @param {object} [params.contentType] Content type parameters
+   * @param {object} [params.globals] Globals.
+   * @param {object} [params.previousState] Previous state.
    * @param {object} [callbacks] Callbacks.
-   * @param {function} [callbacks.onStateChanged] Callback when state changed.
-   * @param {function} [callbacks.onScoreChanged] Callback when score changed.
-   * @param {function} [callbacks.onTimerTicked] Callback when timer ticked.
-   * @param {function} [callbacks.onTimeoutWarning] Callback when timer warned.
-   * @param {function} [callbacks.onTimeout] Callback when time ran out.
-   * @param {function} [callbacks.onContinued] Callback when user clicked continue.
+   * @param {function} [callbacks.onScored] Callback when scored.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       animDuration: 0
     }, params);
 
-    this.params.state = this.params.state ??
-      this.params.globals.get('states').unstarted;
-
     this.callbacks = Util.extend({
-      onStateChanged: () => {},
-      onScoreChanged: () => {},
-      onTimerTicked: () => {},
-      onTimeoutWarning: () => {},
-      onTimeout: () => {},
-      onContinued: () => {}
+      onScored: () => {}
     }, callbacks);
-
-    this.setState(this.params.globals.get('states').unstarted);
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-exercise-instance-wrapper');
@@ -44,7 +28,7 @@ export default class Exercise {
     this.instanceWrapper.classList.add('h5p-game-map-exercise-instance');
     this.dom.append(this.instanceWrapper);
 
-    this.initializeInstance();
+    this.initializeInstance(this.params.previousState);
   }
 
   /**
@@ -56,17 +40,13 @@ export default class Exercise {
   }
 
   /**
-   * Get state.
-   * @returns {number} State.
-   */
-  getState() {
-    return this.state;
-  }
-
-  /**
    * Initialize H5P instance.
+   * @param {object} [previousState] Previous state.
    */
-  initializeInstance() {
+  initializeInstance(previousState = {}) {
+    this.toggleCompleted(previousState?.completed ?? false);
+    this.toggleSuccess(previousState?.successful ?? false);
+
     if (this.instance === null || this.instance) {
       return; // Only once, please
     }
@@ -85,25 +65,22 @@ export default class Exercise {
       this.params.contentType.params.fitToWrapper = (this.params.contentType.params.playerMode === 'full');
     }
 
-    // Get previous instance state
-    const exercisesState =
-      this.params.globals.get('extras').previousState?.content?.exercises ?? [];
-
-    this.previousState = exercisesState
-      .find((item) => item.exercise?.id === this.getId())?.exercise ?? {};
-
     if (!this.instance) {
       this.instance = H5P.newRunnable(
         this.params.contentType,
         this.params.globals.get('contentId'),
         undefined,
         true,
-        { previousState: this.previousState?.instanceState }
+        { previousState: previousState.instanceState ?? {} }
       );
     }
 
     if (!this.instance) {
       return;
+    }
+
+    if (this.instance.libraryInfo.machineName === 'H5P.InteractiveVideo') {
+      this.runInteractiveVideoWorkaround(this.instance);
     }
 
     // Resize parent when children resize
@@ -116,7 +93,9 @@ export default class Exercise {
       this.params.globals.get('mainInstance'), 'resize', [this.instance]
     );
 
-    if (H5PUtil.isInstanceTask(this.instance)) {
+    this.isTaskState = H5PUtil.isInstanceTask(this.instance);
+
+    if (this.isTaskState) {
       this.instance.on('xAPI', (event) => {
         this.trackXAPI(event);
       });
@@ -125,10 +104,10 @@ export default class Exercise {
 
   /**
    * Get Id.
-   * @returns {string} Exercise Id.
+   * @returns {string|null} Exercise Id or `null` if never instantiated.
    */
   getId() {
-    return this.params.id;
+    return this.params.contentType.subContentId ?? null;
   }
 
   /**
@@ -140,21 +119,23 @@ export default class Exercise {
   }
 
   /**
+   * Determine whether exercise is a task.
+   * @returns {boolean} True, if exercise is a task. Else false.
+   */
+  isTask() {
+    return this.isTaskState ?? false;
+  }
+
+  /**
    * Get current state.
-   * @returns {object} Current state to be retrieved later.
+   * @returns {object|null} Current state to be retrieved later.
    */
   getCurrentState() {
-    const remainingTime = Math.min(
-      this.timeLeft,
-      (this.params.time?.timeLimit || 0) * MS_IN_S + this.params.animDuration
-    );
-
+    const instanceState = this.instance?.getCurrentState?.();
     return {
-      state: this.state,
-      id: this.params.id,
-      remainingTime: remainingTime,
-      isCompleted: this.isCompleted,
-      instanceState: this.instance?.getCurrentState?.()
+      completed: this.wasCompleted(),
+      successful: this.wasSuccessful(),
+      ...(instanceState && { instanceState: instanceState })
     };
   }
 
@@ -215,25 +196,6 @@ export default class Exercise {
   }
 
   /**
-   * Get remaining time.
-   * @returns {number} Remaining time in ms.
-   */
-  getRemainingTime() {
-    return this.timeLeft;
-  }
-
-  /**
-   * Determine whether exercise is in timeout warning state.
-   * @returns {boolean} True, if exercise is in timeout warning state.
-   */
-  isTimeoutWarning() {
-    return (
-      typeof this.params.time.timeoutWarning === 'number' &&
-      this.timeLeft <= this.params.time?.timeoutWarning * MS_IN_S
-    );
-  }
-
-  /**
    * Make it easy to bubble events from child to parent.
    * @param {object} origin Origin of event.
    * @param {string} eventName Name of event.
@@ -278,6 +240,14 @@ export default class Exercise {
    * @param {Event} event Event.
    */
   trackXAPI(event) {
+    if (!this.isAttached) {
+      return; // Guard to make robust against content types firing xAPI events when not attached
+    }
+
+    if (!event || event.getScore() === null) {
+      return; // Not relevant
+    }
+
     const isEventFromInstance = new RegExp(this.instance.subContentId)
       .test(event.getVerifiedStatementValue(['object', 'id']));
 
@@ -285,130 +255,17 @@ export default class Exercise {
       return; // Not an event from the instance directly
     }
 
-    if (!event || event.getScore() === null) {
-      return; // Not relevant
-    }
+    this.toggleCompleted(true);
 
-    if (!this.isAttached) {
-      return; // Guard to make robust against content types firing xAPI events when not attached
-    }
-
-    const isCompletedEnough =
-      this.params.globals.get('params').behaviour.map.roaming !== 'success';
-
-    this.score = event.getScore();
-
+    // Handle content type's potential success flag deviating from achieving max score
     if (
-      this.score >= this.instance.getMaxScore() ||
+      event.getScore() >= this.instance.getMaxScore() ||
       event.getVerifiedStatementValue(['result', 'success'])
     ) {
-      this.setState(this.params.globals.get('states').cleared);
-
-      this.stop();
-      this.isCompleted = true;
-    }
-    else {
-      this.setState(this.params.globals.get('states').completed);
-
-      if (isCompletedEnough) {
-        this.stop();
-        this.isCompleted = true;
-      }
+      this.toggleSuccess(true);
     }
 
-    this.callbacks.onScoreChanged({
-      score: this.score,
-      maxScore: this.instance.getMaxScore()
-    });
-
-    if (this.extendsH5PQuestion) {
-      this.instance.showButton('game-map-continue');
-    }
-    else {
-      this.continueButton.classList.remove('display-none');
-      this.continueButton.removeAttribute('disabled');
-    }
-  }
-
-  /**
-   * Stop.
-   */
-  stop() {
-    this.timer?.stop();
-  }
-
-  /**
-   * Start.
-   */
-  start() {
-    if (this.isCompleted && this.isAttached) {
-      return; // Exercise already completed
-    }
-
-    this.attachInstance();
-
-    // Some content types build/initialize DOM when attaching
-    if (this.isShowingSolutions) {
-      this.showSolutions();
-    }
-    else {
-      const remainingTime = Math.min(
-        this.timeLeft,
-        (this.params.time?.timeLimit || 0) * MS_IN_S + this.params.animDuration
-      );
-      this.timer?.start(remainingTime);
-    }
-
-    this.setState('opened');
-
-    window.requestAnimationFrame(() => {
-      this.params.globals.get('resize')();
-    });
-  }
-
-  /**
-   * Set exercise state.
-   * @param {number|string} state State constant.
-   * @param {object} [params] Parameters.
-   * @param {boolean} [params.force] If true, will set state unconditionally.
-   */
-  setState(state, params = {}) {
-    const states = this.params.globals.get('states');
-
-    if (typeof state === 'string') {
-      state = Object.entries(states)
-        .find((entry) => entry[0] === state)[1];
-    }
-
-    if (typeof state !== 'number') {
-      return;
-    }
-
-    let newState;
-
-    if (params.force) {
-      newState = states[state];
-    }
-    else if (state === states.unstarted) {
-      newState = states.unstarted;
-    }
-    else if (state === states.opened) {
-      newState = (H5PUtil.isInstanceTask(this.instance)) ?
-        states.opened :
-        states.cleared;
-    }
-    else if (state === states.completed) {
-      newState = states.completed;
-    }
-    else if (state === states.cleared) {
-      newState = states.cleared;
-    }
-
-    if (!this.state || this.state !== newState) {
-      this.state = newState;
-
-      this.callbacks.onStateChanged(this.state);
-    }
+    this.callbacks.onScored();
   }
 
   /**
@@ -427,59 +284,53 @@ export default class Exercise {
       }
     }
 
-    // If using H5P.Question, use its button functions.
-    if (
-      this.instance.registerDomElements &&
-      this.instance.addButton && this.instance.hasButton
-    ) {
-      this.extendsH5PQuestion = true;
-
-      this.instance.addButton(
-        'game-map-continue',
-        this.params.dictionary.get('l10n.continue'),
-        () => {
-          this.callbacks.onContinued();
-        },
-        false
-      );
-    }
-    else {
-      this.continueButton = document.createElement('button');
-      this.continueButton.classList.add(
-        'h5p-joubelui-button',
-        'h5p-game-map-exercise-instance-continue-button',
-        'display-none'
-      );
-      this.continueButton.setAttribute('disabled', 'disabled');
-      this.continueButton.innerText =
-        this.params.dictionary.get('l10n.continue');
-      this.continueButton.addEventListener('click', () => {
-        this.callbacks.onContinued();
-      });
-
-      this.dom.append(this.continueButton);
-    }
-
     this.isAttached = true;
   }
 
   /**
-   * Set path reachable or unreachable.
-   * @param {boolean} state If true, path is reachable. Else not.
+   * Determine whether exercise was completed.
+   * @returns {boolean} True, if exercise was completed. Else false.
    */
-  setReachable(state) {
-    if (typeof state !== 'boolean') {
-      return;
-    }
-
-    this.isReachableState = state;
+  wasCompleted() {
+    return this.completedState ?? false;
   }
 
   /**
-   * @returns {boolean} True, if path is reachable. Else false.
+   * Toggle completion state.
+   * @param {boolean} [state] State to toggle to.
+   * @returns {boolean} New state.
    */
-  isReachable() {
-    return this.isReachableState;
+  toggleCompleted(state) {
+    if (typeof state !== 'boolean') {
+      state = !this.completedState;
+    }
+
+    this.completedState = state;
+
+    return this.completedState;
+  }
+
+  /**
+   * Determine whether exercise was completed successfully.
+   * @returns {boolean} True, if exercise was completed successfully. Else false.
+   */
+  wasSuccessful() {
+    return this.successfulState ?? false;
+  }
+
+  /**
+   * Toggle success state.
+   * @param {boolean} [state] State to toggle to.
+   * @returns {boolean} New state.
+   */
+  toggleSuccess(state) {
+    if (typeof state !== 'boolean') {
+      state = !this.successfulState;
+    }
+
+    this.successfulState = state;
+
+    return this.successfulState;
   }
 
   /**
@@ -489,69 +340,8 @@ export default class Exercise {
    */
   reset(params = {}) {
     this.score = 0;
-    this.setReachable(true);
-
-    if (this.extendsH5PQuestion) {
-      this.instance.hideButton('game-map-continue');
-    }
-    else {
-      this.continueButton?.classList.add('display-none');
-      this.continueButton?.setAttribute('disabled', 'disabled');
-    }
-
-    let timeLimit;
-    let state;
-
-    if (params.isInitial) {
-      timeLimit = this.previousState?.remainingTime;
-      if (typeof timeLimit !== 'number') {
-        timeLimit = (this.params.time?.timeLimit ?? -1) * MS_IN_S;
-      }
-
-      this.isCompleted = this.previousState.isCompleted ?? false;
-
-      state = this.previousState.state ?? this.params.state;
-    }
-    else {
-      timeLimit = (this.params.time?.timeLimit ?? -1) * MS_IN_S;
-      this.isCompleted = false;
-      state = this.params.globals.get('states').unstarted;
-    }
-
-    if (timeLimit > -1) {
-      this.timer = this.timer ?? new Timer(
-        { interval: 500 },
-        {
-          onExpired: () => {
-            this.handleTimeout();
-          },
-          onTick: () => {
-            this.timeLeft = this.timer.getTime();
-            const isTimeoutWarning = this.isTimeoutWarning();
-
-            this.callbacks.onTimerTicked(
-              this.timeLeft,
-              { timeoutWarning: isTimeoutWarning }
-            );
-
-            if (!this.hasPlayedTimeoutWarning && isTimeoutWarning) {
-              this.handleTimeoutWarning();
-            }
-          }
-        }
-      );
-
-      this.timeLeft = this.params.animDuration + timeLimit;
-    }
-
-    if (!params.isInitial) {
-      this.timer?.reset();
-      this.timer?.setTime(this.timeLeft);
-    }
-
-    this.setState(state);
-
-    this.hasPlayedTimeoutWarning = false;
+    this.toggleCompleted(params.isInitial && (this.params.previousState?.completed ?? false));
+    this.toggleSuccess(params.isInitial && (this.params.previousState?.successful ?? false));
 
     /*
      * If not attached yet, some contents can fail (e. g. CP), but contents
@@ -570,27 +360,6 @@ export default class Exercise {
         this.initializeInstance();
         this.isAttached = false;
       }
-    }
-
-    this.wasViewed = false;
-
-    this.isShowingSolutions = false;
-  }
-
-  /**
-   * Handle timeout.
-   */
-  handleTimeout() {
-    this.callbacks.onTimeout();
-  }
-
-  /**
-   * Handle timeout warning.
-   */
-  handleTimeoutWarning() {
-    if (!this.hasPlayedTimeoutWarning && this.isTimeoutWarning()) {
-      this.hasPlayedTimeoutWarning = true;
-      this.callbacks.onTimeoutWarning();
     }
   }
 
@@ -623,5 +392,37 @@ export default class Exercise {
     });
 
     return subContentIds;
+  }
+
+  /**
+   * Workaround for H5P Interactive Video.
+   * If the YouTube handler is used and a previously opened stage is opened again - thus
+   * the video instance is re-attached, the YouTube player by Google does send events anymore and
+   * therefore Interactive Video does not work properly.
+   * This workaround forces the YouTube player to be recreated and the video to be seeked to the
+   * previous position.
+   * @param {H5P.InteractiveVideo} interactiveVideoInstance Instance of H5P Interactive Video.
+   */
+  runInteractiveVideoWorkaround(interactiveVideoInstance) {
+    const videoInstance = interactiveVideoInstance?.video;
+    if (videoInstance?.getHandlerName?.() !== 'YouTube') {
+      return; // No YouTube video used.
+    }
+
+    const currentTime = videoInstance.getCurrentTime();
+    videoInstance.once('loaded', () => {
+      if (typeof currentTime === 'number' && currentTime > 0) {
+        /*
+          * This seems to cause the YouTube player to play without a call to play, so
+          * we pause it immediately afterwards. This causes the video to be stuck on the
+          * buffering spinner. The alternative would be to wait for the next state change
+          * indicating that the video is playing (but was not triggered by the user) and
+          * then pause the video, but that leads the video to play slightly. Feels worse.
+          */
+        interactiveVideoInstance.seek(currentTime);
+        videoInstance.pause();
+      }
+    });
+    videoInstance.resetPlayback();
   }
 }

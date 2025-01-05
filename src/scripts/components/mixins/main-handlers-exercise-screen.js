@@ -43,7 +43,7 @@ export default class MainHandlersExerciseScreen {
 
     this.stages.enable();
 
-    this.exercises.stop(this.openExerciseId);
+    this.exerciseBundles.stop(this.openExerciseId);
   }
 
   /**
