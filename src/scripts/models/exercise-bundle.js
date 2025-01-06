@@ -61,6 +61,8 @@ export default class ExerciseBundle {
           {
             onInitialized: (params) => {
               window.setTimeout(() => {
+                params.score = this.getScore();
+                params.maxScore = this.getMaxScore();
                 this.callbacks.onInitialized(params);
               }, 0);
             },
