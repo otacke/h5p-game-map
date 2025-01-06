@@ -12,9 +12,9 @@
   z-index: 1;
 
   .h5p-game-map-stage-score-star {
-    height: 1.25rem;
+    height: calc(1.25 * var(--stage-font-size));
     position: relative;
-    width: 1.25rem;
+    width: calc(1.25 * var(--stage-font-size));
 
     svg {
       #outline {
@@ -31,19 +31,19 @@
     }
 
     &.small {
-      height: 1rem;
-      width: 1rem;
+      height: var(--stage-font-size);
+      width: var(--stage-font-size);
     }
 
     &.left {
-      right: -0.3rem;
-      top: 0.4rem;
+      right: calc(-0.3 * var(--stage-font-size));;
+      top: calc(0.4 * var(--stage-font-size));
       rotate: -30deg;
     }
 
     &.right {
-      left: -0.3rem;
-      top: 0.4rem;
+      left: calc(-0.3 * var(--stage-font-size));
+      top: calc(0.4 * var(--stage-font-size));
       rotate: 30deg;
     }
 
@@ -74,6 +74,44 @@
   }
 
   &.display-none {
+    display: none;
+  }
+}
+
+@container map-container (max-width: 560px) {
+  .h5p-game-map-stage-score-stars-container .h5p-game-map-stage-score-star {
+    &.left {
+      right: calc(-0.2 * var(--stage-font-size));;
+      top: calc(0.3 * var(--stage-font-size));
+      rotate: -30deg;
+    }
+
+    &.right {
+      left: calc(-0.2 * var(--stage-font-size));
+      top: calc(0.3 * var(--stage-font-size));
+      rotate: 30deg;
+    }
+  }
+}
+
+@container map-container (max-width: 420px) {
+  .h5p-game-map-stage-score-stars-container .h5p-game-map-stage-score-star {
+    &.left {
+      right: calc(0.05 * var(--stage-font-size));;
+      top: calc(0.2 * var(--stage-font-size));
+      rotate: -30deg;
+    }
+
+    &.right {
+      left: calc(0.05 * var(--stage-font-size));
+      top: calc(0.2 * var(--stage-font-size));
+      rotate: 30deg;
+    }
+  }
+}
+
+@container map-container (max-width: 300px) {
+  .h5p-game-map-stage-score-stars-container {
     display: none;
   }
 }
