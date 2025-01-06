@@ -15,6 +15,7 @@ export default class ExerciseBundles {
    * @param {function} [callbacks.onTimeoutWarning] Callback when timer warned.
    * @param {function} [callbacks.onTimeout] Callback when time ran out.
    * @param {function} [callbacks.onContinued] Callback when user clicked continue.
+   * @param {function} [callbacks.onBundleInitialized] Callback when a bundle as initialized.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = params;
@@ -25,7 +26,8 @@ export default class ExerciseBundles {
       onTimerTicked: () => {},
       onTimeoutWarning: () => {},
       onTimeout: () => {},
-      onContinued: () => {}
+      onContinued: () => {},
+      onBundleInitialized: () => {}
     }, callbacks);
 
     this.exerciseBundles = [];
@@ -63,6 +65,9 @@ export default class ExerciseBundles {
           },
           onContinued: () => {
             this.callbacks.onContinued(element.id);
+          },
+          onInitialized: (params) => {
+            this.callbacks.onBundleInitialized(element.id, params);
           }
         }
       );

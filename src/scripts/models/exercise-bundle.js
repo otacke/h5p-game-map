@@ -23,6 +23,7 @@ export default class ExerciseBundle {
    * @param {function} [callbacks.onTimeoutWarning] Callback when timeout warning.
    * @param {function} [callbacks.onTimeout] Callback when timeout.
    * @param {function} [callbacks.onContinued] Callback when continued.
+   * @param {function} [callbacks.onInitialized] Callback when initialized.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = params;
@@ -35,7 +36,8 @@ export default class ExerciseBundle {
       onTimerTicked: () => {},
       onTimeoutWarning: () => {},
       onTimeout: () => {},
-      onContinued: () => {}
+      onContinued: () => {},
+      onInitialized: () => {}
     }, callbacks);
 
     this.exercises = [];
@@ -57,6 +59,11 @@ export default class ExerciseBundle {
             previousState: previousState
           },
           {
+            onInitialized: (params) => {
+              window.setTimeout(() => {
+                this.callbacks.onInitialized(params);
+              }, 0);
+            },
             onScored: () => {
               this.handleScored();
             }

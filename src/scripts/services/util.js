@@ -5,7 +5,7 @@ export default class Util {
   /**
    * Extend an array just like JQuery's extend.
    * @param {*} target Target.
-   * @param {...*} sources Sources. 
+   * @param {...*} sources Sources.
    * @returns {object} Merged objects.
    */
   static extend(target, ...sources) {
@@ -169,5 +169,18 @@ export default class Util {
         resolve(observer);
       });
     });
+  }
+
+  /**
+   * Project a value from one range to another.
+   * @param {number} value Value to project.
+   * @param {number} start1 Start of range 1.
+   * @param {number} stop1 End of range 1.
+   * @param {number} start2 Start of range 2.
+   * @param {number} stop2 End of range 2.
+   * @returns {number} Projected value.
+   */
+  static project(value, start1, stop1, start2, stop2) {
+    return start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
   }
 }
