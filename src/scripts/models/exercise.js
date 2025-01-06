@@ -103,11 +103,7 @@ export default class Exercise {
       });
     }
 
-    this.callbacks.onInitialized({
-      score: this.getScore(),
-      maxScore: this.getMaxScore(),
-      isTask: this.isTask(),
-    });
+    this.callbacks.onInitialized({ isTask: this.isTask() });
   }
 
   /**
