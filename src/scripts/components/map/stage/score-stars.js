@@ -80,12 +80,14 @@ export default class ScoreStars {
 
     const starPathLeft = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     starPathLeft.setAttribute('id', 'background-left');
+    starPathLeft.setAttribute('stroke-width', '1');
     starPathLeft.setAttribute('d', 'M874 172 649 627l-506 74 366 356-87 502 450-238 2 1.055zm-64.314 1340.973-5.073 2.683h5.073z');
     starSVG.appendChild(starPathLeft);
 
     const starPathRight = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     starPathRight.setAttribute('id', 'background-right');
-    starPathRight.setAttribute('d', 'M874 172v1150.055L1323 1559l-87-502 366-357-503-73-225-455zm775.24 678.404-.644.623h.644v-.623z');
+    starPathLeft.setAttribute('stroke-width', '1');
+    starPathRight.setAttribute('d', 'M874 172 649 627l-506 74 366 356-87 502 450-238 2 1.055L1323 1559l-87-502 366-357-503-73zm775.24 678.404-.644.623h.644zm-839.555 662.569-5.072 2.683h5.072z');
     starSVG.appendChild(starPathRight);
 
     return starSVG;
