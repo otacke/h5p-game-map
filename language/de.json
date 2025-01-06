@@ -234,6 +234,21 @@
             },
             {
               "label": "Farbe für geschaffte Etappe"
+            },
+            {
+              "label": "Zeige Sterne für Punkte",
+              "description": "Wähle, ob und wann Sterne auf der Karte für die Punkte einer Etappe angezeigt werden.",
+              "options": [
+                {
+                  "label": "Nie"
+                },
+                {
+                  "label": "Beim Schweben mit der Maus"
+                },
+                {
+                  "label": "Immer"
+                }
+              ]
             }
           ]
         },

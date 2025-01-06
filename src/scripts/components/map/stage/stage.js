@@ -2,6 +2,7 @@ import Color from 'color';
 import { animate } from '@services/animate.js';
 import Util from '@services/util.js';
 import Label from './label.js';
+import ScoreStars from './score-stars.js';
 import './stage.scss';
 
 /** @constant {number} CONTRAST_DELTA Factor to darken color. */
@@ -96,6 +97,11 @@ export default class Stage {
     const positionY = (this.params.telemetry.y < VERTICAL_CENTER_THRESHOLD) ?
       'bottom' :
       'top';
+
+    if (this.params.showStars !== 'never') {
+      this.scoreStars = new ScoreStars({ mode: this.params.showStars });
+      this.dom.appendChild(this.scoreStars.getDOM());
+    }
 
     this.label = new Label({
       position: positionY,
@@ -465,6 +471,9 @@ export default class Stage {
     }
 
     this.label.hide();
+    if (this.params.showStars === 'onHover') {
+      this.scoreStars.hide();
+    }
 
     if (
       this.state === this.params.globals.get('states').locked ||
@@ -516,6 +525,13 @@ export default class Stage {
     );
     scale = Number.isNaN(scale) ? 1 : scale;
 
+    if (this.params.showStars === 'onHover' && this.belongsToTask) {
+      this.scoreStars.show({
+        skipDelay: event instanceof FocusEvent,
+        scale: scale
+      });
+    }
+
     this.label.show({
       skipDelay: event instanceof FocusEvent,
       scale: scale
@@ -531,6 +547,10 @@ export default class Stage {
     }
 
     this.label.hide();
+
+    if (this.params.showStars === 'onHover') {
+      this.scoreStars.hide();
+    }
   }
 
   /**
@@ -710,6 +730,29 @@ export default class Stage {
     if (state === '0' && !params.skipActiveDescendant) {
       this.callbacks.onBecameActiveDescendant(this.params.id);
     }
+  }
+
+  /**
+   * Set task state.
+   * @param {boolean} belongsToTask If true, stage belongs to task. Else not.
+   */
+  setTaskState(belongsToTask) {
+    this.belongsToTask = belongsToTask;
+  }
+
+  /**
+   * Show score stars.
+   */
+  showScoreStars() {
+    this.scoreStars.show();
+  }
+
+  /**
+   * Update score star.
+   * @param {number} percentage Percentage of score.
+   */
+  updateScoreStar(percentage) {
+    this.scoreStars?.setStarsByPercentage(percentage);
   }
 }
 

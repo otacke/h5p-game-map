@@ -98,6 +98,10 @@
         content: var(--icon-fontawesome-star);
       }
     }
+
+    &:has(+.h5p-game-map-stage-score-stars-container).h5p-game-map-stage-cleared::before {
+      content: var(--icon-fontawesome-check);
+    }
   }
 
   // Keyframes inspired by https://github.com/animate-css/animate.css

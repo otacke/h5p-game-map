@@ -10,6 +10,7 @@ export default class Exercise {
    * @param {object} [params.globals] Globals.
    * @param {object} [params.previousState] Previous state.
    * @param {object} [callbacks] Callbacks.
+   * @param {function} [callbacks.onInitialized] Callback when instance initialized.
    * @param {function} [callbacks.onScored] Callback when scored.
    */
   constructor(params = {}, callbacks = {}) {
@@ -18,6 +19,7 @@ export default class Exercise {
     }, params);
 
     this.callbacks = Util.extend({
+      onInitialized: () => {},
       onScored: () => {}
     }, callbacks);
 
@@ -100,6 +102,12 @@ export default class Exercise {
         this.trackXAPI(event);
       });
     }
+
+    this.callbacks.onInitialized({
+      score: this.getScore(),
+      maxScore: this.getMaxScore(),
+      isTask: this.isTask(),
+    });
   }
 
   /**

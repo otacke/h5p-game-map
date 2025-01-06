@@ -75,12 +75,19 @@ export default class Stages {
         return stage.id === elementParams.id;
       });
 
+      let showStars = this.params.globals.get('params').visual.stages.showScoreStars;
+      if (!!elementParams.specialStageType) {
+        showStars = 'never';
+      }
+
+      // this.params.type === STAGE_TYPES.stage && this.params.globals.get('params').visual.stages.showScoreStars
       const stageParams = {
         id: elementParams.id,
         dictionary: this.params.dictionary,
         globals: this.params.globals,
         jukebox: this.params.jukebox,
         canBeStartStage: elementParams.canBeStartStage,
+        showStars: showStars,
         accessRestrictions: elementParams.accessRestrictions,
         ...(
           elementParams.contentType &&
@@ -598,5 +605,44 @@ export default class Stages {
     this.stages.forEach((stage) => {
       stage.reset({ isInitial: params.isInitial });
     });
+  }
+
+  /**
+   *
+   * @param {string} id Id of stage to set task state for,
+   * @param {*} isTask True if stage is a task. Else false.
+   */
+  setTaskState(id, isTask) {
+    const stage = this.getStage(id);
+    if (!stage) {
+      return;
+    }
+
+    stage.setTaskState(isTask);
+    if (isTask && this.params.globals.get('params').visual.stages.showScoreStars === 'always') {
+      stage.showScoreStars();
+    }
+  }
+
+  /**
+   * Update score star.
+   * @param {string} id Id of stage or '*' for all stages.
+   * @param {number} percentage Percentage of score.
+   */
+  updateScoreStar(id, percentage) {
+    if (id === '*') {
+      this.stages.forEach((stage) => {
+        stage.updateScoreStar(percentage);
+      });
+
+      return;
+    }
+
+    const stage = this.getStage(id);
+    if (!stage) {
+      return;
+    }
+
+    stage.updateScoreStar(percentage);
   }
 }

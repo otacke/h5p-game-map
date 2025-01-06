@@ -49,7 +49,7 @@
 
       .status-container-stages {
         &::before {
-          content: var(--icon-fontawesome-check);
+          content: var(--icon-fontawesome-circle-alt);
           font-family: "H5PFontAwesome4", sans-serif;
         }
       }

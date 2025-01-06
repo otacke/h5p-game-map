@@ -602,6 +602,27 @@
               "showAlpha": true,
               "preferredFormat": "rgb"
             }
+          },
+          {
+            "name": "showScoreStars",
+            "type": "select",
+            "label": "Show stars for scores",
+            "description": "Choose if and when stars will be displayed on the map for the scores of the stages.",
+            "options": [
+              {
+                "value": "never",
+                "label": "Never"
+              },
+              {
+                "value": "onHover",
+                "label": "On hover"
+              },
+              {
+                "value": "always",
+                "label": "Always"
+              }
+            ],
+            "default": "never"
           }
         ]
       },

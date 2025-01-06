@@ -27,6 +27,9 @@ export default class MainHandlersExercise {
       return; // Just cautious ...
     }
 
+    // eslint-disable-next-line no-magic-numbers
+    this.stages.updateScoreStar(id, params.score / params.maxScore * 100);
+
     if (!this.fullScoreWasAnnounced && this.getScore() === this.getMaxScore()) {
       this.fullScoreWasAnnounced = true;
 

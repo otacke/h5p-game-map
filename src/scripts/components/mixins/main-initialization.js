@@ -339,6 +339,9 @@ export default class MainInitialization {
         },
         onContinued: () => {
           this.handleExerciseScreenClosed();
+        },
+        onBundleInitialized: (id, params) => {
+          this.handleExerciseBundleInitialized(id, params);
         }
       }
     );
@@ -430,6 +433,8 @@ export default class MainInitialization {
   reset(params = {}) {
     this.toolbar.toggleHintFinishButton(false);
     this.toolbar.toggleHintTimer(false);
+
+    this.stages.updateScoreStar('*', 0);
 
     this.params.jukebox.muteAll();
     this.stageAttentionSeekerTimeout = null;
