@@ -24,14 +24,15 @@
       "label": "Game map editor",
       "fields": [
         {
-          "label": "Background image",
+          "label": "Background",
           "fields": [
             {
               "label": "Background image",
               "description": "Select an image to use as the background of the game map."
             },
             {
-              "label": "Dummy"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },
@@ -88,8 +89,20 @@
                     ]
                   },
                   {
-                    "label": "Stage content",
-                    "description": "Choose the type of content you would like to add."
+                    "label": "Contents",
+                    "entity": "content",
+                    "field": {
+                      "label": "Content",
+                      "fields": [
+                        {
+                          "label": "Stage content",
+                          "description": "Choose the type of content you would like to add."
+                        },
+                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "Special stage type",
@@ -102,6 +115,9 @@
                       },
                       {
                         "label": "Extra time"
+                      },
+                      {
+                        "label": "Link to external content"
                       }
                     ]
                   },
@@ -111,7 +127,22 @@
                   },
                   {
                     "label": "Number of seconds of extra time",
-                    "description": "Set how many seceonds the user will gain for the global time limit when entering this stage."
+                    "description": "Set how many seconds the user will gain for the global time limit when entering this stage."
+                  },
+                  {
+                    "label": "URL to link to",
+                    "description": "Set where the user should be sent to when opening this stage."
+                  },
+                  {
+                    "label": "Place to open link in",
+                    "options": [
+                      {
+                        "label": "New tab"
+                      },
+                      {
+                        "label": "Same tab"
+                      }
+                    ]
                   },
                   {
                     "label": "Always visible",
@@ -204,6 +235,21 @@
             },
             {
               "label": "Color cleared stage"
+            },
+            {
+              "label": "Show stars for scores",
+              "description": "Choose if and when stars will be displayed on the map for the scores of the stages.",
+              "options": [
+                {
+                  "label": "Never"
+                },
+                {
+                  "label": "On hover"
+                },
+                {
+                  "label": "Always"
+                }
+              ]
             }
           ]
         },
@@ -536,12 +582,20 @@
           "default": "オーケー"
         },
         {
-          "label": "No background image was set",
-          "default": "No background image was set for the map."
-        },
-        {
           "label": "No stages were set",
           "default": "No valid stages were set for the map."
+        },
+        {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
+          "label": "Volume of music",
+          "default": "Volume of music"
+        },
+        {
+          "label": "Volume of sound effects",
+          "default": "Volume of sound effects"
         }
       ]
     },
