@@ -475,20 +475,15 @@ export default class Stage {
       this.scoreStars.hide();
     }
 
-    if (
-      this.state === this.params.globals.get('states').locked ||
-      this.state === this.params.globals.get('states').unlocking ||
-      this.state === this.params.globals.get('states').sealed
-    ) {
+    const states = this.params.globals.get('states');
+
+    if (this.state === states.locked || this.state === states.unlocking || this.state === states.sealed) {
       this.animate('shake');
       this.params.jukebox.play('clickStageLocked');
 
       if (
         (typeof this.params.accessRestrictions?.minScore === 'number') &&
-        (
-          this.state === this.params.globals.get('states').locked ||
-          this.state === this.params.globals.get('states').unlocking
-        )
+        (this.state === states.locked || this.state === states.unlocking)
       ) {
         this.callbacks.onAccessRestrictionsHit({
           id: this.params.id,
