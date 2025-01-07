@@ -79,8 +79,74 @@
                     "description": "Definieer beperkingen voor ontgrendeling.",
                     "fields": [
                       {
-                        "label": "Minimale score om te ontgrendelen",
-                        "description": "De gebruiker kan deze fase niet ontgrendelen als hij niet ten minste deze minimumscore heeft behaald door andere fasen te voltooien. Houd er rekening mee dat deze instelling geen effect heeft als \"free roaming\" is ingesteld in de gedragsinstellingen."
+                        "label": "All or any restriction set",
+                        "description": "Choose if all or any of the following restrictions need to be met.",
+                        "options": [
+                          {
+                            "label": "All"
+                          },
+                          {
+                            "label": "Any"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Restriction sets",
+                        "entity": "restriction set",
+                        "field": {
+                          "label": "Restriction set",
+                          "fields": [
+                            {
+                              "label": "All or any restriction",
+                              "description": "Choose if all or any of the following restrictions need to be met.",
+                              "options": [
+                                {
+                                  "label": "All"
+                                },
+                                {
+                                  "label": "Any"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Restrictions",
+                              "entity": "restriction",
+                              "field": {
+                                "label": "Restriction",
+                                "fields": [
+                                  {
+                                    "label": "Restriction type",
+                                    "options": [
+                                      {
+                                        "label": "Total score"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Operator for total score",
+                                    "options": [
+                                      {
+                                        "label": "less than"
+                                      },
+                                      {
+                                        "label": "equal to"
+                                      },
+                                      {
+                                        "label": "not equal to"
+                                      },
+                                      {
+                                        "label": "greater than"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Value of total score to compare"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
                       },
                       {
                         "label": "Openen zodra score voldoende",
@@ -521,11 +587,6 @@
           "default": "Voor deze fase moet je een aantal doelen bereiken voordat deze kan worden geopend."
         },
         {
-          "label": "Dialoogtekst toegang geweigerd: minimumscore",
-          "description": "@minscore is een tijdelijke aanduiding en wordt vervangen door de betreffende waarde.",
-          "default": "Je hebt minimaal een bepaald aantal punten nodig: @minscore"
-        },
-        {
           "label": "Ja",
           "default": "Ja"
         },
@@ -596,6 +657,38 @@
         {
           "label": "Volume of sound effects",
           "default": "Volume of sound effects"
+        },
+        {
+          "label": "The stage will not be available unless",
+          "default": "The stage will not be available unless:"
+        },
+        {
+          "label": "The stage will not be available unless any of",
+          "default": "The stage will not be available unless any of:"
+        },
+        {
+          "label": "All of:",
+          "default": "All of:"
+        },
+        {
+          "label": "Any of:",
+          "default": "Any of:"
+        },
+        {
+          "label": "Total score less than",
+          "default": "You have a total score less than @value."
+        },
+        {
+          "label": "Total score equal to",
+          "default": "You have a total score equal to @value."
+        },
+        {
+          "label": "Total score not equal to",
+          "default": "You have a total score not equal to @value."
+        },
+        {
+          "label": "Total score greater than",
+          "default": "You have a total score greater than @value."
         }
       ]
     },

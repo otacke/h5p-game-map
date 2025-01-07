@@ -39,7 +39,7 @@ export default class MainHandlersExercise {
       });
     }
 
-    // Check whether previously not unlockable stages can not be unlocked
+    // Check whether previously not unlockable stages can now be unlocked
     this.stages.updateUnlockingStages();
 
     if (typeof params.score === 'number' && params.score !== params.maxScore) {

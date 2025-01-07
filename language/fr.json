@@ -79,8 +79,74 @@
                     "description": "Définissez les restrictions de déverrouillage.",
                     "fields": [
                       {
-                        "label": "Score minimum pour débloquer",
-                        "description": "L'utilisateur ne pourra pas débloquer cette étape s'il n'a pas obtenu au moins ce score minimum en complétant d'autres étapes. Veuillez noter que ce paramètre n'aura aucun effet si « itinérance gratuite » est défini dans les paramètres comportementaux.  Veuillez noter que ce paramètre n'aura aucun effet si \"itinérance gratuite \" est défini dans les paramètres comportementaux."
+                        "label": "All or any restriction set",
+                        "description": "Choose if all or any of the following restrictions need to be met.",
+                        "options": [
+                          {
+                            "label": "All"
+                          },
+                          {
+                            "label": "Any"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Restriction sets",
+                        "entity": "restriction set",
+                        "field": {
+                          "label": "Restriction set",
+                          "fields": [
+                            {
+                              "label": "All or any restriction",
+                              "description": "Choose if all or any of the following restrictions need to be met.",
+                              "options": [
+                                {
+                                  "label": "All"
+                                },
+                                {
+                                  "label": "Any"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Restrictions",
+                              "entity": "restriction",
+                              "field": {
+                                "label": "Restriction",
+                                "fields": [
+                                  {
+                                    "label": "Restriction type",
+                                    "options": [
+                                      {
+                                        "label": "Total score"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Operator for total score",
+                                    "options": [
+                                      {
+                                        "label": "less than"
+                                      },
+                                      {
+                                        "label": "equal to"
+                                      },
+                                      {
+                                        "label": "not equal to"
+                                      },
+                                      {
+                                        "label": "greater than"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Value of total score to compare"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
                       },
                       {
                         "label": "Ouvert, une fois score suffisant",
@@ -521,11 +587,6 @@
           "default": "This stage requires you to meet some goals before it can be opened."
         },
         {
-          "label": "Accès au texte de la boîte de dialogue refusé : score minimum",
-          "description": "@minscore est un espace réservé et sera remplacé par la valeur correspondante.",
-          "default": "Il faut au moins un certain nombre de points : @minscore"
-        },
-        {
           "label": "Oui",
           "default": "Oui"
         },
@@ -596,6 +657,38 @@
         {
           "label": "Volume of sound effects",
           "default": "Volume of sound effects"
+        },
+        {
+          "label": "The stage will not be available unless",
+          "default": "The stage will not be available unless:"
+        },
+        {
+          "label": "The stage will not be available unless any of",
+          "default": "The stage will not be available unless any of:"
+        },
+        {
+          "label": "All of:",
+          "default": "All of:"
+        },
+        {
+          "label": "Any of:",
+          "default": "Any of:"
+        },
+        {
+          "label": "Total score less than",
+          "default": "You have a total score less than @value."
+        },
+        {
+          "label": "Total score equal to",
+          "default": "You have a total score equal to @value."
+        },
+        {
+          "label": "Total score not equal to",
+          "default": "You have a total score not equal to @value."
+        },
+        {
+          "label": "Total score greater than",
+          "default": "You have a total score greater than @value."
         }
       ]
     },

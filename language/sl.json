@@ -79,8 +79,74 @@
                     "description": "Nastavitve pogojev za odklepanje stopenj.",
                     "fields": [
                       {
-                        "label": "Najnižje število točk za odklepanje",
-                        "description": "Določitev najnižjega števila zahtevanih točk za odklepanje stopnje in nadaljevanje z nalogo. Nastavitev nima učinka, če je v \"Nastavitvah interakcije\" izbrana možnost \"Prosto raziskovanje\"."
+                        "label": "All or any restriction set",
+                        "description": "Choose if all or any of the following restrictions need to be met.",
+                        "options": [
+                          {
+                            "label": "All"
+                          },
+                          {
+                            "label": "Any"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Restriction sets",
+                        "entity": "restriction set",
+                        "field": {
+                          "label": "Restriction set",
+                          "fields": [
+                            {
+                              "label": "All or any restriction",
+                              "description": "Choose if all or any of the following restrictions need to be met.",
+                              "options": [
+                                {
+                                  "label": "All"
+                                },
+                                {
+                                  "label": "Any"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Restrictions",
+                              "entity": "restriction",
+                              "field": {
+                                "label": "Restriction",
+                                "fields": [
+                                  {
+                                    "label": "Restriction type",
+                                    "options": [
+                                      {
+                                        "label": "Total score"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Operator for total score",
+                                    "options": [
+                                      {
+                                        "label": "less than"
+                                      },
+                                      {
+                                        "label": "equal to"
+                                      },
+                                      {
+                                        "label": "not equal to"
+                                      },
+                                      {
+                                        "label": "greater than"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Value of total score to compare"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
                       },
                       {
                         "label": "Odkleni ob zadostnem številu točk",
@@ -521,11 +587,6 @@
           "default": "Stopnja zahteva izpolnjene pogoje, preden je na voljo za raziskovanje."
         },
         {
-          "label": "Besedilo pogovornega okna za onemogočen dostop (zahtevane točke)",
-          "description": "@minscore je spremenljivka.",
-          "default": "Zahtevano je najmanj naslednje število točk: @minscore"
-        },
-        {
           "label": "Da",
           "default": "Da"
         },
@@ -596,6 +657,38 @@
         {
           "label": "Volume of sound effects",
           "default": "Volume of sound effects"
+        },
+        {
+          "label": "The stage will not be available unless",
+          "default": "The stage will not be available unless:"
+        },
+        {
+          "label": "The stage will not be available unless any of",
+          "default": "The stage will not be available unless any of:"
+        },
+        {
+          "label": "All of:",
+          "default": "All of:"
+        },
+        {
+          "label": "Any of:",
+          "default": "Any of:"
+        },
+        {
+          "label": "Total score less than",
+          "default": "You have a total score less than @value."
+        },
+        {
+          "label": "Total score equal to",
+          "default": "You have a total score equal to @value."
+        },
+        {
+          "label": "Total score not equal to",
+          "default": "You have a total score not equal to @value."
+        },
+        {
+          "label": "Total score greater than",
+          "default": "You have a total score greater than @value."
         }
       ]
     },

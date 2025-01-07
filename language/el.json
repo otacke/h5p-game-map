@@ -79,8 +79,74 @@
                     "description": "Ορίζει περιορισμούς για ξεκλείδωμα.",
                     "fields": [
                       {
-                        "label": "Ελάχιστο σκορ για ξεκλείδωμα",
-                        "description": "Ο χρήστης δεν θα μπορεί να ξεκλειδώσει αυτό το επείπεδο εάν δεν έχει λάβει τουλάχιστον αυτή την ελάχιστη βαθμολογία ολοκληρώνοντας άλλα στάδια. Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
+                        "label": "All or any restriction set",
+                        "description": "Choose if all or any of the following restrictions need to be met.",
+                        "options": [
+                          {
+                            "label": "All"
+                          },
+                          {
+                            "label": "Any"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Restriction sets",
+                        "entity": "restriction set",
+                        "field": {
+                          "label": "Restriction set",
+                          "fields": [
+                            {
+                              "label": "All or any restriction",
+                              "description": "Choose if all or any of the following restrictions need to be met.",
+                              "options": [
+                                {
+                                  "label": "All"
+                                },
+                                {
+                                  "label": "Any"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Restrictions",
+                              "entity": "restriction",
+                              "field": {
+                                "label": "Restriction",
+                                "fields": [
+                                  {
+                                    "label": "Restriction type",
+                                    "options": [
+                                      {
+                                        "label": "Total score"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Operator for total score",
+                                    "options": [
+                                      {
+                                        "label": "less than"
+                                      },
+                                      {
+                                        "label": "equal to"
+                                      },
+                                      {
+                                        "label": "not equal to"
+                                      },
+                                      {
+                                        "label": "greater than"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Value of total score to compare"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
                       },
                       {
                         "label": "Άνοιγμα μόλις επιτευχθεί επαρκές σκορ",
@@ -520,11 +586,6 @@
           "default": "Αυτό το επίπεδο απαιτεί την επίτευξη ορισμένων στόχων πριν από το ξεκλείδωμά του."
         },
         {
-          "label": "Κείμενο διαλόγου η πρόσβαση δεν επιτρέπεται: Ελάχιστο σκορ",
-          "description": "@minscore είναι μεταβλητή και θα αντικατασταθεί με την αντίστοιχη τιμή.",
-          "default": "Χρειάζεται τουλάχιστο ο αριθμός πόντων: @minscore"
-        },
-        {
           "label": "Ναι",
           "default": "Ναι"
         },
@@ -595,6 +656,38 @@
         {
           "label": "Volume of sound effects",
           "default": "Volume of sound effects"
+        },
+        {
+          "label": "The stage will not be available unless",
+          "default": "The stage will not be available unless:"
+        },
+        {
+          "label": "The stage will not be available unless any of",
+          "default": "The stage will not be available unless any of:"
+        },
+        {
+          "label": "All of:",
+          "default": "All of:"
+        },
+        {
+          "label": "Any of:",
+          "default": "Any of:"
+        },
+        {
+          "label": "Total score less than",
+          "default": "You have a total score less than @value."
+        },
+        {
+          "label": "Total score equal to",
+          "default": "You have a total score equal to @value."
+        },
+        {
+          "label": "Total score not equal to",
+          "default": "You have a total score not equal to @value."
+        },
+        {
+          "label": "Total score greater than",
+          "default": "You have a total score greater than @value."
         }
       ]
     },

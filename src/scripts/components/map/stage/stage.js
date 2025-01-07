@@ -3,6 +3,7 @@ import { animate } from '@services/animate.js';
 import Util from '@services/util.js';
 import Label from './label.js';
 import ScoreStars from './score-stars.js';
+import Restrictions from '@models/restrictions/restrictions.js';
 import './stage.scss';
 
 /** @constant {number} CONTRAST_DELTA Factor to darken color. */
@@ -34,7 +35,8 @@ export default class Stage {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       accessRestrictions: {
-        openOnScoreSufficient: false
+        openOnRequirementsMet: false,
+        restrictionSetList: []
       }
     }, params);
 
@@ -54,6 +56,11 @@ export default class Stage {
       onAddedToQueue: () => {},
       onAccessRestrictionsHit: () => {}
     }, callbacks);
+
+    this.restrictions = new Restrictions({
+      dictionary: this.params.dictionary,
+      accessRestrictions: this.params.accessRestrictions
+    });
 
     this.isDisabledState = false;
     this.isAnimating = false;
@@ -327,29 +334,33 @@ export default class Stage {
 
   /**
    * Unlock.
+   * @param {object} [params] Parameters.
+   * @param {number} [params.bruteForce] If true, unlock unconditionally.
    */
-  unlock() {
+  unlock(params = {}) {
     if (
-      this.state === this.params.globals.get('states').locked ||
-      this.state === this.params.globals.get('states').unlocking
+      this.state !== this.params.globals.get('states').locked &&
+      this.state !== this.params.globals.get('states').unlocking
     ) {
-      // Do not unlock if there's a restriction that is not yet met
-      if (
-        typeof (this.params?.accessRestrictions?.minScore) === 'number' &&
-        this.params?.accessRestrictions?.minScore >
-          this.params.globals.get('getScore')()
-      ) {
-        this.setState('unlocking');
-        return;
-      }
-
-      this.params.globals.get('read')(this.params.dictionary
-        .get('a11y.stageUnlocked')
-        .replace(/@stagelabel/, this.params.label)
-      );
-
-      this.setState('open');
+      return; // Already unlocked
     }
+
+    if (
+      !params.bruteForce &&
+      !this.restrictions.passes({
+        totalScore: this.params.globals.get('getScore')()
+      })
+    ) {
+      this.setState('unlocking');
+      return; // Set to unlocking state, waiting for updates
+    }
+
+    this.params.globals.get('read')(this.params.dictionary
+      .get('a11y.stageUnlocked')
+      .replace(/@stagelabel/, this.params.label)
+    );
+
+    this.setState('open');
   }
 
   /**
@@ -481,13 +492,17 @@ export default class Stage {
       this.animate('shake');
       this.params.jukebox.play('clickStageLocked');
 
+      const allRestrictionsPassed = this.restrictions.passes({
+        totalScore: this.params.globals.get('getScore')()
+      });
+
       if (
-        (typeof this.params.accessRestrictions?.minScore === 'number') &&
+        (!allRestrictionsPassed) &&
         (this.state === states.locked || this.state === states.unlocking)
       ) {
         this.callbacks.onAccessRestrictionsHit({
           id: this.params.id,
-          minScore: this.params.accessRestrictions?.minScore
+          html: this.restrictions.getMessagesHTML()
         });
       }
 

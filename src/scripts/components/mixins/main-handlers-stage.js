@@ -165,34 +165,17 @@ export default class MainHandlersStage {
    * Handle stage to be opened with restrictions.
    * @param {object} [params] Parameters.
    * @param {string} [params.id] Stage id.
-   * @param {number} [params.minScore] Minimum score to open stage.
+   * @param {number} [params.html] HTML to display.
    */
   handleStageAccessRestrictionsHit(params = {}) {
-    if (!params.minScore) {
-      return;
-    }
+    params.html = params.html ? ` ${params.html}` : '';
 
     this.toolbar.disableButton('finish');
-
-    const restrictions = [];
-
-    if (params.minScore) {
-      restrictions.push(
-        this.params.dictionary.get('l10n.confirmAccessDeniedMinScore')
-          .replace(/@minscore/gi, params.minScore)
-      );
-    }
-
-    let restriction = restrictions
-      .map((restriction) => `<li>${restriction}</li>`)
-      .join('');
-
-    restriction = `<ul>${restriction}</ul>`;
 
     this.confirmationDialog.update(
       {
         headerText: this.params.dictionary.get('l10n.confirmAccessDeniedHeader'),
-        dialogText: `${this.params.dictionary.get('l10n.confirmAccessDeniedDialog')}${restriction}`,
+        dialogText: `${this.params.dictionary.get('l10n.confirmAccessDeniedDialog')}${params.html}`,
         confirmText: this.params.dictionary.get('l10n.ok'),
         hideCancel: true
       }, {

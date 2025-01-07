@@ -79,8 +79,74 @@
                     "description": "定义解锁限制。",
                     "fields": [
                       {
-                        "label": "解锁的最低分数",
-                        "description": "如果用户没有在其他关卡获得最低分数，将无法解锁这个关卡。 Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
+                        "label": "All or any restriction set",
+                        "description": "Choose if all or any of the following restrictions need to be met.",
+                        "options": [
+                          {
+                            "label": "All"
+                          },
+                          {
+                            "label": "Any"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Restriction sets",
+                        "entity": "restriction set",
+                        "field": {
+                          "label": "Restriction set",
+                          "fields": [
+                            {
+                              "label": "All or any restriction",
+                              "description": "Choose if all or any of the following restrictions need to be met.",
+                              "options": [
+                                {
+                                  "label": "All"
+                                },
+                                {
+                                  "label": "Any"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Restrictions",
+                              "entity": "restriction",
+                              "field": {
+                                "label": "Restriction",
+                                "fields": [
+                                  {
+                                    "label": "Restriction type",
+                                    "options": [
+                                      {
+                                        "label": "Total score"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Operator for total score",
+                                    "options": [
+                                      {
+                                        "label": "less than"
+                                      },
+                                      {
+                                        "label": "equal to"
+                                      },
+                                      {
+                                        "label": "not equal to"
+                                      },
+                                      {
+                                        "label": "greater than"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Value of total score to compare"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
                       },
                       {
                         "label": "分数足够时自动解锁",
@@ -521,11 +587,6 @@
           "default": "此关卡要求您满足一些目标，然后才能打开。"
         },
         {
-          "label": "访问被拒绝对话框文本：最低分数",
-          "description": "@minscore 是一个占位符，将替换为相应的值。",
-          "default": "您需要的最低分数：@minscore"
-        },
-        {
           "label": "是的",
           "default": "是的"
         },
@@ -596,6 +657,38 @@
         {
           "label": "Volume of sound effects",
           "default": "Volume of sound effects"
+        },
+        {
+          "label": "The stage will not be available unless",
+          "default": "The stage will not be available unless:"
+        },
+        {
+          "label": "The stage will not be available unless any of",
+          "default": "The stage will not be available unless any of:"
+        },
+        {
+          "label": "All of:",
+          "default": "All of:"
+        },
+        {
+          "label": "Any of:",
+          "default": "Any of:"
+        },
+        {
+          "label": "Total score less than",
+          "default": "You have a total score less than @value."
+        },
+        {
+          "label": "Total score equal to",
+          "default": "You have a total score equal to @value."
+        },
+        {
+          "label": "Total score not equal to",
+          "default": "You have a total score not equal to @value."
+        },
+        {
+          "label": "Total score greater than",
+          "default": "You have a total score greater than @value."
         }
       ]
     },

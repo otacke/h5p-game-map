@@ -79,8 +79,74 @@
                     "description": "Definiere Beschränkungen für das Freischalten.",
                     "fields": [
                       {
-                        "label": "Minimale Punktzahl zum Freischalten",
-                        "description": "Die Nutzerinnen und Nutzer können diese Etappe nicht freischalten, wenn sie nicht mindestens die eingestellte Minimalpunktzahl durch das Absolvieren anderer Etappen gesammelt haben. Bitte beachte, dass diese Einstellungen nichts bewirkt, falls \"Freies Umherwandern\" in den Verhaltenseinstellungen aktiviert ist."
+                        "label": "Alle oder mindestens eine Bedingungsgruppe",
+                        "description": "Wähle, ob alle oder mindestens eine der folgenden Bedingungsgruppen erfüllt sein müssen.",
+                        "options": [
+                          {
+                            "label": "Alle"
+                          },
+                          {
+                            "label": "Mindestens eine"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Bedingungsgruppen",
+                        "entity": "Bedingungsgruppe",
+                        "field": {
+                          "label": "Bedingungsgruppe",
+                          "fields": [
+                            {
+                              "label": "Alle oder mindestens eine Bedingung",
+                              "description": "Wähle, ob alle oder mindestens eine der folgenden Bedingungen erfüllt sein müssen.",
+                              "options": [
+                                {
+                                  "label": "Alle"
+                                },
+                                {
+                                  "label": "Mindestens eine"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Bedingungen",
+                              "entity": "Bedingung",
+                              "field": {
+                                "label": "Bedingung",
+                                "fields": [
+                                  {
+                                    "label": "Kriterium",
+                                    "options": [
+                                      {
+                                        "label": "Gesamtpunktzahl"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Vergleichsoperator für die Gesamtpunktzahl",
+                                    "options": [
+                                      {
+                                        "label": "kleiner als"
+                                      },
+                                      {
+                                        "label": "gleich"
+                                      },
+                                      {
+                                        "label": "ungleich"
+                                      },
+                                      {
+                                        "label": "größer als"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Wert, mit dem die Gesamtpunktzahl verglichen wird"
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
                       },
                       {
                         "label": "Öffne, sobald genügend Punkte",
@@ -520,11 +586,6 @@
           "default": "Um diese Etappe zu öffnen, musst du einige Voraussetzungen erfüllen."
         },
         {
-          "label": "Dialogtext Zugang verweigert: Mindestpunktzahl",
-          "description": "@minscore ist ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
-          "default": "Du brauchst eine Mindestpunktzahl: @minscore"
-        },
-        {
           "label": "Ja",
           "default": "Ja"
         },
@@ -595,6 +656,38 @@
         {
           "label": "Lautstärke der Soundeffekte",
           "default": "Lautstärke der Soundeffekte"
+        },
+        {
+          "label": "Die Etappe ist nicht verfügbar, außer",
+          "default": "Die Etappe ist nicht verfügbar, außer:"
+        },
+        {
+          "label": "Die Etappe ist nicht verfügbar, außer mindestens eine Bedingung ist erfüllt",
+          "default": "Die Etappe ist nicht verfügbar, außer mindestens eine Bedingung ist erfüllt:"
+        },
+        {
+          "label": "Alle Bedingungen:",
+          "default": "Alle Bedingungen:"
+        },
+        {
+          "label": "Mindestens eine Bedingung:",
+          "default": "Mindestens eine Bedingung:"
+        },
+        {
+          "label": "Gesamtpunktzahl kleiner als",
+          "default": "Du hast eine Gesamtpunktzahl kleiner als @value."
+        },
+        {
+          "label": "Gesamtpunktzahl gleich",
+          "default": "Du hast eine Gesamtpunktzahl gleich @value."
+        },
+        {
+          "label": "Gesamtpunktzahl ungleich",
+          "default": "Du hast eine Gesamtpunktzahl ungleich @value."
+        },
+        {
+          "label": "Gesamtpunktzahl größer als",
+          "default": "Du hast eine Gesamtpunktzahl größer als @value."
         }
       ]
     },

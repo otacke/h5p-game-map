@@ -191,18 +191,135 @@
                   "description": "Define restrictions for unlocking.",
                   "fields": [
                     {
-                      "name": "minScore",
-                      "type": "number",
-                      "label": "Minimum score to unlock",
-                      "description": "The user will not be able to unlock this stage if he has not received at least this minimum score by completing other stages. Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings.",
-                      "min": 0,
-                      "optional": true
+                      "name": "allOrAnyRestrictionSet",
+                      "type": "select",
+                      "label": "All or any restriction set",
+                      "description": "Choose if all or any of the following restrictions need to be met.",
+                      "optional": true,
+                      "options": [
+                        {
+                          "value": "all",
+                          "label": "All"
+                        },
+                        {
+                          "value": "any",
+                          "label": "Any"
+                        }
+                      ],
+                      "default": "all"
                     },
                     {
-                      "name": "openOnScoreSufficient",
+                      "name": "restrictionSetList",
+                      "type": "list",
+                      "optional": true,
+                      "label": "Restriction sets",
+                      "entity": "restriction set",
+                      "field": {
+                        "name": "restrictionSetGroup",
+                        "type": "group",
+                        "label": "Restriction set",
+                        "fields": [
+                          {
+                            "name": "allOrAnyRestriction",
+                            "type": "select",
+                            "label": "All or any restriction",
+                            "description": "Choose if all or any of the following restrictions need to be met.",
+                            "options": [
+                              {
+                                "value": "all",
+                                "label": "All"
+                              },
+                              {
+                                "value": "any",
+                                "label": "Any"
+                              }
+                            ],
+                            "default": "any"
+                          },
+                          {
+                            "name": "restrictionList",
+                            "type": "list",
+                            "label": "Restrictions",
+                            "entity": "restriction",
+                            "optional": true,
+                            "field": {
+                              "name": "restrictionGroup",
+                              "type": "group",
+                              "label": "Restriction",
+                              "fields": [
+                                {
+                                  "name": "restrictionType",
+                                  "label": "Restriction type",
+                                  "type": "select",
+                                  "optional": true,
+                                  "options": [
+                                    {
+                                      "value": "totalScore",
+                                      "label": "Total score"
+                                    }
+                                  ],
+                                  "default": "totalScore"
+                                },
+                                {
+                                  "name": "totalScoreOperator",
+                                  "label": "Operator for total score",
+                                  "type": "select",
+                                  "optional": true,
+                                  "options": [
+                                    {
+                                      "value": "lessThan",
+                                      "label": "less than"
+                                    },
+                                    {
+                                      "value": "equalTo",
+                                      "label": "equal to"
+                                    },
+                                    {
+                                      "value": "notEqualTo",
+                                      "label": "not equal to"
+                                    },
+                                    {
+                                      "value": "greaterThan",
+                                      "label": "greater than"
+                                    }
+                                  ],
+                                  "default": "greaterThan",
+                                  "widget": "showWhen",
+                                  "showWhen": {
+                                    "rules": [
+                                      {
+                                        "field": "restrictionType",
+                                        "equals": ["totalScore"]
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "totalScoreValue",
+                                  "label": "Value of total score to compare",
+                                  "type": "number",
+                                  "optional": true,
+                                  "widget": "showWhen",
+                                  "showWhen": {
+                                    "rules": [
+                                      {
+                                        "field": "restrictionType",
+                                        "equals": ["totalScore"]
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "name": "openOnRequirementsMet",
                       "type": "boolean",
-                      "label": "Open once score sufficient",
-                      "description": "If there has been an attempt to unlock the stage with insufficient score, should the stage unlock automatically once the score becomes sufficient.",
+                      "label": "Open once requirements met",
+                      "description": "If there has been an attempt to unlock the stage without meeting the requirements, should the stage unlock automatically once the requirements are sufficient.",
                       "default": false,
                       "optional": true
                     }
@@ -1122,13 +1239,6 @@
         "default": "This stage requires you to meet some goals before it can be opened."
       },
       {
-        "name": "confirmAccessDeniedMinScore",
-        "type": "text",
-        "label": "Dialog text access denied: Minimum score",
-        "description": "@minscore is a placeholder and will be replaced with the respective value.",
-        "default": "You need at least a certain number of points: @minscore"
-      },
-      {
         "name": "yes",
         "type": "text",
         "label": "Yes",
@@ -1235,6 +1345,54 @@
         "type": "text",
         "label": "Volume of sound effects",
         "default": "Volume of sound effects"
+      },
+      {
+        "name": "restrictionsAllOfLong",
+        "type": "text",
+        "label": "The stage will not be available unless",
+        "default": "The stage will not be available unless:"
+      },
+      {
+        "name": "restrictionsAnyOfLong",
+        "type": "text",
+        "label": "The stage will not be available unless any of",
+        "default": "The stage will not be available unless any of:"
+      },
+      {
+        "name": "restrictionsAllOf",
+        "type": "text",
+        "label": "All of:",
+        "default": "All of:"
+      },
+      {
+        "name": "restrictionsAnyOf",
+        "type": "text",
+        "label": "Any of:",
+        "default": "Any of:"
+      },
+      {
+        "name": "restrictionTotalScoreLessThan",
+        "type": "text",
+        "label": "Total score less than",
+        "default": "You have a total score less than @value."
+      },
+      {
+        "name": "restrictionTotalScoreEqualTo",
+        "type": "text",
+        "label": "Total score equal to",
+        "default": "You have a total score equal to @value."
+      },
+      {
+        "name": "restrictionTotalScoreNotEqualTo",
+        "type": "text",
+        "label": "Total score not equal to",
+        "default": "You have a total score not equal to @value."
+      },
+      {
+        "name": "restrictionTotalScoreGreaterThan",
+        "type": "text",
+        "label": "Total score greater than",
+        "default": "You have a total score greater than @value."
       }
     ]
   },
