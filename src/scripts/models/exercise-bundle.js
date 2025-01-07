@@ -296,7 +296,7 @@ export default class ExerciseBundle {
    */
   getCurrentState() {
     const remainingTime = Math.min(
-      this.timeLeft, // TODO: Fix state for new structure!
+      this.timeLeft,
       (this.params.time?.timeLimit || 0) * MS_IN_S + this.params.animDuration
     );
 
