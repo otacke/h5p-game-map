@@ -282,7 +282,7 @@ export default class Stages {
     const unlockingStages = this.stages.filter((stage) => {
       return (
         stage.getState() === this.params.globals.get('states').unlocking &&
-        stage.getAccessRestrictions().openOnScoreSufficient
+        stage.getAccessRestrictions().openOnRequirementsMet
       );
     });
 
@@ -372,7 +372,7 @@ export default class Stages {
     startStages = [startStages[Math.floor(Math.random() * startStages.length)]];
 
     startStages.forEach((stage, index) => {
-      stage.unlock();
+      stage.unlock({ bruteForce: true }); // Start stages must be unlocked
 
       if (index === 0) {
         stage.setTabIndex('0');
