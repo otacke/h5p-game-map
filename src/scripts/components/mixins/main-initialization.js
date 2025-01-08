@@ -505,7 +505,9 @@ export default class MainInitialization {
     // Set start state stages
     if (globalParams.behaviour.map.roaming === 'free') {
       this.stages.forEach((stage) => {
-        stage.setState('open');
+        if (stage.passesRestrictions()) {
+          stage.setState('open');
+        }
       });
       this.paths.forEach((path) => {
         path.setState('cleared');

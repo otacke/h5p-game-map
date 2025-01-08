@@ -62,17 +62,16 @@ export default class Restrictions {
   }
 
   /**
-   * Check if the values pass the restrictions.
-   * @param {number[]|string[]} values Valued to check.
+   * Check if the current values pass the restrictions.
    * @returns {boolean} True if the values pass the restrictions, false otherwise.
    */
-  passes(values = {}) {
+  allPassed() {
     if (!this.restrictions) {
       return true;
     }
 
     const booleanMapping = this.restrictions.restrictionSetList.map((restrictionSet) => {
-      return this.checkRestrictionSet(restrictionSet, values);
+      return this.checkRestrictionSet(restrictionSet);
     });
 
     return this.checkAllOrAny(booleanMapping, this.restrictions.allOrAnyRestrictionSet);

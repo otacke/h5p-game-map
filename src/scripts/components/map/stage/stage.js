@@ -35,7 +35,6 @@ export default class Stage {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       accessRestrictions: {
-        openOnRequirementsMet: false,
         restrictionSetList: []
       }
     }, params);
@@ -346,12 +345,7 @@ export default class Stage {
       return; // Already unlocked
     }
 
-    if (
-      !params.bruteForce &&
-      !this.restrictions.passes({
-        totalScore: this.params.globals.get('getScore')()
-      })
-    ) {
+    if (!params.bruteForce && !this.passesRestrictions()) {
       this.setState('unlocking');
       return; // Set to unlocking state, waiting for updates
     }
@@ -493,12 +487,8 @@ export default class Stage {
       this.animate('shake');
       this.params.jukebox.play('clickStageLocked');
 
-      const allRestrictionsPassed = this.restrictions.passes({
-        totalScore: this.params.globals.get('getScore')()
-      });
-
       if (
-        (!allRestrictionsPassed) &&
+        (!this.passesRestrictions()) &&
         (this.state === states.locked || this.state === states.unlocking)
       ) {
         this.callbacks.onAccessRestrictionsHit({
@@ -511,6 +501,14 @@ export default class Stage {
     }
 
     this.callbacks.onClicked(this.params.id, this.state);
+  }
+
+  /**
+   * Determine whether a stage passes all restrictions
+   * @returns {boolean} True, if all restrictions are passed. Else false.
+   */
+  passesRestrictions() {
+    return this.restrictions.allPassed();
   }
 
   /**

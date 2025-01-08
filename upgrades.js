@@ -106,12 +106,9 @@ H5PUpgrades['H5P.GameMap'] = (() => {
             delete element.contentType;
 
             element.accessRestrictions = element.accessRestrictions ?? {};
-            const openOnRequirementsMet = element.accessRestrictions?.openOnScoreSufficient ?? false;
-
             if (element.accessRestrictions?.minScore === undefined) {
               element.accessRestrictions = {
                 allOrAnyRestrictionSet: 'all',
-                openOnRequirementsMet: openOnRequirementsMet,
                 restrictionSetList: [
                   {
                     allOrAnyRestriction: 'any',
@@ -129,7 +126,6 @@ H5PUpgrades['H5P.GameMap'] = (() => {
               const minScore = element.accessRestrictions.minScore;
               element.accessRestrictions = {
                 allOrAnyRestrictionSet: 'any',
-                openOnRequirementsMet: openOnRequirementsMet,
                 restrictionSetList: [
                   {
                     allOrAnyRestriction: 'any',

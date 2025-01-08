@@ -270,21 +270,11 @@ export default class Stages {
   }
 
   /**
-   * Update stages that are in unlocking state.
+   * Update stages that are in unlocking state (or reachable).
    */
   updateUnlockingStages() {
-    const globalParams = this.params.globals.get('params');
-
-    if (globalParams.behaviour.map.roaming === 'free') {
-      return; // Not relevant
-    }
-
-    const unlockingStages = this.stages.filter((stage) => {
-      return (
-        stage.getState() === this.params.globals.get('states').unlocking &&
-        stage.getAccessRestrictions().openOnRequirementsMet
-      );
-    });
+    const unlockingStages = this.stages
+      .filter((stage) => stage.getState() === this.params.globals.get('states').unlocking);
 
     unlockingStages.forEach((stage) => {
       stage.unlock();
