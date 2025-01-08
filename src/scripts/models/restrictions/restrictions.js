@@ -101,21 +101,14 @@ export default class Restrictions {
   }
 
   /**
-   * Generate HTML for a single restriction.
-   * @param {object} restriction Restriction object.
-   * @returns {string} HTML string for the restriction.
-   */
-  generateRestrictionHTML(restriction) {
-    return `<li>${restriction.getMessage()}</li>`;
-  }
-
-  /**
    * Generate HTML for a restriction set.
    * @param {object} restrictionSet Restriction set object.
    * @returns {string} HTML string for the restriction set.
    */
   generateRestrictionSetHTML(restrictionSet) {
-    let setHTML = restrictionSet.restrictionList.map(this.generateRestrictionHTML).join('');
+    let setHTML = restrictionSet.restrictionList
+      .map((restriction) => `<li>${restriction.getMessage()}</li>`).join('');
+
     if (restrictionSet.restrictionList.length > 1) {
       const intro = restrictionSet.allOrAnyRestriction === 'all' ?
         this.dictionary.get('l10n.restrictionsAllOf') :
