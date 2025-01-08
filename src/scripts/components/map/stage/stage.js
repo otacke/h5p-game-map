@@ -333,6 +333,13 @@ export default class Stage {
   }
 
   /**
+   * Lock.
+   */
+  lock() {
+    this.setState('locked');
+  }
+
+  /**
    * Unlock.
    * @param {object} [params] Parameters.
    * @param {number} [params.bruteForce] If true, unlock unconditionally.
@@ -762,6 +769,14 @@ export default class Stage {
    */
   updateScoreStar(percentage) {
     this.scoreStars?.setStarsByPercentage(percentage);
+  }
+
+  /**
+   * Determine whether the stage has any time restrictions.
+   * @returns {boolean} True if there are time restrictions, false otherwise.
+   */
+  hasTimeRestriction() {
+    return this.restrictions.includeTimeRestriction();
   }
 }
 
