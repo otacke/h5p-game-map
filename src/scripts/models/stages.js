@@ -6,6 +6,9 @@ import { STAGE_TYPES } from '@components/map/stage/stage.js';
 /** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
 const DEFAULT_READ_DELAY_MS = 100;
 
+/** @constant {number} DEFAULT_CHECK_RESTRICTIONS_INTERVAL_MS Interval for checking restrictions. */
+const DEFAULT_CHECK_RESTRICTIONS_INTERVAL_MS = 2500; // Should be good enough
+
 export default class Stages {
 
   /**
@@ -37,6 +40,13 @@ export default class Stages {
     this.handleSelectionKeydown = this.handleSelectionKeydown.bind(this);
 
     this.stages = this.buildStages(this.params.elements);
+
+    // Ensure that time bases restrictions are checked regularly
+    if (this.stages.some((stage) => stage.hasTimeRestriction())) {
+      window.setInterval(() => {
+        this.updateStatePerRestrictions();
+      }, DEFAULT_CHECK_RESTRICTIONS_INTERVAL_MS);
+    }
   }
 
   /**
@@ -279,6 +289,21 @@ export default class Stages {
     unlockingStages.forEach((stage) => {
       stage.unlock();
     });
+  }
+
+  /**
+   * Update stages that are open (or in unlocking) but don't pass restrictions.
+   */
+  updateStatePerRestrictions() {
+    this.stages
+      .filter((stage) => {
+        return !stage.passesRestrictions() &&
+          stage.getState() === this.params.globals.get('states').open ||
+          stage.getState() === this.params.globals.get('states').unlocking;
+      })
+      .forEach((stage) => {
+        stage.lock();
+      });
   }
 
   /**

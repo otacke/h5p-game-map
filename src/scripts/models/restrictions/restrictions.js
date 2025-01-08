@@ -78,6 +78,20 @@ export default class Restrictions {
   }
 
   /**
+   * Determine whether there are any time restrictions.
+   * @returns {boolean} True if there are time restrictions, false otherwise.
+   */
+  includeTimeRestriction() {
+    if (!this.restrictions) {
+      return false;
+    }
+
+    return this.restrictions.restrictionSetList.some((restrictionSet) => {
+      return restrictionSet.restrictionList.some((restriction) => restriction.type === 'time');
+    });
+  }
+
+  /**
    * Check a set of restrictions against a set of values.
    * @param {object[]} restrictionSet Set of restrictions.
    * @returns {boolean} True if the restrictions are met, false otherwise.

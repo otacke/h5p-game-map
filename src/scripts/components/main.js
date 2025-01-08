@@ -99,6 +99,8 @@ export default class Main {
 
     this.start({ isInitial: true });
 
+    this.stages.updateStatePerRestrictions();
+
     // Reattach H5P.Question buttons and scorebar to endscreen
     H5P.externalDispatcher.on('initialized', () => {
       const feedbackWrapper = this.grabH5PQuestionFeedback({
