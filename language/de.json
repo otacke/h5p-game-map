@@ -123,24 +123,29 @@
                                     ]
                                   },
                                   {
-                                    "label": "Vergleichsoperator für die Gesamtpunktzahl",
-                                    "options": [
+                                    "label": "Gesamtpunktzahl",
+                                    "fields": [
                                       {
-                                        "label": "kleiner als"
+                                        "label": "Vergleichsoperator für die Gesamtpunktzahl",
+                                        "options": [
+                                          {
+                                            "label": "kleiner als"
+                                          },
+                                          {
+                                            "label": "gleich"
+                                          },
+                                          {
+                                            "label": "ungleich"
+                                          },
+                                          {
+                                            "label": "größer als"
+                                          }
+                                        ]
                                       },
                                       {
-                                        "label": "gleich"
-                                      },
-                                      {
-                                        "label": "ungleich"
-                                      },
-                                      {
-                                        "label": "größer als"
+                                        "label": "Wert, mit dem die Gesamtpunktzahl verglichen wird"
                                       }
                                     ]
-                                  },
-                                  {
-                                    "label": "Wert, mit dem die Gesamtpunktzahl verglichen wird"
                                   }
                                 ]
                               }

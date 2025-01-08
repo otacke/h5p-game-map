@@ -123,24 +123,29 @@
                                     ]
                                   },
                                   {
-                                    "label": "Operator for total score",
-                                    "options": [
+                                    "label": "Total score",
+                                    "fields": [
                                       {
-                                        "label": "less than"
+                                        "label": "Operator for total score",
+                                        "options": [
+                                          {
+                                            "label": "less than"
+                                          },
+                                          {
+                                            "label": "equal to"
+                                          },
+                                          {
+                                            "label": "not equal to"
+                                          },
+                                          {
+                                            "label": "greater than"
+                                          }
+                                        ]
                                       },
                                       {
-                                        "label": "equal to"
-                                      },
-                                      {
-                                        "label": "not equal to"
-                                      },
-                                      {
-                                        "label": "greater than"
+                                        "label": "Value of total score to compare"
                                       }
                                     ]
-                                  },
-                                  {
-                                    "label": "Value of total score to compare"
                                   }
                                 ]
                               }

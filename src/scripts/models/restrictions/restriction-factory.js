@@ -10,12 +10,11 @@ export default class RestrictionFactory {
    */
   static produce(params = {}) {
     switch (params.restrictionType) {
-
       case 'totalScore':
         const restriction = new RestrictionTotalScore({
           type: params.restrictionType,
-          operator: params.totalScoreOperator,
-          value: params.totalScoreValue,
+          operator: params.totalScoreGroup?.totalScoreOperator,
+          value: params.totalScoreGroup?.totalScoreValue,
           dictionary: params.dictionary,
           getCurrentValue: params.callbacks.totalScore
         });
