@@ -261,44 +261,43 @@
                                   "default": "totalScore"
                                 },
                                 {
-                                  "name": "totalScoreOperator",
-                                  "label": "Operator for total score",
-                                  "type": "select",
-                                  "optional": true,
-                                  "options": [
+                                  "name": "totalScoreGroup",
+                                  "type": "group",
+                                  "label": "Total score",
+                                  "expanded": true,
+                                  "fields": [
                                     {
-                                      "value": "lessThan",
-                                      "label": "less than"
+                                      "name": "totalScoreOperator",
+                                      "label": "Operator for total score",
+                                      "type": "select",
+                                      "optional": true,
+                                      "options": [
+                                        {
+                                          "value": "lessThan",
+                                          "label": "less than"
+                                        },
+                                        {
+                                          "value": "equalTo",
+                                          "label": "equal to"
+                                        },
+                                        {
+                                          "value": "notEqualTo",
+                                          "label": "not equal to"
+                                        },
+                                        {
+                                          "value": "greaterThan",
+                                          "label": "greater than"
+                                        }
+                                      ],
+                                      "default": "greaterThan"
                                     },
                                     {
-                                      "value": "equalTo",
-                                      "label": "equal to"
-                                    },
-                                    {
-                                      "value": "notEqualTo",
-                                      "label": "not equal to"
-                                    },
-                                    {
-                                      "value": "greaterThan",
-                                      "label": "greater than"
+                                      "name": "totalScoreValue",
+                                      "label": "Value of total score to compare",
+                                      "type": "number",
+                                      "optional": true
                                     }
                                   ],
-                                  "default": "greaterThan",
-                                  "widget": "showWhen",
-                                  "showWhen": {
-                                    "rules": [
-                                      {
-                                        "field": "restrictionType",
-                                        "equals": ["totalScore"]
-                                      }
-                                    ]
-                                  }
-                                },
-                                {
-                                  "name": "totalScoreValue",
-                                  "label": "Value of total score to compare",
-                                  "type": "number",
-                                  "optional": true,
                                   "widget": "showWhen",
                                   "showWhen": {
                                     "rules": [
