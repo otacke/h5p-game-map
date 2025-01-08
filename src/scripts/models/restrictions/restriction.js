@@ -6,10 +6,11 @@ export default class Restriction {
    * @param {string} params.type Type of the restriction.
    * @param {string} params.operator Operator of the restriction.
    * @param {object} params.dictionary Dictionary.
+   * @param {function} params.getCurrentValue Function to get the current value.
    * @param {number|string} params.value Value of the restriction.
    */
   constructor(params = {}) {
-    if (!params.type || !params.operator || !params.value || !params.dictionary) {
+    if (!params.type || !params.operator || !params.value || !params.dictionary || !params.getCurrentValue) {
       return null;
     }
 
@@ -17,27 +18,27 @@ export default class Restriction {
     this.operator = params.operator;
     this.value = params.value;
     this.dictionary = params.dictionary;
+    this.getCurrentValue = params.getCurrentValue;
 
     return this;
   }
 
   /**
    * Check a restriction against a value.
-   * @param {number|string} value to check.
-   * @returns {boolean} True if the restriction is met, false otherwise.
+   * returns {boolean} True if the restriction is met, false otherwise.
    */
-  check(value) {
-    // Needs to be implemented in the child class
-    return true;
+  check() {
+    // Needs to be implemnted in the child class
+    throw new Error('Method not implemented');
   }
 
   /**
    * Get valid operators for the restriction.
-   * @returns {string[]} List of valid operators.
+   * returns {string[]} List of valid operators.
    */
   getValidOperators() {
     // Needs to be implemnted in the child class
-    return [];
+    throw new Error('Method not implemented');
   }
 
   /**

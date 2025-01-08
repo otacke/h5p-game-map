@@ -11,6 +11,7 @@ export default class RestrictionTotalScore extends Restriction {
    * @param {string} params.operator Operator.
    * @param {number} params.value Value.
    * @param {object} params.dictionary Localization dictionary.
+   * @param {function} params.getCurrentValue Function to get the current value.
    */
   constructor(params = {}) {
     super(params);
@@ -18,10 +19,11 @@ export default class RestrictionTotalScore extends Restriction {
 
   /**
    * Check restriction against a value.
-   * @param {number|string} value Value to check.
    * @returns {boolean} True if the restriction is met, false otherwise.
    */
-  check(value) {
+  check() {
+    const value = this.getCurrentValue();
+
     if (value === undefined || value === null) {
       return true; // No value to check, treat as unrestricted
     }
