@@ -59,6 +59,7 @@ export default class Stage {
 
     this.restrictions = new Restrictions({
       dictionary: this.params.dictionary,
+      globals: this.params.globals,
       accessRestrictions: this.params.accessRestrictions
     });
 

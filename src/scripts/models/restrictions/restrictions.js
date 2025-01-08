@@ -1,4 +1,4 @@
-import RestrictionTotalScore from './restriction-total-score.js';
+import RestrictionFactory from './restriction-factory.js';
 
 export default class Restrictions {
 
@@ -12,6 +12,8 @@ export default class Restrictions {
    */
   constructor(params = {}) {
     this.dictionary = params.dictionary;
+    this.globals = params.globals;
+
     const restrictionSetList = this.buildRestrictions(params.accessRestrictions.restrictionSetList);
 
     if (!restrictionSetList.length) {
@@ -46,29 +48,15 @@ export default class Restrictions {
    */
   sanitizeRestrictionList(list = []) {
     return list
-      .map((restrictionItem) => this.createRestriction(restrictionItem))
+      .map((restrictionParams) => RestrictionFactory.produce({
+        ...restrictionParams,
+        dictionary: this.dictionary,
+        callbacks: {
+          totalScore: this.globals.get('getScore')
+        }
+      }
+      ))
       .filter((restriction) => restriction !== null);
-  }
-
-  /**
-   * Create a restriction object based on the restriction item.
-   * TODO: Factory?
-   * @param {object} restrictionItem Restriction item.
-   * @returns {object|null} Restriction object or null if invalid.
-   */
-  createRestriction(restrictionItem) {
-    switch (restrictionItem.restrictionType) {
-      case 'totalScore':
-        const restriction = new RestrictionTotalScore({
-          type: restrictionItem.restrictionType,
-          operator: restrictionItem.totalScoreOperator,
-          value: restrictionItem.totalScoreValue,
-          dictionary: this.dictionary
-        });
-        return restriction.isValid() ? restriction : null;
-      default:
-        return null;
-    }
   }
 
   /**
@@ -91,14 +79,10 @@ export default class Restrictions {
   /**
    * Check a set of restrictions against a set of values.
    * @param {object[]} restrictionSet Set of restrictions.
-   * @param {number|string} values Valued to check.
    * @returns {boolean} True if the restrictions are met, false otherwise.
    */
-  checkRestrictionSet(restrictionSet, values) {
-    const booleanMapping = restrictionSet.restrictionList.map((restriction) => {
-      return restriction.check(values[restriction.getType()]);
-    });
-
+  checkRestrictionSet(restrictionSet) {
+    const booleanMapping = restrictionSet.restrictionList.map((restriction) => restriction.check());
     return this.checkAllOrAny(booleanMapping, restrictionSet.allOrAnyRestriction);
   }
 
