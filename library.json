@@ -67,6 +67,11 @@
       "machineName": "H5PEditor.GameMap",
       "majorVersion": 1,
       "minorVersion": 2
+    },
+    {
+      "machineName": "H5PEditor.DateTime",
+      "majorVersion": 1,
+      "minorVersion": 0
     }
   ]
 }

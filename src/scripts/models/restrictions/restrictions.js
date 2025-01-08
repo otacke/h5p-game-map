@@ -52,10 +52,12 @@ export default class Restrictions {
         ...restrictionParams,
         dictionary: this.dictionary,
         callbacks: {
-          totalScore: this.globals.get('getScore')
+          totalScore: this.globals.get('getScore'),
+          time: (() => {
+            return new Date();
+          })
         }
-      }
-      ))
+      }))
       .filter((restriction) => restriction !== null);
   }
 

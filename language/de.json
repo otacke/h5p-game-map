@@ -119,6 +119,9 @@
                                     "options": [
                                       {
                                         "label": "Gesamtpunktzahl"
+                                      },
+                                      {
+                                        "label": "Datum"
                                       }
                                     ]
                                   },
@@ -144,6 +147,31 @@
                                       },
                                       {
                                         "label": "Wert, mit dem die Gesamtpunktzahl verglichen wird"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Zeitpunkt",
+                                    "fields": [
+                                      {
+                                        "label": "Vergleichsoperator für den aktuellen Zeitpunkt",
+                                        "options": [
+                                          {
+                                            "label": "vor"
+                                          },
+                                          {
+                                            "label": "ist"
+                                          },
+                                          {
+                                            "label": "ist nicht"
+                                          },
+                                          {
+                                            "label": "nach"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Zeitpunkt, mit der jetzige Zeitpunkt verglichen wird"
                                       }
                                     ]
                                   }
@@ -693,6 +721,22 @@
         {
           "label": "Gesamtpunktzahl größer als",
           "default": "Du hast eine Gesamtpunktzahl größer als @value."
+        },
+        {
+          "label": "Zeitpunkt vor",
+          "default": "Der jetzige Zeitpunkt liegt vor @value."
+        },
+        {
+          "label": "Zeitpunkt ist",
+          "default": "Der jetzige Zeitpunkt ist @value."
+        },
+        {
+          "label": "Zeitpunkt ist nicht",
+          "default": "Der jetzige Zeitpunkt ist nicht @value."
+        },
+        {
+          "label": "Zeitpunkt nach",
+          "default": "Der jetzige Zeitpunkt liegt nach @value."
         }
       ]
     },
