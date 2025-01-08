@@ -256,6 +256,10 @@
                                     {
                                       "value": "totalScore",
                                       "label": "Total score"
+                                    },
+                                    {
+                                      "value": "time",
+                                      "label": "Time"
                                     }
                                   ],
                                   "default": "totalScore"
@@ -293,7 +297,7 @@
                                     },
                                     {
                                       "name": "totalScoreValue",
-                                      "label": "Value of total score to compare",
+                                      "label": "Value of total score to compare to",
                                       "type": "number",
                                       "optional": true
                                     }
@@ -303,7 +307,56 @@
                                     "rules": [
                                       {
                                         "field": "restrictionType",
-                                        "equals": ["totalScore"]
+                                        "equals": "totalScore"
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "timeGroup",
+                                  "type": "group",
+                                  "label": "Time",
+                                  "expanded": true,
+                                  "fields": [
+                                    {
+                                      "name": "timeOperator",
+                                      "label": "Operator for time",
+                                      "type": "select",
+                                      "optional": true,
+                                      "options": [
+                                        {
+                                          "value": "before",
+                                          "label": "before"
+                                        },
+                                        {
+                                          "value": "is",
+                                          "label": "is"
+                                        },
+                                        {
+                                          "value": "is not",
+                                          "label": "is not"
+                                        },
+                                        {
+                                          "value": "after",
+                                          "label": "after"
+                                        }
+                                      ],
+                                      "default": "before"
+                                    },
+                                    {
+                                      "name": "timeValue",
+                                      "label": "Time to compare to",
+                                      "type": "text",
+                                      "widget": "datetime",
+                                      "optional": true
+                                    }
+                                  ],
+                                  "widget": "showWhen",
+                                  "showWhen": {
+                                    "rules": [
+                                      {
+                                        "field": "restrictionType",
+                                        "equals": "time"
                                       }
                                     ]
                                   }
@@ -1392,6 +1445,30 @@
         "type": "text",
         "label": "Total score greater than",
         "default": "You have a total score greater than @value."
+      },
+      {
+        "name": "restrictionTimeBefore",
+        "type": "text",
+        "label": "Time before",
+        "default": "The current time is before @value."
+      },
+      {
+        "name": "restrictionTimeOn",
+        "type": "text",
+        "label": "Time is",
+        "default": "The current time is @value."
+      },
+      {
+        "name": "restrictionTimeNotOn",
+        "type": "text",
+        "label": "Time is not",
+        "default": "The current time is not @value."
+      },
+      {
+        "name": "restrictionTimeAfter",
+        "type": "text",
+        "label": "Time after",
+        "default": "The current time is after @value."
       }
     ]
   },

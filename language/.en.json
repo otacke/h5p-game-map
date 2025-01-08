@@ -119,6 +119,9 @@
                                     "options": [
                                       {
                                         "label": "Total score"
+                                      },
+                                      {
+                                        "label": "Time"
                                       }
                                     ]
                                   },
@@ -143,7 +146,32 @@
                                         ]
                                       },
                                       {
-                                        "label": "Value of total score to compare"
+                                        "label": "Value of total score to compare to"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Time",
+                                    "fields": [
+                                      {
+                                        "label": "Operator for time",
+                                        "options": [
+                                          {
+                                            "label": "before"
+                                          },
+                                          {
+                                            "label": "is"
+                                          },
+                                          {
+                                            "label": "is not"
+                                          },
+                                          {
+                                            "label": "after"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Time to compare to"
                                       }
                                     ]
                                   }
@@ -694,6 +722,22 @@
         {
           "label": "Total score greater than",
           "default": "You have a total score greater than @value."
+        },
+        {
+          "label": "Time before",
+          "default": "The current time is before @value."
+        },
+        {
+          "label": "Time is",
+          "default": "The current time is @value."
+        },
+        {
+          "label": "Time is not",
+          "default": "The current time is not @value."
+        },
+        {
+          "label": "Time after",
+          "default": "The current time is after @value."
         }
       ]
     },

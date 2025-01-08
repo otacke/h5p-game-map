@@ -74,6 +74,15 @@ export default class Restriction {
   }
 
   /**
+   * Get representation of the restriction value.
+   * Can be useful to override by child classes.
+   * @returns {string} Representation of the restriction value.
+   */
+  getValueRepresentation() {
+    return this.getValue().toString();
+  }
+
+  /**
    * Get message explaining the restriction.
    * @returns {string} Message explaining the restriction.
    */
@@ -81,6 +90,6 @@ export default class Restriction {
     const type = this.getType().charAt(0).toUpperCase() + this.getType().slice(1);
     const operator = this.getOperator().charAt(0).toUpperCase() + this.getOperator().slice(1);
 
-    return this.dictionary.get(`l10n.restriction${type}${operator}`)?.replace('@value', this.getValue());
+    return this.dictionary.get(`l10n.restriction${type}${operator}`)?.replace('@value', this.getValueRepresentation());
   }
 }
