@@ -368,11 +368,9 @@
                       }
                     },
                     {
-                      "name": "openOnRequirementsMet",
+                      "name": "dummy",
                       "type": "boolean",
-                      "label": "Open once requirements met",
-                      "description": "If there has been an attempt to unlock the stage without meeting the requirements, should the stage unlock automatically once the requirements are sufficient.",
-                      "default": false,
+                      "label": "Dummy",
                       "optional": true
                     }
                   ]

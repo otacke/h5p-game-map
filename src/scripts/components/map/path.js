@@ -20,6 +20,8 @@ export default class Path {
       },
     }, params);
 
+    // TODO: Fix previous state when not roaming
+
     this.params.state = this.params.state ??
       this.params.globals.get('states').open;
 
