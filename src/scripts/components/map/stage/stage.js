@@ -56,11 +56,18 @@ export default class Stage {
       onAccessRestrictionsHit: () => {}
     }, callbacks);
 
-    this.restrictions = new Restrictions({
-      dictionary: this.params.dictionary,
-      globals: this.params.globals,
-      accessRestrictions: this.params.accessRestrictions
-    });
+    this.restrictions = new Restrictions(
+      {
+        dictionary: this.params.dictionary,
+        globals: this.params.globals,
+        accessRestrictions: this.params.accessRestrictions
+      },
+      {
+        getTotalScore: () => this.params.globals.get('params').totalScore,
+        getStageScore: (id) => this.callbacks.getScore(id),
+        getTime: () => new Date()
+      }
+    );
 
     this.isDisabledState = false;
     this.isAnimating = false;
@@ -235,8 +242,7 @@ export default class Stage {
 
     let stateLabel;
     if (
-      this.state === this.params.globals.get('states').locked ||
-      this.state === this.params.globals.get('states').unlocking
+      this.state === this.params.globals.get('states').locked
     ) {
       stateLabel = this.params.dictionary.get('a11y.locked');
     }
@@ -345,16 +351,12 @@ export default class Stage {
    * @param {number} [params.bruteForce] If true, unlock unconditionally.
    */
   unlock(params = {}) {
-    if (
-      this.state !== this.params.globals.get('states').locked &&
-      this.state !== this.params.globals.get('states').unlocking
-    ) {
+    if (this.state !== this.params.globals.get('states').locked) {
       return; // Already unlocked
     }
 
     if (!params.bruteForce && !this.passesRestrictions()) {
-      this.setState('unlocking');
-      return; // Set to unlocking state, waiting for updates
+      return;
     }
 
     this.params.globals.get('read')(this.params.dictionary
@@ -490,14 +492,11 @@ export default class Stage {
 
     const states = this.params.globals.get('states');
 
-    if (this.state === states.locked || this.state === states.unlocking || this.state === states.sealed) {
+    if (this.state === states.locked || this.state === states.sealed) {
       this.animate('shake');
       this.params.jukebox.play('clickStageLocked');
 
-      if (
-        (!this.passesRestrictions()) &&
-        (this.state === states.locked || this.state === states.unlocking)
-      ) {
+      if (this.state === states.locked && !this.passesRestrictions()) {
         this.callbacks.onAccessRestrictionsHit({
           id: this.params.id,
           html: this.restrictions.getMessagesHTML()
@@ -583,13 +582,7 @@ export default class Stage {
 
     this.setState(state);
 
-    if (
-      [
-        this.params.globals.get('states').locked,
-        this.params.globals.get('states').unlocking
-      ]
-        .includes(state)
-    ) {
+    if (state === this.params.globals.get('states').locked) {
       this.setTabIndex('-1');
     }
 
@@ -637,10 +630,6 @@ export default class Stage {
     }
     else if (state === states.locked) {
       newState = states.locked;
-    }
-    else if (state === states.unlocking) {
-      newState = states.unlocking;
-      this.show();
     }
     else if (
       state === states.open ||

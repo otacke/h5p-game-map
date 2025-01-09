@@ -1,3 +1,4 @@
+import Util from '@services/util.js';
 import RestrictionFactory from './restriction-factory.js';
 
 export default class Restrictions {
@@ -9,8 +10,18 @@ export default class Restrictions {
    * @param {string} params.operator Operator.
    * @param {number} params.value Value.
    * @param {object} params.dictionary Localization dictionary.
+   * @param {object} callbacks Callbacks.
+   * @param {function} callbacks.getTotalScore Function to get the total score.
+   * @param {function} callbacks.getTime Function to get the current time.
+   * @param {function} callbacks.getStageScore Function to get the current score of stage with these restrictions.
    */
-  constructor(params = {}) {
+  constructor(params = {}, callbacks = {}) {
+    this.callbacks = Util.extend({
+      getTotalScore: () => 0,
+      getStageScore: () => 0,
+      getTime: () => new Date()
+    }, callbacks);
+
     this.dictionary = params.dictionary;
     this.globals = params.globals;
 
@@ -47,17 +58,26 @@ export default class Restrictions {
    * @returns {object[]} Sanitized list of restrictions.
    */
   sanitizeRestrictionList(list = []) {
+    const elementParams = this.globals.get('params').gamemapSteps.gamemap.elements;
     return list
-      .map((restrictionParams) => RestrictionFactory.produce({
-        ...restrictionParams,
-        dictionary: this.dictionary,
-        callbacks: {
-          totalScore: this.globals.get('getScore'),
-          time: (() => {
-            return new Date();
-          })
+      .map((restrictionParams) => {
+        if (restrictionParams.restrictionType === 'stageScore' && restrictionParams.stageScoreGroup) {
+          const label = elementParams.find((element) => {
+            return element.id === restrictionParams.stageScoreGroup.stageScoreId;
+          })?.label;
+          restrictionParams.stageScoreGroup.stageScoreLabel = label;
         }
-      }))
+
+        return RestrictionFactory.produce({
+          ...restrictionParams,
+          dictionary: this.dictionary,
+          callbacks: {
+            totalScore: this.callbacks.getTotalScore,
+            stageScore: this.callbacks.getStageScore,
+            time: this.callbacks.getTime
+          }
+        });
+      })
       .filter((restriction) => restriction !== null);
   }
 

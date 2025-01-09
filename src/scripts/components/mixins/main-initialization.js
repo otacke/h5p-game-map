@@ -276,6 +276,9 @@ export default class MainInitialization {
         },
         onAccessRestrictionsHit: (params) => {
           this.handleStageAccessRestrictionsHit(params);
+        },
+        getStageScore: (id) => {
+          return this.exerciseBundles.getExerciseBundle(id).getScore();
         }
       }
     );
@@ -564,5 +567,7 @@ export default class MainInitialization {
       this.params.jukebox.unmuteAll();
       this.params.jukebox.play('backgroundMusic');
     }
+
+    this.stages.updateStatePerRestrictions();
   }
 }
