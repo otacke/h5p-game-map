@@ -287,12 +287,26 @@ export default class Stages {
    * Lock stages that do not meet restrictions, unlock those that now do.
    */
   updateStatePerRestrictions() {
+    const mode = this.params.globals.get('params').behaviour.map.roaming;
+
     this.stages.forEach((stage) => {
-      if (stage.getState() === this.params.globals.get('states').locked && stage.passesRestrictions()) {
-        // TODO: Only unlock if there is a cleared path to the stage unless roaming
+      const hasCompletedNeighbor = mode === 'free' ||
+        stage.getNeighbors().some((neighborId) => {
+          const neighbor = this.getStage(neighborId);
+          return (
+            (mode === 'completed' && neighbor.getState() === this.params.globals.get('states').completed) ||
+            (mode === 'cleared' && neighbor.getState() === this.params.globals.get('states').cleared)
+          );
+        });
+
+      if (
+        hasCompletedNeighbor &&
+        stage.getState() === this.params.globals.get('states').locked &&
+        stage.passesRestrictions()
+      ) {
         stage.unlock();
       }
-      else if (stage.getState() === this.params.globals.get('states').open && !stage.passesRestrictions()) {
+      else if (!stage.isStartStage() && stage.getState() === this.params.globals.get('states').open && !stage.passesRestrictions()) {
         stage.lock();
       }
     });
@@ -379,7 +393,8 @@ export default class Stages {
     startStages = [startStages[Math.floor(Math.random() * startStages.length)]];
 
     startStages.forEach((stage, index) => {
-      stage.unlock({ bruteForce: true }); // Start stages must be unlocked
+      stage.setStartStage();
+      stage.unlock();
 
       if (index === 0) {
         stage.setTabIndex('0');

@@ -339,6 +339,21 @@ export default class Stage {
   }
 
   /**
+   * Set start stage.
+   */
+  setStartStage() {
+    this.isStartStageState = true;
+  }
+
+  /**
+   * Determine whether stage is start stage.
+   * @returns {boolean} True, if stage is start stage. Else false.
+   */
+  isStartStage() {
+    return this.isStartStageState ?? false;
+  }
+
+  /**
    * Lock.
    */
   lock() {
@@ -348,14 +363,13 @@ export default class Stage {
   /**
    * Unlock.
    * @param {object} [params] Parameters.
-   * @param {number} [params.bruteForce] If true, unlock unconditionally.
    */
   unlock(params = {}) {
     if (this.state !== this.params.globals.get('states').locked) {
       return; // Already unlocked
     }
 
-    if (!params.bruteForce && !this.passesRestrictions()) {
+    if (!this.isStartStage() && !this.passesRestrictions()) {
       return;
     }
 
@@ -575,6 +589,7 @@ export default class Stage {
    */
   reset(params = {}) {
     this.setReachable(true);
+    this.isStartStageState = false;
 
     const state = params.isInitial ?
       this.params.state :
