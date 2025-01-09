@@ -306,7 +306,11 @@ export default class Stages {
       ) {
         stage.unlock();
       }
-      else if (!stage.isStartStage() && stage.getState() === this.params.globals.get('states').open && !stage.passesRestrictions()) {
+      else if (
+        !stage.isStartStage() &&
+        stage.getState() === this.params.globals.get('states').open &&
+        !stage.passesRestrictions()
+      ) {
         stage.lock();
       }
     });
