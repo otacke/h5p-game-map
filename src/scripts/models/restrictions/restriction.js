@@ -8,12 +8,20 @@ export default class Restriction {
    * @param {object} params.dictionary Dictionary.
    * @param {function} params.getCurrentValue Function to get the current value.
    * @param {number|string} params.value Value of the restriction.
+   * @param {string} [params.label] Label to represent the restriction target. Does not have to be used.
    */
   constructor(params = {}) {
-    if (!params.type || !params.operator || !params.value || !params.dictionary || !params.getCurrentValue) {
+    if (
+      !params.type ||
+      !params.operator ||
+      typeof params.value !== 'number' ||
+      !params.dictionary ||
+      !params.getCurrentValue
+    ) {
       return null;
     }
 
+    this.label = params.label ?? '---';
     this.type = params.type;
     this.operator = params.operator;
     this.value = params.value;
@@ -90,6 +98,8 @@ export default class Restriction {
     const type = this.getType().charAt(0).toUpperCase() + this.getType().slice(1);
     const operator = this.getOperator().charAt(0).toUpperCase() + this.getOperator().slice(1);
 
-    return this.dictionary.get(`l10n.restriction${type}${operator}`)?.replace('@value', this.getValueRepresentation());
+    return (this.dictionary.get(`l10n.restriction${type}${operator}`) ?? '')
+      .replace('@value', this.getValueRepresentation())
+      .replace('@label', this.label);
   }
 }

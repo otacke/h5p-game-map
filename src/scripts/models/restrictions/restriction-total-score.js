@@ -12,6 +12,7 @@ export default class RestrictionTotalScore extends Restriction {
    * @param {number} params.value Value.
    * @param {object} params.dictionary Localization dictionary.
    * @param {function} params.getCurrentValue Function to get the current value.
+   * @param {string} [params.label] Label to represent the restriction target. Does not have to be used.
    */
   constructor(params = {}) {
     super(params);

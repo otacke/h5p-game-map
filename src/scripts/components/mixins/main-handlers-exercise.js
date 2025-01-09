@@ -42,9 +42,6 @@ export default class MainHandlersExercise {
     // Ensure stages get locked if requirements are no longer met.
     this.stages.updateStatePerRestrictions();
 
-    // Check whether previously not unlockable stages can now be unlocked
-    this.stages.updateUnlockingStages();
-
     if (typeof params.score === 'number' && params.score !== params.maxScore) {
       this.handleIncompleteScore(id);
     }

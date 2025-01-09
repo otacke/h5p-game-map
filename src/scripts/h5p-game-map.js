@@ -25,7 +25,6 @@ const EXERCISE_SCREEN_ANIM_DURATION_MS = 1000;
 export const STATES = {
   unstarted: 0, // Exercise
   locked: 1,
-  unlocking: 2,
   open: 3,
   opened: 4,
   completed: 5,

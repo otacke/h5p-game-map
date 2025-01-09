@@ -121,7 +121,10 @@
                                         "label": "Gesamtpunktzahl"
                                       },
                                       {
-                                        "label": "Datum"
+                                        "label": "Etappenpunktzahl"
+                                      },
+                                      {
+                                        "label": "Zeitpunkt"
                                       }
                                     ]
                                   },
@@ -147,6 +150,34 @@
                                       },
                                       {
                                         "label": "Wert, mit dem die Gesamtpunktzahl verglichen wird"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Etappenpunktzahl",
+                                    "fields": [
+                                      {
+                                        "label": "Etappe, mit deren Punktzahl verglichen wird"
+                                      },
+                                      {
+                                        "label": "Vergleichsoperator für die Etapppenpunktzahl",
+                                        "options": [
+                                          {
+                                            "label": "kleiner als"
+                                          },
+                                          {
+                                            "label": "gleich"
+                                          },
+                                          {
+                                            "label": "ungleich"
+                                          },
+                                          {
+                                            "label": "größer als"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Wert, mit dem die Etappenpunktzahl verglichen wird"
                                       }
                                     ]
                                   },
@@ -182,8 +213,7 @@
                         }
                       },
                       {
-                        "label": "Öffne, sobald genügend Punkte",
-                        "description": "Wenn versucht wurde, diese Etappe mit zu wenig Punkten freizuschalten, soll diese Etappe automatisch freigeschaltet werden, sobald genügend Punkte gesammelt wurden."
+                        "label": "dummy"
                       }
                     ]
                   },
@@ -721,6 +751,22 @@
         {
           "label": "Gesamtpunktzahl größer als",
           "default": "Du hast eine Gesamtpunktzahl größer als @value."
+        },
+        {
+          "label": "Etappenpunktzahl kleiner als",
+          "default": "Deine Punktzahl in Etappe @label ist kleiner als @value."
+        },
+        {
+          "label": "Etappenpunktzahl glech",
+          "default": "Deine Punktzahl in Etappe @label ist @value."
+        },
+        {
+          "label": "Etappenpunktzahl nicht gleich",
+          "default": "Deine Punktzahl in Etappe @label ist nicht @value."
+        },
+        {
+          "label": "Etappenpunktzahl größer als",
+          "default": "Deine Punktzahl in Etappe @label ist größer als @value."
         },
         {
           "label": "Zeitpunkt vor",

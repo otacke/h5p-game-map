@@ -121,6 +121,9 @@
                                         "label": "Total score"
                                       },
                                       {
+                                        "label": "Stage score"
+                                      },
+                                      {
                                         "label": "Time"
                                       }
                                     ]
@@ -147,6 +150,34 @@
                                       },
                                       {
                                         "label": "Value of total score to compare to"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Stage score",
+                                    "fields": [
+                                      {
+                                        "label": "Stage to get score from"
+                                      },
+                                      {
+                                        "label": "Operator for stage score",
+                                        "options": [
+                                          {
+                                            "label": "less than"
+                                          },
+                                          {
+                                            "label": "equal to"
+                                          },
+                                          {
+                                            "label": "not equal to"
+                                          },
+                                          {
+                                            "label": "greater than"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Score score to compare to"
                                       }
                                     ]
                                   },
@@ -182,8 +213,7 @@
                         }
                       },
                       {
-                        "label": "Open once requirements met",
-                        "description": "If there has been an attempt to unlock the stage without meeting the requirements, should the stage unlock automatically once the requirements are sufficient."
+                        "label": "dummy"
                       }
                     ]
                   },
@@ -722,6 +752,22 @@
         {
           "label": "Total score greater than",
           "default": "You have a total score greater than @value."
+        },
+        {
+          "label": "Stage score less than",
+          "default": "You have a score less than @value in stage @label."
+        },
+        {
+          "label": "Stage score equal to",
+          "default": "You have a score equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score not equal to",
+          "default": "You have a score not equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score greater than",
+          "default": "You have a score greater than @value in stage @label."
         },
         {
           "label": "Time before",

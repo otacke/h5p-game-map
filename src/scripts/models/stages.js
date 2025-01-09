@@ -34,7 +34,8 @@ export default class Stages {
       onStageFocused: () => {},
       onBecameActiveDescendant: () => {},
       onAddedToQueue: () => {},
-      onAccessRestrictionsHit: () => {}
+      onAccessRestrictionsHit: () => {},
+      getStageScore: () => 0
     }, callbacks);
 
     this.handleSelectionKeydown = this.handleSelectionKeydown.bind(this);
@@ -153,6 +154,9 @@ export default class Stages {
         },
         onAccessRestrictionsHit: (params = {}) => {
           this.callbacks.onAccessRestrictionsHit(params);
+        },
+        getScore: (id) => {
+          return this.callbacks.getStageScore(id);
         }
       };
 
@@ -280,30 +284,18 @@ export default class Stages {
   }
 
   /**
-   * Update stages that are in unlocking state (or reachable).
-   */
-  updateUnlockingStages() {
-    const unlockingStages = this.stages
-      .filter((stage) => stage.getState() === this.params.globals.get('states').unlocking);
-
-    unlockingStages.forEach((stage) => {
-      stage.unlock();
-    });
-  }
-
-  /**
-   * Update stages that are open (or in unlocking) but don't pass restrictions.
+   * Lock stages that do not meet restrictions, unlock those that now do.
    */
   updateStatePerRestrictions() {
-    this.stages
-      .filter((stage) => {
-        return !stage.passesRestrictions() &&
-          stage.getState() === this.params.globals.get('states').open ||
-          stage.getState() === this.params.globals.get('states').unlocking;
-      })
-      .forEach((stage) => {
+    this.stages.forEach((stage) => {
+      if (stage.getState() === this.params.globals.get('states').locked && stage.passesRestrictions()) {
+        // TODO: Only unlock if there is a cleared path to the stage unless roaming
+        stage.unlock();
+      }
+      else if (stage.getState() === this.params.globals.get('states').open && !stage.passesRestrictions()) {
         stage.lock();
-      });
+      }
+    });
   }
 
   /**

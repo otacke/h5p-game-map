@@ -55,8 +55,8 @@
         ]
       }
     ],
-    "widget": "showWhen",
-    "showWhen": {
+    "widget": "gamemapshowwhen",
+    "gamemapshowwhen": {
       "rules": [
         {
           "field": "showTitleScreen",
@@ -258,6 +258,10 @@
                                       "label": "Total score"
                                     },
                                     {
+                                      "value": "stageScore",
+                                      "label": "Stage score"
+                                    },
+                                    {
                                       "value": "time",
                                       "label": "Time"
                                     }
@@ -302,12 +306,68 @@
                                       "optional": true
                                     }
                                   ],
-                                  "widget": "showWhen",
-                                  "showWhen": {
+                                  "widget": "gamemapshowwhen",
+                                  "gamemapshowwhen": {
                                     "rules": [
                                       {
                                         "field": "restrictionType",
                                         "equals": "totalScore"
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "stageScoreGroup",
+                                  "type": "group",
+                                  "label": "Stage score",
+                                  "expanded": true,
+                                  "fields": [
+                                    {
+                                      "name": "stageScoreId",
+                                      "type": "select",
+                                      "label": "Stage to get score from",
+                                      "widget": "gamemapstageselect",
+                                      "optional": true,
+                                      "options": []
+                                    },
+                                    {
+                                      "name": "stageScoreOperator",
+                                      "label": "Operator for stage score",
+                                      "type": "select",
+                                      "optional": true,
+                                      "options": [
+                                        {
+                                          "value": "lessThan",
+                                          "label": "less than"
+                                        },
+                                        {
+                                          "value": "equalTo",
+                                          "label": "equal to"
+                                        },
+                                        {
+                                          "value": "notEqualTo",
+                                          "label": "not equal to"
+                                        },
+                                        {
+                                          "value": "greaterThan",
+                                          "label": "greater than"
+                                        }
+                                      ],
+                                      "default": "before"
+                                    },
+                                    {
+                                      "name": "stageScoreValue",
+                                      "label": "Score score to compare to",
+                                      "type": "number",
+                                      "optional": true
+                                    }
+                                  ],
+                                  "widget": "gamemapshowwhen",
+                                  "gamemapshowwhen": {
+                                    "rules": [
+                                      {
+                                        "field": "restrictionType",
+                                        "equals": "stageScore"
                                       }
                                     ]
                                   }
@@ -351,8 +411,8 @@
                                       "optional": true
                                     }
                                   ],
-                                  "widget": "showWhen",
-                                  "showWhen": {
+                                  "widget": "gamemapshowwhen",
+                                  "gamemapshowwhen": {
                                     "rules": [
                                       {
                                         "field": "restrictionType",
@@ -371,6 +431,7 @@
                       "name": "dummy",
                       "type": "boolean",
                       "label": "Dummy",
+                      "widget": "none",
                       "optional": true
                     }
                   ]
@@ -1186,8 +1247,8 @@
               }
             ],
             "default": "all",
-            "widget": "showWhen",
-            "showWhen": {
+            "widget": "gamemapshowwhen",
+            "gamemapshowwhen": {
               "nullWhenHidden": true,
               "rules": [
                 {
@@ -1443,6 +1504,30 @@
         "type": "text",
         "label": "Total score greater than",
         "default": "You have a total score greater than @value."
+      },
+      {
+        "name": "restrictionStageScoreLessThan",
+        "type": "text",
+        "label": "Stage score less than",
+        "default": "You have a score less than @value in stage @label."
+      },
+      {
+        "name": "restrictionStageScoreEqualTo",
+        "type": "text",
+        "label": "Stage score equal to",
+        "default": "You have a score equal to @value in stage @label."
+      },
+      {
+        "name": "restrictionStageScoreNotEqualTo",
+        "type": "text",
+        "label": "Stage score not equal to",
+        "default": "You have a score not equal to @value in stage @label."
+      },
+      {
+        "name": "restrictionStageScoreGreaterThan",
+        "type": "text",
+        "label": "Stage score greater than",
+        "default": "You have a score greater than @value in stage @label."
       },
       {
         "name": "restrictionTimeBefore",

@@ -121,6 +121,9 @@
                                         "label": "Total score"
                                       },
                                       {
+                                        "label": "Stage score"
+                                      },
+                                      {
                                         "label": "Time"
                                       }
                                     ]
@@ -147,6 +150,34 @@
                                       },
                                       {
                                         "label": "Value of total score to compare"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Stage score",
+                                    "fields": [
+                                      {
+                                        "label": "Stage to get score from"
+                                      },
+                                      {
+                                        "label": "Operator for stage score",
+                                        "options": [
+                                          {
+                                            "label": "less than"
+                                          },
+                                          {
+                                            "label": "equal to"
+                                          },
+                                          {
+                                            "label": "not equal to"
+                                          },
+                                          {
+                                            "label": "greater than"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Score score to compare to"
                                       }
                                     ]
                                   },
@@ -182,8 +213,7 @@
                         }
                       },
                       {
-                        "label": "分数足够时自动解锁",
-                        "description": "如果玩家试图在得分不足的情况下解锁关卡，关卡是否会在得分足够时自动解锁。"
+                        "label": "dummy"
                       }
                     ]
                   },
@@ -722,6 +752,21 @@
         {
           "label": "Total score greater than",
           "default": "You have a total score greater than @value."
+        },        {
+          "label": "Stage score less than",
+          "default": "You have a score less than @value in stage @label."
+        },
+        {
+          "label": "Stage score equal to",
+          "default": "You have a score equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score not equal to",
+          "default": "You have a score not equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score greater than",
+          "default": "You have a score greater than @value in stage @label."
         },
         {
           "label": "Time before",
