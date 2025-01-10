@@ -1,11 +1,12 @@
-import Restriction from './restriction.js';
+import Restriction from '../restriction.js';
 
-const VALID_OPERATORS = ['before', 'is', 'isNot', 'after'];
+/** @constant VALID_OPERATORS {string[]} List of valid operators. */
+const VALID_OPERATORS = ['is', 'isNot'];
 
-export default class RestrictionTime extends Restriction {
+export default class RestrictionStageProgress extends Restriction {
 
   /**
-   * @class restrictionTime
+   * @class RestrictionTotalScore
    * @param {object} params Parameters.
    * @param {string} params.type Type of restriction.
    * @param {string} params.operator Operator.
@@ -16,8 +17,6 @@ export default class RestrictionTime extends Restriction {
    */
   constructor(params = {}) {
     super(params);
-
-    this.value = new Date(this.getValue());
   }
 
   /**
@@ -25,21 +24,17 @@ export default class RestrictionTime extends Restriction {
    * @returns {boolean} True if the restriction is met, false otherwise.
    */
   check() {
-    let currentValue = this.getCurrentValue();
+    const value = this.getCurrentValue();
 
-    if (currentValue === undefined || currentValue === null) {
+    if (value === undefined || value === null) {
       return true; // No value to check, treat as unrestricted
     }
 
     switch (this.getOperator()) {
-      case 'before':
-        return currentValue < this.getValue();
       case 'is':
-        return currentValue === this.getValue();
+        return value === this.getValue();
       case 'isNot':
-        return currentValue !== this.getValue();
-      case 'after':
-        return currentValue > this.getValue();
+        return value !== this.getValue();
       default:
         return true; // Unknown operator, treat as unrestricted
     }
@@ -51,13 +46,5 @@ export default class RestrictionTime extends Restriction {
    */
   getValidOperators() {
     return VALID_OPERATORS;
-  }
-
-  /**
-   * Get representation of the restriction value.
-   * @returns {string} Representation of the restriction value.
-   */
-  getValueRepresentation() {
-    return `${this.value.toLocaleDateString()}, ${this.value.toLocaleTimeString()}`;
   }
 }

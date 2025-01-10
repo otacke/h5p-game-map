@@ -22,6 +22,9 @@ export default class Stages {
    * @param {function} [callbacks.onBecameActiveDescendant] Called when stage became active descendant.
    * @param {function} [callbacks.onAddedToQueue] Called when function added to queue for main.
    * @param {function} [callbacks.onAccessRestrictionsHit] Handle no access.
+   * @param {function} [callbacks.getTotalScore] Get total score.
+   * @param {function} [callbacks.getStageScore] Get score of stage.
+   * @param {function} [callbacks.getExerciseState] Get state of exercise.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -35,7 +38,8 @@ export default class Stages {
       onBecameActiveDescendant: () => {},
       onAddedToQueue: () => {},
       onAccessRestrictionsHit: () => {},
-      getStageScore: () => 0
+      getStageScore: () => 0,
+      getExerciseState: () => 0,
     }, callbacks);
 
     this.handleSelectionKeydown = this.handleSelectionKeydown.bind(this);
@@ -155,8 +159,14 @@ export default class Stages {
         onAccessRestrictionsHit: (params = {}) => {
           this.callbacks.onAccessRestrictionsHit(params);
         },
+        getTotalScore: () => {
+          return this.callbacks.getTotalScore();
+        },
         getScore: (id) => {
           return this.callbacks.getStageScore(id);
+        },
+        getStageProgress: (id) => {
+          return this.callbacks.getExerciseState(id);
         }
       };
 

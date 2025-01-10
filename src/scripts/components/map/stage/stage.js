@@ -31,6 +31,10 @@ export default class Stage {
    * @param {function} [callbacks.onStageChanged] State of stage changed.
    * @param {function} [callbacks.onFocusChanged] State of focus changed.
    * @param {function} [callbacks.onAccessRestrictionsHit] Handle no access.
+   * @param {function} [callbacks.onAddedToQueue] Add to queue.
+   * @param {function} [callbacks.getTotalScore] Get total score.
+   * @param {function} [callbacks.getScore] Get score of stage.
+   * @param {function} [callbacks.getStageProgress] Get progress of stage.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -56,6 +60,38 @@ export default class Stage {
       onAccessRestrictionsHit: () => {}
     }, callbacks);
 
+    const elementParams = this.params.globals.get('params').gamemapSteps.gamemap.elements;
+
+    // Map state names to state values and add labels
+    this.params.accessRestrictions.restrictionSetList = (this.params.accessRestrictions.restrictionSetList ?? [])
+      .filter((setList) => setList.restrictionList)
+      .map((setList) => {
+        setList.restrictionList = setList.restrictionList.map((restriction) => {
+          const stageProgressValue = restriction.stageProgressGroup?.stageProgressValue;
+          if (stageProgressValue) {
+            restriction.stageProgressGroup.stageProgressValue = this.params.globals.get('states')[stageProgressValue];
+            restriction.stageProgressGroup.stageProgressValueRepresentation = this.params.dictionary.get(`l10n.${stageProgressValue}`);
+          }
+
+          if (restriction.restrictionType === 'stageScore' && restriction.stageScoreGroup) {
+            const label = elementParams.find((element) => {
+              return element.id === restriction.stageScoreGroup.stageScoreId;
+            })?.label;
+            restriction.stageScoreGroup.stageScoreLabel = label;
+          }
+          else if (restriction.restrictionType === 'stageProgress' && restriction.stageProgressGroup) {
+            const label = elementParams.find((element) => {
+              return element.id === restriction.stageProgressGroup.stageProgressId;
+            })?.label;
+            restriction.stageProgressGroup.stageProgressLabel = label;
+          }
+
+          return restriction;
+        });
+
+        return setList;
+      });
+
     this.restrictions = new Restrictions(
       {
         dictionary: this.params.dictionary,
@@ -63,8 +99,9 @@ export default class Stage {
         accessRestrictions: this.params.accessRestrictions
       },
       {
-        getTotalScore: () => this.params.globals.get('params').totalScore,
+        getTotalScore: () => this.callbacks.getTotalScore(),
         getStageScore: (id) => this.callbacks.getScore(id),
+        getStageProgress: (id) => this.callbacks.getStageProgress(id),
         getTime: () => new Date()
       }
     );

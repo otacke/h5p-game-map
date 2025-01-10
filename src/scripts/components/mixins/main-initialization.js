@@ -277,8 +277,14 @@ export default class MainInitialization {
         onAccessRestrictionsHit: (params) => {
           this.handleStageAccessRestrictionsHit(params);
         },
+        getTotalScore: () => {
+          return this.getScore();
+        },
         getStageScore: (id) => {
           return this.exerciseBundles.getExerciseBundle(id).getScore();
+        },
+        getExerciseState: (id) => {
+          return this.exerciseBundles.getExerciseBundle(id).getState();
         }
       }
     );

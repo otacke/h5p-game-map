@@ -44,6 +44,8 @@ export default class MainHandlersExerciseScreen {
     this.stages.enable();
 
     this.exerciseBundles.stop(this.openExerciseId);
+
+    this.stages.updateStatePerRestrictions();
   }
 
   /**

@@ -1,8 +1,9 @@
-import Restriction from './restriction.js';
+import Restriction from '../restriction.js';
 
+/** @constant VALID_OPERATORS {string[]} List of valid operators. */
 const VALID_OPERATORS = ['lessThan', 'equalTo', 'notEqualTo', 'greaterThan'];
 
-export default class RestrictionStageScore extends Restriction {
+export default class RestrictionTotalScore extends Restriction {
 
   /**
    * @class RestrictionTotalScore

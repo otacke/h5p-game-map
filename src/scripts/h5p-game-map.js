@@ -26,7 +26,7 @@ export const STATES = {
   unstarted: 0, // Exercise
   locked: 1,
   open: 3,
-  opened: 4,
+  opened: 4, // Rename to tried or similar
   completed: 5,
   cleared: 6, // Exercise, Stage, Path,
   sealed: 7 // Stage
