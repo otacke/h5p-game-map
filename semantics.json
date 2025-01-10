@@ -312,6 +312,7 @@
                                   ],
                                   "widget": "gamemapshowwhen",
                                   "gamemapshowwhen": {
+                                    "nullWhenHidden": true,
                                     "rules": [
                                       {
                                         "field": "restrictionType",
@@ -368,6 +369,7 @@
                                   ],
                                   "widget": "gamemapshowwhen",
                                   "gamemapshowwhen": {
+                                    "nullWhenHidden": true,
                                     "rules": [
                                       {
                                         "field": "restrictionType",
@@ -435,6 +437,7 @@
                                   ],
                                   "widget": "gamemapshowwhen",
                                   "gamemapshowwhen": {
+                                    "nullWhenHidden": true,
                                     "rules": [
                                       {
                                         "field": "restrictionType",
@@ -484,6 +487,7 @@
                                   ],
                                   "widget": "gamemapshowwhen",
                                   "gamemapshowwhen": {
+                                    "nullWhenHidden": true,
                                     "rules": [
                                       {
                                         "field": "restrictionType",
