@@ -262,6 +262,10 @@
                                       "label": "Stage score"
                                     },
                                     {
+                                      "value": "stageProgress",
+                                      "label": "Stage progress"
+                                    },
+                                    {
                                       "value": "time",
                                       "label": "Time"
                                     }
@@ -368,6 +372,73 @@
                                       {
                                         "field": "restrictionType",
                                         "equals": "stageScore"
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "stageProgressGroup",
+                                  "type": "group",
+                                  "label": "Stage progress",
+                                  "expanded": true,
+                                  "fields": [
+                                    {
+                                      "name": "stageProgressId",
+                                      "type": "select",
+                                      "label": "Stage to get progress from",
+                                      "widget": "gamemapstageselect",
+                                      "optional": true,
+                                      "options": []
+                                    },
+                                    {
+                                      "name": "stageProgressOperator",
+                                      "label": "Operator for stage progress",
+                                      "type": "select",
+                                      "optional": true,
+                                      "options": [
+                                        {
+                                          "value": "is",
+                                          "label": "is"
+                                        },
+                                        {
+                                          "value": "isNot",
+                                          "label": "is not"
+                                        }
+                                      ],
+                                      "default": "is"
+                                    },
+                                    {
+                                      "name": "stageProgressValue",
+                                      "label": "Progress to compare to",
+                                      "type": "select",
+                                      "options": [
+                                        {
+                                          "value": "unstarted",
+                                          "label": "not started"
+                                        },
+                                        {
+                                          "value": "opened",
+                                          "label": "started"
+                                        },
+                                        {
+                                          "value": "completed",
+                                          "label": "completed"
+                                        },
+                                        {
+                                          "value": "success",
+                                          "label": "completed successfully"
+                                        }
+                                      ],
+                                      "default": "open",
+                                      "optional": true
+                                    }
+                                  ],
+                                  "widget": "gamemapshowwhen",
+                                  "gamemapshowwhen": {
+                                    "rules": [
+                                      {
+                                        "field": "restrictionType",
+                                        "equals": "stageProgress"
                                       }
                                     ]
                                   }
@@ -1530,6 +1601,18 @@
         "default": "You have a score greater than @value in stage @label."
       },
       {
+        "name": "restrictionStageProgressIs",
+        "type": "text",
+        "label": "Stage progress is",
+        "default": "The progress of stage @label is @value."
+      },
+      {
+        "name": "restrictionStageProgressIsNot",
+        "type": "text",
+        "label": "Stage progress is not",
+        "default": "Ths progress of stage @label is not @value."
+      },
+      {
         "name": "restrictionTimeBefore",
         "type": "text",
         "label": "Time before",
@@ -1552,6 +1635,30 @@
         "type": "text",
         "label": "Time after",
         "default": "The current time is after @value."
+      },
+      {
+        "name": "unstarted",
+        "type": "text",
+        "label": "Not started",
+        "default": "not started"
+      },
+      {
+        "name": "opened",
+        "type": "text",
+        "label": "Started",
+        "default": "started"
+      },
+      {
+        "name": "completed",
+        "type": "text",
+        "label": "Completed",
+        "default": "completed"
+      },
+      {
+        "name": "success",
+        "type": "text",
+        "label": "Completed successfully",
+        "default": "completed successfully"
       }
     ]
   },

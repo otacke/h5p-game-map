@@ -124,6 +124,9 @@
                                         "label": "Etappenpunktzahl"
                                       },
                                       {
+                                        "label": "Etappenfortschritt"
+                                      },
+                                      {
                                         "label": "Zeitpunkt"
                                       }
                                     ]
@@ -178,6 +181,42 @@
                                       },
                                       {
                                         "label": "Wert, mit dem die Etappenpunktzahl verglichen wird"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Etappenfortschritt",
+                                    "fields": [
+                                      {
+                                        "label": "Etappe, deren Fortschritt verglichen wird"
+                                      },
+                                      {
+                                        "label": "Operator für den Etappenfortschritt",
+                                        "options": [
+                                          {
+                                            "label": "ist"
+                                          },
+                                          {
+                                            "label": "ist nicht"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Fortschritt, mit dem verglichen wird",
+                                        "options": [
+                                          {
+                                            "label": "nicht gestartet"
+                                          },
+                                          {
+                                            "label": "gestartet"
+                                          },
+                                          {
+                                            "label": "abgeschlossen"
+                                          },
+                                          {
+                                            "label": "erfolgreich abgeschlosssen"
+                                          }
+                                        ]
                                       }
                                     ]
                                   },
@@ -769,6 +808,14 @@
           "default": "Deine Punktzahl in Etappe @label ist größer als @value."
         },
         {
+          "label": "Stage progress is",
+          "default": "The progress of stage @label is @value."
+        },
+        {
+          "label": "Stage progress is not",
+          "default": "Ths progress of stage @label is not @value."
+        },
+        {
           "label": "Zeitpunkt vor",
           "default": "Der jetzige Zeitpunkt liegt vor @value."
         },
@@ -783,6 +830,22 @@
         {
           "label": "Zeitpunkt nach",
           "default": "Der jetzige Zeitpunkt liegt nach @value."
+        },
+        {
+          "label": "Nicht gestartet",
+          "default": "nicht gestartet"
+        },
+        {
+          "label": "Gestartet",
+          "default": "gestartet"
+        },
+        {
+          "label": "Abgeschlossen",
+          "default": "abgeschlossen"
+        },
+        {
+          "label": "Erfolgreich abgeschlossen",
+          "default": "erfolgreich abgeschlossen"
         }
       ]
     },

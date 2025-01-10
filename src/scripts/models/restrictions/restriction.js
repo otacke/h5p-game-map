@@ -8,13 +8,14 @@ export default class Restriction {
    * @param {object} params.dictionary Dictionary.
    * @param {function} params.getCurrentValue Function to get the current value.
    * @param {number|string} params.value Value of the restriction.
+   * @param {string} [params.valueRepresentation] Representation of the value. Defaults to value.
    * @param {string} [params.label] Label to represent the restriction target. Does not have to be used.
    */
   constructor(params = {}) {
     if (
       !params.type ||
       !params.operator ||
-      typeof params.value !== 'number' ||
+      (typeof params.value !== 'number' && typeof params.value !== 'string') ||
       !params.dictionary ||
       !params.getCurrentValue
     ) {
@@ -27,6 +28,7 @@ export default class Restriction {
     this.value = params.value;
     this.dictionary = params.dictionary;
     this.getCurrentValue = params.getCurrentValue;
+    this.valueRepresentation = params.valueRepresentation ?? this.value;
 
     return this;
   }
@@ -87,7 +89,7 @@ export default class Restriction {
    * @returns {string} Representation of the restriction value.
    */
   getValueRepresentation() {
-    return this.getValue().toString();
+    return this.valueRepresentation.toString();
   }
 
   /**

@@ -388,8 +388,8 @@ export default class ExerciseBundle {
       newState = states.unstarted;
     }
     else if (state === states.opened) {
+      // Exercises which are not tasks are automatically cleared after opening
       this.hasTask = this.hasTask ?? this.exercises.some((exercise) => exercise.isTask());
-
       newState = this.hasTask ? states.opened : states.cleared;
     }
     else if (state === states.completed) {
@@ -404,6 +404,14 @@ export default class ExerciseBundle {
 
       this.callbacks.onStateChanged(this.state);
     }
+  }
+
+  /**
+   * Get state.
+   * @returns {number} State constant.
+   */
+  getState() {
+    return this.state;
   }
 
   /**

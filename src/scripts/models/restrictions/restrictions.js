@@ -14,11 +14,13 @@ export default class Restrictions {
    * @param {function} callbacks.getTotalScore Function to get the total score.
    * @param {function} callbacks.getTime Function to get the current time.
    * @param {function} callbacks.getStageScore Function to get the current score of stage with these restrictions.
+   * @param {function} callbacks.getStageProgress Function to get the current state of stage with these restrictions.
    */
   constructor(params = {}, callbacks = {}) {
     this.callbacks = Util.extend({
       getTotalScore: () => 0,
       getStageScore: () => 0,
+      getStageProgress: () => -1,
       getTime: () => new Date()
     }, callbacks);
 
@@ -58,26 +60,17 @@ export default class Restrictions {
    * @returns {object[]} Sanitized list of restrictions.
    */
   sanitizeRestrictionList(list = []) {
-    const elementParams = this.globals.get('params').gamemapSteps.gamemap.elements;
     return list
-      .map((restrictionParams) => {
-        if (restrictionParams.restrictionType === 'stageScore' && restrictionParams.stageScoreGroup) {
-          const label = elementParams.find((element) => {
-            return element.id === restrictionParams.stageScoreGroup.stageScoreId;
-          })?.label;
-          restrictionParams.stageScoreGroup.stageScoreLabel = label;
+      .map((restrictionParams) => RestrictionFactory.produce({
+        ...restrictionParams,
+        dictionary: this.dictionary,
+        callbacks: {
+          totalScore: this.callbacks.getTotalScore,
+          stageScore: this.callbacks.getStageScore,
+          stageProgress: this.callbacks.getStageProgress,
+          time: this.callbacks.getTime
         }
-
-        return RestrictionFactory.produce({
-          ...restrictionParams,
-          dictionary: this.dictionary,
-          callbacks: {
-            totalScore: this.callbacks.getTotalScore,
-            stageScore: this.callbacks.getStageScore,
-            time: this.callbacks.getTime
-          }
-        });
-      })
+      }))
       .filter((restriction) => restriction !== null);
   }
 

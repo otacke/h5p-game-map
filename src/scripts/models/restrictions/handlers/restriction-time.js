@@ -1,11 +1,12 @@
-import Restriction from './restriction.js';
+import Restriction from '../restriction.js';
 
-const VALID_OPERATORS = ['lessThan', 'equalTo', 'notEqualTo', 'greaterThan'];
+/** @constant VALID_OPERATORS {string[]} List of valid operators. */
+const VALID_OPERATORS = ['before', 'is', 'isNot', 'after'];
 
-export default class RestrictionTotalScore extends Restriction {
+export default class RestrictionTime extends Restriction {
 
   /**
-   * @class RestrictionTotalScore
+   * @class restrictionTime
    * @param {object} params Parameters.
    * @param {string} params.type Type of restriction.
    * @param {string} params.operator Operator.
@@ -16,6 +17,8 @@ export default class RestrictionTotalScore extends Restriction {
    */
   constructor(params = {}) {
     super(params);
+
+    this.value = new Date(this.getValue());
   }
 
   /**
@@ -23,21 +26,21 @@ export default class RestrictionTotalScore extends Restriction {
    * @returns {boolean} True if the restriction is met, false otherwise.
    */
   check() {
-    const value = this.getCurrentValue();
+    let currentValue = this.getCurrentValue();
 
-    if (value === undefined || value === null) {
+    if (currentValue === undefined || currentValue === null) {
       return true; // No value to check, treat as unrestricted
     }
 
     switch (this.getOperator()) {
-      case 'lessThan':
-        return value < this.getValue();
-      case 'equalTo':
-        return value === this.getValue();
-      case 'notEqualTo':
-        return value !== this.getValue();
-      case 'greaterThan':
-        return value > this.getValue();
+      case 'before':
+        return currentValue < this.getValue();
+      case 'is':
+        return currentValue === this.getValue();
+      case 'isNot':
+        return currentValue !== this.getValue();
+      case 'after':
+        return currentValue > this.getValue();
       default:
         return true; // Unknown operator, treat as unrestricted
     }
@@ -49,5 +52,13 @@ export default class RestrictionTotalScore extends Restriction {
    */
   getValidOperators() {
     return VALID_OPERATORS;
+  }
+
+  /**
+   * Get representation of the restriction value.
+   * @returns {string} Representation of the restriction value.
+   */
+  getValueRepresentation() {
+    return `${this.value.toLocaleDateString()}, ${this.value.toLocaleTimeString()}`;
   }
 }
