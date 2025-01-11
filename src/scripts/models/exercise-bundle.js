@@ -2,11 +2,16 @@ import Timer from '@services/timer.js';
 import Util from '@services/util.js';
 import Exercise from '@models/exercise.js';
 
-
 /** @constant {number} MS_IN_S Milliseconds in a second. */
 const MS_IN_S = 1000;
 
-export default class ExerciseBundle {
+const XAPI_DEFAULT_DESCRIPTION = 'Game Map Exercise Bundle';
+
+/*
+ * Will implement some variables and methods of a real H5P.ContentType instance
+ * inorder to be able to use the H5P.XAPIEvent class as usual.
+ */
+export default class ExerciseBundle extends H5P.EventDispatcher {
 
   /**
    * @class ExerciseBundle
@@ -26,8 +31,9 @@ export default class ExerciseBundle {
    * @param {function} [callbacks.onInitialized] Callback when initialized.
    */
   constructor(params = {}, callbacks = {}) {
-    this.params = params;
+    super();
 
+    this.params = params;
     this.params.state = this.params.state ?? this.params.globals.get('states').unstarted;
 
     this.callbacks = Util.extend({
@@ -42,8 +48,12 @@ export default class ExerciseBundle {
 
     this.exercises = [];
 
-    this.setState(this.params.globals.get('states').unstarted);
+    // Faking H5P.ContentType instance
+    this.parent = this.params.globals.get('mainInstance');
+    this.contentId = this.parent.contentId;
+    this.subContentId = this.params.previousState?.subContentId ?? H5P.createUUID();
 
+    this.setState(this.params.globals.get('states').unstarted);
     for (const exerciseIndex in params.contentsList) {
       const previousState = this.params.previousState?.instances?.[exerciseIndex];
 
@@ -117,11 +127,36 @@ export default class ExerciseBundle {
   }
 
   /**
+   * Get library info based on parent version. Faking H5P.ContentType instance.
+   * @returns {object} Library info.
+   */
+  get libraryInfo() {
+    const machineName = 'H5P.GameMapExerciseBundle';
+    const { minorVersion, majorVersion } = this.parent.libraryInfo;
+
+    return {
+      machineName: machineName,
+      majorVersion: majorVersion,
+      minorVersion: minorVersion,
+      versionedName: `${machineName} ${majorVersion}.${minorVersion}`,
+      versionedNameNoSpaces: `${machineName}-${majorVersion}.${minorVersion}`
+    };
+  }
+
+  /**
    * Get bundle DOM.
    * @returns {HTMLElement} Bundle DOM.
    */
   getDOM() {
     return this.dom;
+  }
+
+  /**
+   * Get title.
+   * @returns {string} Title.
+   */
+  getTitle() {
+    return this.params.label;
   }
 
   /**
@@ -146,6 +181,7 @@ export default class ExerciseBundle {
   reset(params = {}) {
     let timeLimit;
     let state;
+    delete this.activityStartTime;
 
     if (params.isInitial) {
       timeLimit = this.params.previousState?.remainingTime;
@@ -306,10 +342,91 @@ export default class ExerciseBundle {
 
     return {
       id: this.params.id,
+      subContentId: this.subContentId,
       state: this.state,
       remainingTime: remainingTime,
       isCompleted: this.isCompleted,
       instances: instances
+    };
+  }
+
+  /**
+   * Trigger xAPI event.
+   * @param {string} verb Short id of the verb we want to trigger.
+   */
+  triggerXAPIEvent(verb) {
+    const xAPIEvent = this.createXAPIEvent(verb);
+    this.trigger(xAPIEvent);
+  }
+
+  /**
+   * Create an xAPI event.
+   * @param {string} verb Short id of the verb we want to trigger.
+   * @returns {H5P.XAPIEvent} Event template.
+   */
+  createXAPIEvent(verb) {
+    const xAPIEvent = this.createXAPIEventTemplate(verb);
+
+    Util.extend(
+      xAPIEvent.getVerifiedStatementValue(['object', 'definition']),
+      this.getXAPIDefinition());
+
+    if (verb === 'completed' || verb === 'answered') {
+      xAPIEvent.setScoredResult(
+        this.getScore(), // Question Type Contract mixin
+        this.getMaxScore(), // Question Type Contract mixin
+        this, // setScoredResult will try to find `activityStartTime` on a real instance
+        true,
+        this.getScore() === this.getMaxScore()
+      );
+    }
+
+    return xAPIEvent;
+  }
+
+  /**
+   * Get the xAPI definition for the xAPI object.
+   * @returns {object} XAPI definition.
+   */
+  getXAPIDefinition() {
+    const root = this.params.globals.get('mainInstance');
+
+    const definition = {};
+
+    definition.name = {};
+    definition.name[root.languageTag] = this.getTitle();
+    // Fallback for h5p-php-reporting, expects en-US
+    definition.name['en-US'] = definition.name[root.languageTag];
+
+    definition.description = {};
+    definition.description[root.languageTag] = XAPI_DEFAULT_DESCRIPTION; // TODO
+    // Fallback for h5p-php-reporting, expects en-US
+    definition.description['en-US'] = definition.description[root.languageTag];
+
+    definition.type = 'http://adlnet.gov/expapi/activities/cmi.interaction';
+    definition.interactionType = 'other';
+
+    return definition;
+  }
+
+  /**
+   * Get xAPI data.
+   * @returns {object} XAPI statement.
+   * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
+   */
+  getXAPIData() {
+    const xAPIEvent = this.createXAPIEvent('completed');
+
+    // Not a valid xAPI value (!), but H5P uses it for reporting
+    xAPIEvent.data.statement.object.definition.interactionType = 'compound';
+
+    const children = this.exercises
+      .map((exercise) => exercise?.getXAPIData?.())
+      .filter((data) => !!data);
+
+    return {
+      statement: xAPIEvent.data.statement,
+      children: children
     };
   }
 
@@ -347,7 +464,12 @@ export default class ExerciseBundle {
       this.timer?.start(remainingTime);
     }
 
-    this.setState('opened');
+    this.setState(this.params.globals.get('states').opened);
+
+    this.setActivityStarted(); // inherited
+    this.exercises.forEach((exercise) => {
+      exercise.getInstance()?.setActivityStarted?.();
+    });
 
     window.requestAnimationFrame(() => {
       this.params.globals.get('resize')();
@@ -442,9 +564,17 @@ export default class ExerciseBundle {
     // Completed state
     if (allExercisesSuccessful) {
       this.setState(this.params.globals.get('states').cleared);
+      // Ensure that exercise statement is triggered before
+      window.requestAnimationFrame(() => {
+        this.triggerXAPIEvent('completed');
+      });
     }
     else if (this.isCompleted) {
       this.setState(this.params.globals.get('states').completed);
+      // Ensure that exercise statement is triggered before
+      window.requestAnimationFrame(() => {
+        this.triggerXAPIEvent('completed');
+      });
     }
 
     // Stop timer and allow continue

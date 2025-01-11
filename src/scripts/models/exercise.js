@@ -358,6 +358,7 @@ export default class Exercise {
     if (!params.isInitial && this.instance) {
       if (typeof this.instance.resetTask === 'function') {
         this.instance.resetTask();
+        delete this.instance.activityStartTime;
       }
       else {
         delete this.instance;
