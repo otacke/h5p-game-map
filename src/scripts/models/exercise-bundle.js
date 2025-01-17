@@ -165,10 +165,11 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
    * @returns {string[]} SubContentIds.
    */
   getSubContentIds(xAPIData) {
-    const subContentIds = [];
+    let subContentIds = [];
 
     this.exercises.forEach((exercise) => {
-      subContentIds.push(exercise.getSubContentIds(xAPIData));
+      const exerciseIds = exercise.getSubContentIds(xAPIData);
+      subContentIds = subContentIds.concat(exerciseIds);
     });
 
     return subContentIds;

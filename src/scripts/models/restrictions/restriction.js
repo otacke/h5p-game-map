@@ -77,7 +77,7 @@ export default class Restriction {
 
   /**
    * Get value of the restriction.
-   * @returns {number|string} Value of the restriction.
+   * @returns {number|string|Date} Value of the restriction.
    */
   getValue() {
     return this.value;
