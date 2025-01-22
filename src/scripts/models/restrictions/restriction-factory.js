@@ -34,7 +34,7 @@ export default class RestrictionFactory {
     }
 
     const restriction = this.createRestriction(params.restrictionType, restrictionParams);
-    return restriction.isValid() ? restriction : null;
+    return restriction?.isValid() ? restriction : null;
   }
 
   /**
