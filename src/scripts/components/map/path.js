@@ -20,8 +20,6 @@ export default class Path {
       },
     }, params);
 
-    // TODO: Fix previous state when not roaming
-
     this.params.state = this.params.state ??
       this.params.globals.get('states').open;
 
@@ -29,6 +27,8 @@ export default class Path {
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-path');
+    this.dom.style.setProperty('--path-style', `${this.params.visuals.pathStyle}`);
+    this.dom.style.setProperty('--path-color', `${this.params.visuals.colorPath}`);
 
     if (!this.params.visible) {
       this.hide();

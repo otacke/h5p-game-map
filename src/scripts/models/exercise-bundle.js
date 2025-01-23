@@ -400,7 +400,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     definition.name['en-US'] = definition.name[root.languageTag];
 
     definition.description = {};
-    definition.description[root.languageTag] = XAPI_DEFAULT_DESCRIPTION; // TODO
+    definition.description[root.languageTag] = XAPI_DEFAULT_DESCRIPTION;
     // Fallback for h5p-php-reporting, expects en-US
     definition.description['en-US'] = definition.description[root.languageTag];
 

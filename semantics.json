@@ -312,7 +312,6 @@
                                   ],
                                   "widget": "gamemapshowwhen",
                                   "gamemapshowwhen": {
-                                    "nullWhenHidden": true,
                                     "rules": [
                                       {
                                         "field": "restrictionType",
@@ -369,7 +368,6 @@
                                   ],
                                   "widget": "gamemapshowwhen",
                                   "gamemapshowwhen": {
-                                    "nullWhenHidden": true,
                                     "rules": [
                                       {
                                         "field": "restrictionType",
@@ -437,7 +435,6 @@
                                   ],
                                   "widget": "gamemapshowwhen",
                                   "gamemapshowwhen": {
-                                    "nullWhenHidden": true,
                                     "rules": [
                                       {
                                         "field": "restrictionType",
@@ -487,7 +484,6 @@
                                   ],
                                   "widget": "gamemapshowwhen",
                                   "gamemapshowwhen": {
-                                    "nullWhenHidden": true,
                                     "rules": [
                                       {
                                         "field": "restrictionType",
@@ -679,6 +675,126 @@
                       "type": "text"
                     }
                   ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "paths",
+            "type": "list",
+            "label": "Paths",
+            "entity": "path",
+            "field": {
+              "name": "pathsGroup",
+              "type": "group",
+              "label": "Path",
+              "fields": [
+                {
+                  "name": "from",
+                  "type": "number",
+                  "label": "From",
+                  "widget": "none"
+                },
+                {
+                  "name": "to",
+                  "type": "number",
+                  "label": "To",
+                  "widget": "none"
+                },
+                {
+                  "name": "visualsType",
+                  "type": "select",
+                  "label": "Visual settings",
+                  "options": [
+                    {
+                      "value": "global",
+                      "label": "Use global settings"
+                    },
+                    {
+                      "value": "custom",
+                      "label": "Use custom settings"
+                    }
+                  ],
+                  "default": "global"
+                },
+                {
+                  "name": "customVisuals",
+                  "type": "group",
+                  "expanded": true,
+                  "label": "Custom visual settings",
+                  "fields": [
+                    {
+                      "name": "colorPath",
+                      "type": "text",
+                      "label": "Color path",
+                      "optional": true,
+                      "default": "rgba(0, 0, 0, 0.7)",
+                      "widget": "colorSelector",
+                      "spectrum": {
+                        "showInput": true,
+                        "showInitial": true,
+                        "showAlpha": true,
+                        "preferredFormat": "rgb"
+                      }
+                    },
+                    {
+                      "name": "pathWidth",
+                      "type": "select",
+                      "label": "Path width",
+                      "importance": "low",
+                      "default": "0.2",
+                      "optional": false,
+                      "options": [
+                        {
+                          "value": "0.1",
+                          "label": "thin"
+                        },
+                        {
+                          "value": "0.2",
+                          "label": "medium"
+                        },
+                        {
+                          "value": "0.3",
+                          "label": "thick"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "pathStyle",
+                      "type": "select",
+                      "label": "Path style",
+                      "importance": "low",
+                      "default": "dotted",
+                      "optional": false,
+                      "options": [
+                        {
+                          "value": "solid",
+                          "label": "Solid"
+                        },
+                        {
+                          "value": "dotted",
+                          "label": "Dotted"
+                        },
+                        {
+                          "value": "dashed",
+                          "label": "Dashed"
+                        },
+                        {
+                          "value": "double",
+                          "label": "Double"
+                        }
+                      ]
+                    }
+                  ],
+                  "widget": "gamemapshowwhen",
+                  "gamemapshowwhen": {
+                    "rules": [
+                      {
+                        "field": "visualsType",
+                        "equals": "custom"
+                      }
+                    ]
+                  }
                 }
               ]
             }

@@ -294,6 +294,7 @@ export default class MainInitialization {
       {
         globals: this.params.globals,
         elements: globalParams.gamemapSteps.gamemap.elements,
+        paths: globalParams.gamemapSteps.gamemap.paths,
         visuals: globalParams.visual.paths.style
       }
     );

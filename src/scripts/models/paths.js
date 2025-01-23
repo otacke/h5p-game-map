@@ -47,6 +47,13 @@ export default class Paths {
                 path.stageIds?.to === elements[neighbor].id;
             });
 
+          let customVisuals = (this.params.paths ?? []).find((path) => {
+            return path.from.toString() === index.toString() &&
+              path.to.toString() === neighbor.toString() &&
+              path.visualsType === 'custom' &&
+              path.customVisuals;
+          })?.customVisuals;
+
           paths.push(new Path({
             globals: this.params.globals,
             fromId: elements[index].id,
@@ -54,7 +61,7 @@ export default class Paths {
             telemetryFrom: elements[index].telemetry,
             telemetryTo: elements[neighbor].telemetry,
             index: pathsCreated.length,
-            visuals: this.params.visuals,
+            visuals: { ...this.params.visuals, ...customVisuals },
             visible: pathState?.visible,
             ...(pathState?.state && { state: pathState?.state })
           }));

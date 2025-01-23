@@ -61,9 +61,8 @@ export default class GameMap extends H5P.Question {
      * to the user. Copy color set for path as color for cleared path is hidden
      * in the editor.
      */
-    if (this.params.behaviour.roaming === 'free') {
-      this.params.visual.paths.style.colorPathCleared =
-        this.params.visual.paths.style.colorPath;
+    if (this.params.behaviour.map.roaming === 'free') {
+      this.params.visual.paths.style.colorPathCleared = this.params.visual.paths.style.colorPath;
     }
 
     // Determine mediaQuery result for prefers-reduced-motion preference
