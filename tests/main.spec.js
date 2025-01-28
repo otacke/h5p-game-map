@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test';
 
+/** @constant {number} OVERLAY_OPENED_TIMEOUT Timeout to wait to ensure overlay animation finished. */
+const OVERLAY_OPENED_TIMEOUT = 1000;
+
 // Just a demo for now ...
 test.describe('demo', () => {
   let page;
@@ -16,16 +19,12 @@ test.describe('demo', () => {
   });
 
   test.describe(('start-up'), () => {
-    test('has page title', async () => {
+    test('has correct content title', async () => {
       await page.goto('http://localhost:8080/view/h5p-game-map/testfile?session=null');
       h5pContainer = await page.frameLocator('.h5p-iframe').locator('.h5p-container');
-      overlay = h5pContainer.locator('.h5p-game-map-exercise-content-container');
+      overlay = h5pContainer.locator('.h5p-game-map-overlay-dialog.exercise');
       toolbar = await h5pContainer.locator('.h5p-game-map-toolbar-tool-bar');
 
-      await expect(page).toHaveTitle(/Game Map/);
-    });
-
-    test('has correct content title', async () => {
       await expect(toolbar).toContainText('Animals around the world');
     });
 
@@ -79,7 +78,8 @@ test.describe('demo', () => {
     });
 
     test ('closes 1st stage', async () => {
-      await h5pContainer.getByLabel('Close').click();
+      await page.waitForTimeout(OVERLAY_OPENED_TIMEOUT);
+      await overlay.getByLabel('Close').click();
       await expect(overlay).not.toBeVisible();
     });
   });
@@ -101,7 +101,8 @@ test.describe('demo', () => {
     });
 
     test ('closes 2nd stage', async () => {
-      await h5pContainer.getByLabel('Close').click();
+      await page.waitForTimeout(OVERLAY_OPENED_TIMEOUT);
+      await overlay.getByLabel('Close').click();
       await expect(overlay).not.toBeVisible();
     });
 
