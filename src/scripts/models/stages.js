@@ -298,29 +298,22 @@ export default class Stages {
    */
   updateStatePerRestrictions() {
     const mode = this.params.globals.get('params').behaviour.map.roaming;
+    const states = this.params.globals.get('states');
 
     this.stages.forEach((stage) => {
-      const hasCompletedNeighbor = mode === 'free' ||
-        stage.getNeighbors().some((neighborId) => {
-          const neighbor = this.getStage(neighborId);
-          return (
-            (mode === 'completed' && neighbor.getState() === this.params.globals.get('states').completed) ||
-            (mode === 'cleared' && neighbor.getState() === this.params.globals.get('states').cleared)
-          );
-        });
+      const hasCompletedNeighbor = (mode === 'free') || stage.getNeighbors().some((neighborId) => {
+        const neighborState = this.getStage(neighborId).getState();
 
-      if (
-        hasCompletedNeighbor &&
-        stage.getState() === this.params.globals.get('states').locked &&
-        stage.passesRestrictions()
-      ) {
+        return (
+          (mode === 'complete' && (neighborState === states.completed || neighborState === states.cleared)) ||
+          (mode === 'success' && neighborState === states.cleared)
+        );
+      });
+
+      if (hasCompletedNeighbor && stage.getState() === states.locked && stage.passesRestrictions()) {
         stage.unlock();
       }
-      else if (
-        !stage.isStartStage() &&
-        stage.getState() === this.params.globals.get('states').open &&
-        !stage.passesRestrictions()
-      ) {
+      else if (!stage.isStartStage() && stage.getState() === states.open && !stage.passesRestrictions()) {
         stage.lock();
       }
     });
