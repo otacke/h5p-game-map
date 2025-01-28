@@ -856,7 +856,8 @@
         {
           "label": "Total score greater than",
           "default": "You have a total score greater than @value."
-        },        {
+        },
+        {
           "label": "Stage score less than",
           "default": "You have a score less than @value in stage @label."
         },
@@ -911,6 +912,10 @@
         {
           "label": "Completed successfully",
           "default": "completed successfully"
+        },
+        {
+          "label": "Missing content",
+          "default": "No content was set for this stage!"
         }
       ]
     },

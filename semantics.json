@@ -1791,6 +1791,12 @@
         "type": "text",
         "label": "Completed successfully",
         "default": "completed successfully"
+      },
+      {
+        "name": "missingContent",
+        "type": "text",
+        "label": "Missing content",
+        "default": "No content was set for this stage!"
       }
     ]
   },
