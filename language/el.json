@@ -265,7 +265,8 @@
                         {
                           "label": "Περιεχόμενο επιπέδου",
                           "description": "Επιλέξτε τον τύπο περιεχομένου που θέλετε να προσθέσετε."
-                        },                        {
+                        },
+                        {
                           "label": "Dummy"
                         }
                       ]
@@ -911,6 +912,10 @@
         {
           "label": "Completed successfully",
           "default": "completed successfully"
+        },
+        {
+          "label": "Missing content",
+          "default": "No content was set for this stage!"
         }
       ]
     },

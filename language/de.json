@@ -265,7 +265,8 @@
                         {
                           "label": "Etappeninhalt",
                           "description": "Wähle die Art des Inhalts, die du der Etappe hinzufügen möchtest."
-                        },                        {
+                        },
+                        {
                           "label": "Dummy"
                         }
                       ]
@@ -911,6 +912,10 @@
         {
           "label": "Erfolgreich abgeschlossen",
           "default": "erfolgreich abgeschlossen"
+        },
+        {
+          "label": "Fehlender Inhalt",
+          "default": "Es wurde für diese Etappe kein Inhalt gesetzt!"
         }
       ]
     },

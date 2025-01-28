@@ -21,6 +21,9 @@ const FULL_SCREEN_DELAY_LARGE_MS = 300;
 /** @constant {number} EXERCISE_SCREEN_ANIM_DURATION_MS Duration from CSS. */
 const EXERCISE_SCREEN_ANIM_DURATION_MS = 1000;
 
+/** @constant {string} ADVANCED_TEXT_VERSION_FALLBACK Fallback version for Advanced Text. */
+const ADVANCED_TEXT_VERSION_FALLBACK = '1.1';
+
 /** @constant {object} STATES States lookup. */
 export const STATES = {
   unstarted: 0, // Exercise
@@ -58,6 +61,10 @@ export default class GameMap extends H5P.Question {
     // Sanitize parameters
     this.params = Util.extend(defaults, params);
 
+    // Fill dictionary
+    this.dictionary = new Dictionary();
+    this.dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
+
     /*
      * All paths are cleared by default in roaming mode, but that's not obvious
      * to the user. Copy color set for path as color for cleared path is hidden
@@ -75,19 +82,42 @@ export default class GameMap extends H5P.Question {
     this.params.visual.misc.useAnimation =
       this.params.visual.misc.useAnimation && !reduceMotion;
 
+    // This is illegal, but there's no other way to get the version number
+    const advancedTextVersion = H5PIntegration?.contents?.[`cid-${contentId}`]?.scripts
+      ?.find((script) => script.includes('H5P.AdvancedText-'))
+      .match(/H5P\.AdvancedText-(\d+\.\d+)/)?.[0] ?? ADVANCED_TEXT_VERSION_FALLBACK;
+
     /*
      * Sanitize stages
-     * Remove stages without content except for special stages
+     * Replace stages without content except for special stages
      * Set animation duration if valid
-     *
-     * TODO: Fix for new structure (Bundles) and instead of removing stage create a text based one
      */
     this.params.gamemapSteps.gamemap.elements =
       this.params.gamemapSteps.gamemap.elements
-        .filter((element) => {
-          return !!element.contentsList?.[0]?.contentType.library || !!element.specialStageType;
-        })
         .map((element) => {
+          const isContentMissing = !element.contentsList?.[0]?.contentType.library && !element.specialStageType;
+          if (isContentMissing) {
+            element.dom = { count: 0 },
+            element.contentsList = [
+              {
+                contentType: {
+                  params: {
+                    text: this.dictionary.get('l10n.missingContent')
+                  },
+                  library: `H5P.AdvancedText ${advancedTextVersion}`,
+                  metadata: {
+                    authors: [],
+                    changes: [],
+                    license: 'U',
+                    title: this.dictionary.get('l10n.missingContent'),
+                    contentType: 'Text'
+                  },
+                  subContentId: H5P.createUUID()
+                }
+              }
+            ];
+          }
+
           element.animDuration = (this.params.visual.misc.useAnimation) ?
             EXERCISE_SCREEN_ANIM_DURATION_MS :
             0;
@@ -114,10 +144,6 @@ export default class GameMap extends H5P.Question {
     this.globals.set('read', (text) => {
       this.read(text);
     });
-
-    // Fill dictionary
-    this.dictionary = new Dictionary();
-    this.dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
 
     // Migrate previous state to newer version
     extras.previousState = this.migratePreviousState1_4(extras.previousState);
