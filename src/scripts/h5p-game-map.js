@@ -32,6 +32,8 @@ export const STATES = {
   sealed: 7 // Stage
 };
 
+// TODO: Bundle with ListTabWidget
+
 export default class GameMap extends H5P.Question {
   /**
    * @class
@@ -77,6 +79,8 @@ export default class GameMap extends H5P.Question {
      * Sanitize stages
      * Remove stages without content except for special stages
      * Set animation duration if valid
+     *
+     * TODO: Fix for new structure (Bundles) and instead of removing stage create a text based one
      */
     this.params.gamemapSteps.gamemap.elements =
       this.params.gamemapSteps.gamemap.elements
