@@ -35,8 +35,6 @@ export const STATES = {
   sealed: 7 // Stage
 };
 
-// TODO: Bundle with ListTabWidget
-
 export default class GameMap extends H5P.Question {
   /**
    * @class
