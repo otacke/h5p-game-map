@@ -145,10 +145,28 @@ export default class Exercise {
 
   /**
    * Get xAPI data from exercises.
-   * @returns {object[]} XAPI data objects used to build report.
+   * @returns {object|undefined} XAPI data objects used to build report or undefined.
    */
   getXAPIData() {
-    return this.instance.getXAPIData?.();
+    if (!this.instance?.getXAPIData) {
+      return;
+    }
+
+    let xAPIData;
+
+    try {
+      xAPIData = this.instance.getXAPIData();
+    }
+    catch (error) {
+      console.warn('Could not get xAPI data from content type:', error);
+      /*
+       * Guard against content types that crash when calling getXAPIData, e.g. Memory Game
+       * see https://h5ptechnology.atlassian.net/browse/HFP-4202
+       */
+      return;
+    }
+
+    return xAPIData;
   }
 
   /**
@@ -380,7 +398,7 @@ export default class Exercise {
 
     let subContentIds = [];
 
-    xAPIData = xAPIData ?? [this.instance.getXAPIData()];
+    xAPIData = xAPIData ?? [this.getXAPIData()].filter((data) => data !== undefined);
 
     xAPIData.forEach((entry) => {
       if (entry.statement?.object?.id) {
