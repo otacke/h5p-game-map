@@ -45,9 +45,7 @@ export default class GameMap extends H5P.Question {
   constructor(params, contentId, extras = {}) {
     super('game-map');
 
-    Util.addMixins(
-      GameMap, [QuestionTypeContract, XAPI]
-    );
+    Util.addMixins(GameMap, [QuestionTypeContract, XAPI]);
 
     const defaults = Util.extend({
       behaviour: {
@@ -56,6 +54,8 @@ export default class GameMap extends H5P.Question {
       }
     }, H5PUtil.getSemanticsDefaults());
 
+    this.contentId = contentId;
+
     // Sanitize parameters
     this.params = Util.extend(defaults, params);
 
@@ -63,79 +63,105 @@ export default class GameMap extends H5P.Question {
     this.dictionary = new Dictionary();
     this.dictionary.fill({ l10n: this.params.l10n, a11y: this.params.a11y });
 
-    /*
-     * All paths are cleared by default in roaming mode, but that's not obvious
-     * to the user. Copy color set for path as color for cleared path is hidden
-     * in the editor.
-     */
-    if (this.params.behaviour.map.roaming === 'free') {
-      this.params.visual.paths.style.colorPathCleared = this.params.visual.paths.style.colorPath;
-      this.params.gamemapSteps.gamemap.paths = (this.params.gamemapSteps.gamemap.paths ?? []).map((path) => {
-        if (path.visualsType === 'custom') {
-          path.customVisuals.colorPathCleared = path.customVisuals.colorPath;
-        }
-        return path;
-      });
+    this.handleReduceMotion();
+    this.sanitizeStages(contentId);
 
-    }
-
-    // Determine mediaQuery result for prefers-reduced-motion preference
-    const reduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    )?.matches;
-
-    this.params.visual.misc.useAnimation =
-      this.params.visual.misc.useAnimation && !reduceMotion;
-
-    // This is illegal, but there's no other way to get the version number
-    const advancedTextVersion = H5PIntegration?.contents?.[`cid-${contentId}`]?.scripts
-      ?.find((script) => script.includes('H5P.AdvancedText-'))
-      .match(/H5P\.AdvancedText-(\d+\.\d+)/)?.[0] ?? ADVANCED_TEXT_VERSION_FALLBACK;
-
-    /*
-     * Sanitize stages
-     * Replace stages without content except for special stages
-     * Set animation duration if valid
-     */
-    this.params.gamemapSteps.gamemap.elements =
-      this.params.gamemapSteps.gamemap.elements
-        .map((element) => {
-          const isContentMissing = !element.contentsList?.[0]?.contentType.library && !element.specialStageType;
-          if (isContentMissing) {
-            element.dom = { count: 0 },
-            element.contentsList = [
-              {
-                contentType: {
-                  params: {
-                    text: this.dictionary.get('l10n.missingContent')
-                  },
-                  library: `H5P.AdvancedText ${advancedTextVersion}`,
-                  metadata: {
-                    authors: [],
-                    changes: [],
-                    license: 'U',
-                    title: this.dictionary.get('l10n.missingContent'),
-                    contentType: 'Text'
-                  },
-                  subContentId: H5P.createUUID()
-                }
-              }
-            ];
-          }
-
-          element.animDuration = (this.params.visual.misc.useAnimation) ?
-            EXERCISE_SCREEN_ANIM_DURATION_MS :
-            0;
-
-          return element;
-        });
-
-    this.contentId = contentId;
     this.extras = extras;
-
     const fullScreenSupported = this.isRoot() && H5P.fullscreenSupported;
 
     // Set globals
+    this.setGlobals(fullScreenSupported);
+
+    // Migrate previous state to newer version
+    extras.previousState = this.migratePreviousState1_4(extras.previousState);
+
+    this.jukebox = new Jukebox();
+    this.fillJukebox();
+
+    const defaultLanguage = extras?.metadata?.defaultLanguage || 'en';
+    this.languageTag = Util.formatLanguageCode(defaultLanguage);
+
+    this.dom = this.buildDOM();
+
+    this.initializeMain(fullScreenSupported);
+
+    if (fullScreenSupported) {
+      this.setupFullscreenHandlers();
+    }
+  }
+
+  /**
+   * Handle reduced motion.
+   */
+  handleReduceMotion() {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')?.matches;
+    this.params.visual.misc.useAnimation = this.params.visual.misc.useAnimation && !reduceMotion;
+  }
+
+  /**
+   * Sanitize stages.
+   * @param {number} contentId Content ID.
+   */
+  sanitizeStages(contentId) {
+    const advancedTextVersion = this.getAdvancedTextVersion(contentId);
+
+    this.params.gamemapSteps.gamemap.elements = this.params.gamemapSteps.gamemap.elements.map((element) => {
+      // Replace missing content with a placeholder
+      const isContentMissing = !element.contentsList?.[0]?.contentType.library && !element.specialStageType;
+      if (isContentMissing) {
+        element.dom = { count: 0 };
+        element.contentsList = [this.createMissingContentElement(advancedTextVersion)];
+      }
+
+      // Set animation duration
+      element.animDuration = this.params.visual.misc.useAnimation ? EXERCISE_SCREEN_ANIM_DURATION_MS : 0;
+
+      return element;
+    });
+  }
+
+  /**
+   * Get Advanced Text version.
+   * This is illegal, but H5P core does not provide a way to detect loaded libraries for content types.
+   * @param {number} contentId Content ID.
+   * @returns {string} Advanced Text version.
+   */
+  getAdvancedTextVersion(contentId) {
+    return H5PIntegration?.contents?.[`cid-${contentId}`]?.scripts
+      ?.find((script) => script.includes('H5P.AdvancedText-'))
+      .match(/H5P\.AdvancedText-(\d+\.\d+)/)?.[0] ?? ADVANCED_TEXT_VERSION_FALLBACK;
+  }
+
+  /**
+   * Create missing text element to replace incompletely saved content.
+   * Can happen, because H5P allows to save even if mandatory fields are missing.
+   * @param {string} advancedTextVersion Advanced Text version.
+   * @returns {object} Missing content element.
+   */
+  createMissingContentElement(advancedTextVersion) {
+    return {
+      contentType: {
+        params: {
+          text: this.dictionary.get('l10n.missingContent')
+        },
+        library: `H5P.AdvancedText ${advancedTextVersion}`,
+        metadata: {
+          authors: [],
+          changes: [],
+          license: 'U',
+          title: this.dictionary.get('l10n.missingContent'),
+          contentType: 'Text'
+        },
+        subContentId: H5P.createUUID()
+      }
+    };
+  }
+
+  /**
+   * Set globals.
+   * @param {boolean} fullScreenSupported Full screen supported.
+   */
+  setGlobals(fullScreenSupported) {
     this.globals = new Globals();
     this.globals.set('mainInstance', this);
     this.globals.set('contentId', this.contentId);
@@ -149,22 +175,16 @@ export default class GameMap extends H5P.Question {
     this.globals.set('read', (text) => {
       this.read(text);
     });
+  }
 
-    // Migrate previous state to newer version
-    extras.previousState = this.migratePreviousState1_4(extras.previousState);
-
-    this.jukebox = new Jukebox();
-    this.fillJukebox();
-
-    const defaultLanguage = extras?.metadata?.defaultLanguage || 'en';
-    this.languageTag = Util.formatLanguageCode(defaultLanguage);
-
-    this.dom = this.buildDOM();
-
-    const hasExerciseStages =
-      this.params.gamemapSteps.gamemap.elements.some((stage) => {
-        return stage.contentsList?.length;
-      });
+  /**
+   * Initialize main.
+   * @param {boolean} fullScreenSupported Full screen supported.
+   */
+  initializeMain(fullScreenSupported) {
+    const hasExerciseStages = this.params.gamemapSteps.gamemap.elements.some((stage) => {
+      return stage.contentsList?.length;
+    });
 
     if (!hasExerciseStages) {
       const messageBox = new MessageBox({
@@ -200,41 +220,44 @@ export default class GameMap extends H5P.Question {
         this.main.resize();
       });
     }
+  }
 
-    if (fullScreenSupported) {
-      this.on('enterFullScreen', () => {
-        window.setTimeout(() => {
+  /**
+   * Setups fullscreen handlers.
+   */
+  setupFullscreenHandlers() {
+    this.on('enterFullScreen', () => {
+      window.setTimeout(() => {
+        this.main.setFullscreen(true);
+      }, FULL_SCREEN_DELAY_SMALL_MS);
+    });
+
+    this.on('exitFullScreen', () => {
+      this.main.setFullscreen(false);
+    });
+
+    const recomputeDimensions = () => {
+      if (H5P.isFullscreen) {
+        window.setTimeout(() => { // Needs time to rotate for window.innerHeight
           this.main.setFullscreen(true);
-        }, FULL_SCREEN_DELAY_SMALL_MS);
-      });
-
-      this.on('exitFullScreen', () => {
-        this.main.setFullscreen(false);
-      });
-
-      const recomputeDimensions = () => {
-        if (H5P.isFullscreen) {
-          setTimeout(() => { // Needs time to rotate for window.innerHeight
-            this.main.setFullscreen(true);
-          }, FULL_SCREEN_DELAY_MEDIUM_MS);
-        }
-      };
-
-      // Resize fullscreen dimensions when rotating screen
-      if (screen?.orientation?.addEventListener) {
-        screen?.orientation?.addEventListener('change', () => {
-          recomputeDimensions();
-        });
+        }, FULL_SCREEN_DELAY_MEDIUM_MS);
       }
-      else {
-        /*
-        * `orientationchange` is deprecated, but guess what browser doesn't
-        * support the Screen Orientation API ... From something with fruit.
-        */
-        window.addEventListener('orientationchange', () => {
-          recomputeDimensions();
-        }, false);
-      }
+    };
+
+    // Resize fullscreen dimensions when rotating screen
+    if (screen?.orientation?.addEventListener) {
+      screen?.orientation?.addEventListener('change', () => {
+        recomputeDimensions();
+      });
+    }
+    else {
+      /*
+      * `orientationchange` is deprecated, but guess what browser doesn't
+      * support the Screen Orientation API ... From something with fruit.
+      */
+      window.addEventListener('orientationchange', () => {
+        recomputeDimensions();
+      }, false);
     }
   }
 
@@ -248,23 +271,21 @@ export default class GameMap extends H5P.Question {
       return previousState; // No state or already migrated
     }
 
-    previousState.content.exerciseBundles = (previousState.content.exercises ?? []).map((exerciseObj) => {
-      const exerciseBundle = {
-        state: exerciseObj.exercise.state,
-        id: exerciseObj.exercise.id,
-        remainingTime: exerciseObj.exercise.remainingTime,
-        isCompleted: exerciseObj.exercise.isCompleted,
+    previousState.content.exerciseBundles = (previousState.content.exercises ?? []).map(({ exercise }) => ({
+      exerciseBundle: {
+        state: exercise.state,
+        id: exercise.id,
+        remainingTime: exercise.remainingTime,
+        isCompleted: exercise.isCompleted,
         instances: [
           {
-            completed: exerciseObj.exercise.instanceState?.isCompleted || exerciseObj.exercise.isCompleted,
-            successful: exerciseObj.exercise.instanceState?.isCompleted || exerciseObj.exercise.isCompleted,
-            instanceState: exerciseObj.exercise.instanceState,
+            completed: exercise.instanceState?.isCompleted || exercise.isCompleted,
+            successful: exercise.instanceState?.isCompleted || exercise.isCompleted,
+            instanceState: exercise.instanceState,
           }
         ]
-      };
-
-      return { exerciseBundle: exerciseBundle };
-    });
+      }
+    }));
 
     delete previousState.content.exercises;
 
@@ -300,17 +321,12 @@ export default class GameMap extends H5P.Question {
         this.params.audio.backgroundMusic.music[0].path, this.contentId
       );
 
-      const crossOrigin =
-        H5P.getCrossOrigin?.(this.params.audio.backgroundMusic.music[0]) ??
-        'Anonymous';
+      const crossOrigin = H5P.getCrossOrigin?.(this.params.audio.backgroundMusic.music[0]) ?? 'Anonymous';
 
       audios.backgroundMusic = {
         src: src,
         crossOrigin: crossOrigin,
-        options: {
-          loop: true,
-          groupId: 'background'
-        }
+        options: { loop: true, groupId: 'background' }
       };
     }
 
@@ -319,13 +335,9 @@ export default class GameMap extends H5P.Question {
         continue;
       }
 
-      const src = H5P.getPath(
-        this.params.audio.ambient[key][0].path, this.contentId
-      );
+      const src = H5P.getPath(this.params.audio.ambient[key][0].path, this.contentId);
 
-      const crossOrigin =
-        H5P.getCrossOrigin?.(this.params.audio.ambient[key][0]) ??
-        'Anonymous';
+      const crossOrigin = H5P.getCrossOrigin?.(this.params.audio.ambient[key][0]) ?? 'Anonymous';
 
       audios[key] = {
         src: src,
@@ -372,7 +384,7 @@ export default class GameMap extends H5P.Question {
    * Handle fullscreen button clicked.
    */
   handleFullscreenClicked() {
-    setTimeout(() => {
+    window.setTimeout(() => {
       this.toggleFullscreen();
     }, FULL_SCREEN_DELAY_LARGE_MS); // Some devices don't register user gesture before call to to requestFullscreen
   }
@@ -386,17 +398,17 @@ export default class GameMap extends H5P.Question {
       return;
     }
 
-    if (typeof state === 'string') {
-      if (state === 'enter') {
+    switch (state) {
+      case 'enter':
         state = false;
-      }
-      else if (state === 'exit') {
-        state = true;
-      }
-    }
+        break;
 
-    if (typeof state !== 'boolean') {
-      state = !H5P.isFullscreen;
+      case 'exit':
+        state = true;
+        break;
+
+      default:
+        state = typeof state === 'boolean' ? state : !H5P.isFullscreen;
     }
 
     if (state) {
