@@ -70,6 +70,13 @@ export default class GameMap extends H5P.Question {
      */
     if (this.params.behaviour.map.roaming === 'free') {
       this.params.visual.paths.style.colorPathCleared = this.params.visual.paths.style.colorPath;
+      this.params.gamemapSteps.gamemap.paths = (this.params.gamemapSteps.gamemap.paths ?? []).map((path) => {
+        if (path.visualsType === 'custom') {
+          path.customVisuals.colorPathCleared = path.customVisuals.colorPath;
+        }
+        return path;
+      });
+
     }
 
     // Determine mediaQuery result for prefers-reduced-motion preference
