@@ -243,7 +243,7 @@ export default class Main {
 
     this.map.resize();
     clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(() => {
+    this.resizeTimeout = window.setTimeout(() => {
       this.paths.update({ mapSize: this.map.getSize() });
     }, 0);
 
@@ -256,7 +256,7 @@ export default class Main {
       this.exerciseScreen.getSize().width > this.dom.getBoundingClientRect().width
     ) {
       clearTimeout(this.exersizeScreenResizeTimeout);
-      this.exersizeScreenResizeTimeout = setTimeout(() => {
+      this.exersizeScreenResizeTimeout = window.setTimeout(() => {
         this.params.globals.get('resize')();
       }, 0);
     }
@@ -265,7 +265,7 @@ export default class Main {
       this.settingsDialog.getSize().width > this.dom.getBoundingClientRect().width
     ) {
       clearTimeout(this.settingsDialogResizeTimeout);
-      this.settingsDialogResizeTimeout = setTimeout(() => {
+      this.settingsDialogResizeTimeout = window.setTimeout(() => {
         this.params.globals.get('resize')();
       }, 0);
     }

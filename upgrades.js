@@ -15,6 +15,14 @@ H5PUpgrades['H5P.GameMap'] = (() => {
        * @param {object} extras Extra parameters such as metadata, etc.
        */
       2: (parameters, finished, extras) => {
+
+        // Roaming mode does not set all paths as cleared anymore.
+        if (parameters.behaviour?.map?.roaming === 'free') {
+          parameters.visual = parameters.visual ?? {};
+          parameters.visual.path.style = parameters.visual.path.style ?? {};
+          parameters.visual.path.style.colorPath = parameters.visual.path.style.colorPathCleared;
+        }
+
         let elements = parameters?.gamemapSteps?.gamemap?.elements;
 
         if (Array.isArray(elements)) {

@@ -99,7 +99,7 @@ export default class Timer {
 
     this.setState(TIMER_STATES.PLAYING);
 
-    this.timeout = setTimeout(() => {
+    this.timeout = window.setTimeout(() => {
       this.update();
     }, this.params.interval);
   }
@@ -126,7 +126,7 @@ export default class Timer {
 
     this.setState(TIMER_STATES.PLAYING);
 
-    this.timeout = setTimeout(() => {
+    this.timeout = window.setTimeout(() => {
       this.update();
     }, this.params.interval);
   }
@@ -183,7 +183,7 @@ export default class Timer {
 
     this.startTime = new Date();
 
-    this.timeout = setTimeout(() => {
+    this.timeout = window.setTimeout(() => {
       this.update();
     }, this.params.interval);
   }

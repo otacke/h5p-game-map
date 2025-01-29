@@ -520,7 +520,6 @@ export default class MainInitialization {
         }
       });
       this.paths.forEach((path) => {
-        path.setState('cleared');
         path.show();
       });
     }

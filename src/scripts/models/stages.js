@@ -386,14 +386,17 @@ export default class Stages {
    * @returns {string[]} IDs of reachable stages.
    */
   setStartStages() {
-    // Choose all start stages (all if none selected) and choose one randomly
-    let startStages = this.stages
-      .filter((stage) => stage.canBeStartStage());
+    // Choose all stages that have been marked as start stages and pass restrictions
+    let startStages = this.stages.filter((stage) => stage.canBeStartStage() && stage.passesRestrictions());
 
     if (!startStages.length) {
-      // Use all stages except special stages, because none selected
-      startStages = this.stages
-        .filter((stage) => stage.getType() === STAGE_TYPES.stage);
+      // Use all stages except special stages and restricted ones, because none selected
+      startStages = this.stages.filter((stage) => stage.getType() === STAGE_TYPES.stage && stage.passesRestrictions());
+    }
+
+    if (!startStages.length) {
+      // Use all stages except special stages, we must start somewhere
+      startStages = this.stages.filter((stage) => stage.getType() === STAGE_TYPES.stage);
     }
 
     // Choose one randomly
@@ -416,12 +419,12 @@ export default class Stages {
    * @returns {Stage|null} Next best open stage.
    */
   getNextOpenStage() {
-    return this.stages.filter((stage) => {
-      const state = stage.getState();
+    const openStates = this.params.globals.get('states');
 
-      return state === this.params.globals.get('states').open ||
-        state === this.params.globals.get('states').opened;
-    })[0] || null;
+    return this.stages.find((stage) => {
+      const state = stage.getState();
+      return state === openStates.open || state === openStates.opened;
+    }) || null;
   }
 
   /**
@@ -479,9 +482,7 @@ export default class Stages {
    * @param {KeyboardEvent} event Event.
    */
   handleSelectionKeydown(event) {
-    if (!['ArrowLeft', 'ArrowRight', ' ', 'Enter', 'Escape', 'Tab']
-      .includes(event.key)
-    ) {
+    if (!['ArrowLeft', 'ArrowRight', ' ', 'Enter', 'Escape', 'Tab'].includes(event.key)) {
       return;
     }
 
@@ -562,10 +563,7 @@ export default class Stages {
    * @param {number} index Index of selection stages to highlight.
    */
   highlightStage(index) {
-    if (
-      !Array.isArray(this.selectionStages) ||
-      index > this.selectionStages.length
-    ) {
+    if (!Array.isArray(this.selectionStages) || index > this.selectionStages.length) {
       return;
     }
 
@@ -596,9 +594,7 @@ export default class Stages {
    */
   setTabIndex(id, state) {
     const stage = this.stages.find((stage) => stage.getId() === id);
-    if (stage) {
-      stage.setTabIndex(state);
-    }
+    stage?.setTabIndex(state);
   }
 
   /**

@@ -185,7 +185,7 @@ export default class Map {
    */
   resize() {
     clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(() => {
+    this.resizeTimeout = window.setTimeout(() => {
       // Ensure overlays for paths and stages have image dimensions
       const clientRect = this.getSize();
       this.pathWrapper.style.height = `${clientRect.height}px`;

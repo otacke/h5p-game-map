@@ -50,21 +50,17 @@ export default class MainHandlersStage {
       this.toolbar.disable();
       this.exerciseBundles.start(id);
 
-      if (
-        this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise
-      ) {
-        this.params.jukebox.fade(
-          'backgroundMusic', { type: 'out', time: this.musicFadeTime }
-        );
+      if (this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise) {
+        this.params.jukebox.fade('backgroundMusic', { type: 'out', time: this.musicFadeTime });
       }
 
       this.params.jukebox.play('openExercise');
 
       if (!this.isShowingSolutions) {
         // Update context for confusion report contract
-        const stageIndex =
-          this.params.globals.get('params').gamemapSteps.gamemap.elements
-            .findIndex((element) => element.id === id);
+        const stageIndex = this.params.globals.get('params').gamemapSteps.gamemap.elements
+          .findIndex((element) => element.id === id);
+
         this.currentStageIndex = stageIndex + 1;
         this.hasUserMadeProgress = true;
         this.callbacks.onProgressChanged(this.currentStageIndex);
@@ -178,7 +174,8 @@ export default class MainHandlersStage {
         dialogText: `${this.params.dictionary.get('l10n.confirmAccessDeniedDialog')}${params.html}`,
         confirmText: this.params.dictionary.get('l10n.ok'),
         hideCancel: true
-      }, {
+      },
+      {
         onConfirmed: () => {
           this.toolbar.enableButton('finish');
         },
