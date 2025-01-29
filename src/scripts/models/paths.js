@@ -11,6 +11,10 @@ export default class Paths {
     this.paths = this.buildPaths(this.params.elements);
   }
 
+  /**
+   * Get paths.
+   * @returns {Path[]} Paths.
+   */
   getDOMs() {
     return this.paths.map((path) => path.getDOM());
   }
