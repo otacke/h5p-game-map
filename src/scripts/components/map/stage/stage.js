@@ -684,7 +684,7 @@ export default class Stage {
       newState = states.locked;
     }
     else if (state === states.open || state === states.opened) {
-      if ( this.state !== states.completed && this.state !== states.cleared) {
+      if (this.state !== states.completed && this.state !== states.cleared) {
         newState = states.open; // Was already completed.
       }
       this.show();

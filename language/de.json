@@ -471,7 +471,7 @@
             },
             {
               "label": "Zeige Sterne für Punkte",
-              "description": "Wähle, ob und wann Sterne auf der Karte für die Punkte einer Etappe angezeigt werden.",
+              "description": "Wähle, ob und wann Sterne auf der Karte für die Punkte einer Etappe angezeigt werden. Bitte beachte, dass Etappen ohne bepunktete Aufgaben auch keine Sterne anzeigen.",
               "options": [
                 {
                   "label": "Nie"

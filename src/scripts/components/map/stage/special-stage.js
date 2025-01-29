@@ -33,24 +33,34 @@ export default class SpecialStage extends Stage {
    * @param {object} main Main instance.
    */
   runSpecialFeature(main) {
-    if (this.params.specialStageType === 'finish') {
-      main.showFinishConfirmation();
-    }
-    else if (this.params.specialStageType === 'extra-life') {
-      main.addExtraLives(this.params.specialStageExtraLives ?? 0);
-      this.setState(this.params.globals.get('states').cleared);
-      main.handleSpecialFeatureRun('extra-life');
-      this.disable();
-    }
-    else if (this.params.specialStageType === 'extra-time') {
-      main.addExtraTime(this.params.specialStageExtraTime ?? 0);
-      this.setState(this.params.globals.get('states').cleared);
-      main.handleSpecialFeatureRun('extra-time');
-      this.disable();
-    }
-    else if (this.params.specialStageType === 'link') {
-      this.setState(this.params.globals.get('states').cleared);
-      window.open(this.params.specialStageLinkURL, this.params.specialStageLinkTarget);
+    const states = this.params.globals.get('states');
+
+    switch (this.params.specialStageType) {
+      case 'finish':
+        main.showFinishConfirmation();
+        break;
+
+      case 'extra-life':
+        main.addExtraLives(this.params.specialStageExtraLives ?? 0);
+        this.setState(states.cleared);
+        main.handleSpecialFeatureRun('extra-life');
+        this.disable();
+        break;
+
+      case 'extra-time':
+        main.addExtraTime(this.params.specialStageExtraTime ?? 0);
+        this.setState(states.cleared);
+        main.handleSpecialFeatureRun('extra-time');
+        this.disable();
+        break;
+
+      case 'link':
+        this.setState(states.cleared);
+        window.open(this.params.specialStageLinkURL, this.params.specialStageLinkTarget);
+        break;
+
+      default:
+        break;
     }
   }
 }

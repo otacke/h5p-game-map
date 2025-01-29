@@ -48,8 +48,7 @@ export default class ConfirmationDialog {
   update(params = {}, callbacks = {}) {
     params = Util.extend({}, params);
 
-    params.instance = params.instance ??
-      this.params.globals.get('mainInstance');
+    params.instance = params.instance ?? this.params.globals.get('mainInstance');
 
     callbacks = Util.extend({
       onConfirmed: () => {},
