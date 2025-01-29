@@ -18,7 +18,7 @@ export default class ScoreStars {
     this.dom.classList.add('h5p-game-map-stage-score-stars-container');
 
     if (this.params.mode === 'onHover') {
-      this.dom.style.setProperty('--on-hover-transition', 'opacity 0.2s ease-in .3s');
+      this.dom.style.setProperty('--on-hover-transition', 'var(--label-transition)');
     }
 
     this.addStars();

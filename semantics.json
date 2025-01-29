@@ -1038,7 +1038,7 @@
             "name": "showScoreStars",
             "type": "select",
             "label": "Show stars for scores",
-            "description": "Choose if and when stars will be displayed on the map for the scores of the stages.",
+            "description": "Choose if and when stars will be displayed on the map for the scores of the stages. Please note that stages without scored exercises will not get the stars.",
             "options": [
               {
                 "value": "never",
