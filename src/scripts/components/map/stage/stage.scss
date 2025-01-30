@@ -47,6 +47,10 @@
     }
   }
 
+  &:has(.h5p-game-map-stage-score-stars-container:not(.visibility-hidden)) {
+    --label-extra-top-offset: 0.75rem;
+  }
+
   .h5p-game-map-stage-content {
     border: 2px solid var(--stage-color-border, rgba(0,0,0,0.4));
     border-radius: 50%;

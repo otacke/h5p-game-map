@@ -45,7 +45,7 @@
   }
 
   &.top {
-    bottom: 120%;
+    bottom: calc(120% + var(--label-extra-top-offset, 0%));
     left: 50%;
     transform: translateX(-50%);
 
