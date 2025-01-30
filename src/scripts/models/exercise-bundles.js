@@ -156,9 +156,9 @@ export default class ExerciseBundles {
    */
   getXAPIData() {
     return Object.values(this.exerciseBundles)
-      .filter((exercise) => exercise.isReachable())
-      .map((exercise) => {
-        return exercise?.getXAPIData?.();
+      .filter((exerciseBundle) => exerciseBundle.isReachable())
+      .map((exerciseBundle) => {
+        return exerciseBundle?.getXAPIData?.();
       })
       .filter((data) => !!data);
   }
@@ -167,12 +167,12 @@ export default class ExerciseBundles {
    * Show solutions.
    */
   showSolutions() {
-    Object.values(this.exerciseBundles).forEach((exercise) => {
-      if (!exercise.isReachable()) {
+    Object.values(this.exerciseBundles).forEach((exerciseBundle) => {
+      if (!exerciseBundle.isReachable()) {
         return;
       }
 
-      exercise.showSolutions();
+      exerciseBundle.showSolutions();
     });
   }
 
@@ -181,12 +181,12 @@ export default class ExerciseBundles {
    * @returns {boolean} True, if some answer was given.
    */
   getAnswerGiven() {
-    return Object.values(this.exerciseBundles).some((exercise) => {
-      if (!exercise.isReachable()) {
+    return Object.values(this.exerciseBundles).some((exerciseBundle) => {
+      if (!exerciseBundle.isReachable()) {
         return false;
       }
 
-      return exercise.getAnswerGiven();
+      return exerciseBundle.getAnswerGiven() ?? true;
     });
   }
 
@@ -209,12 +209,12 @@ export default class ExerciseBundles {
    * @returns {number} Maximum score of instance or 0.
    */
   getMaxScore() {
-    return Object.values(this.exerciseBundles).reduce((score, exercise) => {
-      if (!exercise.isReachable()) {
+    return Object.values(this.exerciseBundles).reduce((score, exerciseBundle) => {
+      if (!exerciseBundle.isReachable()) {
         return score;
       }
 
-      return score += exercise.getMaxScore();
+      return score += exerciseBundle.getMaxScore();
     }, 0);
   }
 

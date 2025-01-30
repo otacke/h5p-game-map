@@ -309,6 +309,15 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
   }
 
   /**
+   * Show solutions.
+   */
+  showSolutions() {
+    this.exercises.forEach((exercise) => {
+      exercise.showSolutions?.();
+    });
+  }
+
+  /**
    * Get remaining time.
    * @returns {number} Remaining time in ms.
    */
