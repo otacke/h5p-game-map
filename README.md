@@ -6,6 +6,14 @@ Clone this repository with git and check out the branch that you are interested
 in (or choose the branch first and then download the archive, but learning
 how to use git really makes sense).
 
+One thing to note in particular: Common H5P integrations use mySQL databases with
+the type of `text` for the `semantics` field in the `h5p_libraries`table. That means
+that this field can hold up to 64KB of data. However, semantics.json of GameMap
+exceeds that limit, so I came up with a quick fix: I use semantics_src.json and
+minify it. That's what I use `npm run build_semantics` for. Not ideal, because it requires
+you to run it when you change semantics, but for now that's okay. `npm run build` and `npm run watch`
+will build the minified semantics, too.
+
 Change to the repository directory and run
 ```bash
 npm install
