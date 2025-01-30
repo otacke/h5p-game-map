@@ -8,6 +8,7 @@ import ExerciseBundles from '@models/exercise-bundles.js';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog.js';
 import ExerciseDialog from '@components/overlay-dialogs/exercise-dialog.js';
 import SettingsDialog from '@components/overlay-dialogs/settings-dialog.js';
+import { STAGE_TYPES } from '@components/map/stage/stage.js';
 
 /** @constant {number} MS_IN_S Milliseconds in a second. */
 const MS_IN_S = 1000;
@@ -536,19 +537,23 @@ export default class MainInitialization {
     );
 
     // Initialize stage counter
-    const filters = {
+    const filterDone = {
       state: [
         this.params.globals.get('states').completed,
         this.params.globals.get('states').cleared
       ]
     };
 
+    const filterExercises = {
+      type: [STAGE_TYPES.stage],
+    };
+
     // Initialize stages
     this.toolbar.setStatusContainerStatus(
       'stages',
       {
-        value: this.stages.getCount({ filters: filters }),
-        maxValue: this.stages.getCount()
+        value: this.stages.getCount({ filters: filterDone }),
+        maxValue: this.stages.getCount({ filters: filterExercises })
       }
     );
 

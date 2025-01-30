@@ -245,11 +245,17 @@ export default class Stages {
 
     for (const key in params.filters) {
       stages = stages.filter((stage) => {
+        let keep = true;
+
         if (key === 'state') {
-          return params.filters[key].includes(stage.getState());
+          keep = keep && params.filters[key].includes(stage.getState());
         }
 
-        return true;
+        if (key === 'type') {
+          keep = keep && params.filters[key].includes(stage.getType());
+        }
+
+        return keep;
       });
     }
 
