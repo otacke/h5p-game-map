@@ -2,29 +2,52 @@
 
 echo -e "${COLOR_BLUE}Setting up test content${COLOR_OFF}"
 
-if [ ! -d "$H5P_CONTENT_REPOSITORY_DIR/assets" ]; then
-  mkdir assets
+if [ ! -d "$H5P_CONTENT_REPOSITORY_DIR/tests" ]; then
+  mkdir tests
 fi
 
-# TODO: Instead of downloading a prebuilt file, ideally the file should be built
-# and packed. This would allow to share the test content as params/assets only
-# instead of requiring a potentially large binary file that doesn't git well ...
-# Ideally, the H5P CLI tool would provide an option to do this.
-if [ ! -f "$H5P_CONTENT_REPOSITORY_DIR/assets/$H5P_CLI_TESTCONTENT.h5p" ]; then
-  curl -o "$H5P_CONTENT_REPOSITORY_DIR/assets/$H5P_CLI_TESTCONTENT.h5p" "$H5P_CLI_TESTFILE_URL"
+if [ ! -d "$H5P_CONTENT_REPOSITORY_DIR/tests/assets" ]; then
+  mkdir tests/assets
 fi
+
+fixtures_directory="$H5P_CONTENT_REPOSITORY_DIR/tests/fixtures"
+
+# Build h5p test files from assets
+for folder in "$fixtures_directory"/test-[0-9]*; do
+    if [ -d "$folder" ]; then
+        content_dir="$folder/content"
+        json_file="$folder/h5p.json"
+        output_file="$folder/testfile.h5p"
+
+        if [ -d "$content_dir" ] && [ -f "$json_file" ]; then
+            rm -f "$output_file"
+            (cd "$folder" && zip -rXD "testfile.h5p" "content" "h5p.json")
+        fi
+    fi
+done
+
+cd "$H5P_CONTENT_REPOSITORY_DIR"
 
 # h5p import must run on the same directory as the content directory
 if [ -d "$H5P_CLI_DIR/content/" ]; then
   # Probably okay, but this assumes that this is running inside the H5P CLI server
   # TODO: Find a good way to either have switch that allows to use the H5P CLI
   # tool locally if it is running or an extra script that sets up everything
-  # from scratch and works like container.
+  # from scratch and works like a container.
   cd "$H5P_CLI_DIR"
-  if [ ! -d "$H5P_CLI_DIR/content/$H5P_CLI_TESTCONTENT" ]; then
-    h5p import "$H5P_CLI_TESTCONTENT" "$H5P_CONTENT_REPOSITORY_DIR/assets/$H5P_CLI_TESTCONTENT.h5p"
-  fi
+
+  for folder in "$fixtures_directory"/test-[0-9]*; do
+      if [ -d "$folder" ]; then
+          h5p_file="$folder/testfile.h5p"
+
+          if [ -d "$content_dir" ] && [ -f "$h5p_file" ]; then
+              folder_name="$(basename "$folder")"
+
+              rm -rf "$H5P_CLI_DIR/content/$folder_name"
+              h5p import "$folder_name" "$h5p_file"
+          fi
+      fi
+  done
+
   cd "$H5P_CONTENT_REPOSITORY_DIR"
 fi
-
-echo "3"
