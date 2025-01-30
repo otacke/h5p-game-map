@@ -93,6 +93,11 @@
                       {
                         "label": "Bedingungsgruppen",
                         "entity": "Bedingungsgruppe",
+                        "widgets": [
+                          {
+                            "label": "Default"
+                          }
+                        ],
                         "field": {
                           "label": "Bedingungsgruppe",
                           "fields": [
@@ -259,6 +264,11 @@
                   {
                     "label": "Inhalte",
                     "entity": "Inhalt",
+                    "widgets": [
+                      {
+                        "label": "Default"
+                      }
+                    ],
                     "field": {
                       "label": "Inhalt",
                       "fields": [

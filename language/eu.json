@@ -93,6 +93,11 @@
                       {
                         "label": "Restriction sets",
                         "entity": "restriction set",
+                        "widgets": [
+                          {
+                            "label": "Default"
+                          }
+                        ],
                         "field": {
                           "label": "Restriction set",
                           "fields": [
@@ -259,6 +264,11 @@
                   {
                     "label": "Contents",
                     "entity": "content",
+                    "widgets": [
+                      {
+                        "label": "Default"
+                      }
+                    ],
                     "field": {
                       "label": "Content",
                       "fields": [
