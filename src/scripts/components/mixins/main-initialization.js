@@ -536,24 +536,29 @@ export default class MainInitialization {
       'lives', { value: this.livesLeft }
     );
 
-    // Initialize stage counter
-    const filterDone = {
-      state: [
-        this.params.globals.get('states').completed,
-        this.params.globals.get('states').cleared
-      ]
+    const states = [
+      this.params.globals.get('states').completed,
+      this.params.globals.get('states').cleared
+    ];
+
+    const stageTypes = [STAGE_TYPES.stage];
+
+    const filterExercisesOnly = {
+      type: stageTypes
     };
 
-    const filterExercises = {
-      type: [STAGE_TYPES.stage],
+    // Initialize stage counter
+    const filterExercisesDone = {
+      state: states,
+      type: stageTypes
     };
 
     // Initialize stages
     this.toolbar.setStatusContainerStatus(
       'stages',
       {
-        value: this.stages.getCount({ filters: filterDone }),
-        maxValue: this.stages.getCount({ filters: filterExercises })
+        value: this.stages.getCount({ filters: filterExercisesDone }),
+        maxValue: this.stages.getCount({ filters: filterExercisesOnly })
       }
     );
 
