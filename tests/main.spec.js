@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-/** @constant {number} OVERLAY_OPENED_TIMEOUT Timeout to wait to ensure overlay animation finished. */
-const OVERLAY_OPENED_TIMEOUT = 1000;
+/** @constant {number} OVERLAY_OPENED_TIMEOUT_MS Timeout to wait to ensure overlay animation finished. */
+const OVERLAY_OPENED_TIMEOUT_MS = 1000;
 
 // Just a demo for now ...
 test.describe('demo', () => {
@@ -20,7 +20,14 @@ test.describe('demo', () => {
 
   test.describe(('start-up'), () => {
     test('has correct content title', async () => {
-      await page.goto('http://localhost:8080/view/h5p-game-map/testfile?session=null');
+      /*
+       * Workaround: Calling twice, because of bug in H5P CLI. H5P CLI will run the content upgrade
+       * if required, but still use the old parameters on first content load.
+       * @see {@link https://h5ptechnology.atlassian.net/browse/HFP-4200}
+       */
+      await page.goto('http://localhost:8080/view/h5p-game-map/test-1?session=null');
+      await page.goto('http://localhost:8080/view/h5p-game-map/test-1?session=null');
+
       h5pContainer = await page.frameLocator('.h5p-iframe').locator('.h5p-container');
       overlay = h5pContainer.locator('.h5p-game-map-overlay-dialog.exercise');
       toolbar = await h5pContainer.locator('.h5p-game-map-toolbar-tool-bar');
@@ -78,7 +85,7 @@ test.describe('demo', () => {
     });
 
     test ('closes 1st stage', async () => {
-      await page.waitForTimeout(OVERLAY_OPENED_TIMEOUT);
+      await page.waitForTimeout(OVERLAY_OPENED_TIMEOUT_MS);
       await overlay.getByLabel('Close').click();
       await expect(overlay).not.toBeVisible();
     });
@@ -101,7 +108,7 @@ test.describe('demo', () => {
     });
 
     test ('closes 2nd stage', async () => {
-      await page.waitForTimeout(OVERLAY_OPENED_TIMEOUT);
+      await page.waitForTimeout(OVERLAY_OPENED_TIMEOUT_MS);
       await overlay.getByLabel('Close').click();
       await expect(overlay).not.toBeVisible();
     });
