@@ -94,9 +94,8 @@ H5PUpgrades['H5P.GameMap'] = (() => {
         }
 
         finished(null, parameters, extras);
-      }
-    },
-    1: {
+      },
+
       /**
        * Asynchronous content upgrade hook.
        * Upgrades content parameters to support Game Map 1.4.
@@ -174,6 +173,6 @@ H5PUpgrades['H5P.GameMap'] = (() => {
 
         finished(null, parameters, extras);
       }
-    }
+    },
   };
 })();
