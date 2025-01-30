@@ -5,8 +5,9 @@
   "private": true,
   "scripts": {
     "lint": "stylelint './src/**/*.scss' && eslint './src/**/*.js'",
-    "build": "webpack --mode=production",
-    "watch": "webpack --mode=development --watch",
+    "build": "npm run build_semantics && webpack --mode=production",
+    "build_semantics": "json-minify semantics_src.json > semantics.json",
+    "watch": "npm run build_semantics && webpack --mode=development --watch",
     "test-e2e": "./.github/scripts/test-e2e.sh"
   },
   "repository": {
@@ -27,6 +28,7 @@
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
     "eslint-config-snordian-h5p": "github:otacke/eslint-config-snordian-h5p",
+    "json-minify": "^1.0.0",
     "mini-css-extract-plugin": "^2.9.2",
     "playwright": "^1.50.1",
     "regenerator-runtime": "^0.14.1",

@@ -43,4 +43,5 @@ test-results
 # H5P test files (binary)
 tests/fixtures/**/*.h5p
 
-
+# Workaround, building semantics.json from semantics_src.json
+semantics.json
