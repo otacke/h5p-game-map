@@ -115,16 +115,20 @@ export default class MainHandlersStage {
       this.stages.updateNeighborsState(id, state);
 
       // Set filters for completed/cleared stages
-      const filters = {
+      const filterDone = {
         state: [
           this.params.globals.get('states').completed,
           this.params.globals.get('states').cleared
         ]
       };
 
+      const filterExercises = {
+        type: [STAGE_TYPES.stage],
+      };
+
       this.toolbar.setStatusContainerStatus('stages', {
-        value: this.stages.getCount({ filters: filters }),
-        maxValue: this.stages.getCount()
+        value: this.stages.getCount({ filters: filterDone }),
+        maxValue: this.stages.getCount({ filters: filterExercises })
       });
     }
   }
