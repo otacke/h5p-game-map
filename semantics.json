@@ -81,7 +81,7 @@
     "fields": [
       {
         "name": "backgroundImageSettings",
-        "label": "Background image",
+        "label": "Background",
         "type": "group",
         "importance": "high",
         "fields": [
