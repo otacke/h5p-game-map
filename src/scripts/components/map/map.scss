@@ -2,6 +2,7 @@
   --map-aspect-ratio: 16/9;
 
   background-color: var(--map-background-color, var(--color-background));
+  box-shadow: 10px 10px 30px var(--color-shadow-light);
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;
