@@ -121,7 +121,7 @@ export default class GameMap extends H5P.Question {
   }
 
   /**
-   * Get Advanced Text version.
+   * Get Advanced Text version (available if used in content elsewhere).
    * This is illegal, but H5P core does not provide a way to detect loaded libraries for content types.
    * @param {number} contentId Content ID.
    * @returns {string} Advanced Text version.
@@ -129,7 +129,7 @@ export default class GameMap extends H5P.Question {
   getAdvancedTextVersion(contentId) {
     return H5PIntegration?.contents?.[`cid-${contentId}`]?.scripts
       ?.find((script) => script.includes('H5P.AdvancedText-'))
-      .match(/H5P\.AdvancedText-(\d+\.\d+)/)?.[0] ?? ADVANCED_TEXT_VERSION_FALLBACK;
+      ?.match(/H5P\.AdvancedText-(\d+\.\d+)/)?.[0] ?? ADVANCED_TEXT_VERSION_FALLBACK;
   }
 
   /**
