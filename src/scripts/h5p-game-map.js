@@ -107,7 +107,7 @@ export default class GameMap extends H5P.Question {
 
     this.params.gamemapSteps.gamemap.elements = this.params.gamemapSteps.gamemap.elements.map((element) => {
       // Replace missing content with a placeholder
-      const isContentMissing = !element.contentsList?.[0]?.contentType.library && !element.specialStageType;
+      const isContentMissing = !element.specialStageType && !element.contentsList?.[0]?.contentType?.library;
       if (isContentMissing) {
         element.dom = { count: 0 };
         element.contentsList = [this.createMissingContentElement(advancedTextVersion)];
