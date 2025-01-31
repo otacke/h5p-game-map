@@ -152,18 +152,6 @@ H5PUpgrades['H5P.GameMap'] = (() => {
                         }
                       }
                     ]
-                  },
-                  {
-                    allOrAnyRestriction: 'any',
-                    restrictionList: [
-                      {
-                        restrictionType: 'totalScore',
-                        totalScoreGroup: {
-                          totalScoreOperator: 'greaterThan',
-                          totalScoreValue: minScore
-                        }
-                      }
-                    ]
                   }
                 ]
               };
