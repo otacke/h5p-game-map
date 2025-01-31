@@ -431,7 +431,7 @@
                                           "label": "completed"
                                         },
                                         {
-                                          "value": "success",
+                                          "value": "cleared",
                                           "label": "completed successfully"
                                         }
                                       ],
@@ -1763,7 +1763,7 @@
         "default": "completed"
       },
       {
-        "name": "success",
+        "name": "cleared",
         "type": "text",
         "label": "Completed successfully",
         "default": "completed successfully"
