@@ -140,6 +140,13 @@ H5PUpgrades['H5P.GameMap'] = (() => {
                       {
                         restrictionType: 'totalScore',
                         totalScoreGroup: {
+                          totalScoreOperator: 'greaterThan',
+                          totalScoreValue: minScore
+                        }
+                      },
+                      {
+                        restrictionType: 'totalScore',
+                        totalScoreGroup: {
                           totalScoreOperator: 'equalTo',
                           totalScoreValue: minScore
                         }
