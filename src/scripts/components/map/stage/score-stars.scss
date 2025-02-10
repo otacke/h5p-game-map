@@ -1,0 +1,117 @@
+.h5p-game-map-stage-score-stars-container {
+  bottom: 95%;
+  border: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  left: 50%;
+  opacity: 1;
+  position: absolute;
+  transform: translateX(-50%);
+  transition: var(--on-hover-transition);
+  z-index: 1;
+
+  .h5p-game-map-stage-score-star {
+    height: calc(1.25 * var(--stage-font-size));
+    position: relative;
+    width: calc(1.25 * var(--stage-font-size));
+
+    svg {
+      #outline {
+        fill: #000000;
+      }
+
+      #background-left {
+        fill: #ffffff;
+      }
+
+      #background-right {
+        fill: #ffffff;
+      }
+    }
+
+    &.small {
+      height: var(--stage-font-size);
+      width: var(--stage-font-size);
+    }
+
+    &.left {
+      right: calc(-0.3 * var(--stage-font-size));;
+      top: calc(0.4 * var(--stage-font-size));
+      rotate: -30deg;
+    }
+
+    &.right {
+      left: calc(-0.3 * var(--stage-font-size));
+      top: calc(0.4 * var(--stage-font-size));
+      rotate: 30deg;
+    }
+
+    &.half {
+      #background-left {
+        fill: #e2bb1e;
+      }
+    }
+
+    &.full {
+      #background-left {
+        fill: #e2bb1e;
+      }
+
+      #background-right {
+        fill: #e2bb1e;
+      }
+    }
+  }
+
+  &.touch-device {
+    transition-delay: 0s;
+  }
+
+  &.visibility-hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &.display-none {
+    display: none;
+  }
+}
+
+@container map-container (max-width: 560px) {
+  .h5p-game-map-stage-score-stars-container .h5p-game-map-stage-score-star {
+    &.left {
+      right: calc(-0.2 * var(--stage-font-size));;
+      top: calc(0.3 * var(--stage-font-size));
+      rotate: -30deg;
+    }
+
+    &.right {
+      left: calc(-0.2 * var(--stage-font-size));
+      top: calc(0.3 * var(--stage-font-size));
+      rotate: 30deg;
+    }
+  }
+}
+
+@container map-container (max-width: 420px) {
+  .h5p-game-map-stage-score-stars-container .h5p-game-map-stage-score-star {
+    &.left {
+      right: calc(0.05 * var(--stage-font-size));;
+      top: calc(0.2 * var(--stage-font-size));
+      rotate: -30deg;
+    }
+
+    &.right {
+      left: calc(0.05 * var(--stage-font-size));
+      top: calc(0.2 * var(--stage-font-size));
+      rotate: 30deg;
+    }
+  }
+}
+
+@container map-container (max-width: 300px) {
+  .h5p-game-map-stage-score-stars-container {
+    display: none;
+  }
+}

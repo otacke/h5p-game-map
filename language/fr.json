@@ -24,14 +24,15 @@
       "label": "Éditeur de cartes de jeu",
       "fields": [
         {
-          "label": "Image de fond",
+          "label": "Arrière-plan",
           "fields": [
             {
               "label": "Image de fond",
               "description": "Sélectionnez une image à utiliser comme arrière-plan de la carte du jeu."
             },
             {
-              "label": "Factice"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },
@@ -78,18 +79,208 @@
                     "description": "Définissez les restrictions de déverrouillage.",
                     "fields": [
                       {
-                        "label": "Score minimum pour débloquer",
-                        "description": "L'utilisateur ne pourra pas débloquer cette étape s'il n'a pas obtenu au moins ce score minimum en complétant d'autres étapes. Veuillez noter que ce paramètre n'aura aucun effet si « itinérance gratuite » est défini dans les paramètres comportementaux.  Veuillez noter que ce paramètre n'aura aucun effet si \"itinérance gratuite \" est défini dans les paramètres comportementaux."
+                        "label": "All or any restriction set",
+                        "description": "Choose if all or any of the following restrictions need to be met.",
+                        "options": [
+                          {
+                            "label": "All"
+                          },
+                          {
+                            "label": "Any"
+                          }
+                        ]
                       },
                       {
-                        "label": "Ouvert, une fois score suffisant",
-                        "description": "S'il y a eu une tentative de débloquer la scène avec un score insuffisant, la scène se déverrouillera automatiquement une fois que le score devient suffisant."
+                        "label": "Restriction sets",
+                        "entity": "restriction set",
+                        "widgets": [
+                          {
+                            "label": "Default"
+                          }
+                        ],
+                        "field": {
+                          "label": "Restriction set",
+                          "fields": [
+                            {
+                              "label": "All or any restriction",
+                              "description": "Choose if all or any of the following restrictions need to be met.",
+                              "options": [
+                                {
+                                  "label": "All"
+                                },
+                                {
+                                  "label": "Any"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Restrictions",
+                              "entity": "restriction",
+                              "field": {
+                                "label": "Restriction",
+                                "fields": [
+                                  {
+                                    "label": "Restriction type",
+                                    "options": [
+                                      {
+                                        "label": "Total score"
+                                      },
+                                      {
+                                        "label": "Stage score"
+                                      },
+                                      {
+                                        "label": "Stage progress"
+                                      },
+                                      {
+                                        "label": "Time"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Total score",
+                                    "fields": [
+                                      {
+                                        "label": "Operator for total score",
+                                        "options": [
+                                          {
+                                            "label": "less than"
+                                          },
+                                          {
+                                            "label": "equal to"
+                                          },
+                                          {
+                                            "label": "not equal to"
+                                          },
+                                          {
+                                            "label": "greater than"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Value of total score to compare"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Stage score",
+                                    "fields": [
+                                      {
+                                        "label": "Stage to get score from"
+                                      },
+                                      {
+                                        "label": "Operator for stage score",
+                                        "options": [
+                                          {
+                                            "label": "less than"
+                                          },
+                                          {
+                                            "label": "equal to"
+                                          },
+                                          {
+                                            "label": "not equal to"
+                                          },
+                                          {
+                                            "label": "greater than"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Score score to compare to"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Stage progress",
+                                    "fields": [
+                                      {
+                                        "label": "Stage to get progress from"
+                                      },
+                                      {
+                                        "label": "Operator for stage progress",
+                                        "options": [
+                                          {
+                                            "label": "is"
+                                          },
+                                          {
+                                            "label": "is not"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Progress to compare to",
+                                        "options": [
+                                          {
+                                            "label": "not started"
+                                          },
+                                          {
+                                            "label": "started"
+                                          },
+                                          {
+                                            "label": "completed"
+                                          },
+                                          {
+                                            "label": "completed successfully"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Time",
+                                    "fields": [
+                                      {
+                                        "label": "Operator for time",
+                                        "options": [
+                                          {
+                                            "label": "before"
+                                          },
+                                          {
+                                            "label": "is"
+                                          },
+                                          {
+                                            "label": "is not"
+                                          },
+                                          {
+                                            "label": "after"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Time to compare to"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "label": "dummy"
                       }
                     ]
                   },
                   {
-                    "label": "Contenu de la scène",
-                    "description": "Choisissez le type de contenu que vous souhaitez ajouter."
+                    "label": "Contents",
+                    "entity": "content",
+                    "widgets": [
+                      {
+                        "label": "Default"
+                      }
+                    ],
+                    "field": {
+                      "label": "Content",
+                      "fields": [
+                        {
+                          "label": "Contenu de la scène",
+                          "description": "Choisissez le type de contenu que vous souhaitez ajouter."
+                        },
+                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "Type de scène spéciale",
@@ -102,6 +293,9 @@
                       },
                       {
                         "label": "Temps supplémentaire"
+                      },
+                      {
+                        "label": "Link to external content"
                       }
                     ]
                   },
@@ -112,6 +306,21 @@
                   {
                     "label": "Nombre de secondes pour le temps supplémentaire",
                     "description": "Définissez le nombre de secondes que l'utilisateur gagnera en entrant dans cette étape."
+                  },
+                  {
+                    "label": "URL to link to",
+                    "description": "Set where the user should be sent to when opening this stage."
+                  },
+                  {
+                    "label": "Place to open link in",
+                    "options": [
+                      {
+                        "label": "New tab"
+                      },
+                      {
+                        "label": "Same tab"
+                      }
+                    ]
                   },
                   {
                     "label": "Toujours visible",
@@ -126,6 +335,71 @@
                   },
                   {
                     "label": "Télémétrie"
+                  }
+                ]
+              }
+            },
+            {
+              "label": "Paths",
+              "entity": "path",
+              "field": {
+                "label": "Path",
+                "fields": [
+                  {
+                    "label": "From"
+                  },
+                  {
+                    "label": "To"
+                  },
+                  {
+                    "label": "Visual settings",
+                    "options": [
+                      {
+                        "label": "Use global settings"
+                      },
+                      {
+                        "label": "Use custom settings"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Custom visual settings",
+                    "fields": [
+                      {
+                        "label": "Color path"
+                      },
+                      {
+                        "label": "Path width",
+                        "options": [
+                          {
+                            "label": "thin"
+                          },
+                          {
+                            "label": "medium"
+                          },
+                          {
+                            "label": "thick"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Path style",
+                        "options": [
+                          {
+                            "label": "Solid"
+                          },
+                          {
+                            "label": "Dotted"
+                          },
+                          {
+                            "label": "Dashed"
+                          },
+                          {
+                            "label": "Double"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -204,6 +478,21 @@
             },
             {
               "label": "Couleur étape déverrouillées"
+            },
+            {
+              "label": "Show stars for scores",
+              "description": "Choose if and when stars will be displayed on the map for the scores of the stages. Please note that stages without scored exercises will not get the stars.",
+              "options": [
+                {
+                  "label": "Never"
+                },
+                {
+                  "label": "On hover"
+                },
+                {
+                  "label": "Always"
+                }
+              ]
             }
           ]
         },
@@ -475,11 +764,6 @@
           "default": "This stage requires you to meet some goals before it can be opened."
         },
         {
-          "label": "Accès au texte de la boîte de dialogue refusé : score minimum",
-          "description": "@minscore est un espace réservé et sera remplacé par la valeur correspondante.",
-          "default": "Il faut au moins un certain nombre de points : @minscore"
-        },
-        {
           "label": "Oui",
           "default": "Oui"
         },
@@ -525,7 +809,7 @@
         },
         {
           "label": "Texte du dialogue partition complète",
-          "default": "Vous avez collecté suffisamment de points pour terminer cette carte avec un score complet, mais vous êtes libre d'explorer le reste si vous le souhaitez."
+          "default": "Vous avez collecté suffisamment de points pour terminer cette carte avec un score complet, mais vous êtes libre d'explorer le reste si vous le souhaitez. Your score will be submitted once you finish the map."
         },
         {
           "label": "Texte du dialogue partition complète (modification, si des vies sont définies)",
@@ -536,12 +820,112 @@
           "default": "OK"
         },
         {
-          "label": "Aucune image d'arrière-plan n'a été définie",
-          "default": "Aucune image d'arrière-plan n'a été définie pour la carte."
-        },
-        {
           "label": "No stages were set",
           "default": "Aucune étape n'a été fixée."
+        },
+        {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
+          "label": "Volume of music",
+          "default": "Volume of music"
+        },
+        {
+          "label": "Volume of sound effects",
+          "default": "Volume of sound effects"
+        },
+        {
+          "label": "The stage will not be available unless",
+          "default": "The stage will not be available unless:"
+        },
+        {
+          "label": "The stage will not be available unless any of",
+          "default": "The stage will not be available unless any of:"
+        },
+        {
+          "label": "All of:",
+          "default": "All of:"
+        },
+        {
+          "label": "Any of:",
+          "default": "Any of:"
+        },
+        {
+          "label": "Total score less than",
+          "default": "You have a total score less than @value."
+        },
+        {
+          "label": "Total score equal to",
+          "default": "You have a total score equal to @value."
+        },
+        {
+          "label": "Total score not equal to",
+          "default": "You have a total score not equal to @value."
+        },
+        {
+          "label": "Total score greater than",
+          "default": "You have a total score greater than @value."
+        },
+        {
+          "label": "Stage score less than",
+          "default": "You have a score less than @value in stage @label."
+        },
+        {
+          "label": "Stage score equal to",
+          "default": "You have a score equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score not equal to",
+          "default": "You have a score not equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score greater than",
+          "default": "You have a score greater than @value in stage @label."
+        },
+        {
+          "label": "Stage progress is",
+          "default": "The progress of stage @label is @value."
+        },
+        {
+          "label": "Stage progress is not",
+          "default": "Ths progress of stage @label is not @value."
+        },
+        {
+          "label": "Time before",
+          "default": "The current time is before @value."
+        },
+        {
+          "label": "Time is",
+          "default": "The current time is @value."
+        },
+        {
+          "label": "Time is not",
+          "default": "The current time is not @value."
+        },
+        {
+          "label": "Time after",
+          "default": "The current time is after @value."
+        },
+        {
+          "label": "Not started",
+          "default": "not started"
+        },
+        {
+          "label": "Started",
+          "default": "started"
+        },
+        {
+          "label": "Completed",
+          "default": "completed"
+        },
+        {
+          "label": "Completed successfully",
+          "default": "completed successfully"
+        },
+        {
+          "label": "Missing content",
+          "default": "No content was set for this stage!"
         }
       ]
     },

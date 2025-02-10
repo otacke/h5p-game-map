@@ -29,9 +29,9 @@ export default class MainHandlersStage {
     if (stageType === STAGE_TYPES.stage) {
       this.stages.disable();
       window.clearTimeout(this.stageAttentionSeekerTimeout);
-      const exercise = this.exercises.getExercise(id);
+      const exerciseBundle = this.exerciseBundles.getExerciseBundle(id);
 
-      const remainingTime = exercise.getRemainingTime();
+      const remainingTime = exerciseBundle.getRemainingTime();
       if (typeof remainingTime === 'number') {
         this.exerciseScreen.setTime(remainingTime);
       }
@@ -40,34 +40,27 @@ export default class MainHandlersStage {
       this.openExerciseId = id;
       this.callbackQueue.setSkippable(false);
 
-      // Workaround for H5P Interactive Video with YouTube player
-      const instance = exercise.getInstance();
-      if (instance.libraryInfo.machineName === 'H5P.InteractiveVideo') {
-        this.runInteractiveVideoWorkaround(instance);
-      }
-
-      this.exerciseScreen.setH5PContent(exercise.getDOM());
-      this.exerciseScreen.setTitle(stage.getLabel());
+      this.exerciseScreen.setContent(exerciseBundle.getDOM());
+      this.exerciseScreen.setTitle(
+        stage.getLabel(),
+        this.params.dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, stage.getLabel())
+      );
       this.params.jukebox.stopGroup('default');
       this.exerciseScreen.show({ isShowingSolutions: this.isShowingSolutions });
       this.toolbar.disable();
-      this.exercises.start(id);
+      this.exerciseBundles.start(id);
 
-      if (
-        this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise
-      ) {
-        this.params.jukebox.fade(
-          'backgroundMusic', { type: 'out', time: this.musicFadeTime }
-        );
+      if (this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise) {
+        this.params.jukebox.fade('backgroundMusic', { type: 'out', time: this.musicFadeTime });
       }
 
       this.params.jukebox.play('openExercise');
 
       if (!this.isShowingSolutions) {
         // Update context for confusion report contract
-        const stageIndex =
-          this.params.globals.get('params').gamemapSteps.gamemap.elements
-            .findIndex((element) => element.id === id);
+        const stageIndex = this.params.globals.get('params').gamemapSteps.gamemap.elements
+          .findIndex((element) => element.id === id);
+
         this.currentStageIndex = stageIndex + 1;
         this.hasUserMadeProgress = true;
         this.callbacks.onProgressChanged(this.currentStageIndex);
@@ -121,17 +114,27 @@ export default class MainHandlersStage {
     if (this.stages) {
       this.stages.updateNeighborsState(id, state);
 
-      // Set filters for completed/cleared stages
-      const filters = {
-        state: [
-          this.params.globals.get('states').completed,
-          this.params.globals.get('states').cleared
-        ]
+      const states = [
+        this.params.globals.get('states').completed,
+        this.params.globals.get('states').cleared
+      ];
+
+      const stageTypes = [STAGE_TYPES.stage];
+
+      const filterExercisesOnly = {
+        type: stageTypes
       };
 
+      // Initialize stage counter
+      const filterExercisesDone = {
+        state: states,
+        type: stageTypes
+      };
+
+      // Initialize stages
       this.toolbar.setStatusContainerStatus('stages', {
-        value: this.stages.getCount({ filters: filters }),
-        maxValue: this.stages.getCount()
+        value: this.stages.getCount({ filters: filterExercisesDone }),
+        maxValue: this.stages.getCount({ filters: filterExercisesOnly })
       });
     }
   }
@@ -168,37 +171,21 @@ export default class MainHandlersStage {
    * Handle stage to be opened with restrictions.
    * @param {object} [params] Parameters.
    * @param {string} [params.id] Stage id.
-   * @param {number} [params.minScore] Minimum score to open stage.
+   * @param {number} [params.html] HTML to display.
    */
   handleStageAccessRestrictionsHit(params = {}) {
-    if (!params.minScore) {
-      return;
-    }
+    params.html = params.html ? ` ${params.html}` : '';
 
     this.toolbar.disableButton('finish');
-
-    const restrictions = [];
-
-    if (params.minScore) {
-      restrictions.push(
-        this.params.dictionary.get('l10n.confirmAccessDeniedMinScore')
-          .replace(/@minscore/gi, params.minScore)
-      );
-    }
-
-    let restriction = restrictions
-      .map((restriction) => `<li>${restriction}</li>`)
-      .join('');
-
-    restriction = `<ul>${restriction}</ul>`;
 
     this.confirmationDialog.update(
       {
         headerText: this.params.dictionary.get('l10n.confirmAccessDeniedHeader'),
-        dialogText: `${this.params.dictionary.get('l10n.confirmAccessDeniedDialog')}${restriction}`,
+        dialogText: `${this.params.dictionary.get('l10n.confirmAccessDeniedDialog')}${params.html}`,
         confirmText: this.params.dictionary.get('l10n.ok'),
         hideCancel: true
-      }, {
+      },
+      {
         onConfirmed: () => {
           this.toolbar.enableButton('finish');
         },
@@ -209,37 +196,5 @@ export default class MainHandlersStage {
     );
 
     this.confirmationDialog.show();
-  }
-
-  /**
-   * Workaround for H5P Interactive Video.
-   * If the YouTube handler is used and a previously opened stage is opened again - thus
-   * the video instance is re-attached, the YouTube player by Google does send events anymore and
-   * therefore Interactive Video does not work properly.
-   * This workaround forces the YouTube player to be recreated and the video to be seeked to the
-   * previous position.
-   * @param {H5P.InteractiveVideo} interactiveVideoInstance Instance of H5P Interactive Video.
-   */
-  runInteractiveVideoWorkaround(interactiveVideoInstance) {
-    const videoInstance = interactiveVideoInstance?.video;
-    if (videoInstance?.getHandlerName?.() !== 'YouTube') {
-      return; // No YouTube video used.
-    }
-
-    const currentTime = videoInstance.getCurrentTime();
-    videoInstance.once('loaded', () => {
-      if (typeof currentTime === 'number' && currentTime > 0) {
-        /*
-         * This seems to cause the YouTube player to play without a call to play, so
-         * we pause it immediately afterwards. This causes the video to be stuck on the
-         * buffering spinner. The alternative would be to wait for the next state change
-         * indicating that the video is playing (but was not triggered by the user) and
-         * then pause the video, but that leads the video to play slightly. Feels worse.
-         */
-        interactiveVideoInstance.seek(currentTime);
-        videoInstance.pause();
-      }
-    });
-    videoInstance.resetPlayback();
   }
 }

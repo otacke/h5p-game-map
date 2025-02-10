@@ -1,7 +1,7 @@
 .media-screen.start {
   .media-screen-button-start {
     button::before {
-      content: "\F278";
+      content: var(--icon-fontawesome-map-marker);
       font-family: "H5PFontAwesome4", sans-serif;
       padding-right: 0.5rem;
     }

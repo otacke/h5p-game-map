@@ -27,6 +27,9 @@ export default class MainHandlersExercise {
       return; // Just cautious ...
     }
 
+    // eslint-disable-next-line no-magic-numbers
+    this.stages.updateScoreStar(id, params.score / params.maxScore * 100);
+
     if (!this.fullScoreWasAnnounced && this.getScore() === this.getMaxScore()) {
       this.fullScoreWasAnnounced = true;
 
@@ -36,8 +39,8 @@ export default class MainHandlersExercise {
       });
     }
 
-    // Check whether previously not unlockable stages can not be unlocked
-    this.stages.updateUnlockingStages();
+    // Ensure stages get locked if requirements are no longer met.
+    this.stages.updateStatePerRestrictions();
 
     if (typeof params.score === 'number' && params.score !== params.maxScore) {
       this.handleIncompleteScore(id);
@@ -104,7 +107,7 @@ export default class MainHandlersExercise {
     if (this.livesLeft > 0) {
       this.handleExerciseScreenClosed({
         animationEndedCallback: () => {
-          this.exercises.reset(id);
+          this.exerciseBundles.reset(id);
           this.showTimeoutConfirmation();
         }
       });

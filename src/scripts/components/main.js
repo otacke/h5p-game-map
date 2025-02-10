@@ -6,6 +6,7 @@ import MainInitialization from './mixins/main-initialization.js';
 import MainHandlersStage from './mixins/main-handlers-stage.js';
 import MainHandlersExercise from './mixins/main-handlers-exercise.js';
 import MainHandlersExerciseScreen from './mixins/main-handlers-exercise-screen.js';
+import MainHandlersSettings from './mixins/main-handlers-settings-dialog.js';
 import MainQuestionTypeContract from './mixins/main-question-type-contract.js';
 import MainTimer from './mixins/main-timer.js';
 import MainUserConfirmation from './mixins/main-user-confirmation.js';
@@ -55,6 +56,7 @@ export default class Main {
         MainHandlersStage,
         MainHandlersExercise,
         MainHandlersExerciseScreen,
+        MainHandlersSettings,
         MainQuestionTypeContract,
         MainTimer,
         MainUserConfirmation
@@ -96,6 +98,8 @@ export default class Main {
     }
 
     this.start({ isInitial: true });
+
+    this.stages.updateStatePerRestrictions();
 
     // Reattach H5P.Question buttons and scorebar to endscreen
     H5P.externalDispatcher.on('initialized', () => {
@@ -237,12 +241,9 @@ export default class Main {
       return;
     }
 
-    // This should be done with a container selector when support is better.
-    this.exerciseScreen.setScreenOffset(mapSize.width);
-
     this.map.resize();
     clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(() => {
+    this.resizeTimeout = window.setTimeout(() => {
       this.paths.update({ mapSize: this.map.getSize() });
     }, 0);
 
@@ -252,11 +253,19 @@ export default class Main {
      * not good, but I have not found a different one yet.
      */
     if (
-      this.exerciseScreen.getSize().width >
-      this.dom.getBoundingClientRect().width
+      this.exerciseScreen.getSize().width > this.dom.getBoundingClientRect().width
     ) {
       clearTimeout(this.exersizeScreenResizeTimeout);
-      this.exersizeScreenResizeTimeout = setTimeout(() => {
+      this.exersizeScreenResizeTimeout = window.setTimeout(() => {
+        this.params.globals.get('resize')();
+      }, 0);
+    }
+
+    if (
+      this.settingsDialog.getSize().width > this.dom.getBoundingClientRect().width
+    ) {
+      clearTimeout(this.settingsDialogResizeTimeout);
+      this.settingsDialogResizeTimeout = window.setTimeout(() => {
         this.params.globals.get('resize')();
       }, 0);
     }

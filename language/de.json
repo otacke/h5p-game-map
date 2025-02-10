@@ -24,14 +24,15 @@
       "label": "Spiellandkarten-Editor",
       "fields": [
         {
-          "label": "Hintergrundbild",
+          "label": "Hintergrund",
           "fields": [
             {
               "label": "Hintergrundbild",
               "description": "Wähle ein Hintergrundbild für den Hintergrund der Spiellandkarte."
             },
             {
-              "label": "Dummy"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },
@@ -78,18 +79,208 @@
                     "description": "Definiere Beschränkungen für das Freischalten.",
                     "fields": [
                       {
-                        "label": "Minimale Punktzahl zum Freischalten",
-                        "description": "Die Nutzerinnen und Nutzer können diese Etappe nicht freischalten, wenn sie nicht mindestens die eingestellte Minimalpunktzahl durch das Absolvieren anderer Etappen gesammelt haben. Bitte beachte, dass diese Einstellungen nichts bewirkt, falls \"Freies Umherwandern\" in den Verhaltenseinstellungen aktiviert ist."
+                        "label": "Alle oder mindestens eine Bedingungsgruppe",
+                        "description": "Wähle, ob alle oder mindestens eine der folgenden Bedingungsgruppen erfüllt sein müssen.",
+                        "options": [
+                          {
+                            "label": "Alle"
+                          },
+                          {
+                            "label": "Mindestens eine"
+                          }
+                        ]
                       },
                       {
-                        "label": "Öffne, sobald genügend Punkte",
-                        "description": "Wenn versucht wurde, diese Etappe mit zu wenig Punkten freizuschalten, soll diese Etappe automatisch freigeschaltet werden, sobald genügend Punkte gesammelt wurden."
+                        "label": "Bedingungsgruppen",
+                        "entity": "Bedingungsgruppe",
+                        "widgets": [
+                          {
+                            "label": "Default"
+                          }
+                        ],
+                        "field": {
+                          "label": "Bedingungsgruppe",
+                          "fields": [
+                            {
+                              "label": "Alle oder mindestens eine Bedingung",
+                              "description": "Wähle, ob alle oder mindestens eine der folgenden Bedingungen erfüllt sein müssen.",
+                              "options": [
+                                {
+                                  "label": "Alle"
+                                },
+                                {
+                                  "label": "Mindestens eine"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Bedingungen",
+                              "entity": "Bedingung",
+                              "field": {
+                                "label": "Bedingung",
+                                "fields": [
+                                  {
+                                    "label": "Kriterium",
+                                    "options": [
+                                      {
+                                        "label": "Gesamtpunktzahl"
+                                      },
+                                      {
+                                        "label": "Etappenpunktzahl"
+                                      },
+                                      {
+                                        "label": "Etappenfortschritt"
+                                      },
+                                      {
+                                        "label": "Zeitpunkt"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Gesamtpunktzahl",
+                                    "fields": [
+                                      {
+                                        "label": "Vergleichsoperator für die Gesamtpunktzahl",
+                                        "options": [
+                                          {
+                                            "label": "kleiner als"
+                                          },
+                                          {
+                                            "label": "gleich"
+                                          },
+                                          {
+                                            "label": "ungleich"
+                                          },
+                                          {
+                                            "label": "größer als"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Wert, mit dem die Gesamtpunktzahl verglichen wird"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Etappenpunktzahl",
+                                    "fields": [
+                                      {
+                                        "label": "Etappe, mit deren Punktzahl verglichen wird"
+                                      },
+                                      {
+                                        "label": "Vergleichsoperator für die Etapppenpunktzahl",
+                                        "options": [
+                                          {
+                                            "label": "kleiner als"
+                                          },
+                                          {
+                                            "label": "gleich"
+                                          },
+                                          {
+                                            "label": "ungleich"
+                                          },
+                                          {
+                                            "label": "größer als"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Wert, mit dem die Etappenpunktzahl verglichen wird"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Etappenfortschritt",
+                                    "fields": [
+                                      {
+                                        "label": "Etappe, deren Fortschritt verglichen wird"
+                                      },
+                                      {
+                                        "label": "Operator für den Etappenfortschritt",
+                                        "options": [
+                                          {
+                                            "label": "ist"
+                                          },
+                                          {
+                                            "label": "ist nicht"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Fortschritt, mit dem verglichen wird",
+                                        "options": [
+                                          {
+                                            "label": "nicht gestartet"
+                                          },
+                                          {
+                                            "label": "gestartet"
+                                          },
+                                          {
+                                            "label": "abgeschlossen"
+                                          },
+                                          {
+                                            "label": "erfolgreich abgeschlosssen"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Zeitpunkt",
+                                    "fields": [
+                                      {
+                                        "label": "Vergleichsoperator für den aktuellen Zeitpunkt",
+                                        "options": [
+                                          {
+                                            "label": "vor"
+                                          },
+                                          {
+                                            "label": "ist"
+                                          },
+                                          {
+                                            "label": "ist nicht"
+                                          },
+                                          {
+                                            "label": "nach"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Zeitpunkt, mit der jetzige Zeitpunkt verglichen wird"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "label": "dummy"
                       }
                     ]
                   },
                   {
-                    "label": "Etappeninhalt",
-                    "description": "Wähle die Art des Inhalts, die du der Etappe hinzufügen möchtest."
+                    "label": "Inhalte",
+                    "entity": "Inhalt",
+                    "widgets": [
+                      {
+                        "label": "Default"
+                      }
+                    ],
+                    "field": {
+                      "label": "Inhalt",
+                      "fields": [
+                        {
+                          "label": "Etappeninhalt",
+                          "description": "Wähle die Art des Inhalts, die du der Etappe hinzufügen möchtest."
+                        },
+                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "Spezialetappentyp",
@@ -102,6 +293,9 @@
                       },
                       {
                         "label": "Extrazeit"
+                      },
+                      {
+                        "label": "Link zu externem Inhalt"
                       }
                     ]
                   },
@@ -112,6 +306,21 @@
                   {
                     "label": "Anzahl der Extrazeit in Sekunden",
                     "description": "Lege fest, wie viele Sekunden die Nutzenden für ihre Gesamtzeit erhalten, wenn sie diese Etappe öffnen."
+                  },
+                  {
+                    "label": "URL für externen Inhalt",
+                    "description": "Lege fest, wohin die Nutzenden geschickt werden, wenn sie auf den Link klicken."
+                  },
+                  {
+                    "label": "Ort, in dem der Link geöffnet wird",
+                    "options": [
+                      {
+                        "label": "Neuer Tab"
+                      },
+                      {
+                        "label": "Gleicher Tab"
+                      }
+                    ]
                   },
                   {
                     "label": "Immer sichtbar",
@@ -126,6 +335,71 @@
                   },
                   {
                     "label": "Telemetrie"
+                  }
+                ]
+              }
+            },
+            {
+              "label": "Paths",
+              "entity": "path",
+              "field": {
+                "label": "Path",
+                "fields": [
+                  {
+                    "label": "From"
+                  },
+                  {
+                    "label": "To"
+                  },
+                  {
+                    "label": "Visual settings",
+                    "options": [
+                      {
+                        "label": "Use global settings"
+                      },
+                      {
+                        "label": "Use custom settings"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Custom visual settings",
+                    "fields": [
+                      {
+                        "label": "Color path"
+                      },
+                      {
+                        "label": "Path width",
+                        "options": [
+                          {
+                            "label": "thin"
+                          },
+                          {
+                            "label": "medium"
+                          },
+                          {
+                            "label": "thick"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Path style",
+                        "options": [
+                          {
+                            "label": "Solid"
+                          },
+                          {
+                            "label": "Dotted"
+                          },
+                          {
+                            "label": "Dashed"
+                          },
+                          {
+                            "label": "Double"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -204,6 +478,21 @@
             },
             {
               "label": "Farbe für geschaffte Etappe"
+            },
+            {
+              "label": "Zeige Sterne für Punkte",
+              "description": "Wähle, ob und wann Sterne auf der Karte für die Punkte einer Etappe angezeigt werden. Bitte beachte, dass Etappen ohne bepunktete Aufgaben auch keine Sterne anzeigen.",
+              "options": [
+                {
+                  "label": "Nie"
+                },
+                {
+                  "label": "Beim Schweben mit der Maus"
+                },
+                {
+                  "label": "Immer"
+                }
+              ]
             }
           ]
         },
@@ -475,11 +764,6 @@
           "default": "Um diese Etappe zu öffnen, musst du einige Voraussetzungen erfüllen."
         },
         {
-          "label": "Dialogtext Zugang verweigert: Mindestpunktzahl",
-          "description": "@minscore ist ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
-          "default": "Du brauchst eine Mindestpunktzahl: @minscore"
-        },
-        {
           "label": "Ja",
           "default": "Ja"
         },
@@ -525,7 +809,7 @@
         },
         {
           "label": "Dialogtext Volle Punktzahl",
-          "default": "Du hast genügend Punkte gesammelt, um die Karte mit voller Punktzahl abzuschließen, aber du darfst gerne den Rest der Karte erkunden, wenn du möchtest."
+          "default": "Du hast genügend Punkte gesammelt, um die Karte mit voller Punktzahl abzuschließen, aber du darfst gerne den Rest der Karte erkunden, wenn du möchtest. Deine Punktzahl wird übermittelt, wenn du die Karte abschließt."
         },
         {
           "label": "Dialogtext Volle Punktzahl (Erweiterung, falls Leben eingestellt sind)",
@@ -536,12 +820,112 @@
           "default": "OK"
         },
         {
-          "label": "Kein Hintergrundbild gesetzt",
-          "default": "Es wurde für die Karte kein Hintergrundbild gesetzt."
-        },
-        {
           "label": "Keine Etappen gesetzt",
           "default": "Es wurden keine gültigen Etappen für die Karte gesetzt."
+        },
+        {
+          "label": "Einstellungen",
+          "default": "Einstellungen"
+        },
+        {
+          "label": "Lautstärke der Musik",
+          "default": "Lautstärke der Musik"
+        },
+        {
+          "label": "Lautstärke der Soundeffekte",
+          "default": "Lautstärke der Soundeffekte"
+        },
+        {
+          "label": "Die Etappe ist nicht verfügbar, außer",
+          "default": "Die Etappe ist nicht verfügbar, außer:"
+        },
+        {
+          "label": "Die Etappe ist nicht verfügbar, außer mindestens eine Bedingung ist erfüllt",
+          "default": "Die Etappe ist nicht verfügbar, außer mindestens eine Bedingung ist erfüllt:"
+        },
+        {
+          "label": "Alle Bedingungen:",
+          "default": "Alle Bedingungen:"
+        },
+        {
+          "label": "Mindestens eine Bedingung:",
+          "default": "Mindestens eine Bedingung:"
+        },
+        {
+          "label": "Gesamtpunktzahl kleiner als",
+          "default": "Du hast eine Gesamtpunktzahl kleiner als @value."
+        },
+        {
+          "label": "Gesamtpunktzahl gleich",
+          "default": "Du hast eine Gesamtpunktzahl gleich @value."
+        },
+        {
+          "label": "Gesamtpunktzahl ungleich",
+          "default": "Du hast eine Gesamtpunktzahl ungleich @value."
+        },
+        {
+          "label": "Gesamtpunktzahl größer als",
+          "default": "Du hast eine Gesamtpunktzahl größer als @value."
+        },
+        {
+          "label": "Etappenpunktzahl kleiner als",
+          "default": "Deine Punktzahl in Etappe @label ist kleiner als @value."
+        },
+        {
+          "label": "Etappenpunktzahl glech",
+          "default": "Deine Punktzahl in Etappe @label ist @value."
+        },
+        {
+          "label": "Etappenpunktzahl nicht gleich",
+          "default": "Deine Punktzahl in Etappe @label ist nicht @value."
+        },
+        {
+          "label": "Etappenpunktzahl größer als",
+          "default": "Deine Punktzahl in Etappe @label ist größer als @value."
+        },
+        {
+          "label": "Stage progress is",
+          "default": "The progress of stage @label is @value."
+        },
+        {
+          "label": "Stage progress is not",
+          "default": "Ths progress of stage @label is not @value."
+        },
+        {
+          "label": "Zeitpunkt vor",
+          "default": "Der jetzige Zeitpunkt liegt vor @value."
+        },
+        {
+          "label": "Zeitpunkt ist",
+          "default": "Der jetzige Zeitpunkt ist @value."
+        },
+        {
+          "label": "Zeitpunkt ist nicht",
+          "default": "Der jetzige Zeitpunkt ist nicht @value."
+        },
+        {
+          "label": "Zeitpunkt nach",
+          "default": "Der jetzige Zeitpunkt liegt nach @value."
+        },
+        {
+          "label": "Nicht gestartet",
+          "default": "nicht gestartet"
+        },
+        {
+          "label": "Gestartet",
+          "default": "gestartet"
+        },
+        {
+          "label": "Abgeschlossen",
+          "default": "abgeschlossen"
+        },
+        {
+          "label": "Erfolgreich abgeschlossen",
+          "default": "erfolgreich abgeschlossen"
+        },
+        {
+          "label": "Fehlender Inhalt",
+          "default": "Es wurde für diese Etappe kein Inhalt gesetzt!"
         }
       ]
     },

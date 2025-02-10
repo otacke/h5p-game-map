@@ -1,6 +1,6 @@
-@use "@styles/main";
+.h5p-game-map-overlay-dialog {
+  --overlay-dialog-screen-offset: 4rem;
 
-.h5p-game-map-exercise {
   align-items: center;
   background-color: rgba(44,44,44,.8);
   box-sizing: border-box;
@@ -24,7 +24,7 @@
     transition: background-color 0.25s 0.5s;
   }
 
-  .h5p-game-map-exercise-content-container {
+  .h5p-game-map-overlay-dialog-content-container {
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr;
@@ -55,7 +55,7 @@
       }
     }
 
-    .h5p-game-map-exercise-button-close {
+    .h5p-game-map-overlay-dialog-button-close {
       grid-area: 1 / 1 / 1 / 1;
       background: #fff;
       border: none;
@@ -64,11 +64,11 @@
       cursor: pointer;
       height: 2.25em;
       justify-self: end;
-      left: calc( (var(--exercise-screen-offset, 4rem) - 2rem) / -2 - 0.25rem);
+      left: calc( (var(--overlay-dialog-screen-offset, 4rem) - 2rem) / -2 - 0.25rem);
       line-height: 1;
       padding: 3px;
       position: relative;
-      top: calc( (var(--exercise-screen-offset, 4rem) - 2rem) / 2 + 0.25rem);
+      top: calc( (var(--overlay-dialog-screen-offset, 4rem) - 2rem) / 2 + 0.25rem);
       transition: transform .1s ease-in-out;
       width: 2.25em;
 
@@ -78,7 +78,7 @@
 
       &::after {
         font-family: "H5PFontAwesome4", sans-serif;
-        content: "\F00D";
+        content: var(--icon-fontawesome-xmark);
         border: 1px solid #222;
         text-align: center;
         border-radius: 50%;
@@ -89,129 +89,49 @@
       }
     }
 
-    .h5p-game-map-exercise-content {
+    .h5p-game-map-overlay-dialog-content {
       grid-area: 1 / 1 / 1 / 1;
       background-color: #fff;
       border: 0.75rem solid #fff;
       border-radius: 0.5rem;
       box-sizing: border-box;
-      margin-bottom: calc(var(--exercise-screen-offset, 4rem) / 2);
-      margin-left: calc(var(--exercise-screen-offset, 4rem) / 2);
-      margin-top: calc(var(--exercise-screen-offset, 4rem) / 2);
-      max-width: calc(100% - var(--exercise-screen-offset, 4rem));
+      margin-bottom: calc(var(--overlay-dialog-screen-offset, 4rem) / 2);
+      margin-left: calc(var(--overlay-dialog-screen-offset, 4rem) / 2);
+      margin-top: calc(var(--overlay-dialog-screen-offset, 4rem) / 2);
+      max-width: calc(100% - var(--overlay-dialog-screen-offset, 4rem));
       min-width: 0;
 
-      .h5p-game-map-exercise-headline {
+      .h5p-game-map-overlay-dialog-headline {
         align-items: start;
-        border-bottom: 1px solid main.$color-shadow-dark;
+        border-bottom: 1px solid var(--color-shadow-dark);
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
         gap: 1rem;
         justify-content: space-between;
-        padding: 0 0.25rem;
+        padding: 0 0.25rem 0 0;
 
-        .h5p-game-map-exercise-headline-text {
+        .h5p-game-map-overlay-dialog-headline-text {
           display: -webkit-box;
           font-size: 1.25rem;
           font-weight: bold;
+          line-clamp: 3;
+          -webkit-line-clamp: 3;
           overflow: hidden;
           overflow-wrap: anywhere;
-          -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
         }
       }
 
-      .h5p-game-map-exercise-instance-container {
+      .h5p-game-map-overlay-dialog-instance-container {
         height: calc(100% - 1rem);
+        margin-top: 0.5rem;
         width: calc(100% - 0.25rem);
 
-        .h5p-game-map-exercise-instance-wrapper {
-          .h5p-game-map-exercise-instance {
+        .h5p-game-map-overlay-dialog-instance-wrapper {
+          .h5p-game-map-overlay-dialog-instance {
             box-sizing: border-box;
             width: 100%;
-
-            .h5p-question-game-map-continue {
-              float: right;
-
-              &::before {
-                content: "\f04b";
-              }
-            }
-
-            &.h5p-image-hotspot-question {
-              .h5p-question-game-map-continue {
-                margin-top: 1em;
-              }
-            }
-
-            &.h5p-video {
-              overflow: inherit;
-              height: 100%;
-            }
-
-            &.h5p-advanced-text {
-              p:first-child {
-                margin-top: 1rem;
-              }
-
-              p:last-child {
-                margin-bottom: 1rem;
-              }
-            }
-
-            &.h5p-interactive-video {
-              overflow: inherit;
-
-              .h5p-control.h5p-fullscreen {
-                display: none;
-              }
-            }
-
-            &.h5p-course-presentation {
-              .h5p-footer-button.h5p-footer-toggle-full-screen {
-                display: none;
-              }
-            }
-
-            &.h5p-dragquestion {
-              .h5p-my-fullscreen-button-enter {
-                display: none;
-              }
-            }
-
-            &.h5p-memory-game {
-              position: relative;
-
-              .h5p-memory-reset {
-                width: fit-content;
-              }
-            }
-
-            &.h5p-image-hotspot-question > .h5p-question-content {
-              margin: 0;
-            }
-
-            &.h5p-transcript .h5p-transcript-text-container {
-              margin-left: 0;
-              margin-right: 0;
-            }
-
-            &.h5p-image-slider .h5p-image-slider-progress {
-              padding: 0.5em 0;
-            }
-          }
-
-          .h5p-game-map-exercise-instance-continue-button {
-            float: right;
-
-            &::before {
-              content: "\f04b";
-            }
-
-            &.display-none {
-              display: none;
-            }
           }
         }
       }
@@ -281,5 +201,16 @@
       transform: translate3d(0, -200rem, 0) scaleY(3);
     }
   }
+}
 
+@container map-container (max-width: 560px) {
+  .h5p-game-map-overlay-dialog {
+    --overlay-dialog-screen-offset: 3rem;
+  }
+}
+
+@container map-container (max-width: 480px) {
+  .h5p-game-map-overlay-dialog {
+    --overlay-dialog-screen-offset: 2rem;
+  }
 }

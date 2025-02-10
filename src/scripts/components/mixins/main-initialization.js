@@ -4,9 +4,11 @@ import StartScreen from '@components/media-screen/start-screen.js';
 import EndScreen from '@components/media-screen/end-screen.js';
 import Map from '@components/map/map.js';
 import Toolbar from '@components/toolbar/toolbar.js';
-import Exercises from '@models/exercises.js';
-import ExerciseScreen from '@components/exercise-screen/exercise-screen.js';
+import ExerciseBundles from '@models/exercise-bundles.js';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog.js';
+import ExerciseDialog from '@components/overlay-dialogs/exercise-dialog.js';
+import SettingsDialog from '@components/overlay-dialogs/settings-dialog.js';
+import { STAGE_TYPES } from '@components/map/stage/stage.js';
 
 /** @constant {number} MS_IN_S Milliseconds in a second. */
 const MS_IN_S = 1000;
@@ -177,6 +179,25 @@ export default class MainInitialization {
           this.toggleAudio(params.active);
         }
       });
+
+      toolbarButtons.push({
+        id: 'settings',
+        type: 'toggle',
+        a11y: {
+          active: this.params.dictionary.get('a11y.buttonSettingsActive'),
+          inactive: this.params.dictionary.get('a11y.buttonSettingsInactive')
+        },
+        onClick: (ignore, params) => {
+          if (params.active) {
+            this.settingsDialog.show();
+            this.toolbar.disable();
+          }
+          else {
+            this.settingsDialog.hide();
+            this.toolbar.enable();
+          }
+        }
+      });
     }
 
     toolbarButtons.push({
@@ -221,11 +242,13 @@ export default class MainInitialization {
     this.contentDOM.append(this.toolbar.getDOM());
 
     // Map incl. models
-    const backgroundImage = H5P.getPath(
-      globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundImage
-        ?.path ?? '',
-      this.params.globals.get('contentId')
-    );
+    let backgroundImage;
+    if (globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundImage) {
+      backgroundImage = H5P.getPath(
+        globalParams.gamemapSteps.backgroundImageSettings.backgroundImage.path ?? '',
+        this.params.globals.get('contentId')
+      );
+    }
 
     // Stages
     this.stages = new Stages(
@@ -254,6 +277,15 @@ export default class MainInitialization {
         },
         onAccessRestrictionsHit: (params) => {
           this.handleStageAccessRestrictionsHit(params);
+        },
+        getTotalScore: () => {
+          return this.getScore();
+        },
+        getStageScore: (id) => {
+          return this.exerciseBundles.getExerciseBundle(id).getScore();
+        },
+        getExerciseState: (id) => {
+          return this.exerciseBundles.getExerciseBundle(id).getState();
         }
       }
     );
@@ -263,6 +295,7 @@ export default class MainInitialization {
       {
         globals: this.params.globals,
         elements: globalParams.gamemapSteps.gamemap.elements,
+        paths: globalParams.gamemapSteps.gamemap.paths,
         visuals: globalParams.visual.paths.style
       }
     );
@@ -273,6 +306,7 @@ export default class MainInitialization {
         dictionary: this.params.dictionary,
         globals: this.params.globals,
         backgroundImage: backgroundImage,
+        backgroundColor: globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundColor,
         paths: this.paths,
         stages: this.stages
       },
@@ -290,8 +324,8 @@ export default class MainInitialization {
     );
     this.contentDOM.append(this.map.getDOM());
 
-    // Exercise
-    this.exercises = new Exercises(
+    // Exercise bundles
+    this.exerciseBundles = new ExerciseBundles(
       {
         dictionary: this.params.dictionary,
         globals: this.params.globals,
@@ -316,14 +350,18 @@ export default class MainInitialization {
         },
         onContinued: () => {
           this.handleExerciseScreenClosed();
+        },
+        onBundleInitialized: (id, params) => {
+          this.handleExerciseBundleInitialized(id, params);
         }
       }
     );
 
-    this.exerciseScreen = new ExerciseScreen(
+    this.exerciseScreen = new ExerciseDialog(
       {
         dictionary: this.params.dictionary,
-        globals: this.params.globals
+        globals: this.params.globals,
+        cssMainSelector: 'exercise',
       },
       {
         onClosed: () => {
@@ -352,6 +390,31 @@ export default class MainInitialization {
      * content is embedded.
      */
     this.dom.append(this.confirmationDialog.getDOM());
+
+    this.settingsDialog = new SettingsDialog(
+      {
+        dictionary: this.params.dictionary,
+        globals: this.params.globals,
+        cssMainSelector: 'settings',
+        values: {
+          volumeMusic: this.params.jukebox.getVolumeGroup('background'),
+          volumeSFX: this.params.jukebox.getVolumeGroup('default')
+        }
+      },
+      {
+        onClosed: () => {
+          this.handleSettingsDialogClosed();
+        },
+        onOpenAnimationEnded: () => {
+          this.handleSettingsDialogOpenAnimationEnded();
+        },
+        onValueChanged: (id, value) => {
+          this.handleSettingsDialogValueChanged(id, value);
+        }
+      }
+    );
+    this.settingsDialog.hide();
+    this.dom.append(this.settingsDialog.getDOM());
   }
 
   /**
@@ -381,6 +444,8 @@ export default class MainInitialization {
   reset(params = {}) {
     this.toolbar.toggleHintFinishButton(false);
     this.toolbar.toggleHintTimer(false);
+
+    this.stages.updateScoreStar('*', 0);
 
     this.params.jukebox.muteAll();
     this.stageAttentionSeekerTimeout = null;
@@ -436,7 +501,7 @@ export default class MainInitialization {
 
     this.paths.reset({ isInitial: params.isInitial });
     this.stages.reset({ isInitial: params.isInitial });
-    this.exercises.resetAll({ isInitial: params.isInitial });
+    this.exerciseBundles.resetAll({ isInitial: params.isInitial });
 
     // Show everything if fog is deactivated
     if (globalParams.behaviour.map.fog === 'all') {
@@ -451,10 +516,11 @@ export default class MainInitialization {
     // Set start state stages
     if (globalParams.behaviour.map.roaming === 'free') {
       this.stages.forEach((stage) => {
-        stage.setState('open');
+        if (stage.passesRestrictions()) {
+          stage.setState('open');
+        }
       });
       this.paths.forEach((path) => {
-        path.setState('cleared');
         path.show();
       });
     }
@@ -463,27 +529,36 @@ export default class MainInitialization {
 
     this.stages.updateReachability(reachableStageIds);
     this.paths.updateReachability(reachableStageIds);
-    this.exercises.updateReachability(reachableStageIds);
+    this.exerciseBundles.updateReachability(reachableStageIds);
 
     // Initialize lives
     this.toolbar.setStatusContainerStatus(
       'lives', { value: this.livesLeft }
     );
 
+    const states = [
+      this.params.globals.get('states').completed,
+      this.params.globals.get('states').cleared
+    ];
+
+    const stageTypes = [STAGE_TYPES.stage];
+
+    const filterExercisesOnly = {
+      type: stageTypes
+    };
+
     // Initialize stage counter
-    const filters = {
-      state: [
-        this.params.globals.get('states').completed,
-        this.params.globals.get('states').cleared
-      ]
+    const filterExercisesDone = {
+      state: states,
+      type: stageTypes
     };
 
     // Initialize stages
     this.toolbar.setStatusContainerStatus(
       'stages',
       {
-        value: this.stages.getCount({ filters: filters }),
-        maxValue: this.stages.getCount()
+        value: this.stages.getCount({ filters: filterExercisesDone }),
+        maxValue: this.stages.getCount({ filters: filterExercisesOnly })
       }
     );
 
@@ -508,5 +583,7 @@ export default class MainInitialization {
       this.params.jukebox.unmuteAll();
       this.params.jukebox.play('backgroundMusic');
     }
+
+    this.stages.updateStatePerRestrictions();
   }
 }

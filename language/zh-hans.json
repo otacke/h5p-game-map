@@ -24,14 +24,15 @@
       "label": "游戏地图编辑器",
       "fields": [
         {
-          "label": "背景图片",
+          "label": "背景",
           "fields": [
             {
               "label": "背景图片",
               "description": "选择要用作游戏地图背景的图片文件。"
             },
             {
-              "label": "dummy"
+              "label": "Background color",
+              "description": "Choose a color to use as the background of the game map."
             }
           ]
         },
@@ -78,18 +79,208 @@
                     "description": "定义解锁限制。",
                     "fields": [
                       {
-                        "label": "解锁的最低分数",
-                        "description": "如果用户没有在其他关卡获得最低分数，将无法解锁这个关卡。 Please note that this setting will have no effect if \"free roaming\" is set in the behavioural settings."
+                        "label": "All or any restriction set",
+                        "description": "Choose if all or any of the following restrictions need to be met.",
+                        "options": [
+                          {
+                            "label": "All"
+                          },
+                          {
+                            "label": "Any"
+                          }
+                        ]
                       },
                       {
-                        "label": "分数足够时自动解锁",
-                        "description": "对于设置了最低分数解锁的关卡，当用户获得足够分数时，该关卡是否应自动解锁。"
+                        "label": "Restriction sets",
+                        "entity": "restriction set",
+                        "widgets": [
+                          {
+                            "label": "Default"
+                          }
+                        ],
+                        "field": {
+                          "label": "Restriction set",
+                          "fields": [
+                            {
+                              "label": "All or any restriction",
+                              "description": "Choose if all or any of the following restrictions need to be met.",
+                              "options": [
+                                {
+                                  "label": "All"
+                                },
+                                {
+                                  "label": "Any"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Restrictions",
+                              "entity": "restriction",
+                              "field": {
+                                "label": "Restriction",
+                                "fields": [
+                                  {
+                                    "label": "Restriction type",
+                                    "options": [
+                                      {
+                                        "label": "Total score"
+                                      },
+                                      {
+                                        "label": "Stage score"
+                                      },
+                                      {
+                                        "label": "Stage progress"
+                                      },
+                                      {
+                                        "label": "Time"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Total score",
+                                    "fields": [
+                                      {
+                                        "label": "Operator for total score",
+                                        "options": [
+                                          {
+                                            "label": "less than"
+                                          },
+                                          {
+                                            "label": "equal to"
+                                          },
+                                          {
+                                            "label": "not equal to"
+                                          },
+                                          {
+                                            "label": "greater than"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Value of total score to compare"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Stage score",
+                                    "fields": [
+                                      {
+                                        "label": "Stage to get score from"
+                                      },
+                                      {
+                                        "label": "Operator for stage score",
+                                        "options": [
+                                          {
+                                            "label": "less than"
+                                          },
+                                          {
+                                            "label": "equal to"
+                                          },
+                                          {
+                                            "label": "not equal to"
+                                          },
+                                          {
+                                            "label": "greater than"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Score score to compare to"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Stage progress",
+                                    "fields": [
+                                      {
+                                        "label": "Stage to get progress from"
+                                      },
+                                      {
+                                        "label": "Operator for stage progress",
+                                        "options": [
+                                          {
+                                            "label": "is"
+                                          },
+                                          {
+                                            "label": "is not"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Progress to compare to",
+                                        "options": [
+                                          {
+                                            "label": "not started"
+                                          },
+                                          {
+                                            "label": "started"
+                                          },
+                                          {
+                                            "label": "completed"
+                                          },
+                                          {
+                                            "label": "completed successfully"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Time",
+                                    "fields": [
+                                      {
+                                        "label": "Operator for time",
+                                        "options": [
+                                          {
+                                            "label": "before"
+                                          },
+                                          {
+                                            "label": "is"
+                                          },
+                                          {
+                                            "label": "is not"
+                                          },
+                                          {
+                                            "label": "after"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Time to compare to"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "label": "dummy"
                       }
                     ]
                   },
                   {
-                    "label": "关卡内容设置",
-                    "description": "选择要添加的内容类型。"
+                    "label": "Contents",
+                    "entity": "content",
+                    "widgets": [
+                      {
+                        "label": "Default"
+                      }
+                    ],
+                    "field": {
+                      "label": "Content",
+                      "fields": [
+                        {
+                          "label": "关卡内容设置",
+                          "description": "选择要添加的内容类型。"
+                        },
+                        {
+                          "label": "Dummy"
+                        }
+                      ]
+                    }
                   },
                   {
                     "label": "特殊关卡类型",
@@ -102,6 +293,9 @@
                       },
                       {
                         "label": "额外时间"
+                      },
+                      {
+                        "label": "Link to external content"
                       }
                     ]
                   },
@@ -112,6 +306,21 @@
                   {
                     "label": "额外时间秒数",
                     "description": "设置用户进入此关卡时全局时间限制将增加多少秒。"
+                  },
+                  {
+                    "label": "URL to link to",
+                    "description": "Set where the user should be sent to when opening this stage."
+                  },
+                  {
+                    "label": "Place to open link in",
+                    "options": [
+                      {
+                        "label": "New tab"
+                      },
+                      {
+                        "label": "Same tab"
+                      }
+                    ]
                   },
                   {
                     "label": "Always visible",
@@ -126,6 +335,71 @@
                   },
                   {
                     "label": "遥测"
+                  }
+                ]
+              }
+            },
+            {
+              "label": "Paths",
+              "entity": "path",
+              "field": {
+                "label": "Path",
+                "fields": [
+                  {
+                    "label": "From"
+                  },
+                  {
+                    "label": "To"
+                  },
+                  {
+                    "label": "Visual settings",
+                    "options": [
+                      {
+                        "label": "Use global settings"
+                      },
+                      {
+                        "label": "Use custom settings"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Custom visual settings",
+                    "fields": [
+                      {
+                        "label": "Color path"
+                      },
+                      {
+                        "label": "Path width",
+                        "options": [
+                          {
+                            "label": "thin"
+                          },
+                          {
+                            "label": "medium"
+                          },
+                          {
+                            "label": "thick"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Path style",
+                        "options": [
+                          {
+                            "label": "Solid"
+                          },
+                          {
+                            "label": "Dotted"
+                          },
+                          {
+                            "label": "Dashed"
+                          },
+                          {
+                            "label": "Double"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -204,6 +478,21 @@
             },
             {
               "label": "已通过关卡"
+            },
+            {
+              "label": "Show stars for scores",
+              "description": "Choose if and when stars will be displayed on the map for the scores of the stages. Please note that stages without scored exercises will not get the stars.",
+              "options": [
+                {
+                  "label": "Never"
+                },
+                {
+                  "label": "On hover"
+                },
+                {
+                  "label": "Always"
+                }
+              ]
             }
           ]
         },
@@ -475,11 +764,6 @@
           "default": "此关卡要求您满足一些目标，然后才能打开。"
         },
         {
-          "label": "访问被拒绝对话框文本：最低分数",
-          "description": "@minscore 是一个占位符，将替换为相应的值。",
-          "default": "您需要的最低分数：@minscore"
-        },
-        {
           "label": "是的",
           "default": "是的"
         },
@@ -525,7 +809,7 @@
         },
         {
           "label": "满分对话框文本",
-          "default": "您已经得到了足够的分数，以满分完成了这张地图。如果您愿意，您可以自由探索其余部分。"
+          "default": "您已经得到了足够的分数，以满分完成了这张地图。如果您愿意，您可以自由探索其余部分。Your score will be submitted once you finish the map."
         },
         {
           "label": "对话框文本满分（修订，如果生命值已设置）",
@@ -536,12 +820,112 @@
           "default": "知道了"
         },
         {
-          "label": "未设置背景图像",
-          "default": "未为地图设置背景图像。"
-        },
-        {
           "label": "未设置关卡",
           "default": "未为地图设置任何有效关卡。"
+        },
+        {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
+          "label": "Volume of music",
+          "default": "Volume of music"
+        },
+        {
+          "label": "Volume of sound effects",
+          "default": "Volume of sound effects"
+        },
+        {
+          "label": "The stage will not be available unless",
+          "default": "The stage will not be available unless:"
+        },
+        {
+          "label": "The stage will not be available unless any of",
+          "default": "The stage will not be available unless any of:"
+        },
+        {
+          "label": "All of:",
+          "default": "All of:"
+        },
+        {
+          "label": "Any of:",
+          "default": "Any of:"
+        },
+        {
+          "label": "Total score less than",
+          "default": "You have a total score less than @value."
+        },
+        {
+          "label": "Total score equal to",
+          "default": "You have a total score equal to @value."
+        },
+        {
+          "label": "Total score not equal to",
+          "default": "You have a total score not equal to @value."
+        },
+        {
+          "label": "Total score greater than",
+          "default": "You have a total score greater than @value."
+        },
+        {
+          "label": "Stage score less than",
+          "default": "You have a score less than @value in stage @label."
+        },
+        {
+          "label": "Stage score equal to",
+          "default": "You have a score equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score not equal to",
+          "default": "You have a score not equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score greater than",
+          "default": "You have a score greater than @value in stage @label."
+        },
+        {
+          "label": "Stage progress is",
+          "default": "The progress of stage @label is @value."
+        },
+        {
+          "label": "Stage progress is not",
+          "default": "Ths progress of stage @label is not @value."
+        },
+        {
+          "label": "Time before",
+          "default": "The current time is before @value."
+        },
+        {
+          "label": "Time is",
+          "default": "The current time is @value."
+        },
+        {
+          "label": "Time is not",
+          "default": "The current time is not @value."
+        },
+        {
+          "label": "Time after",
+          "default": "The current time is after @value."
+        },
+        {
+          "label": "Not started",
+          "default": "not started"
+        },
+        {
+          "label": "Started",
+          "default": "started"
+        },
+        {
+          "label": "Completed",
+          "default": "completed"
+        },
+        {
+          "label": "Completed successfully",
+          "default": "completed successfully"
+        },
+        {
+          "label": "Missing content",
+          "default": "No content was set for this stage!"
         }
       ]
     },

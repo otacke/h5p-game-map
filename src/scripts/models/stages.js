@@ -6,6 +6,9 @@ import { STAGE_TYPES } from '@components/map/stage/stage.js';
 /** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
 const DEFAULT_READ_DELAY_MS = 100;
 
+/** @constant {number} DEFAULT_CHECK_RESTRICTIONS_INTERVAL_MS Interval for checking restrictions. */
+const DEFAULT_CHECK_RESTRICTIONS_INTERVAL_MS = 2500; // Should be good enough
+
 export default class Stages {
 
   /**
@@ -19,6 +22,9 @@ export default class Stages {
    * @param {function} [callbacks.onBecameActiveDescendant] Called when stage became active descendant.
    * @param {function} [callbacks.onAddedToQueue] Called when function added to queue for main.
    * @param {function} [callbacks.onAccessRestrictionsHit] Handle no access.
+   * @param {function} [callbacks.getTotalScore] Get total score.
+   * @param {function} [callbacks.getStageScore] Get score of stage.
+   * @param {function} [callbacks.getExerciseState] Get state of exercise.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -31,12 +37,21 @@ export default class Stages {
       onStageFocused: () => {},
       onBecameActiveDescendant: () => {},
       onAddedToQueue: () => {},
-      onAccessRestrictionsHit: () => {}
+      onAccessRestrictionsHit: () => {},
+      getStageScore: () => 0,
+      getExerciseState: () => 0,
     }, callbacks);
 
     this.handleSelectionKeydown = this.handleSelectionKeydown.bind(this);
 
     this.stages = this.buildStages(this.params.elements);
+
+    // Ensure that time bases restrictions are checked regularly
+    if (this.stages.some((stage) => stage.hasTimeRestriction())) {
+      window.setInterval(() => {
+        this.updateStatePerRestrictions();
+      }, DEFAULT_CHECK_RESTRICTIONS_INTERVAL_MS);
+    }
   }
 
   /**
@@ -75,12 +90,19 @@ export default class Stages {
         return stage.id === elementParams.id;
       });
 
+      let showStars = this.params.globals.get('params').visual.stages.showScoreStars;
+      if (!!elementParams.specialStageType) {
+        showStars = 'never';
+      }
+
+      // this.params.type === STAGE_TYPES.stage && this.params.globals.get('params').visual.stages.showScoreStars
       const stageParams = {
         id: elementParams.id,
         dictionary: this.params.dictionary,
         globals: this.params.globals,
         jukebox: this.params.jukebox,
         canBeStartStage: elementParams.canBeStartStage,
+        showStars: showStars,
         accessRestrictions: elementParams.accessRestrictions,
         ...(
           elementParams.contentType &&
@@ -94,6 +116,14 @@ export default class Stages {
         ...(
           elementParams.specialStageExtraTime &&
           { specialStageExtraTime: elementParams.specialStageExtraTime }
+        ),
+        ...(
+          elementParams.specialStageLinkURL &&
+          { specialStageLinkURL: elementParams.specialStageLinkURL }
+        ),
+        ...(
+          elementParams.specialStageLinkTarget &&
+          { specialStageLinkTarget: elementParams.specialStageLinkTarget }
         ),
         label: elementParams.label,
         neighbors: neighbors,
@@ -128,6 +158,15 @@ export default class Stages {
         },
         onAccessRestrictionsHit: (params = {}) => {
           this.callbacks.onAccessRestrictionsHit(params);
+        },
+        getTotalScore: () => {
+          return this.callbacks.getTotalScore();
+        },
+        getScore: (id) => {
+          return this.callbacks.getStageScore(id);
+        },
+        getStageProgress: (id) => {
+          return this.callbacks.getExerciseState(id);
         }
       };
 
@@ -206,11 +245,17 @@ export default class Stages {
 
     for (const key in params.filters) {
       stages = stages.filter((stage) => {
+        let keep = true;
+
         if (key === 'state') {
-          return params.filters[key].includes(stage.getState());
+          keep = keep && params.filters[key].includes(stage.getState());
         }
 
-        return true;
+        if (key === 'type') {
+          keep = keep && params.filters[key].includes(stage.getType());
+        }
+
+        return keep;
       });
     }
 
@@ -255,24 +300,28 @@ export default class Stages {
   }
 
   /**
-   * Update stages that are in unlocking state.
+   * Lock stages that do not meet restrictions, unlock those that now do.
    */
-  updateUnlockingStages() {
-    const globalParams = this.params.globals.get('params');
+  updateStatePerRestrictions() {
+    const mode = this.params.globals.get('params').behaviour.map.roaming;
+    const states = this.params.globals.get('states');
 
-    if (globalParams.behaviour.map.roaming === 'free') {
-      return; // Not relevant
-    }
+    this.stages.forEach((stage) => {
+      const hasCompletedNeighbor = (mode === 'free') || stage.getNeighbors().some((neighborId) => {
+        const neighborState = this.getStage(neighborId).getState();
 
-    const unlockingStages = this.stages.filter((stage) => {
-      return (
-        stage.getState() === this.params.globals.get('states').unlocking &&
-        stage.getAccessRestrictions().openOnScoreSufficient
-      );
-    });
+        return (
+          (mode === 'complete' && (neighborState === states.completed || neighborState === states.cleared)) ||
+          (mode === 'success' && neighborState === states.cleared)
+        );
+      });
 
-    unlockingStages.forEach((stage) => {
-      stage.unlock();
+      if (hasCompletedNeighbor && stage.getState() === states.locked && stage.passesRestrictions()) {
+        stage.unlock();
+      }
+      else if (!stage.isStartStage() && stage.getState() === states.open && !stage.passesRestrictions()) {
+        stage.lock();
+      }
     });
   }
 
@@ -343,20 +392,24 @@ export default class Stages {
    * @returns {string[]} IDs of reachable stages.
    */
   setStartStages() {
-    // Choose all start stages (all if none selected) and choose one randomly
-    let startStages = this.stages
-      .filter((stage) => stage.canBeStartStage());
+    // Choose all stages that have been marked as start stages and pass restrictions
+    let startStages = this.stages.filter((stage) => stage.canBeStartStage() && stage.passesRestrictions());
 
     if (!startStages.length) {
-      // Use all stages except special stages, because none selected
-      startStages = this.stages
-        .filter((stage) => stage.getType() === STAGE_TYPES.stage);
+      // Use all stages except special stages and restricted ones, because none selected
+      startStages = this.stages.filter((stage) => stage.getType() === STAGE_TYPES.stage && stage.passesRestrictions());
+    }
+
+    if (!startStages.length) {
+      // Use all stages except special stages, we must start somewhere
+      startStages = this.stages.filter((stage) => stage.getType() === STAGE_TYPES.stage);
     }
 
     // Choose one randomly
     startStages = [startStages[Math.floor(Math.random() * startStages.length)]];
 
     startStages.forEach((stage, index) => {
+      stage.setStartStage();
       stage.unlock();
 
       if (index === 0) {
@@ -372,12 +425,12 @@ export default class Stages {
    * @returns {Stage|null} Next best open stage.
    */
   getNextOpenStage() {
-    return this.stages.filter((stage) => {
-      const state = stage.getState();
+    const openStates = this.params.globals.get('states');
 
-      return state === this.params.globals.get('states').open ||
-        state === this.params.globals.get('states').opened;
-    })[0] || null;
+    return this.stages.find((stage) => {
+      const state = stage.getState();
+      return state === openStates.open || state === openStates.opened;
+    }) || null;
   }
 
   /**
@@ -435,9 +488,7 @@ export default class Stages {
    * @param {KeyboardEvent} event Event.
    */
   handleSelectionKeydown(event) {
-    if (!['ArrowLeft', 'ArrowRight', ' ', 'Enter', 'Escape', 'Tab']
-      .includes(event.key)
-    ) {
+    if (!['ArrowLeft', 'ArrowRight', ' ', 'Enter', 'Escape', 'Tab'].includes(event.key)) {
       return;
     }
 
@@ -518,10 +569,7 @@ export default class Stages {
    * @param {number} index Index of selection stages to highlight.
    */
   highlightStage(index) {
-    if (
-      !Array.isArray(this.selectionStages) ||
-      index > this.selectionStages.length
-    ) {
+    if (!Array.isArray(this.selectionStages) || index > this.selectionStages.length) {
       return;
     }
 
@@ -552,9 +600,7 @@ export default class Stages {
    */
   setTabIndex(id, state) {
     const stage = this.stages.find((stage) => stage.getId() === id);
-    if (stage) {
-      stage.setTabIndex(state);
-    }
+    stage?.setTabIndex(state);
   }
 
   /**
@@ -590,5 +636,44 @@ export default class Stages {
     this.stages.forEach((stage) => {
       stage.reset({ isInitial: params.isInitial });
     });
+  }
+
+  /**
+   *
+   * @param {string} id Id of stage to set task state for,
+   * @param {*} isTask True if stage is a task. Else false.
+   */
+  setTaskState(id, isTask) {
+    const stage = this.getStage(id);
+    if (!stage) {
+      return;
+    }
+
+    stage.setTaskState(isTask);
+    if (isTask && this.params.globals.get('params').visual.stages.showScoreStars === 'always') {
+      stage.showScoreStars();
+    }
+  }
+
+  /**
+   * Update score star.
+   * @param {string} id Id of stage or '*' for all stages.
+   * @param {number} percentage Percentage of score.
+   */
+  updateScoreStar(id, percentage) {
+    if (id === '*') {
+      this.stages.forEach((stage) => {
+        stage.updateScoreStar(percentage);
+      });
+
+      return;
+    }
+
+    const stage = this.getStage(id);
+    if (!stage) {
+      return;
+    }
+
+    stage.updateScoreStar(percentage);
   }
 }

@@ -1,56 +1,54 @@
-@use "@styles/main";
-
-$titlebarButtonSize: 3em;
-$titlebarButtonBackgroundSize: 1.25em;
-
 .toolbar-button {
+  --titlebarButtonSize: 3em;
+  --titlebarButtonBackgroundSize: 1.25em;
+
   align-items: center;
-  background-color: main.$color-primary-5;
+  background-color: var(--color-primary-5);
   background-position: center;
   background-repeat: no-repeat;
-  background-size: $titlebarButtonBackgroundSize $titlebarButtonBackgroundSize;
-  border: 2px solid main.$color-text-light; /* Same px value as used by Joubel in Interactive Book */
+  background-size: var(--titlebarButtonBackgroundSize) var(--titlebarButtonBackgroundSize);
+  border: 2px solid var(--color-text-light); /* Same px value as used by Joubel in Interactive Book */
   border-radius: 3px; /* Same px value as used by Joubel in Interactive Book */
   display: flex;
   flex-shrink: 0;
   font-size: 1em;
-  height: $titlebarButtonSize;
+  height: var(--titlebarButtonSize);
   padding: 0;
-  width: $titlebarButtonSize;
+  width: var(--titlebarButtonSize);
 
   &:not(.toolbar-button-disabled) {
     &:hover {
-      background-color: main.$color-primary-10;
+      background-color: var(--color-primary-10);
       cursor: pointer;
     }
 
     &:active {
-      background-color: main.$color-primary-25;
+      background-color: var(--color-primary-25);
     }
 
     &.toolbar-button-active {
-      background-color: main.$color-primary;
+      background-color: var(--color-primary);
       background-position: center;
       background-repeat: no-repeat;
-      background-size: $titlebarButtonBackgroundSize $titlebarButtonBackgroundSize;
+      background-size: var(--titlebarButtonBackgroundSize) var(--titlebarButtonBackgroundSize);
       opacity: 20;
 
       &:hover {
-        background-color: main.$color-primary-90;
+        background-color: var(--color-primary-90);
         cursor: pointer;
       }
 
       &:active {
-        background-color: main.$color-primary-95;
+        background-color: var(--color-primary-95);
       }
     }
   }
 
   &.toolbar-button-disabled {
-    background-color: rgba(128,128,128,.95);
+    background-color: var(--color-disabled);
 
     &::before {
-      color: #fff;
+      color: var(--color-text-light);
     }
   }
 }

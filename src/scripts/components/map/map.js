@@ -2,12 +2,22 @@ import Util from '@services/util.js';
 import Path from './path.js';
 import './map.scss';
 
+/** @constant {string} COLOR_CONTRAST_DARK Dark color contrast */
+const COLOR_CONTRAST_DARK = '#000';
+
+/** @constant {string} COLOR_CONTRAST_LIGHT Light color contrast */
+const COLOR_CONTRAST_LIGHT = '#fff';
+
+/** @constant {number} STAGE_BORDER_RADIUS Border radius */
+const STAGE_BORDER_RADIUS = 0.5;
+
 export default class Map {
 
   /**
    * @class
    * @param {object} [params] Parameters.
    * @param {string} [params.backgroundImage] Source string for image.
+   * @param {string} [params.backgroundColor] Background color.
    * @param {Path[]} [params.paths] Paths.
    * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onImageLoaded] Image loaded.
@@ -25,43 +35,22 @@ export default class Map {
 
     const globalParams = this.params.globals.get('params');
 
-    const stageWidthPercentage =
-      globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.width;
-    const stageHeightPercentage =
-      globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.height;
+    const stageWidthPercentage = globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.width;
+    const stageHeightPercentage = globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.height;
 
     // Custom CSS variables for stages
-    this.dom.style.setProperty(
-      '--stage-height', `${stageHeightPercentage}%`
-    );
-    this.dom.style.setProperty(
-      '--stage-width', `${stageWidthPercentage}%`
-    );
-    this.dom.style.setProperty(
-      '--stage-color', globalParams.visual.stages.colorStage
-    );
-    this.dom.style.setProperty(
-      '--stage-color-cleared', globalParams.visual.stages.colorStageCleared
-    );
-    this.dom.style.setProperty(
-      '--stage-color-locked', globalParams.visual.stages.colorStageLocked
-    );
-    this.dom.style.setProperty(
-      '--stage-color-contrast-dark', Map.COLOR_CONTRAST_DARK
-    );
-    this.dom.style.setProperty(
-      '--stage-color-contrast-light', Map.COLOR_CONTRAST_LIGHT
-    );
+    this.dom.style.setProperty('--stage-height', `${stageHeightPercentage}%`);
+    this.dom.style.setProperty('--stage-width', `${stageWidthPercentage}%`);
+    this.dom.style.setProperty('--stage-color', globalParams.visual.stages.colorStage);
+    this.dom.style.setProperty('--stage-color-cleared', globalParams.visual.stages.colorStageCleared);
+    this.dom.style.setProperty('--stage-color-locked', globalParams.visual.stages.colorStageLocked);
+    this.dom.style.setProperty('--stage-color-contrast-dark', COLOR_CONTRAST_DARK);
+    this.dom.style.setProperty('--stage-color-contrast-light', COLOR_CONTRAST_LIGHT);
 
     // Custom CSS variables for paths
-    this.dom.style.setProperty(
-      '--path-color', globalParams.visual.paths.style.colorPath);
-    this.dom.style.setProperty(
-      '--path-color-cleared', globalParams.visual.paths.style.colorPathCleared
-    );
-    this.dom.style.setProperty(
-      '--path-style', globalParams.visual.paths.style.pathStyle
-    );
+    this.dom.style.setProperty('--path-color', globalParams.visual.paths.style.colorPath);
+    this.dom.style.setProperty('--path-color-cleared', globalParams.visual.paths.style.colorPathCleared);
+    this.dom.style.setProperty('--path-style', globalParams.visual.paths.style.pathStyle);
 
     this.image = document.createElement('img');
     this.image.classList.add('h5p-game-map-background-image');
@@ -72,6 +61,14 @@ export default class Map {
     if (this.params.backgroundImage) {
       this.image.src = this.params.backgroundImage;
     }
+    else {
+      this.image.classList.add('hidden');
+    }
+
+    if (this.params.backgroundColor) {
+      this.dom.style.setProperty('--map-background-color', this.params.backgroundColor);
+    }
+
     this.dom.appendChild(this.image);
 
     this.pathWrapper = document.createElement('div');
@@ -134,10 +131,7 @@ export default class Map {
     const mapSize = this.getSize();
 
     let width, height;
-    if (
-      mapSize.width / mapSize.height >
-      availableSpace.width / availableSpace.height
-    ) {
+    if (mapSize.width / mapSize.height > availableSpace.width / availableSpace.height) {
       width = availableSpace.width;
       height = availableSpace.width * mapSize.height / mapSize.width;
     }
@@ -167,9 +161,9 @@ export default class Map {
    */
   resize() {
     clearTimeout(this.resizeTimeout);
-    this.resizeTimeout = setTimeout(() => {
+    this.resizeTimeout = window.setTimeout(() => {
       // Ensure overlays for paths and stages have image dimensions
-      const clientRect = this.image.getBoundingClientRect();
+      const clientRect = this.getSize();
       this.pathWrapper.style.height = `${clientRect.height}px`;
       this.stageWrapper.style.height = `${clientRect.height}px`;
 
@@ -180,12 +174,8 @@ export default class Map {
       // eslint-disable-next-line no-magic-numbers
       const fontSize = clientRect.height / 100 * heightPercentage;
 
-      this.dom.style.setProperty(
-        '--stage-font-size', `calc(${Map.STAGE_BORDER_RADIUS} * ${fontSize}px)`
-      );
-      this.dom.style.setProperty(
-        '--stage-line-height', `${fontSize}px`
-      );
+      this.dom.style.setProperty('--stage-font-size', `calc(${STAGE_BORDER_RADIUS} * ${fontSize}px)`);
+      this.dom.style.setProperty('--stage-line-height', `${fontSize}px`);
     }, 0);
   }
 
@@ -216,10 +206,7 @@ export default class Map {
       return;
     }
 
-    else if (
-      sizes?.container?.width && sizes?.container?.height &&
-      sizes?.map?.width && sizes?.map?.height
-    ) {
+    else if (sizes?.container?.width && sizes?.container?.height && sizes?.map?.width && sizes?.map?.height) {
       window.requestAnimationFrame(() => {
         this.dom.style.height = `${sizes.container.height}px`;
         this.dom.style.width = `${sizes.container.width}px`;
@@ -249,17 +236,6 @@ export default class Map {
    * @param {string} id Id of active descendant.
    */
   setActiveDescendant(id) {
-    this.stageWrapper.setAttribute(
-      'aria-activedescendant', `stage-button-${id}`
-    );
+    this.stageWrapper.setAttribute('aria-activedescendant', `stage-button-${id}`);
   }
 }
-
-/** @constant {string} COLOR_CONTRAST_DARK Dark color contrast */
-Map.COLOR_CONTRAST_DARK = '#000';
-
-/** @constant {string} COLOR_CONTRAST_LIGHT Light color contrast */
-Map.COLOR_CONTRAST_LIGHT = '#fff';
-
-/** @constant {number} STAGE_BORDER_RADIUS Border radius */
-Map.STAGE_BORDER_RADIUS = 0.5;

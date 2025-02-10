@@ -4,6 +4,12 @@ import { animate } from '@services/animate.js';
 import Util from '@services/util.js';
 import './toolbar.scss';
 
+/** @constant {number} HINT_INTERVAL_MS Default hint interval. */
+const HINT_INTERVAL_MS = 3000;
+
+/** @constant {number} HINT_INTERVAL_TIMER_MS Default hint interval timer. */
+const HINT_INTERVAL_TIMER_MS = 1000;
+
 /** Class representing the button bar */
 export default class Toolbar {
 
@@ -452,7 +458,3 @@ export default class Toolbar {
     this.dom.classList.toggle('solution-mode', state);
   }
 }
-
-/** @constant {number} HINT_INTERVAL_MS Default hint interval. */
-export const HINT_INTERVAL_MS = 3000;
-export const HINT_INTERVAL_TIMER_MS = 1000;

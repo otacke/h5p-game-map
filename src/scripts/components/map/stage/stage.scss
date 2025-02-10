@@ -1,4 +1,5 @@
 .h5p-game-map-stage {
+  --label-transition: opacity 0.2s ease-in .3s;
   background: none;
   border: none;
   box-sizing: border-box;
@@ -46,15 +47,25 @@
     }
   }
 
+  &:has(.h5p-game-map-stage-score-stars-container:not(.visibility-hidden)) {
+    --label-extra-top-offset: 0.75rem;
+  }
+
   .h5p-game-map-stage-content {
+    border: 2px solid var(--stage-color-border, rgba(0,0,0,0.4));
+    border-radius: 50%;
     box-sizing: border-box;
     height: 100%;
     position: relative;
     transition: transform .1s ease-in-out;
     z-index: 1;
 
-    border: 2px solid var(--stage-color-border, rgba(0,0,0,0.4));
-    border-radius: 50%;
+    &::before {
+      font-family: "H5PFontAwesome4", sans-serif;
+      font-size: max(0.75rem, var(--stage-font-size));
+      line-height: max(1rem, var(--stage-line-height));
+      position: absolute;
+    }
 
     &.dark-text {
       color: var(--stage-color-contrast-dark, #000);
@@ -69,17 +80,12 @@
     }
 
     &.h5p-game-map-stage-locked,
-    &.h5p-game-map-stage-unlocking,
     &.h5p-game-map-stage-sealed {
       background-color: var(--stage-color-locked, rgba(153, 0, 0, 0.7));
 
       &::before {
-        content: "\f023";
-        font-family: "H5PFontAwesome4", sans-serif;
-        font-size: max(0.75rem, var(--stage-font-size));
+        content: var(--icon-fontawesome-lock);
         left: 0;
-        line-height: max(1rem, var(--stage-line-height));
-        position: absolute;
         right: 0;
         top: -1px;
       }
@@ -93,15 +99,12 @@
       background-color: var(--stage-color-cleared, rgba(0, 130, 0, 0.7));
 
       &::before {
-        content: "\f005";
-        font-family: "H5PGameMap", "H5PFontAwesome4", sans-serif;
-        font-size: max(0.75rem, var(--stage-font-size));
-        left: 0;
-        line-height: max(1rem, var(--stage-line-height));
-        position: absolute;
-        right: 0;
-        top: -2px;
+        content: var(--icon-fontawesome-star);
       }
+    }
+
+    &:has(+.h5p-game-map-stage-score-stars-container).h5p-game-map-stage-cleared::before {
+      content: var(--icon-fontawesome-check);
     }
   }
 

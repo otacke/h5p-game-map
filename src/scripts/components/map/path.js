@@ -1,6 +1,12 @@
 import Util from '@services/util.js';
 import './path.scss';
 
+/** @constant {number} MIN_WIDTH_PX Path minimum width in px */
+const MIN_WIDTH_PX = 1;
+
+/** @constant {number} MAX_FACTOR Path max size factor, % of stage size */
+const MAX_FACTOR = 0.3;
+
 export default class Path {
   /**
    * Construct a path.
@@ -21,6 +27,9 @@ export default class Path {
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-path');
+    this.dom.style.setProperty('--path-style', `${this.params.visuals.pathStyle}`);
+    this.dom.style.setProperty('--path-color', `${this.params.visuals.colorPath}`);
+    this.dom.style.setProperty('--path-color-cleared', `${this.params.visuals.colorPathCleared}`);
 
     if (!this.params.visible) {
       this.hide();
@@ -217,8 +226,8 @@ export default class Path {
 
     // Border width
     const strokeWidth = Math.min(
-      Math.max(Path.MIN_WIDTH_PX, width * this.params.visuals.pathWidth),
-      width * Path.MAX_FACTOR
+      Math.max(MIN_WIDTH_PX, width * this.params.visuals.pathWidth),
+      width * MAX_FACTOR
     );
 
     // eslint-disable-next-line no-magic-numbers
@@ -308,9 +317,3 @@ export default class Path {
     }
   }
 }
-
-/** @constant {number} Path.MIN_WIDTH_PX Path minimum width in px */
-Path.MIN_WIDTH_PX = 1;
-
-/** @constant {number} Path.MAX_FACTOR Path max size factor, % of stage size */
-Path.MAX_FACTOR = 0.3;

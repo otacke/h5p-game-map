@@ -2,20 +2,20 @@ import { animate } from '@services/animate.js';
 import FocusTrap from '@services/focus-trap.js';
 import Util from '@services/util.js';
 import TimerDisplay from './timer-display.js';
-import './exercise-screen.scss';
+import './overlay-dialog.scss';
 
 /** @constant {number} CONTENT_ATTACH_DELAY_MS Delay before content is attached. */
 const CONTENT_ATTACH_DELAY_MS = 100;
 
-/** Class representing an exercise screen */
-export default class ExerciseScreen {
+/** Class representing an overlay dialog */
+export default class OverlayDialog {
 
   /**
-   * Exercise holding H5P content.
+   * Overlay dialog.
    * @class
    * @param {object} [params] Parameters.
    * @param {object} [callbacks] Callbacks.
-   * @param {function} [callbacks.onClosed] Callback when exercise closed.
+   * @param {function} [callbacks.onClosed] Callback when overlay closed.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({}, params);
@@ -33,7 +33,10 @@ export default class ExerciseScreen {
     this.handleKeyDown = this.handleKeyDown.bind(this);
 
     this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-game-map-exercise');
+    this.dom.classList.add('h5p-game-map-overlay-dialog');
+    if (this.params.cssMainSelector) {
+      this.dom.classList.add(this.params.cssMainSelector);
+    }
     this.dom.classList.add('transparent');
     this.dom.setAttribute('role', 'dialog');
     this.dom.setAttribute('aria-modal', 'true');
@@ -41,19 +44,19 @@ export default class ExerciseScreen {
     // Container for H5P content, can be CSS-transformed
     this.contentContainer = document.createElement('div');
     this.contentContainer.classList.add(
-      'h5p-game-map-exercise-content-container'
+      'h5p-game-map-overlay-dialog-content-container'
     );
     this.contentContainer.classList.add('transparent');
     this.contentContainer.classList.add('offscreen');
     this.dom.append(this.contentContainer);
 
     this.content = document.createElement('div');
-    this.content.classList.add('h5p-game-map-exercise-content');
+    this.content.classList.add('h5p-game-map-overlay-dialog-content');
     this.contentContainer.append(this.content);
 
     // Close button
     this.buttonClose = document.createElement('button');
-    this.buttonClose.classList.add('h5p-game-map-exercise-button-close');
+    this.buttonClose.classList.add('h5p-game-map-overlay-dialog-button-close');
     this.buttonClose.setAttribute(
       'aria-label', this.params.dictionary.get('a11y.close')
     );
@@ -64,25 +67,25 @@ export default class ExerciseScreen {
 
     // Headline
     const headline = document.createElement('div');
-    headline.classList.add('h5p-game-map-exercise-headline');
+    headline.classList.add('h5p-game-map-overlay-dialog-headline');
     this.content.append(headline);
 
     this.headlineText = document.createElement('div');
-    this.headlineText.classList.add('h5p-game-map-exercise-headline-text');
+    this.headlineText.classList.add('h5p-game-map-overlay-dialog-headline-text');
     headline.append(this.headlineText);
 
     this.timerDisplay = new TimerDisplay();
     headline.append(this.timerDisplay.getDOM());
 
     // H5P instance
-    this.h5pInstance = document.createElement('div');
-    this.h5pInstance.classList.add('h5p-game-map-exercise-instance-container');
-    this.content.append(this.h5pInstance);
+    this.instanceContainer = document.createElement('div');
+    this.instanceContainer.classList.add('h5p-game-map-overlay-dialog-instance-container');
+    this.content.append(this.instanceContainer);
 
     this.focusTrap = new FocusTrap({
       trapElement: this.dom,
       closeElement: this.buttonClose,
-      fallbackContainer: this.h5pInstance
+      fallbackContainer: this.instanceContainer
     });
   }
 
@@ -180,12 +183,12 @@ export default class ExerciseScreen {
   }
 
   /**
-   * Set H5P DOM.
-   * @param {HTMLElement} h5pDOM DOM of H5P instance.
+   * Set DOM content.
+   * @param {HTMLElement} dom DOM of content.
    */
-  setH5PContent(h5pDOM) {
-    this.h5pInstance.innerHTML = '';
-    this.h5pInstance.appendChild(h5pDOM);
+  setContent(dom) {
+    this.instanceContainer.innerHTML = '';
+    this.instanceContainer.appendChild(dom);
   }
 
   /**
@@ -213,27 +216,6 @@ export default class ExerciseScreen {
   setTime(timeMs, options = {}) {
     this.timerDisplay.setTime(timeMs);
     this.timerDisplay.setTimeoutWarning(options.timeoutWarning);
-  }
-
-  /**
-   * Set offset to screen border.
-   * @param {number} mapWidth Map width in px.
-   */
-  setScreenOffset(mapWidth) {
-    const project = (value, lo1, hi1, lo2, hi2) => {
-      return lo2 + (hi2 - lo2) * (value - lo1) / (hi1 - lo1);
-    };
-
-    const size = project(
-      Math.max(
-        ExerciseScreen.MAPSIZE_MIN_PX,
-        Math.min(mapWidth, ExerciseScreen.MAPSIZE_MAX_PX)
-      ),
-      ExerciseScreen.MAPSIZE_MIN_PX, ExerciseScreen.MAPSIZE_MAX_PX,
-      ExerciseScreen.OFFSET_MIN_REM, ExerciseScreen.OFFSET_MAX_REM
-    );
-
-    this.dom.style.setProperty('--exercise-screen-offset', `${size}rem`);
   }
 
   /**
@@ -320,15 +302,3 @@ export default class ExerciseScreen {
     }
   }
 }
-
-/** @constant {number} OFFSET_MIN_REM Minimum offset for screen in rem. */
-ExerciseScreen.OFFSET_MIN_REM = 2;
-
-/** @constant {number} OFFSET_MAX_REM Maximum offset for screen in rem. */
-ExerciseScreen.OFFSET_MAX_REM = 4;
-
-/** @constant {number} MAPSIZE_MIN_PX Minimum mapsize for projection in px. */
-ExerciseScreen.MAPSIZE_MIN_PX = 480;
-
-/** @constant {number} MAPSIZE_MAX_PX Maximum mapsize for projection in px. */
-ExerciseScreen.MAPSIZE_MAX_PX = 640;

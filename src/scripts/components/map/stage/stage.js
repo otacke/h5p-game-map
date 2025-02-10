@@ -2,6 +2,8 @@ import Color from 'color';
 import { animate } from '@services/animate.js';
 import Util from '@services/util.js';
 import Label from './label.js';
+import ScoreStars from './score-stars.js';
+import Restrictions from '@models/restrictions/restrictions.js';
 import './stage.scss';
 
 /** @constant {number} CONTRAST_DELTA Factor to darken color. */
@@ -9,6 +11,15 @@ const CONTRAST_DELTA = 0.3;
 
 /** @constant {number} VERTICAL_CENTER_THRESHOLD Threshold for vertical centering. */
 const VERTICAL_CENTER_THRESHOLD = 50;
+
+/** @constant {number} ANIMATION_CLEARED_BLOCK_MS Blocking time. */
+const ANIMATION_CLEARED_BLOCK_MS = 1000;
+
+/** @constant {object} STAGE_TYPES types lookup. */
+export const STAGE_TYPES = {
+  'stage': 0,
+  'special-stage': 1
+};
 
 export default class Stage {
   /**
@@ -20,11 +31,15 @@ export default class Stage {
    * @param {function} [callbacks.onStageChanged] State of stage changed.
    * @param {function} [callbacks.onFocusChanged] State of focus changed.
    * @param {function} [callbacks.onAccessRestrictionsHit] Handle no access.
+   * @param {function} [callbacks.onAddedToQueue] Add to queue.
+   * @param {function} [callbacks.getTotalScore] Get total score.
+   * @param {function} [callbacks.getScore] Get score of stage.
+   * @param {function} [callbacks.getStageProgress] Get progress of stage.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       accessRestrictions: {
-        openOnScoreSufficient: false
+        restrictionSetList: []
       }
     }, params);
 
@@ -44,6 +59,52 @@ export default class Stage {
       onAddedToQueue: () => {},
       onAccessRestrictionsHit: () => {}
     }, callbacks);
+
+    const elementParams = this.params.globals.get('params').gamemapSteps.gamemap.elements;
+
+    // Map state names to state values and add labels
+    this.params.accessRestrictions.restrictionSetList = (this.params.accessRestrictions.restrictionSetList ?? [])
+      .filter((setList) => setList.restrictionList)
+      .map((setList) => {
+        setList.restrictionList = setList.restrictionList.map((restriction) => {
+          const stageProgressValue = restriction.stageProgressGroup?.stageProgressValue;
+          if (stageProgressValue) {
+            restriction.stageProgressGroup.stageProgressValue = this.params.globals.get('states')[stageProgressValue];
+            restriction.stageProgressGroup.stageProgressValueRepresentation = this.params.dictionary.get(`l10n.${stageProgressValue}`);
+          }
+
+          if (restriction.restrictionType === 'stageScore' && restriction.stageScoreGroup) {
+            const label = elementParams.find((element) => {
+              return element.id === restriction.stageScoreGroup.stageScoreId;
+            })?.label;
+            restriction.stageScoreGroup.stageScoreLabel = label;
+          }
+          else if (restriction.restrictionType === 'stageProgress' && restriction.stageProgressGroup) {
+            const label = elementParams.find((element) => {
+              return element.id === restriction.stageProgressGroup.stageProgressId;
+            })?.label;
+            restriction.stageProgressGroup.stageProgressLabel = label;
+          }
+
+          return restriction;
+        });
+
+        return setList;
+      });
+
+    this.restrictions = new Restrictions(
+      {
+        dictionary: this.params.dictionary,
+        globals: this.params.globals,
+        accessRestrictions: this.params.accessRestrictions
+      },
+      {
+        getTotalScore: () => this.callbacks.getTotalScore(),
+        getStageScore: (id) => this.callbacks.getScore(id),
+        getStageProgress: (id) => this.callbacks.getStageProgress(id),
+        getTime: () => new Date()
+      }
+    );
 
     this.isDisabledState = false;
     this.isAnimating = false;
@@ -87,6 +148,11 @@ export default class Stage {
     const positionY = (this.params.telemetry.y < VERTICAL_CENTER_THRESHOLD) ?
       'bottom' :
       'top';
+
+    if (this.params.showStars !== 'never') {
+      this.scoreStars = new ScoreStars({ mode: this.params.showStars });
+      this.dom.appendChild(this.scoreStars.getDOM());
+    }
 
     this.label = new Label({
       position: positionY,
@@ -213,8 +279,7 @@ export default class Stage {
 
     let stateLabel;
     if (
-      this.state === this.params.globals.get('states').locked ||
-      this.state === this.params.globals.get('states').unlocking
+      this.state === this.params.globals.get('states').locked
     ) {
       stateLabel = this.params.dictionary.get('a11y.locked');
     }
@@ -311,30 +376,46 @@ export default class Stage {
   }
 
   /**
-   * Unlock.
+   * Set start stage.
    */
-  unlock() {
-    if (
-      this.state === this.params.globals.get('states').locked ||
-      this.state === this.params.globals.get('states').unlocking
-    ) {
-      // Do not unlock if there's a restriction that is not yet met
-      if (
-        typeof (this.params?.accessRestrictions?.minScore) === 'number' &&
-        this.params?.accessRestrictions?.minScore >
-          this.params.globals.get('getScore')()
-      ) {
-        this.setState('unlocking');
-        return;
-      }
+  setStartStage() {
+    this.isStartStageState = true;
+  }
 
-      this.params.globals.get('read')(this.params.dictionary
-        .get('a11y.stageUnlocked')
-        .replace(/@stagelabel/, this.params.label)
-      );
+  /**
+   * Determine whether stage is start stage.
+   * @returns {boolean} True, if stage is start stage. Else false.
+   */
+  isStartStage() {
+    return this.isStartStageState ?? false;
+  }
 
-      this.setState('open');
+  /**
+   * Lock.
+   */
+  lock() {
+    this.setState('locked');
+  }
+
+  /**
+   * Unlock.
+   * @param {object} [params] Parameters.
+   */
+  unlock(params = {}) {
+    if (this.state !== this.params.globals.get('states').locked) {
+      return; // Already unlocked
     }
+
+    if (!this.isStartStage() && !this.passesRestrictions()) {
+      return;
+    }
+
+    this.params.globals.get('read')(this.params.dictionary
+      .get('a11y.stageUnlocked')
+      .replace(/@stagelabel/, this.params.label)
+    );
+
+    this.setState('open');
   }
 
   /**
@@ -456,25 +537,20 @@ export default class Stage {
     }
 
     this.label.hide();
+    if (this.params.showStars === 'onHover') {
+      this.scoreStars.hide();
+    }
 
-    if (
-      this.state === this.params.globals.get('states').locked ||
-      this.state === this.params.globals.get('states').unlocking ||
-      this.state === this.params.globals.get('states').sealed
-    ) {
+    const states = this.params.globals.get('states');
+
+    if (this.state === states.locked || this.state === states.sealed) {
       this.animate('shake');
       this.params.jukebox.play('clickStageLocked');
 
-      if (
-        (typeof this.params.accessRestrictions?.minScore === 'number') &&
-        (
-          this.state === this.params.globals.get('states').locked ||
-          this.state === this.params.globals.get('states').unlocking
-        )
-      ) {
+      if (this.state === states.locked && !this.passesRestrictions()) {
         this.callbacks.onAccessRestrictionsHit({
           id: this.params.id,
-          minScore: this.params.accessRestrictions?.minScore
+          html: this.restrictions.getMessagesHTML()
         });
       }
 
@@ -482,6 +558,14 @@ export default class Stage {
     }
 
     this.callbacks.onClicked(this.params.id, this.state);
+  }
+
+  /**
+   * Determine whether a stage passes all restrictions
+   * @returns {boolean} True, if all restrictions are passed. Else false.
+   */
+  passesRestrictions() {
+    return this.restrictions.allPassed();
   }
 
   /**
@@ -507,6 +591,13 @@ export default class Stage {
     );
     scale = Number.isNaN(scale) ? 1 : scale;
 
+    if (this.params.showStars === 'onHover' && this.belongsToTask) {
+      this.scoreStars.show({
+        skipDelay: event instanceof FocusEvent,
+        scale: scale
+      });
+    }
+
     this.label.show({
       skipDelay: event instanceof FocusEvent,
       scale: scale
@@ -522,6 +613,10 @@ export default class Stage {
     }
 
     this.label.hide();
+
+    if (this.params.showStars === 'onHover') {
+      this.scoreStars.hide();
+    }
   }
 
   /**
@@ -531,6 +626,7 @@ export default class Stage {
    */
   reset(params = {}) {
     this.setReachable(true);
+    this.isStartStageState = false;
 
     const state = params.isInitial ?
       this.params.state :
@@ -538,13 +634,7 @@ export default class Stage {
 
     this.setState(state);
 
-    if (
-      [
-        this.params.globals.get('states').locked,
-        this.params.globals.get('states').unlocking
-      ]
-        .includes(state)
-    ) {
+    if (state === this.params.globals.get('states').locked) {
       this.setTabIndex('-1');
     }
 
@@ -593,20 +683,9 @@ export default class Stage {
     else if (state === states.locked) {
       newState = states.locked;
     }
-    else if (state === states.unlocking) {
-      newState = states.unlocking;
-      this.show();
-    }
-    else if (
-      state === states.open ||
-      state === states.opened
-    ) {
-      if (
-        // Was already completed.
-        this.state !== states.completed &&
-        this.state !== states.cleared
-      ) {
-        newState = states.open;
+    else if (state === states.open || state === states.opened) {
+      if (this.state !== states.completed && this.state !== states.cleared) {
+        newState = states.open; // Was already completed.
       }
       this.show();
     }
@@ -669,7 +748,7 @@ export default class Stage {
       // Make sure to add a blocking delay for when stages are cleared
       if (this.shouldBePlayful) {
         if (newState === states.cleared) {
-          params.block = Stage.ANIMATION_CLEARED_BLOCK_MS;
+          params.block = ANIMATION_CLEARED_BLOCK_MS;
         }
         else if (newState === states.sealed) {
           params.skipQueue = true;
@@ -702,13 +781,37 @@ export default class Stage {
       this.callbacks.onBecameActiveDescendant(this.params.id);
     }
   }
+
+  /**
+   * Set task state.
+   * @param {boolean} belongsToTask If true, stage belongs to task. Else not.
+   */
+  setTaskState(belongsToTask) {
+    this.belongsToTask = belongsToTask;
+  }
+
+  /**
+   * Show score stars.
+   */
+  showScoreStars() {
+    this.scoreStars.show();
+  }
+
+  /**
+   * Update score star.
+   * @param {number} percentage Percentage of score.
+   */
+  updateScoreStar(percentage) {
+    this.scoreStars?.setStarsByPercentage(percentage);
+  }
+
+  /**
+   * Determine whether the stage has any time restrictions.
+   * @returns {boolean} True if there are time restrictions, false otherwise.
+   */
+  hasTimeRestriction() {
+    return this.restrictions.includeTimeRestriction();
+  }
 }
 
-/** @constant {number} ANIMATION_CLEARED_BLOCK_MS Blockign time */
-Stage.ANIMATION_CLEARED_BLOCK_MS = 1000;
 
-/** @constant {object} STAGE_TYPES types lookup */
-export const STAGE_TYPES = {
-  'stage': 0,
-  'special-stage': 1
-};

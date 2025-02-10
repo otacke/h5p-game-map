@@ -43,7 +43,9 @@ export default class MainHandlersExerciseScreen {
 
     this.stages.enable();
 
-    this.exercises.stop(this.openExerciseId);
+    this.exerciseBundles.stop(this.openExerciseId);
+
+    this.stages.updateStatePerRestrictions();
   }
 
   /**
@@ -69,5 +71,20 @@ export default class MainHandlersExerciseScreen {
       this.exerciseClosedCallback();
       this.exerciseClosedCallback = null;
     }
+  }
+
+  /**
+   * Handle exercise bundle was initialized.
+   * @param {string} id Id of exercise bundle.
+   * @param {object} params Parameters.
+   * @param {number} params.score Score.
+   * @param {number} params.maxScore Max score.
+   */
+  handleExerciseBundleInitialized(id, params) {
+    if (params.isTask) {
+      // eslint-disable-next-line no-magic-numbers
+      this.stages.updateScoreStar(id, params.score / params.maxScore * 100);
+    }
+    this.stages.setTaskState(id, params.isTask);
   }
 }
