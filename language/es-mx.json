@@ -809,7 +809,7 @@
         },
         {
           "label": "Texto de diálogo puntaje completo",
-          "default": "Usted ha reunido suficientes puntos para terminar este mapa con un puntaje completo, pero usted es libre de explorar el resto si así lo desea."
+          "default": "Usted ha reunido suficientes puntos para terminar este mapa con un puntaje completo, pero usted es libre de explorar el resto si así lo desea. Your score will be submitted once you finish the map."
         },
         {
           "label": "Texto de diálogo puntaje completo (corrección, si vidas configuradas)",

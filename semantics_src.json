@@ -1598,7 +1598,7 @@
         "name": "confirmFullScoreDialog",
         "type": "text",
         "label": "Dialog text full score",
-        "default": "You have collected enough points to finish this map with a full score, but you are free to explore the rest if you wish to."
+        "default": "You have collected enough points to finish this map with a full score, but you are free to explore the rest if you wish to. Your score will be submitted once you finish the map."
       },
       {
         "name": "confirmFullScoreDialogLoseLivesAmendmend",

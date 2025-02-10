@@ -809,7 +809,7 @@
         },
         {
           "label": "Besedilo pogovornega okna za popoln rezultat",
-          "default": "Dosežen je popoln rezultat za zaključek zemljevida. Preostanek je na voljo za prosto raziskovanje."
+          "default": "Dosežen je popoln rezultat za zaključek zemljevida. Preostanek je na voljo za prosto raziskovanje. Your score will be submitted once you finish the map."
         },
         {
           "label": "Besedilo pogovornega okna za popoln rezultat (odštevanje življenj)",

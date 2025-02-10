@@ -809,7 +809,7 @@
         },
         {
           "label": "Dialoogtekst volledige score",
-          "default": "Je hebt genoeg punten verzameld om deze kaart met een volledige score te voltooien, maar je bent vrij om de rest te verkennen als je dat wilt."
+          "default": "Je hebt genoeg punten verzameld om deze kaart met een volledige score te voltooien, maar je bent vrij om de rest te verkennen als je dat wilt. Your score will be submitted once you finish the map."
         },
         {
           "label": "Dialoogtekst volledige score (wijziging, als er levens zijn ingesteld)",

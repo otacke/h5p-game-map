@@ -809,7 +809,7 @@
         },
         {
           "label": "Texto do diálogo de puntuación completa",
-          "default": "Acumulaches puntos suficientes para rematar este mapa cunha puntuación completa, pero podes explorar o resto se queres."
+          "default": "Acumulaches puntos suficientes para rematar este mapa cunha puntuación completa, pero podes explorar o resto se queres. Your score will be submitted once you finish the map."
         },
         {
           "label": "Dialog text full score (amendment, if lives are set)",

@@ -809,7 +809,7 @@
         },
         {
           "label": "Texte du dialogue partition complète",
-          "default": "Vous avez collecté suffisamment de points pour terminer cette carte avec un score complet, mais vous êtes libre d'explorer le reste si vous le souhaitez."
+          "default": "Vous avez collecté suffisamment de points pour terminer cette carte avec un score complet, mais vous êtes libre d'explorer le reste si vous le souhaitez. Your score will be submitted once you finish the map."
         },
         {
           "label": "Texte du dialogue partition complète (modification, si des vies sont définies)",

@@ -809,7 +809,7 @@
         },
         {
           "label": "Dialogtext Volle Punktzahl",
-          "default": "Du hast genügend Punkte gesammelt, um die Karte mit voller Punktzahl abzuschließen, aber du darfst gerne den Rest der Karte erkunden, wenn du möchtest."
+          "default": "Du hast genügend Punkte gesammelt, um die Karte mit voller Punktzahl abzuschließen, aber du darfst gerne den Rest der Karte erkunden, wenn du möchtest. Deine Punktzahl wird übermittelt, wenn du die Karte abschließt."
         },
         {
           "label": "Dialogtext Volle Punktzahl (Erweiterung, falls Leben eingestellt sind)",
