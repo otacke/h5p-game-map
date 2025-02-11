@@ -1,3 +1,5 @@
+const EXTRA_RESIZE_TIMEOUT_MS = 50;
+
 /**
  * Mixin containing handlers for exercise screen.
  */
@@ -26,8 +28,6 @@ export default class MainHandlersExerciseScreen {
 
       this.openExerciseId = false;
       this.callbackQueue.setSkippable(true);
-
-      this.params.globals.get('resize')();
     });
     this.toolbar.enable();
     this.params.jukebox.stopGroup('default');
@@ -71,6 +71,12 @@ export default class MainHandlersExerciseScreen {
       this.exerciseClosedCallback();
       this.exerciseClosedCallback = null;
     }
+
+    // Has trouble resizing after closing large exercise screens otherwise
+    this.params.globals.get('resize')();
+    window.setTimeout(() => {
+      this.params.globals.get('resize')();
+    }, EXTRA_RESIZE_TIMEOUT_MS);
   }
 
   /**
