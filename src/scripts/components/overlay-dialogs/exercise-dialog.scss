@@ -64,8 +64,10 @@
         }
       }
 
-      .h5p-question-game-map-continue {
-        margin-top: 1em;
+      .h5p-question-buttons:not(.has-scorebar) {
+        .h5p-question-game-map-continue {
+          margin-top: 1em;
+        }
       }
     }
 

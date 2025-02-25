@@ -67,6 +67,10 @@ export default class Exercise {
       this.params.contentType.params.fitToWrapper = (this.params.contentType.params.playerMode === 'full');
     }
 
+    if (machineName === 'H5P.ImageHotspotQuestion') {
+      this.params.contentType.params.imageHotspotQuestion.hotspotSettings.showFeedbackAsPopup = false;
+    }
+
     if (!this.instance) {
       this.instance = H5P.newRunnable(
         this.params.contentType,
