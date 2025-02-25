@@ -7,66 +7,80 @@
     }
   }
 
-  &.h5p-image-hotspot-question {
-    .h5p-question-game-map-continue {
-      margin-top: 1em;
-    }
-  }
-
-  &.h5p-video {
-    overflow: inherit;
-    height: 100%;
-  }
-
-  &.h5p-advanced-text {
-    p:first-child {
-      margin-top: 1rem;
+  .h5p-game-map-exercise-instance {
+    &.h5p-video {
+      overflow: inherit;
+      height: 100%;
     }
 
-    p:last-child {
-      margin-bottom: 1rem;
+    &.h5p-advanced-text {
+      p:first-child {
+        margin-top: 1rem;
+      }
+
+      p:last-child {
+        margin-bottom: 1rem;
+      }
     }
-  }
 
-  &.h5p-interactive-video {
-    overflow: inherit;
+    &.h5p-interactive-video {
+      overflow: inherit;
 
-    .h5p-control.h5p-fullscreen {
-      display: none;
+      .h5p-control.h5p-fullscreen {
+        display: none;
+      }
     }
-  }
 
-  &.h5p-course-presentation {
-    .h5p-footer-button.h5p-footer-toggle-full-screen {
-      display: none;
+    &.h5p-course-presentation {
+      .h5p-footer-button.h5p-footer-toggle-full-screen {
+        display: none;
+      }
     }
-  }
 
-  &.h5p-dragquestion {
-    .h5p-my-fullscreen-button-enter {
-      display: none;
+    &.h5p-dragquestion {
+      .h5p-my-fullscreen-button-enter {
+        display: none;
+      }
     }
-  }
 
-  &.h5p-memory-game {
-    position: relative;
+    &.h5p-memory-game {
+      position: relative;
 
-    .h5p-memory-reset {
-      width: fit-content;
+      .h5p-memory-reset {
+        width: fit-content;
+      }
     }
-  }
 
-  &.h5p-image-hotspot-question > .h5p-question-content {
-    margin: 0;
-  }
+    &.h5p-image-hotspot-question {
+      /* Fix for HFP-4077. TODO: Remove once that is released */
+      &::before {
+        content: '';
+      }
 
-  &.h5p-transcript .h5p-transcript-text-container {
-    margin-left: 0;
-    margin-right: 0;
-  }
+      /* Fix for HFP-4077. TODO: Remove once that is released */
+      .h5p-image-hotspot-question {
+        &::before {
+          content: '';
+        }
+      }
 
-  &.h5p-image-slider .h5p-image-slider-progress {
-    padding: 0.5em 0;
+      .h5p-question-game-map-continue {
+        margin-top: 1em;
+      }
+    }
+
+    &.h5p-image-hotspot-question > .h5p-question-content {
+      margin: 0;
+    }
+
+    &.h5p-transcript .h5p-transcript-text-container {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    &.h5p-image-slider .h5p-image-slider-progress {
+      padding: 0.5em 0;
+    }
   }
 }
 
