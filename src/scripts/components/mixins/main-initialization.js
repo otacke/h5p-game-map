@@ -442,6 +442,8 @@ export default class MainInitialization {
    * @param {boolean} [params.isInitial] If true, don't overwrite presets.
    */
   reset(params = {}) {
+    this.exerciseScreen.callbacks.onClosed();
+
     this.toolbar.toggleHintFinishButton(false);
     this.toolbar.toggleHintTimer(false);
 
