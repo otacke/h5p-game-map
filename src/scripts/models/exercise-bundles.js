@@ -90,8 +90,9 @@ export default class ExerciseBundles {
     H5P.externalDispatcher.on('xAPI', (event) => {
       if (subContentIds.length) {
         // Only care about events from contents with these subContentIds
-        const url = new URL(event.getVerifiedStatementValue(['object', 'id']));
-        const subContentId = url.searchParams.get('subContentId');
+        const queryString = event.getVerifiedStatementValue(['object', 'id']).split('?')[1];
+        const queryParams = new URLSearchParams(queryString);
+        const subContentId = queryParams.get('subContentId');
 
         if (!subContentIds.includes(subContentId)) {
           return;

@@ -406,8 +406,9 @@ export default class Exercise {
 
     xAPIData.forEach((entry) => {
       if (entry.statement?.object?.id) {
-        const url = new URL(entry.statement.object.id);
-        const subContentId = url.searchParams.get('subContentId');
+        const queryString = entry.statement.object.id.split('?')[1]; // xAPI Spec requires this to be a IRI.
+        const queryParams = new URLSearchParams(queryString);
+        const subContentId = queryParams.get('subContentId');
         if (subContentId) {
           subContentIds.push(subContentId);
         }
