@@ -141,6 +141,15 @@ export default class FocusTrap {
       'keydown', this.handleKeydownEvent, true
     );
 
+    // Workaround for H5P.Video that may use iframes inside content type instance
+    const iframes = [... this.params.trapElement.querySelectorAll('iframe')];
+    if (iframes) {
+      iframes.forEach((iframe) => {
+        iframe.setAttribute('tabindex', '0');
+        iframe.addEventListener('blur', this.handleKeydownEvent, true);
+      });
+    }
+
     this.currentFocusElement = null;
 
     if (this.params.initialFocus && this.isChild(this.params.initialFocus)) {
@@ -170,7 +179,7 @@ export default class FocusTrap {
 
   /**
    * Handle keyboard event.
-   * @param {KeyboardEvent} event Keyboard event.
+   * @param {KeyboardEvent|FocusEvent} event Keyboard event or focus event.
    */
   handleKeydownEvent(event) {
     // Some previously available elements may have an updated tabindex
@@ -180,11 +189,13 @@ export default class FocusTrap {
       return; // No focusable elements
     }
 
-    if (event.key !== 'Tab') {
+    if (event.key !== 'Tab' && event.type !== 'blur') {
       return; // we only care about the tab key
     }
 
-    this.currentFocusElement = document.activeElement;
+    this.currentFocusElement = (event.type !== 'blur') ?
+      document.activeElement :
+      event.target;
 
     event.preventDefault();
 
