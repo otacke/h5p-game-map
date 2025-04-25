@@ -422,6 +422,12 @@ export default class Exercise {
     return subContentIds;
   }
 
+  handleOpened() {
+    if (this.instance?.libraryInfo.machineName === 'H5P.InteractiveVideo') {
+      this.runInteractiveVideoWorkaround(this.instance);
+    }
+  }
+
   /**
    * Workaround for H5P Interactive Video.
    * If the YouTube handler is used and a previously opened stage is opened again - thus
