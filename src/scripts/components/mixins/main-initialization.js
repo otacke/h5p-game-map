@@ -282,10 +282,23 @@ export default class MainInitialization {
           return this.getScore();
         },
         getStageScore: (id) => {
-          return this.exerciseBundles.getExerciseBundle(id).getScore();
+          const stage = this.stages.getStage(id);
+          if (!stage || stage instanceof SpecialStage) {
+            return 0;
+          }
+
+          return this.exerciseBundles.getExerciseBundle(id)?.getScore() ?? 0;
         },
         getExerciseState: (id) => {
-          return this.exerciseBundles.getExerciseBundle(id).getState();
+          const stage = this.stages.getStage(id);
+          if (!stage) {
+            return 0;
+          }
+          else if (stage instanceof SpecialStage) {
+            return stage.state;
+          }
+
+          return this.exerciseBundles.getExerciseBundle(id)?.getState() ?? {};
         }
       }
     );
