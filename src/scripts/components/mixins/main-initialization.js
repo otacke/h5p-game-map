@@ -1,6 +1,7 @@
 import Paths from '@models/paths.js';
 import Stages from '@models/stages.js';
 import StartScreen from '@components/media-screen/start-screen.js';
+import SpecialStage from '@components/map/stage/special-stage.js';
 import EndScreen from '@components/media-screen/end-screen.js';
 import Map from '@components/map/map.js';
 import Toolbar from '@components/toolbar/toolbar.js';
