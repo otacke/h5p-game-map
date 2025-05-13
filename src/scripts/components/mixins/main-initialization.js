@@ -298,7 +298,7 @@ export default class MainInitialization {
             return stage.state;
           }
 
-          return this.exerciseBundles.getExerciseBundle(id)?.getState() ?? {};
+          return this.exerciseBundles.getExerciseBundle(id)?.getState() ?? 0;
         }
       }
     );
