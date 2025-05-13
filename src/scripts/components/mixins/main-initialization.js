@@ -296,7 +296,7 @@ export default class MainInitialization {
             return 0;
           }
           else if (stage instanceof SpecialStage) {
-            return stage.state;
+            return stage.getState();
           }
 
           return this.exerciseBundles.getExerciseBundle(id)?.getState() ?? 0;
