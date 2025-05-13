@@ -291,8 +291,11 @@ export default class MainInitialization {
         },
         getExerciseState: (id) => {
           const stage = this.stages.getStage(id);
-          if (!stage || stage instanceof SpecialStage) {
-            return {};
+          if (!stage) {
+            return 0;
+          }
+          else if (stage instanceof SpecialStage) {
+            return stage.state;
           }
 
           return this.exerciseBundles.getExerciseBundle(id)?.getState() ?? {};
