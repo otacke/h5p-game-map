@@ -282,10 +282,10 @@ export default class MainInitialization {
           return this.getScore();
         },
         getStageScore: (id) => {
-          return this.exerciseBundles.getExerciseBundle(id).getScore();
+          return this.exerciseBundles.getExerciseBundle(id)?.getScore();
         },
         getExerciseState: (id) => {
-          return this.exerciseBundles.getExerciseBundle(id).getState();
+          return this.exerciseBundles.getExerciseBundle(id)?.getState();
         }
       }
     );
