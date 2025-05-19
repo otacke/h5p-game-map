@@ -40,6 +40,8 @@ export default class MainHandlersStage {
       this.openExerciseId = id;
       this.callbackQueue.setSkippable(false);
 
+      exerciseBundle.handleOpened();
+
       this.exerciseScreen.setContent(exerciseBundle.getDOM());
       this.exerciseScreen.setTitle(
         stage.getLabel(),

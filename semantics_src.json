@@ -662,7 +662,8 @@
                   "label": "Connected stages",
                   "widget": "gamemapdynamiccheckboxes",
                   "importance": "medium",
-                  "multiple": true
+                  "multiple": true,
+                  "options": []
                 },
                 {
                   "name": "telemetry",

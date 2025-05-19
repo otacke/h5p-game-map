@@ -176,6 +176,15 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
   }
 
   /**
+   * Handle bundle opened.
+   */
+  handleOpened() {
+    this.exercises.forEach((exercise) => {
+      exercise.handleOpened();
+    });
+  }
+
+  /**
    * Reset exercises.
    * @param {object} params Parameters.
    */
