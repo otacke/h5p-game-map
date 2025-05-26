@@ -52,18 +52,6 @@
     }
 
     &.h5p-image-hotspot-question {
-      /* Fix for HFP-4077. TODO: Remove once that is released */
-      &::before {
-        content: '';
-      }
-
-      /* Fix for HFP-4077. TODO: Remove once that is released */
-      .h5p-image-hotspot-question {
-        &::before {
-          content: '';
-        }
-      }
-
       .h5p-question-buttons:not(.has-scorebar) {
         .h5p-question-game-map-continue {
           margin-top: 1em;
