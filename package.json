@@ -22,8 +22,8 @@
   "license": "MIT",
   "type": "module",
   "devDependencies": {
-    "@babel/core": "^7.27.1",
-    "@babel/preset-env": "^7.27.1",
+    "@babel/core": "^7.27.3",
+    "@babel/preset-env": "^7.27.2",
     "@playwright/test": "^1.52.0",
     "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
@@ -33,12 +33,12 @@
     "playwright": "^1.52.0",
     "regenerator-runtime": "^0.14.1",
     "resolve-url-loader": "^5.0.0",
-    "sass": "^1.87.0",
+    "sass": "^1.89.0",
     "sass-loader": "^16.0.5",
     "stylelint": "^16.19.1",
     "stylelint-config-recommended": "^16.0.0",
     "stylelint-config-recommended-scss": "^14.1.0",
-    "webpack": "^5.99.7",
+    "webpack": "^5.99.9",
     "webpack-cli": "^6.0.1"
   },
   "dependencies": {
