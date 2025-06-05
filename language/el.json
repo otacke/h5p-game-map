@@ -31,8 +31,8 @@
               "description": "Επιλέξτε μια εικόνα που θα χρησιμοποιηθεί ως φόντο του χάρτη του παιχνιδιού."
             },
             {
-              "label": "Background color",
-              "description": "Choose a color to use as the background of the game map."
+              "label": "Χρώμα φόντου",
+              "description": "Επιλέξτε ένα χρώμα που θα χρησιμοποιηθεί ως φόντο του χάρτη του παιχνιδιού."
             }
           ]
         },
@@ -79,174 +79,174 @@
                     "description": "Ορίζει περιορισμούς για ξεκλείδωμα.",
                     "fields": [
                       {
-                        "label": "All or any restriction set",
-                        "description": "Choose if all or any of the following restrictions need to be met.",
+                        "label": "Όλα ή οποιοδήποτε σετ περιορισμών",
+                        "description": "Επιλέξτε εάν όλοι ή οποιοιδήποτε από τους παρακάτω περιορισμούς πρέπει να πληρούνται.",
                         "options": [
                           {
-                            "label": "All"
+                            "label": "Όλα"
                           },
                           {
-                            "label": "Any"
+                            "label": "Οποιοδήποτε"
                           }
                         ]
                       },
                       {
-                        "label": "Restriction sets",
-                        "entity": "restriction set",
+                        "label": "Σετ περιορισμών",
+                        "entity": "σετ περιορισμών",
                         "widgets": [
                           {
-                            "label": "Default"
+                            "label": "Προεπιλογή"
                           }
                         ],
                         "field": {
-                          "label": "Restriction set",
+                          "label": "Σετ περιορισμών",
                           "fields": [
                             {
-                              "label": "All or any restriction",
-                              "description": "Choose if all or any of the following restrictions need to be met.",
+                              "label": "Όλοι ή οποιοιδήποτε περιορισμοί",
+                              "description": "Επιλέξτε εάν όλοι ή οποιοιδήποτε από τους παρακάτω περιορισμούς πρέπει να πληρούνται.",
                               "options": [
                                 {
-                                  "label": "All"
+                                  "label": "Όλοι"
                                 },
                                 {
-                                  "label": "Any"
+                                  "label": "Οποιοιδήποτε"
                                 }
                               ]
                             },
                             {
-                              "label": "Restrictions",
-                              "entity": "restriction",
+                              "label": "Περιορισμοί",
+                              "entity": "περιορισμός",
                               "field": {
-                                "label": "Restriction",
+                                "label": "Περιορισμός",
                                 "fields": [
                                   {
-                                    "label": "Restriction type",
+                                    "label": "Τύπος περιορισμού",
                                     "options": [
                                       {
-                                        "label": "Total score"
+                                        "label": "Συνολική βαθμολογία"
                                       },
                                       {
-                                        "label": "Stage score"
+                                        "label": "Βαθμολογία επιπέδου"
                                       },
                                       {
-                                        "label": "Stage progress"
+                                        "label": "Πρόοδος επιπέδου"
                                       },
                                       {
-                                        "label": "Time"
+                                        "label": "Χρόνος"
                                       }
                                     ]
                                   },
                                   {
-                                    "label": "Total score",
+                                    "label": "Συνολική βαθμολογία",
                                     "fields": [
                                       {
-                                        "label": "Operator for total score",
+                                        "label": "Τελεστής για συνολική βαθμολογία",
                                         "options": [
                                           {
-                                            "label": "less than"
+                                            "label": "μικρότερη από"
                                           },
                                           {
-                                            "label": "equal to"
+                                            "label": "ίση με"
                                           },
                                           {
-                                            "label": "not equal to"
+                                            "label": "μη ίση με"
                                           },
                                           {
-                                            "label": "greater than"
+                                            "label": "μεγαλύτερη από"
                                           }
                                         ]
                                       },
                                       {
-                                        "label": "Value of total score to compare"
+                                        "label": "Αξία συνολικής βαθμολογίας για σύγκριση"
                                       }
                                     ]
                                   },
                                   {
-                                    "label": "Stage score",
+                                    "label": "Βαθμολογία επιπέδου",
                                     "fields": [
                                       {
-                                        "label": "Stage to get score from"
+                                        "label": "Επίπεδο από το οποίο θα λάβουμε τη βαθμολογία"
                                       },
                                       {
-                                        "label": "Operator for stage score",
+                                        "label": "Τελεστής για βαθμολογία επιπέδου",
                                         "options": [
                                           {
-                                            "label": "less than"
+                                            "label": "μικρότερη από"
                                           },
                                           {
-                                            "label": "equal to"
+                                            "label": "ίση με"
                                           },
                                           {
-                                            "label": "not equal to"
+                                            "label": "μη ίση με"
                                           },
                                           {
-                                            "label": "greater than"
+                                            "label": "μεγαλύτερη από"
                                           }
                                         ]
                                       },
                                       {
-                                        "label": "Score score to compare to"
+                                        "label": "Βαθμολογία για σύγκριση"
                                       }
                                     ]
                                   },
                                   {
-                                    "label": "Stage progress",
+                                    "label": "Πρόοδος επιπέδου",
                                     "fields": [
                                       {
-                                        "label": "Stage to get progress from"
+                                        "label": "Επίπεδο από το οποίο θα λάβουμε την πρόοδο"
                                       },
                                       {
-                                        "label": "Operator for stage progress",
+                                        "label": "Τελεστής για την πρόοδο επιπέδου",
                                         "options": [
                                           {
-                                            "label": "is"
+                                            "label": "είναι"
                                           },
                                           {
-                                            "label": "is not"
+                                            "label": "δεν είναι"
                                           }
                                         ]
                                       },
                                       {
-                                        "label": "Progress to compare to",
+                                        "label": "Πρόοδος για σύγκριση",
                                         "options": [
                                           {
-                                            "label": "not started"
+                                            "label": "δεν έχει ξεκινήσει"
                                           },
                                           {
-                                            "label": "started"
+                                            "label": "έχει ξεκινήσει"
                                           },
                                           {
-                                            "label": "completed"
+                                            "label": "ολοκληρώθηκε"
                                           },
                                           {
-                                            "label": "completed successfully"
+                                            "label": "ολοκληρώθηκε επιτυχώς"
                                           }
                                         ]
                                       }
                                     ]
                                   },
                                   {
-                                    "label": "Time",
+                                    "label": "Χρόνος",
                                     "fields": [
                                       {
-                                        "label": "Operator for time",
+                                        "label": "Τελεστής για χρόνο",
                                         "options": [
                                           {
-                                            "label": "before"
+                                            "label": "πριν από"
                                           },
                                           {
-                                            "label": "is"
+                                            "label": "είναι"
                                           },
                                           {
-                                            "label": "is not"
+                                            "label": "δεν είναι"
                                           },
                                           {
-                                            "label": "after"
+                                            "label": "μετά από"
                                           }
                                         ]
                                       },
                                       {
-                                        "label": "Time to compare to"
+                                        "label": "Χρόνος για σύγκριση"
                                       }
                                     ]
                                   }
@@ -262,22 +262,22 @@
                     ]
                   },
                   {
-                    "label": "Contents",
-                    "entity": "content",
+                    "label": "Περιεχόμενα",
+                    "entity": "περιεχόμενο",
                     "widgets": [
                       {
-                        "label": "Default"
+                        "label": "Προεπιλογή"
                       }
                     ],
                     "field": {
-                      "label": "Content",
+                      "label": "Περιεχόμενο",
                       "fields": [
                         {
                           "label": "Περιεχόμενο επιπέδου",
                           "description": "Επιλέξτε τον τύπο περιεχομένου που θέλετε να προσθέσετε."
                         },
                         {
-                          "label": "Dummy"
+                          "label": "Εικονίδιο"
                         }
                       ]
                     }
@@ -295,7 +295,7 @@
                         "label": "Επιπλέον χρόνος"
                       },
                       {
-                        "label": "Link to external content"
+                        "label": "Σύνδεσμος σε εξωτερικό περιεχόμενο"
                       }
                     ]
                   },
@@ -308,17 +308,17 @@
                     "description": "Ορίστε πόσα δευτερόλεπτα θα κερδίζει ο χρήστης για το συνολικό χρονικό όριο κατά την είσοδο σε αυτό το επείπεδο."
                   },
                   {
-                    "label": "URL to link to",
-                    "description": "Set where the user should be sent to when opening this stage."
+                    "label": "URL για σύνδεσμο",
+                    "description": "Ορίστε πού θα αποσταλεί ο χρήστης όταν ανοίγει αυτό το επίπεδο."
                   },
                   {
-                    "label": "Place to open link in",
+                    "label": "Τόπος ανοίγματος συνδέσμου",
                     "options": [
                       {
-                        "label": "New tab"
+                        "label": "Νέα καρτέλα"
                       },
                       {
-                        "label": "Same tab"
+                        "label": "Ίδια καρτέλα"
                       }
                     ]
                   },
@@ -340,62 +340,62 @@
               }
             },
             {
-              "label": "Paths",
-              "entity": "path",
+              "label": "Διαδρομές",
+              "entity": "διαδρομή",
               "field": {
-                "label": "Path",
+                "label": "Διαδρομή",
                 "fields": [
                   {
-                    "label": "From"
+                    "label": "Από"
                   },
                   {
-                    "label": "To"
+                    "label": "Προς"
                   },
                   {
-                    "label": "Visual settings",
+                    "label": "Οπτικές ρυθμίσεις",
                     "options": [
                       {
-                        "label": "Use global settings"
+                        "label": "Χρήση καθολικών ρυθμίσεων"
                       },
                       {
-                        "label": "Use custom settings"
+                        "label": "Χρήση προσαρμοσμένων ρυθμίσεων"
                       }
                     ]
                   },
                   {
-                    "label": "Custom visual settings",
+                    "label": "Προσαρμοσμένες οπτικές ρυθμίσεις",
                     "fields": [
                       {
-                        "label": "Color path"
+                        "label": "Χρώμα διαδρομής"
                       },
                       {
-                        "label": "Path width",
+                        "label": "Πλάτος διαδρομής",
                         "options": [
                           {
-                            "label": "thin"
+                            "label": "λεπτό"
                           },
                           {
-                            "label": "medium"
+                            "label": "μεσαίο"
                           },
                           {
-                            "label": "thick"
+                            "label": "χοντρό"
                           }
                         ]
                       },
                       {
-                        "label": "Path style",
+                        "label": "Στυλ διαδρομής",
                         "options": [
                           {
-                            "label": "Solid"
+                            "label": "Συμπαγές"
                           },
                           {
-                            "label": "Dotted"
+                            "label": "Διακεκομμένο (τελείες)"
                           },
                           {
-                            "label": "Dashed"
+                            "label": "Διακεκομμένο (παύλες)"
                           },
                           {
-                            "label": "Double"
+                            "label": "Διπλό"
                           }
                         ]
                       }
@@ -480,17 +480,17 @@
               "label": "Χρώμα για ολοκληρωμένο επίπεδο"
             },
             {
-              "label": "Show stars for scores",
-              "description": "Choose if and when stars will be displayed on the map for the scores of the stages. Please note that stages without scored exercises will not get the stars.",
+              "label": "Εμφάνιση αστεριών για βαθμολογίες",
+              "description": "Επιλέξτε αν και πότε θα εμφανίζονται αστέρια στο χάρτη για τις βαθμολογίες των επιπέδων. Σημειώστε ότι τα επίπεδα χωρίς βαθμολογημένες ασκήσεις δεν θα πάρουν αστέρια.",
               "options": [
                 {
-                  "label": "Never"
+                  "label": "Ποτέ"
                 },
                 {
-                  "label": "On hover"
+                  "label": "Κατά την αιώρηση"
                 },
                 {
-                  "label": "Always"
+                  "label": "Πάντα"
                 }
               ]
             }
@@ -627,8 +627,8 @@
               "description": "Θα αναπαράγεται όταν ο χρήστης κερδίζει επιπλέον χρόνο."
             },
             {
-              "label": "Timeout warning",
-              "description": "Will be played when the user is running out of time for an exercise or if the global time runs out."
+              "label": "Προειδοποίηση τέλους χρόνου",
+              "description": "Θα αναπαράγεται όταν ο χρήστης ξεμένει από χρόνο για μια άσκηση ή αν τελειώσει ο συνολικός χρόνος."
             },
             {
               "label": "Οθόνη τέλους (μη πλήρες σκορ)",
@@ -809,7 +809,7 @@
         },
         {
           "label": "Κείμενο διαλόγου πλήρες σκορ",
-          "default": "Έχετε συγκεντρώσει επαρκές σκορ για να ολοκληρώσετε αυτόν τον χάρτη με πλήρες σκορ, αλλά είστε ελεύθεροι να εξερευνήσετε τον υπόλοιπο χάρτη αν το επιθυμείτε. Your score will be submitted once you finish the map."
+          "default": "Έχετε συγκεντρώσει επαρκές σκορ για να ολοκληρώσετε αυτόν τον χάρτη με πλήρες σκορ, αλλά είστε ελεύθεροι να εξερευνήσετε τον υπόλοιπο χάρτη αν το επιθυμείτε. Η βαθμολογία σας θα υποβληθεί μόλις ολοκληρώσετε τον χάρτη."
         },
         {
           "label": "Κείμενο διαλόγου πλήρους σκορ (τροποποίηση, εάν έχουν οριστεί ζωές)",
@@ -824,108 +824,108 @@
           "default": "Δεν έχουν οριστεί έγκυρα επίπεδα για τον χάρτη."
         },
         {
-          "label": "Settings",
-          "default": "Settings"
+          "label": "Ρυθμίσεις",
+          "default": "Ρυθμίσεις"
         },
         {
-          "label": "Volume of music",
-          "default": "Volume of music"
+          "label": "Ένταση μουσικής",
+          "default": "Ένταση μουσικής"
         },
         {
-          "label": "Volume of sound effects",
-          "default": "Volume of sound effects"
+          "label": "Ένταση εφέ ήχου",
+          "default": "Ένταση εφέ ήχου"
         },
         {
-          "label": "The stage will not be available unless",
-          "default": "The stage will not be available unless:"
+          "label": "Το επίπεδο δεν θα είναι διαθέσιμο εκτός εάν",
+          "default": "Το επίπεδο δεν θα είναι διαθέσιμο εκτός εάν:"
         },
         {
-          "label": "The stage will not be available unless any of",
-          "default": "The stage will not be available unless any of:"
+          "label": "Το επίπεδο δεν θα είναι διαθέσιμο εκτός εάν οποιοδήποτε από",
+          "default": "Το επίπεδο δεν θα είναι διαθέσιμο εκτός εάν οποιοδήποτε από:"
         },
         {
-          "label": "All of:",
-          "default": "All of:"
+          "label": "Όλα από:",
+          "default": "Όλα από:"
         },
         {
-          "label": "Any of:",
-          "default": "Any of:"
+          "label": "Οποιοδήποτε από:",
+          "default": "Οποιοδήποτε από:"
         },
         {
-          "label": "Total score less than",
-          "default": "You have a total score less than @value."
+          "label": "Συνολική βαθμολογία μικρότερη από",
+          "default": "Έχετε συνολική βαθμολογία μικρότερη από @value."
         },
         {
-          "label": "Total score equal to",
-          "default": "You have a total score equal to @value."
+          "label": "Συνολική βαθμολογία ίση με",
+          "default": "Έχετε συνολική βαθμολογία ίση με @value."
         },
         {
-          "label": "Total score not equal to",
-          "default": "You have a total score not equal to @value."
+          "label": "Συνολική βαθμολογία μη ίση με",
+          "default": "Έχετε συνολική βαθμολογία μη ίση με @value."
         },
         {
-          "label": "Total score greater than",
-          "default": "You have a total score greater than @value."
+          "label": "Συνολική βαθμολογία μεγαλύτερη από",
+          "default": "Έχετε συνολική βαθμολογία μεγαλύτερη από @value."
         },
         {
-          "label": "Stage score less than",
-          "default": "You have a score less than @value in stage @label."
+          "label": "Βαθμολογία επιπέδου μικρότερη από",
+          "default": "Έχετε βαθμολογία μικρότερη από @value στο επίπεδο @label."
         },
         {
-          "label": "Stage score equal to",
-          "default": "You have a score equal to @value in stage @label."
+          "label": "Βαθμολογία επιπέδου ίση με",
+          "default": "Έχετε βαθμολογία ίση με @value στο επίπεδο @label."
         },
         {
-          "label": "Stage score not equal to",
-          "default": "You have a score not equal to @value in stage @label."
+          "label": "Βαθμολογία επιπέδου μη ίση με",
+          "default": "Έχετε βαθμολογία μη ίση με @value στο επίπεδο @label."
         },
         {
-          "label": "Stage score greater than",
-          "default": "You have a score greater than @value in stage @label."
+          "label": "Βαθμολογία επιπέδου μεγαλύτερη από",
+          "default": "Έχετε βαθμολογία μεγαλύτερη από @value στο επίπεδο @label."
         },
         {
-          "label": "Stage progress is",
-          "default": "The progress of stage @label is @value."
+          "label": "Η πρόοδος επιπέδου είναι",
+          "default": "Η πρόοδος του επιπέδου @label είναι @value."
         },
         {
-          "label": "Stage progress is not",
-          "default": "Ths progress of stage @label is not @value."
+          "label": "Η πρόοδος επιπέδου δεν είναι",
+          "default": "Η πρόοδος του επιπέδου @label δεν είναι @value."
         },
         {
-          "label": "Time before",
-          "default": "The current time is before @value."
+          "label": "Χρόνος πριν από",
+          "default": "Ο τρέχων χρόνος είναι πριν από @value."
         },
         {
-          "label": "Time is",
-          "default": "The current time is @value."
+          "label": "Χρόνος είναι",
+          "default": "Ο τρέχων χρόνος είναι @value."
         },
         {
-          "label": "Time is not",
-          "default": "The current time is not @value."
+          "label": "Χρόνος δεν είναι",
+          "default": "Ο τρέχων χρόνος δεν είναι @value."
         },
         {
-          "label": "Time after",
-          "default": "The current time is after @value."
+          "label": "Χρόνος μετά από",
+          "default": "Ο τρέχων χρόνος είναι μετά από @value."
         },
         {
-          "label": "Not started",
-          "default": "not started"
+          "label": "Δεν έχει ξεκινήσει",
+          "default": "δεν έχει ξεκινήσει"
         },
         {
-          "label": "Started",
-          "default": "started"
+          "label": "Έχει ξεκινήσει",
+          "default": "έχει ξεκινήσει"
         },
         {
-          "label": "Completed",
-          "default": "completed"
+          "label": "Ολοκληρώθηκε",
+          "default": "ολοκληρώθηκε"
         },
         {
-          "label": "Completed successfully",
-          "default": "completed successfully"
+          "label": "Ολοκληρώθηκε επιτυχώς",
+          "default": "ολοκληρώθηκε επιτυχώς"
         },
         {
-          "label": "Missing content",
-          "default": "No content was set for this stage!"
+          "label": "Περιεχόμενο που λείπει",
+          "default": "Δεν ορίστηκε περιεχόμενο για αυτό το επίπεδο!"
         }
       ]
     },
