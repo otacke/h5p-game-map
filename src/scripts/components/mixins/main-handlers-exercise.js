@@ -42,7 +42,7 @@ export default class MainHandlersExercise {
     // Ensure stages get locked if requirements are no longer met.
     this.stages.updateStatePerRestrictions();
 
-    if (typeof params.score === 'number' && params.score !== params.maxScore) {
+    if (!params.exerciseSuccessful) {
       this.handleIncompleteScore(id);
     }
 
