@@ -76,8 +76,8 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
                 this.callbacks.onInitialized(params);
               }, 0);
             },
-            onScored: () => {
-              this.handleScored();
+            onScored: (params = {}) => {
+              this.handleScored(params);
             }
           }
         )
@@ -574,8 +574,9 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
 
   /**
    * Handle exercise scored.
+   * @param {object} [params] Parameters.
    */
-  handleScored() {
+  handleScored(params = {}) {
     const roaming = this.params.globals.get('params').behaviour.map.roaming;
     this.isCompleted = this.exercises.every((exercise) => exercise.wasCompleted());
     const allExercisesSuccessful = this.exercises.every((exercise) => exercise.wasSuccessful());
@@ -615,7 +616,9 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
 
     this.callbacks.onScoreChanged({
       score: this.getScore(),
-      maxScore: this.getMaxScore()
+      maxScore: this.getMaxScore(),
+      bundleCompleted: this.isCompleted,
+      exerciseSuccessful: params.successful
     });
   }
 }

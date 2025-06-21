@@ -291,7 +291,7 @@ export default class Exercise {
       this.toggleSuccess(true);
     }
 
-    this.callbacks.onScored();
+    this.callbacks.onScored({ id: this.getId(), successful: this.wasSuccessful() });
   }
 
   /**
@@ -366,8 +366,8 @@ export default class Exercise {
    */
   reset(params = {}) {
     this.score = 0;
-    this.toggleCompleted(params.isInitial && (this.params.previousState?.completed ?? false));
-    this.toggleSuccess(params.isInitial && (this.params.previousState?.successful ?? false));
+    this.toggleCompleted((params.isInitial ?? false) && (this.params.previousState?.completed ?? false));
+    this.toggleSuccess((params.isInitial ?? false) && (this.params.previousState?.successful ?? false));
 
     /*
      * If not attached yet, some contents can fail (e. g. CP), but contents
