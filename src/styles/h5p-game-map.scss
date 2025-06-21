@@ -1,10 +1,6 @@
 @font-face {
   font-family: 'H5PGameMap';
-  src:
-    url('@assets/fonts/H5PGameMap.eot') format('embedded-opentype'),
-    url('@assets/fonts/H5PGameMap.ttf') format('truetype'),
-    url('@assets/fonts/H5PGameMap.woff') format('woff'),
-    url('@assets/fonts/H5PGameMap.svg') format('svg');
+  src: url('@assets/fonts/H5PGameMap.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }

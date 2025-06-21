@@ -81,7 +81,7 @@ export default {
         type: 'asset/resource'
       },
       {
-        test: /\.woff$/,
+        test: /\.woff|\.woff2$/,
         include: join(__dirname, 'src/fonts'),
         type: 'asset/resource'
       }
