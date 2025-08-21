@@ -93,9 +93,9 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     const lastExercise = this.exercises[this.exercises.length - 1];
     this.continueButtonInstance = lastExercise.getInstance();
     if (
-      this.continueButtonInstance.registerDomElements &&
-      this.continueButtonInstance.addButton &&
-      this.continueButtonInstance.hasButton
+      this.continueButtonInstance?.registerDomElements &&
+      this.continueButtonInstance?.addButton &&
+      this.continueButtonInstance?.hasButton
     ) {
       this.continueButtonInstance.addButton(
         'game-map-continue',
