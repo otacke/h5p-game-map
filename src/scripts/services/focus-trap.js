@@ -186,7 +186,7 @@ export default class FocusTrap {
           behavior: 'auto'
         });
       }
-      catch(error) {
+      catch (error) {
         // Intentionally left blank
       }
     }
