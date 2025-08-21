@@ -175,21 +175,12 @@ export default class FocusTrap {
       }
     }
 
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-
-    this.currentFocusElement?.focus();
-
+    let focusOptions = {};
     if (this.params.stayAtScrollPosition) {
-      try {
-        window.parent.scrollTo({
-          top: scrollTop,
-          behavior: 'auto'
-        });
-      }
-      catch (error) {
-        // Intentionally left blank
-      }
+      focusOptions.preventScroll = true;
     }
+
+    this.currentFocusElement?.focus(focusOptions);
   }
 
   /**
