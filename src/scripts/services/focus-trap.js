@@ -8,7 +8,6 @@ export default class FocusTrap {
    * @param {object} [params] Parameters.
    * @param {HTMLElement} params.trapElement Element to be made a trap.
    * @param {HTMLElement} [params.initialFocus] Element to get initial focus.
-   * @param {boolean} [params.stayAtScrollPosition] Whether to stay at the current scroll position.
    */
   constructor(params = {}) {
     this.handleKeydownEvent = this.handleKeydownEvent.bind(this);
