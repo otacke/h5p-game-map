@@ -85,8 +85,7 @@ export default class OverlayDialog {
     this.focusTrap = new FocusTrap({
       trapElement: this.dom,
       closeElement: this.buttonClose,
-      fallbackContainer: this.instanceContainer,
-      stayAtScrollPosition: true
+      fallbackContainer: this.content
     });
   }
 

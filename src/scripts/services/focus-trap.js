@@ -151,36 +151,131 @@ export default class FocusTrap {
       });
     }
 
-    this.currentFocusElement = null;
+    const { focusElement, needsScrollIntoView } = this.determineFocusElement();
 
-    if (this.params.initialFocus && this.isChild(this.params.initialFocus)) {
-      this.currentFocusElement = this.params.initialFocus;
+    this.currentFocusElement = focusElement;
+    this.currentFocusElement?.focus({
+      preventScroll: (needsScrollIntoView === undefined) // Likely cross origin, best effort
+    });
+  }
+
+  /**
+   * Determine the focus element inside the modal.
+   * @returns {{ focusElement: HTMLElement|null, needsScrollIntoView: boolean|undefined }} Focus element and scroll information.
+   */
+  determineFocusElement() {
+    let focusElement = (this.params.initialFocus && this.isChild(this.params.initialFocus)) ?
+      this.params.initialFocus :
+      this.focusableElements?.[0];
+
+    /*
+     * WCAG preference
+     * 1. First actionable element but not close button
+     * 2. First non-actionalbe element
+     * 3. Fallback to close button
+     */
+    if (!focusElement) {
+      focusElement = this.params.fallbackContainer?.firstChild;
+      this.makeElementFocusableTemporarily(focusElement);
+    }
+    else if (focusElement === this.params.closeElement && this.focusableElements.length > 1) {
+      focusElement = this.focusableElements[1];
     }
 
-    if (!this.currentFocusElement && this.focusableElements.length) {
-      this.currentFocusElement = this.focusableElements[0];
+    if (!focusElement) {
+      focusElement = this.params.closeElement; // Last resort
+    }
 
-      if (
-        this.focusableElements[0] === this.params.closeElement &&
-        this.focusableElements.length === 1 &&
-        this.params.fallbackContainer?.firstChild
-      ) {
-        /*
-         * Advisable to set tabindex -1 and focus on static element instead of
-         * focusing the close button and not announcing anything
-         * @see https://www.w3.org/WAI/ARIA/apg/patterns/dialogmodal/
-         */
-        this.params.fallbackContainer.firstChild.setAttribute('tabindex', '-1');
-        this.currentFocusElement = this.params.fallbackContainer.firstChild;
+    // WCAG: If focus element needs to be scrolled into view, prefer first element
+    let needsScrollIntoView;
+    try {
+      needsScrollIntoView = this.needsScrollIntoView(focusElement);
+    }
+    catch (error) {
+      // Likely cross-origin iframe, so we can't determine.
+    }
+
+    if (needsScrollIntoView) {
+      focusElement = this.params.fallbackContainer.firstChild;
+      this.makeElementFocusableTemporarily(focusElement);
+    }
+
+    return { focusElement, needsScrollIntoView };
+  }
+
+  /**
+   * Make fallback element focusable temporarily.
+   *
+   * Advisable to set tabindex -1 and focus on static element instead of
+   * focusing the close button and not announcing anything. Also advisable if
+   * the first actionable element is outside of the visible area.
+   * @see https://www.w3.org/WAI/ARIA/apg/patterns/dialogmodal/
+   * @param {HTMLElement} element Element to make focusable temporarily.
+   */
+  makeElementFocusableTemporarily(element) {
+    if (!element) {
+      return;
+    }
+
+    const oldTabIndex = element.getAttribute('tabindex');
+    element.setAttribute('tabindex', '-1');
+    element.addEventListener('blur', () => {
+      element.setAttribute('tabindex', oldTabIndex);
+    }, { once: true });
+  }
+
+  /**
+   * Get absolute bounding rectangle of element taking nested iframes into account.
+   * @param {HTMLElement} element Element to get bounding rect for.
+   * @returns {DOMRect} Absolute bounding rect.
+   * @throws {Error} If cross-origin iframe is detected.
+   */
+  getAbsoluteBoundingRect(element) {
+    let rect = element.getBoundingClientRect();
+    let win = window;
+
+    while (true) {
+      try {
+        if (!win.frameElement) break; // reached top-level
+        const iframeRect = win.frameElement.getBoundingClientRect();
+        rect = {
+          top: rect.top + iframeRect.top,
+          bottom: rect.bottom + iframeRect.top,
+          left: rect.left + iframeRect.left,
+          right: rect.right + iframeRect.left
+        };
+        win = win.parent;
+      }
+      catch (error) {
+        throw new Error('Cross-origin iframe detected');
       }
     }
 
-    let focusOptions = {};
-    if (this.params.stayAtScrollPosition) {
-      focusOptions.preventScroll = true;
+    return rect;
+  }
+
+  /**
+   * Determine whether element would need to be scrolled into view.
+   * @param {HTMLElement} element Element to check.
+   * @returns {boolean} True if element needs to be scrolled into view, false otherwise.
+   * @throws {Error} If cross-origin iframe is detected.
+   */
+  needsScrollIntoView(element) {
+    if (!element) {
+      return false;
     }
 
-    this.currentFocusElement?.focus(focusOptions);
+    let rect;
+    try {
+      rect = this.getAbsoluteBoundingRect(element);
+    }
+    catch (error) {
+      throw error;
+    }
+
+    const { innerHeight, innerWidth } = window.top;
+
+    return (rect.bottom <= 0 || rect.top >= innerHeight || rect.right <= 0 || rect.left >= innerWidth);
   }
 
   /**
