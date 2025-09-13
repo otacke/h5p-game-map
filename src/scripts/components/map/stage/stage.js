@@ -18,7 +18,7 @@ const ANIMATION_CLEARED_BLOCK_MS = 1000;
 /** @constant {object} STAGE_TYPES types lookup. */
 export const STAGE_TYPES = {
   'stage': 0,
-  'special-stage': 1
+  'special-stage': 1,
 };
 
 export default class Stage {
@@ -39,8 +39,8 @@ export default class Stage {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       accessRestrictions: {
-        restrictionSetList: []
-      }
+        restrictionSetList: [],
+      },
     }, params);
 
     this.params.type = STAGE_TYPES.stage;
@@ -57,7 +57,7 @@ export default class Stage {
       onFocused: () => {},
       onBecameActiveDescendant: () => {},
       onAddedToQueue: () => {},
-      onAccessRestrictionsHit: () => {}
+      onAccessRestrictionsHit: () => {},
     }, callbacks);
 
     const elementParams = this.params.globals.get('params').gamemapSteps.gamemap.elements;
@@ -97,14 +97,14 @@ export default class Stage {
       {
         dictionary: this.params.dictionary,
         globals: this.params.globals,
-        accessRestrictions: this.params.accessRestrictions
+        accessRestrictions: this.params.accessRestrictions,
       },
       {
         getTotalScore: () => this.callbacks.getTotalScore(),
         getStageScore: (id) => this.callbacks.getScore(id),
         getStageProgress: (id) => this.callbacks.getStageProgress(id),
-        getTime: () => new Date()
-      }
+        getTime: () => new Date(),
+      },
     );
 
     this.isDisabledState = false;
@@ -157,7 +157,7 @@ export default class Stage {
 
     this.label = new Label({
       position: positionY,
-      text: this.params.label
+      text: this.params.label,
     });
     this.dom.appendChild(this.label.getDOM());
 
@@ -413,7 +413,7 @@ export default class Stage {
 
     this.params.globals.get('read')(this.params.dictionary
       .get('a11y.stageUnlocked')
-      .replace(/@stagelabel/, this.params.label)
+      .replace(/@stagelabel/, this.params.label),
     );
 
     this.setState('open');
@@ -446,7 +446,7 @@ export default class Stage {
       }
 
       this.dom.style.setProperty(
-        `--stage-${styleProperty}`, `${params[property]}%`
+        `--stage-${styleProperty}`, `${params[property]}%`,
       );
     }
   }
@@ -462,7 +462,7 @@ export default class Stage {
     }
 
     const backgroundColor = Color(
-      this.contentComputedStyle.getPropertyValue('background-color')
+      this.contentComputedStyle.getPropertyValue('background-color'),
     );
 
     // Set text color to contrast color with higher contrast
@@ -482,13 +482,13 @@ export default class Stage {
     if (backgroundColor.isDark()) {
       this.content.style.setProperty(
         '--stage-color-border',
-        backgroundColor.darken(CONTRAST_DELTA).rgb().string()
+        backgroundColor.darken(CONTRAST_DELTA).rgb().string(),
       );
     }
     else {
       this.content.style.setProperty(
         '--stage-color-border',
-        backgroundColor.lighten(CONTRAST_DELTA).rgb().string()
+        backgroundColor.lighten(CONTRAST_DELTA).rgb().string(),
       );
     }
   }
@@ -551,7 +551,7 @@ export default class Stage {
       if (this.state === states.locked && !this.passesRestrictions()) {
         this.callbacks.onAccessRestrictionsHit({
           id: this.params.id,
-          html: this.restrictions.getMessagesHTML()
+          html: this.restrictions.getMessagesHTML(),
         });
       }
 
@@ -588,20 +588,20 @@ export default class Stage {
     }
 
     let scale = parseFloat(
-      window.getComputedStyle(this.dom).getPropertyValue('scale')
+      window.getComputedStyle(this.dom).getPropertyValue('scale'),
     );
     scale = Number.isNaN(scale) ? 1 : scale;
 
     if (this.params.showStars === 'onHover' && this.belongsToTask) {
       this.scoreStars.show({
         skipDelay: event instanceof FocusEvent,
-        scale: scale
+        scale: scale,
       });
     }
 
     this.label.show({
       skipDelay: event instanceof FocusEvent,
-      scale: scale
+      scale: scale,
     });
   }
 

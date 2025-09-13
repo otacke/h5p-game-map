@@ -45,7 +45,7 @@ export default class MainHandlersStage {
       this.exerciseScreen.setContent(exerciseBundle.getDOM());
       this.exerciseScreen.setTitle(
         stage.getLabel(),
-        this.params.dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, stage.getLabel())
+        this.params.dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, stage.getLabel()),
       );
       this.params.jukebox.stopGroup('default');
       this.exerciseScreen.show({ isShowingSolutions: this.isShowingSolutions });
@@ -118,25 +118,25 @@ export default class MainHandlersStage {
 
       const states = [
         this.params.globals.get('states').completed,
-        this.params.globals.get('states').cleared
+        this.params.globals.get('states').cleared,
       ];
 
       const stageTypes = [STAGE_TYPES.stage];
 
       const filterExercisesOnly = {
-        type: stageTypes
+        type: stageTypes,
       };
 
       // Initialize stage counter
       const filterExercisesDone = {
         state: states,
-        type: stageTypes
+        type: stageTypes,
       };
 
       // Initialize stages
       this.toolbar.setStatusContainerStatus('stages', {
         value: this.stages.getCount({ filters: filterExercisesDone }),
-        maxValue: this.stages.getCount({ filters: filterExercisesOnly })
+        maxValue: this.stages.getCount({ filters: filterExercisesOnly }),
       });
     }
   }
@@ -147,7 +147,7 @@ export default class MainHandlersStage {
   handleStageFocused() {
     window.setTimeout(() => {
       this.params.globals.get('read')(
-        this.params.dictionary.get('a11y.applicationInstructions')
+        this.params.dictionary.get('a11y.applicationInstructions'),
       );
     }, DEFAULT_READ_DELAY_MS); // Make sure everything else is read already
   }
@@ -185,7 +185,7 @@ export default class MainHandlersStage {
         headerText: this.params.dictionary.get('l10n.confirmAccessDeniedHeader'),
         dialogText: `${this.params.dictionary.get('l10n.confirmAccessDeniedDialog')}${params.html}`,
         confirmText: this.params.dictionary.get('l10n.ok'),
-        hideCancel: true
+        hideCancel: true,
       },
       {
         onConfirmed: () => {
@@ -193,8 +193,8 @@ export default class MainHandlersStage {
         },
         onCanceled: () => {
           this.toolbar.enableButton('finish');
-        }
-      }
+        },
+      },
     );
 
     this.confirmationDialog.show();

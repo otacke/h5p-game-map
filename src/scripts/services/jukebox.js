@@ -13,7 +13,7 @@ export const STATES = {
   stopped: 1,
   queued: 2,
   playing: 3,
-  paused: 4
+  paused: 4,
 };
 
 /* Service to handle sounds via WebAudio */
@@ -68,7 +68,7 @@ export default class Jukebox {
       this.add({
         id: key,
         src: params[key].src,
-        options: params[key].options ?? {}
+        options: params[key].options ?? {},
       });
     }
   }
@@ -92,7 +92,7 @@ export default class Jukebox {
       loop: params.options.loop || false,
       isMuted: params.options.muted || false,
       volume: 100,
-      groupId: params.options.groupId || 'default'
+      groupId: params.options.groupId || 'default',
     };
 
     this.bufferSound({ id: params.id, url: params.src });
@@ -134,7 +134,7 @@ export default class Jukebox {
 
     this.audios[id].state = newState;
     this.dispatcher.dispatchEvent(
-      new CustomEvent('stateChanged', { detail: { id: id, state: newState } })
+      new CustomEvent('stateChanged', { detail: { id: id, state: newState } }),
     );
   }
 
@@ -174,7 +174,7 @@ export default class Jukebox {
     request.onload = () => {
       this.audioContext.decodeAudioData(request.response, (buffer) => {
         const event = new CustomEvent(
-          'bufferloaded', { detail: { id: params.id, buffer: buffer } }
+          'bufferloaded', { detail: { id: params.id, buffer: buffer } },
         );
         this.dispatcher.dispatchEvent(event);
       });
@@ -389,8 +389,8 @@ export default class Jukebox {
         {
           time: params.time - params.interval,
           gainDelta: params.gainDelta,
-          type: params.type
-        }
+          type: params.type,
+        },
       );
     }, params.interval);
   }

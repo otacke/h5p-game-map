@@ -45,7 +45,7 @@ export default class FocusTrap {
       () => {
         this.handleVisible();
       },
-      { root: document.documentElement }
+      { root: document.documentElement },
     );
   }
 
@@ -138,7 +138,7 @@ export default class FocusTrap {
     this.updateFocusableElements();
 
     this.params.trapElement.addEventListener(
-      'keydown', this.handleKeydownEvent, true
+      'keydown', this.handleKeydownEvent, true,
     );
 
     // Workaround for H5P.Video that may use iframes inside content type instance
@@ -154,7 +154,7 @@ export default class FocusTrap {
 
     this.currentFocusElement = focusElement;
     this.currentFocusElement?.focus({
-      preventScroll: (needsScrollIntoView === undefined) // Likely cross origin, best effort
+      preventScroll: (needsScrollIntoView === undefined), // Likely cross origin, best effort
     });
   }
 
@@ -241,7 +241,7 @@ export default class FocusTrap {
           top: rect.top + iframeRect.top,
           bottom: rect.bottom + iframeRect.top,
           left: rect.left + iframeRect.left,
-          right: rect.right + iframeRect.left
+          right: rect.right + iframeRect.left,
         };
         win = win.parent;
       }

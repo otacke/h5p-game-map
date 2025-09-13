@@ -15,7 +15,7 @@ export default class MainHandlersExerciseScreen {
     this.exerciseClosedCallback = params.animationEndedCallback;
 
     this.map.dom.setAttribute(
-      'aria-label', this.params.dictionary.get('a11y.applicationInstructions')
+      'aria-label', this.params.dictionary.get('a11y.applicationInstructions'),
     );
 
     this.exerciseScreen.hide({ animate: true }, () => {
@@ -37,7 +37,7 @@ export default class MainHandlersExerciseScreen {
       this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise
     ) {
       this.params.jukebox.fade(
-        'backgroundMusic', { type: 'in', time: this.musicFadeTime }
+        'backgroundMusic', { type: 'in', time: this.musicFadeTime },
       );
     }
 

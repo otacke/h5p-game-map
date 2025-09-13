@@ -38,13 +38,13 @@ export default class SettingsDialog extends OverlayDialog {
     const volumeMusicSlider = new Slider(
       {
         ariaLabel: this.params.dictionary.get('l10n.volumeMusic'),
-        value: this.params.values.volumeMusic
+        value: this.params.values.volumeMusic,
       },
       {
         onSeeked: (value) => {
           this.callbacks.onValueChanged('volumeMusic', value);
-        }
-      }
+        },
+      },
     );
     volumeMusic.append(volumeMusicSlider.getDOM());
 
@@ -61,13 +61,13 @@ export default class SettingsDialog extends OverlayDialog {
     const volumeSFXSlider = new Slider(
       {
         ariaLabel: this.params.dictionary.get('l10n.volumeSFX'),
-        value: this.params.values.volumeSFX
+        value: this.params.values.volumeSFX,
       },
       {
         onSeeked: (value) => {
           this.callbacks.onValueChanged('volumeSFX', value);
-        }
-      }
+        },
+      },
     );
     volumeSFX.append(volumeSFXSlider.getDOM());
 

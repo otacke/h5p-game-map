@@ -23,16 +23,16 @@ export default class MediaScreen {
     this.params = Util.extend({
       buttons: [],
       l10n: {
-        buttonText: 'Close'
+        buttonText: 'Close',
       },
       a11y: {
-        screenOpened: 'Screen was opened'
-      }
+        screenOpened: 'Screen was opened',
+      },
     }, params);
 
     this.callbacks = Util.extend({
       onButtonClicked: () => {},
-      onRead: () => {}
+      onRead: () => {},
     }, callbacks);
 
     this.buttons = [];
@@ -63,7 +63,7 @@ export default class MediaScreen {
     // Button
     this.params.buttons.forEach((buttonParams) => {
       const button = this.buildButton(
-        buttonParams.id, buttonParams.text, buttonParams.className
+        buttonParams.id, buttonParams.text, buttonParams.className,
       );
       buttonsWrapper.append(button);
       this.buttons.push(button);
@@ -214,7 +214,7 @@ export default class MediaScreen {
         () => {
           this.initMedia();
         },
-        { root: document.documentElement }
+        { root: document.documentElement },
       );
     }
     else {
@@ -264,7 +264,7 @@ export default class MediaScreen {
       this.params.contentId,
       H5P.jQuery(this.visuals),
       false,
-      { metadata: this.medium.medatata }
+      { metadata: this.medium.medatata },
     );
 
     // Postparation

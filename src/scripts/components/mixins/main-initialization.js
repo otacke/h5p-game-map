@@ -84,18 +84,18 @@ export default class MainInitialization {
         introduction: globalParams.titleScreen.titleScreenIntroduction,
         medium: globalParams.titleScreen.titleScreenMedium,
         buttons: [
-          { id: 'start', text: this.params.dictionary.get('l10n.start') }
+          { id: 'start', text: this.params.dictionary.get('l10n.start') },
         ],
         a11y: {
-          screenOpened: this.params.dictionary.get('a11y.startScreenWasOpened')
-        }
+          screenOpened: this.params.dictionary.get('a11y.startScreenWasOpened'),
+        },
       }, {
         onButtonClicked: () => {
           this.show({ focusButton: true, readOpened: true });
         },
         read: (text) => {
           this.params.globals.get('read')(text);
-        }
+        },
       });
       this.startScreen.hide();
       this.dom.append(this.startScreen.getDOM());
@@ -107,8 +107,8 @@ export default class MainInitialization {
         {
           id: 'show-solutions',
           text: this.params.dictionary.get('l10n.showSolutions'),
-          className: 'h5p-joubelui-button'
-        }
+          className: 'h5p-joubelui-button',
+        },
       );
     }
     if (globalParams.behaviour.enableRetry) {
@@ -116,8 +116,8 @@ export default class MainInitialization {
         {
           id: 'restart',
           text: this.params.dictionary.get('l10n.restart'),
-          className: 'h5p-joubelui-button'
-        }
+          className: 'h5p-joubelui-button',
+        },
       );
     }
 
@@ -127,8 +127,8 @@ export default class MainInitialization {
       contentId: this.params.globals.get('contentId'),
       buttons: endscreenButtons,
       a11y: {
-        screenOpened: this.params.dictionary.get('a11y.endScreenWasOpened')
-      }
+        screenOpened: this.params.dictionary.get('a11y.endScreenWasOpened'),
+      },
     }, {
       onButtonClicked: (id) => {
         if (id === 'restart') {
@@ -138,7 +138,7 @@ export default class MainInitialization {
           this.showSolutions();
 
           this.params.globals.get('read')(
-            this.params.dictionary.get('a11y.mapSolutionsWasOpened')
+            this.params.dictionary.get('a11y.mapSolutionsWasOpened'),
           );
           window.setTimeout(() => {
             this.toolbar.focus();
@@ -147,7 +147,7 @@ export default class MainInitialization {
       },
       read: (text) => {
         this.params.globals.get('read')(text);
-      }
+      },
     });
     this.endScreen.hide();
     this.dom.append(this.endScreen.getDOM());
@@ -162,7 +162,7 @@ export default class MainInitialization {
       { id: 'timer' },
       { id: 'lives' },
       { id: 'stages', hasMaxValue: true },
-      { id: 'score', hasMaxValue: true }
+      { id: 'score', hasMaxValue: true },
     ];
 
     // Set up toolbar's buttons
@@ -174,11 +174,11 @@ export default class MainInitialization {
         type: 'toggle',
         a11y: {
           active: this.params.dictionary.get('a11y.buttonAudioActive'),
-          inactive: this.params.dictionary.get('a11y.buttonAudioInactive')
+          inactive: this.params.dictionary.get('a11y.buttonAudioInactive'),
         },
         onClick: (ignore, params) => {
           this.toggleAudio(params.active);
-        }
+        },
       });
 
       toolbarButtons.push({
@@ -186,7 +186,7 @@ export default class MainInitialization {
         type: 'toggle',
         a11y: {
           active: this.params.dictionary.get('a11y.buttonSettingsActive'),
-          inactive: this.params.dictionary.get('a11y.buttonSettingsInactive')
+          inactive: this.params.dictionary.get('a11y.buttonSettingsInactive'),
         },
         onClick: (ignore, params) => {
           if (params.active) {
@@ -197,7 +197,7 @@ export default class MainInitialization {
             this.settingsDialog.hide();
             this.toolbar.enable();
           }
-        }
+        },
       });
     }
 
@@ -205,11 +205,11 @@ export default class MainInitialization {
       id: 'finish',
       type: 'pulse',
       a11y: {
-        active: this.params.dictionary.get('a11y.buttonFinish')
+        active: this.params.dictionary.get('a11y.buttonFinish'),
       },
       onClick: () => {
         this.showFinishConfirmation();
-      }
+      },
     });
 
     if (this.params.globals.get('isFullscreenSupported')) {
@@ -219,16 +219,16 @@ export default class MainInitialization {
         pulseStates: [
           {
             id: 'enter-fullscreen',
-            label: this.params.dictionary.get('a11y.enterFullscreen')
+            label: this.params.dictionary.get('a11y.enterFullscreen'),
           },
           {
             id: 'exit-fullscreen',
-            label: this.params.dictionary.get('a11y.exitFullscreen')
-          }
+            label: this.params.dictionary.get('a11y.exitFullscreen'),
+          },
         ],
         onClick: () => {
           this.callbacks.onFullscreenClicked();
-        }
+        },
       });
     }
 
@@ -238,7 +238,7 @@ export default class MainInitialization {
       ...(globalParams.headline && { headline: globalParams.headline }),
       buttons: toolbarButtons,
       statusContainers: toolbarStatusContainers,
-      useAnimation: globalParams.visual.misc.useAnimation
+      useAnimation: globalParams.visual.misc.useAnimation,
     });
     this.contentDOM.append(this.toolbar.getDOM());
 
@@ -247,7 +247,7 @@ export default class MainInitialization {
     if (globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundImage) {
       backgroundImage = H5P.getPath(
         globalParams.gamemapSteps.backgroundImageSettings.backgroundImage.path ?? '',
-        this.params.globals.get('contentId')
+        this.params.globals.get('contentId'),
       );
     }
 
@@ -258,7 +258,7 @@ export default class MainInitialization {
         globals: this.params.globals,
         jukebox: this.params.jukebox,
         elements: globalParams.gamemapSteps.gamemap.elements,
-        visuals: globalParams.visual.stages
+        visuals: globalParams.visual.stages,
       },
       {
         onStageClicked: (id, state) => {
@@ -300,8 +300,8 @@ export default class MainInitialization {
           }
 
           return this.exerciseBundles.getExerciseBundle(id)?.getState() ?? 0;
-        }
-      }
+        },
+      },
     );
 
     // Paths
@@ -310,8 +310,8 @@ export default class MainInitialization {
         globals: this.params.globals,
         elements: globalParams.gamemapSteps.gamemap.elements,
         paths: globalParams.gamemapSteps.gamemap.paths,
-        visuals: globalParams.visual.paths.style
-      }
+        visuals: globalParams.visual.paths.style,
+      },
     );
 
     // Map
@@ -322,7 +322,7 @@ export default class MainInitialization {
         backgroundImage: backgroundImage,
         backgroundColor: globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundColor,
         paths: this.paths,
-        stages: this.stages
+        stages: this.stages,
       },
       {
         onImageLoaded: () => {
@@ -333,8 +333,8 @@ export default class MainInitialization {
           window.requestAnimationFrame(() => {
             this.params.globals.get('resize')();
           });
-        }
-      }
+        },
+      },
     );
     this.contentDOM.append(this.map.getDOM());
 
@@ -344,7 +344,7 @@ export default class MainInitialization {
         dictionary: this.params.dictionary,
         globals: this.params.globals,
         jukebox: this.params.jukebox,
-        elements: globalParams.gamemapSteps.gamemap.elements
+        elements: globalParams.gamemapSteps.gamemap.elements,
       },
       {
         onStateChanged: (id, state) => {
@@ -367,8 +367,8 @@ export default class MainInitialization {
         },
         onBundleInitialized: (id, params) => {
           this.handleExerciseBundleInitialized(id, params);
-        }
-      }
+        },
+      },
     );
 
     this.exerciseScreen = new ExerciseDialog(
@@ -386,8 +386,8 @@ export default class MainInitialization {
         },
         onCloseAnimationEnded: () => {
           this.handleExerciseScreenCloseAnimationEnded();
-        }
-      }
+        },
+      },
     );
     this.exerciseScreen.hide();
     this.toolbar.enable();
@@ -395,7 +395,7 @@ export default class MainInitialization {
 
     // Confirmation Dialog
     this.confirmationDialog = new ConfirmationDialog({
-      globals: this.params.globals
+      globals: this.params.globals,
     });
 
     /*
@@ -412,8 +412,8 @@ export default class MainInitialization {
         cssMainSelector: 'settings',
         values: {
           volumeMusic: this.params.jukebox.getVolumeGroup('background'),
-          volumeSFX: this.params.jukebox.getVolumeGroup('default')
-        }
+          volumeSFX: this.params.jukebox.getVolumeGroup('default'),
+        },
       },
       {
         onClosed: () => {
@@ -424,8 +424,8 @@ export default class MainInitialization {
         },
         onValueChanged: (id, value) => {
           this.handleSettingsDialogValueChanged(id, value);
-        }
-      }
+        },
+      },
     );
     this.settingsDialog.hide();
     this.dom.append(this.settingsDialog.getDOM());
@@ -549,24 +549,24 @@ export default class MainInitialization {
 
     // Initialize lives
     this.toolbar.setStatusContainerStatus(
-      'lives', { value: this.livesLeft }
+      'lives', { value: this.livesLeft },
     );
 
     const states = [
       this.params.globals.get('states').completed,
-      this.params.globals.get('states').cleared
+      this.params.globals.get('states').cleared,
     ];
 
     const stageTypes = [STAGE_TYPES.stage];
 
     const filterExercisesOnly = {
-      type: stageTypes
+      type: stageTypes,
     };
 
     // Initialize stage counter
     const filterExercisesDone = {
       state: states,
-      type: stageTypes
+      type: stageTypes,
     };
 
     // Initialize stages
@@ -574,8 +574,8 @@ export default class MainInitialization {
       'stages',
       {
         value: this.stages.getCount({ filters: filterExercisesDone }),
-        maxValue: this.stages.getCount({ filters: filterExercisesOnly })
-      }
+        maxValue: this.stages.getCount({ filters: filterExercisesOnly }),
+      },
     );
 
     // Initialize score
@@ -583,8 +583,8 @@ export default class MainInitialization {
       'score',
       {
         value: this.getScore(),
-        maxValue: this.getMaxScore()
-      }
+        maxValue: this.getMaxScore(),
+      },
     );
 
     if (this.getScore() >= this.getMaxScore()) {

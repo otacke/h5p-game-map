@@ -23,7 +23,7 @@ export default class OverlayDialog {
     this.callbacks = Util.extend({
       onClosed: () => {},
       onOpenAnimationEnded: () => {},
-      onCloseAnimationEnded: () => {}
+      onCloseAnimationEnded: () => {},
     }, callbacks);
 
     this.handleOpenAnimationEnded = this.handleOpenAnimationEnded.bind(this);
@@ -44,7 +44,7 @@ export default class OverlayDialog {
     // Container for H5P content, can be CSS-transformed
     this.contentContainer = document.createElement('div');
     this.contentContainer.classList.add(
-      'h5p-game-map-overlay-dialog-content-container'
+      'h5p-game-map-overlay-dialog-content-container',
     );
     this.contentContainer.classList.add('transparent');
     this.contentContainer.classList.add('offscreen');
@@ -58,7 +58,7 @@ export default class OverlayDialog {
     this.buttonClose = document.createElement('button');
     this.buttonClose.classList.add('h5p-game-map-overlay-dialog-button-close');
     this.buttonClose.setAttribute(
-      'aria-label', this.params.dictionary.get('a11y.close')
+      'aria-label', this.params.dictionary.get('a11y.close'),
     );
     this.buttonClose.addEventListener('click', () => {
       this.callbacks.onClosed();
@@ -85,7 +85,7 @@ export default class OverlayDialog {
     this.focusTrap = new FocusTrap({
       trapElement: this.dom,
       closeElement: this.buttonClose,
-      fallbackContainer: this.content
+      fallbackContainer: this.content,
     });
   }
 
@@ -121,7 +121,7 @@ export default class OverlayDialog {
       }
       else {
         this.contentContainer.addEventListener(
-          'animationend', this.handleOpenAnimationEnded
+          'animationend', this.handleOpenAnimationEnded,
         );
       }
 
@@ -203,7 +203,7 @@ export default class OverlayDialog {
       'aria-label',
       this.params.dictionary
         .get('a11y.exerciseLabel')
-        .replace(/@stagelabel/, text)
+        .replace(/@stagelabel/, text),
     );
   }
 
@@ -254,7 +254,7 @@ export default class OverlayDialog {
    */
   handleOpenAnimationEnded() {
     this.contentContainer.removeEventListener(
-      'animationend', this.handleOpenAnimationEnded
+      'animationend', this.handleOpenAnimationEnded,
     );
 
     this.callbacks.onOpenAnimationEnded();
@@ -265,7 +265,7 @@ export default class OverlayDialog {
    */
   handleCloseAnimationEnded() {
     this.contentContainer.removeEventListener(
-      'animationend', this.handleCloseAnimationEnded
+      'animationend', this.handleCloseAnimationEnded,
     );
 
     this.contentContainer.classList.add('transparent');

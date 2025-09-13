@@ -21,7 +21,7 @@ export default class Restrictions {
       getTotalScore: () => 0,
       getStageScore: () => 0,
       getStageProgress: () => -1,
-      getTime: () => new Date()
+      getTime: () => new Date(),
     }, callbacks);
 
     this.dictionary = params.dictionary;
@@ -49,7 +49,7 @@ export default class Restrictions {
     return list
       .map((restrictionSet) => ({
         ...restrictionSet,
-        restrictionList: this.sanitizeRestrictionList(restrictionSet.restrictionList)
+        restrictionList: this.sanitizeRestrictionList(restrictionSet.restrictionList),
       }))
       .filter((restrictionSet) => restrictionSet.restrictionList.length);
   }
@@ -68,8 +68,8 @@ export default class Restrictions {
           totalScore: this.callbacks.getTotalScore,
           stageScore: this.callbacks.getStageScore,
           stageProgress: this.callbacks.getStageProgress,
-          time: this.callbacks.getTime
-        }
+          time: this.callbacks.getTime,
+        },
       }))
       .filter((restriction) => restriction !== null);
   }

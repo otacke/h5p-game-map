@@ -19,7 +19,7 @@ export const animate = (element, animationName = '', callback = () => {}) => {
 
   // Determine mediaQuery result for prefers-reduced-motion preference
   const reduceMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)'
+    '(prefers-reduced-motion: reduce)',
   )?.matches;
 
   if (reduceMotion) {

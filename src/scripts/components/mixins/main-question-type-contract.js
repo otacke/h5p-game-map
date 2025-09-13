@@ -25,7 +25,7 @@ export default class MainQuestionTypeContract {
   getScore() {
     return Math.min(
       this.exerciseBundles.getScore(),
-      this.getMaxScore()
+      this.getMaxScore(),
     );
   }
 
@@ -48,7 +48,7 @@ export default class MainQuestionTypeContract {
   getContext() {
     return {
       type: 'stage',
-      value: this.currentStageIndex
+      value: this.currentStageIndex,
     };
   }
 
@@ -88,7 +88,7 @@ export default class MainQuestionTypeContract {
         { livesLeft: this.livesLeft }
       ),
       ...(this.timeLeft && { timeLeft: this.timeLeft }),
-      ...(this.gameDone && { gameDone: this.gameDone })
+      ...(this.gameDone && { gameDone: this.gameDone }),
     };
   }
 }

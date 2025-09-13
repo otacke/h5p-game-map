@@ -46,7 +46,7 @@ export default class MainHandlersExercise {
     }
 
     this.toolbar.setStatusContainerStatus(
-      'score', { value: this.getScore(), maxValue: this.getMaxScore() }
+      'score', { value: this.getScore(), maxValue: this.getMaxScore() },
     );
   }
 
@@ -108,7 +108,7 @@ export default class MainHandlersExercise {
         animationEndedCallback: () => {
           this.exerciseBundles.reset(id);
           this.showTimeoutConfirmation();
-        }
+        },
       });
     }
   }
@@ -139,7 +139,7 @@ export default class MainHandlersExercise {
       this.handleExerciseScreenClosed({
         animationEndedCallback: () => {
           this.showGameOverConfirmation();
-        }
+        },
       });
     }
   }

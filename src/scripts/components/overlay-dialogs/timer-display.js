@@ -82,7 +82,7 @@ export default class TimerDisplay {
    */
   notify() {
     this.dom.addEventListener(
-      'animationend', this.handleNotifyingEnded
+      'animationend', this.handleNotifyingEnded,
     );
 
     this.dom.classList.add('notify-animation');
@@ -93,7 +93,7 @@ export default class TimerDisplay {
    */
   handleNotifyingEnded() {
     this.dom.removeEventListener(
-      'animationend', this.handleNotifyingEnded
+      'animationend', this.handleNotifyingEnded,
     );
     this.dom.classList.remove('notify-animation');
   }

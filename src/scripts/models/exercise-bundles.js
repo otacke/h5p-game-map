@@ -27,7 +27,7 @@ export default class ExerciseBundles {
       onTimeoutWarning: () => {},
       onTimeout: () => {},
       onContinued: () => {},
-      onBundleInitialized: () => {}
+      onBundleInitialized: () => {},
     }, callbacks);
 
     this.exerciseBundles = [];
@@ -45,7 +45,7 @@ export default class ExerciseBundles {
           dictionary: this.params.dictionary,
           globals: this.params.globals,
           jukebox: this.params.jukebox,
-          previousState: previousState
+          previousState: previousState,
         },
         {
           onStateChanged: (state) => {
@@ -68,8 +68,8 @@ export default class ExerciseBundles {
           },
           onInitialized: (params) => {
             this.callbacks.onBundleInitialized(element.id, params);
-          }
-        }
+          },
+        },
       );
     });
 
@@ -146,7 +146,7 @@ export default class ExerciseBundles {
       .filter((exerciseBundle) => exerciseBundle.isReachable())
       .map((exerciseBundle) => {
         return {
-          exerciseBundle: exerciseBundle.getCurrentState()
+          exerciseBundle: exerciseBundle.getCurrentState(),
         };
       });
   }

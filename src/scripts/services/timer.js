@@ -9,7 +9,7 @@ import Util from '@services/util.js';
 export const TIMER_STATES = {
   ENDED: 0,
   PLAYING: 1,
-  PAUSED: 2
+  PAUSED: 2,
 };
 
 /**
@@ -19,7 +19,7 @@ export const TIMER_STATES = {
  */
 export const TIMER_MODES = {
   FORWARD: 1,
-  BACKWARD: -1
+  BACKWARD: -1,
 };
 
 /** @constant {number} DEFAULT_INTERVAL_MS Default interval in milliseconds */
@@ -46,13 +46,13 @@ export default class Timer {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       mode: 'timer',
-      interval: DEFAULT_INTERVAL_MS
+      interval: DEFAULT_INTERVAL_MS,
     }, params);
 
     this.callbacks = Util.extend({
       onStateChanged: () => {},
       onExpired: () => {},
-      onTick: () => {}
+      onTick: () => {},
     }, callbacks);
 
     this.mode = (this.params.mode === 'stopwatch') ?

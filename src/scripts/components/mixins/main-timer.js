@@ -31,13 +31,13 @@ export default class MainTimer {
 
           this.toolbar.setStatusContainerStatus(
             'timer',
-            { value: Timer.toTimecode(this.timeLeft) }
+            { value: Timer.toTimecode(this.timeLeft) },
           );
         },
         onExpired: () => {
           this.showGameOverConfirmation('confirmGameOverDialogTimeout');
-        }
-      }
+        },
+      },
     );
   }
 
@@ -71,7 +71,7 @@ export default class MainTimer {
     this.timer.setTime(this.timer.getTime() + timeS * MS_IN_S);
     this.toolbar.setStatusContainerStatus(
       'timer',
-      { value: Timer.toTimecode(this.timer.getTime()) }
+      { value: Timer.toTimecode(this.timer.getTime()) },
     );
     this.params.jukebox.play('extraTime');
   }
@@ -90,7 +90,7 @@ export default class MainTimer {
 
     this.toolbar.setStatusContainerStatus(
       'timer',
-      { value: Timer.toTimecode(timeMs) }
+      { value: Timer.toTimecode(timeMs) },
     );
   }
 }

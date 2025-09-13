@@ -43,7 +43,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       onTimeoutWarning: () => {},
       onTimeout: () => {},
       onContinued: () => {},
-      onInitialized: () => {}
+      onInitialized: () => {},
     }, callbacks);
 
     this.exercises = [];
@@ -66,7 +66,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
             dictionary: this.params.dictionary,
             globals: this.params.globals,
             jukebox: this.params.jukebox,
-            previousState: previousState
+            previousState: previousState,
           },
           {
             onInitialized: (params) => {
@@ -78,9 +78,9 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
             },
             onScored: (params = {}) => {
               this.handleScored(params);
-            }
-          }
-        )
+            },
+          },
+        ),
       );
     }
 
@@ -103,7 +103,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
         () => {
           this.callbacks.onContinued();
         },
-        false
+        false,
       );
     }
     else {
@@ -113,7 +113,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       this.continueButton.classList.add(
         'h5p-joubelui-button',
         'h5p-game-map-exercise-instance-continue-button',
-        'display-none'
+        'display-none',
       );
       this.continueButton.setAttribute('disabled', 'disabled');
       this.continueButton.innerText =
@@ -139,7 +139,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       majorVersion: majorVersion,
       minorVersion: minorVersion,
       versionedName: `${machineName} ${majorVersion}.${minorVersion}`,
-      versionedNameNoSpaces: `${machineName}-${majorVersion}.${minorVersion}`
+      versionedNameNoSpaces: `${machineName}-${majorVersion}.${minorVersion}`,
     };
   }
 
@@ -222,14 +222,14 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
 
             this.callbacks.onTimerTicked(
               this.timeLeft,
-              { timeoutWarning: isTimeoutWarning }
+              { timeoutWarning: isTimeoutWarning },
             );
 
             if (!this.hasPlayedTimeoutWarning && isTimeoutWarning) {
               this.handleTimeoutWarning();
             }
-          }
-        }
+          },
+        },
       );
 
       this.timeLeft = timeLimit;
@@ -352,7 +352,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
   getCurrentState() {
     const remainingTime = Math.min(
       this.timeLeft,
-      (this.params.time?.timeLimit || 0) * MS_IN_S + this.params.animDuration
+      (this.params.time?.timeLimit || 0) * MS_IN_S + this.params.animDuration,
     );
 
     const instances = this.exercises.map((exercise) => {
@@ -365,7 +365,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       state: this.state,
       remainingTime: remainingTime,
       isCompleted: this.isCompleted,
-      instances: instances
+      instances: instances,
     };
   }
 
@@ -396,7 +396,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
         this.getMaxScore(), // Question Type Contract mixin
         this, // setScoredResult will try to find `activityStartTime` on a real instance
         true,
-        this.getScore() === this.getMaxScore()
+        this.getScore() === this.getMaxScore(),
       );
     }
 
@@ -445,7 +445,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
 
     return {
       statement: xAPIEvent.data.statement,
-      children: children
+      children: children,
     };
   }
 
@@ -478,7 +478,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     else if (!this.isCompleted) {
       const remainingTime = Math.min(
         this.timeLeft,
-        (this.params.time?.timeLimit || 0) * MS_IN_S + this.params.animDuration
+        (this.params.time?.timeLimit || 0) * MS_IN_S + this.params.animDuration,
       );
       this.timer?.start(remainingTime);
     }
@@ -618,7 +618,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       score: this.getScore(),
       maxScore: this.getMaxScore(),
       bundleCompleted: this.isCompleted,
-      exerciseSuccessful: params.successful
+      exerciseSuccessful: params.successful,
     });
   }
 }

@@ -18,15 +18,15 @@ export default class MainUserConfirmation {
       (extras.isScoringEnabled || extras.isReportingEnabled);
 
     const dialogTexts = [
-      this.params.dictionary.get('l10n.confirmFinishDialog')
+      this.params.dictionary.get('l10n.confirmFinishDialog'),
     ];
     if (isScoringEnabled) {
       dialogTexts.push(
-        this.params.dictionary.get('l10n.confirmFinishDialogSubmission')
+        this.params.dictionary.get('l10n.confirmFinishDialogSubmission'),
       );
     }
     dialogTexts.push(
-      this.params.dictionary.get('l10n.confirmFinishDialogQuestion')
+      this.params.dictionary.get('l10n.confirmFinishDialogQuestion'),
     );
 
     this.confirmationDialog.update(
@@ -34,15 +34,15 @@ export default class MainUserConfirmation {
         headerText: this.params.dictionary.get('l10n.confirmFinishHeader'),
         dialogText: dialogTexts.join(' '),
         cancelText: this.params.dictionary.get('l10n.no'),
-        confirmText: this.params.dictionary.get('l10n.yes')
+        confirmText: this.params.dictionary.get('l10n.yes'),
       }, {
         onConfirmed: () => {
           this.handleConfirmedFinish();
         },
         onCanceled: () => {
           this.params.jukebox.stopGroup('default');
-        }
-      }
+        },
+      },
     );
 
     this.params.jukebox.stopGroup('default');
@@ -77,15 +77,15 @@ export default class MainUserConfirmation {
         headerText: this.params.dictionary.get('l10n.confirmGameOverHeader'),
         dialogText: this.params.dictionary.get(`l10n.${dialogKey}`),
         confirmText: this.params.dictionary.get('l10n.ok'),
-        hideCancel: true
+        hideCancel: true,
       }, {
         onConfirmed: () => {
           this.params.jukebox.stopAll();
           this.timer?.stop();
           this.callbacks.onFinished();
           this.showEndscreen({ focusButton: true });
-        }
-      }
+        },
+      },
     );
 
     this.params.jukebox.stopAll();
@@ -108,12 +108,12 @@ export default class MainUserConfirmation {
         headerText: this.params.dictionary.get('l10n.confirmTimeoutHeader'),
         dialogText: dialogText,
         confirmText: this.params.dictionary.get('l10n.ok'),
-        hideCancel: true
+        hideCancel: true,
       }, {
         onConfirmed: () => {
           this.params.jukebox.stopGroup('default');
-        }
-      }
+        },
+      },
     );
 
     this.confirmationDialog.show();
@@ -128,12 +128,12 @@ export default class MainUserConfirmation {
         headerText: this.params.dictionary.get('l10n.confirmScoreIncompleteHeader'),
         dialogText: this.params.dictionary.get('l10n.confirmIncompleteScoreDialogLostLife'),
         confirmText: this.params.dictionary.get('l10n.ok'),
-        hideCancel: true
+        hideCancel: true,
       }, {
         onConfirmed: () => {
           this.params.jukebox.stopGroup('default');
-        }
-      }
+        },
+      },
     );
 
     this.confirmationDialog.show();
@@ -154,13 +154,13 @@ export default class MainUserConfirmation {
         headerText: this.params.dictionary.get('l10n.confirmFullScoreHeader'),
         dialogText: dialogText,
         confirmText: this.params.dictionary.get('l10n.ok'),
-        hideCancel: true
+        hideCancel: true,
       }, {
         onConfirmed: () => {
           this.params.jukebox.stopGroup('default');
           this.toolbar.toggleHintFinishButton(true);
-        }
-      }
+        },
+      },
     );
 
     this.confirmationDialog.show();

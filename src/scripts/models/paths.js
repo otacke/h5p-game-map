@@ -5,7 +5,7 @@ export default class Paths {
 
   constructor(params = {}) {
     this.params = Util.extend({
-      elements: {}
+      elements: {},
     }, params);
 
     this.paths = this.buildPaths(this.params.elements);
@@ -66,7 +66,7 @@ export default class Paths {
             index: pathsCreated.length,
             visuals: { ...this.params.visuals, ...customVisuals },
             visible: pathState?.visible,
-            ...(pathState?.state && { state: pathState?.state })
+            ...(pathState?.state && { state: pathState?.state }),
           }));
           pathsCreated.push(`${index}-${neighbor}`);
         }
@@ -85,7 +85,7 @@ export default class Paths {
       return {
         stageIds: path.getStageIds(),
         state: path.getState(),
-        visible: path.isVisible()
+        visible: path.isVisible(),
       };
     });
   }
@@ -108,7 +108,7 @@ export default class Paths {
   updateReachability(reachableStageIds) {
     this.paths.forEach((path) => {
       path.setReachable(
-        reachableStageIds.some((id) => path.connectsTo(id))
+        reachableStageIds.some((id) => path.connectsTo(id)),
       );
     });
   }

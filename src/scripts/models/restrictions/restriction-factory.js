@@ -18,7 +18,7 @@ export default class RestrictionFactory {
       operator: params[`${params.restrictionType}Group`]?.[`${params.restrictionType}Operator`],
       value: params[`${params.restrictionType}Group`]?.[`${params.restrictionType}Value`],
       dictionary: params.dictionary,
-      getCurrentValue: params.callbacks[params.restrictionType]
+      getCurrentValue: params.callbacks[params.restrictionType],
     };
 
     if (params.restrictionType === 'stageScore') {

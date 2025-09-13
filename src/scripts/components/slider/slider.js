@@ -20,7 +20,7 @@ export default class Slider {
       ariaLabel: 'Slider',
       minValue: 0,
       value: 0,
-      maxValue: 100
+      maxValue: 100,
     }, params);
 
     this.callbacks = Util.extend({
@@ -28,7 +28,7 @@ export default class Slider {
       onSeeked: () => {},
       onEnded: () => {},
       onFocus: () => {},
-      onBlur: () => {}
+      onBlur: () => {},
     }, callbacks);
 
     this.dom = document.createElement('div');

@@ -16,7 +16,7 @@ export default class Path {
   constructor(params = {}) {
     this.params = Util.extend({
       visuals: {
-        pathWidth: '0.2'
+        pathWidth: '0.2',
       },
     }, params);
 
@@ -174,7 +174,7 @@ export default class Path {
       y: telemetry.y,
       length: telemetry.length,
       angle: telemetry.angle,
-      width: telemetry.width
+      width: telemetry.width,
     });
   }
 
@@ -215,13 +215,13 @@ export default class Path {
       // eslint-disable-next-line no-magic-numbers
       x: width / 2 * Math.cos(angle) * 100 / params.mapSize.width,
       // eslint-disable-next-line no-magic-numbers
-      y: height / 2 * Math.sin(angle) * 100 / params.mapSize.height
+      y: height / 2 * Math.sin(angle) * 100 / params.mapSize.height,
     };
 
     // Border width
     const strokeWidth = Math.min(
       Math.max(MIN_WIDTH_PX, width * this.params.visuals.pathWidth),
-      width * MAX_FACTOR
+      width * MAX_FACTOR,
     );
 
     // eslint-disable-next-line no-magic-numbers
@@ -239,7 +239,7 @@ export default class Path {
     // Good old Pythagoras
     const length = Math.sqrt(
       Math.abs(deltaXPx) * Math.abs(deltaXPx) +
-      Math.abs(deltaYPx) * Math.abs(deltaYPx)
+      Math.abs(deltaYPx) * Math.abs(deltaYPx),
     ) - width; // assuming circle for hotspot
 
     return { x, y, length, angle, width: strokeWidth };

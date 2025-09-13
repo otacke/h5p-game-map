@@ -34,7 +34,7 @@ export default class XAPI {
         this.getMaxScore(), // Question Type Contract mixin
         this,
         true,
-        this.getScore() === this.getMaxScore()
+        this.getScore() === this.getMaxScore(),
       );
     }
 
@@ -71,7 +71,7 @@ export default class XAPI {
   getTitle() {
     // H5P Core function: createTitle
     return H5P.createTitle(
-      this.extras?.metadata?.title || XAPI_DEFAULT_DESCRIPTION
+      this.extras?.metadata?.title || XAPI_DEFAULT_DESCRIPTION,
     );
   }
 

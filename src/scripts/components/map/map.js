@@ -27,7 +27,7 @@ export default class Map {
     }, params);
 
     this.callbacks = Util.extend({
-      onImageLoaded: () => {}
+      onImageLoaded: () => {},
     }, callbacks);
 
     this.dom = document.createElement('div');
@@ -82,7 +82,7 @@ export default class Map {
     this.stageWrapper.classList.add('h5p-game-map-stage-wrapper');
     this.stageWrapper.setAttribute('role', 'application');
     this.stageWrapper.setAttribute(
-      'aria-label', this.params.dictionary.get('a11y.applicationDescription')
+      'aria-label', this.params.dictionary.get('a11y.applicationDescription'),
     );
 
     this.params.stages.getDOMs().forEach((dom) => {
@@ -142,7 +142,7 @@ export default class Map {
 
     this.forceSize({
       container: { width: availableSpace.width, height: availableSpace.height },
-      map: { width: width, height: height }
+      map: { width: width, height: height },
     });
   }
 
@@ -168,7 +168,7 @@ export default class Map {
       this.stageWrapper.style.height = `${clientRect.height}px`;
 
       const heightPercentage = parseFloat(
-        this.dom.style.getPropertyValue('--stage-height')
+        this.dom.style.getPropertyValue('--stage-height'),
       );
 
       const fontSize = clientRect.height / 100 * heightPercentage;

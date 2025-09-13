@@ -28,7 +28,7 @@ export default class Stages {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      elements: {}
+      elements: {},
     }, params);
 
     this.callbacks = Util.extend({
@@ -132,7 +132,7 @@ export default class Stages {
         visible: stageState?.visible,
         alwaysVisible: elementParams.alwaysVisible,
         overrideSymbol: elementParams.overrideSymbol,
-        ...(stageState?.state && { state: stageState?.state })
+        ...(stageState?.state && { state: stageState?.state }),
       };
 
       const stageCallbacks = {
@@ -167,7 +167,7 @@ export default class Stages {
         },
         getStageProgress: (id) => {
           return this.callbacks.getExerciseState(id);
-        }
+        },
       };
 
       const newStage = (!elementParams.specialStageType) ?
@@ -280,7 +280,7 @@ export default class Stages {
       return {
         id: stage.getId(),
         state: stage.getState(),
-        visible: stage.isVisible()
+        visible: stage.isVisible(),
       };
     });
   }
@@ -502,7 +502,7 @@ export default class Stages {
 
       this.highlightStage(
         this.highlightedStageId = (this.highlightedStageId + 1) %
-          this.selectionStages.length
+          this.selectionStages.length,
       );
 
       event.preventDefault();
@@ -515,7 +515,7 @@ export default class Stages {
 
       this.highlightStage(
         (this.highlightedStageId + this.selectionStages.length - 1) %
-          this.selectionStages.length
+          this.selectionStages.length,
       );
 
       event.preventDefault();
@@ -535,8 +535,8 @@ export default class Stages {
           this.params.dictionary.get('a11y.movedToStage')
             .replace(
               /@stagelabel/,
-              highlightedStage.getLabel()
-            )
+              highlightedStage.getLabel(),
+            ),
         );
 
         window.setTimeout(() => {
@@ -580,11 +580,11 @@ export default class Stages {
       highlightStage.updateAriaLabel({
         customText: this.params.dictionary.get('a11y.adjacentStageLabel')
           .replace(
-            /@stagelabelOrigin/, this.selectionStages[0].getLabel()
+            /@stagelabelOrigin/, this.selectionStages[0].getLabel(),
           )
           .replace(
-            /@stagelabelNeighbor/, highlightStage.getLabel()
-          )
+            /@stagelabelNeighbor/, highlightStage.getLabel(),
+          ),
       });
     }
 

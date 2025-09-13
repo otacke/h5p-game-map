@@ -45,7 +45,7 @@ export default class Main {
 
     // Without animations requested, schedule whole queue for same time
     this.callbackQueue.setRespectsDelay(
-      this.params.globals.get('params').visual.misc.useAnimation
+      this.params.globals.get('params').visual.misc.useAnimation,
     );
 
     Util.addMixins(
@@ -59,15 +59,15 @@ export default class Main {
         MainHandlersSettings,
         MainQuestionTypeContract,
         MainTimer,
-        MainUserConfirmation
-      ]
+        MainUserConfirmation,
+      ],
     );
 
     this.callbacks = Util.extend({
       onProgressChanged: () => {},
       onFinished: () => {},
       onFullscreenClicked: () => {},
-      onRestarted: () => {}
+      onRestarted: () => {},
     }, callbacks);
 
     this.params.globals.set('getScore', () => {
@@ -104,7 +104,7 @@ export default class Main {
     // Reattach H5P.Question buttons and scorebar to endscreen
     H5P.externalDispatcher.on('initialized', () => {
       const feedbackWrapper = this.grabH5PQuestionFeedback({
-        maxScore: this.getMaxScore()
+        maxScore: this.getMaxScore(),
       });
 
       this.endScreen.setContent(feedbackWrapper);
@@ -152,7 +152,7 @@ export default class Main {
 
     if (params.readOpened) {
       this.params.globals.get('read')(
-        this.params.dictionary.get('a11y.mapWasOpened')
+        this.params.dictionary.get('a11y.mapWasOpened'),
       );
     }
 
@@ -339,7 +339,7 @@ export default class Main {
     const maxScore = this.getMaxScore();
 
     const textScore = H5P.Question.determineOverallFeedback(
-      endscreenParams.overallFeedback, score / maxScore
+      endscreenParams.overallFeedback, score / maxScore,
     );
 
     // Output via H5P.Question - expects :num and :total
@@ -351,7 +351,7 @@ export default class Main {
       textScore,
       score,
       maxScore,
-      ariaMessage
+      ariaMessage,
     );
 
     const defaultTitle =
@@ -363,12 +363,12 @@ export default class Main {
       (typeof this.timeLeft !== 'number' || this.timeLeft > 0)
     ) {
       this.showEndscreenSuccess(
-        endscreenParams, defaultTitle
+        endscreenParams, defaultTitle,
       );
     }
     else {
       this.showEndscreenNoSuccess(
-        endscreenParams, defaultTitle, score, maxScore
+        endscreenParams, defaultTitle, score, maxScore,
       );
     }
 
@@ -393,7 +393,7 @@ export default class Main {
 
     this.map.setFullscreen(state, {
       width: window.innerWidth - marginHorizontal,
-      height: window.innerHeight - marginVertical - this.toolbar.getFullHeight()
+      height: window.innerHeight - marginVertical - this.toolbar.getFullHeight(),
     });
 
     this.toolbar.forceButton('fullscreen', state ? 1 : 0, { noCallback: true });

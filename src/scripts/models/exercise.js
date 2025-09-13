@@ -15,12 +15,12 @@ export default class Exercise {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      animDuration: 0
+      animDuration: 0,
     }, params);
 
     this.callbacks = Util.extend({
       onInitialized: () => {},
-      onScored: () => {}
+      onScored: () => {},
     }, callbacks);
 
     this.dom = document.createElement('div');
@@ -77,7 +77,7 @@ export default class Exercise {
         this.params.globals.get('contentId'),
         undefined,
         true,
-        { previousState: previousState.instanceState ?? {} }
+        { previousState: previousState.instanceState ?? {} },
       );
     }
 
@@ -91,12 +91,12 @@ export default class Exercise {
 
     // Resize parent when children resize
     this.bubbleUp(
-      this.instance, 'resize', this.params.globals.get('mainInstance')
+      this.instance, 'resize', this.params.globals.get('mainInstance'),
     );
 
     // Resize children to fit inside parent
     this.bubbleDown(
-      this.params.globals.get('mainInstance'), 'resize', [this.instance]
+      this.params.globals.get('mainInstance'), 'resize', [this.instance],
     );
 
     this.isTaskState = H5PUtil.isInstanceTask(this.instance);
@@ -143,7 +143,7 @@ export default class Exercise {
     return {
       completed: this.wasCompleted(),
       successful: this.wasSuccessful(),
-      ...(instanceState && { instanceState: instanceState })
+      ...(instanceState && { instanceState: instanceState }),
     };
   }
 

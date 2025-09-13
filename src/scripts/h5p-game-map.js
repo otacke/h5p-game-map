@@ -32,7 +32,7 @@ export const STATES = {
   opened: 4, // Rename to tried or similar
   completed: 5,
   cleared: 6, // Exercise, Stage, Path,
-  sealed: 7 // Stage
+  sealed: 7, // Stage
 };
 
 export default class GameMap extends H5P.Question {
@@ -50,8 +50,8 @@ export default class GameMap extends H5P.Question {
     const defaults = Util.extend({
       behaviour: {
         finishScore: Infinity, // Cannot use Infinity in JSON
-        enableCheckButton: true // Undocumented Question Type contract setting
-      }
+        enableCheckButton: true, // Undocumented Question Type contract setting
+      },
     }, H5PUtil.getSemanticsDefaults());
 
     this.contentId = contentId;
@@ -142,7 +142,7 @@ export default class GameMap extends H5P.Question {
     return {
       contentType: {
         params: {
-          text: this.dictionary.get('l10n.missingContent')
+          text: this.dictionary.get('l10n.missingContent'),
         },
         library: `H5P.AdvancedText ${advancedTextVersion}`,
         metadata: {
@@ -150,10 +150,10 @@ export default class GameMap extends H5P.Question {
           changes: [],
           license: 'U',
           title: this.dictionary.get('l10n.missingContent'),
-          contentType: 'Text'
+          contentType: 'Text',
         },
-        subContentId: H5P.createUUID()
-      }
+        subContentId: H5P.createUUID(),
+      },
     };
   }
 
@@ -188,7 +188,7 @@ export default class GameMap extends H5P.Question {
 
     if (!hasExerciseStages) {
       const messageBox = new MessageBox({
-        text: this.dictionary.get('l10n.noStages')
+        text: this.dictionary.get('l10n.noStages'),
       });
       this.dom.append(messageBox.getDOM());
     }
@@ -197,7 +197,7 @@ export default class GameMap extends H5P.Question {
         {
           dictionary: this.dictionary,
           globals: this.globals,
-          jukebox: this.jukebox
+          jukebox: this.jukebox,
         },
         {
           onProgressChanged: (index) => {
@@ -211,8 +211,8 @@ export default class GameMap extends H5P.Question {
           },
           onRestarted: () => {
             this.resetTask();
-          }
-        }
+          },
+        },
       );
       this.dom.append(this.main.getDOM());
 
@@ -282,9 +282,9 @@ export default class GameMap extends H5P.Question {
             completed: exercise.instanceState?.isCompleted || exercise.isCompleted,
             successful: exercise.instanceState?.isCompleted || exercise.isCompleted,
             instanceState: exercise.instanceState,
-          }
-        ]
-      }
+          },
+        ],
+      },
     }));
 
     delete previousState.content.exercises;
@@ -318,7 +318,7 @@ export default class GameMap extends H5P.Question {
 
     if (this.params.audio.backgroundMusic.music?.[0]?.path) {
       const src = H5P.getPath(
-        this.params.audio.backgroundMusic.music[0].path, this.contentId
+        this.params.audio.backgroundMusic.music[0].path, this.contentId,
       );
 
       const crossOrigin = H5P.getCrossOrigin?.(this.params.audio.backgroundMusic.music[0]) ?? 'Anonymous';
@@ -326,7 +326,7 @@ export default class GameMap extends H5P.Question {
       audios.backgroundMusic = {
         src: src,
         crossOrigin: crossOrigin,
-        options: { loop: true, groupId: 'background' }
+        options: { loop: true, groupId: 'background' },
       };
     }
 
@@ -341,7 +341,7 @@ export default class GameMap extends H5P.Question {
 
       audios[key] = {
         src: src,
-        crossOrigin: crossOrigin
+        crossOrigin: crossOrigin,
       };
     }
 
@@ -374,7 +374,7 @@ export default class GameMap extends H5P.Question {
       this.getMaxScore(), // Question Type Contract mixin
       this,
       true,
-      this.getScore() === this.getMaxScore()
+      this.getScore() === this.getMaxScore(),
     );
 
     this.trigger(xAPIEvent);
