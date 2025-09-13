@@ -222,7 +222,6 @@ export default class Jukebox {
     this.audios[id].gainNode = gainNode;
 
     // Set volume
-    // eslint-disable-next-line no-magic-numbers
     gainNode.gain.value = audio.volume / 100;
 
     // Set loop if necessary
@@ -336,7 +335,6 @@ export default class Jukebox {
     window.clearTimeout(this.audios[id].fadeTimeout);
     if (
       params.type === 'out' && this.audios[id].gainNode.gain.value === 0 ||
-      // eslint-disable-next-line no-magic-numbers
       params.type === 'in' && this.audios[id].gainNode.gain.value >= this.audios[id].volume / 100
     ) {
       return; // Done
@@ -382,7 +380,7 @@ export default class Jukebox {
     }
     else {
       this.audios[id].gainNode.gain.value =
-      Math.max(0, this.audios[id].gainNode.gain.value -= params.gainDelta);
+        Math.max(0, this.audios[id].gainNode.gain.value -= params.gainDelta);
     }
 
     this.audios[id].fadeTimeout = window.setTimeout(() => {
@@ -510,12 +508,10 @@ export default class Jukebox {
       return;
     }
 
-    // eslint-disable-next-line no-magic-numbers
     volume = Math.max(0, Math.min(volume, 100));
 
     this.audios[id].volume = volume;
     if (this.audios[id].gainNode) {
-      // eslint-disable-next-line no-magic-numbers
       this.audios[id].gainNode.gain.value = volume / 100;
     }
   }

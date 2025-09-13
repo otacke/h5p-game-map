@@ -171,7 +171,6 @@ export default class Map {
         this.dom.style.getPropertyValue('--stage-height')
       );
 
-      // eslint-disable-next-line no-magic-numbers
       const fontSize = clientRect.height / 100 * heightPercentage;
 
       this.dom.style.setProperty('--stage-font-size', `calc(${STAGE_BORDER_RADIUS} * ${fontSize}px)`);

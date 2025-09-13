@@ -118,7 +118,6 @@ export default class Slider {
     this.slider.value = Math.max(0, Math.min(value, this.params.maxValue));
     this.slider.setAttribute('aria-valuenow', value);
 
-    // eslint-disable-next-line no-magic-numbers
     const percentage = (value / this.params.maxValue) * 100;
 
     this.slider.style.background = (!this.params.vertical) ?

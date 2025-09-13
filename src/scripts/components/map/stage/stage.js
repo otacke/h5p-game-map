@@ -70,7 +70,8 @@ export default class Stage {
           const stageProgressValue = restriction.stageProgressGroup?.stageProgressValue;
           if (stageProgressValue) {
             restriction.stageProgressGroup.stageProgressValue = this.params.globals.get('states')[stageProgressValue];
-            restriction.stageProgressGroup.stageProgressValueRepresentation = this.params.dictionary.get(`l10n.${stageProgressValue}`);
+            restriction.stageProgressGroup.stageProgressValueRepresentation =
+              this.params.dictionary.get(`l10n.${stageProgressValue}`);
           }
 
           if (restriction.restrictionType === 'stageScore' && restriction.stageScoreGroup) {

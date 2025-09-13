@@ -4,6 +4,9 @@ import './score-stars.scss';
 /** @constant {number} VISIBILITY_HIDDEN_DELAY_MS Delay before visibility hidden is added. */
 const VISIBILITY_HIDDEN_DELAY_MS = 10;
 
+/** @constant {number} NUMBER_OF_STAR_SEGMENTS Number of star segments. */
+const NUMBER_OF_STAR_SEGMENTS = 6;
+
 export default class ScoreStars {
 
   /**
@@ -75,16 +78,19 @@ export default class ScoreStars {
     const starPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     starPath.setAttribute('id', 'outline');
     starPath.setAttribute('fill', 'currentColor');
+    // eslint-disable-next-line @stylistic/js/max-len
     starPath.setAttribute('d', 'M874 0q43 0 78 32 22 22 35 52l-2-4 207 419 462 68q38 5 66 24 20 13 35 38t15 53v8l-2 8q-11 50-49 84l2-1-335 324 80 460v-2q3 17 3 36-1 43-23 74-14 19-39 31.5t-50 12.5q-40-1-74-20l2 1-413-218-412 218 1-1q-32 18-70 20h-3q-25 0-49.5-12t-38.5-31q-24-32-24-76l2-21v-5l81-466L24 781l2 1q-40-37-47-91l-1-4v-5q0-27 15.5-52.5T29 591q24-16 62-24h2l463-68L764 80l-1 2q12-28 34-48 34-34 77-34Zm0 172L649 627l-506 74 366 356-87 502 450-238 451 238-87-502 366-357-503-73z');
     starSVG.appendChild(starPath);
 
     const starPathRight = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     starPathRight.setAttribute('id', 'background-right');
+    // eslint-disable-next-line @stylistic/js/max-len
     starPathRight.setAttribute('d', 'M874 172 649 627l-506 74 366 356-87 502 450-238 2 1.055L1323 1559l-87-502 366-357-503-73zm775.24 678.404-.644.623h.644zm-839.555 662.569-5.072 2.683h5.072z');
     starSVG.appendChild(starPathRight);
 
     const starPathLeft = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     starPathLeft.setAttribute('id', 'background-left');
+    // eslint-disable-next-line @stylistic/js/max-len
     starPathLeft.setAttribute('d', 'M874 172 649 627l-506 74 366 356-87 502 450-238 2 1.055zm-64.314 1340.973-5.073 2.683h5.073z');
     starSVG.appendChild(starPathLeft);
 
@@ -188,20 +194,16 @@ export default class ScoreStars {
       return;
     }
 
-    // eslint-disable-next-line no-magic-numbers
     percentage = Math.max(0, Math.min(percentage, 100));
 
     if (percentage === 0) {
       this.setStarsBySegments(0);
     }
-    // eslint-disable-next-line no-magic-numbers
     else if (percentage === 100) {
-    // eslint-disable-next-line no-magic-numbers
-      this.setStarsBySegments(6);
+      this.setStarsBySegments(NUMBER_OF_STAR_SEGMENTS);
     }
     else {
-      // eslint-disable-next-line no-magic-numbers
-      this.setStarsBySegments(Math.round(Util.project(percentage, 0, 100, 1, 5)));
+      this.setStarsBySegments(Math.round(Util.project(percentage, 0, 100, 1, NUMBER_OF_STAR_SEGMENTS - 1)));
     }
   }
 

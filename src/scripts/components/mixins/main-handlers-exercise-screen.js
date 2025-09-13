@@ -82,7 +82,6 @@ export default class MainHandlersExerciseScreen {
    */
   handleExerciseBundleInitialized(id, params) {
     if (params.isTask) {
-      // eslint-disable-next-line no-magic-numbers
       this.stages.updateScoreStar(id, params.score / params.maxScore * 100);
     }
     this.stages.setTaskState(id, params.isTask);

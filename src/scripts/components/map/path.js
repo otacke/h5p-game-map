@@ -197,17 +197,11 @@ export default class Path {
     const toX = this.params.telemetryTo.x;
     const toY = this.params.telemetryTo.y;
 
-    // eslint-disable-next-line no-magic-numbers
     const fromXPx = parseFloat(fromX) / 100 * params.mapSize.width;
-    // eslint-disable-next-line no-magic-numbers
     const fromYPx = parseFloat(fromY) / 100 * params.mapSize.height;
-    // eslint-disable-next-line no-magic-numbers
     const toXPx = parseFloat(toX) / 100 * params.mapSize.width;
-    // eslint-disable-next-line no-magic-numbers
     const toYPx = parseFloat(toY) / 100 * params.mapSize.height;
-    // eslint-disable-next-line no-magic-numbers
     const width = parseFloat(fromWidth) / 100 * params.mapSize.width;
-    // eslint-disable-next-line no-magic-numbers
     const height = parseFloat(fromHeight) / 100 * params.mapSize.height;
 
     const deltaXPx = fromXPx - toXPx;
