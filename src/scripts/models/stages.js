@@ -641,7 +641,7 @@ export default class Stages {
   /**
    *
    * @param {string} id Id of stage to set task state for,
-   * @param {*} isTask True if stage is a task. Else false.
+   * @param {boolean} isTask True if stage is a task. Else false.
    */
   setTaskState(id, isTask) {
     const stage = this.getStage(id);
