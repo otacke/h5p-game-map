@@ -31,8 +31,8 @@
               "description": "Izbor slike za ozadje aktivnosti."
             },
             {
-              "label": "Background color",
-              "description": "Choose a color to use as the background of the game map."
+              "label": "Barva ozadja",
+              "description": "Izbira barvne sheme ozadja."
             }
           ]
         },
@@ -79,174 +79,174 @@
                     "description": "Nastavitve pogojev za odklepanje stopenj.",
                     "fields": [
                       {
-                        "label": "All or any restriction set",
-                        "description": "Choose if all or any of the following restrictions need to be met.",
+                        "label": "Veljajo vse ali katerakoli omejitev",
+                        "description": "Nastavitev določa, ali morajo biti izpolnjene vse ali katerakoli izmed spodnjih omejitev.",
                         "options": [
                           {
-                            "label": "All"
+                            "label": "Vse"
                           },
                           {
-                            "label": "Any"
+                            "label": "Katerakoli"
                           }
                         ]
                       },
                       {
-                        "label": "Restriction sets",
-                        "entity": "restriction set",
+                        "label": "Omejitve",
+                        "entity": "omejitev",
                         "widgets": [
                           {
-                            "label": "Default"
+                            "label": "Privzeto"
                           }
                         ],
                         "field": {
-                          "label": "Restriction set",
+                          "label": "Omejitve",
                           "fields": [
                             {
-                              "label": "All or any restriction",
-                              "description": "Choose if all or any of the following restrictions need to be met.",
+                              "label": "Veljajo vse ali katerakoli omejitev",
+                              "description": "Nastavitev določa, ali morajo biti izpolnjene vse ali katerakoli izmed spodnjih omejitev.",
                               "options": [
                                 {
-                                  "label": "All"
+                                  "label": "Vse"
                                 },
                                 {
-                                  "label": "Any"
+                                  "label": "Katerakoli"
                                 }
                               ]
                             },
                             {
-                              "label": "Restrictions",
-                              "entity": "restriction",
+                              "label": "Omejitve",
+                              "entity": "omejitev",
                               "field": {
-                                "label": "Restriction",
+                                "label": "Omejitev",
                                 "fields": [
                                   {
-                                    "label": "Restriction type",
+                                    "label": "Tip omejitve",
                                     "options": [
                                       {
-                                        "label": "Total score"
+                                        "label": "Skupni rezultat"
                                       },
                                       {
-                                        "label": "Stage score"
+                                        "label": "Rezultat stopnje"
                                       },
                                       {
-                                        "label": "Stage progress"
+                                        "label": "Napredek stopnje"
                                       },
                                       {
-                                        "label": "Time"
+                                        "label": "Čas"
                                       }
                                     ]
                                   },
                                   {
-                                    "label": "Total score",
+                                    "label": "Skupni rezultat",
                                     "fields": [
                                       {
-                                        "label": "Operator for total score",
+                                        "label": "Operator za skupni rezultat",
                                         "options": [
                                           {
-                                            "label": "less than"
+                                            "label": "manj kot"
                                           },
                                           {
-                                            "label": "equal to"
+                                            "label": "enako"
                                           },
                                           {
-                                            "label": "not equal to"
+                                            "label": "različno"
                                           },
                                           {
-                                            "label": "greater than"
+                                            "label": "več kot"
                                           }
                                         ]
                                       },
                                       {
-                                        "label": "Value of total score to compare"
+                                        "label": "Vrednost skupnega rezultata za primerjavo"
                                       }
                                     ]
                                   },
                                   {
-                                    "label": "Stage score",
+                                    "label": "Rezultat stopnje",
                                     "fields": [
                                       {
-                                        "label": "Stage to get score from"
+                                        "label": "Stopnja za pregled rezultata"
                                       },
                                       {
-                                        "label": "Operator for stage score",
+                                        "label": "Operator za rezultat stopnje",
                                         "options": [
                                           {
-                                            "label": "less than"
+                                            "label": "manj kot"
                                           },
                                           {
-                                            "label": "equal to"
+                                            "label": "enako"
                                           },
                                           {
-                                            "label": "not equal to"
+                                            "label": "različno"
                                           },
                                           {
-                                            "label": "greater than"
+                                            "label": "več kot"
                                           }
                                         ]
                                       },
                                       {
-                                        "label": "Score score to compare to"
+                                        "label": "Vrednost rezultata stopnje za primerjavo"
                                       }
                                     ]
                                   },
                                   {
-                                    "label": "Stage progress",
+                                    "label": "Napredek stopnje",
                                     "fields": [
                                       {
-                                        "label": "Stage to get progress from"
+                                        "label": "Stopnja za pregled napredka"
                                       },
                                       {
-                                        "label": "Operator for stage progress",
+                                        "label": "Operator za napredek stopnje",
                                         "options": [
                                           {
-                                            "label": "is"
+                                            "label": "je"
                                           },
                                           {
-                                            "label": "is not"
+                                            "label": "ni"
                                           }
                                         ]
                                       },
                                       {
-                                        "label": "Progress to compare to",
+                                        "label": "Napredek za primerjavo",
                                         "options": [
                                           {
-                                            "label": "not started"
+                                            "label": "se še ni začelo"
                                           },
                                           {
-                                            "label": "started"
+                                            "label": "v teku"
                                           },
                                           {
-                                            "label": "completed"
+                                            "label": "zaključeno"
                                           },
                                           {
-                                            "label": "completed successfully"
+                                            "label": "uspešno zaključeno"
                                           }
                                         ]
                                       }
                                     ]
                                   },
                                   {
-                                    "label": "Time",
+                                    "label": "Čas",
                                     "fields": [
                                       {
-                                        "label": "Operator for time",
+                                        "label": "Operator za čas",
                                         "options": [
                                           {
-                                            "label": "before"
+                                            "label": "pred"
                                           },
                                           {
-                                            "label": "is"
+                                            "label": "je"
                                           },
                                           {
-                                            "label": "is not"
+                                            "label": "ni"
                                           },
                                           {
-                                            "label": "after"
+                                            "label": "po"
                                           }
                                         ]
                                       },
                                       {
-                                        "label": "Time to compare to"
+                                        "label": "Čas za primerjavo"
                                       }
                                     ]
                                   }
@@ -257,27 +257,27 @@
                         }
                       },
                       {
-                        "label": "dummy"
+                        "label": "vzorec"
                       }
                     ]
                   },
                   {
-                    "label": "Contents",
-                    "entity": "content",
+                    "label": "Vsebina",
+                    "entity": "vsebina",
                     "widgets": [
                       {
-                        "label": "Default"
+                        "label": "Privzeto"
                       }
                     ],
                     "field": {
-                      "label": "Content",
+                      "label": "Vsebina",
                       "fields": [
                         {
                           "label": "Vsebina stopnje",
                           "description": "Izbor tipa vsebine."
                         },
                         {
-                          "label": "Dummy"
+                          "label": "Vzorec"
                         }
                       ]
                     }
@@ -295,7 +295,7 @@
                         "label": "Dodaten čas"
                       },
                       {
-                        "label": "Link to external content"
+                        "label": "Povezava do zunanje vsebine"
                       }
                     ]
                   },
@@ -308,17 +308,17 @@
                     "description": "Vnos sekund, ki jih udeleženec prejme za skupno časovno omejitev ob vstopu v stopnjo."
                   },
                   {
-                    "label": "URL to link to",
-                    "description": "Set where the user should be sent to when opening this stage."
+                    "label": "Spletna povezava (URL)",
+                    "description": "Nastavitev mesta, kamor bo udeleženec preusmerjen ob odprtju stopnje."
                   },
                   {
-                    "label": "Place to open link in",
+                    "label": "Način odpiranja povezav",
                     "options": [
                       {
-                        "label": "New tab"
+                        "label": "V novem oknu"
                       },
                       {
-                        "label": "Same tab"
+                        "label": "v istem oknu"
                       }
                     ]
                   },
@@ -340,62 +340,62 @@
               }
             },
             {
-              "label": "Paths",
-              "entity": "path",
+              "label": "Poti",
+              "entity": "pot",
               "field": {
-                "label": "Path",
+                "label": "Pot",
                 "fields": [
                   {
-                    "label": "From"
+                    "label": "Od"
                   },
                   {
-                    "label": "To"
+                    "label": "Do"
                   },
                   {
-                    "label": "Visual settings",
+                    "label": "Vizualizacija",
                     "options": [
                       {
-                        "label": "Use global settings"
+                        "label": "Uporabi splošne nastavitve"
                       },
                       {
-                        "label": "Use custom settings"
+                        "label": "Uporabi prilagojene nastavitve"
                       }
                     ]
                   },
                   {
-                    "label": "Custom visual settings",
+                    "label": "Prilagojene vizualne nastavitve",
                     "fields": [
                       {
-                        "label": "Color path"
+                        "label": "Barva poti"
                       },
                       {
-                        "label": "Path width",
+                        "label": "Širina poti",
                         "options": [
                           {
-                            "label": "thin"
+                            "label": "tanka"
                           },
                           {
-                            "label": "medium"
+                            "label": "srednja"
                           },
                           {
-                            "label": "thick"
+                            "label": "široka"
                           }
                         ]
                       },
                       {
-                        "label": "Path style",
+                        "label": "Stil poti",
                         "options": [
                           {
-                            "label": "Solid"
+                            "label": "enakomerna"
                           },
                           {
-                            "label": "Dotted"
+                            "label": "pikčasta"
                           },
                           {
-                            "label": "Dashed"
+                            "label": "črtasta"
                           },
                           {
-                            "label": "Double"
+                            "label": "dvojna"
                           }
                         ]
                       }
@@ -480,17 +480,17 @@
               "label": "Barva zaključenih stopenj"
             },
             {
-              "label": "Show stars for scores",
-              "description": "Choose if and when stars will be displayed on the map for the scores of the stages. Please note that stages without scored exercises will not get the stars.",
+              "label": "Prikaz zvezdic za rezultate",
+              "description": "Nastavitev določa prikaz zvezdic za rezultate posameznih stopenj na zemljevidu. Stopnje brez ocenjenega napredka ne bodo prikazane z zvezdicami.",
               "options": [
                 {
-                  "label": "Never"
+                  "label": "Nikoli"
                 },
                 {
-                  "label": "On hover"
+                  "label": "Ob preletu s kazalcem"
                 },
                 {
-                  "label": "Always"
+                  "label": "Vedno"
                 }
               ]
             }
@@ -809,7 +809,7 @@
         },
         {
           "label": "Besedilo pogovornega okna za popoln rezultat",
-          "default": "Dosežen je popoln rezultat za zaključek zemljevida. Preostanek je na voljo za prosto raziskovanje. Your score will be submitted once you finish the map."
+          "default": "Dosežen je popoln rezultat za zaključek zemljevida. Preostanek je na voljo za prosto raziskovanje. Rezultat bo prištet k skupnemu rezultatu ob zaključku zemljevida."
         },
         {
           "label": "Besedilo pogovornega okna za popoln rezultat (odštevanje življenj)",
@@ -824,108 +824,108 @@
           "default": "Za zemljevid ni nastavljenih veljavnih stopenj."
         },
         {
-          "label": "Settings",
-          "default": "Settings"
+          "label": "Nastavitve",
+          "default": "Nastavitve"
         },
         {
-          "label": "Volume of music",
-          "default": "Volume of music"
+          "label": "Glasnost glasbe",
+          "default": "Glasnost glasbe"
         },
         {
-          "label": "Volume of sound effects",
-          "default": "Volume of sound effects"
+          "label": "Glasnost zvočnih učinkov",
+          "default": "Glasnost zvočnih učinkov"
         },
         {
-          "label": "The stage will not be available unless",
-          "default": "The stage will not be available unless:"
+          "label": "Stopnja ne bo na voljo, razen če",
+          "default": "Stopnja ne bo na voljo, razen če:"
         },
         {
-          "label": "The stage will not be available unless any of",
-          "default": "The stage will not be available unless any of:"
+          "label": "Stopnja ne bo na voljo, razen če velja karkoli od",
+          "default": "Stopnja ne bo na voljo, razen če velja karkoli od:"
         },
         {
-          "label": "All of:",
-          "default": "All of:"
+          "label": "Vse od:",
+          "default": "Vse od:"
         },
         {
-          "label": "Any of:",
-          "default": "Any of:"
+          "label": "Karkoli od:",
+          "default": "Karkoli od:"
         },
         {
-          "label": "Total score less than",
-          "default": "You have a total score less than @value."
+          "label": "Skupni rezultat je manjši od",
+          "default": "Skupni rezultat je manjši od @value."
         },
         {
-          "label": "Total score equal to",
-          "default": "You have a total score equal to @value."
+          "label": "Skupni rezultat je enak",
+          "default": "Skupni rezultat je enak @value."
         },
         {
-          "label": "Total score not equal to",
-          "default": "You have a total score not equal to @value."
+          "label": "Skupni rezultat ni enak",
+          "default": "Skupni rezultat ni enak @value."
         },
         {
-          "label": "Total score greater than",
-          "default": "You have a total score greater than @value."
+          "label": "Skupni rezultat je večji od",
+          "default": "Skupni rezultat je večji od @value."
         },
         {
-          "label": "Stage score less than",
-          "default": "You have a score less than @value in stage @label."
+          "label": "Rezultat stopnje je manjši od",
+          "default": "Rezultat v stopnji @label je manjši od @value."
         },
         {
-          "label": "Stage score equal to",
-          "default": "You have a score equal to @value in stage @label."
+          "label": "Rezultat stopnje je enak",
+          "default": "Rezultat v stopnji @label je enak @value."
         },
         {
-          "label": "Stage score not equal to",
-          "default": "You have a score not equal to @value in stage @label."
+          "label": "Rezultat stopnje ni enak",
+          "default": "Rezultat v stopnji @label ni enak @value."
         },
         {
-          "label": "Stage score greater than",
-          "default": "You have a score greater than @value in stage @label."
+          "label": "Rezultat stopnje je večji od",
+          "default": "Rezultat v stopnji @label je večji od @value."
         },
         {
-          "label": "Stage progress is",
-          "default": "The progress of stage @label is @value."
+          "label": "Napredek v stopnji je",
+          "default": "Napredek v stopnji @label je @value."
         },
         {
-          "label": "Stage progress is not",
-          "default": "Ths progress of stage @label is not @value."
+          "label": "Napredek v stopnji ni",
+          "default": "Napredek v stopnji @label ni @value."
         },
         {
-          "label": "Time before",
-          "default": "The current time is before @value."
+          "label": "Čas pred",
+          "default": "Trenutni čas je pred @value."
         },
         {
-          "label": "Time is",
-          "default": "The current time is @value."
+          "label": "Čas je",
+          "default": "Trenutni čas je @value."
         },
         {
-          "label": "Time is not",
-          "default": "The current time is not @value."
+          "label": "Čas ni",
+          "default": "Trenutni čas ni @value."
         },
         {
-          "label": "Time after",
-          "default": "The current time is after @value."
+          "label": "Čas po",
+          "default": "Trenutni čas je po @value."
         },
         {
-          "label": "Not started",
-          "default": "not started"
+          "label": "Ni začeto",
+          "default": "ni začeto"
         },
         {
-          "label": "Started",
-          "default": "started"
+          "label": "V teku",
+          "default": "v teku"
         },
         {
-          "label": "Completed",
-          "default": "completed"
+          "label": "Zaključeno",
+          "default": "zaključeno"
         },
         {
-          "label": "Completed successfully",
-          "default": "completed successfully"
+          "label": "Uspešno zaključeno",
+          "default": "uspešno zaključeno"
         },
         {
-          "label": "Missing content",
-          "default": "No content was set for this stage!"
+          "label": "Manjka vsebina",
+          "default": "Za to stopnjo manjka vsebina!"
         }
       ]
     },
