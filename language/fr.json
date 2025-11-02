@@ -2,7 +2,7 @@
   "semantics": [
     {
       "label": "Afficher l'écran titre",
-      "description": "Si cette case est cochée, un écran de titre apparaîtra au démarrage."
+      "description": "Si cette case est cochée, un écran titre s'affichera au démarrage."
     },
     {
       "label": "Écran titre",
@@ -12,7 +12,7 @@
           "placeholder": "Bienvenue à ..."
         },
         {
-          "label": "Médias de l'écran titre"
+          "label": "Média de l'écran titre"
         }
       ]
     },
@@ -27,24 +27,24 @@
           "label": "Arrière-plan",
           "fields": [
             {
-              "label": "Image de fond",
+              "label": "Image d'arrière-plan",
               "description": "Sélectionnez une image à utiliser comme arrière-plan de la carte du jeu."
             },
             {
-              "label": "Background color",
-              "description": "Choose a color to use as the background of the game map."
+              "label": "Couleur d'arrière-plan",
+              "description": "Choisissez une couleur à utiliser comme arrière-plan de la carte du jeu."
             }
           ]
         },
         {
-          "label": "Game map",
+          "label": "Carte de jeu",
           "fields": [
             {},
             {
-              "label": "Elements",
-              "entity": "Element",
+              "label": "Eléments",
+              "entity": "Elément",
               "field": {
-                "label": "Elements",
+                "label": "Eléments",
                 "fields": [
                   {
                     "label": "Id"
@@ -53,7 +53,7 @@
                     "label": "Type"
                   },
                   {
-                    "label": "Étiquette de scène",
+                    "label": "Étiquette de l'étape",
                     "description": "Cette étiquette sera affichée au-dessus de votre exercice et vous aidera à relier les différentes étapes entre elles."
                   },
                   {
@@ -80,13 +80,13 @@
                     "fields": [
                       {
                         "label": "All or any restriction set",
-                        "description": "Choose if all or any of the following restrictions need to be met.",
+                        "description": "Choisissez si toutes les restrictions suivantes doivent être respectées ou seulement l'une d'entre elles.",
                         "options": [
                           {
-                            "label": "All"
+                            "label": "Toutes"
                           },
                           {
-                            "label": "Any"
+                            "label": "N'importe laquelle"
                           }
                         ]
                       },
@@ -103,13 +103,13 @@
                           "fields": [
                             {
                               "label": "All or any restriction",
-                              "description": "Choose if all or any of the following restrictions need to be met.",
+                              "description": "Choisissez si toutes les restrictions suivantes doivent être respectées ou seulement l'une d'entre elles.",
                               "options": [
                                 {
-                                  "label": "All"
+                                  "label": "Toutes"
                                 },
                                 {
-                                  "label": "Any"
+                                  "label": "N'importe laquelle"
                                 }
                               ]
                             },
@@ -120,133 +120,133 @@
                                 "label": "Restriction",
                                 "fields": [
                                   {
-                                    "label": "Restriction type",
+                                    "label": "Type de restriction",
                                     "options": [
                                       {
-                                        "label": "Total score"
+                                        "label": "Score total"
                                       },
                                       {
-                                        "label": "Stage score"
+                                        "label": "Score d'étape"
                                       },
                                       {
-                                        "label": "Stage progress"
+                                        "label": "Progression d'étape"
                                       },
                                       {
-                                        "label": "Time"
+                                        "label": "Temps"
                                       }
                                     ]
                                   },
                                   {
-                                    "label": "Total score",
+                                    "label": "Score total",
                                     "fields": [
                                       {
-                                        "label": "Operator for total score",
+                                        "label": "Opérateur pour le score total",
                                         "options": [
                                           {
-                                            "label": "less than"
+                                            "label": "inférieur à"
                                           },
                                           {
-                                            "label": "equal to"
+                                            "label": "égal à"
                                           },
                                           {
-                                            "label": "not equal to"
+                                            "label": "différent de"
                                           },
                                           {
-                                            "label": "greater than"
+                                            "label": "supérieur à"
                                           }
                                         ]
                                       },
                                       {
-                                        "label": "Value of total score to compare"
+                                        "label": "Valeur de score total à comparer"
                                       }
                                     ]
                                   },
                                   {
-                                    "label": "Stage score",
+                                    "label": "Score d'étape",
                                     "fields": [
                                       {
-                                        "label": "Stage to get score from"
+                                        "label": "Étape pour obtenir le score"
                                       },
                                       {
-                                        "label": "Operator for stage score",
+                                        "label": "Opérateur pour le score d'étape",
                                         "options": [
                                           {
-                                            "label": "less than"
+                                            "label": "inférieur à"
                                           },
                                           {
-                                            "label": "equal to"
+                                            "label": "égal à"
                                           },
                                           {
-                                            "label": "not equal to"
+                                            "label": "différent de"
                                           },
                                           {
-                                            "label": "greater than"
+                                            "label": "supérieur à"
                                           }
                                         ]
                                       },
                                       {
-                                        "label": "Score score to compare to"
+                                        "label": "Valeur du score d'étape à comparer"
                                       }
                                     ]
                                   },
                                   {
-                                    "label": "Stage progress",
+                                    "label": "Progression d'étape",
                                     "fields": [
                                       {
-                                        "label": "Stage to get progress from"
+                                        "label": "Étape pour obtenir la progression"
                                       },
                                       {
-                                        "label": "Operator for stage progress",
+                                        "label": "Opérateur pour la progression d'étape",
                                         "options": [
                                           {
-                                            "label": "is"
+                                            "label": "est"
                                           },
                                           {
-                                            "label": "is not"
+                                            "label": "n'est pas"
                                           }
                                         ]
                                       },
                                       {
-                                        "label": "Progress to compare to",
+                                        "label": "Progression à comparer à",
                                         "options": [
                                           {
-                                            "label": "not started"
+                                            "label": "pas commencé"
                                           },
                                           {
-                                            "label": "started"
+                                            "label": "commencé"
                                           },
                                           {
-                                            "label": "completed"
+                                            "label": "terminé"
                                           },
                                           {
-                                            "label": "completed successfully"
+                                            "label": "terminé avec succès"
                                           }
                                         ]
                                       }
                                     ]
                                   },
                                   {
-                                    "label": "Time",
+                                    "label": "Temps",
                                     "fields": [
                                       {
-                                        "label": "Operator for time",
+                                        "label": "Opérateur pour le temps",
                                         "options": [
                                           {
-                                            "label": "before"
+                                            "label": "antérieur"
                                           },
                                           {
-                                            "label": "is"
+                                            "label": "est"
                                           },
                                           {
-                                            "label": "is not"
+                                            "label": "n'est pas"
                                           },
                                           {
-                                            "label": "after"
+                                            "label": "postérieur"
                                           }
                                         ]
                                       },
                                       {
-                                        "label": "Time to compare to"
+                                        "label": "Temps à comparer à"
                                       }
                                     ]
                                   }
@@ -262,7 +262,7 @@
                     ]
                   },
                   {
-                    "label": "Contents",
+                    "label": "Contenus",
                     "entity": "content",
                     "widgets": [
                       {
@@ -270,10 +270,10 @@
                       }
                     ],
                     "field": {
-                      "label": "Content",
+                      "label": "Contenu",
                       "fields": [
                         {
-                          "label": "Contenu de la scène",
+                          "label": "Contenu de l'étape",
                           "description": "Choisissez le type de contenu que vous souhaitez ajouter."
                         },
                         {
@@ -283,7 +283,7 @@
                     }
                   },
                   {
-                    "label": "Type de scène spéciale",
+                    "label": "Type d'étape spéciale",
                     "options": [
                       {
                         "label": "Fin"
@@ -295,7 +295,7 @@
                         "label": "Temps supplémentaire"
                       },
                       {
-                        "label": "Link to external content"
+                        "label": "Lien vers un contenu externe"
                       }
                     ]
                   },
@@ -304,21 +304,21 @@
                     "description": "Définissez le nombre de vies que l'utilisateur obtiendra en entrant dans cette étape."
                   },
                   {
-                    "label": "Nombre de secondes pour le temps supplémentaire",
+                    "label": "Nombre de secondes supplémentaires",
                     "description": "Définissez le nombre de secondes que l'utilisateur gagnera en entrant dans cette étape."
                   },
                   {
-                    "label": "URL to link to",
-                    "description": "Set where the user should be sent to when opening this stage."
+                    "label": "URL vers laquelle renvoyer",
+                    "description": "Définissez où l'utilisateur doit être renvoyé lors de l'ouverture de cette étape."
                   },
                   {
-                    "label": "Place to open link in",
+                    "label": "Endroit pour ouvrir le lien dans",
                     "options": [
                       {
-                        "label": "New tab"
+                        "label": "Nouvel onglet"
                       },
                       {
-                        "label": "Same tab"
+                        "label": "Même onglet"
                       }
                     ]
                   },
@@ -328,10 +328,10 @@
                   },
                   {
                     "label": "Remplacer le symbole de verrouillage",
-                    "description": "Si cette case est cochée, les épreuves verrouillées n'utiliseront pas le symbole du cadenas, mais le symbole du type d'épreuve spéciale."
+                    "description": "Si cette case est cochée, les épreuves verrouillées n'utiliseront pas le symbole du cadenas, mais le symbole du type d'étape spéciale."
                   },
                   {
-                    "label": "Scènes connectées"
+                    "label": "Etapes connectées"
                   },
                   {
                     "label": "Télémétrie"
@@ -340,59 +340,59 @@
               }
             },
             {
-              "label": "Paths",
+              "label": "Chemins",
               "entity": "path",
               "field": {
-                "label": "Path",
+                "label": "Chemin",
                 "fields": [
                   {
-                    "label": "From"
+                    "label": "De"
                   },
                   {
-                    "label": "To"
+                    "label": "A"
                   },
                   {
-                    "label": "Visual settings",
+                    "label": "Paramètres visuels",
                     "options": [
                       {
-                        "label": "Use global settings"
+                        "label": "Utiliser les paramètres globaux"
                       },
                       {
-                        "label": "Use custom settings"
+                        "label": "Utiliser les paramètres personnalisés"
                       }
                     ]
                   },
                   {
-                    "label": "Custom visual settings",
+                    "label": "Paramètres visuels personnalisés",
                     "fields": [
                       {
-                        "label": "Color path"
+                        "label": "Couleur du chemin"
                       },
                       {
-                        "label": "Path width",
+                        "label": "Largeur de chemin",
                         "options": [
                           {
-                            "label": "thin"
+                            "label": "mince"
                           },
                           {
-                            "label": "medium"
+                            "label": "moyenne"
                           },
                           {
-                            "label": "thick"
+                            "label": "épaisse"
                           }
                         ]
                       },
                       {
-                        "label": "Path style",
+                        "label": "Style de chemin",
                         "options": [
                           {
-                            "label": "Solid"
+                            "label": "Solide"
                           },
                           {
-                            "label": "Dotted"
+                            "label": "Pointillé"
                           },
                           {
-                            "label": "Dashed"
+                            "label": "Tiret"
                           },
                           {
                             "label": "Double"
@@ -419,7 +419,7 @@
               "placeholder": "Vous n’y êtes pas parvenu cette fois…"
             },
             {
-              "label": "Support d'écran de fin (l'utilisateur n'a pas réussi)"
+              "label": "Média de l'écran de fin (l'utilisateur n'a pas réussi)"
             }
           ]
         },
@@ -431,7 +431,7 @@
               "placeholder": "Tu l'as fait ..."
             },
             {
-              "label": "Support d'écran de fin (utilisateur réussi)"
+              "label": "Média de l'écran de fin (utilisateur réussi)"
             }
           ]
         },
@@ -474,23 +474,23 @@
               "label": "Couleur étape non visitée"
             },
             {
-              "label": "Couleur scène verrouillée"
+              "label": "Couleur étape verrouillée"
             },
             {
-              "label": "Couleur étape déverrouillées"
+              "label": "Couleur étape déverrouillée"
             },
             {
-              "label": "Show stars for scores",
-              "description": "Choose if and when stars will be displayed on the map for the scores of the stages. Please note that stages without scored exercises will not get the stars.",
+              "label": "Afficher les étoiles pour les scores",
+              "description": "Choisissez si et quand les étoiles seront affichées sur la carte pour les scores des étapes. Veuillez noter que les étapes sans exercices notés n'obtiendront pas d'étoiles.",
               "options": [
                 {
-                  "label": "Never"
+                  "label": "Jamais"
                 },
                 {
-                  "label": "On hover"
+                  "label": "Au survol"
                 },
                 {
-                  "label": "Always"
+                  "label": "Toujours"
                 }
               ]
             }
@@ -507,7 +507,7 @@
               "label": "Style",
               "fields": [
                 {
-                  "label": "Couleur chemin"
+                  "label": "Couleur du chemin"
                 },
                 {
                   "label": "Chemin de couleur effacé"
@@ -530,13 +530,13 @@
                   "label": "Style de chemin",
                   "options": [
                     {
-                      "label": "continu"
+                      "label": "Continu"
                     },
                     {
-                      "label": "pointillé"
+                      "label": "Pointillé"
                     },
                     {
-                      "label": "tiret"
+                      "label": "Tiret"
                     },
                     {
                       "label": "Double"
@@ -579,36 +579,36 @@
           "label": "Événements",
           "fields": [
             {
-              "label": "Cliquez sur la scène verrouillée",
-              "description": "Sera joué sur la carte en cliquant sur une scène verrouillée."
+              "label": "Clic sur une étape verrouillée",
+              "description": "Sera joué sur la carte lors d'un clic sur une étape verrouillée."
             },
             {
-              "label": "Vérifier l'exercice (score non complet)",
-              "description": "Sera joué lorsqu'une réponse est vérifiée et que l'utilisateur n'a pas obtenu le score complet."
+              "label": "Vérification de  l'exercice (exercice incomplet)",
+              "description": "Sera joué lorsqu'une réponse est vérifiée et que l'utilisateur n'a pas obtenu le score total."
             },
             {
-              "label": "Vérifier l'exercice (score complet)",
-              "description": "Will be played when an answer is checked and the user did get full score."
+              "label": "Vérification de l'exercice (exercice complet)",
+              "description": "Sera joué lorsqu'une réponse est vérifiée et que l’utilisateur a obtenu le score total."
             },
             {
-              "label": "Débloquer une scène",
-              "description": "Sera joué sur la carte lorsqu'une scène sera déverrouillée."
+              "label": "Déverrouillage d'une étape",
+              "description": "Sera joué sur la carte lorsqu'une étape est déverrouillée."
             },
             {
-              "label": "Exercice ouvert",
-              "description": "Sera joué lorsqu’un exercice est ouvert."
+              "label": "Ouverture d'un exercice",
+              "description": "Sera joué lorsqu'un exercice est ouvert."
             },
             {
-              "label": "Exercice terminé",
-              "description": "Sera joué lorsqu’un exercice est terminé."
+              "label": "Finalisation d'un exercice",
+              "description": "Sera joué lorsqu'un exercice est terminé."
             },
             {
-              "label": "Afficher la boîte de dialogue",
-              "description": "Sera lu lorsqu'une boîte de dialogue de confirmation s'affichera."
+              "label": "Affichage d'une boîte de dialogue",
+              "description": "Sera joué lorsqu'une boîte de dialogue de confirmation est affichée."
             },
             {
-              "label": "Score complet",
-              "description": "Sera joué lorsque l'utilisateur atteint le score complet."
+              "label": "Score parfait",
+              "description": "Sera joué lorsque l'utilisateur atteint le score parfait."
             },
             {
               "label": "Vie perdue",
@@ -628,15 +628,15 @@
             },
             {
               "label": "Avertissement d'expiration du temps",
-              "description": "Sera joué lorsque l'utilisateur manque de temps pour un exercice ou si le temps global est écoulé."
+              "description": "Sera joué lorsque l'utilisateur manque de temps pour un exercice ou si le temps total est écoulé."
             },
             {
-              "label": "Écran de fin (pas de partie complète)",
-              "description": "Sera joué sur l'écran de fin si l'utilisateur n'a pas obtenu le score complet."
+              "label": "Écran de fin (partie incomplète)",
+              "description": "Sera joué sur l'écran de fin si l'utilisateur n'a pas obtenu le score total."
             },
             {
               "label": "Écran de fin (partie complète)",
-              "description": "Sera joué sur l'écran de fin si l'utilisateur a obtenu le score complet."
+              "description": "Sera joué sur l'écran de fin si l'utilisateur a obtenu le score total."
             }
           ]
         }
@@ -647,7 +647,7 @@
       "fields": [
         {
           "label": "Vies",
-          "description": "définissez le nombre de vies d'un utilisateur ou laissez vide pour un nombre de vies illimité. Les utilisateurs perdront une vie s'ils n'obtiennent pas le score maximum et ils ne pourront pas continuer une fois que toutes les vies seront perdues."
+          "description": "Définissez le nombre de vies pour un utilisateur ou laissez ce champ vide pour des vies illimitées. Les utilisateurs perdront une vie s'ils n'obtiennent pas le score maximal et ne pourront plus continuer une fois toutes leurs vies perdues."
         },
         {
           "label": "Limite de temps globale",
@@ -655,17 +655,17 @@
         },
         {
           "label": "Temps d'avertissement d'expiration",
-          "description": "Définissez éventuellement le moment où un audio d'avertissement de délai d'attente doit être joué (nombre de secondes restantes). Un audio doit être défini dans les paramètres audio."
+          "description": "Définissez éventuellement quand un avertissement sonore de délai d'attente doit être émis (nombre de secondes restantes). Un fichier audio doit être défini dans les paramètres audio."
         },
         {
-          "label": "Terminer le score",
+          "label": "Score final",
           "description": "Optional score that can be lower than the summed maximum score of all exercises, so users can receive full score without completing all exercises."
         },
         {
-          "label": "Enable \"Retry\" button"
+          "label": "Activer le bouton \"Réessayer\""
         },
         {
-          "label": "Activer \"Afficher les solutions\" bouton"
+          "label": "Activer le bouton \"Afficher les solutions\""
         },
         {
           "label": "Carte",
@@ -679,13 +679,13 @@
               "description": "Choisissez si les utilisateurs peuvent parcourir librement toutes les étapes, doivent terminer une étape pour accéder aux voisins de cette étape ou doivent passer une étape pour accéder aux voisins de cette étape.",
               "options": [
                 {
-                  "label": "Circulez à votre aise"
+                  "label": "Se déplacer librement"
                 },
                 {
-                  "label": "Terminer pour terminer la scène"
+                  "label": "Terminer pour passer à l'étape suivante"
                 },
                 {
-                  "label": "Réussir la scène"
+                  "label": "Réussir pour passer à l'étape suivante"
                 }
               ]
             },
@@ -720,16 +720,16 @@
           "default": "Continuer"
         },
         {
-          "label": "Redémarrage",
-          "default": "Redémarrage"
+          "label": "Recommencer",
+          "default": "Recommencer"
         },
         {
           "label": "Afficher les solutions",
           "default": "Afficher les solutions"
         },
         {
-          "label": "Carte complétée",
-          "default": "Vous avez complété la carte !"
+          "label": "Carte terminée",
+          "default": "Vous avez terminé la carte !"
         },
         {
           "label": "Score complet, mais plus aucune vie",
@@ -740,28 +740,28 @@
           "default": "Vous avez atteint le score maximum, mais vous avez manqué de temps !"
         },
         {
-          "label": "Boîte de dialogue de fin",
+          "label": "En-tête de la boîte de dialogue de fin",
           "default": "Terminer la carte ?"
         },
         {
-          "label": "Boîte de dialogue de fin : Général",
+          "label": "Texte de la boîte de dialogue de fin : Général",
           "default": "Si vous terminez maintenant, vous ne pourrez plus explorer la carte."
         },
         {
-          "label": "Boîte de dialogue de fin : Soumission",
+          "label": "Texte de la boîte de dialogue de fin : Soumission",
           "default": "Votre score sera soumis."
         },
         {
-          "label": "Boîte de dialogue de fin : Question",
+          "label": "Texte de la boîte de dialogue de fin : Question",
           "default": "Voulez-vous vraiment terminer la carte ?"
         },
         {
-          "label": "Boîte de dialogue refusé",
-          "default": "Scène verrouillée"
+          "label": "En-tête de la boîte de dialogue \"accès refusé\"",
+          "default": "Etape verrouillée"
         },
         {
-          "label": "Boîte de dialogue refusé : Général",
-          "default": "This stage requires you to meet some goals before it can be opened."
+          "label": "Texte de la boîte de dialogue \"accès refusé\" : Général",
+          "default": "Cette étape nécessite que vous atteigniez certains objectifs avant de pouvoir être débloquée."
         },
         {
           "label": "Oui",
@@ -772,47 +772,47 @@
           "default": "Non"
         },
         {
-          "label": "En-tête de dialogue jeu terminé",
-          "default": "Jeu terminé !"
+          "label": "En-tête de la boîte de dialogue \"fin de partie\"",
+          "default": "Fin de partie !"
         },
         {
-          "label": "Boîte de dialogue game over",
+          "label": "Texte de la boîte de dialogue \"fin de partie\"",
           "default": "Vous avez perdu toutes vos vies. Veuillez réessayer !"
         },
         {
-          "label": "Boîte de dialogue game over temps dépassé",
+          "label": "Texte de la boîte de dialogue \"fin de partie\" par limite de temps",
           "default": "Vous n'avez plus de temps. Veuillez réessayer !"
         },
         {
-          "label": "Expiration du délai d'attente de l'en-tête de la boîte de dialogue",
+          "label": "En-tête de la boîte de dialogue \"temps dépassé\"",
           "default": "Temps dépassé !"
         },
         {
-          "label": "Expiration du texte de la boîte de dialogue",
+          "label": "Texte de la boîte de dialogue \"temps dépassé\"",
           "default": "Vous avez manqué de temps."
         },
         {
-          "label": "Expiration du texte de la boîte de dialogue (perdu une vie)",
+          "label": "Texte de la boîte de dialogue \"temps dépassé\" (perdu une vie)",
           "default": "Vous avez manqué de temps et perdu une vie."
         },
         {
-          "label": "Score d'en-tête de dialogue incomplet",
-          "default": "Score imcomplet"
+          "label": "En-tête de la boîte de dialogue \"score incomplet\"",
+          "default": "Score incomplet !"
         },
         {
-          "label": "Score du texte de dialogue incomplet (perdu une vie)",
+          "label": "Texte de la boîte de dialogue \"score incomplet\" (perdu une vie)",
           "default": "Vous n'avez pas atteint le score maximum et avez perdu une vie."
         },
         {
-          "label": "Partition complète de l'en-tête du dialogue",
+          "label": "En-tête de la boîte de dialogue de score maximum",
           "default": "Vous avez atteint le score maximum !"
         },
         {
-          "label": "Texte du dialogue partition complète",
-          "default": "Vous avez collecté suffisamment de points pour terminer cette carte avec un score complet, mais vous êtes libre d'explorer le reste si vous le souhaitez. Your score will be submitted once you finish the map."
+          "label": "Texte de la boîte de dialogue de score maximum",
+          "default": "Vous avez accumulé suffisamment de points pour terminer cette carte avec un score maximum, mais vous êtes libre d'explorer le reste si vous le souhaitez. Votre score sera soumis une fois que vous aurez terminé la carte."
         },
         {
-          "label": "Texte du dialogue partition complète (modification, si des vies sont définies)",
+          "label": "Texte de la boîte de dialogue de score maximum (modification, si des vies sont définies)",
           "default": "Mais méfiez-vous! Vous risquez encore de perdre des vies !"
         },
         {
@@ -820,112 +820,112 @@
           "default": "OK"
         },
         {
-          "label": "No stages were set",
+          "label": "Aucune étape n’a été fixée",
           "default": "Aucune étape n'a été fixée."
         },
         {
-          "label": "Settings",
-          "default": "Settings"
+          "label": "Réglages",
+          "default": "Réglages"
         },
         {
-          "label": "Volume of music",
-          "default": "Volume of music"
+          "label": "Volume de la musique",
+          "default": "Volume de la musique"
         },
         {
-          "label": "Volume of sound effects",
-          "default": "Volume of sound effects"
+          "label": "Volume des effets sonores",
+          "default": "Volume des effets sonores"
         },
         {
-          "label": "The stage will not be available unless",
-          "default": "The stage will not be available unless:"
+          "label": "L'étape ne sera pas disponible sauf si",
+          "default": "L'étape ne sera pas disponible sauf si :"
         },
         {
-          "label": "The stage will not be available unless any of",
-          "default": "The stage will not be available unless any of:"
+          "label": "L'étape ne sera pas disponible sauf si un élément est présent",
+          "default": "L'étape ne sera pas disponible à moins que l'une des :"
         },
         {
-          "label": "All of:",
-          "default": "All of:"
+          "label": "Toutes les :",
+          "default": "Toutes les :"
         },
         {
-          "label": "Any of:",
-          "default": "Any of:"
+          "label": "N'importe laquelle :",
+          "default": "N'importe laquelle :"
         },
         {
-          "label": "Total score less than",
-          "default": "You have a total score less than @value."
+          "label": "Score total inférieur à",
+          "default": "Votre score total est inférieur à @value."
         },
         {
-          "label": "Total score equal to",
-          "default": "You have a total score equal to @value."
+          "label": "Score total égale à",
+          "default": "Votre score total est égale à @value."
         },
         {
-          "label": "Total score not equal to",
-          "default": "You have a total score not equal to @value."
+          "label": "Score total différent de",
+          "default": "Votre score total est différent de @value."
         },
         {
-          "label": "Total score greater than",
-          "default": "You have a total score greater than @value."
+          "label": "Score total supérieur à",
+          "default": "Votre score total est supérieur à @value."
         },
         {
-          "label": "Stage score less than",
-          "default": "You have a score less than @value in stage @label."
+          "label": "Score d'étape inférieur à",
+          "default": "Votre score de l'étape @label est inférieur à @value."
         },
         {
-          "label": "Stage score equal to",
-          "default": "You have a score equal to @value in stage @label."
+          "label": "Score d'étape égal à",
+          "default": "Votre score de l'étape @label est égal à @value."
         },
         {
-          "label": "Stage score not equal to",
-          "default": "You have a score not equal to @value in stage @label."
+          "label": "Score d'étape différent de",
+          "default": "Votre score de l'étape @label est différent de @value."
         },
         {
-          "label": "Stage score greater than",
-          "default": "You have a score greater than @value in stage @label."
+          "label": "Score d'étape supérieur à",
+          "default": "Votre score de l'étape @label est supérieur à @value."
         },
         {
-          "label": "Stage progress is",
-          "default": "The progress of stage @label is @value."
+          "label": "Progression d'étape est de",
+          "default": "La progression de l'étape @label est de @value."
         },
         {
-          "label": "Stage progress is not",
-          "default": "Ths progress of stage @label is not @value."
+          "label": "Progression d'étape n'est pas de",
+          "default": "La progression de l'étape @label n'est pas de @value."
         },
         {
-          "label": "Time before",
-          "default": "The current time is before @value."
+          "label": "Heure antérieure",
+          "default": "L'heure actuelle est antérieure à @value."
         },
         {
-          "label": "Time is",
-          "default": "The current time is @value."
+          "label": "Heure est",
+          "default": "L'heure actuelle est @value."
         },
         {
-          "label": "Time is not",
-          "default": "The current time is not @value."
+          "label": "Heure n'est pas",
+          "default": "L'heure actuelle n'est pas @value."
         },
         {
-          "label": "Time after",
-          "default": "The current time is after @value."
+          "label": "Heure postérieure",
+          "default": "L'heure actuelle est postérieure à @value."
         },
         {
-          "label": "Not started",
-          "default": "not started"
+          "label": "Pas commencé",
+          "default": "pas commencé"
         },
         {
-          "label": "Started",
-          "default": "started"
+          "label": "Commencé",
+          "default": "commencé"
         },
         {
-          "label": "Completed",
-          "default": "completed"
+          "label": "Terminé",
+          "default": "terminé"
         },
         {
-          "label": "Completed successfully",
-          "default": "completed successfully"
+          "label": "Terminé avec succès",
+          "default": "terminé avec succès"
         },
         {
-          "label": "Missing content",
-          "default": "No content was set for this stage!"
+          "label": "Contenu manquant",
+          "default": "Aucun contenu n'a été défini pour cette étape !"
         }
       ]
     },
@@ -933,7 +933,7 @@
       "label": "Textes d'accessibilité",
       "fields": [
         {
-          "label": "Finir la carte",
+          "label": "Terminer",
           "default": "Terminer la carte"
         },
         {
@@ -942,7 +942,7 @@
         },
         {
           "label": "Bouton audio (muet)",
-          "default": "Réactiver le son. Actuellement en sourdine."
+          "default": "Activer le son. Actuellement en sourdine."
         },
         {
           "label": "Fermer",
@@ -982,15 +982,15 @@
         {
           "label": "étiquette de scène adjacente",
           "description": "@stagelabelOrigin et @stagelabelNeighbor sont des espaces réservés et seront remplacés par les étiquettes d’étape respectives.",
-          "default": "Étape adjacente de @stagelabelOrigin: @stagelabelNeighbor"
+          "default": "Étape adjacente de @stagelabelOrigin : @stagelabelNeighbor"
         },
         {
-          "label": "Bloquée",
-          "default": "Bloquée"
+          "label": "Bloqué",
+          "default": "Bloqué"
         },
         {
-          "label": "débloquée",
-          "default": "débloquée"
+          "label": "Effacé",
+          "default": "Effacé"
         },
         {
           "label": "Description de la navigation",
@@ -1008,7 +1008,7 @@
         {
           "label": "Scène débloquée",
           "description": "@stagelabel est un espace réservé et sera remplacé par l'étiquette de l'étape correspondante.",
-          "default": "L'étape @stagelabel a été déverrouillé."
+          "default": "L'étape @stagelabel a été déverrouillée."
         },
         {
           "label": "Libellé de secours de la barre d'outils",
