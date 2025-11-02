@@ -185,7 +185,7 @@
                                         ]
                                       },
                                       {
-                                        "label": "Score score to compare to"
+                                        "label": "Stage score to compare to"
                                       }
                                     ]
                                   },
@@ -889,7 +889,7 @@
         },
         {
           "label": "Stage progress is not",
-          "default": "Ths progress of stage @label is not @value."
+          "default": "The progress of stage @label is not @value."
         },
         {
           "label": "Time before",
