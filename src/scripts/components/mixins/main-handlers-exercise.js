@@ -19,7 +19,7 @@ export default class MainHandlersExercise {
    * Handle exercise score changed.
    * @param {string} id Id of stage that was changed.
    * @param {object} [params] Parameters for scores.
-   * @param {number} params.score Score.
+   * @param {number} params.Stage score.
    * @param {number} params.maxScore Maximum possible score.
    */
   handleExerciseScoreChanged(id, params = {}) {

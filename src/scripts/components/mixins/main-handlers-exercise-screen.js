@@ -77,7 +77,7 @@ export default class MainHandlersExerciseScreen {
    * Handle exercise bundle was initialized.
    * @param {string} id Id of exercise bundle.
    * @param {object} params Parameters.
-   * @param {number} params.score Score.
+   * @param {number} params.Stage score.
    * @param {number} params.maxScore Max score.
    */
   handleExerciseBundleInitialized(id, params) {

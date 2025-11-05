@@ -889,7 +889,7 @@
         },
         {
           "label": "Stage progress is not",
-          "default": "Ths progress of stage @label is not @value."
+          "default": "This progress of stage @label is not @value."
         },
         {
           "label": "Zeitpunkt vor",

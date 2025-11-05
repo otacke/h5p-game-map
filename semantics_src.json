@@ -367,7 +367,7 @@
                                     },
                                     {
                                       "name": "stageScoreValue",
-                                      "label": "Score score to compare to",
+                                      "label": "Stage score to compare to",
                                       "type": "number",
                                       "optional": true
                                     }
@@ -1720,7 +1720,7 @@
         "name": "restrictionStageProgressIsNot",
         "type": "text",
         "label": "Stage progress is not",
-        "default": "Ths progress of stage @label is not @value."
+        "default": "This progress of stage @label is not @value."
       },
       {
         "name": "restrictionTimeBefore",
