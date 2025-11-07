@@ -295,7 +295,7 @@ export default class Main {
    * Show end screen no success.
    * @param {object} endscreenParams Endscreen parameters.
    * @param {string} defaultTitle Default title.
-   * @param {number} Stage score.
+   * @param {number} score Score.
    * @param {number} maxScore Maximum score.
    */
   showEndscreenNoSuccess(endscreenParams, defaultTitle, score, maxScore) {
