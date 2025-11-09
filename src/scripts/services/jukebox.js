@@ -183,7 +183,7 @@ export default class Jukebox {
         await new Promise((resolve, reject) => decode(arrayBuffer, resolve, reject));
 
       this.dispatcher.dispatchEvent(
-        new CustomEvent('bufferloaded', { detail: { id: id, buffer: buffer } })
+        new CustomEvent('bufferloaded', { detail: { id: id, buffer: buffer } }),
       );
     }
     catch (error) {
@@ -198,7 +198,7 @@ export default class Jukebox {
 
   /**
    * Handle request errors.
-   * @param {object} params Parameters.
+   * @param {string} id Id of audio to handle errors for.
    * @param {string} errorMessage Error message.
    */
   handleRequestError(id, errorMessage) {
@@ -383,7 +383,9 @@ export default class Jukebox {
 
     // Sanitize time
     const fadeTime = typeof params.time === 'number' && params.time > 0 ?
+      // eslint-disable-next-line no-magic-numbers
       params.time / 1000 :
+      // eslint-disable-next-line no-magic-numbers
       DEFAULT_FADE_TIME_MS / 1000;
 
     const targetVolume = this.audios[id].volume / 100;
