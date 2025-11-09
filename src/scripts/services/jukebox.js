@@ -1,9 +1,3 @@
-/** @constant {number} MINIMUM_TIMER_INTERVAL_MS Minimum timer interval. */
-const MINIMUM_TIMER_INTERVAL_MS = 50;
-
-/** @constant {number} DEFAULT_TIMER_INTERVAL_MS Default timer interval. */
-const DEFAULT_TIMER_INTERVAL_MS = 100;
-
 /** @constant {number} DEFAULT_FADE_TIME_MS Default fade time. */
 const DEFAULT_FADE_TIME_MS = 1000;
 
@@ -38,7 +32,7 @@ export default class Jukebox {
 
       if (this.queued.includes(event.detail.id)) {
         this.removeFromQueue(event.detail.id);
-        this.play();
+        this.play(event.detail.id);
       }
     });
 
@@ -88,6 +82,10 @@ export default class Jukebox {
       return;
     }
 
+    if (!params.id || !params.src) {
+      return;
+    }
+
     this.audios[params.id] = {
       loop: params.options.loop || false,
       isMuted: params.options.muted || false,
@@ -121,10 +119,7 @@ export default class Jukebox {
       newState = STATES[newState];
     }
 
-    if (
-      typeof newState !== 'number' ||
-      Object.values(STATES).indexOf(newState) === -1
-    ) {
+    if (!Number.isInteger(newState) || !Object.values(STATES).includes(newState)) {
       return; // Not a valid state
     }
 
@@ -159,27 +154,57 @@ export default class Jukebox {
    * @param {string} params.id Id of audio.
    * @param {string} params.url URL of audio to buffer.
    */
-  bufferSound(params = {}) {
-    if (!this.audios[params.id]) {
+  async bufferSound(params = {}) {
+    const { id, url } = params || {};
+
+    if (!this.audios[id]) {
       return;
     }
 
-    this.setState(params.id, STATES.buffering);
+    if (this.audios[id].isLoading) {
+      return; // Already loading
+    }
 
-    var request = new XMLHttpRequest();
-    request.open('GET', params.url, true);
-    request.responseType = 'arraybuffer';
+    this.setState(id, STATES.buffering);
+    this.audios[id].isLoading = true;
 
-    // Decode asynchronously
-    request.onload = () => {
-      this.audioContext.decodeAudioData(request.response, (buffer) => {
-        const event = new CustomEvent(
-          'bufferloaded', { detail: { id: params.id, buffer: buffer } },
-        );
-        this.dispatcher.dispatchEvent(event);
-      });
-    };
-    request.send();
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const arrayBuffer = await response.arrayBuffer();
+
+      // Safari-compatible decode fallback (promise or callback form)
+      const decode = this.audioContext.decodeAudioData.bind(this.audioContext);
+      const buffer = decode.length === 1 ?
+        await decode(arrayBuffer) :
+        await new Promise((resolve, reject) => decode(arrayBuffer, resolve, reject));
+
+      this.dispatcher.dispatchEvent(
+        new CustomEvent('bufferloaded', { detail: { id: id, buffer: buffer } })
+      );
+    }
+    catch (error) {
+      this.handleRequestError(id, `Failed to load audio ${id}: ${error.message}`);
+    }
+    finally {
+      if (this.audios[id]) {
+        this.audios[id].isLoading = false;
+      }
+    }
+  }
+
+  /**
+   * Handle request errors.
+   * @param {object} params Parameters.
+   * @param {string} errorMessage Error message.
+   */
+  handleRequestError(id, errorMessage) {
+    this.audios[id].isLoading = false;
+    this.setState(id, STATES.stopped);
+    console.error(errorMessage);
   }
 
   /**
@@ -201,6 +226,12 @@ export default class Jukebox {
     }
 
     if (this.audioContext.state === 'suspended') {
+      this.audioContext.resume().then(() => {
+        this.play(id); // retry
+      }).catch((error) => {
+        console.warn('Failed to resume audio context:', error);
+      });
+
       return false;
     }
 
@@ -272,7 +303,22 @@ export default class Jukebox {
       return;
     }
 
-    this.audios[id].source?.stop();
+    const { source, gainNode } = this.audios[id];
+
+    if (source) {
+      source.onended = null; // Prevent calling stop again on ended
+      try {
+        source.stop();
+      }
+      catch (error) {}
+      source.disconnect();
+    }
+
+    gainNode?.disconnect();
+
+    this.audios[id].gainNode = null;
+    this.audios[id].source = null;
+
     this.setState(id, STATES.stopped);
   }
 
@@ -319,80 +365,35 @@ export default class Jukebox {
    * @param {string} id Id of audio to fade.
    * @param {object} [params] Parameters.
    * @param {string} params.type `in` to fade in, `out` to fade out.
-   * @param {number} [params.time] Time for fading.
-   * @param {number} [params.interval] Interval for fading update.
+   * @param {number} [params.time] Time for fading in milliseconds.
    */
   fade(id, params = {}) {
     if (!this.audios[id] || this.audios[id].isMuted) {
-      return; // Nothing to do here
-    }
-
-    if (params.type !== 'in' && params.type !== 'out') {
-      return; // Missing required value
-    }
-
-    // Clear previous fade timeout
-    window.clearTimeout(this.audios[id].fadeTimeout);
-    if (
-      params.type === 'out' && this.audios[id].gainNode.gain.value === 0 ||
-      params.type === 'in' && this.audios[id].gainNode.gain.value >= this.audios[id].volume / 100
-    ) {
-      return; // Done
-    }
-
-    // Sanitize time
-    if (typeof params.time !== 'number') {
-      params.time = DEFAULT_FADE_TIME_MS;
-    }
-    params.time = Math.max(DEFAULT_TIMER_INTERVAL_MS, params.time);
-
-    // Sanitize interval
-    if (typeof params.interval !== 'number') {
-      params.interval = DEFAULT_TIMER_INTERVAL_MS;
-    }
-    params.interval = Math.max(MINIMUM_TIMER_INTERVAL_MS, params.interval);
-
-    // Set gain delta for each interval
-    if (typeof params.gainDelta !== 'number' || params.gainDelta <= 0) {
-      if (params.type === 'in') {
-        params.gainDelta = (1 - this.audios[id].gainNode.gain.value) /
-        (params.time / params.interval);
-      }
-      else {
-        params.gainDelta = this.audios[id].gainNode.gain.value /
-        (params.time / params.interval);
-      }
-    }
-
-    // End with clean gain values
-    if (params.time <= 0) {
-      this.audios[id].gainNode.gain.value = (params.type === 'in') ?
-        1 :
-        0;
-
       return;
     }
 
-    // Update gain
-    if (params.type === 'in') {
-      this.audios[id].gainNode.gain.value =
-        Math.min(1, this.audios[id].gainNode.gain.value += params.gainDelta);
-    }
-    else {
-      this.audios[id].gainNode.gain.value =
-        Math.max(0, this.audios[id].gainNode.gain.value -= params.gainDelta);
+    if (params.type !== 'in' && params.type !== 'out') {
+      return;
     }
 
-    this.audios[id].fadeTimeout = window.setTimeout(() => {
-      this.fade(
-        id,
-        {
-          time: params.time - params.interval,
-          gainDelta: params.gainDelta,
-          type: params.type,
-        },
-      );
-    }, params.interval);
+    const gainNode = this.audios[id].gainNode;
+    if (!gainNode) {
+      return;
+    }
+
+    // Sanitize time
+    const fadeTime = typeof params.time === 'number' && params.time > 0 ?
+      params.time / 1000 :
+      DEFAULT_FADE_TIME_MS / 1000;
+
+    const targetVolume = this.audios[id].volume / 100;
+    const targetGain = params.type === 'in' ? targetVolume : 0;
+    const currentTime = this.audioContext.currentTime;
+
+    gainNode.gain.cancelScheduledValues(currentTime);
+    gainNode.gain.setValueAtTime(gainNode.gain.value, currentTime);
+
+    gainNode.gain.linearRampToValueAtTime(targetGain, currentTime + fadeTime);
   }
 
   /**
@@ -426,7 +427,7 @@ export default class Jukebox {
   }
 
   /**
-   * Unmute.
+   * Mute.
    * @param {string} id Id of sound to unmute.
    */
   mute(id) {
