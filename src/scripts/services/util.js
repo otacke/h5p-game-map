@@ -3,7 +3,7 @@ import he from 'he';
 /** Class for utility functions */
 export default class Util {
   /**
-   * Extend an array just like JQuery's extend.
+   * Extend an object just like JQuery's extend.
    * @param {object} target Target.
    * @param {...object} sources Sources.
    * @returns {object} Merged objects.
@@ -15,6 +15,11 @@ export default class Util {
           if (key === '__proto__' || key === 'constructor') {
             continue; // Prevent prototype pollution
           }
+
+          if (source[key] === undefined) {
+            continue;
+          }
+
           if (
             typeof target[key] === 'object' && !Array.isArray(target[key]) &&
             typeof source[key] === 'object' && !Array.isArray(source[key])

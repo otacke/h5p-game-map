@@ -46,6 +46,10 @@ export default class SettingsDialog extends OverlayDialog {
         },
       },
     );
+    if (this.params.values.volumeMusic === undefined) {
+      volumeMusicSlider.disable();
+    }
+
     volumeMusic.append(volumeMusicSlider.getDOM());
 
     // Volume SFX
@@ -69,6 +73,10 @@ export default class SettingsDialog extends OverlayDialog {
         },
       },
     );
+    if (this.params.values.volumeSFX === undefined) {
+      volumeSFXSlider.disable();
+    }
+
     volumeSFX.append(volumeSFXSlider.getDOM());
 
     this.setContent(settingsWrapperDOM);
