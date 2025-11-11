@@ -1,7 +1,6 @@
 import H5PUtil from '@services/h5p-util.js';
 import Util from '@services/util.js';
 import Dictionary from '@services/dictionary.js';
-import Globals from '@services/globals.js';
 import Jukebox from '@services/jukebox.js';
 import Main from '@components/main.js';
 import MessageBox from '@components/messageBox/message-box.js';
@@ -162,7 +161,7 @@ export default class GameMap extends H5P.Question {
    * @param {boolean} fullScreenSupported Full screen supported.
    */
   setGlobals(fullScreenSupported) {
-    this.globals = new Globals();
+    this.globals = new Map();
     this.globals.set('mainInstance', this);
     this.globals.set('contentId', this.contentId);
     this.globals.set('params', this.params);
