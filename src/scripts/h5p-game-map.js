@@ -104,7 +104,21 @@ export default class GameMap extends H5P.Question {
   sanitizeStages(contentId) {
     const advancedTextVersion = this.getAdvancedTextVersion(contentId);
 
+    const maxElementIndex = this.params.gamemapSteps.gamemap.elements.length - 1;
     this.params.gamemapSteps.gamemap.elements = this.params.gamemapSteps.gamemap.elements.map((element) => {
+      // Remove invalid neighbor references
+      element.neighbors = (element.neighbors || []).filter((neighborIndexString) => {
+        const neighborIndex = parseInt(neighborIndexString);
+        return neighborIndex > 0 && neighborIndex <= maxElementIndex;
+      });
+
+      // Remove empty content entries
+      if (!element.specialStageType) {
+        element.contentsList = (element.contentsList || []).filter((content) => {
+          return content?.contentType?.library;
+        });
+      }
+
       // Replace missing content with a placeholder
       const isContentMissing = !element.specialStageType && !element.contentsList?.[0]?.contentType?.library;
       if (isContentMissing) {
