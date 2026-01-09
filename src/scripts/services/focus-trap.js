@@ -235,7 +235,10 @@ export default class FocusTrap {
 
     while (true) {
       try {
-        if (!win.frameElement) break; // reached top-level
+        if (!win.frameElement) {
+          break; // reached top-level
+        }
+
         const iframeRect = win.frameElement.getBoundingClientRect();
         rect = {
           top: rect.top + iframeRect.top,
