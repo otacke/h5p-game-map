@@ -89,13 +89,17 @@ export default class ExerciseBundles {
   trackAllXAPI(subContentIds = []) {
     H5P.externalDispatcher.on('xAPI', (event) => {
       if (subContentIds.length) {
-        // Only care about events from contents with these subContentIds
-        const queryString = event.getVerifiedStatementValue(['object', 'id']).split('?')[1];
+        const eventObjectId = event.getVerifiedStatementValue(['object', 'id']);
+        if (!eventObjectId) {
+          return; // Make robust against malformed xAPI statements
+        }
+
+        const queryString = eventObjectId.split('?')[1];
         const queryParams = new URLSearchParams(queryString);
         const subContentId = queryParams.get('subContentId');
 
         if (!subContentIds.includes(subContentId)) {
-          return;
+          return; // Only care about events from contents with these subContentIds
         }
       }
 
