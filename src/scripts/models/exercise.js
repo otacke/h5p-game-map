@@ -77,7 +77,10 @@ export default class Exercise {
         this.params.globals.get('contentId'),
         undefined,
         true,
-        { previousState: previousState.instanceState ?? {} },
+        {
+          parent: this.params.parent,
+          previousState: previousState.instanceState ?? {},
+        },
       );
     }
 

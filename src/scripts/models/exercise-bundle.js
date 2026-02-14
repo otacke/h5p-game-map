@@ -67,6 +67,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
             globals: this.params.globals,
             jukebox: this.params.jukebox,
             previousState: previousState,
+            parent: this,
           },
           {
             onInitialized: (params) => {
