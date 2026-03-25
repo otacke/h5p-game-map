@@ -91,8 +91,8 @@
 
     .h5p-game-map-overlay-dialog-content {
       grid-area: 1 / 1 / 1 / 1;
-      background-color: #fff;
-      border: 0.75rem solid #fff;
+      background-color: var(--color-background);
+      border: 0.75rem solid var(--color-background);
       border-radius: 0.5rem;
       box-sizing: border-box;
       margin-bottom: calc(var(--overlay-dialog-screen-offset, 4rem) / 2);
