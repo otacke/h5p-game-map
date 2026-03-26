@@ -70,7 +70,7 @@
     flex-shrink: 1;
 
     .toolbar-button {
-      color: #1768C4;
+      color: var(--color-primary-dark);
       position: relative;
 
       &::before {

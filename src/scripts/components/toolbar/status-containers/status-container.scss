@@ -13,7 +13,7 @@
   }
 
   &::before {
-    color: #1768C4;
+    color: var(--color-primary-dark);
     margin-right: 0.5rem;
   }
 
@@ -35,7 +35,7 @@
     justify-content: center;
 
     span.value, span.max-value {
-      color: #1768C4;
+      color: var(--color-primary-dark);
     }
 
     span.delimiter {
