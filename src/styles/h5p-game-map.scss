@@ -22,19 +22,21 @@
   --color-hint-message-text: #905414;
 
   /* Primary color with common gradients */
-  --color-primary: rgb(26, 115, 217);
-  --color-primary-dark: rgb(23, 104, 196);
-  --color-primary-dark-80: rgb(23 104 196 / 80%);
-  --color-primary-5: rgb(26 115 217 / 5%);
-  --color-primary-10: rgb(26 115 217 / 10%);
-  --color-primary-15: rgb(26 115 217 / 15%);
-  --color-primary-20: rgb(26 115 217 / 20%);
-  --color-primary-25: rgb(26 115 217 / 15%);
-  --color-primary-30: rgb(26 115 217 / 30%);
-  --color-primary-50: rgb(26 115 217 / 50%);
-  --color-primary-70: rgb(26 115 217 / 70%);
-  --color-primary-90: rgb(26 115 217 / 90%);
-  --color-primary-95: rgb(26 115 217 / 95%);
+  --color-primary-rgb: 26 115 217;
+  --color-primary: rgb(var(--color-primary-rgb) / 100%);
+  --color-primary-dark-rbg: 23 104 196;
+  --color-primary-dark: rgb(var(--color-primary-dark-rbg) / 100%);
+  --color-primary-dark-80: rgb(var(--color-primary-dark-rbg) / 80%);
+  --color-primary-5: rgb(var(--color-primary-rgb) / 5%);
+  --color-primary-10: rgb(var(--color-primary-rgb) / 10%);
+  --color-primary-15: rgb(var(--color-primary-rgb) / 15%);
+  --color-primary-20: rgb(var(--color-primary-rgb) / 20%);
+  --color-primary-25: rgb(var(--color-primary-rgb) / 15%);
+  --color-primary-30: rgb(var(--color-primary-rgb) / 30%);
+  --color-primary-50: rgb(var(--color-primary-rgb) / 50%);
+  --color-primary-70: rgb(var(--color-primary-rgb) / 70%);
+  --color-primary-90: rgb(var(--color-primary-rgb) / 90%);
+  --color-primary-95: rgb(var(--color-primary-rgb) / 95%);
 
   /* Commonly used by H5P Group */
   --color-joubelui-button: #1a73d9;
