@@ -118,7 +118,7 @@ export default class QuestionTypeContract {
   cleanUpScoreScalingEntries(element) {
     element.scoreScaling.scoreScalingList = element.scoreScaling.scoreScalingList.map((scaling) => {
       const isTask = scaling.isTask || (typeof scaling.weight === 'string' && scaling.weight !== NO_VALUE_STRING);
-      const weight = (!scaling.weight || isNaN(parseFloat(scaling.weight))) ? '0' : scaling.weight;
+      const weight = (!scaling.weight || isNaN(parseFloat(scaling.weight))) ? '1' : scaling.weight;
 
       return {
         subContentId: scaling.subContentId,
