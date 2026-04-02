@@ -77,7 +77,10 @@ export default class Exercise {
         this.params.globals.get('contentId'),
         undefined,
         true,
-        { previousState: previousState.instanceState ?? {} },
+        {
+          parent: this.params.parent,
+          previousState: previousState.instanceState ?? {},
+        },
       );
     }
 
@@ -212,6 +215,14 @@ export default class Exercise {
   }
 
   /**
+   * Get weighted score of instance.
+   * @returns {number} Weighted score of instance or 0.
+   */
+  getWeightedScore() {
+    return this.params.weight * this.getScore();
+  }
+
+  /**
    * Get max score of instance.
    * @returns {number} Maximum score of instance or 0.
    */
@@ -219,6 +230,26 @@ export default class Exercise {
     const maxScore = this.instance?.getMaxScore?.();
 
     return (typeof maxScore === 'number') ? maxScore : 0;
+  }
+
+  /**
+   * Get weighted max score of instance.
+   * @returns {number} Weighted max score of instance or 0.
+   */
+  getWeightedMaxScore() {
+    return this.params.weight * this.getMaxScore();
+  }
+
+  /**
+   * Set weight for exercise.
+   * @param {number} weight Weight to set.
+   */
+  setWeight(weight) {
+    if (typeof weight !== 'number' || weight < 0) {
+      return;
+    }
+
+    this.params.weight = weight;
   }
 
   /**
@@ -280,6 +311,16 @@ export default class Exercise {
     if (!isEventFromInstance) {
       return; // Not an event from the instance directly
     }
+
+    // Add weighting extension, so LRS can follow the scoring if subcontent statements are tracked
+    event.data.statement.result = Util.extend(
+      {
+        extensions: {
+          'http://id.tincanapi.com/extension/cmi-interaction-weighting': this.params.weight,
+        },
+      },
+      event.data.statement.result,
+    );
 
     this.toggleCompleted(true);
 

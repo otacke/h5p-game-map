@@ -657,6 +657,85 @@
                   "optional": true
                 },
                 {
+                  "name": "scoreScaling",
+                  "type": "group",
+                  "label": "Score scaling",
+                  "importance": "low",
+                  "widget": "gamemapsscorescaling",
+                  "fields": [
+                    {
+                      "name": "scalingMode",
+                      "type": "select",
+                      "label": "Scaling mode",
+                      "description": "Choose what scaling should be based on",
+                      "optional": false,
+                      "options": [
+                        {
+                          "value": "totalScore",
+                          "label": "Set total score of all exercises"
+                        },
+                        {
+                          "value": "maxScore",
+                          "label": "Set total score per exercise"
+                        },
+                        {
+                          "value": "weightedExercises",
+                          "label": "Set weights per exercise"
+                        }
+                      ],
+                      "default": "totalScore"
+                    },
+                    {
+                      "name": "scoreScalingList",
+                      "type": "list",
+                      "label": "Content score customizations",
+                      "description": "Adjust the weights/total scores of exercises to customize scoring",
+                      "entity": "scaling setting",
+                      "optional": true,
+                      "field": {
+                        "name": "scoreScalingGroup",
+                        "type": "group",
+                        "label": "Score scaling group",
+                        "fields": [
+                          {
+                            "name": "subContentId",
+                            "type": "text",
+                            "label": "Subcontent id",
+                            "optional": false
+                          },
+                          {
+                            "name": "weight",
+                            "type": "text",
+                            "label": "Weight",
+                            "default": "100"
+                          },
+                          {
+                            "name": "isTask",
+                            "type": "boolean",
+                            "label": "Is task",
+                            "default": false,
+                            "optional": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "name": "totalScore",
+                      "type": "number",
+                      "label": "Total score",
+                      "optional": true,
+                      "widget": "none"
+                    },
+                    {
+                      "name": "weightIsPercentage",
+                      "type": "boolean",
+                      "label": "Weight is percentage",
+                      "default": true,
+                      "optional": false
+                    }
+                  ]
+                },
+                {
                   "name": "neighbors",
                   "type": "select",
                   "label": "Connected stages",

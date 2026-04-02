@@ -205,7 +205,7 @@ export default class ExerciseBundles {
         return score;
       }
 
-      return score += exerciseBundle.getScore();
+      return score += exerciseBundle.getWeightedScore();
     }, 0);
   }
 
@@ -219,7 +219,7 @@ export default class ExerciseBundles {
         return score;
       }
 
-      return score += exerciseBundle.getMaxScore();
+      return score += exerciseBundle.getWeightedMaxScore();
     }, 0);
   }
 

@@ -35,7 +35,6 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
 
     this.params = params;
     this.params.state = this.params.state ?? this.params.globals.get('states').unstarted;
-
     this.callbacks = Util.extend({
       onStateChanged: () => {},
       onScoreChanged: () => {},
@@ -54,10 +53,16 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     this.subContentId = this.params.previousState?.subContentId ?? H5P.createUUID();
 
     this.setState(this.params.globals.get('states').unstarted);
+
     for (const exerciseIndex in params.contentsList) {
       const previousState = this.params.previousState?.instances?.[exerciseIndex];
-
       const contentType = params.contentsList[exerciseIndex].contentType;
+      const subContentId = contentType.subContentId;
+
+      const scoreScalingList = this.params.scoreScaling?.scoreScalingList ?? [];
+      const scalingItem = scoreScalingList.find((scaling) => scaling.subContentId === subContentId);
+      const weight = scalingItem?.weight ?? 0;
+
       this.exercises.push(
         new Exercise(
           {
@@ -67,12 +72,14 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
             globals: this.params.globals,
             jukebox: this.params.jukebox,
             previousState: previousState,
+            parent: this,
+            weight: weight,
           },
           {
             onInitialized: (params) => {
               window.setTimeout(() => {
-                params.score = this.getScore();
-                params.maxScore = this.getMaxScore();
+                params.score = this.getWeightedScore();
+                params.maxScore = this.getWeightedMaxScore();
                 this.callbacks.onInitialized(params);
               }, 0);
             },
@@ -82,6 +89,18 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
           },
         ),
       );
+    }
+
+    if (this.params.scoreScaling.scalingMode === 'totalScore' && this.params.scoreScaling.totalScore) {
+      const maxScoreOfAllTasks = this.getMaxScore(); // Important to get original max score before weights are applied
+      const weight = this.params.scoreScaling.totalScore / maxScoreOfAllTasks;
+      this.exercises.forEach((exercise) => {
+        if (!exercise.isTask()) {
+          return;
+        }
+
+        exercise.setWeight(weight);
+      });
     }
 
     this.dom = document.createElement('div');
@@ -296,8 +315,16 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
   }
 
   /**
+   * Get weighted score of all exercises.
+   * @returns {number} Weighted score.
+   */
+  getWeightedScore() {
+    return this.exercises.reduce((total, exercise) => total + exercise.getWeightedScore(), 0);
+  }
+
+  /**
    * Get maximum score of all exercises.
-   * @returns {number} Score.
+   * @returns {number} Max score.
    */
   getMaxScore() {
     let maxScore = 0;
@@ -307,6 +334,19 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     });
 
     return maxScore;
+  }
+
+  /**
+   * Get weighted maximum score of all exercises.
+   * @returns {number} Weighted max score.
+   */
+  getWeightedMaxScore() {
+    if (this.params.scoreScaling.scalingMode === 'totalScore' && this.params.scoreScaling.totalScore) {
+      return this.params.scoreScaling.totalScore;
+    }
+
+    // We could use this only, but using the integer totalScore if we have it feels less prone to rounding issues.
+    return Math.round(this.exercises.reduce((total, exercise) => total + exercise.getWeightedMaxScore(), 0));
   }
 
   /**
@@ -392,11 +432,11 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
 
     if (verb === 'completed' || verb === 'answered') {
       xAPIEvent.setScoredResult(
-        this.getScore(), // Question Type Contract mixin
-        this.getMaxScore(), // Question Type Contract mixin
+        this.getWeightedScore(), // Question Type Contract mixin
+        this.getWeightedMaxScore(), // Question Type Contract mixin
         this, // setScoredResult will try to find `activityStartTime` on a real instance
         true,
-        this.getScore() === this.getMaxScore(),
+        Math.round(this.getWeightedScore()) >= Math.round(this.getWeightedMaxScore()),
       );
     }
 
@@ -615,8 +655,8 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     }
 
     this.callbacks.onScoreChanged({
-      score: this.getScore(),
-      maxScore: this.getMaxScore(),
+      score: this.getWeightedScore(),
+      maxScore: this.getWeightedMaxScore(),
       bundleCompleted: this.isCompleted,
       exerciseSuccessful: params.successful,
     });
