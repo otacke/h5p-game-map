@@ -3,6 +3,9 @@ import Util from '@services/util.js';
 /** @constant {number} EXERCISE_SCREEN_ANIM_DURATION_MS Duration from CSS. */
 const EXERCISE_SCREEN_ANIM_DURATION_MS = 1000;
 
+/** @constant {string} NO_VALUE_STRING Placeholder string for missing values. */
+const NO_VALUE_STRING = '---';
+
 export default class QuestionTypeContract {
 
   /**
@@ -114,8 +117,7 @@ export default class QuestionTypeContract {
    */
   cleanUpScoreScalingEntries(element) {
     element.scoreScaling.scoreScalingList = element.scoreScaling.scoreScalingList.map((scaling) => {
-      // TODO: Check this
-      const isTask = scaling.isTask || (typeof scaling.weight === 'string' && scaling.weight !== '---');
+      const isTask = scaling.isTask || (typeof scaling.weight === 'string' && scaling.weight !== NO_VALUE_STRING);
       const weight = (!scaling.weight || isNaN(parseFloat(scaling.weight))) ? '0' : scaling.weight;
 
       return {
