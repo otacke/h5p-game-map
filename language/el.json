@@ -331,6 +331,51 @@
                     "description": "Εάν επιλεγεί, τα κλειδωμένα επίπεδα δεν θα χρησιμοποιούν το σύμβολο κλειδώματος, αλλά το σύμβολο για τον ειδικό τύπο επιπέδου."
                   },
                   {
+                    "label": "Score scaling",
+                    "fields": [
+                      {
+                        "label": "Scaling mode",
+                        "description": "Choose what scaling should be based on",
+                        "options": [
+                          {
+                            "label": "Set total score of all exercises"
+                          },
+                          {
+                            "label": "Set total score per exercise"
+                          },
+                          {
+                            "label": "Set weights per exercise"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Content score customizations",
+                        "description": "Adjust the weights/total scores of exercises to customize scoring",
+                        "entity": "scaling setting",
+                        "field": {
+                          "label": "Score scaling group",
+                          "fields": [
+                            {
+                              "label": "Subcontent id"
+                            },
+                            {
+                              "label": "Weight"
+                            },
+                            {
+                              "label": "Is task"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "label": "Total score"
+                      },
+                      {
+                        "label": "Weight is percentage"
+                      }
+                    ]
+                  },
+                  {
                     "label": "Συνδεδεμένα επίπεδα"
                   },
                   {

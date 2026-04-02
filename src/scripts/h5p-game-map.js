@@ -5,6 +5,7 @@ import Jukebox from '@services/jukebox.js';
 import Main from '@components/main.js';
 import MessageBox from '@components/messageBox/message-box.js';
 import QuestionTypeContract from '@mixins/question-type-contract.js';
+import Sanitization from '@mixins/sanitization.js';
 import XAPI from '@mixins/xapi.js';
 import '@styles/h5p-game-map.scss';
 
@@ -16,9 +17,6 @@ const FULL_SCREEN_DELAY_MEDIUM_MS = 200;
 
 /** @constant {number} FULL_SCREEN_DELAY_LARGE_MS Time some browsers need to go to full screen. */
 const FULL_SCREEN_DELAY_LARGE_MS = 300;
-
-/** @constant {number} EXERCISE_SCREEN_ANIM_DURATION_MS Duration from CSS. */
-const EXERCISE_SCREEN_ANIM_DURATION_MS = 1000;
 
 /** @constant {string} ADVANCED_TEXT_VERSION_FALLBACK Fallback version for Advanced Text. */
 const ADVANCED_TEXT_VERSION_FALLBACK = '1.1';
@@ -44,7 +42,7 @@ export default class GameMap extends H5P.Question {
   constructor(params, contentId, extras = {}) {
     super('game-map');
 
-    Util.addMixins(GameMap, [QuestionTypeContract, XAPI]);
+    Util.addMixins(GameMap, [QuestionTypeContract, Sanitization, XAPI]);
 
     const defaults = Util.extend({
       behaviour: {
@@ -95,42 +93,6 @@ export default class GameMap extends H5P.Question {
   handleReduceMotion() {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')?.matches;
     this.params.visual.misc.useAnimation = this.params.visual.misc.useAnimation && !reduceMotion;
-  }
-
-  /**
-   * Sanitize stages.
-   * @param {number} contentId Content ID.
-   */
-  sanitizeStages(contentId) {
-    const advancedTextVersion = this.getAdvancedTextVersion(contentId);
-
-    const maxElementIndex = this.params.gamemapSteps.gamemap.elements.length - 1;
-    this.params.gamemapSteps.gamemap.elements = this.params.gamemapSteps.gamemap.elements.map((element) => {
-      // Remove invalid neighbor references
-      element.neighbors = (element.neighbors || []).filter((neighborIndexString) => {
-        const neighborIndex = parseInt(neighborIndexString);
-        return neighborIndex > 0 && neighborIndex <= maxElementIndex;
-      });
-
-      // Remove empty content entries
-      if (!element.specialStageType) {
-        element.contentsList = (element.contentsList || []).filter((content) => {
-          return content?.contentType?.library;
-        });
-      }
-
-      // Replace missing content with a placeholder
-      const isContentMissing = !element.specialStageType && !element.contentsList?.[0]?.contentType?.library;
-      if (isContentMissing) {
-        element.dom = { count: 0 };
-        element.contentsList = [this.createMissingContentElement(advancedTextVersion)];
-      }
-
-      // Set animation duration
-      element.animDuration = this.params.visual.misc.useAnimation ? EXERCISE_SCREEN_ANIM_DURATION_MS : 0;
-
-      return element;
-    });
   }
 
   /**

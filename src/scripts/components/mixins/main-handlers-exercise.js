@@ -46,7 +46,7 @@ export default class MainHandlersExercise {
     }
 
     this.toolbar.setStatusContainerStatus(
-      'score', { value: this.getScore(), maxValue: this.getMaxScore() },
+      'score', { value: Math.round(this.getScore()), maxValue: Math.round(this.getMaxScore()) },
     );
   }
 

@@ -583,7 +583,7 @@ export default class MainInitialization {
       'score',
       {
         value: this.getScore(),
-        maxValue: this.getMaxScore(),
+        maxValue: Math.round(this.getMaxScore()),
       },
     );
 

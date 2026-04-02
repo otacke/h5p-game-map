@@ -331,6 +331,51 @@
                     "description": "Wenn gewählt, verwenden verschlossene Etappen nicht das Schlosssymbol, sondern das Symbol für den Spezialetappentyp."
                   },
                   {
+                    "label": "Skalierung der Punkte",
+                    "fields": [
+                      {
+                        "label": "Skalierungsmodus",
+                        "description": "Wähle, worauf die Skalierung basieren soll",
+                        "options": [
+                          {
+                            "label": "Lege die Gesamtpunktzahl aller Aufgaben fest"
+                          },
+                          {
+                            "label": "Lege die Gesamtpunktzahl je Aufgabe fest"
+                          },
+                          {
+                            "label": "Lege die Gewichtung je Aufgabe fest"
+                          }
+                        ]
+                      },
+                      {
+                        "label": "Punktanpassungen",
+                        "description": "Lege die Gewichtungen/Gesamtpunktzahlen fest, um die Bepunktung anzupassen.",
+                        "entity": "Skalierungseinstellung",
+                        "field": {
+                          "label": "Skalierungsgruppe",
+                          "fields": [
+                            {
+                              "label": "ID des Unterinhalts"
+                            },
+                            {
+                              "label": "Gewichtung"
+                            },
+                            {
+                              "label": "Ist Aufgabe"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "label": "Gesamtpunktzahl"
+                      },
+                      {
+                        "label": "Gewichtung ist Prozentwert"
+                      }
+                    ]
+                  },
+                  {
                     "label": "Verbundene Etappen"
                   },
                   {
