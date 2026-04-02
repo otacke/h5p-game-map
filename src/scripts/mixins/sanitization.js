@@ -72,7 +72,7 @@ export default class QuestionTypeContract {
    */
   sanitizeScoreScaling(element) {
     element.scoreScaling = Util.extend(
-      { scoreScalingList: [], weightIsPercentage: true },
+      { scoreScalingList: [], weightIsPercentage: false },
       element.scoreScaling,
     );
 
@@ -104,8 +104,7 @@ export default class QuestionTypeContract {
       if (!hasScalingForContent) {
         element.scoreScaling.scoreScalingList.push({
           subContentId: content.contentType.subContentId,
-          weight: '0',
-          isTask: false,
+          weight: '1',
         });
       }
     });
@@ -117,13 +116,11 @@ export default class QuestionTypeContract {
    */
   cleanUpScoreScalingEntries(element) {
     element.scoreScaling.scoreScalingList = element.scoreScaling.scoreScalingList.map((scaling) => {
-      const isTask = scaling.isTask || (typeof scaling.weight === 'string' && scaling.weight !== NO_VALUE_STRING);
       const weight = (!scaling.weight || isNaN(parseFloat(scaling.weight))) ? '1' : scaling.weight;
 
       return {
         subContentId: scaling.subContentId,
         weight: weight,
-        isTask: isTask,
       };
     });
 
