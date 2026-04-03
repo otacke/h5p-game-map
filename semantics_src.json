@@ -707,7 +707,7 @@
                             "name": "weight",
                             "type": "text",
                             "label": "Weight",
-                            "default": "100"
+                            "default": "1"
                           },
                           {
                             "name": "isTask",
@@ -730,7 +730,7 @@
                       "name": "weightIsPercentage",
                       "type": "boolean",
                       "label": "Weight is percentage",
-                      "default": true,
+                      "default": false,
                       "optional": false
                     }
                   ]
