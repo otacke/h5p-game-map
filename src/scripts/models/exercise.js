@@ -18,6 +18,8 @@ export default class Exercise {
       animDuration: 0,
     }, params);
 
+    this.params.livesSettings = window.structuredClone(this.params.livesSettings);
+
     this.callbacks = Util.extend({
       onInitialized: () => {},
       onScored: () => {},
@@ -108,6 +110,10 @@ export default class Exercise {
       this.instance.on('xAPI', (event) => {
         this.trackXAPI(event);
       });
+    }
+    else {
+      this.params.livesSettings.livesMode = 'never';
+      delete this.params.livesSettings.passPercentage;
     }
 
     this.callbacks.onInitialized({ isTask: this.isTask() });
@@ -332,7 +338,11 @@ export default class Exercise {
       this.toggleSuccess(true);
     }
 
-    this.callbacks.onScored({ id: this.getId(), successful: this.wasSuccessful() });
+    this.callbacks.onScored({
+      id: this.getId(),
+      successful: this.wasSuccessful(),
+      scoreBelowLifeThreshold: this.isScoreBelowLifeThreshold(),
+    });
   }
 
   /**
@@ -383,6 +393,44 @@ export default class Exercise {
    */
   wasSuccessful() {
     return this.successfulState ?? false;
+  }
+
+  /**
+   * Determine whether score is below life threshold.
+   * @returns {boolean} True, if score is below life threshold. Else false.
+   */
+  isScoreBelowLifeThreshold() {
+    if (!this.params.livesSettings?.passPercentage) {
+      return false;
+    }
+
+    return this.getScore() / this.getMaxScore() < this.params.livesSettings.passPercentage / 100;
+  }
+
+  /**
+   * Get exercise title.
+   * @returns {string} Exercise title.
+   */
+  getTitle() {
+    const metadataTitle = this.params.contentType?.metadata?.title;
+    const libraryTitle = this.params.contentType?.library;
+
+    return metadataTitle || libraryTitle;
+  }
+
+  /**
+   * Get info for lives mode.
+   * @returns {object} Lives info.
+   */
+  getLivesInfo() {
+    const liveSettings = this.params.livesSettings;
+
+    return {
+      title: this.getTitle(),
+      isTask: this.isTask(),
+      livesMode: liveSettings.livesMode,
+      passPercentage: liveSettings.passPercentage,
+    };
   }
 
   /**

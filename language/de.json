@@ -277,7 +277,31 @@
                           "description": "Wähle die Art des Inhalts, die du der Etappe hinzufügen möchtest."
                         },
                         {
-                          "label": "Dummy"
+                          "label": "Leben",
+                          "fields": [
+                            {
+                              "label": "Leben verlieren",
+                              "description": "Wähle, wann die Nutzenden für diesen Inhalt basierend auf der Punktzahl ein Leben verlieren.",
+                              "options": [
+                                {
+                                  "label": "Benutze die Verhaltenseinstellungen"
+                                },
+                                {
+                                  "label": "Nie"
+                                },
+                                {
+                                  "label": "Wenn die prozentuale Punktzahl für diesen Inhalt unter einem bestimmten Wert liegt"
+                                },
+                                {
+                                  "label": "Wenn nicht die volle Punktzahl erreicht wird"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Zu erreichende Punktzahl",
+                              "description": "Lege fest, wie hoch die prozentuale Punktzahl in der Aufgabe mindestens sein muss, um kein Leben zu verlieren."
+                            }
+                          ]
                         }
                       ]
                     }
@@ -695,6 +719,33 @@
           "description": "Setze die Anzahl Leben fest, die Nutzerinnen und Nutzer erhalten sollen, oder lasse das Feld leer für unendlich viele Leben. Nutzerinnen und Nutzer verlieren ein Leben, wenn sie eine Aufgabe nicht mit voller Punktzahl abschließen oder das Zeitlimit abläuft."
         },
         {
+          "label": "Details zu Leben",
+          "fields": [
+            {
+              "label": "Leben verlieren",
+              "description": "Wähle, wann die Nutzenden für einen Inhalt basierend auf der Punktzahl ein Leben verlieren.",
+              "options": [
+                {
+                  "label": "Benutze die Verhaltenseinstellungen"
+                },
+                {
+                  "label": "Nie"
+                },
+                {
+                  "label": "Wenn die prozentuale Punktzahl für einen Inhalt unter einem bestimmten Wert liegt"
+                },
+                {
+                  "label": "Wenn nicht die volle Punktzahl erreicht wird"
+                }
+              ]
+            },
+            {
+              "label": "Zu erreichende Punktzahl",
+              "description": "Lege fest, wie hoch die prozentuale Punktzahl in der Aufgabe mindestens sein muss, um kein Leben zu verlieren."
+            }
+          ]
+        },
+        {
           "label": "Globales Zeitlimit",
           "description": "Du kannst optional ein Zeitlimit in Sekunden setzen. Wenn die Nutzerinnen und Nutzer dieses Limit überschreiten, ist das Spiel sofort vorbei."
         },
@@ -971,6 +1022,28 @@
         {
           "label": "Fehlender Inhalt",
           "default": "Es wurde für diese Etappe kein Inhalt gesetzt!"
+        },
+        {
+          "label": "This is how you lose a life",
+          "default": "This is how you lose a life in an exercise:"
+        },
+        {
+          "label": "Template for rule for losing lives",
+          "description": "@title and @rule are placeholders that will be replaced with the respective values.",
+          "default": "@title: @rule"
+        },
+        {
+          "label": "You never lose lives",
+          "default": "You never lose lives"
+        },
+        {
+          "label": "Lose life if not full score",
+          "default": "You lose a life if you do not get full score"
+        },
+        {
+          "label": "Lose life below percentage",
+          "description": "@percentage is a placeholde and will be replaced with the respective value.",
+          "default": "You lose a life if you get less then @percentage% of all points."
         }
       ]
     },
@@ -1066,6 +1139,14 @@
         {
           "label": "Vollbildmodus deaktivieren",
           "default": "Verlasse den Vollbildmodus"
+        },
+        {
+          "label": "Blende Etappeninformationen ein",
+          "default": "Blende Etappeninformationen ein"
+        },
+        {
+          "label": "Blende Etappeninformationen aus",
+          "default": "Blende Etappeninformationen aus"
         }
       ]
     }

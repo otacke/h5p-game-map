@@ -3,9 +3,6 @@ import Util from '@services/util.js';
 /** @constant {number} EXERCISE_SCREEN_ANIM_DURATION_MS Duration from CSS. */
 const EXERCISE_SCREEN_ANIM_DURATION_MS = 1000;
 
-/** @constant {string} NO_VALUE_STRING Placeholder string for missing values. */
-const NO_VALUE_STRING = '---';
-
 export default class QuestionTypeContract {
 
   /**
@@ -37,7 +34,7 @@ export default class QuestionTypeContract {
   sanitizeNeighbors(element, maxElementIndex) {
     element.neighbors = (element.neighbors || []).filter((neighborIndexString) => {
       const neighborIndex = parseInt(neighborIndexString);
-      return neighborIndex > 0 && neighborIndex <= maxElementIndex;
+      return neighborIndex >= 0 && neighborIndex <= maxElementIndex;
     });
   }
 
@@ -46,10 +43,30 @@ export default class QuestionTypeContract {
    * @param {object} element Element to sanitize.
    */
   sanitizeContentsList(element) {
+    const lives = parseInt(this.params.behaviour.lives);
+    const hasLives = !isNaN(lives) && lives >= 0;
+    const livesBehaviourDetails = hasLives ? this.params.behaviour.livesDetails : { livesMode: 'never' };
+
     if (!element.specialStageType) {
-      element.contentsList = (element.contentsList || []).filter((content) => {
-        return content?.contentType?.library;
-      });
+      element.contentsList = (element.contentsList || [])
+        .filter((content) => {
+          return content?.contentType?.library;
+        })
+        .map((content) => {
+          let livesSettings = content.livesSettings || livesBehaviourDetails;
+          if (livesSettings.livesMode === 'useBehavioural') {
+            livesSettings = livesBehaviourDetails;
+          }
+
+          if (livesSettings.livesMode === 'never') {
+            delete livesSettings.passPercentage;
+          }
+
+          return {
+            ...content,
+            livesSettings: livesSettings,
+          };
+        });
     }
   }
 

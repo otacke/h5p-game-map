@@ -277,7 +277,31 @@
                           "description": "Επιλέξτε τον τύπο περιεχομένου που θέλετε να προσθέσετε."
                         },
                         {
-                          "label": "Εικονίδιο"
+                          "label": "Lives",
+                          "fields": [
+                            {
+                              "label": "Losing a live",
+                              "description": "Select when the user should lose a life for this content based on scores.",
+                              "options": [
+                                {
+                                  "label": "Use behavioural setting"
+                                },
+                                {
+                                  "label": "Never"
+                                },
+                                {
+                                  "label": "When the score percentage of this content is below a custom value"
+                                },
+                                {
+                                  "label": "When the user does not achieve full score"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Pass percentage",
+                              "description": "Set to the minumum score percentage required to not lose a life."
+                            }
+                          ]
                         }
                       ]
                     }
@@ -695,6 +719,30 @@
           "description": "Ορίστε τον αριθμό των ζωών για έναν χρήστη ή αφήστε τον κενό για απεριόριστες ζωές. Οι χρήστες θα χάσουν μια ζωή όταν δεν πετύχουν πλήρες σκορ και δεν μπορούν να συνεχίσουν όταν χαθούν όλες οι ζωές."
         },
         {
+          "label": "Details for lives",
+          "fields": [
+            {
+              "label": "Losing a live",
+              "description": "Select when the user should lose a life for content based on scores.",
+              "options": [
+                {
+                  "label": "Never"
+                },
+                {
+                  "label": "When the score percentage of content is below a custom value"
+                },
+                {
+                  "label": "When the user does not achieve full score"
+                }
+              ]
+            },
+            {
+              "label": "Pass percentage",
+              "description": "Set to the minumum score percentage required to not lose a life."
+            }
+          ]
+        },
+        {
           "label": "Συνολικό χρονικό όριο",
           "description": "Προαιρετικό χρονικό όριο σε δευτερόλεπτα για ολόκληρο το παιχνίδι. Εάν ένας χρήστης υπερβεί αυτόν τον χρόνο, το παιχνίδι θα τελειώσει αμέσως."
         },
@@ -971,6 +1019,28 @@
         {
           "label": "Περιεχόμενο που λείπει",
           "default": "Δεν ορίστηκε περιεχόμενο για αυτό το επίπεδο!"
+        },
+        {
+          "label": "This is how you lose a life",
+          "default": "This is how you lose a life in an exercise:"
+        },
+        {
+          "label": "Template for rule for losing lives",
+          "description": "@title and @rule are placeholders that will be replaced with the respective values.",
+          "default": "@title: @rule"
+        },
+        {
+          "label": "You never lose lives",
+          "default": "You never lose lives"
+        },
+        {
+          "label": "Lose life if not full score",
+          "default": "You lose a life if you do not get full score"
+        },
+        {
+          "label": "Lose life below percentage",
+          "description": "@percentage is a placeholde and will be replaced with the respective value.",
+          "default": "You lose a life if you get less then @percentage% of all points."
         }
       ]
     },
@@ -1066,6 +1136,14 @@
         {
           "label": "Έξοδος από πλήρη οθόνη",
           "default": "Έξοδος από τη λειτουργία πλήρους οθόνης"
+        },
+        {
+          "label": "Show stage information",
+          "default": "Show stage information"
+        },
+        {
+          "label": "Hide stage information",
+          "default": "Hide stage information"
         }
       ]
     }

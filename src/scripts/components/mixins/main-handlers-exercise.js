@@ -42,7 +42,9 @@ export default class MainHandlersExercise {
     this.stages.updateStatePerRestrictions();
 
     if (!params.exerciseSuccessful) {
-      this.handleIncompleteScore(id);
+      this.handleIncompleteScore({
+        scoreBelowLifeThreshold: params.scoreBelowLifeThreshold,
+      });
     }
 
     this.toolbar.setStatusContainerStatus(
@@ -52,16 +54,20 @@ export default class MainHandlersExercise {
 
   /**
    * Handle incomplete score.
+   * @param {object} [options] Options.
+   * @param {boolean} [options.scoreBelowLifeThreshold] If true, score is below life threshold.
    */
-  handleIncompleteScore() {
+  handleIncompleteScore(options = {}) {
     if (this.livesLeft === Infinity) {
       return;
     }
 
-    this.handleLostLife();
+    if (options.scoreBelowLifeThreshold) {
+      this.handleLostLife();
 
-    if (this.livesLeft > 0) {
-      this.showIncompleteScoreConfirmation();
+      if (this.livesLeft > 0) {
+        this.showIncompleteScoreConfirmation();
+      }
     }
   }
 

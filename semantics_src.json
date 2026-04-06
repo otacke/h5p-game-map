@@ -570,6 +570,59 @@
                         ]
                       },
                       {
+                        "name": "livesSettings",
+                        "type": "group",
+                        "label": "Lives",
+                        "importance": "low",
+                        "fields": [
+                          {
+                            "name": "livesMode",
+                            "type": "select",
+                            "label": "Losing a live",
+                            "optional": false,
+                            "description": "Select when the user should lose a life for this content based on scores.",
+                            "options": [
+                              {
+                                "value": "useBehavioural",
+                                "label": "Use behavioural setting"
+                              },
+                              {
+                                "value": "never",
+                                "label": "Never"
+                              },
+                              {
+                                "value": "custom",
+                                "label": "When the score percentage of this content is below a custom value"
+                              },
+                              {
+                                "value": "fullScore",
+                                "label": "When the user does not achieve full score"
+                              }
+                            ],
+                            "default": "useBehavioural"
+                          },
+                          {
+                            "name": "passPercentage",
+                            "type": "number",
+                            "label": "Pass percentage",
+                            "description": "Set to the minumum score percentage required to not lose a life.",
+                            "min:": 0,
+                            "max:": 100,
+                            "step": 1,
+                            "default": 100,
+                            "widget": "gamemapshowwhen",
+                            "gamemapshowwhen": {
+                              "rules": [
+                                {
+                                  "field": "livesMode",
+                                  "equals": "custom"
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
                         "name": "dummy",
                         "type": "boolean",
                         "label": "Dummy",
@@ -1416,6 +1469,55 @@
         "optional": true
       },
       {
+        "name": "livesDetails",
+        "type": "group",
+        "label": "Details for lives",
+        "importance": "low",
+        "fields": [
+          {
+            "name": "livesMode",
+            "type": "select",
+            "label": "Losing a live",
+            "optional": false,
+            "description": "Select when the user should lose a life for content based on scores.",
+            "options": [
+              {
+                "value": "never",
+                "label": "Never"
+              },
+              {
+                "value": "custom",
+                "label": "When the score percentage of content is below a custom value"
+              },
+              {
+                "value": "fullScore",
+                "label": "When the user does not achieve full score"
+              }
+            ],
+            "default": "fullScore"
+          },
+          {
+            "name": "passPercentage",
+            "type": "number",
+            "label": "Pass percentage",
+            "description": "Set to the minumum score percentage required to not lose a life.",
+            "min:": 0,
+            "max:": 100,
+            "step": 1,
+            "default": 100,
+            "widget": "gamemapshowwhen",
+            "gamemapshowwhen": {
+              "rules": [
+                {
+                  "field": "livesMode",
+                  "equals": "custom"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
         "name": "timeLimitGlobal",
         "type": "number",
         "label": "Global time limit",
@@ -1854,6 +1956,38 @@
         "type": "text",
         "label": "Missing content",
         "default": "No content was set for this stage!"
+      },
+      {
+        "name": "livesInfoIntro",
+        "type": "text",
+        "label": "This is how you lose a life",
+        "default": "This is how you lose a life in an exercise:"
+      },
+      {
+        "name": "loseLifeRuleTemplate",
+        "type": "text",
+        "label": "Template for rule for losing lives",
+        "description": "@title and @rule are placeholders that will be replaced with the respective values.",
+        "default": "@title: @rule"
+      },
+      {
+        "name": "neverLoseLives",
+        "type": "text",
+        "label": "You never lose lives",
+        "default": "You never lose lives"
+      },
+      {
+        "name": "loseLifeIfNotFullScore",
+        "type": "text",
+        "label": "Lose life if not full score",
+        "default": "You lose a life if you do not get full score"
+      },
+      {
+        "name": "loseLifeIfBelowPercentage",
+        "type": "text",
+        "label": "Lose life below percentage",
+        "description": "@percentage is a placeholde and will be replaced with the respective value.",
+        "default": "You lose a life if you get less then @percentage% of all points."
       }
     ]
   },
@@ -1994,6 +2128,18 @@
         "type": "text",
         "label": "Exit fullscreen",
         "default": "Exit fullscreen mode"
+      },
+      {
+        "name": "showStageInfo",
+        "type": "text",
+        "label": "Show stage information",
+        "default": "Show stage information"
+      },
+      {
+        "name": "hideStageInfo",
+        "type": "text",
+        "label": "Hide stage information",
+        "default": "Hide stage information"
       }
     ]
   }
