@@ -107,8 +107,7 @@
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
-        gap: 1rem;
-        justify-content: space-between;
+        gap: 0.5rem;
         padding: 0 0.25rem 0 0;
 
         .h5p-game-map-overlay-dialog-headline-text {
@@ -120,6 +119,75 @@
           overflow: hidden;
           overflow-wrap: anywhere;
           -webkit-box-orient: vertical;
+        }
+
+        .h5p-game-map-overlay-dialog-headline-info-icon {
+          anchor-name: --gamemap-overlay-dialog;
+          aspect-ratio: 1;
+          background-color: var(--color-primary);
+          border: 0;
+          border-radius: 50%;
+          height: 1.25rem;
+          padding: 0;
+          position: relative;
+
+          &.display-none {
+            display: none;
+          }
+
+          &::before {
+            color: var(--color-background);
+            content: var(--icon-fontawesome-info);
+            font-family: "H5PFontAwesome4", sans-serif;
+            font-size: 1rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          &:hover {
+            background-color: var(--color-primary-90);
+            cursor: pointer;
+          }
+
+          &:focus-visible {
+            outline: 2px ridge black;
+            outline-offset: 2px;
+          }
+        }
+
+        .h5p-game-map-overlay-dialog-headline-timer {
+          margin-left: auto;
+        }
+      }
+
+      .h5p-game-map-overlay-dialog-headline-info-content {
+        border: 2px solid var(--color-primary);
+        border-radius: 4px;
+        margin-block: 0.5rem;
+        padding: 0.5rem;
+
+        .h5p-game-map-overlay-dialog-headline-info-content-intro {
+          font-weight: bold;
+          margin: 0;
+        }
+
+        .h5p-game-map-overlay-dialog-headline-info-content-list {
+          margin: 0;
+
+          &.one-item {
+            list-style: none;
+            padding: 0;
+          }
+
+          .h5p-game-map-overlay-dialog-headline-info-content-listitem-title {
+            font-style: italic;
+          }
+        }
+
+        &.display-none {
+          display: none;
         }
       }
 

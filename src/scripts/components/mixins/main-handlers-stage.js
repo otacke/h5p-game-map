@@ -47,6 +47,8 @@ export default class MainHandlersStage {
         stage.getLabel(),
         this.params.dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, stage.getLabel()),
       );
+      this.exerciseScreen.setInfo(this.buildLivesInfoHTML(exerciseBundle.getLivesInfo()));
+
       this.params.jukebox.stopGroup('default');
       this.exerciseScreen.show({ isShowingSolutions: this.isShowingSolutions });
       this.toolbar.disable();
@@ -82,6 +84,36 @@ export default class MainHandlersStage {
     window.requestAnimationFrame(() => {
       this.params.globals.get('resize')();
     });
+  }
+
+  /**
+   * Build lives info HTML for exercise screen.
+   * @param {object} rawLivesInfo Lives info from exercise bundle.
+   * @returns {string|undefined} HTML string or undefined if no rules.
+   */
+  buildLivesInfoHTML(rawLivesInfo) {
+    if (!rawLivesInfo.rules.length) {
+      return undefined;
+    }
+
+    const rulesListItems = rawLivesInfo.rules
+      .map((rule) => {
+        const ruleTitle = rule.title ?
+          `<span class="h5p-game-map-overlay-dialog-headline-info-content-listitem-title">${rule.title}: </span>` :
+          '';
+
+        // eslint-disable-next-line @stylistic/js/max-len
+        const ruleText = `<span class="h5p-game-map-overlay-dialog-headline-info-content-listitem-text">${rule.rule}</span>`;
+        return `<li class="h5p-game-map-overlay-dialog-headline-info-content-listitem">${ruleTitle}${ruleText}</li>`;
+      })
+      .join('');
+
+    const listClass = `h5p-game-map-overlay-dialog-headline-info-content-list${rawLivesInfo.rules.length === 1 ?
+      ' one-item' :
+      ''}`;
+    const intro = `<p class="h5p-game-map-overlay-dialog-headline-info-content-intro">${rawLivesInfo.intro}</p>`;
+
+    return `${intro}<ul class="${listClass}">${rulesListItems}</ul>`;
   }
 
   /**

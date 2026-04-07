@@ -277,7 +277,31 @@
                           "description": "Alegeți tipul de conținut pe care doriți să-l adăugați."
                         },
                         {
-                          "label": "Dummy"
+                          "label": "Lives",
+                          "fields": [
+                            {
+                              "label": "Losing a live",
+                              "description": "Select when the user should lose a life for this content based on scores.",
+                              "options": [
+                                {
+                                  "label": "Use behavioural setting"
+                                },
+                                {
+                                  "label": "Never"
+                                },
+                                {
+                                  "label": "When the score percentage of this content is below a custom value"
+                                },
+                                {
+                                  "label": "When the user does not achieve full score"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Pass percentage",
+                              "description": "Set to the minumum score percentage required to not lose a life."
+                            }
+                          ]
                         }
                       ]
                     }
@@ -695,6 +719,30 @@
           "description": "Setați numărul de vieți pentru un utilizator sau lăsați gol pentru vieți nelimitate. Utilizatorii vor pierde o viață când nu obțin punctaj maxim și nu pot continua odată ce toate viețile sunt pierdute."
         },
         {
+          "label": "Details for lives",
+          "fields": [
+            {
+              "label": "Losing a live",
+              "description": "Select when the user should lose a life for content based on scores.",
+              "options": [
+                {
+                  "label": "Never"
+                },
+                {
+                  "label": "When the score percentage of content is below a custom value"
+                },
+                {
+                  "label": "When the user does not achieve full score"
+                }
+              ]
+            },
+            {
+              "label": "Pass percentage",
+              "description": "Set to the minumum score percentage required to not lose a life."
+            }
+          ]
+        },
+        {
           "label": "Limită de timp globală",
           "description": "Limită de timp opțională în secunde pentru întregul joc. Dacă un utilizator depășește acest timp, jocul se va termina imediat."
         },
@@ -971,6 +1019,28 @@
         {
           "label": "Conținut lipsă",
           "default": "Niciun conținut nu a fost setat pentru această etapă!"
+        },
+        {
+          "label": "This is how you lose a life",
+          "default": "This is how you lose a life in an exercise:"
+        },
+        {
+          "label": "Template for rule for losing lives",
+          "description": "@title and @rule are placeholders that will be replaced with the respective values.",
+          "default": "@title: @rule"
+        },
+        {
+          "label": "You never lose lives",
+          "default": "You never lose lives"
+        },
+        {
+          "label": "Lose life if not full score",
+          "default": "You lose a life if you do not get full score"
+        },
+        {
+          "label": "Lose life below percentage",
+          "description": "@percentage is a placeholde and will be replaced with the respective value.",
+          "default": "You lose a life if you get less then @percentage% of all points."
         }
       ]
     },
@@ -1066,6 +1136,14 @@
         {
           "label": "Ieși din modul ecran complet",
           "default": "Ieși din modul ecran complet"
+        },
+        {
+          "label": "Show stage information",
+          "default": "Show stage information"
+        },
+        {
+          "label": "Hide stage information",
+          "default": "Hide stage information"
         }
       ]
     }

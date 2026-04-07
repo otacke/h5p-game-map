@@ -57,6 +57,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     for (const exerciseIndex in params.contentsList) {
       const previousState = this.params.previousState?.instances?.[exerciseIndex];
       const contentType = params.contentsList[exerciseIndex].contentType;
+      const livesSettings = params.contentsList[exerciseIndex].livesSettings;
       const subContentId = contentType.subContentId;
 
       const scoreScalingList = this.params.scoreScaling?.scoreScalingList ?? [];
@@ -67,6 +68,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
         new Exercise(
           {
             contentType: contentType,
+            livesSettings: livesSettings,
             isInitial: this.params.isInitial,
             dictionary: this.params.dictionary,
             globals: this.params.globals,
@@ -298,6 +300,66 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
    */
   isReachable() {
     return this.isReachableState;
+  }
+
+  /**
+   * Get information about lives settings for exercises which have it, formatted for display.
+   * @returns {object} Lives info for exercises which have lives settings, formatted for display.
+   */
+  getLivesInfo() {
+    const infos = this.exercises
+      .map((exercise) => exercise.getLivesInfo())
+      .filter((info) => !!info && info.isTask);
+
+    let rules = [];
+    if (infos.length) {
+      const allRulesAreTheSame = infos.every((info) => info.passPercentage === infos[0].passPercentage);
+
+      if (allRulesAreTheSame) {
+        if (infos[0].passPercentage === 0) {
+          rules = [];
+        }
+        else if (infos[0].passPercentage === 100) {
+          rules = [{
+            rule: this.params.dictionary.get('l10n.loseLifeIfNotFullScore'),
+          }];
+        }
+        else {
+          rules = [{
+            rule: this.params.dictionary.get('l10n.loseLifeIfBelowPercentage')
+              .replace('@percentage', infos[0].passPercentage),
+          }];
+        }
+      }
+      else {
+        rules = infos.map((info) => {
+          if (!info.passPercentage) {
+            return {
+              title: info.title,
+              rule: this.params.dictionary.get('l10n.neverLoseLives'),
+            };
+          }
+          else if (info.passPercentage === 100) {
+            return {
+              title: info.title,
+              rule: this.params.dictionary.get('l10n.loseLifeIfNotFullScore'),
+            };
+          }
+          else {
+            return {
+              title: info.title,
+              rule: this.params.dictionary.get('l10n.loseLifeIfBelowPercentage')
+                .replace('@percentage', info.passPercentage),
+            };
+          }
+        });
+      }
+    }
+
+    return {
+      intro: this.params.dictionary.get('l10n.livesInfoIntro'),
+      rules: rules,
+    };
   }
 
   /**
@@ -659,6 +721,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       maxScore: this.getWeightedMaxScore(),
       bundleCompleted: this.isCompleted,
       exerciseSuccessful: params.successful,
+      scoreBelowLifeThreshold: params.scoreBelowLifeThreshold,
     });
   }
 }

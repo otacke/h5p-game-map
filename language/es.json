@@ -277,7 +277,31 @@
                           "description": "Elije el tipo de contenido que te gustaría añadir."
                         },
                         {
-                          "label": "Dummy"
+                          "label": "Lives",
+                          "fields": [
+                            {
+                              "label": "Losing a live",
+                              "description": "Select when the user should lose a life for this content based on scores.",
+                              "options": [
+                                {
+                                  "label": "Use behavioural setting"
+                                },
+                                {
+                                  "label": "Never"
+                                },
+                                {
+                                  "label": "When the score percentage of this content is below a custom value"
+                                },
+                                {
+                                  "label": "When the user does not achieve full score"
+                                }
+                              ]
+                            },
+                            {
+                              "label": "Pass percentage",
+                              "description": "Set to the minumum score percentage required to not lose a life."
+                            }
+                          ]
                         }
                       ]
                     }
@@ -695,6 +719,30 @@
           "description": "Establece el número de vidas para un usuario o déjalo en blanco para vidas ilimitadas. Los usuarios perderán una vida cuando no obtengan la puntuación completa y no podrán continuar una vez que hayan perdido todas las vidas."
         },
         {
+          "label": "Details for lives",
+          "fields": [
+            {
+              "label": "Losing a live",
+              "description": "Select when the user should lose a life for content based on scores.",
+              "options": [
+                {
+                  "label": "Never"
+                },
+                {
+                  "label": "When the score percentage of content is below a custom value"
+                },
+                {
+                  "label": "When the user does not achieve full score"
+                }
+              ]
+            },
+            {
+              "label": "Pass percentage",
+              "description": "Set to the minumum score percentage required to not lose a life."
+            }
+          ]
+        },
+        {
           "label": "Límite de tiempo global",
           "description": "Límite de tiempo opcional en segundos para el juego completo. Si un usuario excede este tiempo, el juego terminará inmediatamente."
         },
@@ -971,6 +1019,28 @@
         {
           "label": "Missing content",
           "default": "No content was set for this stage!"
+        },
+        {
+          "label": "This is how you lose a life",
+          "default": "This is how you lose a life in an exercise:"
+        },
+        {
+          "label": "Template for rule for losing lives",
+          "description": "@title and @rule are placeholders that will be replaced with the respective values.",
+          "default": "@title: @rule"
+        },
+        {
+          "label": "You never lose lives",
+          "default": "You never lose lives"
+        },
+        {
+          "label": "Lose life if not full score",
+          "default": "You lose a life if you do not get full score"
+        },
+        {
+          "label": "Lose life below percentage",
+          "description": "@percentage is a placeholde and will be replaced with the respective value.",
+          "default": "You lose a life if you get less then @percentage% of all points."
         }
       ]
     },
@@ -1066,6 +1136,14 @@
         {
           "label": "Salir de pantalla completa",
           "default": "Salir del modo de Pantalla Completa"
+        },
+        {
+          "label": "Show stage information",
+          "default": "Show stage information"
+        },
+        {
+          "label": "Hide stage information",
+          "default": "Hide stage information"
         }
       ]
     }
