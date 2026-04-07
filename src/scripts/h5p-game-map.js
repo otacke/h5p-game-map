@@ -344,12 +344,15 @@ export default class GameMap extends H5P.Question {
       xAPIEvent.getVerifiedStatementValue(['object', 'definition']),
       this.getXAPIDefinition());
 
+    const maxScore = this.getMaxScore(); // Question Type Contract mixin
+    const score = Math.min(this.getScore(), maxScore); // Question Type Contract mixin
+
     xAPIEvent.setScoredResult(
-      this.getScore(), // Question Type Contract mixin
-      this.getMaxScore(), // Question Type Contract mixin
+      score,
+      maxScore,
       this,
       true,
-      this.getScore() === this.getMaxScore(),
+      score === maxScore,
     );
 
     this.trigger(xAPIEvent);

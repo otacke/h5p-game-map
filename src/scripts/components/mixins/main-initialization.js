@@ -582,7 +582,7 @@ export default class MainInitialization {
     this.toolbar.setStatusContainerStatus(
       'score',
       {
-        value: this.getScore(),
+        value: Math.round(this.getScore()),
         maxValue: Math.round(this.getMaxScore()),
       },
     );
