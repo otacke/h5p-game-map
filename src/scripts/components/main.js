@@ -374,6 +374,10 @@ export default class Main {
 
     this.hide();
     this.endScreen.show(params);
+
+    if (score > maxScore) {
+      this.endScreen.overrideScore(score);
+    }
   }
 
   /**

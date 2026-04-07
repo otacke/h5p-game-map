@@ -29,7 +29,7 @@ export default class MainHandlersExercise {
 
     this.stages.updateScoreStar(id, params.score / params.maxScore * 100);
 
-    if (!this.fullScoreWasAnnounced && this.getScore() === this.getMaxScore()) {
+    if (!this.fullScoreWasAnnounced && this.getScore() >= this.getMaxScore()) {
       this.fullScoreWasAnnounced = true;
 
       this.callbackQueue.add(() => {

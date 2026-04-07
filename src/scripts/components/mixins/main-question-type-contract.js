@@ -23,10 +23,7 @@ export default class MainQuestionTypeContract {
    * @returns {number} Score.
    */
   getScore() {
-    return Math.min(
-      this.exerciseBundles.getScore(),
-      this.getMaxScore(),
-    );
+    return this.exerciseBundles.getScore();
   }
 
   /**
