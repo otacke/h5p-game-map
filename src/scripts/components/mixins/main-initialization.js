@@ -288,7 +288,21 @@ export default class MainInitialization {
             return 0;
           }
 
-          return this.exerciseBundles.getExerciseBundle(id)?.getScore() ?? 0;
+          return this.exerciseBundles.getExerciseBundle(id)?.getWeightedScore() ?? 0;
+        },
+        getStageScorePercentage: (id) => {
+          const stage = this.stages.getStage(id);
+          if (!stage || stage instanceof SpecialStage) {
+            return 0;
+          }
+
+          const score = this.exerciseBundles.getExerciseBundle(id)?.getWeightedScore() ?? 0;
+          const maxScore = this.exerciseBundles.getExerciseBundle(id)?.getWeightedMaxScore() ?? 0;
+          if (maxScore === 0) {
+            return 0;
+          }
+
+          return (score / maxScore) * 100;
         },
         getExerciseState: (id) => {
           const stage = this.stages.getStage(id);

@@ -2,6 +2,7 @@ import Restriction from './restriction.js';
 import RestrictionTime from './handlers/restriction-time.js';
 import RestrictionTotalScore from './handlers/restriction-total-score.js';
 import RestrictionStageScore from './handlers/restriction-stage-score.js';
+import RestrictionStageScorePercentage from './handlers/restriction-stage-score-percentage.js';
 import RestrictionStageProgress from './handlers/restriction-stage-progress.js';
 
 export default class RestrictionFactory {
@@ -24,6 +25,11 @@ export default class RestrictionFactory {
     if (params.restrictionType === 'stageScore') {
       restrictionParams.getCurrentValue = () => {
         return params.callbacks.stageScore(params.stageScoreGroup?.stageScoreId);
+      };
+    }
+    else if (params.restrictionType === 'stageScorePercentage') {
+      restrictionParams.getCurrentValue = () => {
+        return params.callbacks.stageScorePercentage(params.stageScorePercentageGroup?.stageScorePercentageId);
       };
     }
     else if (params.restrictionType === 'stageProgress') {
@@ -52,6 +58,8 @@ export default class RestrictionFactory {
         return new RestrictionTotalScore(params);
       case 'stageScore':
         return new RestrictionStageScore(params);
+      case 'stageScorePercentage':
+        return new RestrictionStageScorePercentage(params);
       case 'stageProgress':
         return new RestrictionStageProgress(params);
       default:

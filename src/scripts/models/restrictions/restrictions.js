@@ -20,6 +20,7 @@ export default class Restrictions {
     this.callbacks = Util.extend({
       getTotalScore: () => 0,
       getStageScore: () => 0,
+      getStageScorePercentage: () => 0,
       getStageProgress: () => -1,
       getTime: () => new Date(),
     }, callbacks);
@@ -67,6 +68,7 @@ export default class Restrictions {
         callbacks: {
           totalScore: this.callbacks.getTotalScore,
           stageScore: this.callbacks.getStageScore,
+          stageScorePercentage: this.callbacks.getStageScorePercentage,
           stageProgress: this.callbacks.getStageProgress,
           time: this.callbacks.getTime,
         },

@@ -80,6 +80,12 @@ export default class Stage {
             })?.label;
             restriction.stageScoreGroup.stageScoreLabel = label;
           }
+          else if (restriction.restrictionType === 'stageScorePercentage' && restriction.stageScorePercentageGroup) {
+            const label = elementParams.find((element) => {
+              return element.id === restriction.stageScorePercentageGroup.stageScorePercentageId;
+            })?.label;
+            restriction.stageScorePercentageGroup.stageScorePercentageLabel = label;
+          }
           else if (restriction.restrictionType === 'stageProgress' && restriction.stageProgressGroup) {
             const label = elementParams.find((element) => {
               return element.id === restriction.stageProgressGroup.stageProgressId;
@@ -102,6 +108,7 @@ export default class Stage {
       {
         getTotalScore: () => this.callbacks.getTotalScore(),
         getStageScore: (id) => this.callbacks.getScore(id),
+        getStageScorePercentage: (id) => this.callbacks.getScorePercentage(id),
         getStageProgress: (id) => this.callbacks.getStageProgress(id),
         getTime: () => new Date(),
       },

@@ -112,6 +112,7 @@ export default class Exercise {
       });
     }
     else {
+      this.params.livesSettings = this.params.livesSettings || {};
       this.params.livesSettings.livesMode = 'never';
       delete this.params.livesSettings.passPercentage;
     }
