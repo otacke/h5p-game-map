@@ -24,6 +24,7 @@ export default class Stages {
    * @param {function} [callbacks.onAccessRestrictionsHit] Handle no access.
    * @param {function} [callbacks.getTotalScore] Get total score.
    * @param {function} [callbacks.getStageScore] Get score of stage.
+   * @param {function} [callbacks.getStageScorePercentage] Get score percentage of stage.
    * @param {function} [callbacks.getExerciseState] Get state of exercise.
    */
   constructor(params = {}, callbacks = {}) {
@@ -39,6 +40,7 @@ export default class Stages {
       onAddedToQueue: () => {},
       onAccessRestrictionsHit: () => {},
       getStageScore: () => 0,
+      getStageScorePercentage: () => 0,
       getExerciseState: () => 0,
     }, callbacks);
 
@@ -164,6 +166,9 @@ export default class Stages {
         },
         getScore: (id) => {
           return this.callbacks.getStageScore(id);
+        },
+        getScorePercentage: (id) => {
+          return this.callbacks.getStageScorePercentage(id);
         },
         getStageProgress: (id) => {
           return this.callbacks.getExerciseState(id);

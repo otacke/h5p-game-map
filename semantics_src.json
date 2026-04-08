@@ -268,6 +268,10 @@
                                       "label": "Stage score"
                                     },
                                     {
+                                      "value": "stageScorePercentage",
+                                      "label": "Stage score percentage"
+                                    },
+                                    {
                                       "value": "stageProgress",
                                       "label": "Stage progress"
                                     },
@@ -378,6 +382,62 @@
                                       {
                                         "field": "restrictionType",
                                         "equals": "stageScore"
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "name": "stageScorePercentageGroup",
+                                  "type": "group",
+                                  "label": "Stage score percentage",
+                                  "expanded": true,
+                                  "fields": [
+                                    {
+                                      "name": "stageScorePercentageId",
+                                      "type": "select",
+                                      "label": "Stage to get score percentage from",
+                                      "widget": "gamemapstageselect",
+                                      "optional": true,
+                                      "options": []
+                                    },
+                                    {
+                                      "name": "stageScorePercentageOperator",
+                                      "label": "Operator for stage score percentage",
+                                      "type": "select",
+                                      "optional": true,
+                                      "options": [
+                                        {
+                                          "value": "lessThan",
+                                          "label": "less than"
+                                        },
+                                        {
+                                          "value": "equalTo",
+                                          "label": "equal to"
+                                        },
+                                        {
+                                          "value": "notEqualTo",
+                                          "label": "not equal to"
+                                        },
+                                        {
+                                          "value": "greaterThan",
+                                          "label": "greater than"
+                                        }
+                                      ],
+                                      "default": "before"
+                                    },
+                                    {
+                                      "name": "stageScorePercentageValue",
+                                      "label": "Stage score percentage to compare to",
+                                      "type": "number",
+                                      "optional": true
+                                    }
+                                  ],
+                                  "widget": "gamemapshowwhen",
+                                  "gamemapshowwhen": {
+                                    "rules": [
+                                      {
+                                        "field": "restrictionType",
+                                        "equals": "stageScorePercentage"
                                       }
                                     ]
                                   }
@@ -621,12 +681,6 @@
                             }
                           }
                         ]
-                      },
-                      {
-                        "name": "dummy",
-                        "type": "boolean",
-                        "label": "Dummy",
-                        "widget": "none"
                       }
                     ]
                   }
@@ -1890,6 +1944,30 @@
         "type": "text",
         "label": "Stage score greater than",
         "default": "You have a score greater than @value in stage @label."
+      },
+      {
+        "name": "restrictionStageScorePercentageLessThan",
+        "type": "text",
+        "label": "Stage score percentage less than",
+        "default": "You have a score percentage less than @value in stage @label."
+      },
+      {
+        "name": "restrictionStageScorePercentageEqualTo",
+        "type": "text",
+        "label": "Stage score percentage equal to",
+        "default": "You have a score percentage equal to @value in stage @label."
+      },
+      {
+        "name": "restrictionStageScorePercentageNotEqualTo",
+        "type": "text",
+        "label": "Stage score percentage not equal to",
+        "default": "You have a score percentage not equal to @value in stage @label."
+      },
+      {
+        "name": "restrictionStageScorePercentageGreaterThan",
+        "type": "text",
+        "label": "Stage score percentage greater than",
+        "default": "You have a score percentage greater than @value in stage @label."
       },
       {
         "name": "restrictionStageProgressIs",

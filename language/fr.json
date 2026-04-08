@@ -129,6 +129,9 @@
                                         "label": "Score d'étape"
                                       },
                                       {
+                                        "label": "Stage score percentage"
+                                      },
+                                      {
                                         "label": "Progression d'étape"
                                       },
                                       {
@@ -186,6 +189,34 @@
                                       },
                                       {
                                         "label": "Valeur du score d'étape à comparer"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Stage score percentage",
+                                    "fields": [
+                                      {
+                                        "label": "Stage to get score percentage from"
+                                      },
+                                      {
+                                        "label": "Operator for stage score percentage",
+                                        "options": [
+                                          {
+                                            "label": "less than"
+                                          },
+                                          {
+                                            "label": "equal to"
+                                          },
+                                          {
+                                            "label": "not equal to"
+                                          },
+                                          {
+                                            "label": "greater than"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Stage score percentage to compare to"
                                       }
                                     ]
                                   },
@@ -975,6 +1006,22 @@
         {
           "label": "Score d'étape supérieur à",
           "default": "Votre score de l'étape @label est supérieur à @value."
+        },
+        {
+          "label": "Stage score percentage less than",
+          "default": "You have a score percentage less than @value in stage @label."
+        },
+        {
+          "label": "Stage score percentage equal to",
+          "default": "You have a score percentage equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score percentage not equal to",
+          "default": "You have a score percentage not equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score percentage greater than",
+          "default": "You have a score percentage greater than @value in stage @label."
         },
         {
           "label": "Progression d'étape est de",

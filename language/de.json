@@ -129,6 +129,9 @@
                                         "label": "Etappenpunktzahl"
                                       },
                                       {
+                                        "label": "Etappenpunktzahlprozentsatz"
+                                      },
+                                      {
                                         "label": "Etappenfortschritt"
                                       },
                                       {
@@ -186,6 +189,34 @@
                                       },
                                       {
                                         "label": "Wert, mit dem die Etappenpunktzahl verglichen wird"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "label": "Etappenpunktzahlprozentsatz",
+                                    "fields": [
+                                      {
+                                        "label": "Etappe, mit deren Punktzahlprozentsatz verglichen wird"
+                                      },
+                                      {
+                                        "label": "Vergleichsoperator für dne Etapppenpunktzahlprozentsatz",
+                                        "options": [
+                                          {
+                                            "label": "kleiner als"
+                                          },
+                                          {
+                                            "label": "gleich"
+                                          },
+                                          {
+                                            "label": "ungleich"
+                                          },
+                                          {
+                                            "label": "größer als"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "label": "Wert, mit dem dre Etappenpunktzahlprozentsatz verglichen wird"
                                       }
                                     ]
                                   },
@@ -726,9 +757,6 @@
               "description": "Wähle, wann die Nutzenden für einen Inhalt basierend auf der Punktzahl ein Leben verlieren.",
               "options": [
                 {
-                  "label": "Benutze die Verhaltenseinstellungen"
-                },
-                {
                   "label": "Nie"
                 },
                 {
@@ -980,12 +1008,28 @@
           "default": "Deine Punktzahl in Etappe @label ist größer als @value."
         },
         {
-          "label": "Stage progress is",
-          "default": "The progress of stage @label is @value."
+          "label": "Stage score percentage less than",
+          "default": "You have a score percentage less than @value in stage @label."
         },
         {
-          "label": "Stage progress is not",
-          "default": "This progress of stage @label is not @value."
+          "label": "Stage score percentage equal to",
+          "default": "You have a score percentage equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score percentage not equal to",
+          "default": "You have a score percentage not equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score percentage greater than",
+          "default": "You have a score percentage greater than @value in stage @label."
+        },
+        {
+          "label": "Etappenfortschritt ist",
+          "default": "Der Fortschritt in Etappe @label ist @value."
+        },
+        {
+          "label": "Etappenfortschritt is nicht",
+          "default": "Der Fortschritt in Etappe @label ist nicht @value."
         },
         {
           "label": "Zeitpunkt vor",
