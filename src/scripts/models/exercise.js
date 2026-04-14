@@ -1,4 +1,4 @@
-import H5PUtil from '@services/h5p-util.js';
+import H5PUtil, { getSubContentIdFromXAPIStatement, isEditor } from '@services/h5p-util.js';
 import Util from '@services/util.js';
 
 export default class Exercise {
@@ -88,6 +88,13 @@ export default class Exercise {
 
     if (!this.instance) {
       return;
+    }
+
+    // Required to allow proper xAPI statement identification in editor preview, will not be sent to LRS.
+    if (isEditor()) {
+      H5PIntegration.contents[`cid-${this.instance.contentId}`] = {
+        url: `http://example.com/${this.instance.contentId}`,
+      };
     }
 
     if (this.instance.libraryInfo.machineName === 'H5P.InteractiveVideo') {
@@ -495,13 +502,9 @@ export default class Exercise {
     xAPIData = xAPIData ?? [this.getXAPIData()].filter((data) => data !== undefined);
 
     xAPIData.forEach((entry) => {
-      if (entry.statement?.object?.id) {
-        const queryString = entry.statement.object.id.split('?')[1]; // xAPI Spec requires this to be a IRI.
-        const queryParams = new URLSearchParams(queryString);
-        const subContentId = queryParams.get('subContentId');
-        if (subContentId) {
-          subContentIds.push(subContentId);
-        }
+      const subContentId = getSubContentIdFromXAPIStatement(entry.statement);
+      if (subContentId) {
+        subContentIds.push(subContentId);
       }
 
       if (Array.isArray(entry.children)) {

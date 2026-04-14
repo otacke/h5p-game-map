@@ -2052,13 +2052,13 @@
         "name": "neverLoseLives",
         "type": "text",
         "label": "You never lose lives",
-        "default": "You never lose lives"
+        "default": "You never lose lives."
       },
       {
         "name": "loseLifeIfNotFullScore",
         "type": "text",
         "label": "Lose life if not full score",
-        "default": "You lose a life if you do not get full score"
+        "default": "You lose a life if you do not get full score."
       },
       {
         "name": "loseLifeIfBelowPercentage",

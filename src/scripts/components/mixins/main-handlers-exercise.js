@@ -127,8 +127,20 @@ export default class MainHandlersExercise {
       return;
     }
 
-    this.livesLeft--;
     this.params.jukebox.play('lostLife');
+    this.updateLivesLeft(this.livesLeft - 1);
+  }
+
+  /**
+   * Update lives left.
+   * @param {number} livesLeft Number of lifes to set.
+   */
+  updateLivesLeft(livesLeft) {
+    if (typeof livesLeft !== 'number' || livesLeft < 0) {
+      return;
+    }
+
+    this.livesLeft = livesLeft;
 
     this.toolbar.setStatusContainerStatus('lives', { value: this.livesLeft });
 

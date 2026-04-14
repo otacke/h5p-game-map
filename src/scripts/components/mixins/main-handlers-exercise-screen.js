@@ -9,6 +9,7 @@ export default class MainHandlersExerciseScreen {
    */
   handleExerciseScreenClosed(params = {}) {
     if (!this.openExerciseId) {
+      params.animationEndedCallback?.();
       return;
     }
 

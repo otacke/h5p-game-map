@@ -1078,11 +1078,11 @@
         },
         {
           "label": "You never lose lives",
-          "default": "You never lose lives"
+          "default": "You never lose lives."
         },
         {
           "label": "Lose life if not full score",
-          "default": "You lose a life if you do not get full score"
+          "default": "You lose a life if you do not get full score."
         },
         {
           "label": "Lose life below percentage",

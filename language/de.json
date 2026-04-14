@@ -1068,26 +1068,26 @@
           "default": "Es wurde für diese Etappe kein Inhalt gesetzt!"
         },
         {
-          "label": "This is how you lose a life",
-          "default": "This is how you lose a life in an exercise:"
+          "label": "So verlierst du ein Leben",
+          "default": "So verlierst du ein Leben in einer Aufgabe:"
         },
         {
-          "label": "Template for rule for losing lives",
-          "description": "@title and @rule are placeholders that will be replaced with the respective values.",
+          "label": "Muster einer Regel zum Verlieren eines Lebens",
+          "description": "@title und @rule sind Platzhalter und werden durch die entsprechenden Werte ersetzt.",
           "default": "@title: @rule"
         },
         {
-          "label": "You never lose lives",
-          "default": "You never lose lives"
+          "label": "Du verlierst nie Leben",
+          "default": "Du verlierst nie Leben."
         },
         {
-          "label": "Lose life if not full score",
-          "default": "You lose a life if you do not get full score"
+          "label": "Lebensverlust, wenn nicht volle Punktzahl",
+          "default": "Du verlierst ein Leben, wenn du nicht die volle Punktzahl erreichst."
         },
         {
-          "label": "Lose life below percentage",
-          "description": "@percentage is a placeholde and will be replaced with the respective value.",
-          "default": "You lose a life if you get less then @percentage% of all points."
+          "label": "Lebensverlust, wenn unter Prozentsatz",
+          "description": "@percentage ist ein Platzhalter und wird durch den entsprechenden Wert ersetzt.",
+          "default": "Du verlierst ein Leben, wenn du weniger als @percentage% der erreichbaren Punkte erzielst."
         }
       ]
     },

@@ -68,12 +68,21 @@ export default class MainTimer {
       return;
     }
 
-    this.timer.setTime(this.timer.getTime() + timeS * MS_IN_S);
-    this.toolbar.setStatusContainerStatus(
-      'timer',
-      { value: Timer.toTimecode(this.timer.getTime()) },
-    );
     this.params.jukebox.play('extraTime');
+    this.updateTimeLeft(this.timer.getTime() + timeS * MS_IN_S);
+  }
+
+  /**
+   * Update time left on timer.
+   * @param {number} timeLeftMS Time left in milliseconds.
+   */
+  updateTimeLeft(timeLeftMS) {
+    if (typeof timeLeftMS !== 'number' || timeLeftMS < 0 || !this.timer) {
+      return;
+    }
+
+    this.timer.setTime(timeLeftMS);
+    this.toolbar.setStatusContainerStatus('timer', { value: Timer.toTimecode(this.timer.getTime()) });
   }
 
   /**
