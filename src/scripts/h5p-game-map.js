@@ -1,6 +1,7 @@
 import H5PUtil from '@services/h5p-util.js';
 import Util from '@services/util.js';
 import Dictionary from '@services/dictionary.js';
+import { getContentIdFromXAPIStatement, getSubContentIdFromXAPIStatement } from '@services/h5p-util';
 import Jukebox from '@services/jukebox.js';
 import Main from '@components/main.js';
 import MessageBox from '@components/messageBox/message-box.js';
@@ -82,9 +83,25 @@ export default class GameMap extends H5P.Question {
 
     this.initializeMain(fullScreenSupported);
 
+    if (this.params.isPreview) {
+      this.interceptXAPIEvents();
+    }
+
     if (fullScreenSupported) {
       this.setupFullscreenHandlers();
     }
+  }
+
+  /**
+   * Intercept xAPI events in preview mode to avoid polluting LRS with test data.
+   */
+  interceptXAPIEvents() {
+    /*
+     * Kill all external listeners that may have been added so far.
+     * /!\ This can have side effects if a customization listens within the H5P Editor!
+     * There's no way though to block events from subcontents without being able to block them at the source.
+     */
+    H5P.externalDispatcher.off('xAPI');
   }
 
   /**
@@ -398,5 +415,9 @@ export default class GameMap extends H5P.Question {
     else {
       H5P.exitFullScreen();
     }
+  }
+
+  cheat(params) {
+    this.main.cheat(params);
   }
 }

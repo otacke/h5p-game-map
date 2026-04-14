@@ -1,5 +1,42 @@
 import semantics from '@root/semantics.json';
 
+/**
+ * Get subContentId from xAPI statement.
+ * @param {object} xAPIStatement XAPI statement.
+ * @returns {string|null} subContentId or null.
+ */
+export const getSubContentIdFromXAPIStatement = (xAPIStatement = {}) => {
+  if (typeof xAPIStatement.object?.id !== 'string') {
+    return null;
+  }
+
+  const queryString = xAPIStatement.object.id.split('?')[1]; // xAPI Spec requires this to be a IRI.
+  const queryParams = new URLSearchParams(queryString);
+  return queryParams.get('subContentId');
+};
+
+/**
+ * Get contentId from xAPI statement.
+ * @param {object} xAPIStatement xAPI statement.
+ * @returns {string|null} contentId or null.
+ */
+export const getContentIdFromXAPIStatement = (xAPIStatement = {}) => {
+  if (typeof xAPIStatement.object?.id !== 'string') {
+    return null;
+  }
+
+  // xAPI Spec requires this to be a IRI.
+  return xAPIStatement.object.id.split('/').pop()?.split('?')[0] || null;
+};
+
+/**
+ * Determine whether the H5P editor is being used.
+ * @returns {boolean} True if the H5P editor is being used, false otherwise.
+ */
+export const isEditor = () => {
+  return window.H5PEditor !== undefined;
+};
+
 /** Class for h5p related utility functions */
 export default class H5PUtil {
   /**

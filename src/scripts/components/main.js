@@ -2,6 +2,7 @@ import CallbackQueue from '@services/callback-queue.js';
 import { TIMER_STATES } from '@services/timer.js';
 import Util from '@services/util.js';
 import MainAudio from './mixins/main-audio.js';
+import MainCheats from './mixins/main-cheats.js';
 import MainInitialization from './mixins/main-initialization.js';
 import MainHandlersStage from './mixins/main-handlers-stage.js';
 import MainHandlersExercise from './mixins/main-handlers-exercise.js';
@@ -52,6 +53,7 @@ export default class Main {
       Main,
       [
         MainAudio,
+        MainCheats,
         MainInitialization,
         MainHandlersStage,
         MainHandlersExercise,

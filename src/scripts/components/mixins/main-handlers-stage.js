@@ -12,9 +12,8 @@ export default class MainHandlersStage {
       return;
     }
 
-    this.livesLeft += amount;
-    this.toolbar.setStatusContainerStatus('lives', { value: this.livesLeft });
     this.params.jukebox.play('gainedLife');
+    this.updateLivesLeft(this.livesLeft + amount);
   }
 
   /**

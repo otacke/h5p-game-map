@@ -238,7 +238,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
             this.handleTimeout();
           },
           onTick: () => {
-            this.timeLeft = this.timer.getTime();
+            this.setRemainingTime(this.timer.getTime());
             const isTimeoutWarning = this.isTimeoutWarning();
 
             this.callbacks.onTimerTicked(
@@ -367,6 +367,10 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
    * @returns {number} Score.
    */
   getScore() {
+    if (typeof this.cheatScore === 'number') {
+      return this.cheatScore;
+    }
+
     let score = 0;
 
     this.exercises.forEach((exercise) => {
@@ -381,6 +385,10 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
    * @returns {number} Weighted score.
    */
   getWeightedScore() {
+    if (typeof this.cheatScore === 'number') {
+      return this.cheatScore;
+    }
+
     return this.exercises.reduce((total, exercise) => total + exercise.getWeightedScore(), 0);
   }
 
@@ -434,6 +442,19 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
    */
   getRemainingTime() {
     return this.timeLeft;
+  }
+
+  /**
+   * Set remaining time.
+   * @param {number} timeMs Remaining time in milliseconds.
+   */
+  setRemainingTime(timeMs) {
+    if (!this.timer || (typeof timeMs !== 'number')) {
+      return;
+    }
+
+    this.timer.setTime(timeMs);
+    this.timeLeft = timeMs;
   }
 
   /**
@@ -675,10 +696,33 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
   }
 
   /**
+   * Set cheat score.
+   * @param {number} score Cheat score to set.
+   */
+  setCheatScore(score) {
+    if (score === undefined) {
+      delete this.cheatScore;
+    }
+    else if (typeof score === 'number' && score > 0) {
+      this.cheatScore = score;
+
+      this.callbacks.onScoreChanged({
+        score: this.getWeightedScore(),
+        maxScore: this.getWeightedMaxScore(),
+        bundleCompleted: this.isCompleted,
+        exerciseSuccessful: true, // Prevent loss of life handler
+        scoreBelowLifeThreshold: false, // Prevent loss of life handler
+      });
+    }
+  }
+
+  /**
    * Handle exercise scored.
    * @param {object} [params] Parameters.
    */
   handleScored(params = {}) {
+    this.setCheatScore(); // In case a cheat score was set, use real score again.
+
     const roaming = this.params.globals.get('params').behaviour.map.roaming;
     this.isCompleted = this.exercises.every((exercise) => exercise.wasCompleted());
     const allExercisesSuccessful = this.exercises.every((exercise) => exercise.wasSuccessful());
