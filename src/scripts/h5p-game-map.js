@@ -417,6 +417,18 @@ export default class GameMap extends H5P.Question {
     }
   }
 
+  /**
+   * Get stages.
+   * @returns {object[]} Stages.
+   */
+  getStages() {
+    return this.main.getStages();
+  }
+
+  /**
+   * Cheat!
+   * @param {object} params Parameters.
+   */
   cheat(params) {
     this.main.cheat(params);
   }

@@ -126,6 +126,14 @@ export default class Main {
   }
 
   /**
+   * Get stages.
+   * @returns {object[]} Stages.
+   */
+  getStages() {
+    return this.stages;
+  }
+
+  /**
    * Set timer state
    */
   setTimerState() {
