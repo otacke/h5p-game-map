@@ -386,6 +386,22 @@
                     "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type."
                   },
                   {
+                    "label": "Stage behaviour",
+                    "fields": [
+                      {
+                        "label": "Pick random exercises for this stage"
+                      },
+                      {
+                        "label": "Number of randomly chosen exercises",
+                        "description": "Set the number of exercises to choose randomly for this stage."
+                      },
+                      {
+                        "label": "Uniform total score",
+                        "description": "Set the total score for this stage regardless of what exercises are picked."
+                      }
+                    ]
+                  },
+                  {
                     "label": "Score scaling",
                     "fields": [
                       {

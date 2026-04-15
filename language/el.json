@@ -386,6 +386,22 @@
                     "description": "Εάν επιλεγεί, τα κλειδωμένα επίπεδα δεν θα χρησιμοποιούν το σύμβολο κλειδώματος, αλλά το σύμβολο για τον ειδικό τύπο επιπέδου."
                   },
                   {
+                    "label": "Stage behaviour",
+                    "fields": [
+                      {
+                        "label": "Pick random exercises for this stage"
+                      },
+                      {
+                        "label": "Number of randomly chosen exercises",
+                        "description": "Set the number of exercises to choose randomly for this stage."
+                      },
+                      {
+                        "label": "Uniform total score",
+                        "description": "Set the total score for this stage regardless of what exercises are picked."
+                      }
+                    ]
+                  },
+                  {
                     "label": "Score scaling",
                     "fields": [
                       {

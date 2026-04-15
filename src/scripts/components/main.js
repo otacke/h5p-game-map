@@ -95,10 +95,6 @@ export default class Main {
 
     this.toolbar.showStatusContainer('stages');
 
-    if (this.getMaxScore() > 0) {
-      this.toolbar.showStatusContainer('score');
-    }
-
     this.start({ isInitial: true });
 
     this.stages.updateStatePerRestrictions();

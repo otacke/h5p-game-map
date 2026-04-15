@@ -764,6 +764,57 @@
                   "optional": true
                 },
                 {
+                  "name": "stageBehaviour",
+                  "type": "group",
+                  "label": "Stage behaviour",
+                  "importance": "low",
+                  "fields": [
+                    {
+                      "name": "randomExercises",
+                      "type": "boolean",
+                      "label": "Pick random exercises for this stage",
+                      "optional": true
+                    },
+                    {
+                      "name": "randomExerciseCount",
+                      "type": "number",
+                      "label": "Number of randomly chosen exercises",
+                      "description": "Set the number of exercises to choose randomly for this stage.",
+                      "min": 1,
+                      "step": 1,
+                      "default": 1,
+                      "optional": true,
+                      "widget": "gamemapshowwhen",
+                      "gamemapshowwhen": {
+                        "rules": [
+                          {
+                            "field": "randomExercises",
+                            "equals": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "name": "randomExerciseTotalScore",
+                      "type": "number",
+                      "label": "Uniform total score",
+                      "description": "Set the total score for this stage regardless of what exercises are picked.",
+                      "min": 1,
+                      "step": 1,
+                      "optional": true,
+                      "widget": "gamemapshowwhen",
+                      "gamemapshowwhen": {
+                        "rules": [
+                          {
+                            "field": "randomExercises",
+                            "equals": true
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
                   "name": "scoreScaling",
                   "type": "group",
                   "label": "Score scaling",

@@ -1,7 +1,6 @@
 import H5PUtil from '@services/h5p-util.js';
 import Util from '@services/util.js';
 import Dictionary from '@services/dictionary.js';
-import { getContentIdFromXAPIStatement, getSubContentIdFromXAPIStatement } from '@services/h5p-util';
 import Jukebox from '@services/jukebox.js';
 import Main from '@components/main.js';
 import MessageBox from '@components/messageBox/message-box.js';

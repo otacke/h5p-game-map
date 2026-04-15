@@ -1,5 +1,5 @@
 import Timer from '@services/timer.js';
-import Util from '@services/util.js';
+import Util, { pickFromArray } from '@services/util.js';
 import Exercise from '@models/exercise.js';
 
 /** @constant {number} MS_IN_S Milliseconds in a second. */
@@ -54,10 +54,30 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
 
     this.setState(this.params.globals.get('states').unstarted);
 
-    for (const exerciseIndex in params.contentsList) {
+    this.dom = document.createElement('div');
+    this.dom.classList.add('h5p-game-map-exercise-bundle');
+
+    this.rebuild();
+  }
+
+  /**
+   * Rebuild.
+   */
+  rebuild() {
+    this.exercises = [];
+
+    const contentSelector =
+      this.params.previousState.pickedContentIndexes ?? this.params.stageBehaviour.randomExerciseCount;
+
+    const selectedContentsData = pickFromArray(this.params.contentsList, contentSelector);
+    if (contentSelector !== undefined) {
+      this.pickedContentIndexes = selectedContentsData.indexes;
+    }
+
+    selectedContentsData.indexes.forEach((exerciseIndex) => {
       const previousState = this.params.previousState?.instances?.[exerciseIndex];
-      const contentType = params.contentsList[exerciseIndex].contentType;
-      const livesSettings = params.contentsList[exerciseIndex].livesSettings;
+      const contentType = this.params.contentsList[exerciseIndex].contentType;
+      const livesSettings = this.params.contentsList[exerciseIndex].livesSettings;
       const subContentId = contentType.subContentId;
 
       const scoreScalingList = this.params.scoreScaling?.scoreScalingList ?? [];
@@ -91,9 +111,18 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
           },
         ),
       );
-    }
+    });
 
-    if (this.params.scoreScaling.scalingMode === 'totalScore' && this.params.scoreScaling.totalScore) {
+    if (!Object.keys(this.params.scoreScaling).length) {
+      this.exercises.forEach((exercise) => {
+        if (!exercise.isTask()) {
+          return;
+        }
+
+        exercise.setWeight(1);
+      });
+    }
+    else if (this.params.scoreScaling.scalingMode === 'totalScore' && this.params.scoreScaling.totalScore) {
       const maxScoreOfAllTasks = this.getMaxScore(); // Important to get original max score before weights are applied
       const weight = this.params.scoreScaling.totalScore / maxScoreOfAllTasks;
       this.exercises.forEach((exercise) => {
@@ -105,8 +134,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       });
     }
 
-    this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-game-map-exercise-bundle');
+    this.dom.innerHTML = '';
     this.exercises.forEach((exercise) => {
       this.dom.appendChild(exercise.getDOM());
     });
@@ -145,6 +173,14 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
 
       this.dom.append(this.continueButton);
     }
+  }
+
+  /**
+   * Determine whether the bundle contains at least one task.
+   * @returns {boolean} True if bundle contains at least one task, false otherwise.
+   */
+  containsTask() {
+    return this.exercises.some((exercise) => exercise.isTask());
   }
 
   /**
@@ -228,6 +264,9 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       timeLimit = (this.params.time?.timeLimit ?? -1) * MS_IN_S;
       this.isCompleted = false;
       state = this.params.globals.get('states').unstarted;
+      delete this.params.previousState.pickedContentIndexes;
+      delete this.pickedContentIndexes;
+      this.rebuild();
     }
 
     if (timeLimit > -1) {
@@ -367,6 +406,10 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
    * @returns {number} Score.
    */
   getScore() {
+    if (!this.containsTask()) {
+      return 0;
+    }
+
     if (typeof this.cheatScore === 'number') {
       return this.cheatScore;
     }
@@ -385,6 +428,10 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
    * @returns {number} Weighted score.
    */
   getWeightedScore() {
+    if (!this.containsTask()) {
+      return 0;
+    }
+
     if (typeof this.cheatScore === 'number') {
       return this.cheatScore;
     }
@@ -411,6 +458,10 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
    * @returns {number} Weighted max score.
    */
   getWeightedMaxScore() {
+    if (!this.containsTask()) {
+      return 0;
+    }
+
     if (this.params.scoreScaling.scalingMode === 'totalScore' && this.params.scoreScaling.totalScore) {
       return this.params.scoreScaling.totalScore;
     }
@@ -489,6 +540,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       remainingTime: remainingTime,
       isCompleted: this.isCompleted,
       instances: instances,
+      ...(!!this.pickedContentIndexes && { pickedContentIndexes: this.pickedContentIndexes }),
     };
   }
 
