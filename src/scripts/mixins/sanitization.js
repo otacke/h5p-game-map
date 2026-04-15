@@ -21,6 +21,7 @@ export default class QuestionTypeContract {
       element.animDuration = this.params.visual.misc.useAnimation ? EXERCISE_SCREEN_ANIM_DURATION_MS : 0;
 
       this.sanitizeScoreScaling(element);
+      this.sanitizeStageBehaviour(element);
 
       return element;
     });
@@ -174,5 +175,25 @@ export default class QuestionTypeContract {
         weight: parseFloat(scaling.weight),
       };
     });
+  }
+
+  /**
+   * Sanitize stage behehaviour.
+   * @param {object} element Element.
+   */
+  sanitizeStageBehaviour(element) {
+    element.stageBehaviour = element.stageBehaviour || {};
+    if (!element.stageBehaviour.randomExercises) {
+      delete element.stageBehaviour.randomExerciseCount;
+    }
+
+    if (typeof element.stageBehaviour.randomExerciseCount === 'number') {
+      element.scoreScaling = {}; // Does not work if a random content is chosen
+
+      if (typeof element.stageBehaviour.randomExerciseTotalScore === 'number') {
+        element.scoreScaling.scalingMode = 'totalScore';
+        element.scoreScaling.totalScore = element.stageBehaviour.randomExerciseTotalScore;
+      }
+    }
   }
 }

@@ -615,5 +615,12 @@ export default class MainInitialization {
     }
 
     this.stages.updateStatePerRestrictions();
+
+    if (this.getMaxScore() > 0) {
+      this.toolbar.showStatusContainer('score');
+    }
+    else {
+      this.toolbar.hideStatusContainer('score');
+    }
   }
 }
