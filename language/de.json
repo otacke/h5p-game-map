@@ -386,6 +386,22 @@
                     "description": "Wenn gewählt, verwenden verschlossene Etappen nicht das Schlosssymbol, sondern das Symbol für den Spezialetappentyp."
                   },
                   {
+                    "label": "Etappenverhalten",
+                    "fields": [
+                      {
+                        "label": "Wähle Aufgaben für diese Etappe zufällig"
+                      },
+                      {
+                        "label": "Anzahl der zufällig gewählten Aufgaben",
+                        "description": "Lege die Anzahl der Aufgaben fest, die zufällig für diese Etappe ausgewählt werden."
+                      },
+                      {
+                        "label": "Einheitliche Gesamtpunktzahl",
+                        "description": "Lege die Gesamtpunktzahl für diese Etappe fest unabhängig davon, welche Aufgaben ausgewählt werden."
+                      }
+                    ]
+                  },
+                  {
                     "label": "Skalierung der Punkte",
                     "fields": [
                       {
