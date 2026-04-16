@@ -46,7 +46,19 @@ export default class MainHandlersStage {
         stage.getLabel(),
         this.params.dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, stage.getLabel()),
       );
-      this.exerciseScreen.setInfo(this.buildLivesInfoHTML(exerciseBundle.getLivesInfo()));
+
+      const infoChildren = [
+        this.buildLivesInfoHTML(exerciseBundle.getLivesInfo()),
+        this.buildScoreInfoHTML(exerciseBundle.getScoreInfo()),
+      ].filter(Boolean);
+
+      let info;
+      if (infoChildren.length) {
+        info = document.createElement('div');
+        info.classList.add('h5p-game-map-overlay-dialog-header-info-wrapper');
+        info.append(...infoChildren);
+      }
+      this.exerciseScreen.setInfo(info);
 
       this.params.jukebox.stopGroup('default');
       this.exerciseScreen.show({ isShowingSolutions: this.isShowingSolutions });
@@ -88,31 +100,65 @@ export default class MainHandlersStage {
   /**
    * Build lives info HTML for exercise screen.
    * @param {object} rawLivesInfo Lives info from exercise bundle.
-   * @returns {string|undefined} HTML string or undefined if no rules.
+   * @returns {DocumentFragment|undefined} DOM fragment or undefined if no rules.
    */
   buildLivesInfoHTML(rawLivesInfo) {
     if (!rawLivesInfo.rules.length) {
       return undefined;
     }
 
-    const rulesListItems = rawLivesInfo.rules
-      .map((rule) => {
-        const ruleTitle = rule.title ?
-          `<span class="h5p-game-map-overlay-dialog-headline-info-content-listitem-title">${rule.title}: </span>` :
-          '';
+    const BASE = 'h5p-game-map-overlay-dialog-headline-info-content';
 
-        // eslint-disable-next-line @stylistic/js/max-len
-        const ruleText = `<span class="h5p-game-map-overlay-dialog-headline-info-content-listitem-text">${rule.rule}</span>`;
-        return `<li class="h5p-game-map-overlay-dialog-headline-info-content-listitem">${ruleTitle}${ruleText}</li>`;
-      })
-      .join('');
+    const intro = document.createElement('p');
+    intro.className = `${BASE}-intro`;
+    intro.textContent = rawLivesInfo.intro;
 
-    const listClass = `h5p-game-map-overlay-dialog-headline-info-content-list${rawLivesInfo.rules.length === 1 ?
-      ' one-item' :
-      ''}`;
-    const intro = `<p class="h5p-game-map-overlay-dialog-headline-info-content-intro">${rawLivesInfo.intro}</p>`;
+    const list = document.createElement('ul');
+    list.className = `${BASE}-list`;
+    if (rawLivesInfo.rules.length === 1) {
+      list.classList.add('one-item');
+    }
 
-    return `${intro}<ul class="${listClass}">${rulesListItems}</ul>`;
+    for (const rule of rawLivesInfo.rules) {
+      const li = document.createElement('li');
+      li.className = `${BASE}-listitem`;
+
+      if (rule.title) {
+        const titleSpan = document.createElement('span');
+        titleSpan.className = `${BASE}-listitem-title`;
+        titleSpan.textContent = `${rule.title}: `;
+        li.append(titleSpan);
+      }
+
+      const ruleSpan = document.createElement('span');
+      ruleSpan.className = `${BASE}-listitem-text`;
+      ruleSpan.textContent = rule.rule;
+      li.append(ruleSpan);
+
+      list.append(li);
+    }
+
+    const livesInfo = document.createElement('div');
+    livesInfo.classList.add('h5p-game-map-overlay-dialog-info-lives');
+    livesInfo.append(intro, list);
+    return livesInfo;
+  }
+
+  /**
+   * Build info score HTML.
+   * @param {string} scoreInfo Info message.
+   * @returns {HTMLElement|undefined} Score info element.
+   */
+  buildScoreInfoHTML(scoreInfo) {
+    if (!scoreInfo) {
+      return;
+    }
+
+    const message = document.createElement('p');
+    message.classList.add('h5p-game-map-overlay-dialog-headline-info-content-intro');
+    message.innerText = scoreInfo;
+
+    return message;
   }
 
   /**

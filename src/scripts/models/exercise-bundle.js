@@ -402,6 +402,18 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
   }
 
   /**
+   * Get score info.
+   * @returns {string|undefined} Message or undefined if no score info.
+   */
+  getScoreInfo() {
+    if (this.getMaxScore() === this.getWeightedMaxScore()) {
+      return;
+    }
+
+    return this.params.dictionary.get('l10n.maxScoreAdjusted');
+  }
+
+  /**
    * Get score of all exercises.
    * @returns {number} Score.
    */

@@ -222,10 +222,10 @@ export default class OverlayDialog {
 
   /**
    * Set info text.
-   * @param {HTMLElement} text Info text to set, can contain HTML.
+   * @param {HTMLElement} html Info text to set, can contain HTML.
    */
-  setInfo(text) {
-    if (typeof text !== 'string' || text.trim() === '') {
+  setInfo(html) {
+    if (!(html instanceof HTMLElement)) {
       this.infoIcon.classList.add('display-none');
       this.infoIcon.setAttribute('aria-label', this.params.dictionary.get('a11y.showStageInfo'));
       this.toggleInfoVisibility(false);
@@ -234,7 +234,8 @@ export default class OverlayDialog {
     }
 
     this.infoIcon.classList.remove('display-none');
-    this.infoContent.innerHTML = text; // Ensure this does not introduce XSS vulnerabilities.
+    this.infoContent.innerText = '';
+    this.infoContent.append(html);
   }
 
   /**

@@ -1084,6 +1084,10 @@
           "default": "No content was set for this stage!"
         },
         {
+          "label": "Max score was adjusted",
+          "default": "Note that the maximum score for this stage was adjusted and will not match the sum of all maximum scores from all exercises."
+        },
+        {
           "label": "This is how you lose a life",
           "default": "This is how you lose a life in an exercise:"
         },

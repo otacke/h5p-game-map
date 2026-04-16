@@ -1084,6 +1084,10 @@
           "default": "Es wurde für diese Etappe kein Inhalt gesetzt!"
         },
         {
+          "label": "Maximale Punktzahl angepasst",
+          "default": "Beachte, dass die maximale Punktzahl für diese Etappe angepasst wurde. Sie wird nicht mit der Summe aller Gesamtpunktzahlen der Aufgaben übereinstimmen."
+        },
+        {
           "label": "So verlierst du ein Leben",
           "default": "So verlierst du ein Leben in einer Aufgabe:"
         },

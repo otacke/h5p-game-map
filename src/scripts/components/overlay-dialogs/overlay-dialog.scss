@@ -165,24 +165,31 @@
       .h5p-game-map-overlay-dialog-headline-info-content {
         border: 2px solid var(--color-primary);
         border-radius: 4px;
+        display: grid;
+        gap: 0.5rem;
         margin-block: 0.5rem;
         padding: 0.5rem;
 
-        .h5p-game-map-overlay-dialog-headline-info-content-intro {
-          font-weight: bold;
-          margin: 0;
-        }
+        .h5p-game-map-overlay-dialog-header-info-wrapper {
+          display: grid;
+          gap: 0.5rem;
 
-        .h5p-game-map-overlay-dialog-headline-info-content-list {
-          margin: 0;
-
-          &.one-item {
-            list-style: none;
-            padding: 0;
+          .h5p-game-map-overlay-dialog-headline-info-content-intro {
+            font-weight: bold;
+            margin: 0;
           }
 
-          .h5p-game-map-overlay-dialog-headline-info-content-listitem-title {
-            font-style: italic;
+          .h5p-game-map-overlay-dialog-headline-info-content-list {
+            margin: 0;
+
+            &.one-item {
+              list-style: none;
+              padding: 0;
+            }
+
+            .h5p-game-map-overlay-dialog-headline-info-content-listitem-title {
+              font-style: italic;
+            }
           }
         }
 
