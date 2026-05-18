@@ -1,3 +1,4 @@
+import { MS_IN_S } from '@services/constants.js';
 import Util from '@services/util.js';
 
 /**
@@ -24,9 +25,6 @@ export const TIMER_MODES = {
 
 /** @constant {number} DEFAULT_INTERVAL_MS Default interval in milliseconds */
 const DEFAULT_INTERVAL_MS = 1000;
-
-/** @constant {number} MS_IN_S Milliseconds in a second */
-const MS_IN_S = 1000;
 
 /** @constant {number} MINIMUM_INTERVAL_MS Minimum interval in milliseconds */
 const MINIMUM_INTERVAL_MS = 50;

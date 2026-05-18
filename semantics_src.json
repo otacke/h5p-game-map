@@ -73,984 +73,1009 @@
     "optional": true
   },
   {
-    "name": "gamemapSteps",
-    "type": "group",
-    "label": "Game map editor",
+    "name": "gamemaps",
+    "type": "list",
+    "label": "Game maps",
     "importance": "high",
-    "widget": "wizard",
-    "fields": [
+    "entity": "map",
+    "min": 1,
+    "widgets": [
       {
-        "name": "backgroundImageSettings",
-        "label": "Background",
-        "type": "group",
-        "importance": "high",
-        "fields": [
-          {
-            "name": "backgroundImage",
-            "type": "image",
-            "label": "Background image",
-            "importance": "high",
-            "description": "Select an image to use as the background of the game map.",
-            "optional": true
-          },
-          {
-            "name": "backgroundColor",
-            "type": "text",
-            "label": "Background color",
-            "description": "Choose a color to use as the background of the game map.",
-            "default": "rgb(255, 255, 255)",
-            "widget": "colorSelector",
-            "spectrum": {
-              "showInput": true,
-              "showInitial": true,
-              "preferredFormat": "rgb"
-            }
-          }
-        ]
-      },
-      {
-        "name": "gamemap",
-        "label": "Game map",
-        "type": "group",
-        "importance": "high",
-        "widget": "gamemap",
-        "fields": [
-          {
-            "name": "dummy",
-            "type": "boolean",
-            "widget": "none",
-            "optional": true
-          },
-          {
+        "name": "VerticalTabs",
+        "label": "Default"
+      }
+    ],
+    "field": {
+      "name": "gamemap",
+      "label": "Game map",
+      "type": "group",
+      "importance": "high",
+      "widget": "gamemap",
+      "state": "new",
+      "fields": [
+        {
+          "name": "elements",
+          "type": "list",
+          "label": "Elements",
+          "importance": "high",
+          "entity": "Element",
+          "field": {
             "name": "elements",
-            "type": "list",
+            "type": "group",
             "label": "Elements",
             "importance": "high",
-            "entity": "Element",
-            "field": {
-              "name": "elements",
-              "type": "group",
-              "label": "Elements",
-              "importance": "high",
-              "fields": [
-                {
-                  "name": "id",
-                  "type": "text",
-                  "label": "Id",
-                  "widget": "none"
-                },
-                {
-                  "name": "type",
-                  "type": "text",
-                  "label": "Type",
-                  "widget": "none"
-                },
-                {
-                  "name": "label",
-                  "type": "text",
-                  "label": "Stage label",
-                  "description": "This label will be displayed on top of your exercise and will help you to connect different stages with one another.",
-                  "importance": "medium"
-                },
-                {
-                  "name": "canBeStartStage",
-                  "type": "boolean",
-                  "label": "User can start here",
-                  "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly.",
-                  "importance": "medium",
-                  "default": false
-                },
-                {
-                  "name": "time",
-                  "type": "group",
-                  "label": "Time limit",
-                  "description": "Define timer related settings.",
-                  "fields": [
-                    {
-                      "name": "timeLimit",
-                      "type": "number",
-                      "label": "Time limit",
-                      "description": "Optional time limit in seconds. If a user exceeds this time, the exercise will close, be reset, and the user will loose a life if lives are limited.",
-                      "min": 1,
-                      "optional": true
-                    },
-                    {
-                      "name": "timeoutWarning",
-                      "type": "number",
-                      "label": "Timeout warning time",
-                      "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings.",
-                      "min": 1,
-                      "optional": true
-                    }
-                  ]
-                },
-                {
-                  "name": "accessRestrictions",
-                  "type": "group",
-                  "label": "Access restrictions",
-                  "description": "Define restrictions for unlocking.",
-                  "fields": [
-                    {
-                      "name": "allOrAnyRestrictionSet",
-                      "type": "select",
-                      "label": "All or any restriction set",
-                      "description": "Choose if all or any of the following restrictions need to be met.",
-                      "optional": true,
-                      "options": [
-                        {
-                          "value": "all",
-                          "label": "All"
-                        },
-                        {
-                          "value": "any",
-                          "label": "Any"
-                        }
-                      ],
-                      "default": "all"
-                    },
-                    {
-                      "name": "restrictionSetList",
-                      "type": "list",
-                      "optional": true,
-                      "label": "Restriction sets",
-                      "entity": "restriction set",
-                      "widgets": [
-                        {
-                          "name": "VerticalTabs",
-                          "label": "Default"
-                        }
-                      ],
-                      "field": {
-                        "name": "restrictionSetGroup",
-                        "type": "group",
-                        "label": "Restriction set",
-                        "fields": [
-                          {
-                            "name": "allOrAnyRestriction",
-                            "type": "select",
-                            "label": "All or any restriction",
-                            "description": "Choose if all or any of the following restrictions need to be met.",
-                            "options": [
-                              {
-                                "value": "all",
-                                "label": "All"
-                              },
-                              {
-                                "value": "any",
-                                "label": "Any"
-                              }
-                            ],
-                            "default": "any"
-                          },
-                          {
-                            "name": "restrictionList",
-                            "type": "list",
-                            "label": "Restrictions",
-                            "entity": "restriction",
-                            "optional": true,
-                            "field": {
-                              "name": "restrictionGroup",
-                              "type": "group",
-                              "label": "Restriction",
-                              "fields": [
-                                {
-                                  "name": "restrictionType",
-                                  "label": "Restriction type",
-                                  "type": "select",
-                                  "optional": true,
-                                  "options": [
-                                    {
-                                      "value": "totalScore",
-                                      "label": "Total score"
-                                    },
-                                    {
-                                      "value": "stageScore",
-                                      "label": "Stage score"
-                                    },
-                                    {
-                                      "value": "stageScorePercentage",
-                                      "label": "Stage score percentage"
-                                    },
-                                    {
-                                      "value": "stageProgress",
-                                      "label": "Stage progress"
-                                    },
-                                    {
-                                      "value": "time",
-                                      "label": "Time"
-                                    }
-                                  ],
-                                  "default": "totalScore"
-                                },
-                                {
-                                  "name": "totalScoreGroup",
-                                  "type": "group",
-                                  "label": "Total score",
-                                  "expanded": true,
-                                  "fields": [
-                                    {
-                                      "name": "totalScoreOperator",
-                                      "label": "Operator for total score",
-                                      "type": "select",
-                                      "optional": true,
-                                      "options": [
-                                        {
-                                          "value": "lessThan",
-                                          "label": "less than"
-                                        },
-                                        {
-                                          "value": "equalTo",
-                                          "label": "equal to"
-                                        },
-                                        {
-                                          "value": "notEqualTo",
-                                          "label": "not equal to"
-                                        },
-                                        {
-                                          "value": "greaterThan",
-                                          "label": "greater than"
-                                        }
-                                      ],
-                                      "default": "greaterThan"
-                                    },
-                                    {
-                                      "name": "totalScoreValue",
-                                      "label": "Value of total score to compare to",
-                                      "type": "number",
-                                      "optional": true
-                                    }
-                                  ],
-                                  "widget": "gamemapshowwhen",
-                                  "gamemapshowwhen": {
-                                    "rules": [
-                                      {
-                                        "field": "restrictionType",
-                                        "equals": "totalScore"
-                                      }
-                                    ]
-                                  }
-                                },
-                                {
-                                  "name": "stageScoreGroup",
-                                  "type": "group",
-                                  "label": "Stage score",
-                                  "expanded": true,
-                                  "fields": [
-                                    {
-                                      "name": "stageScoreId",
-                                      "type": "select",
-                                      "label": "Stage to get score from",
-                                      "widget": "gamemapstageselect",
-                                      "optional": true,
-                                      "options": []
-                                    },
-                                    {
-                                      "name": "stageScoreOperator",
-                                      "label": "Operator for stage score",
-                                      "type": "select",
-                                      "optional": true,
-                                      "options": [
-                                        {
-                                          "value": "lessThan",
-                                          "label": "less than"
-                                        },
-                                        {
-                                          "value": "equalTo",
-                                          "label": "equal to"
-                                        },
-                                        {
-                                          "value": "notEqualTo",
-                                          "label": "not equal to"
-                                        },
-                                        {
-                                          "value": "greaterThan",
-                                          "label": "greater than"
-                                        }
-                                      ],
-                                      "default": "before"
-                                    },
-                                    {
-                                      "name": "stageScoreValue",
-                                      "label": "Stage score to compare to",
-                                      "type": "number",
-                                      "optional": true
-                                    }
-                                  ],
-                                  "widget": "gamemapshowwhen",
-                                  "gamemapshowwhen": {
-                                    "rules": [
-                                      {
-                                        "field": "restrictionType",
-                                        "equals": "stageScore"
-                                      }
-                                    ]
-                                  }
-                                },
-                                {
-                                  "name": "stageScorePercentageGroup",
-                                  "type": "group",
-                                  "label": "Stage score percentage",
-                                  "expanded": true,
-                                  "fields": [
-                                    {
-                                      "name": "stageScorePercentageId",
-                                      "type": "select",
-                                      "label": "Stage to get score percentage from",
-                                      "widget": "gamemapstageselect",
-                                      "optional": true,
-                                      "options": []
-                                    },
-                                    {
-                                      "name": "stageScorePercentageOperator",
-                                      "label": "Operator for stage score percentage",
-                                      "type": "select",
-                                      "optional": true,
-                                      "options": [
-                                        {
-                                          "value": "lessThan",
-                                          "label": "less than"
-                                        },
-                                        {
-                                          "value": "equalTo",
-                                          "label": "equal to"
-                                        },
-                                        {
-                                          "value": "notEqualTo",
-                                          "label": "not equal to"
-                                        },
-                                        {
-                                          "value": "greaterThan",
-                                          "label": "greater than"
-                                        }
-                                      ],
-                                      "default": "before"
-                                    },
-                                    {
-                                      "name": "stageScorePercentageValue",
-                                      "label": "Stage score percentage to compare to",
-                                      "type": "number",
-                                      "optional": true
-                                    }
-                                  ],
-                                  "widget": "gamemapshowwhen",
-                                  "gamemapshowwhen": {
-                                    "rules": [
-                                      {
-                                        "field": "restrictionType",
-                                        "equals": "stageScorePercentage"
-                                      }
-                                    ]
-                                  }
-                                },
-                                {
-                                  "name": "stageProgressGroup",
-                                  "type": "group",
-                                  "label": "Stage progress",
-                                  "expanded": true,
-                                  "fields": [
-                                    {
-                                      "name": "stageProgressId",
-                                      "type": "select",
-                                      "label": "Stage to get progress from",
-                                      "widget": "gamemapstageselect",
-                                      "optional": true,
-                                      "options": []
-                                    },
-                                    {
-                                      "name": "stageProgressOperator",
-                                      "label": "Operator for stage progress",
-                                      "type": "select",
-                                      "optional": true,
-                                      "options": [
-                                        {
-                                          "value": "is",
-                                          "label": "is"
-                                        },
-                                        {
-                                          "value": "isNot",
-                                          "label": "is not"
-                                        }
-                                      ],
-                                      "default": "is"
-                                    },
-                                    {
-                                      "name": "stageProgressValue",
-                                      "label": "Progress to compare to",
-                                      "type": "select",
-                                      "options": [
-                                        {
-                                          "value": "unstarted",
-                                          "label": "not started"
-                                        },
-                                        {
-                                          "value": "opened",
-                                          "label": "started"
-                                        },
-                                        {
-                                          "value": "completed",
-                                          "label": "completed"
-                                        },
-                                        {
-                                          "value": "cleared",
-                                          "label": "completed successfully"
-                                        }
-                                      ],
-                                      "default": "open",
-                                      "optional": true
-                                    }
-                                  ],
-                                  "widget": "gamemapshowwhen",
-                                  "gamemapshowwhen": {
-                                    "rules": [
-                                      {
-                                        "field": "restrictionType",
-                                        "equals": "stageProgress"
-                                      }
-                                    ]
-                                  }
-                                },
-                                {
-                                  "name": "timeGroup",
-                                  "type": "group",
-                                  "label": "Time",
-                                  "expanded": true,
-                                  "fields": [
-                                    {
-                                      "name": "timeOperator",
-                                      "label": "Operator for time",
-                                      "type": "select",
-                                      "optional": true,
-                                      "options": [
-                                        {
-                                          "value": "before",
-                                          "label": "before"
-                                        },
-                                        {
-                                          "value": "is",
-                                          "label": "is"
-                                        },
-                                        {
-                                          "value": "is not",
-                                          "label": "is not"
-                                        },
-                                        {
-                                          "value": "after",
-                                          "label": "after"
-                                        }
-                                      ],
-                                      "default": "before"
-                                    },
-                                    {
-                                      "name": "timeValue",
-                                      "label": "Time to compare to",
-                                      "type": "text",
-                                      "widget": "datetime",
-                                      "optional": true
-                                    }
-                                  ],
-                                  "widget": "gamemapshowwhen",
-                                  "gamemapshowwhen": {
-                                    "rules": [
-                                      {
-                                        "field": "restrictionType",
-                                        "equals": "time"
-                                      }
-                                    ]
-                                  }
-                                }
-                              ]
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "name": "dummy",
-                      "type": "boolean",
-                      "label": "Dummy",
-                      "widget": "none",
-                      "optional": true
-                    }
-                  ]
-                },
-                {
-                  "name": "contentsList",
-                  "type": "list",
-                  "label": "Contents",
-                  "entity": "content",
-                  "min": 1,
-                  "widgets": [
-                    {
-                      "name": "VerticalTabs",
-                      "label": "Default"
-                    }
-                  ],
-                  "field": {
-                    "name": "contentsGroup",
-                    "type": "group",
-                    "label": "Content",
-                    "fields": [
+            "fields": [
+              {
+                "name": "id",
+                "type": "text",
+                "label": "Id",
+                "widget": "none"
+              },
+              {
+                "name": "type",
+                "type": "text",
+                "label": "Type",
+                "widget": "none"
+              },
+              {
+                "name": "label",
+                "type": "text",
+                "label": "Stage label",
+                "description": "This label will be displayed on top of your exercise and will help you to connect different stages with one another.",
+                "importance": "medium"
+              },
+              {
+                "name": "canBeStartStage",
+                "type": "boolean",
+                "label": "User can start here",
+                "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly.",
+                "importance": "medium",
+                "default": false
+              },
+              {
+                "name": "time",
+                "type": "group",
+                "label": "Time limit",
+                "description": "Define timer related settings.",
+                "fields": [
+                  {
+                    "name": "timeLimit",
+                    "type": "number",
+                    "label": "Time limit",
+                    "description": "Optional time limit in seconds. If a user exceeds this time, the exercise will close, be reset, and the user will loose a life if lives are limited.",
+                    "min": 1,
+                    "optional": true
+                  },
+                  {
+                    "name": "timeoutWarning",
+                    "type": "number",
+                    "label": "Timeout warning time",
+                    "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings.",
+                    "min": 1,
+                    "optional": true
+                  }
+                ]
+              },
+              {
+                "name": "accessRestrictions",
+                "type": "group",
+                "label": "Access restrictions",
+                "description": "Define restrictions for unlocking.",
+                "fields": [
+                  {
+                    "name": "allOrAnyRestrictionSet",
+                    "type": "select",
+                    "label": "All or any restriction set",
+                    "description": "Choose if all or any of the following restrictions need to be met.",
+                    "optional": true,
+                    "options": [
                       {
-                        "name": "contentType",
-                        "type": "library",
-                        "label": "Stage content",
-                        "description": "Choose the type of content you would like to add.",
-                        "importance": "high",
-                        "options": [
-                          "H5P.Accordion 1.0",
-                          "H5P.Agamotto 1.6",
-                          "H5P.Audio 1.5",
-                          "H5P.AudioRecorder 1.0",
-                          "H5P.ChoiceExplorer 1.0",
-                          "H5P.CombinationLock 1.0",
-                          "H5P.CoursePresentation 1.26",
-                          "H5P.Crossword 0.5",
-                          "H5P.Dialogcards 1.9",
-                          "H5P.DragQuestion 1.14",
-                          "H5P.DragText 1.10",
-                          "H5P.Essay 1.5",
-                          "H5P.Blanks 1.14",
-                          "H5P.ImageHotspotQuestion 1.8",
-                          "H5P.Image 1.1",
-                          "H5P.MultiMediaChoice 0.3",
-                          "H5P.ImageHotspots 1.10",
-                          "H5P.ImageSlider 1.1",
-                          "H5P.InteractiveVideo 1.27",
-                          "H5P.MarkTheWords 1.11",
-                          "H5P.MemoryGame 1.3",
-                          "H5P.MultiChoice 1.16",
-                          "H5P.QuestionSet 1.20",
-                          "H5P.SingleChoiceSet 1.11",
-                          "H5P.Tabs 1.1",
-                          "H5P.AdvancedText 1.1",
-                          "H5P.Transcript 1.1",
-                          "H5P.TrueFalse 1.8",
-                          "H5P.Video 1.6",
-                          "H5P.XRay 0.1"
-                        ]
+                        "value": "all",
+                        "label": "All"
                       },
                       {
-                        "name": "livesSettings",
-                        "type": "group",
-                        "label": "Lives",
-                        "importance": "low",
-                        "fields": [
-                          {
-                            "name": "livesMode",
-                            "type": "select",
-                            "label": "Losing a live",
-                            "optional": false,
-                            "description": "Select when the user should lose a life for this content based on scores.",
-                            "options": [
-                              {
-                                "value": "useBehavioural",
-                                "label": "Use behavioural setting"
-                              },
-                              {
-                                "value": "never",
-                                "label": "Never"
-                              },
-                              {
-                                "value": "custom",
-                                "label": "When the score percentage of this content is below a custom value"
-                              },
-                              {
-                                "value": "fullScore",
-                                "label": "When the user does not achieve full score"
-                              }
-                            ],
-                            "default": "useBehavioural"
-                          },
-                          {
-                            "name": "passPercentage",
-                            "type": "number",
-                            "label": "Pass percentage",
-                            "description": "Set to the minumum score percentage required to not lose a life.",
-                            "min:": 0,
-                            "max:": 100,
-                            "step": 1,
-                            "default": 100,
-                            "widget": "gamemapshowwhen",
-                            "gamemapshowwhen": {
-                              "rules": [
-                                {
-                                  "field": "livesMode",
-                                  "equals": "custom"
-                                }
-                              ]
+                        "value": "any",
+                        "label": "Any"
+                      }
+                    ],
+                    "default": "all"
+                  },
+                  {
+                    "name": "restrictionSetList",
+                    "type": "list",
+                    "optional": true,
+                    "label": "Restriction sets",
+                    "entity": "restriction set",
+                    "widgets": [
+                      {
+                        "name": "VerticalTabs",
+                        "label": "Default"
+                      }
+                    ],
+                    "field": {
+                      "name": "restrictionSetGroup",
+                      "type": "group",
+                      "label": "Restriction set",
+                      "fields": [
+                        {
+                          "name": "allOrAnyRestriction",
+                          "type": "select",
+                          "label": "All or any restriction",
+                          "description": "Choose if all or any of the following restrictions need to be met.",
+                          "options": [
+                            {
+                              "value": "all",
+                              "label": "All"
+                            },
+                            {
+                              "value": "any",
+                              "label": "Any"
                             }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                },
-                {
-                  "name": "specialStageType",
-                  "type": "select",
-                  "label": "Special stage type",
-                  "options": [
-                    {
-                      "value": "finish",
-                      "label": "Finish"
-                    },
-                    {
-                      "value": "extra-life",
-                      "label": "Extra life"
-                    },
-                    {
-                      "value": "extra-time",
-                      "label": "Extra time"
-                    },
-                    {
-                      "value": "link",
-                      "label": "Link to external content"
-                    }
-                  ]
-                },
-                {
-                  "name": "specialStageExtraLives",
-                  "type": "number",
-                  "label": "Number of extra lives",
-                  "description": "Set how many lives the user will get when entering this stage.",
-                  "default": 1,
-                  "min": 1
-                },
-                {
-                  "name": "specialStageExtraTime",
-                  "type": "number",
-                  "label": "Number of seconds of extra time",
-                  "description": "Set how many seconds the user will gain for the global time limit when entering this stage.",
-                  "default": 1,
-                  "min": 1
-                },
-                {
-                  "name": "specialStageLinkURL",
-                  "type": "text",
-                  "label": "URL to link to",
-                  "description": "Set where the user should be sent to when opening this stage.",
-                  "optional": false
-                },
-                {
-                  "name": "specialStageLinkTarget",
-                  "type": "select",
-                  "label": "Place to open link in",
-                  "options": [
-                    {
-                      "value": "_blank",
-                      "label": "New tab"
-                    },
-                    {
-                      "value": "_parent",
-                      "label": "Same tab"
-                    }
-                  ],
-                  "default": "_blank"
-                },
-                {
-                  "name": "alwaysVisible",
-                  "type": "boolean",
-                  "label": "Always visible",
-                  "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherwise.",
-                  "default": false,
-                  "optional": true
-                },
-                {
-                  "name": "overrideSymbol",
-                  "type": "boolean",
-                  "label": "Override lock symbol",
-                  "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type.",
-                  "default": false,
-                  "optional": true
-                },
-                {
-                  "name": "stageBehaviour",
-                  "type": "group",
-                  "label": "Stage behaviour",
-                  "importance": "low",
-                  "fields": [
-                    {
-                      "name": "randomExercises",
-                      "type": "boolean",
-                      "label": "Pick random exercises for this stage",
-                      "optional": true
-                    },
-                    {
-                      "name": "randomExerciseCount",
-                      "type": "number",
-                      "label": "Number of randomly chosen exercises",
-                      "description": "Set the number of exercises to choose randomly for this stage.",
-                      "min": 1,
-                      "step": 1,
-                      "default": 1,
-                      "optional": true,
-                      "widget": "gamemapshowwhen",
-                      "gamemapshowwhen": {
-                        "rules": [
-                          {
-                            "field": "randomExercises",
-                            "equals": true
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "name": "randomExerciseTotalScore",
-                      "type": "number",
-                      "label": "Uniform total score",
-                      "description": "Set the total score for this stage regardless of what exercises are picked.",
-                      "min": 1,
-                      "step": 1,
-                      "optional": true,
-                      "widget": "gamemapshowwhen",
-                      "gamemapshowwhen": {
-                        "rules": [
-                          {
-                            "field": "randomExercises",
-                            "equals": true
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                },
-                {
-                  "name": "scoreScaling",
-                  "type": "group",
-                  "label": "Score scaling",
-                  "importance": "low",
-                  "widget": "gamemapsscorescaling",
-                  "fields": [
-                    {
-                      "name": "scalingMode",
-                      "type": "select",
-                      "label": "Scaling mode",
-                      "description": "Choose what scaling should be based on",
-                      "optional": false,
-                      "options": [
-                        {
-                          "value": "totalScore",
-                          "label": "Set total score of all exercises"
+                          ],
+                          "default": "any"
                         },
                         {
-                          "value": "maxScore",
-                          "label": "Set total score per exercise"
-                        },
-                        {
-                          "value": "weightedExercises",
-                          "label": "Set weights per exercise"
+                          "name": "restrictionList",
+                          "type": "list",
+                          "label": "Restrictions",
+                          "entity": "restriction",
+                          "optional": true,
+                          "field": {
+                            "name": "restrictionGroup",
+                            "type": "group",
+                            "label": "Restriction",
+                            "fields": [
+                              {
+                                "name": "restrictionType",
+                                "label": "Restriction type",
+                                "type": "select",
+                                "optional": true,
+                                "options": [
+                                  {
+                                    "value": "totalScore",
+                                    "label": "Total score"
+                                  },
+                                  {
+                                    "value": "stageScore",
+                                    "label": "Stage score"
+                                  },
+                                  {
+                                    "value": "stageScorePercentage",
+                                    "label": "Stage score percentage"
+                                  },
+                                  {
+                                    "value": "stageProgress",
+                                    "label": "Stage progress"
+                                  },
+                                  {
+                                    "value": "time",
+                                    "label": "Time"
+                                  }
+                                ],
+                                "default": "totalScore"
+                              },
+                              {
+                                "name": "totalScoreGroup",
+                                "type": "group",
+                                "label": "Total score",
+                                "expanded": true,
+                                "fields": [
+                                  {
+                                    "name": "totalScoreOperator",
+                                    "label": "Operator for total score",
+                                    "type": "select",
+                                    "optional": true,
+                                    "options": [
+                                      {
+                                        "value": "lessThan",
+                                        "label": "less than"
+                                      },
+                                      {
+                                        "value": "equalTo",
+                                        "label": "equal to"
+                                      },
+                                      {
+                                        "value": "notEqualTo",
+                                        "label": "not equal to"
+                                      },
+                                      {
+                                        "value": "greaterThan",
+                                        "label": "greater than"
+                                      }
+                                    ],
+                                    "default": "greaterThan"
+                                  },
+                                  {
+                                    "name": "totalScoreValue",
+                                    "label": "Value of total score to compare to",
+                                    "type": "number",
+                                    "optional": true
+                                  }
+                                ],
+                                "widget": "gamemapshowwhen",
+                                "gamemapshowwhen": {
+                                  "rules": [
+                                    {
+                                      "field": "restrictionType",
+                                      "equals": "totalScore"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "name": "stageScoreGroup",
+                                "type": "group",
+                                "label": "Stage score",
+                                "expanded": true,
+                                "fields": [
+                                  {
+                                    "name": "stageScoreId",
+                                    "type": "select",
+                                    "label": "Stage to get score from",
+                                    "widget": "gamemapstageselect",
+                                    "optional": true,
+                                    "options": []
+                                  },
+                                  {
+                                    "name": "stageScoreOperator",
+                                    "label": "Operator for stage score",
+                                    "type": "select",
+                                    "optional": true,
+                                    "options": [
+                                      {
+                                        "value": "lessThan",
+                                        "label": "less than"
+                                      },
+                                      {
+                                        "value": "equalTo",
+                                        "label": "equal to"
+                                      },
+                                      {
+                                        "value": "notEqualTo",
+                                        "label": "not equal to"
+                                      },
+                                      {
+                                        "value": "greaterThan",
+                                        "label": "greater than"
+                                      }
+                                    ],
+                                    "default": "before"
+                                  },
+                                  {
+                                    "name": "stageScoreValue",
+                                    "label": "Stage score to compare to",
+                                    "type": "number",
+                                    "optional": true
+                                  }
+                                ],
+                                "widget": "gamemapshowwhen",
+                                "gamemapshowwhen": {
+                                  "rules": [
+                                    {
+                                      "field": "restrictionType",
+                                      "equals": "stageScore"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "name": "stageScorePercentageGroup",
+                                "type": "group",
+                                "label": "Stage score percentage",
+                                "expanded": true,
+                                "fields": [
+                                  {
+                                    "name": "stageScorePercentageId",
+                                    "type": "select",
+                                    "label": "Stage to get score percentage from",
+                                    "widget": "gamemapstageselect",
+                                    "optional": true,
+                                    "options": []
+                                  },
+                                  {
+                                    "name": "stageScorePercentageOperator",
+                                    "label": "Operator for stage score percentage",
+                                    "type": "select",
+                                    "optional": true,
+                                    "options": [
+                                      {
+                                        "value": "lessThan",
+                                        "label": "less than"
+                                      },
+                                      {
+                                        "value": "equalTo",
+                                        "label": "equal to"
+                                      },
+                                      {
+                                        "value": "notEqualTo",
+                                        "label": "not equal to"
+                                      },
+                                      {
+                                        "value": "greaterThan",
+                                        "label": "greater than"
+                                      }
+                                    ],
+                                    "default": "before"
+                                  },
+                                  {
+                                    "name": "stageScorePercentageValue",
+                                    "label": "Stage score percentage to compare to",
+                                    "type": "number",
+                                    "optional": true
+                                  }
+                                ],
+                                "widget": "gamemapshowwhen",
+                                "gamemapshowwhen": {
+                                  "rules": [
+                                    {
+                                      "field": "restrictionType",
+                                      "equals": "stageScorePercentage"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "name": "stageProgressGroup",
+                                "type": "group",
+                                "label": "Stage progress",
+                                "expanded": true,
+                                "fields": [
+                                  {
+                                    "name": "stageProgressId",
+                                    "type": "select",
+                                    "label": "Stage to get progress from",
+                                    "widget": "gamemapstageselect",
+                                    "optional": true,
+                                    "options": []
+                                  },
+                                  {
+                                    "name": "stageProgressOperator",
+                                    "label": "Operator for stage progress",
+                                    "type": "select",
+                                    "optional": true,
+                                    "options": [
+                                      {
+                                        "value": "is",
+                                        "label": "is"
+                                      },
+                                      {
+                                        "value": "isNot",
+                                        "label": "is not"
+                                      }
+                                    ],
+                                    "default": "is"
+                                  },
+                                  {
+                                    "name": "stageProgressValue",
+                                    "label": "Progress to compare to",
+                                    "type": "select",
+                                    "options": [
+                                      {
+                                        "value": "unstarted",
+                                        "label": "not started"
+                                      },
+                                      {
+                                        "value": "opened",
+                                        "label": "started"
+                                      },
+                                      {
+                                        "value": "completed",
+                                        "label": "completed"
+                                      },
+                                      {
+                                        "value": "cleared",
+                                        "label": "completed successfully"
+                                      }
+                                    ],
+                                    "default": "open",
+                                    "optional": true
+                                  }
+                                ],
+                                "widget": "gamemapshowwhen",
+                                "gamemapshowwhen": {
+                                  "rules": [
+                                    {
+                                      "field": "restrictionType",
+                                      "equals": "stageProgress"
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "name": "timeGroup",
+                                "type": "group",
+                                "label": "Time",
+                                "expanded": true,
+                                "fields": [
+                                  {
+                                    "name": "timeOperator",
+                                    "label": "Operator for time",
+                                    "type": "select",
+                                    "optional": true,
+                                    "options": [
+                                      {
+                                        "value": "before",
+                                        "label": "before"
+                                      },
+                                      {
+                                        "value": "is",
+                                        "label": "is"
+                                      },
+                                      {
+                                        "value": "is not",
+                                        "label": "is not"
+                                      },
+                                      {
+                                        "value": "after",
+                                        "label": "after"
+                                      }
+                                    ],
+                                    "default": "before"
+                                  },
+                                  {
+                                    "name": "timeValue",
+                                    "label": "Time to compare to",
+                                    "type": "text",
+                                    "widget": "datetime",
+                                    "optional": true
+                                  }
+                                ],
+                                "widget": "gamemapshowwhen",
+                                "gamemapshowwhen": {
+                                  "rules": [
+                                    {
+                                      "field": "restrictionType",
+                                      "equals": "time"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
                         }
-                      ],
-                      "default": "totalScore"
-                    },
-                    {
-                      "name": "scoreScalingList",
-                      "type": "list",
-                      "label": "Content score customizations",
-                      "description": "Adjust the weights/total scores of exercises to customize scoring",
-                      "entity": "scaling setting",
-                      "optional": true,
-                      "field": {
-                        "name": "scoreScalingGroup",
-                        "type": "group",
-                        "label": "Score scaling group",
-                        "fields": [
-                          {
-                            "name": "subContentId",
-                            "type": "text",
-                            "label": "Subcontent id",
-                            "optional": false
-                          },
-                          {
-                            "name": "weight",
-                            "type": "text",
-                            "label": "Weight",
-                            "default": "1"
-                          },
-                          {
-                            "name": "isTask",
-                            "type": "boolean",
-                            "label": "Is task",
-                            "default": false,
-                            "optional": true
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "name": "totalScore",
-                      "type": "number",
-                      "label": "Total score",
-                      "optional": true,
-                      "widget": "none"
-                    },
-                    {
-                      "name": "weightIsPercentage",
-                      "type": "boolean",
-                      "label": "Weight is percentage",
-                      "default": false,
-                      "optional": false
+                      ]
                     }
-                  ]
-                },
-                {
-                  "name": "neighbors",
-                  "type": "select",
-                  "label": "Connected stages",
-                  "widget": "gamemapdynamiccheckboxes",
-                  "importance": "medium",
-                  "multiple": true,
-                  "options": []
-                },
-                {
-                  "name": "telemetry",
+                  },
+                  {
+                    "name": "dummy",
+                    "type": "boolean",
+                    "label": "Dummy",
+                    "widget": "none",
+                    "optional": true
+                  }
+                ]
+              },
+              {
+                "name": "contentsList",
+                "type": "list",
+                "label": "Contents",
+                "entity": "content",
+                "min": 1,
+                "widgets": [
+                  {
+                    "name": "VerticalTabs",
+                    "label": "Default"
+                  }
+                ],
+                "field": {
+                  "name": "contentsGroup",
                   "type": "group",
-                  "label": "Telemetry",
-                  "importance": "low",
-                  "widget": "none",
+                  "label": "Content",
                   "fields": [
                     {
-                      "name": "x",
-                      "type": "text"
+                      "name": "contentType",
+                      "type": "library",
+                      "label": "Stage content",
+                      "description": "Choose the type of content you would like to add.",
+                      "importance": "high",
+                      "options": [
+                        "H5P.Accordion 1.0",
+                        "H5P.Agamotto 1.6",
+                        "H5P.Audio 1.5",
+                        "H5P.AudioRecorder 1.0",
+                        "H5P.ChoiceExplorer 1.0",
+                        "H5P.CombinationLock 1.0",
+                        "H5P.CoursePresentation 1.26",
+                        "H5P.Crossword 0.5",
+                        "H5P.Dialogcards 1.9",
+                        "H5P.DragQuestion 1.14",
+                        "H5P.DragText 1.10",
+                        "H5P.Essay 1.5",
+                        "H5P.Blanks 1.14",
+                        "H5P.ImageHotspotQuestion 1.8",
+                        "H5P.Image 1.1",
+                        "H5P.MultiMediaChoice 0.3",
+                        "H5P.ImageHotspots 1.10",
+                        "H5P.ImageSlider 1.1",
+                        "H5P.InteractiveVideo 1.27",
+                        "H5P.MarkTheWords 1.11",
+                        "H5P.MemoryGame 1.3",
+                        "H5P.MultiChoice 1.16",
+                        "H5P.QuestionSet 1.20",
+                        "H5P.SingleChoiceSet 1.11",
+                        "H5P.Tabs 1.1",
+                        "H5P.AdvancedText 1.1",
+                        "H5P.Transcript 1.1",
+                        "H5P.TrueFalse 1.8",
+                        "H5P.Video 1.6",
+                        "H5P.XRay 0.1"
+                      ]
                     },
                     {
-                      "name": "y",
-                      "type": "text"
-                    },
-                    {
-                      "name": "height",
-                      "type": "text"
-                    },
-                    {
-                      "name": "width",
-                      "type": "text"
+                      "name": "livesSettings",
+                      "type": "group",
+                      "label": "Lives",
+                      "importance": "low",
+                      "fields": [
+                        {
+                          "name": "livesMode",
+                          "type": "select",
+                          "label": "Losing a live",
+                          "optional": false,
+                          "description": "Select when the user should lose a life for this content based on scores.",
+                          "options": [
+                            {
+                              "value": "useBehavioural",
+                              "label": "Use behavioural setting"
+                            },
+                            {
+                              "value": "never",
+                              "label": "Never"
+                            },
+                            {
+                              "value": "custom",
+                              "label": "When the score percentage of this content is below a custom value"
+                            },
+                            {
+                              "value": "fullScore",
+                              "label": "When the user does not achieve full score"
+                            }
+                          ],
+                          "default": "useBehavioural"
+                        },
+                        {
+                          "name": "passPercentage",
+                          "type": "number",
+                          "label": "Pass percentage",
+                          "description": "Set to the minumum score percentage required to not lose a life.",
+                          "min:": 0,
+                          "max:": 100,
+                          "step": 1,
+                          "default": 100,
+                          "widget": "gamemapshowwhen",
+                          "gamemapshowwhen": {
+                            "rules": [
+                              {
+                                "field": "livesMode",
+                                "equals": "custom"
+                              }
+                            ]
+                          }
+                        }
+                      ]
                     }
                   ]
                 }
-              ]
-            }
-          },
-          {
-            "name": "paths",
-            "type": "list",
-            "label": "Paths",
-            "entity": "path",
-            "field": {
-              "name": "pathsGroup",
+              },
+              {
+                "name": "specialStageType",
+                "type": "select",
+                "label": "Special stage type",
+                "options": [
+                  {
+                    "value": "finish",
+                    "label": "Finish"
+                  },
+                  {
+                    "value": "extra-life",
+                    "label": "Extra life"
+                  },
+                  {
+                    "value": "extra-time",
+                    "label": "Extra time"
+                  },
+                  {
+                    "value": "link",
+                    "label": "Link to external content"
+                  },
+                  {
+                    "value": "teleport",
+                    "label": "Teleport to another stage"
+                  }
+                ]
+              },
+              {
+                "name": "specialStageExtraLives",
+                "type": "number",
+                "label": "Number of extra lives",
+                "description": "Set how many lives the user will get when entering this stage.",
+                "default": 1,
+                "min": 1
+              },
+              {
+                "name": "specialStageExtraTime",
+                "type": "number",
+                "label": "Number of seconds of extra time",
+                "description": "Set how many seconds the user will gain for the global time limit when entering this stage.",
+                "default": 1,
+                "min": 1
+              },
+              {
+                "name": "specialStageLinkURL",
+                "type": "text",
+                "label": "URL to link to",
+                "description": "Set where the user should be sent to when opening this stage.",
+                "optional": false
+              },
+              {
+                "name": "specialStageLinkTarget",
+                "type": "select",
+                "label": "Place to open link in",
+                "options": [
+                  {
+                    "value": "_blank",
+                    "label": "New tab"
+                  },
+                  {
+                    "value": "_parent",
+                    "label": "Same tab"
+                  }
+                ],
+                "default": "_blank"
+              },
+              {
+                "name": "specialStageTeleportTarget",
+                "type": "select",
+                "label": "Stage to teleport to",
+                "widget": "gamemapstageselect",
+                "options": []
+              },
+              {
+                "name": "alwaysVisible",
+                "type": "boolean",
+                "label": "Always visible",
+                "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherwise.",
+                "default": false,
+                "optional": true
+              },
+              {
+                "name": "overrideSymbol",
+                "type": "boolean",
+                "label": "Override lock symbol",
+                "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type.",
+                "default": false,
+                "optional": true
+              },
+              {
+                "name": "stageBehaviour",
+                "type": "group",
+                "label": "Stage behaviour",
+                "importance": "low",
+                "fields": [
+                  {
+                    "name": "randomExercises",
+                    "type": "boolean",
+                    "label": "Pick random exercises for this stage",
+                    "optional": true
+                  },
+                  {
+                    "name": "randomExerciseCount",
+                    "type": "number",
+                    "label": "Number of randomly chosen exercises",
+                    "description": "Set the number of exercises to choose randomly for this stage.",
+                    "min": 1,
+                    "step": 1,
+                    "default": 1,
+                    "optional": true,
+                    "widget": "gamemapshowwhen",
+                    "gamemapshowwhen": {
+                      "rules": [
+                        {
+                          "field": "randomExercises",
+                          "equals": true
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "randomExerciseTotalScore",
+                    "type": "number",
+                    "label": "Uniform total score",
+                    "description": "Set the total score for this stage regardless of what exercises are picked.",
+                    "min": 1,
+                    "step": 1,
+                    "optional": true,
+                    "widget": "gamemapshowwhen",
+                    "gamemapshowwhen": {
+                      "rules": [
+                        {
+                          "field": "randomExercises",
+                          "equals": true
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "name": "scoreScaling",
+                "type": "group",
+                "label": "Score scaling",
+                "importance": "low",
+                "widget": "gamemapsscorescaling",
+                "fields": [
+                  {
+                    "name": "scalingMode",
+                    "type": "select",
+                    "label": "Scaling mode",
+                    "description": "Choose what scaling should be based on",
+                    "optional": false,
+                    "options": [
+                      {
+                        "value": "totalScore",
+                        "label": "Set total score of all exercises"
+                      },
+                      {
+                        "value": "maxScore",
+                        "label": "Set total score per exercise"
+                      },
+                      {
+                        "value": "weightedExercises",
+                        "label": "Set weights per exercise"
+                      }
+                    ],
+                    "default": "weightedExercises"
+                  },
+                  {
+                    "name": "scoreScalingList",
+                    "type": "list",
+                    "label": "Content score customizations",
+                    "description": "Adjust the weights/total scores of exercises to customize scoring",
+                    "entity": "scaling setting",
+                    "optional": true,
+                    "field": {
+                      "name": "scoreScalingGroup",
+                      "type": "group",
+                      "label": "Score scaling group",
+                      "fields": [
+                        {
+                          "name": "subContentId",
+                          "type": "text",
+                          "label": "Subcontent id",
+                          "optional": false
+                        },
+                        {
+                          "name": "weight",
+                          "type": "text",
+                          "label": "Weight",
+                          "default": "1"
+                        },
+                        {
+                          "name": "isTask",
+                          "type": "boolean",
+                          "label": "Is task",
+                          "default": false,
+                          "optional": true
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "name": "totalScore",
+                    "type": "number",
+                    "label": "Total score",
+                    "optional": true,
+                    "widget": "none"
+                  },
+                  {
+                    "name": "weightIsPercentage",
+                    "type": "boolean",
+                    "label": "Weight is percentage",
+                    "default": false,
+                    "optional": false
+                  }
+                ]
+              },
+              {
+                "name": "neighbors",
+                "type": "select",
+                "label": "Connected stages",
+                "widget": "gamemapdynamiccheckboxes",
+                "importance": "medium",
+                "multiple": true,
+                "options": []
+              },
+              {
+                "name": "telemetry",
+                "type": "group",
+                "label": "Telemetry",
+                "importance": "low",
+                "widget": "none",
+                "fields": [
+                  {
+                    "name": "x",
+                    "type": "text"
+                  },
+                  {
+                    "name": "y",
+                    "type": "text"
+                  },
+                  {
+                    "name": "height",
+                    "type": "text"
+                  },
+                  {
+                    "name": "width",
+                    "type": "text"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "paths",
+          "type": "list",
+          "label": "Paths",
+          "entity": "path",
+          "field": {
+            "name": "pathsGroup",
+            "type": "group",
+            "label": "Path",
+            "fields": [
+              {
+                "name": "from",
+                "type": "number",
+                "label": "From",
+                "widget": "none"
+              },
+              {
+                "name": "to",
+                "type": "number",
+                "label": "To",
+                "widget": "none"
+              },
+              {
+                "name": "visualsType",
+                "type": "select",
+                "label": "Visual settings",
+                "options": [
+                  {
+                    "value": "global",
+                    "label": "Use global settings"
+                  },
+                  {
+                    "value": "custom",
+                    "label": "Use custom settings"
+                  }
+                ],
+                "default": "global"
+              },
+              {
+                "name": "customVisuals",
+                "type": "group",
+                "expanded": true,
+                "label": "Custom visual settings",
+                "fields": [
+                  {
+                    "name": "colorPath",
+                    "type": "text",
+                    "label": "Color path",
+                    "optional": true,
+                    "default": "rgba(0, 0, 0, 0.7)",
+                    "widget": "colorSelector",
+                    "spectrum": {
+                      "showInput": true,
+                      "showInitial": true,
+                      "showAlpha": true,
+                      "preferredFormat": "rgb"
+                    }
+                  },
+                  {
+                    "name": "pathWidth",
+                    "type": "select",
+                    "label": "Path width",
+                    "default": "0.2",
+                    "optional": false,
+                    "options": [
+                      {
+                        "value": "0.1",
+                        "label": "thin"
+                      },
+                      {
+                        "value": "0.2",
+                        "label": "medium"
+                      },
+                      {
+                        "value": "0.3",
+                        "label": "thick"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "pathStyle",
+                    "type": "select",
+                    "label": "Path style",
+                    "default": "dotted",
+                    "optional": false,
+                    "options": [
+                      {
+                        "value": "solid",
+                        "label": "Solid"
+                      },
+                      {
+                        "value": "dotted",
+                        "label": "Dotted"
+                      },
+                      {
+                        "value": "dashed",
+                        "label": "Dashed"
+                      },
+                      {
+                        "value": "double",
+                        "label": "Double"
+                      }
+                    ]
+                  }
+                ],
+                "widget": "gamemapshowwhen",
+                "gamemapshowwhen": {
+                  "rules": [
+                    {
+                      "field": "visualsType",
+                      "equals": "custom"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "mapOptions",
+          "type": "group",
+          "label": "Map options",
+          "fields": [
+            {
+              "name": "backgroundSettings",
+              "label": "Background",
               "type": "group",
-              "label": "Path",
+              "importance": "high",
+              "expanded": true,
               "fields": [
                 {
-                  "name": "from",
-                  "type": "number",
-                  "label": "From",
-                  "widget": "none"
+                  "name": "backgroundImage",
+                  "type": "image",
+                  "label": "Background image",
+                  "importance": "high",
+                  "description": "Select an image to use as the background of the game map.",
+                  "optional": true
                 },
                 {
-                  "name": "to",
-                  "type": "number",
-                  "label": "To",
-                  "widget": "none"
-                },
-                {
-                  "name": "visualsType",
-                  "type": "select",
-                  "label": "Visual settings",
-                  "options": [
-                    {
-                      "value": "global",
-                      "label": "Use global settings"
-                    },
-                    {
-                      "value": "custom",
-                      "label": "Use custom settings"
-                    }
-                  ],
-                  "default": "global"
-                },
-                {
-                  "name": "customVisuals",
-                  "type": "group",
-                  "expanded": true,
-                  "label": "Custom visual settings",
-                  "fields": [
-                    {
-                      "name": "colorPath",
-                      "type": "text",
-                      "label": "Color path",
-                      "optional": true,
-                      "default": "rgba(0, 0, 0, 0.7)",
-                      "widget": "colorSelector",
-                      "spectrum": {
-                        "showInput": true,
-                        "showInitial": true,
-                        "showAlpha": true,
-                        "preferredFormat": "rgb"
-                      }
-                    },
-                    {
-                      "name": "pathWidth",
-                      "type": "select",
-                      "label": "Path width",
-                      "default": "0.2",
-                      "optional": false,
-                      "options": [
-                        {
-                          "value": "0.1",
-                          "label": "thin"
-                        },
-                        {
-                          "value": "0.2",
-                          "label": "medium"
-                        },
-                        {
-                          "value": "0.3",
-                          "label": "thick"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "pathStyle",
-                      "type": "select",
-                      "label": "Path style",
-                      "default": "dotted",
-                      "optional": false,
-                      "options": [
-                        {
-                          "value": "solid",
-                          "label": "Solid"
-                        },
-                        {
-                          "value": "dotted",
-                          "label": "Dotted"
-                        },
-                        {
-                          "value": "dashed",
-                          "label": "Dashed"
-                        },
-                        {
-                          "value": "double",
-                          "label": "Double"
-                        }
-                      ]
-                    }
-                  ],
-                  "widget": "gamemapshowwhen",
-                  "gamemapshowwhen": {
-                    "rules": [
-                      {
-                        "field": "visualsType",
-                        "equals": "custom"
-                      }
-                    ]
+                  "name": "backgroundColor",
+                  "type": "text",
+                  "label": "Background color",
+                  "description": "Choose a color to use as the background of the game map.",
+                  "default": "rgb(255, 255, 255)",
+                  "widget": "colorSelector",
+                  "spectrum": {
+                    "showInput": true,
+                    "showInitial": true,
+                    "preferredFormat": "rgb"
                   }
                 }
               ]
+            },
+            {
+              "name": "dummy",
+              "type": "boolean",
+              "label": "dummy",
+              "widget": "none"
             }
-          }
-        ]
-      }
-    ]
+          ]
+        }
+      ]
+    }
   },
   {
     "name": "endScreen",
@@ -1815,6 +1840,12 @@
         "type": "text",
         "label": "Dialog text access denied: General",
         "default": "This stage requires you to meet some goals before it can be opened."
+      },
+      {
+        "name": "confirmAccessDeniedForTargetDialog",
+        "type": "text",
+        "label": "Dialog text access denied: For target stage",
+        "default": "The target stage requires you to meet some goals before it can be opened."
       },
       {
         "name": "yes",

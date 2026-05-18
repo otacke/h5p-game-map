@@ -1,7 +1,7 @@
 import Util from '@services/util.js';
 import Stage from '@components/map/stage/stage.js';
 import SpecialStage from '@components/map/stage/special-stage.js';
-import { STAGE_TYPES } from '@components/map/stage/stage.js';
+import { STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
 
 /** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
 const DEFAULT_READ_DELAY_MS = 100;
@@ -87,7 +87,6 @@ export default class Stages {
       const neighbors = elementParams.neighbors.map((neighbor) => {
         return elements[parseInt(neighbor)].id;
       });
-
       const stageState = stagesState.find((stage) => {
         return stage.id === elementParams.id;
       });
@@ -97,13 +96,16 @@ export default class Stages {
         showStars = 'never';
       }
 
-      // this.params.type === STAGE_TYPES.stage && this.params.globals.get('params').visual.stages.showScoreStars
+      const previousState = stagesState.find((state) => state.id === elementParams.id);
+      const wasVisibleInPreviousState = typeof previousState?.visible === 'boolean' && previousState.visible;
+      const canBeStartStage = elementParams.canBeStartStage || wasVisibleInPreviousState;
+
       const stageParams = {
         id: elementParams.id,
         dictionary: this.params.dictionary,
         globals: this.params.globals,
         jukebox: this.params.jukebox,
-        canBeStartStage: elementParams.canBeStartStage,
+        canBeStartStage: canBeStartStage,
         showStars: showStars,
         accessRestrictions: elementParams.accessRestrictions,
         ...(
@@ -126,6 +128,10 @@ export default class Stages {
         ...(
           elementParams.specialStageLinkTarget &&
           { specialStageLinkTarget: elementParams.specialStageLinkTarget }
+        ),
+        ...(
+          elementParams.specialStageTeleportTarget &&
+          { specialStageTeleportTarget: elementParams.specialStageTeleportTarget }
         ),
         label: elementParams.label,
         neighbors: neighbors,
@@ -174,7 +180,6 @@ export default class Stages {
           return this.callbacks.getExerciseState(id);
         },
       };
-
       const newStage = (!elementParams.specialStageType) ?
         new Stage(stageParams, stageCallbacks) :
         new SpecialStage(stageParams, stageCallbacks);
@@ -296,6 +301,14 @@ export default class Stages {
    * @param {number} state State code.
    */
   updateState(id, state) {
+    if (id === '*') {
+      this.stages.forEach((stage) => {
+        stage.setState(state);
+      });
+
+      return;
+    }
+
     const stage = this.getStage(id);
     if (!stage) {
       return;
@@ -309,22 +322,23 @@ export default class Stages {
    */
   updateStatePerRestrictions() {
     const mode = this.params.globals.get('params').behaviour.map.roaming;
-    const states = this.params.globals.get('states');
 
     this.stages.forEach((stage) => {
       const hasCompletedNeighbor = (mode === 'free') || stage.getNeighbors().some((neighborId) => {
         const neighborState = this.getStage(neighborId).getState();
 
         return (
-          (mode === 'complete' && (neighborState === states.completed || neighborState === states.cleared)) ||
-          (mode === 'success' && neighborState === states.cleared)
+          (
+            mode === 'complete' && (neighborState === STAGE_STATES.COMPLETED || neighborState === STAGE_STATES.CLEARED)
+          ) ||
+          (mode === 'success' && neighborState === STAGE_STATES.CLEARED)
         );
       });
 
-      if (hasCompletedNeighbor && stage.getState() === states.locked && stage.passesRestrictions()) {
+      if (hasCompletedNeighbor && stage.getState() === STAGE_STATES.LOCKED && stage.passesRestrictions()) {
         stage.unlock();
       }
-      else if (!stage.isStartStage() && stage.getState() === states.open && !stage.passesRestrictions()) {
+      else if (!stage.isStartStage() && stage.getState() === STAGE_STATES.OPEN && !stage.passesRestrictions()) {
         stage.lock();
       }
     });
@@ -350,7 +364,7 @@ export default class Stages {
     const neighborIds = stage.getNeighbors();
 
     if (
-      state === this.params.globals.get('states').open &&
+      state === STAGE_STATES.OPEN &&
       globalParams.behaviour.map.fog !== '0'
     ) {
       neighborIds.forEach((id) => {
@@ -364,7 +378,7 @@ export default class Stages {
     }
 
     // Get neigbors and unlock if current stage was cleared
-    if (state === this.params.globals.get('states').cleared) {
+    if (state === STAGE_STATES.CLEARED) {
       neighborIds.forEach((id) => {
         const targetStage = this.getStage(id);
         if (!targetStage) {
@@ -385,11 +399,23 @@ export default class Stages {
       return;
     }
 
-    // Unlock specified stage
     const stage = this.stages.find((stage) => stage.getId() === id);
-    if (stage) {
-      stage.unlock();
+    stage?.unlock();
+  }
+
+  /**
+   * Inform user about locked state of stage.
+   * @param {object} params Parameters.
+   * @param {string} params.sourceId Stage id.
+   * @param {string} params.targetId Stage id.
+   */
+  informAboutLockedState(params = {}) {
+    if (typeof params.targetId !== 'string') {
+      return;
     }
+
+    const stage = this.stages.find((stage) => stage.getId() === params.targetId);
+    stage?.informAboutLockedState(params);
   }
 
   /**
@@ -402,12 +428,12 @@ export default class Stages {
 
     if (!startStages.length) {
       // Use all stages except special stages and restricted ones, because none selected
-      startStages = this.stages.filter((stage) => stage.getType() === STAGE_TYPES.stage && stage.passesRestrictions());
+      startStages = this.stages.filter((stage) => stage.getType() === STAGE_TYPES.STAGE && stage.passesRestrictions());
     }
 
     if (!startStages.length) {
       // Use all stages except special stages, we must start somewhere
-      startStages = this.stages.filter((stage) => stage.getType() === STAGE_TYPES.stage);
+      startStages = this.stages.filter((stage) => stage.getType() === STAGE_TYPES.STAGE);
     }
 
     // Choose one randomly
@@ -430,11 +456,9 @@ export default class Stages {
    * @returns {Stage|null} Next best open stage.
    */
   getNextOpenStage() {
-    const openStates = this.params.globals.get('states');
-
     return this.stages.find((stage) => {
       const state = stage.getState();
-      return state === openStates.open || state === openStates.opened;
+      return state === STAGE_STATES.OPEN || state === STAGE_STATES.OPENED;
     }) || null;
   }
 

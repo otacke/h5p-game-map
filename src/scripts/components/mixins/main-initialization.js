@@ -1,18 +1,12 @@
-import Paths from '@models/paths.js';
-import Stages from '@models/stages.js';
 import StartScreen from '@components/media-screen/start-screen.js';
-import SpecialStage from '@components/map/stage/special-stage.js';
 import EndScreen from '@components/media-screen/end-screen.js';
-import Map from '@components/map/map.js';
 import Toolbar from '@components/toolbar/toolbar.js';
 import ExerciseBundles from '@models/exercise-bundles.js';
+import Maps from '@models/maps.js';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog.js';
 import ExerciseDialog from '@components/overlay-dialogs/exercise-dialog.js';
 import SettingsDialog from '@components/overlay-dialogs/settings-dialog.js';
-import { STAGE_TYPES } from '@components/map/stage/stage.js';
-
-/** @constant {number} MS_IN_S Milliseconds in a second. */
-const MS_IN_S = 1000;
+import { MS_IN_S, STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
 
 /** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
 const DEFAULT_READ_DELAY_MS = 100;
@@ -242,25 +236,23 @@ export default class MainInitialization {
     });
     this.contentDOM.append(this.toolbar.getDOM());
 
-    // Map incl. models
-    let backgroundImage;
-    if (globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundImage) {
-      backgroundImage = H5P.getPath(
-        globalParams.gamemapSteps.backgroundImageSettings.backgroundImage.path ?? '',
-        this.params.globals.get('contentId'),
-      );
-    }
-
-    // Stages
-    this.stages = new Stages(
+    this.maps = new Maps(
       {
         dictionary: this.params.dictionary,
         globals: this.params.globals,
         jukebox: this.params.jukebox,
-        elements: globalParams.gamemapSteps.gamemap.elements,
-        visuals: globalParams.visual.stages,
+        gamemaps: globalParams.gamemaps,
       },
       {
+        onImageLoaded: () => {
+          // Resize when image is loaded
+          this.params.globals.get('resize')();
+
+          // Resize when image resize is done
+          window.requestAnimationFrame(() => {
+            this.params.globals.get('resize')();
+          });
+        },
         onStageClicked: (id, state) => {
           this.handleStageClicked(id, state);
         },
@@ -283,16 +275,16 @@ export default class MainInitialization {
           return this.getScore();
         },
         getStageScore: (id) => {
-          const stage = this.stages.getStage(id);
-          if (!stage || stage instanceof SpecialStage) {
+          const stageType = this.maps.getStageType(id);
+          if (stageType === STAGE_TYPES.SPECIAL_STAGE) {
             return 0;
           }
 
           return this.exerciseBundles.getExerciseBundle(id)?.getWeightedScore() ?? 0;
         },
         getStageScorePercentage: (id) => {
-          const stage = this.stages.getStage(id);
-          if (!stage || stage instanceof SpecialStage) {
+          const stageType = this.maps.getStageType(id);
+          if (stageType === STAGE_TYPES.SPECIAL_STAGE) {
             return 0;
           }
 
@@ -305,12 +297,12 @@ export default class MainInitialization {
           return (score / maxScore) * 100;
         },
         getExerciseState: (id) => {
-          const stage = this.stages.getStage(id);
-          if (!stage) {
+          const stageType = this.maps.getStageType(id);
+          if (!stageType) {
             return 0;
           }
-          else if (stage instanceof SpecialStage) {
-            return stage.getState();
+          else if (stageType === STAGE_TYPES.SPECIAL_STAGE) {
+            return this.maps.getStageState(id);
           }
 
           return this.exerciseBundles.getExerciseBundle(id)?.getState() ?? 0;
@@ -318,39 +310,13 @@ export default class MainInitialization {
       },
     );
 
-    // Paths
-    this.paths = new Paths(
-      {
-        globals: this.params.globals,
-        elements: globalParams.gamemapSteps.gamemap.elements,
-        paths: globalParams.gamemapSteps.gamemap.paths,
-        visuals: globalParams.visual.paths.style,
-      },
-    );
+    this.mapsContainer = document.createElement('div');
+    this.mapsContainer.classList.add('h5p-game-map-maps-container');
+    this.contentDOM.append(this.mapsContainer);
 
-    // Map
-    this.map = new Map(
-      {
-        dictionary: this.params.dictionary,
-        globals: this.params.globals,
-        backgroundImage: backgroundImage,
-        backgroundColor: globalParams?.gamemapSteps?.backgroundImageSettings?.backgroundColor,
-        paths: this.paths,
-        stages: this.stages,
-      },
-      {
-        onImageLoaded: () => {
-          // Resize when image is loaded
-          this.params.globals.get('resize')();
-
-          // Resize when image resize is done
-          window.requestAnimationFrame(() => {
-            this.params.globals.get('resize')();
-          });
-        },
-      },
-    );
-    this.contentDOM.append(this.map.getDOM());
+    this.maps.getDOMs().forEach((dom) => {
+      this.mapsContainer.append(dom);
+    });
 
     // Exercise bundles
     this.exerciseBundles = new ExerciseBundles(
@@ -358,7 +324,7 @@ export default class MainInitialization {
         dictionary: this.params.dictionary,
         globals: this.params.globals,
         jukebox: this.params.jukebox,
-        elements: globalParams.gamemapSteps.gamemap.elements,
+        elements: globalParams.gamemaps.flatMap((gamemap) => gamemap.elements ?? []),
       },
       {
         onStateChanged: (id, state) => {
@@ -405,7 +371,7 @@ export default class MainInitialization {
     );
     this.exerciseScreen.hide();
     this.toolbar.enable();
-    this.map.getDOM().append(this.exerciseScreen.getDOM());
+    this.mapsContainer.append(this.exerciseScreen.getDOM());
 
     // Confirmation Dialog
     this.confirmationDialog = new ConfirmationDialog({
@@ -475,7 +441,7 @@ export default class MainInitialization {
     this.toolbar.toggleHintFinishButton(false);
     this.toolbar.toggleHintTimer(false);
 
-    this.stages.updateScoreStar('*', 0);
+    this.maps.updateStageScoreStar('*', 0);
 
     this.params.jukebox.muteAll();
     this.stageAttentionSeekerTimeout = null;
@@ -499,17 +465,22 @@ export default class MainInitialization {
       this.resetTimer(this.params.globals.get('params').behaviour.timeLimitGlobal * MS_IN_S);
     }
 
+    if (params.isInitial && typeof previousState.currentMapIndex === 'number') {
+      this.startMapIndex = previousState.currentMapIndex;
+    }
+    else {
+      this.startMapIndex = 0;
+    }
+
     if (this.livesLeft === 0) {
-      this.stages.forEach((stage) => {
-        stage.setState('sealed');
-      });
+      this.maps.updateStageState('*', STAGE_STATES.SEALED);
     }
 
     this.gameDone = params.isInitial ?
       previousState.gameDone ?? false :
       false;
 
-    this.stages.togglePlayfulness(true);
+    this.maps.toggleStagesPlayfulness(true);
 
     this.stagesGameOverState = [];
 
@@ -529,36 +500,27 @@ export default class MainInitialization {
 
     this.toolbar.toggleSolutionMode(false);
 
-    this.paths.reset({ isInitial: params.isInitial });
-    this.stages.reset({ isInitial: params.isInitial });
+    this.maps.reset({
+      paths: { isInitial: params.isInitial },
+      stages: { isInitial: params.isInitial },
+    });
+
     this.exerciseBundles.resetAll({ isInitial: params.isInitial });
 
     // Show everything if fog is deactivated
     if (globalParams.behaviour.map.fog === 'all') {
-      this.stages.forEach((stage) => {
-        stage.show();
-      });
-      this.paths.forEach((path) => {
-        path.show();
-      });
+      this.maps.showStages();
+      this.maps.showPaths();
     }
 
     // Set start state stages
     if (globalParams.behaviour.map.roaming === 'free') {
-      this.stages.forEach((stage) => {
-        if (stage.passesRestrictions()) {
-          stage.setState('open');
-        }
-      });
-      this.paths.forEach((path) => {
-        path.show();
-      });
+      this.maps.openStagesIfPassingRestrictions();
+
+      this.maps.showPaths();
     }
 
-    const reachableStageIds = this.stages.setStartStages();
-
-    this.stages.updateReachability(reachableStageIds);
-    this.paths.updateReachability(reachableStageIds);
+    const reachableStageIds = this.maps.setStartStages();
     this.exerciseBundles.updateReachability(reachableStageIds);
 
     // Initialize lives
@@ -566,12 +528,8 @@ export default class MainInitialization {
       'lives', { value: this.livesLeft },
     );
 
-    const states = [
-      this.params.globals.get('states').completed,
-      this.params.globals.get('states').cleared,
-    ];
-
-    const stageTypes = [STAGE_TYPES.stage];
+    const states = [STAGE_STATES.COMPLETED, STAGE_STATES.CLEARED];
+    const stageTypes = [STAGE_TYPES.STAGE];
 
     const filterExercisesOnly = {
       type: stageTypes,
@@ -587,8 +545,8 @@ export default class MainInitialization {
     this.toolbar.setStatusContainerStatus(
       'stages',
       {
-        value: this.stages.getCount({ filters: filterExercisesDone }),
-        maxValue: this.stages.getCount({ filters: filterExercisesOnly }),
+        value: this.maps.getStagesCount({ filters: filterExercisesDone }),
+        maxValue: this.maps.getStagesCount({ filters: filterExercisesOnly }),
       },
     );
 
@@ -614,7 +572,8 @@ export default class MainInitialization {
       this.params.jukebox.play('backgroundMusic');
     }
 
-    this.stages.updateStatePerRestrictions();
+
+    this.maps.updateStagesStatePerRestrictions();
 
     if (this.getMaxScore() > 0) {
       this.toolbar.showStatusContainer('score');

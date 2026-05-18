@@ -7,14 +7,18 @@
 
   .h5p-game-map-main {
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+    display: grid;
     grid-area: 1 / 1 / 1 / 1;
     margin: var(--margin-main);
     min-width: 0;
 
     &.display-none {
       display: none;
+    }
+
+    .h5p-game-map-maps-container {
+      display: grid;
+      grid-area: 2 / 1 / 2 / 1;
     }
   }
 }

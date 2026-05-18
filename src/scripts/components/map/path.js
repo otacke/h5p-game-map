@@ -1,3 +1,4 @@
+import { STAGE_STATES } from '@services/constants.js';
 import Util from '@services/util.js';
 import './path.scss';
 
@@ -20,8 +21,7 @@ export default class Path {
       },
     }, params);
 
-    this.params.state = this.params.state ??
-      this.params.globals.get('states').open;
+    this.params.state = this.params.state ?? STAGE_STATES.OPEN;
 
     this.params.visuals.pathWidth = parseFloat(this.params.visuals.pathWidth);
 
@@ -105,9 +105,15 @@ export default class Path {
 
   /**
    * Show.
+   * @param {object} [params] Parameters.
+   * @param {boolean} [params.force] Show no matter what.
    */
-  show() {
+  show(params = {}) {
     if (!this.params.globals.get('params').visual.paths.displayPaths) {
+      return;
+    }
+
+    if (!this.isReachable() && !params.force) {
       return;
     }
 
@@ -253,9 +259,7 @@ export default class Path {
   reset(params = {}) {
     this.setReachable(true);
 
-    const state = params.isInitial ?
-      this.params.state :
-      this.params.globals.get('states').open;
+    const state = params.isInitial ? this.params.state : STAGE_STATES.OPEN;
 
     this.setState(state);
 
@@ -274,10 +278,8 @@ export default class Path {
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {
-    const states = this.params.globals.get('states');
-
     if (typeof state === 'string') {
-      state = Object.entries(states)
+      state = Object.entries(STAGE_STATES)
         .find((entry) => entry[0] === state)[1];
     }
 
@@ -288,24 +290,25 @@ export default class Path {
     let newState;
 
     if (params.force) {
-      newState = states[state];
+      newState = state;
     }
-    else if (state === states.open) {
-      newState = states.open;
+    else if (state === STAGE_STATES.OPEN) {
+      newState = STAGE_STATES.OPEN;
     }
-    else if (state === states.cleared) {
-      newState = states.cleared;
+    else if (state === STAGE_STATES.CLEARED) {
+      newState = STAGE_STATES.CLEARED;
     }
 
     if (!this.state || this.state !== newState) {
       this.state = newState;
 
-      for (const [key, value] of Object.entries(states)) {
+      for (const [key, value] of Object.entries(STAGE_STATES)) {
+        const className = `h5p-game-map-path-${key.toLowerCase()}`;
         if (value !== this.state) {
-          this.dom.classList.remove(`h5p-game-map-path-${key}`);
+          this.dom.classList.remove(className);
         }
         else {
-          this.dom.classList.add(`h5p-game-map-path-${key}`);
+          this.dom.classList.add(className);
         }
       }
     }

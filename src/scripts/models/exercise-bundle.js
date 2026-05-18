@@ -1,9 +1,7 @@
 import Timer from '@services/timer.js';
 import Util, { pickFromArray } from '@services/util.js';
 import Exercise from '@models/exercise.js';
-
-/** @constant {number} MS_IN_S Milliseconds in a second. */
-const MS_IN_S = 1000;
+import { MS_IN_S, STAGE_STATES } from '@services/constants.js';
 
 const XAPI_DEFAULT_DESCRIPTION = 'Game Map Exercise Bundle';
 
@@ -34,7 +32,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     super();
 
     this.params = params;
-    this.params.state = this.params.state ?? this.params.globals.get('states').unstarted;
+    this.params.state = this.params.state ?? STAGE_STATES.UNSTARTED;
     this.callbacks = Util.extend({
       onStateChanged: () => {},
       onScoreChanged: () => {},
@@ -52,7 +50,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     this.contentId = this.parent.contentId;
     this.subContentId = this.params.previousState?.subContentId ?? H5P.createUUID();
 
-    this.setState(this.params.globals.get('states').unstarted);
+    this.setState(STAGE_STATES.UNSTARTED);
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-exercise-bundle');
@@ -263,7 +261,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     else {
       timeLimit = (this.params.time?.timeLimit ?? -1) * MS_IN_S;
       this.isCompleted = false;
-      state = this.params.globals.get('states').unstarted;
+      state = STAGE_STATES.UNSTARTED;
       delete this.params.previousState.pickedContentIndexes;
       delete this.pickedContentIndexes;
       this.rebuild();
@@ -670,7 +668,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       this.timer?.start(remainingTime);
     }
 
-    this.setState(this.params.globals.get('states').opened);
+    this.setState(STAGE_STATES.OPENED);
 
     this.setActivityStarted(); // inherited
     this.exercises.forEach((exercise) => {
@@ -696,10 +694,8 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {
-    const states = this.params.globals.get('states');
-
     if (typeof state === 'string') {
-      state = Object.entries(states)
+      state = Object.entries(STAGE_STATES)
         .find((entry) => entry[0] === state)[1];
     }
 
@@ -710,21 +706,21 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     let newState;
 
     if (params.force) {
-      newState = states[state];
+      newState = state;
     }
-    else if (state === states.unstarted) {
-      newState = states.unstarted;
+    else if (state === STAGE_STATES.UNSTARTED) {
+      newState = STAGE_STATES.UNSTARTED;
     }
-    else if (state === states.opened) {
+    else if (state === STAGE_STATES.OPENED) {
       // Exercises which are not tasks are automatically cleared after opening
       this.hasTask = this.hasTask ?? this.exercises.some((exercise) => exercise.isTask());
-      newState = this.hasTask ? states.opened : states.cleared;
+      newState = this.hasTask ? STAGE_STATES.OPENED : STAGE_STATES.CLEARED;
     }
-    else if (state === states.completed) {
-      newState = states.completed;
+    else if (state === STAGE_STATES.COMPLETED) {
+      newState = STAGE_STATES.COMPLETED;
     }
-    else if (state === states.cleared) {
-      newState = states.cleared;
+    else if (state === STAGE_STATES.CLEARED) {
+      newState = STAGE_STATES.CLEARED;
     }
 
     if (!this.state || this.state !== newState) {
@@ -793,14 +789,14 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
 
     // Completed state
     if (allExercisesSuccessful) {
-      this.setState(this.params.globals.get('states').cleared);
+      this.setState(STAGE_STATES.CLEARED);
       // Ensure that exercise statement is triggered before
       window.requestAnimationFrame(() => {
         this.triggerXAPIEvent('completed');
       });
     }
     else if (this.isCompleted) {
-      this.setState(this.params.globals.get('states').completed);
+      this.setState(STAGE_STATES.COMPLETED);
       // Ensure that exercise statement is triggered before
       window.requestAnimationFrame(() => {
         this.triggerXAPIEvent('completed');

@@ -1,3 +1,4 @@
+import { STAGE_STATES } from '@services/constants.js';
 import H5PUtil from '@services/h5p-util.js';
 import Util from '@services/util.js';
 import Dictionary from '@services/dictionary.js';
@@ -21,16 +22,11 @@ const FULL_SCREEN_DELAY_LARGE_MS = 300;
 /** @constant {string} ADVANCED_TEXT_VERSION_FALLBACK Fallback version for Advanced Text. */
 const ADVANCED_TEXT_VERSION_FALLBACK = '1.1';
 
-/** @constant {object} STATES States lookup. */
-export const STATES = {
-  unstarted: 0, // Exercise
-  locked: 1,
-  open: 3,
-  opened: 4, // Rename to tried or similar
-  completed: 5,
-  cleared: 6, // Exercise, Stage, Path,
-  sealed: 7, // Stage
-};
+// TODO: Editor: Fix stage aspect ratio when changing background image
+// TODO: Editor: When not assigning a type to a special stage, it becomes a normal stage.
+// TODO: Update translation files.
+// TODO: Upgrades.
+// TODO: Migrate previous state structure.
 
 export default class GameMap extends H5P.Question {
   /**
@@ -45,6 +41,7 @@ export default class GameMap extends H5P.Question {
     Util.addMixins(GameMap, [QuestionTypeContract, Sanitization, XAPI]);
 
     const defaults = Util.extend({
+      gamemaps: [],
       behaviour: {
         finishScore: Infinity, // Cannot use Infinity in JSON
         enableCheckButton: true, // Undocumented Question Type contract setting
@@ -71,6 +68,7 @@ export default class GameMap extends H5P.Question {
 
     // Migrate previous state to newer version
     extras.previousState = this.migratePreviousState1_4(extras.previousState);
+    // TODO: Migrate to 1_7 ...
 
     this.jukebox = new Jukebox();
     this.fillJukebox();
@@ -158,7 +156,6 @@ export default class GameMap extends H5P.Question {
     this.globals.set('contentId', this.contentId);
     this.globals.set('params', this.params);
     this.globals.set('extras', this.extras);
-    this.globals.set('states', STATES);
     this.globals.set('isFullscreenSupported', fullScreenSupported);
     this.globals.set('resize', () => {
       this.trigger('resize');
@@ -173,7 +170,8 @@ export default class GameMap extends H5P.Question {
    * @param {boolean} fullScreenSupported Full screen supported.
    */
   initializeMain(fullScreenSupported) {
-    const hasExerciseStages = this.params.gamemapSteps.gamemap.elements.some((stage) => {
+    const firstMap = this.params.gamemaps[0];
+    const hasExerciseStages = (firstMap?.elements ?? []).some((stage) => {
       return stage.contentsList?.length;
     });
 
@@ -256,6 +254,7 @@ export default class GameMap extends H5P.Question {
    * Migrate user state structure to version 1.4.
    * @param {object} previousState Previous state.
    * @returns {object} Migrated state.
+   * TODO: Amend for latest version!
    */
   migratePreviousState1_4(previousState) {
     if (!previousState?.content || previousState.content.exerciseBundles) {

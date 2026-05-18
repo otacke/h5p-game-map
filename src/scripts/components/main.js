@@ -97,7 +97,7 @@ export default class Main {
 
     this.start({ isInitial: true });
 
-    this.stages.updateStatePerRestrictions();
+    this.maps.updateStagesStatePerRestrictions();
 
     // Reattach H5P.Question buttons and scorebar to endscreen
     H5P.externalDispatcher.on('initialized', () => {
@@ -126,7 +126,7 @@ export default class Main {
    * @returns {object[]} Stages.
    */
   getStages() {
-    return this.stages;
+    return this.maps.getStages();
   }
 
   /**
@@ -149,9 +149,10 @@ export default class Main {
    * @param {object} params Parameters.
    * @param {boolean} [params.focusButton] If true, start button will get focus.
    * @param {boolean} [params.readOpened] If true, announce screen was opened.
+   * @param {number} [params.mapIndex] If set, will go to that map.
    */
   show(params = {}) {
-    this.map.show();
+    this.maps.show();
     this.contentDOM.classList.remove('display-none');
 
     this.setTimerState();
@@ -180,13 +181,15 @@ export default class Main {
         this.params.globals.get('resize')();
       });
     });
+
+    this.maps.setCurrentIndex(params.mapIndex || 0);
   }
 
   /**
    * Hide.
    */
   hide() {
-    this.map.hide();
+    this.maps.hide();
     this.timer?.pause();
 
     this.contentDOM.classList.add('display-none');
@@ -215,7 +218,7 @@ export default class Main {
       this.show({ focusButton: true, readOpened: true });
     }
     else {
-      this.show();
+      this.show({ mapIndex: this.startMapIndex });
     }
 
     this.params.globals.get('resize')();
@@ -227,9 +230,9 @@ export default class Main {
   seekAttention() {
     window.clearTimeout(this.stageAttentionSeekerTimeout);
     this.stageAttentionSeekerTimeout = window.setTimeout(() => {
-      this.stages.getNextOpenStage();
+      this.maps.getNextOpenStage();
 
-      const nextOpenStage = this.stages.getNextOpenStage();
+      const nextOpenStage = this.maps.getNextOpenStage();
       if (nextOpenStage) {
         nextOpenStage.animate('bounce');
       }
@@ -242,15 +245,15 @@ export default class Main {
    * Resize.
    */
   resize() {
-    const mapSize = this.map.getSize();
+    const mapSize = this.maps.getSize();
     if (!mapSize || mapSize.width === 0 || mapSize.height === 0) {
       return;
     }
 
-    this.map.resize();
+    this.maps.resize();
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = window.setTimeout(() => {
-      this.paths.update({ mapSize: this.map.getSize() });
+      this.maps.updatePaths();
     }, 0);
 
     /*
@@ -401,7 +404,7 @@ export default class Main {
     const marginVertical = parseFloat(style.getPropertyValue('margin-top')) +
       parseFloat(style.getPropertyValue('margin-bottom'));
 
-    this.map.setFullscreen(state, {
+    this.maps.setFullscreen(state, {
       width: window.innerWidth - marginHorizontal,
       height: window.innerHeight - marginVertical - this.toolbar.getFullHeight(),
     });

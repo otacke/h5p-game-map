@@ -10,20 +10,25 @@ export default class QuestionTypeContract {
    * @param {number} contentId Content ID.
    */
   sanitizeStages(contentId) {
-    const advancedTextVersion = this.getAdvancedTextVersion(contentId);
-    const maxElementIndex = this.params.gamemapSteps.gamemap.elements.length - 1;
+    const animDuration = this.params.visual.misc.useAnimation ? EXERCISE_SCREEN_ANIM_DURATION_MS : 0;
 
-    this.params.gamemapSteps.gamemap.elements = this.params.gamemapSteps.gamemap.elements.map((element) => {
-      this.sanitizeNeighbors(element, maxElementIndex);
-      this.sanitizeContentsList(element);
-      this.handleMissingContent(element, advancedTextVersion);
+    const maps = this.params.gamemaps || [];
+    maps.forEach((map) => {
+      const advancedTextVersion = this.getAdvancedTextVersion(contentId);
+      const maxElementIndex = map.elements.length - 1;
 
-      element.animDuration = this.params.visual.misc.useAnimation ? EXERCISE_SCREEN_ANIM_DURATION_MS : 0;
+      map.elements = map.elements.map((element) => {
+        this.sanitizeNeighbors(element, maxElementIndex);
+        this.sanitizeContentsList(element);
+        this.handleMissingContent(element, advancedTextVersion);
 
-      this.sanitizeScoreScaling(element);
-      this.sanitizeStageBehaviour(element);
+        element.animDuration = animDuration;
 
-      return element;
+        this.sanitizeScoreScaling(element);
+        this.sanitizeStageBehaviour(element);
+
+        return element;
+      });
     });
   }
 

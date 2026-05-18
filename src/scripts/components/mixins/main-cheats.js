@@ -1,5 +1,4 @@
-/** @constant {number} MS_IN_S Number of milliseconds in a second. */
-const MS_IN_S = 1000;
+import { MS_IN_S } from '@services/constants.js';
 
 /**
  * Mixin containing methods related to cheating.
@@ -74,12 +73,7 @@ export default class MainCheats {
       return;
     }
 
-    const stage = this.stages.getStage(id);
-    if (!stage) {
-      return;
-    }
-
-    stage.setState(state);
+    this.maps.setStageState(id, state);
   }
 
   /**

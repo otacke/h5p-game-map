@@ -8,11 +8,11 @@ export default class MainHandlersExercise {
    * @param {number} state State code.
    */
   handleExerciseStateChanged(id, state) {
-    if (this.isShowingSolutions) {
+    if (this.isShowingSolutions || !this.maps.getCount()) {
       return;
     }
 
-    this.stages.updateState(id, state);
+    this.maps.setStageState(id, state);
   }
 
   /**
@@ -23,11 +23,11 @@ export default class MainHandlersExercise {
    * @param {number} params.maxScore Maximum possible score.
    */
   handleExerciseScoreChanged(id, params = {}) {
-    if (this.gameDone) {
+    if (this.gameDone || !this.maps.getCount()) {
       return; // Just cautious ...
     }
 
-    this.stages.updateScoreStar(id, params.score / params.maxScore * 100);
+    this.maps.updateStageScoreStar(id, params.score / params.maxScore * 100);
 
     if (!this.fullScoreWasAnnounced && this.getScore() >= this.getMaxScore()) {
       this.fullScoreWasAnnounced = true;
@@ -39,7 +39,7 @@ export default class MainHandlersExercise {
     }
 
     // Ensure stages get locked if requirements are no longer met.
-    this.stages.updateStatePerRestrictions();
+    this.maps.updateStagesStatePerRestrictions();
 
     if (!params.exerciseSuccessful) {
       this.handleIncompleteScore({
@@ -149,10 +149,8 @@ export default class MainHandlersExercise {
       this.queueAnimation = [];
 
       // Store current state and seal stage
-      this.stagesGameOverState = this.stages.getCurrentState();
-      this.stages.forEach((stage) => {
-        stage.setState('sealed');
-      });
+      this.stagesGameOverState = this.maps.getCurrentStagesState();
+      this.maps.updateStageState('*', STAGE_STATES.SEALED);
 
       this.handleExerciseScreenClosed({
         animationEndedCallback: () => {

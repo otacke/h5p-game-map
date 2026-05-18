@@ -1,7 +1,5 @@
+import { MS_IN_S } from '@services/constants.js';
 import Timer from '@services/timer.js';
-
-/** @constant {number} MS_IN_S Milliseconds in a second. */
-const MS_IN_S = 1000;
 
 /**
  * Mixin containing methods related to the timer.

@@ -1,4 +1,4 @@
-import { STAGE_TYPES } from '@components/map/stage/stage.js';
+import { STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
 
 /** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
 const DEFAULT_READ_DELAY_MS = 250;
@@ -21,12 +21,10 @@ export default class MainHandlersStage {
    * @param {string} id Id of stage that was clicked on.
    */
   handleStageClicked(id) {
-    const stage = this.stages.getStage(id);
+    const stageType = this.maps.getStageType(id);
 
-    const stageType = stage.getType();
-
-    if (stageType === STAGE_TYPES.stage) {
-      this.stages.disable();
+    if (stageType === STAGE_TYPES.STAGE) {
+      this.maps.disableStages();
       window.clearTimeout(this.stageAttentionSeekerTimeout);
       const exerciseBundle = this.exerciseBundles.getExerciseBundle(id);
 
@@ -41,10 +39,11 @@ export default class MainHandlersStage {
 
       exerciseBundle.handleOpened();
 
+      const stageLabel = this.maps.getStageLabel(id);
       this.exerciseScreen.setContent(exerciseBundle.getDOM());
       this.exerciseScreen.setTitle(
-        stage.getLabel(),
-        this.params.dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, stage.getLabel()),
+        stageLabel,
+        this.params.dictionary.get('a11y.exerciseLabel').replace(/@stagelabel/, stageLabel),
       );
 
       const infoChildren = [
@@ -73,7 +72,7 @@ export default class MainHandlersStage {
 
       if (!this.isShowingSolutions) {
         // Update context for confusion report contract
-        const stageIndex = this.params.globals.get('params').gamemapSteps.gamemap.elements
+        const stageIndex = this.params.globals.get('params').gamemaps[0].elements // TODO: Multimap support
           .findIndex((element) => element.id === id);
 
         this.currentStageIndex = stageIndex + 1;
@@ -81,13 +80,12 @@ export default class MainHandlersStage {
         this.callbacks.onProgressChanged(this.currentStageIndex);
       }
     }
-    else if (stageType === STAGE_TYPES['special-stage']) {
+    else if (stageType === STAGE_TYPES.SPECIAL_STAGE) {
       if (!this.isShowingSolutions) {
         // Special stages should only run once, when open but not opened yet.
-        const states = this.params.globals.get('states');
-        const state = stage.getState();
-        if (state === states.open) {
-          stage.runSpecialFeature(this);
+        const state = this.maps.getStageState(id);
+        if (state === STAGE_STATES.OPEN) {
+          this.maps.runSpecialStageFeature(id, this);
         }
       }
     }
@@ -164,13 +162,23 @@ export default class MainHandlersStage {
   /**
    * Handle special feature has run.
    * @param {string} feature Feature name.
+   * @param {object} [options] Options for feature.
    */
-  handleSpecialFeatureRun(feature) {
+  handleSpecialFeatureRun(feature, options = {}) {
     if (feature === 'extra-life') {
       this.toolbar.animateStatusContainer('lives', 'pulse');
     }
     else if (feature === 'extra-time') {
       this.toolbar.animateStatusContainer('timer', 'pulse');
+    }
+    else if (feature === 'teleport') {
+      const stageState = this.maps.getStageState(options.targetId);
+      if (stageState === STAGE_STATES.LOCKED || stageState === STAGE_STATES.SEALED) {
+        this.maps.informAboutStageLockedState({ sourceId: options.sourceId, targetId: options.targetId });
+        return;
+      }
+
+      this.maps.showMapShowingStage(options.targetId);
     }
   }
 
@@ -180,42 +188,34 @@ export default class MainHandlersStage {
    * @param {number} state State code.
    */
   handleStageStateChanged(id, state) {
-    if (this.isShowingSolutions) {
+    if (this.isShowingSolutions || !this.maps?.getCount()) {
       return;
     }
 
-    if (this.paths) {
-      this.callbackQueue.add(() => {
-        this.paths.updateState(id, state);
-      });
-    }
+    this.callbackQueue.add(() => {
+      this.maps.updatePathState(id, state);
+    });
 
-    if (this.stages) {
-      this.stages.updateNeighborsState(id, state);
+    this.maps.updateStageNeighborsState(id, state);
 
-      const states = [
-        this.params.globals.get('states').completed,
-        this.params.globals.get('states').cleared,
-      ];
+    const states = [STAGE_STATES.COMPLETED, STAGE_STATES.CLEARED];
+    const stageTypes = [STAGE_TYPES.STAGE];
 
-      const stageTypes = [STAGE_TYPES.stage];
+    const filterExercisesOnly = {
+      type: stageTypes,
+    };
 
-      const filterExercisesOnly = {
-        type: stageTypes,
-      };
+    // Initialize stage counter
+    const filterExercisesDone = {
+      state: states,
+      type: stageTypes,
+    };
 
-      // Initialize stage counter
-      const filterExercisesDone = {
-        state: states,
-        type: stageTypes,
-      };
-
-      // Initialize stages
-      this.toolbar.setStatusContainerStatus('stages', {
-        value: this.stages.getCount({ filters: filterExercisesDone }),
-        maxValue: this.stages.getCount({ filters: filterExercisesOnly }),
-      });
-    }
+    // Initialize stages
+    this.toolbar.setStatusContainerStatus('stages', {
+      value: this.maps.getStagesCount({ filters: filterExercisesDone }),
+      maxValue: this.maps.getStagesCount({ filters: filterExercisesOnly }),
+    });
   }
 
   /**
@@ -234,7 +234,7 @@ export default class MainHandlersStage {
    * @param {string} id Stage's id.
    */
   handleStageBecameActiveDescendant(id) {
-    this.map?.setActiveDescendant(id);
+    this.maps.setActiveDescendant(id);
   }
 
   /**
@@ -255,12 +255,17 @@ export default class MainHandlersStage {
   handleStageAccessRestrictionsHit(params = {}) {
     params.html = params.html ? ` ${params.html}` : '';
 
+    const hitFromTarget = !params.sourceId || params.sourceId === params.id;
+
+    const dialogTextIntroId = hitFromTarget ? 'confirmAccessDeniedDialog' : 'confirmAccessDeniedForTargetDialog';
+    const dialogTextIntro = this.params.dictionary.get(`l10n.${dialogTextIntroId}`);
+
     this.toolbar.disableButton('finish');
 
     this.confirmationDialog.update(
       {
         headerText: this.params.dictionary.get('l10n.confirmAccessDeniedHeader'),
-        dialogText: `${this.params.dictionary.get('l10n.confirmAccessDeniedDialog')}${params.html}`,
+        dialogText: `${dialogTextIntro}${params.html}`,
         confirmText: this.params.dictionary.get('l10n.ok'),
         hideCancel: true,
       },

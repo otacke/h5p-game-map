@@ -15,15 +15,13 @@ export default class MainHandlersExerciseScreen {
 
     this.exerciseClosedCallback = params.animationEndedCallback;
 
-    this.map.dom.setAttribute(
+    this.maps.getDOM().setAttribute(
       'aria-label', this.params.dictionary.get('a11y.applicationInstructions'),
     );
 
     this.exerciseScreen.hide({ animate: true }, () => {
       this.exerciseScreen.setTime('');
-      this.stages
-        .getStage(this.openExerciseId)
-        ?.focus({ skipNextFocusHandler: true });
+      this.maps.focusStage(this.openExerciseId, { skipNextFocusHandler: true });
 
       this.openExerciseId = false;
       this.callbackQueue.setSkippable(true);
@@ -42,11 +40,11 @@ export default class MainHandlersExerciseScreen {
       );
     }
 
-    this.stages.enable();
+    this.maps.enableStages();
 
     this.exerciseBundles.stop(this.openExerciseId);
 
-    this.stages.updateStatePerRestrictions();
+    this.maps.updateStagesStatePerRestrictions();
   }
 
   /**
@@ -82,9 +80,10 @@ export default class MainHandlersExerciseScreen {
    * @param {number} params.maxScore Max score.
    */
   handleExerciseBundleInitialized(id, params) {
-    if (params.isTask) {
-      this.stages.updateScoreStar(id, params.score / params.maxScore * 100);
+    if (params.isTask || !this.maps.getCount()) {
+      this.maps.updateStageScoreStar(id, params.score / params.maxScore * 100);
     }
-    this.stages.setTaskState(id, params.isTask);
+
+    this.maps.setStageTaskState(id, params.isTask);
   }
 }

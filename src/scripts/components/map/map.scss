@@ -5,6 +5,7 @@
   box-shadow: 10px 10px 30px var(--color-shadow-light);
   box-sizing: border-box;
   display: grid;
+  grid-area: 1 / 1 / 1 / 1;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   justify-items: center;
@@ -12,9 +13,13 @@
   user-select: none;
   z-index: 0;
 
+  &.display-none {
+    display: none;
+  }
+
   .h5p-game-map-background-image {
     display: block;
-    grid-area: 1/1/1/1;
+    grid-area: 1 / 1 / 1 / 1;
     height: auto;
     pointer-events: none;
     width: 100%;
@@ -26,7 +31,7 @@
   }
 
   .h5p-game-map-path-wrapper {
-    grid-area: 1/1/1/1;
+    grid-area: 1 / 1 / 1 / 1;
     height: 100%;
     left: 0;
     margin-left: auto;
@@ -38,7 +43,7 @@
   }
 
   .h5p-game-map-stage-wrapper {
-    grid-area: 1/1/1/1;
+    grid-area: 1 / 1 / 1 / 1;
     height: 100%;
     left: 0;
     margin-left: auto;

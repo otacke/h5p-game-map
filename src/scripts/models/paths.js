@@ -1,5 +1,6 @@
-import Util from '@services/util.js';
 import Path from '@components/map/path.js';
+import { STAGE_STATES } from '@services/constants.js';
+import Util from '@services/util.js';
 
 export default class Paths {
 
@@ -131,7 +132,7 @@ export default class Paths {
     });
 
     if (
-      state === this.params.globals.get('states').open &&
+      state === STAGE_STATES.OPEN &&
       globalParams.visual.paths.displayPaths &&
       globalParams.behaviour.map.fog !== '0'
     ) {
@@ -140,9 +141,9 @@ export default class Paths {
       });
     }
 
-    if (state === this.params.globals.get('states').cleared) {
+    if (state === STAGE_STATES.CLEARED) {
       affectedPaths.forEach((path) => {
-        path.setState('cleared');
+        path.setState(STAGE_STATES.CLEARED);
         path.show();
       });
     }

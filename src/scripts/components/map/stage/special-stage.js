@@ -1,3 +1,4 @@
+import { STAGE_STATES } from '@services/constants.js';
 import Stage from './stage.js';
 import './special-stage.scss';
 
@@ -21,7 +22,7 @@ export default class SpecialStage extends Stage {
       'override-symbol', this.params.overrideSymbol === true,
     );
 
-    if (this.getState() === this.params.globals.get('states').cleared) {
+    if (this.getState() === STAGE_STATES.CLEARED) {
       this.disable();
     }
   }
@@ -33,8 +34,6 @@ export default class SpecialStage extends Stage {
    * @param {object} main Main instance.
    */
   runSpecialFeature(main) {
-    const states = this.params.globals.get('states');
-
     switch (this.params.specialStageType) {
       case 'finish':
         main.showFinishConfirmation();
@@ -42,21 +41,28 @@ export default class SpecialStage extends Stage {
 
       case 'extra-life':
         main.addExtraLives(this.params.specialStageExtraLives ?? 0);
-        this.setState(states.cleared);
+        this.setState(STAGE_STATES.CLEARED);
         main.handleSpecialFeatureRun('extra-life');
         this.disable();
         break;
 
       case 'extra-time':
         main.addExtraTime(this.params.specialStageExtraTime ?? 0);
-        this.setState(states.cleared);
+        this.setState(STAGE_STATES.CLEARED);
         main.handleSpecialFeatureRun('extra-time');
         this.disable();
         break;
 
       case 'link':
-        this.setState(states.cleared);
+        this.setState(STAGE_STATES.CLEARED);
         window.open(this.params.specialStageLinkURL, this.params.specialStageLinkTarget);
+        break;
+
+      case 'teleport':
+        main.handleSpecialFeatureRun('teleport', {
+          sourceId: this.getId(),
+          targetId: this.params.specialStageTeleportTarget,
+        });
         break;
 
       default:

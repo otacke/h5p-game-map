@@ -1,6 +1,8 @@
+import Paths from '@models/paths.js';
+import Stages from '@models/stages.js';
 import Util from '@services/util.js';
-import Path from './path.js';
 import './map.scss';
+import { STAGE_STATES } from '@services/constants.js';
 
 /** @constant {string} COLOR_CONTRAST_DARK Dark color contrast */
 const COLOR_CONTRAST_DARK = '#000';
@@ -18,9 +20,20 @@ export default class Map {
    * @param {object} [params] Parameters.
    * @param {string} [params.backgroundImage] Source string for image.
    * @param {string} [params.backgroundColor] Background color.
-   * @param {Path[]} [params.paths] Paths.
+   * @param {object[]} [params.elements] Raw stage element definitions.
+   * @param {object[]} [params.paths] Raw path definitions.
    * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onImageLoaded] Image loaded.
+   * @param {function} [callbacks.onStageClicked] Stage clicked.
+   * @param {function} [callbacks.onStageStateChanged] Stage state changed.
+   * @param {function} [callbacks.onFocused] Stage focused.
+   * @param {function} [callbacks.onBecameActiveDescendant] Stage became active descendant.
+   * @param {function} [callbacks.onAddedToQueue] Callback added to queue.
+   * @param {function} [callbacks.onAccessRestrictionsHit] Access restrictions hit.
+   * @param {function} [callbacks.getTotalScore] Get total score.
+   * @param {function} [callbacks.getStageScore] Get stage score.
+   * @param {function} [callbacks.getStageScorePercentage] Get stage score percentage.
+   * @param {function} [callbacks.getExerciseState] Get exercise state.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -28,6 +41,16 @@ export default class Map {
 
     this.callbacks = Util.extend({
       onImageLoaded: () => {},
+      onStageClicked: () => {},
+      onStageStateChanged: () => {},
+      onFocused: () => {},
+      onBecameActiveDescendant: () => {},
+      onAddedToQueue: () => {},
+      onAccessRestrictionsHit: () => {},
+      getTotalScore: () => 0,
+      getStageScore: () => 0,
+      getStageScorePercentage: () => 0,
+      getExerciseState: () => 0,
     }, callbacks);
 
     this.dom = document.createElement('div');
@@ -35,8 +58,8 @@ export default class Map {
 
     const globalParams = this.params.globals.get('params');
 
-    const stageWidthPercentage = globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.width;
-    const stageHeightPercentage = globalParams.gamemapSteps?.gamemap?.elements[0]?.telemetry?.height;
+    const stageWidthPercentage = globalParams.gamemaps?.[0]?.elements[0]?.telemetry?.width; // TODO: Multimap support
+    const stageHeightPercentage = globalParams.gamemaps?.[0]?.elements[0]?.telemetry?.height; // TODO: Multimap support
 
     // Custom CSS variables for stages
     this.dom.style.setProperty('--stage-height', `${stageHeightPercentage}%`);
@@ -71,9 +94,40 @@ export default class Map {
 
     this.dom.appendChild(this.image);
 
+    this.stages = new Stages(
+      {
+        dictionary: this.params.dictionary,
+        globals: this.params.globals,
+        jukebox: this.params.jukebox,
+        elements: this.params.elements,
+        visuals: globalParams.visual.stages,
+      },
+      {
+        onStageClicked: (id, state) => this.callbacks.onStageClicked(id, state),
+        onStageStateChanged: (id, state) => this.callbacks.onStageStateChanged(id, state),
+        onFocused: () => this.callbacks.onFocused(),
+        onBecameActiveDescendant: (id) => this.callbacks.onBecameActiveDescendant(id),
+        onAddedToQueue: (callback, params) => this.callbacks.onAddedToQueue(callback, params),
+        onAccessRestrictionsHit: (params) => this.callbacks.onAccessRestrictionsHit(params),
+        getTotalScore: () => this.callbacks.getTotalScore(),
+        getStageScore: (id) => this.callbacks.getStageScore(id),
+        getStageScorePercentage: (id) => this.callbacks.getStageScorePercentage(id),
+        getExerciseState: (id) => this.callbacks.getExerciseState(id),
+      },
+    );
+
+    this.paths = new Paths(
+      {
+        globals: this.params.globals,
+        elements: this.params.elements,
+        paths: this.params.paths,
+        visuals: globalParams.visual.paths.style,
+      },
+    );
+
     this.pathWrapper = document.createElement('div');
     this.pathWrapper.classList.add('h5p-game-map-path-wrapper');
-    this.params.paths.getDOMs().forEach((dom) => {
+    this.paths.getDOMs().forEach((dom) => {
       this.pathWrapper.appendChild(dom);
     });
     this.dom.appendChild(this.pathWrapper);
@@ -85,10 +139,12 @@ export default class Map {
       'aria-label', this.params.dictionary.get('a11y.applicationDescription'),
     );
 
-    this.params.stages.getDOMs().forEach((dom) => {
+    this.stages.getDOMs().forEach((dom) => {
       this.stageWrapper.appendChild(dom);
     });
     this.dom.appendChild(this.stageWrapper);
+
+    this.hide();
   }
 
   /**
@@ -100,10 +156,224 @@ export default class Map {
   }
 
   /**
+   * Update paths.
+   * @param {object} options Options.
+   * @param {object} [options.mapSize] Map size.
+   */
+  updatePaths(options = {}) {
+    this.paths.update(options);
+  }
+
+  /**
+   * Update path state.
+   * @param {string} pathId Id of path.
+   * @param {number} state State code.
+   */
+  updatePathState(pathId, state) {
+    this.paths.updateState(pathId, state);
+  }
+
+  /**
+   * Show paths.
+   */
+  showPaths() {
+    this.paths.forEach((path) => {
+      path.show();
+    });
+  }
+
+  /**
+   * Get current paths state.
+   * @returns {object} Current paths state.
+   */
+  getCurrentPathsState() {
+    return this.paths.getCurrentState();
+  }
+
+  /**
+   * Get current stages state.
+   * @returns {object} Current stages state.
+   */
+  getCurrentStagesState() {
+    return this.stages.getCurrentState();
+  }
+
+  updateStageState(stageId, state) {
+    this.stages.updateState(stageId, state);
+  }
+
+  setStageTaskState(stageId, taskState) {
+    this.stages.setTaskState(stageId, taskState);
+  }
+
+  /**
+   * Update stage score star.
+   * @param {string} stageId Id of stage.
+   * @param {number} scorePercentage Score percentage (0-100) to determine how much of the star should be filled.
+   */
+  updateStageScoreStar(stageId, scorePercentage) {
+    this.stages.updateScoreStar(stageId, scorePercentage);
+  }
+
+  /**
+   * Toggle stages playfulness.
+   * @param {boolean} isPlayful If true, stage is playful, else not.
+   */
+  toggleStagesPlayfulness(isPlayful) {
+    this.stages.togglePlayfulness(isPlayful);
+  }
+
+  /**
+   * Show paths.
+   */
+  showStages() {
+    this.stages.forEach((stage) => {
+      stage.show();
+    });
+  }
+
+  /**
+   * Set start stages.
+   * @returns {string[]} Ids of reachable stages, used to determine which stages are reachable.
+   */
+  setStartStages() {
+    const reachableStageIds = this.stages.setStartStages();
+    this.paths.updateReachability(reachableStageIds);
+    this.stages.updateReachability(reachableStageIds);
+
+    return reachableStageIds;
+  }
+
+  /**
+   * Inform user about locked state of stage.
+   * @param {object} params Parameters.
+   * @param {string} params.sourceId Stage id.
+   * @param {string} params.targetId Stage id.
+   */
+  informAboutStageLockedState(params = {}) {
+    this.stages.informAboutLockedState(params);
+  }
+
+  getStageCount(options = {}) {
+    return this.stages.getCount(options);
+  }
+
+  updateStagesStatePerRestrictions() {
+    this.stages.updateStatePerRestrictions();
+  }
+
+  setStageState(stageId, state) {
+    const stage = this.stages.getStage(stageId);
+    stage?.setState(state);
+  }
+
+  enableStages() {
+    this.stages.enable();
+  }
+
+  disableStages() {
+    this.stages.disable();
+  }
+
+  /**
+   * Get next open stage.
+   * @returns {Stage|null} Next best open stage.
+   */
+  getNextOpenStage() {
+    return this.stages.getNextOpenStage();
+  }
+
+  /**
+   * Check whether this map contains a stage with the given id.
+   * @param {string} stageId Stage id.
+   * @returns {boolean} True if the stage exists on this map.
+   */
+  holdsStage(stageId) {
+    return !!this.stages.getStage(stageId);
+  }
+
+  /**
+   * Get stage type.
+   * @param {string} stageId Stage id.
+   * @returns {number|undefined} Stage type or undefined if stage doesn't exist or id is not provided.
+   */
+  getStageType(stageId) {
+    const stage = this.stages.getStage(stageId);
+    return stage?.getType();
+  }
+
+  getStageLabel(id) {
+    const stage = this.stages.getStage(id);
+    return stage?.getLabel();
+  }
+
+  /**
+   * Get stage state.
+   * @param {string} id Stage id.
+   * @returns {number|undefined} Stage state or undefined if stage doesn't exist or id is not provided.
+   */
+  getStageState(id) {
+    const stage = this.stages.getStage(id);
+    return stage?.getState();
+  }
+
+  runSpecialStageFeature(stageId, context) {
+    const stage = this.stages.getStage(stageId);
+    stage?.runSpecialFeature(context);
+  }
+
+  /**
+   * Update stage neighbors state.
+   * @param {string} id Id of stage.
+   * @param {number} state State code.
+   */
+  updateStageNeighborsState(id, state) {
+    this.stages.updateNeighborsState(id, state);
+  }
+
+  /**
+   * Open stages if passing restrictions.
+   */
+  openStagesIfPassingRestrictions() {
+    this.stages.forEach((stage) => {
+      if (stage.passesRestrictions()) {
+        stage.setState(STAGE_STATES.OPEN);
+      }
+    });
+  }
+
+  focusStage(id, options = {}) {
+    const stage = this.stages.getStage(id);
+    stage?.focus(options);
+  }
+
+  getStages() {
+    return this.stages;
+  }
+
+  /**
    * Show.
    */
   show() {
+    this.paths.forEach((path) => {
+      path.hide();
+    });
+    this.stages.forEach((stage) => {
+      stage.hide();
+    });
+
     this.dom.classList.remove('display-none');
+
+    window.requestAnimationFrame(() => {
+      this.paths.forEach((path) => {
+        path.show();
+      });
+      this.stages.forEach((stage) => {
+        stage.show();
+      });
+
+      this.params.globals.get('resize')();
+    });
   }
 
   /**
@@ -236,5 +506,14 @@ export default class Map {
    */
   setActiveDescendant(id) {
     this.stageWrapper.setAttribute('aria-activedescendant', `stage-button-${id}`);
+  }
+
+  /**
+   * Reset map.
+   * @param {params} params Parameters.
+   */
+  reset(params = {}) {
+    this.paths.reset(params.paths);
+    this.stages.reset(params.stages);
   }
 }

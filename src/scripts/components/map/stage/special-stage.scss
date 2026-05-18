@@ -33,4 +33,11 @@
     left: 50%;
     top: calc(50% + 0.05em);
   }
+
+  &.teleport::before {
+    content: var(--icon-fontawesome-bolt);
+    left: 50%;
+    top: calc(50% + 0.05em);
+  }
+
 }

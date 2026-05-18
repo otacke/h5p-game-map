@@ -45,7 +45,7 @@ H5PUpgrades['H5P.GameMap'] = (() => {
               library: 'H5P.SingleChoiceSet 1.11',
               metadata: {
                 ...element.contentType.metadata ?? {},
-                contentType: 'Single Choice Set'
+                contentType: 'Single Choice Set',
               },
               params: {
                 behaviour: {
@@ -55,7 +55,7 @@ H5PUpgrades['H5P.GameMap'] = (() => {
                   passPercentage: 100,
                   soundEffectsEnabled: true,
                   timeoutCorrect: 2000,
-                  timeoutWrong: 3000
+                  timeoutWrong: 3000,
                 },
                 choices: (element.contentType.params?.summaries ?? []).map(
                   (summary) => {
@@ -65,7 +65,7 @@ H5PUpgrades['H5P.GameMap'] = (() => {
                     delete summary.tip;
 
                     return summary;
-                  }
+                  },
                 ),
                 l10n: {
                   nextButtonLabel: 'Next question',
@@ -82,11 +82,11 @@ H5PUpgrades['H5P.GameMap'] = (() => {
                   scoreBarLabel: 'You got :num out of :total points',
                   solutionListQuestionNumber: 'Question :num',
                   a11yShowSolution: 'Show the solution. The task will be marked with its correct solution.',
-                  a11yRetry: 'Retry the task. Reset all responses and start the task over again.'
+                  a11yRetry: 'Retry the task. Reset all responses and start the task over again.',
                 },
                 overallFeedback: element.contentType.params?.overallFeedback ??
-                  [{ from: 0, to: 100 }]
-              }
+                  [{ from: 0, to: 100 }],
+              },
             };
 
             return element;
@@ -123,10 +123,10 @@ H5PUpgrades['H5P.GameMap'] = (() => {
                       {
                         restrictionType: 'totalScore',
                         totalScoreOperator: 'greaterThan',
-                      }
-                    ]
+                      },
+                    ],
                   },
-                ]
+                ],
               };
             }
             else {
@@ -141,19 +141,19 @@ H5PUpgrades['H5P.GameMap'] = (() => {
                         restrictionType: 'totalScore',
                         totalScoreGroup: {
                           totalScoreOperator: 'greaterThan',
-                          totalScoreValue: minScore
-                        }
+                          totalScoreValue: minScore,
+                        },
                       },
                       {
                         restrictionType: 'totalScore',
                         totalScoreGroup: {
                           totalScoreOperator: 'equalTo',
-                          totalScoreValue: minScore
-                        }
-                      }
-                    ]
-                  }
-                ]
+                          totalScoreValue: minScore,
+                        },
+                      },
+                    ],
+                  },
+                ],
               };
             }
 
@@ -167,7 +167,19 @@ H5PUpgrades['H5P.GameMap'] = (() => {
         }
 
         finished(null, parameters, extras);
-      }
+      },
+      /**
+       * Asynchronous content upgrade hook.
+       * Upgrades content parameters to support Game Map 1.7.
+       * Move single game map parameters into list. // TODO
+       * Move background settings into map options. // TODO
+       * @param {object} parameters Content parameters.
+       * @param {function} finished Callback when finished.
+       * @param {object} extras Extra parameters such as metadata, etc.
+       */
+      7: (parameters, finished, extras) => {
+        finished(null, parameters, extras);
+      },
     },
   };
 })();
