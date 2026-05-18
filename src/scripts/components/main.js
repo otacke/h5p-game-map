@@ -153,6 +153,7 @@ export default class Main {
    */
   show(params = {}) {
     this.maps.show();
+
     this.contentDOM.classList.remove('display-none');
 
     this.setTimerState();

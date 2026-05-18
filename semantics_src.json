@@ -726,7 +726,7 @@
               {
                 "name": "specialStageTeleportTarget",
                 "type": "select",
-                "label": "Stage to teleport to",
+                "label": "Teleport stage to teleport to",
                 "widget": "gamemapstageselect",
                 "options": []
               },
@@ -1034,12 +1034,12 @@
         {
           "name": "mapOptions",
           "type": "group",
-          "label": "Map options",
+          "label": "Options for this map",
           "fields": [
             {
               "name": "backgroundSettings",
-              "label": "Background",
               "type": "group",
+              "label": "Background",
               "importance": "high",
               "expanded": true,
               "fields": [
@@ -1067,10 +1067,25 @@
               ]
             },
             {
-              "name": "dummy",
-              "type": "boolean",
-              "label": "dummy",
-              "widget": "none"
+              "name": "audioSettings",
+              "type": "group",
+              "label": "Audio settings",
+              "importance": "medium",
+              "fields": [
+                {
+                  "name": "dummy",
+                  "type": "boolean",
+                  "label": "dummy",
+                  "optional": true,
+                  "widget": "none"
+                },
+                {
+                  "name": "music",
+                  "type": "audio",
+                  "label": "Individual background music",
+                  "optional": true
+                }
+              ]
             }
           ]
         }
@@ -1449,25 +1464,17 @@
     "label": "Audio settings",
     "fields": [
       {
-        "name": "backgroundMusic",
-        "type": "group",
-        "importance": "low",
+        "name": "music",
+        "type": "audio",
         "label": "Background music",
-        "fields": [
-          {
-            "name": "music",
-            "type": "audio",
-            "label": "Background music",
-            "optional": true
-          },
-          {
-            "name": "muteDuringExercise",
-            "type": "boolean",
-            "label": "Mute when taking exercises",
-            "default": true,
-            "optional": true
-          }
-        ]
+        "optional": true
+      },
+      {
+        "name": "muteDuringExercise",
+        "type": "boolean",
+        "label": "Mute background music when taking exercises",
+        "default": true,
+        "optional": true
       },
       {
         "name": "ambient",
@@ -1494,6 +1501,13 @@
             "type": "audio",
             "label": "Check exercise (full score)",
             "description": "Will be played when an answer is checked and the user did get full score.",
+            "optional": true
+          },
+          {
+            "name": "teleport",
+            "type": "audio",
+            "label": "Teleport to a different stage",
+            "description": "Will be played on the map when the user teleports to another stage.",
             "optional": true
           },
           {

@@ -6,7 +6,7 @@ import Maps from '@models/maps.js';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog.js';
 import ExerciseDialog from '@components/overlay-dialogs/exercise-dialog.js';
 import SettingsDialog from '@components/overlay-dialogs/settings-dialog.js';
-import { MS_IN_S, STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
+import { MS_IN_S, ROAMING_TYPES, STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
 
 /** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
 const DEFAULT_READ_DELAY_MS = 100;
@@ -416,15 +416,18 @@ export default class MainInitialization {
    */
   startVisibilityObserver() {
     document.addEventListener('visibilitychange', () => {
+      const currentMapIndex = this.maps.getCurrentIndex();
+      const backgroundMusicKey = this.getBackgroundMusicKey(currentMapIndex);
+
       if (document.hidden) {
         this.unmuteWhenVisible =
-          !this.params.jukebox.isMuted('backgroundMusic');
+          !this.params.jukebox.isMuted('backgroundMusicKey');
         this.params.jukebox.muteAll();
       }
       else {
         if (this.unmuteWhenVisible === true) {
           this.params.jukebox.unmuteAll();
-          this.params.jukebox.play('backgroundMusic');
+          this.params.jukebox.play('backgroundMusicKey');
         }
       }
     });
@@ -514,7 +517,7 @@ export default class MainInitialization {
     }
 
     // Set start state stages
-    if (globalParams.behaviour.map.roaming === 'free') {
+    if (globalParams.behaviour.map.roaming === ROAMING_TYPES.FREE) {
       this.maps.openStagesIfPassingRestrictions();
 
       this.maps.showPaths();

@@ -9,8 +9,7 @@
       "fields": [
         {
           "label": "Εισαγωγή",
-          "placeholder": "Καλώς ήρθατε στο ...",
-          "default": "<p style=\"text-align: center;\"></p>"
+          "placeholder": "Καλώς ήρθατε στο ..."
         },
         {
           "label": "Πολυμέσα οθόνης τίτλου"
@@ -22,1011 +21,533 @@
       "description": "Προαιρετικός επικεφαλίδα για τη γραμμή τίτλου."
     },
     {
-      "label": "Επεξεργαστής χάρτη παιχνιδιού",
-      "fields": [
+      "label": "Χάρτες παιχνιδιού",
+      "entity": "Χάρτης παιχνιδιού",
+      "widgets": [
         {
-          "label": "Φόντο",
-          "fields": [
-            {
-              "label": "Εικόνα φόντου",
-              "description": "Επιλέξτε μια εικόνα που θα χρησιμοποιηθεί ως φόντο του χάρτη του παιχνιδιού."
-            },
-            {
-              "label": "Χρώμα φόντου",
-              "description": "Επιλέξτε ένα χρώμα που θα χρησιμοποιηθεί ως φόντο του χάρτη του παιχνιδιού.",
-              "default": "rgb(255, 255, 255)"
-            }
-          ]
-        },
-        {
-          "label": "Game map",
-          "fields": [
-            {
-              "label": "Background",
+          "label": "Προεπιλογή"
+        }
+      ],
+      "field": {
+        "label": "Χάρτης παιχνιδιού",
+        "fields": [
+          {
+            "label": "Στοιχεία",
+            "entity": "Στοιχείο",
+            "field": {
+              "label": "Στοιχεία",
               "fields": [
                 {
-                  "label": "Background image",
-                  "description": "Select an image to use as the background of the game map."
+                  "label": "Id"
                 },
                 {
-                  "label": "Background color",
-                  "description": "Choose a color to use as the background of the game map.",
-                  "default": "rgb(255, 255, 255)"
+                  "label": "Τύπος"
+                },
+                {
+                  "label": "Ετικέτα επιπέδου",
+                  "description": "Αυτή η ετικέτα θα εμφανίζεται πάνω από την δραστηριότητά σας και θα σας βοηθήσει να συνδέσετε διαφορετικά επίπεδα μεταξύ τους."
+                },
+                {
+                  "label": "Ο χρήστης μπορεί να ξεκινήσει εδώ",
+                  "description": "Εάν επιλεγεί, αυτό το επίπεδο θα είναι ένα επίπεδο στο οποίο ξεκινά ο χρήστης. Εάν κανένα επίπεδο ή περισσότερα από ένα επίπεδα δεν μπορούν να είναι το επίπεδο έναρξης, το επίπεδο εκκίνησης θα επιλεγεί τυχαία."
+                },
+                {
+                  "label": "Χρονικό όριο",
+                  "description": "Καθορίστε τις ρυθμίσεις που σχετίζονται με το χρονόμετρο.",
+                  "fields": [
+                    {
+                      "label": "Χρονικό όριο",
+                      "description": "Προαιρετικό χρονικό όριο σε δευτερόλεπτα. Εάν ένας χρήστης υπερβεί αυτόν τον χρόνο, η δραστηριότητα θα κλείσει, θα επαναφερθεί και ο χρήστης θα χάσει μια ζωή εάν οι ζωές είναι περιορισμένες."
+                    },
+                    {
+                      "label": "Προειδοποίηση χρονικού ορίου",
+                      "description": "Ορισμός προαιρετικού χρόνου αναπαραγωγής ενός προειδοποιητικού ήχου για το χρονικό όριο (αριθμός υπολειπόμενων δευτερολέπτων). Ο ήχος πρέπει να οριστεί στις ρυθμίσεις ήχου."
+                    }
+                  ]
+                },
+                {
+                  "label": "Περιορισμοί πρόσβασης",
+                  "description": "Ορίζει περιορισμούς για ξεκλείδωμα.",
+                  "fields": [
+                    {
+                      "label": "Όλα ή οποιοδήποτε σετ περιορισμών",
+                      "description": "Επιλέξτε εάν όλοι ή οποιοιδήποτε από τους παρακάτω περιορισμούς πρέπει να πληρούνται.",
+                      "options": [
+                        {
+                          "label": "Όλα"
+                        },
+                        {
+                          "label": "Οποιοδήποτε"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Σετ περιορισμών",
+                      "entity": "σετ περιορισμών",
+                      "widgets": [
+                        {
+                          "label": "Προεπιλογή"
+                        }
+                      ],
+                      "field": {
+                        "label": "Σετ περιορισμών",
+                        "fields": [
+                          {
+                            "label": "Όλοι ή οποιοιδήποτε περιορισμοί",
+                            "description": "Επιλέξτε εάν όλοι ή οποιοιδήποτε από τους παρακάτω περιορισμούς πρέπει να πληρούνται.",
+                            "options": [
+                              {
+                                "label": "Όλα"
+                              },
+                              {
+                                "label": "Οποιοδήποτε"
+                              }
+                            ]
+                          },
+                          {
+                            "label": "Περιορισμοί",
+                            "entity": "περιορισμός",
+                            "field": {
+                              "label": "Περιορισμός",
+                              "fields": [
+                                {
+                                  "label": "Τύπος περιορισμού",
+                                  "options": [
+                                    {
+                                      "label": "Συνολική βαθμολογία"
+                                    },
+                                    {
+                                      "label": "Βαθμολογία επιπέδου"
+                                    },
+                                    {
+                                      "label": "Stage score percentage"
+                                    },
+                                    {
+                                      "label": "Πρόοδος επιπέδου"
+                                    },
+                                    {
+                                      "label": "Χρόνος"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Συνολική βαθμολογία",
+                                  "fields": [
+                                    {
+                                      "label": "Τελεστής για συνολική βαθμολογία",
+                                      "options": [
+                                        {
+                                          "label": "μικρότερη από"
+                                        },
+                                        {
+                                          "label": "ίση με"
+                                        },
+                                        {
+                                          "label": "μη ίση με"
+                                        },
+                                        {
+                                          "label": "μεγαλύτερη από"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Αξία συνολικής βαθμολογίας για σύγκριση"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Βαθμολογία επιπέδου",
+                                  "fields": [
+                                    {
+                                      "label": "Επίπεδο από το οποίο θα λάβουμε τη βαθμολογία"
+                                    },
+                                    {
+                                      "label": "Τελεστής για βαθμολογία επιπέδου",
+                                      "options": [
+                                        {
+                                          "label": "μικρότερη από"
+                                        },
+                                        {
+                                          "label": "ίση με"
+                                        },
+                                        {
+                                          "label": "μη ίση με"
+                                        },
+                                        {
+                                          "label": "μεγαλύτερη από"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Βαθμολογία για σύγκριση"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Stage score percentage",
+                                  "fields": [
+                                    {
+                                      "label": "Stage to get score percentage from"
+                                    },
+                                    {
+                                      "label": "Operator for stage score percentage",
+                                      "options": [
+                                        {
+                                          "label": "μικρότερη από"
+                                        },
+                                        {
+                                          "label": "ίση με"
+                                        },
+                                        {
+                                          "label": "μη ίση με"
+                                        },
+                                        {
+                                          "label": "μεγαλύτερη από"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Stage score percentage to compare to"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Πρόοδος επιπέδου",
+                                  "fields": [
+                                    {
+                                      "label": "Επίπεδο από το οποίο θα λάβουμε την πρόοδο"
+                                    },
+                                    {
+                                      "label": "Τελεστής για την πρόοδο επιπέδου",
+                                      "options": [
+                                        {
+                                          "label": "είναι"
+                                        },
+                                        {
+                                          "label": "δεν είναι"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Πρόοδος για σύγκριση",
+                                      "options": [
+                                        {
+                                          "label": "δεν έχει ξεκινήσει"
+                                        },
+                                        {
+                                          "label": "έχει ξεκινήσει"
+                                        },
+                                        {
+                                          "label": "ολοκληρώθηκε"
+                                        },
+                                        {
+                                          "label": "ολοκληρώθηκε επιτυχώς"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Χρόνος",
+                                  "fields": [
+                                    {
+                                      "label": "Τελεστής για χρόνο",
+                                      "options": [
+                                        {
+                                          "label": "πριν από"
+                                        },
+                                        {
+                                          "label": "είναι"
+                                        },
+                                        {
+                                          "label": "δεν είναι"
+                                        },
+                                        {
+                                          "label": "μετά από"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Χρόνος για σύγκριση"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "label": "Πρόχειρο"
+                    }
+                  ]
+                },
+                {
+                  "label": "Περιεχόμενα",
+                  "entity": "περιεχόμενο",
+                  "widgets": [
+                    {
+                      "label": "Προεπιλογή"
+                    }
+                  ],
+                  "field": {
+                    "label": "Περιεχόμενο",
+                    "fields": [
+                      {
+                        "label": "Περιεχόμενο επιπέδου",
+                        "description": "Επιλέξτε τον τύπο περιεχομένου που θέλετε να προσθέσετε."
+                      },
+                      {
+                        "label": "Ζωές",
+                        "fields": [
+                          {
+                            "label": "Losing a live",
+                            "description": "Select when the user should lose a life for this content based on scores.",
+                            "options": [
+                              {
+                                "label": "Use behavioural setting"
+                              },
+                              {
+                                "label": "Ποτέ"
+                              },
+                              {
+                                "label": "When the score percentage of this content is below a custom value"
+                              },
+                              {
+                                "label": "When the user does not achieve full score"
+                              }
+                            ]
+                          },
+                          {
+                            "label": "Pass percentage",
+                            "description": "Set to the minumum score percentage required to not lose a life."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "label": "Ειδικός τύπος επιπέδου",
+                  "options": [
+                    {
+                      "label": "Τέλος"
+                    },
+                    {
+                      "label": "Επιπλέον ζωή"
+                    },
+                    {
+                      "label": "Επιπλέον χρόνος"
+                    },
+                    {
+                      "label": "Σύνδεσμος σε εξωτερικό περιεχόμενο"
+                    },
+                    {
+                      "label": "Teleport to another stage"
+                    }
+                  ]
+                },
+                {
+                  "label": "Αριθμός επιπλέον ζωών",
+                  "description": "Ορίστε πόσες ζωές θα παίρνει ο χρήστης όταν εισέρχεται σε αυτό το επίπεδο."
+                },
+                {
+                  "label": "Αριθμός δευτερολέπτων παράτασης",
+                  "description": "Ορίστε πόσα δευτερόλεπτα θα κερδίζει ο χρήστης για το συνολικό χρονικό όριο κατά την είσοδο σε αυτό το επείπεδο."
+                },
+                {
+                  "label": "URL για σύνδεσμο",
+                  "description": "Ορίστε πού θα αποσταλεί ο χρήστης όταν ανοίγει αυτό το επίπεδο."
+                },
+                {
+                  "label": "Τόπος ανοίγματος συνδέσμου",
+                  "options": [
+                    {
+                      "label": "Νέα καρτέλα"
+                    },
+                    {
+                      "label": "Ίδια καρτέλα"
+                    }
+                  ]
+                },
+                {
+                  "label": "Teleport stage to teleport to"
+                },
+                {
+                  "label": "Πάντα ορατό",
+                  "description": "Εάν επιλεγεί, αυτό το επίπεδο θα είναι πάντα ορατό, ακόμη και αν οι ρυθμίσεις ορατότητας του χάρτη υπαγορεύουν το αντίθετο."
+                },
+                {
+                  "label": "Παράκαμψη συμβόλου κλειδώματος",
+                  "description": "Εάν επιλεγεί, τα κλειδωμένα επίπεδα δεν θα χρησιμοποιούν το σύμβολο κλειδώματος, αλλά το σύμβολο για τον ειδικό τύπο επιπέδου."
+                },
+                {
+                  "label": "Stage behaviour",
+                  "fields": [
+                    {
+                      "label": "Pick random exercises for this stage"
+                    },
+                    {
+                      "label": "Number of randomly chosen exercises",
+                      "description": "Set the number of exercises to choose randomly for this stage."
+                    },
+                    {
+                      "label": "Uniform total score",
+                      "description": "Set the total score for this stage regardless of what exercises are picked."
+                    }
+                  ]
+                },
+                {
+                  "label": "Score scaling",
+                  "fields": [
+                    {
+                      "label": "Scaling mode",
+                      "description": "Choose what scaling should be based on",
+                      "options": [
+                        {
+                          "label": "Set total score of all exercises"
+                        },
+                        {
+                          "label": "Set total score per exercise"
+                        },
+                        {
+                          "label": "Set weights per exercise"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Content score customizations",
+                      "description": "Adjust the weights/total scores of exercises to customize scoring",
+                      "entity": "scaling setting",
+                      "field": {
+                        "label": "Score scaling group",
+                        "fields": [
+                          {
+                            "label": "Subcontent id"
+                          },
+                          {
+                            "label": "Weight"
+                          },
+                          {
+                            "label": "Is task"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "label": "Συνολική βαθμολογία"
+                    },
+                    {
+                      "label": "Weight is percentage"
+                    }
+                  ]
+                },
+                {
+                  "label": "Συνδεδεμένα επίπεδα"
+                },
+                {
+                  "label": "Τηλεμετρία"
                 }
               ]
-            },
-            {
-              "label": "Elements",
-              "entity": "Element",
-              "field": {
-                "label": "Elements",
-                "fields": [
-                  {
-                    "label": "Id"
-                  },
-                  {
-                    "label": "Type"
-                  },
-                  {
-                    "label": "Stage label",
-                    "description": "This label will be displayed on top of your exercise and will help you to connect different stages with one another."
-                  },
-                  {
-                    "label": "User can start here",
-                    "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly."
-                  },
-                  {
-                    "label": "Time limit",
-                    "description": "Define timer related settings.",
-                    "fields": [
-                      {
-                        "label": "Time limit",
-                        "description": "Optional time limit in seconds. If a user exceeds this time, the exercise will close, be reset, and the user will loose a life if lives are limited."
-                      },
-                      {
-                        "label": "Timeout warning time",
-                        "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Access restrictions",
-                    "description": "Define restrictions for unlocking.",
-                    "fields": [
-                      {
-                        "label": "All or any restriction set",
-                        "description": "Choose if all or any of the following restrictions need to be met.",
-                        "options": [
-                          {
-                            "label": "All"
-                          },
-                          {
-                            "label": "Any"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Restriction sets",
-                        "entity": "restriction set",
-                        "widgets": [
-                          {
-                            "label": "Default"
-                          }
-                        ],
-                        "field": {
-                          "label": "Restriction set",
-                          "fields": [
-                            {
-                              "label": "All or any restriction",
-                              "description": "Choose if all or any of the following restrictions need to be met.",
-                              "options": [
-                                {
-                                  "label": "All"
-                                },
-                                {
-                                  "label": "Any"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Restrictions",
-                              "entity": "restriction",
-                              "field": {
-                                "label": "Restriction",
-                                "fields": [
-                                  {
-                                    "label": "Restriction type",
-                                    "options": [
-                                      {
-                                        "label": "Total score"
-                                      },
-                                      {
-                                        "label": "Stage score"
-                                      },
-                                      {
-                                        "label": "Stage score percentage"
-                                      },
-                                      {
-                                        "label": "Stage progress"
-                                      },
-                                      {
-                                        "label": "Time"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Total score",
-                                    "fields": [
-                                      {
-                                        "label": "Operator for total score",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Value of total score to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage score",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get score from"
-                                      },
-                                      {
-                                        "label": "Operator for stage score",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Stage score to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage score percentage",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get score percentage from"
-                                      },
-                                      {
-                                        "label": "Operator for stage score percentage",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Stage score percentage to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage progress",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get progress from"
-                                      },
-                                      {
-                                        "label": "Operator for stage progress",
-                                        "options": [
-                                          {
-                                            "label": "is"
-                                          },
-                                          {
-                                            "label": "is not"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Progress to compare to",
-                                        "options": [
-                                          {
-                                            "label": "not started"
-                                          },
-                                          {
-                                            "label": "started"
-                                          },
-                                          {
-                                            "label": "completed"
-                                          },
-                                          {
-                                            "label": "completed successfully"
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Time",
-                                    "fields": [
-                                      {
-                                        "label": "Operator for time",
-                                        "options": [
-                                          {
-                                            "label": "before"
-                                          },
-                                          {
-                                            "label": "is"
-                                          },
-                                          {
-                                            "label": "is not"
-                                          },
-                                          {
-                                            "label": "after"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Time to compare to"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "Dummy"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Contents",
-                    "entity": "content",
-                    "widgets": [
-                      {
-                        "label": "Default"
-                      }
-                    ],
-                    "field": {
-                      "label": "Content",
-                      "fields": [
+            }
+          },
+          {
+            "label": "Διαδρομές",
+            "entity": "διαδρομή",
+            "field": {
+              "label": "Διαδρομή",
+              "fields": [
+                {
+                  "label": "Από"
+                },
+                {
+                  "label": "Προς"
+                },
+                {
+                  "label": "Ρυθμίσεις εμφάνισης",
+                  "options": [
+                    {
+                      "label": "Χρήση καθολικών ρυθμίσεων"
+                    },
+                    {
+                      "label": "Χρήση προσαρμοσμένων ρυθμίσεων"
+                    }
+                  ]
+                },
+                {
+                  "label": "Προσαρμοσμένες οπτικές ρυθμίσεις",
+                  "fields": [
+                    {
+                      "label": "Χρώμα διαδρομής"
+                    },
+                    {
+                      "label": "Πλάτος διαδρομής",
+                      "options": [
                         {
-                          "label": "Stage content",
-                          "description": "Choose the type of content you would like to add."
+                          "label": "Λεπτό"
                         },
                         {
-                          "label": "Lives",
-                          "fields": [
-                            {
-                              "label": "Losing a live",
-                              "description": "Select when the user should lose a life for this content based on scores.",
-                              "options": [
-                                {
-                                  "label": "Use behavioural setting"
-                                },
-                                {
-                                  "label": "Never"
-                                },
-                                {
-                                  "label": "When the score percentage of this content is below a custom value"
-                                },
-                                {
-                                  "label": "When the user does not achieve full score"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Pass percentage",
-                              "description": "Set to the minumum score percentage required to not lose a life."
-                            }
-                          ]
+                          "label": "Μεσαίο"
+                        },
+                        {
+                          "label": "Μεγάλο"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Στυλ Διαδρομής",
+                      "options": [
+                        {
+                          "label": "Συμπαγές"
+                        },
+                        {
+                          "label": "Διακεκομμένο (τελείες)"
+                        },
+                        {
+                          "label": "Διακεκομμένο (παύλες)"
+                        },
+                        {
+                          "label": "Διπλό"
                         }
                       ]
                     }
-                  },
-                  {
-                    "label": "Special stage type",
-                    "options": [
-                      {
-                        "label": "Finish"
-                      },
-                      {
-                        "label": "Extra life"
-                      },
-                      {
-                        "label": "Extra time"
-                      },
-                      {
-                        "label": "Link to external content"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Number of extra lives",
-                    "description": "Set how many lives the user will get when entering this stage."
-                  },
-                  {
-                    "label": "Number of seconds of extra time",
-                    "description": "Set how many seconds the user will gain for the global time limit when entering this stage."
-                  },
-                  {
-                    "label": "URL to link to",
-                    "description": "Set where the user should be sent to when opening this stage."
-                  },
-                  {
-                    "label": "Place to open link in",
-                    "options": [
-                      {
-                        "label": "New tab"
-                      },
-                      {
-                        "label": "Same tab"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Always visible",
-                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherwise."
-                  },
-                  {
-                    "label": "Override lock symbol",
-                    "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type."
-                  },
-                  {
-                    "label": "Stage behaviour",
-                    "fields": [
-                      {
-                        "label": "Pick random exercises for this stage"
-                      },
-                      {
-                        "label": "Number of randomly chosen exercises",
-                        "description": "Set the number of exercises to choose randomly for this stage."
-                      },
-                      {
-                        "label": "Uniform total score",
-                        "description": "Set the total score for this stage regardless of what exercises are picked."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Score scaling",
-                    "fields": [
-                      {
-                        "label": "Scaling mode",
-                        "description": "Choose what scaling should be based on",
-                        "options": [
-                          {
-                            "label": "Set total score of all exercises"
-                          },
-                          {
-                            "label": "Set total score per exercise"
-                          },
-                          {
-                            "label": "Set weights per exercise"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Content score customizations",
-                        "description": "Adjust the weights/total scores of exercises to customize scoring",
-                        "entity": "scaling setting",
-                        "field": {
-                          "label": "Score scaling group",
-                          "fields": [
-                            {
-                              "label": "Subcontent id"
-                            },
-                            {
-                              "label": "Weight",
-                              "default": "1"
-                            },
-                            {
-                              "label": "Is task"
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "Total score"
-                      },
-                      {
-                        "label": "Weight is percentage"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Connected stages"
-                  },
-                  {
-                    "label": "Telemetry"
-                  }
-                ]
-              }
-            },
-            {
-              "label": "Paths",
-              "entity": "path",
-              "field": {
-                "label": "Path",
-                "fields": [
-                  {
-                    "label": "From"
-                  },
-                  {
-                    "label": "To"
-                  },
-                  {
-                    "label": "Visual settings",
-                    "options": [
-                      {
-                        "label": "Use global settings"
-                      },
-                      {
-                        "label": "Use custom settings"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Custom visual settings",
-                    "fields": [
-                      {
-                        "label": "Color path",
-                        "default": "rgba(0, 0, 0, 0.7)"
-                      },
-                      {
-                        "label": "Path width",
-                        "options": [
-                          {
-                            "label": "thin"
-                          },
-                          {
-                            "label": "medium"
-                          },
-                          {
-                            "label": "thick"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Path style",
-                        "options": [
-                          {
-                            "label": "Solid"
-                          },
-                          {
-                            "label": "Dotted"
-                          },
-                          {
-                            "label": "Dashed"
-                          },
-                          {
-                            "label": "Double"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
+                  ]
+                }
+              ]
             }
-          ]
-        },
-        {
-          "label": "Χάρτης παιχνιδιού",
-          "fields": [
-            {
-              "label": "Στοιχεία",
-              "entity": "Στοιχείο",
-              "field": {
-                "label": "Στοιχεία",
+          },
+          {
+            "label": "Options for this map",
+            "fields": [
+              {
+                "label": "Φόντο",
                 "fields": [
                   {
-                    "label": "Id"
+                    "label": "Εικόνα φόντου",
+                    "description": "Επιλέξτε μια εικόνα που θα χρησιμοποιηθεί ως φόντο του χάρτη του παιχνιδιού."
                   },
                   {
-                    "label": "Τύπος"
+                    "label": "Χρώμα φόντου",
+                    "description": "Επιλέξτε ένα χρώμα που θα χρησιμοποιηθεί ως φόντο του χάρτη του παιχνιδιού."
+                  }
+                ]
+              },
+              {
+                "label": "Audio settings",
+                "fields": [
+                  {
+                    "label": "dummy"
                   },
                   {
-                    "label": "Ετικέτα επιπέδου",
-                    "description": "Αυτή η ετικέτα θα εμφανίζεται πάνω από την δραστηριότητά σας και θα σας βοηθήσει να συνδέσετε διαφορετικά επίπεδα μεταξύ τους."
-                  },
-                  {
-                    "label": "Ο χρήστης μπορεί να ξεκινήσει εδώ",
-                    "description": "Εάν επιλεγεί, αυτό το επίπεδο θα είναι ένα επίπεδο στο οποίο ξεκινά ο χρήστης. Εάν κανένα επίπεδο ή περισσότερα από ένα επίπεδα δεν μπορούν να είναι το επίπεδο έναρξης, το επίπεδο εκκίνησης θα επιλεγεί τυχαία."
-                  },
-                  {
-                    "label": "Χρονικό όριο",
-                    "description": "Καθορίστε τις ρυθμίσεις που σχετίζονται με το χρονόμετρο.",
-                    "fields": [
-                      {
-                        "label": "Χρονικό όριο",
-                        "description": "Προαιρετικό χρονικό όριο σε δευτερόλεπτα. Εάν ένας χρήστης υπερβεί αυτόν τον χρόνο, η δραστηριότητα θα κλείσει, θα επαναφερθεί και ο χρήστης θα χάσει μια ζωή εάν οι ζωές είναι περιορισμένες."
-                      },
-                      {
-                        "label": "Χρόνος προειδοποίησης χρονικού ορίου",
-                        "description": "Προαιρετικά ορίζεται πότε πρέπει να αναπαράγεται ένας ήχος προειδοποίησης χρονικού ορίου (αριθμός δευτερολέπτων που απομένουν). Πρέπει να οριστεί ένας ήχος στις ρυθμίσεις ήχου."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Περιορισμοί πρόσβασης",
-                    "description": "Ορίζει περιορισμούς για ξεκλείδωμα.",
-                    "fields": [
-                      {
-                        "label": "Όλα ή οποιοδήποτε σετ περιορισμών",
-                        "description": "Επιλέξτε εάν όλοι ή οποιοιδήποτε από τους παρακάτω περιορισμούς πρέπει να πληρούνται.",
-                        "options": [
-                          {
-                            "label": "Όλα"
-                          },
-                          {
-                            "label": "Οποιοδήποτε"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Σετ περιορισμών",
-                        "entity": "σετ περιορισμών",
-                        "widgets": [
-                          {
-                            "label": "Προεπιλογή"
-                          }
-                        ],
-                        "field": {
-                          "label": "Σετ περιορισμών",
-                          "fields": [
-                            {
-                              "label": "Όλοι ή οποιοιδήποτε περιορισμοί",
-                              "description": "Επιλέξτε εάν όλοι ή οποιοιδήποτε από τους παρακάτω περιορισμούς πρέπει να πληρούνται.",
-                              "options": [
-                                {
-                                  "label": "Όλοι"
-                                },
-                                {
-                                  "label": "Οποιοιδήποτε"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Περιορισμοί",
-                              "entity": "περιορισμός",
-                              "field": {
-                                "label": "Περιορισμός",
-                                "fields": [
-                                  {
-                                    "label": "Τύπος περιορισμού",
-                                    "options": [
-                                      {
-                                        "label": "Συνολική βαθμολογία"
-                                      },
-                                      {
-                                        "label": "Βαθμολογία επιπέδου"
-                                      },
-                                      {
-                                        "label": "Stage score percentage"
-                                      },
-                                      {
-                                        "label": "Πρόοδος επιπέδου"
-                                      },
-                                      {
-                                        "label": "Χρόνος"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Συνολική βαθμολογία",
-                                    "fields": [
-                                      {
-                                        "label": "Τελεστής για συνολική βαθμολογία",
-                                        "options": [
-                                          {
-                                            "label": "μικρότερη από"
-                                          },
-                                          {
-                                            "label": "ίση με"
-                                          },
-                                          {
-                                            "label": "μη ίση με"
-                                          },
-                                          {
-                                            "label": "μεγαλύτερη από"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Αξία συνολικής βαθμολογίας για σύγκριση"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Βαθμολογία επιπέδου",
-                                    "fields": [
-                                      {
-                                        "label": "Επίπεδο από το οποίο θα λάβουμε τη βαθμολογία"
-                                      },
-                                      {
-                                        "label": "Τελεστής για βαθμολογία επιπέδου",
-                                        "options": [
-                                          {
-                                            "label": "μικρότερη από"
-                                          },
-                                          {
-                                            "label": "ίση με"
-                                          },
-                                          {
-                                            "label": "μη ίση με"
-                                          },
-                                          {
-                                            "label": "μεγαλύτερη από"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Βαθμολογία για σύγκριση"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage score percentage",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get score percentage from"
-                                      },
-                                      {
-                                        "label": "Operator for stage score percentage",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Stage score percentage to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Πρόοδος επιπέδου",
-                                    "fields": [
-                                      {
-                                        "label": "Επίπεδο από το οποίο θα λάβουμε την πρόοδο"
-                                      },
-                                      {
-                                        "label": "Τελεστής για την πρόοδο επιπέδου",
-                                        "options": [
-                                          {
-                                            "label": "είναι"
-                                          },
-                                          {
-                                            "label": "δεν είναι"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Πρόοδος για σύγκριση",
-                                        "options": [
-                                          {
-                                            "label": "δεν έχει ξεκινήσει"
-                                          },
-                                          {
-                                            "label": "έχει ξεκινήσει"
-                                          },
-                                          {
-                                            "label": "ολοκληρώθηκε"
-                                          },
-                                          {
-                                            "label": "ολοκληρώθηκε επιτυχώς"
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Χρόνος",
-                                    "fields": [
-                                      {
-                                        "label": "Τελεστής για χρόνο",
-                                        "options": [
-                                          {
-                                            "label": "πριν από"
-                                          },
-                                          {
-                                            "label": "είναι"
-                                          },
-                                          {
-                                            "label": "δεν είναι"
-                                          },
-                                          {
-                                            "label": "μετά από"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Χρόνος για σύγκριση"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "dummy"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Περιεχόμενα",
-                    "entity": "περιεχόμενο",
-                    "widgets": [
-                      {
-                        "label": "Προεπιλογή"
-                      }
-                    ],
-                    "field": {
-                      "label": "Περιεχόμενο",
-                      "fields": [
-                        {
-                          "label": "Περιεχόμενο επιπέδου",
-                          "description": "Επιλέξτε τον τύπο περιεχομένου που θέλετε να προσθέσετε."
-                        },
-                        {
-                          "label": "Lives",
-                          "fields": [
-                            {
-                              "label": "Losing a live",
-                              "description": "Select when the user should lose a life for this content based on scores.",
-                              "options": [
-                                {
-                                  "label": "Use behavioural setting"
-                                },
-                                {
-                                  "label": "Never"
-                                },
-                                {
-                                  "label": "When the score percentage of this content is below a custom value"
-                                },
-                                {
-                                  "label": "When the user does not achieve full score"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Pass percentage",
-                              "description": "Set to the minumum score percentage required to not lose a life."
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "label": "Ειδικός τύπος επιπέδου",
-                    "options": [
-                      {
-                        "label": "Τέλος"
-                      },
-                      {
-                        "label": "Επιπλέον ζωή"
-                      },
-                      {
-                        "label": "Επιπλέον χρόνος"
-                      },
-                      {
-                        "label": "Σύνδεσμος σε εξωτερικό περιεχόμενο"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Αριθμός επιπλέον ζωών",
-                    "description": "Ορίστε πόσες ζωές θα παίρνει ο χρήστης όταν εισέρχεται σε αυτό το επίπεδο."
-                  },
-                  {
-                    "label": "Αριθμός δευτερολέπτων παράτασης",
-                    "description": "Ορίστε πόσα δευτερόλεπτα θα κερδίζει ο χρήστης για το συνολικό χρονικό όριο κατά την είσοδο σε αυτό το επείπεδο."
-                  },
-                  {
-                    "label": "URL για σύνδεσμο",
-                    "description": "Ορίστε πού θα αποσταλεί ο χρήστης όταν ανοίγει αυτό το επίπεδο."
-                  },
-                  {
-                    "label": "Τόπος ανοίγματος συνδέσμου",
-                    "options": [
-                      {
-                        "label": "Νέα καρτέλα"
-                      },
-                      {
-                        "label": "Ίδια καρτέλα"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Πάντα ορατό",
-                    "description": "Εάν επιλεγεί, αυτό το επίπεδο θα είναι πάντα ορατό, ακόμη και αν οι ρυθμίσεις ορατότητας του χάρτη υπαγορεύουν το αντίθετο."
-                  },
-                  {
-                    "label": "Παράκαμψη συμβόλου κλειδώματος",
-                    "description": "Εάν επιλεγεί, τα κλειδωμένα επίπεδα δεν θα χρησιμοποιούν το σύμβολο κλειδώματος, αλλά το σύμβολο για τον ειδικό τύπο επιπέδου."
-                  },
-                  {
-                    "label": "Stage behaviour",
-                    "fields": [
-                      {
-                        "label": "Pick random exercises for this stage"
-                      },
-                      {
-                        "label": "Number of randomly chosen exercises",
-                        "description": "Set the number of exercises to choose randomly for this stage."
-                      },
-                      {
-                        "label": "Uniform total score",
-                        "description": "Set the total score for this stage regardless of what exercises are picked."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Score scaling",
-                    "fields": [
-                      {
-                        "label": "Scaling mode",
-                        "description": "Choose what scaling should be based on",
-                        "options": [
-                          {
-                            "label": "Set total score of all exercises"
-                          },
-                          {
-                            "label": "Set total score per exercise"
-                          },
-                          {
-                            "label": "Set weights per exercise"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Content score customizations",
-                        "description": "Adjust the weights/total scores of exercises to customize scoring",
-                        "entity": "scaling setting",
-                        "field": {
-                          "label": "Score scaling group",
-                          "fields": [
-                            {
-                              "label": "Subcontent id"
-                            },
-                            {
-                              "label": "Weight",
-                              "default": "1"
-                            },
-                            {
-                              "label": "Is task"
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "Total score"
-                      },
-                      {
-                        "label": "Weight is percentage"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Συνδεδεμένα επίπεδα"
-                  },
-                  {
-                    "label": "Τηλεμετρία"
+                    "label": "Individual background music"
                   }
                 ]
               }
-            },
-            {
-              "label": "Διαδρομές",
-              "entity": "διαδρομή",
-              "field": {
-                "label": "Διαδρομή",
-                "fields": [
-                  {
-                    "label": "Από"
-                  },
-                  {
-                    "label": "Προς"
-                  },
-                  {
-                    "label": "Οπτικές ρυθμίσεις",
-                    "options": [
-                      {
-                        "label": "Χρήση καθολικών ρυθμίσεων"
-                      },
-                      {
-                        "label": "Χρήση προσαρμοσμένων ρυθμίσεων"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Προσαρμοσμένες οπτικές ρυθμίσεις",
-                    "fields": [
-                      {
-                        "label": "Χρώμα διαδρομής",
-                        "default": "rgba(0, 0, 0, 0.7)"
-                      },
-                      {
-                        "label": "Πλάτος διαδρομής",
-                        "options": [
-                          {
-                            "label": "λεπτό"
-                          },
-                          {
-                            "label": "μεσαίο"
-                          },
-                          {
-                            "label": "χοντρό"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Στυλ διαδρομής",
-                        "options": [
-                          {
-                            "label": "Συμπαγές"
-                          },
-                          {
-                            "label": "Διακεκομμένο (τελείες)"
-                          },
-                          {
-                            "label": "Διακεκομμένο (παύλες)"
-                          },
-                          {
-                            "label": "Διπλό"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+            ]
+          }
+        ]
+      }
     },
     {
       "label": "Οθόνη λήξης",
@@ -1036,8 +557,7 @@
           "fields": [
             {
               "label": "Μήνυμα (Μη επιτυχής χρήστης)",
-              "placeholder": "Δεν τα κατάφερες αυτή τη φορά ...",
-              "default": "<p style=\"text-align: center;\"></p>"
+              "placeholder": "Δεν τα κατάφερες αυτή τη φορά ..."
             },
             {
               "label": "Μέσα τελικής οθόνης (ο χρήστης δεν πέτυχε)"
@@ -1049,8 +569,7 @@
           "fields": [
             {
               "label": "Μήνυμα (Επιτυχής χρήστης)",
-              "placeholder": "Τα κατάφερες ...",
-              "default": "<p style=\"text-align: center;\"></p>"
+              "placeholder": "Τα κατάφερες ..."
             },
             {
               "label": "Πολυμέσα τελικής οθόνης (επιτυχής χρήστης)"
@@ -1093,16 +612,13 @@
           "label": "Επίπεδα",
           "fields": [
             {
-              "label": "Χρώμα για επίπεδο χωρίς επίσκεψη",
-              "default": "rgba(250, 223, 10, 0.7)"
+              "label": "Χρώμα για επίπεδο χωρίς επίσκεψη"
             },
             {
-              "label": "Χρώμα για κλειδωμένο επίπεδο",
-              "default": "rgba(153, 0, 0, 0.7)"
+              "label": "Χρώμα για κλειδωμένο επίπεδο"
             },
             {
-              "label": "Χρώμα για ολοκληρωμένο επίπεδο",
-              "default": "rgba(0, 130, 0, 0.7)"
+              "label": "Χρώμα για ολοκληρωμένο επίπεδο"
             },
             {
               "label": "Εμφάνιση αστεριών για βαθμολογίες",
@@ -1132,12 +648,10 @@
               "label": "Στυλ",
               "fields": [
                 {
-                  "label": "Χρώμα διαδρομής",
-                  "default": "rgba(0, 0, 0, 0.7)"
+                  "label": "Χρώμα διαδρομής"
                 },
                 {
-                  "label": "Χρώμα ολοκληρωμένης διαδρομής",
-                  "default": "rgba(0, 130, 0, 0.7)"
+                  "label": "Χρώμα ολοκληρωμένης διαδρομής"
                 },
                 {
                   "label": "Πλάτος διαδρομής",
@@ -1192,15 +706,10 @@
       "label": "Ρυθμίσεις ήχου",
       "fields": [
         {
-          "label": "Μουσική παρασκηνίου",
-          "fields": [
-            {
-              "label": "Μουσική παρασκηνίου"
-            },
-            {
-              "label": "Σίγαση κατά στις δραστηριότητες"
-            }
-          ]
+          "label": "Μουσική παρασκηνίου"
+        },
+        {
+          "label": "Σίγαση μουσικής υπόκρουσης σε δραστηριότητες"
         },
         {
           "label": "Συμβάντα",
@@ -1216,6 +725,10 @@
             {
               "label": "Έλεγχος απάντησης (μη πλήρης βαθμολογία)",
               "description": "Θα αναπαράγεται όταν μια απάντηση έχει ελεγχθεί και ο χρήστης έχει πάρει την πλήρη βαθμολογία."
+            },
+            {
+              "label": "Teleport to a different stage",
+              "description": "Will be played on the map when the user teleports to another stage."
             },
             {
               "label": "Ξεκλείδωμα επιπέδου",
@@ -1284,7 +797,7 @@
               "description": "Select when the user should lose a life for content based on scores.",
               "options": [
                 {
-                  "label": "Never"
+                  "label": "Ποτέ"
                 },
                 {
                   "label": "When the score percentage of content is below a custom value"
@@ -1413,6 +926,10 @@
         {
           "label": "Κείμενο διαλόγου η πρόσβαση δεν επιτρέπεται: Γενικά",
           "default": "Αυτό το επίπεδο απαιτεί την επίτευξη ορισμένων στόχων πριν από το ξεκλείδωμά του."
+        },
+        {
+          "label": "Dialog text access denied: For target stage",
+          "default": "The target stage requires you to meet some goals before it can be opened."
         },
         {
           "label": "Ναι",

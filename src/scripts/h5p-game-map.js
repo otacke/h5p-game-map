@@ -22,11 +22,8 @@ const FULL_SCREEN_DELAY_LARGE_MS = 300;
 /** @constant {string} ADVANCED_TEXT_VERSION_FALLBACK Fallback version for Advanced Text. */
 const ADVANCED_TEXT_VERSION_FALLBACK = '1.1';
 
-// TODO: Editor: Fix stage aspect ratio when changing background image
-// TODO: Editor: When not assigning a type to a special stage, it becomes a normal stage.
-// TODO: Update translation files.
-// TODO: Upgrades.
-// TODO: Migrate previous state structure.
+// TODO: Audio migration
+// TODO: TEST TEST TEST
 
 export default class GameMap extends H5P.Question {
   /**
@@ -68,7 +65,7 @@ export default class GameMap extends H5P.Question {
 
     // Migrate previous state to newer version
     extras.previousState = this.migratePreviousState1_4(extras.previousState);
-    // TODO: Migrate to 1_7 ...
+    extras.previousState = this.migratePreviousState1_7(extras.previousState);
 
     this.jukebox = new Jukebox();
     this.fillJukebox();
@@ -254,7 +251,6 @@ export default class GameMap extends H5P.Question {
    * Migrate user state structure to version 1.4.
    * @param {object} previousState Previous state.
    * @returns {object} Migrated state.
-   * TODO: Amend for latest version!
    */
   migratePreviousState1_4(previousState) {
     if (!previousState?.content || previousState.content.exerciseBundles) {
@@ -283,6 +279,27 @@ export default class GameMap extends H5P.Question {
   }
 
   /**
+   * Migrate user state structure to version 1.7.
+   * Adds the new `currentMapIndex` field that tracks which map of the
+   * `gamemaps` list is active. Pre-1.7 content had a single map, so the
+   * restored state belongs to map index 0.
+   *
+   * The flat `stages`, `paths`, and `exerciseBundles` arrays are kept as-is;
+   * 1.7 still stores them flat (just sourced across all maps).
+   * @param {object} previousState Previous state.
+   * @returns {object} Migrated state.
+   */
+  migratePreviousState1_7(previousState) {
+    if (!previousState?.content || typeof previousState.content.currentMapIndex === 'number') {
+      return previousState; // No state or already migrated
+    }
+
+    previousState.content.currentMapIndex = 0;
+
+    return previousState;
+  }
+
+  /**
    * Attach to wrapper.
    */
   registerDomElements() {
@@ -306,34 +323,40 @@ export default class GameMap extends H5P.Question {
   fillJukebox() {
     const audios = {};
 
-    if (this.params.audio.backgroundMusic.music?.[0]?.path) {
-      const src = H5P.getPath(
-        this.params.audio.backgroundMusic.music[0].path, this.contentId,
-      );
-
-      const crossOrigin = H5P.getCrossOrigin?.(this.params.audio.backgroundMusic.music[0]) ?? 'Anonymous';
-
-      audios.backgroundMusic = {
-        src: src,
-        crossOrigin: crossOrigin,
-        options: { loop: true, groupId: 'background' },
-      };
-    }
-
-    for (const key in this.params.audio.ambient) {
-      if (!this.params.audio.ambient[key]?.[0]?.path) {
-        continue;
+    const buildAudio = (entry, options) => {
+      if (!entry?.path) {
+        return null;
       }
-
-      const src = H5P.getPath(this.params.audio.ambient[key][0].path, this.contentId);
-
-      const crossOrigin = H5P.getCrossOrigin?.(this.params.audio.ambient[key][0]) ?? 'Anonymous';
-
-      audios[key] = {
-        src: src,
-        crossOrigin: crossOrigin,
+      return {
+        src: H5P.getPath(entry.path, this.contentId),
+        crossOrigin: H5P.getCrossOrigin?.(entry) ?? 'Anonymous',
+        ...(options && { options }),
       };
+    };
+
+    const backgroundOptions = { loop: true, groupId: 'background' };
+
+    const backgroundMusic = buildAudio(this.params.audio.music?.[0], backgroundOptions);
+    if (backgroundMusic) {
+      audios.backgroundMusic = backgroundMusic;
     }
+
+    this.params.gamemaps.forEach((map, mapIndex) => {
+      const customBackgroundMusic = buildAudio(
+        map.mapOptions?.audioSettings?.music?.[0],
+        backgroundOptions,
+      );
+      if (customBackgroundMusic) {
+        audios[`backgroundMusic-${mapIndex}`] = customBackgroundMusic;
+      }
+    });
+
+    Object.entries(this.params.audio.ambient ?? {}).forEach(([key, entry]) => {
+      const ambient = buildAudio(entry?.[0]);
+      if (ambient) {
+        audios[key] = ambient;
+      }
+    });
 
     this.jukebox.fill(audios);
   }

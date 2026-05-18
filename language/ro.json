@@ -9,8 +9,7 @@
       "fields": [
         {
           "label": "Introducere",
-          "placeholder": "Bun venit la...",
-          "default": "<p style=\"text-align: center;\"></p>"
+          "placeholder": "Bun venit la..."
         },
         {
           "label": "Media ecran de titlu"
@@ -22,1011 +21,533 @@
       "description": "Titlu opțional pentru bara de titlu."
     },
     {
-      "label": "Editor hartă de joc",
-      "fields": [
+      "label": "Hărți de joc",
+      "entity": "Hartă de joc",
+      "widgets": [
         {
-          "label": "Fundal",
-          "fields": [
-            {
-              "label": "Imagine de fundal",
-              "description": "Selectați o imagine pentru a o folosi ca fundal pentru harta de joc."
-            },
-            {
-              "label": "Culoare de fundal",
-              "description": "Alegeți o culoare pentru a o folosi ca fundal pentru harta de joc.",
-              "default": "rgb(255, 255, 255)"
-            }
-          ]
-        },
-        {
-          "label": "Game map",
-          "fields": [
-            {
-              "label": "Background",
+          "label": "Implicit"
+        }
+      ],
+      "field": {
+        "label": "Hartă de joc",
+        "fields": [
+          {
+            "label": "Elemente",
+            "entity": "Element",
+            "field": {
+              "label": "Elemente",
               "fields": [
                 {
-                  "label": "Background image",
-                  "description": "Select an image to use as the background of the game map."
+                  "label": "Id"
                 },
                 {
-                  "label": "Background color",
-                  "description": "Choose a color to use as the background of the game map.",
-                  "default": "rgb(255, 255, 255)"
+                  "label": "Tip"
+                },
+                {
+                  "label": "Etichetă etapă",
+                  "description": "Această etichetă va fi afișată deasupra exercițiului dumneavoastră și vă va ajuta să conectați diferite etape între ele."
+                },
+                {
+                  "label": "Utilizatorul poate începe de aici",
+                  "description": "Dacă este bifat, această etapă va fi una de la care utilizatorul poate începe. Dacă nicio etapă sau mai mult de una pot fi etape de start, etapa de start va fi aleasă aleatoriu."
+                },
+                {
+                  "label": "Limită de timp",
+                  "description": "Definiți setările legate de cronometru.",
+                  "fields": [
+                    {
+                      "label": "Limită de timp",
+                      "description": "Limită de timp opțională în secunde. Dacă un utilizator depășește acest timp, exercițiul se va închide, se va reseta, iar utilizatorul va pierde o viață dacă viețile sunt limitate."
+                    },
+                    {
+                      "label": "Timp avertizare expirare",
+                      "description": "Opțional, setați când ar trebui redat un sunet de avertizare a expirării timpului (numărul de secunde rămase). Un sunet trebuie setat în setările audio."
+                    }
+                  ]
+                },
+                {
+                  "label": "Restricții de acces",
+                  "description": "Definiți restricții pentru deblocare.",
+                  "fields": [
+                    {
+                      "label": "Toate sau oricare set de restricții",
+                      "description": "Alegeți dacă trebuie îndeplinite toate sau oricare dintre următoarele restricții.",
+                      "options": [
+                        {
+                          "label": "Toate"
+                        },
+                        {
+                          "label": "Oricare"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Seturi de restricții",
+                      "entity": "set de restricții",
+                      "widgets": [
+                        {
+                          "label": "Implicit"
+                        }
+                      ],
+                      "field": {
+                        "label": "Set de restricții",
+                        "fields": [
+                          {
+                            "label": "Toate sau oricare restricție",
+                            "description": "Alegeți dacă trebuie îndeplinite toate sau oricare dintre următoarele restricții.",
+                            "options": [
+                              {
+                                "label": "Toate"
+                              },
+                              {
+                                "label": "Oricare"
+                              }
+                            ]
+                          },
+                          {
+                            "label": "Restricții",
+                            "entity": "restricție",
+                            "field": {
+                              "label": "Restricție",
+                              "fields": [
+                                {
+                                  "label": "Tip restricție",
+                                  "options": [
+                                    {
+                                      "label": "Punctaj total"
+                                    },
+                                    {
+                                      "label": "Punctaj etapă"
+                                    },
+                                    {
+                                      "label": "Stage score percentage"
+                                    },
+                                    {
+                                      "label": "Progres etapă"
+                                    },
+                                    {
+                                      "label": "Timp"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Punctaj total",
+                                  "fields": [
+                                    {
+                                      "label": "Operator pentru punctaj total",
+                                      "options": [
+                                        {
+                                          "label": "mai mic decât"
+                                        },
+                                        {
+                                          "label": "egal cu"
+                                        },
+                                        {
+                                          "label": "diferit de"
+                                        },
+                                        {
+                                          "label": "mai mare decât"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Valoarea punctajului total cu care se compară"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Punctaj etapă",
+                                  "fields": [
+                                    {
+                                      "label": "Etapa de la care se ia punctajul"
+                                    },
+                                    {
+                                      "label": "Operator pentru punctaj etapă",
+                                      "options": [
+                                        {
+                                          "label": "mai mic decât"
+                                        },
+                                        {
+                                          "label": "egal cu"
+                                        },
+                                        {
+                                          "label": "diferit de"
+                                        },
+                                        {
+                                          "label": "mai mare decât"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Punctajul etapei cu care se compară"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Stage score percentage",
+                                  "fields": [
+                                    {
+                                      "label": "Stage to get score percentage from"
+                                    },
+                                    {
+                                      "label": "Operator for stage score percentage",
+                                      "options": [
+                                        {
+                                          "label": "mai mic decât"
+                                        },
+                                        {
+                                          "label": "egal cu"
+                                        },
+                                        {
+                                          "label": "diferit de"
+                                        },
+                                        {
+                                          "label": "mai mare decât"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Stage score percentage to compare to"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Progres etapă",
+                                  "fields": [
+                                    {
+                                      "label": "Etapa de la care se ia progresul"
+                                    },
+                                    {
+                                      "label": "Operator pentru progres etapă",
+                                      "options": [
+                                        {
+                                          "label": "este"
+                                        },
+                                        {
+                                          "label": "nu este"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Progresul cu care se compară",
+                                      "options": [
+                                        {
+                                          "label": "neînceput"
+                                        },
+                                        {
+                                          "label": "început"
+                                        },
+                                        {
+                                          "label": "finalizat"
+                                        },
+                                        {
+                                          "label": "finalizat cu succes"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Timp",
+                                  "fields": [
+                                    {
+                                      "label": "Operator pentru timp",
+                                      "options": [
+                                        {
+                                          "label": "înainte de"
+                                        },
+                                        {
+                                          "label": "este"
+                                        },
+                                        {
+                                          "label": "nu este"
+                                        },
+                                        {
+                                          "label": "după"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Timpul cu care se compară"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "label": "Dummy"
+                    }
+                  ]
+                },
+                {
+                  "label": "Conținuturi",
+                  "entity": "conținut",
+                  "widgets": [
+                    {
+                      "label": "Implicit"
+                    }
+                  ],
+                  "field": {
+                    "label": "Conținut",
+                    "fields": [
+                      {
+                        "label": "Conținut etapă",
+                        "description": "Alegeți tipul de conținut pe care doriți să-l adăugați."
+                      },
+                      {
+                        "label": "Vieți",
+                        "fields": [
+                          {
+                            "label": "Losing a live",
+                            "description": "Select when the user should lose a life for this content based on scores.",
+                            "options": [
+                              {
+                                "label": "Use behavioural setting"
+                              },
+                              {
+                                "label": "Niciodată"
+                              },
+                              {
+                                "label": "When the score percentage of this content is below a custom value"
+                              },
+                              {
+                                "label": "When the user does not achieve full score"
+                              }
+                            ]
+                          },
+                          {
+                            "label": "Pass percentage",
+                            "description": "Set to the minumum score percentage required to not lose a life."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "label": "Tip special de etapă",
+                  "options": [
+                    {
+                      "label": "Finalizare"
+                    },
+                    {
+                      "label": "Viață suplimentară"
+                    },
+                    {
+                      "label": "Timp suplimentar"
+                    },
+                    {
+                      "label": "Link către conținut extern"
+                    },
+                    {
+                      "label": "Teleport to another stage"
+                    }
+                  ]
+                },
+                {
+                  "label": "Număr de vieți suplimentare",
+                  "description": "Setați câte vieți va primi utilizatorul la intrarea în această etapă."
+                },
+                {
+                  "label": "Număr de secunde de timp suplimentar",
+                  "description": "Setați câte secunde va câștiga utilizatorul pentru limita de timp globală la intrarea în această etapă."
+                },
+                {
+                  "label": "URL către care se face legătura",
+                  "description": "Setați unde ar trebui trimis utilizatorul la deschiderea acestei etape."
+                },
+                {
+                  "label": "Locul în care se deschide linkul",
+                  "options": [
+                    {
+                      "label": "Filă nouă"
+                    },
+                    {
+                      "label": "Aceeași filă"
+                    }
+                  ]
+                },
+                {
+                  "label": "Teleport stage to teleport to"
+                },
+                {
+                  "label": "Întotdeauna vizibil",
+                  "description": "Dacă este bifat, această etapă va fi întotdeauna vizibilă, chiar dacă setările de vizibilitate ale hărții dictează altceva."
+                },
+                {
+                  "label": "Suprascrie simbolul de blocare",
+                  "description": "Dacă este bifat, etapele blocate nu vor folosi simbolul de lacăt, ci simbolul pentru tipul special de etapă."
+                },
+                {
+                  "label": "Stage behaviour",
+                  "fields": [
+                    {
+                      "label": "Pick random exercises for this stage"
+                    },
+                    {
+                      "label": "Number of randomly chosen exercises",
+                      "description": "Set the number of exercises to choose randomly for this stage."
+                    },
+                    {
+                      "label": "Uniform total score",
+                      "description": "Set the total score for this stage regardless of what exercises are picked."
+                    }
+                  ]
+                },
+                {
+                  "label": "Score scaling",
+                  "fields": [
+                    {
+                      "label": "Scaling mode",
+                      "description": "Choose what scaling should be based on",
+                      "options": [
+                        {
+                          "label": "Set total score of all exercises"
+                        },
+                        {
+                          "label": "Set total score per exercise"
+                        },
+                        {
+                          "label": "Set weights per exercise"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Content score customizations",
+                      "description": "Adjust the weights/total scores of exercises to customize scoring",
+                      "entity": "scaling setting",
+                      "field": {
+                        "label": "Score scaling group",
+                        "fields": [
+                          {
+                            "label": "Subcontent id"
+                          },
+                          {
+                            "label": "Weight"
+                          },
+                          {
+                            "label": "Is task"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "label": "Punctaj total"
+                    },
+                    {
+                      "label": "Weight is percentage"
+                    }
+                  ]
+                },
+                {
+                  "label": "Etape conectate"
+                },
+                {
+                  "label": "Telemetrie"
                 }
               ]
-            },
-            {
-              "label": "Elements",
-              "entity": "Element",
-              "field": {
-                "label": "Elements",
-                "fields": [
-                  {
-                    "label": "Id"
-                  },
-                  {
-                    "label": "Type"
-                  },
-                  {
-                    "label": "Stage label",
-                    "description": "This label will be displayed on top of your exercise and will help you to connect different stages with one another."
-                  },
-                  {
-                    "label": "User can start here",
-                    "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly."
-                  },
-                  {
-                    "label": "Time limit",
-                    "description": "Define timer related settings.",
-                    "fields": [
-                      {
-                        "label": "Time limit",
-                        "description": "Optional time limit in seconds. If a user exceeds this time, the exercise will close, be reset, and the user will loose a life if lives are limited."
-                      },
-                      {
-                        "label": "Timeout warning time",
-                        "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Access restrictions",
-                    "description": "Define restrictions for unlocking.",
-                    "fields": [
-                      {
-                        "label": "All or any restriction set",
-                        "description": "Choose if all or any of the following restrictions need to be met.",
-                        "options": [
-                          {
-                            "label": "All"
-                          },
-                          {
-                            "label": "Any"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Restriction sets",
-                        "entity": "restriction set",
-                        "widgets": [
-                          {
-                            "label": "Default"
-                          }
-                        ],
-                        "field": {
-                          "label": "Restriction set",
-                          "fields": [
-                            {
-                              "label": "All or any restriction",
-                              "description": "Choose if all or any of the following restrictions need to be met.",
-                              "options": [
-                                {
-                                  "label": "All"
-                                },
-                                {
-                                  "label": "Any"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Restrictions",
-                              "entity": "restriction",
-                              "field": {
-                                "label": "Restriction",
-                                "fields": [
-                                  {
-                                    "label": "Restriction type",
-                                    "options": [
-                                      {
-                                        "label": "Total score"
-                                      },
-                                      {
-                                        "label": "Stage score"
-                                      },
-                                      {
-                                        "label": "Stage score percentage"
-                                      },
-                                      {
-                                        "label": "Stage progress"
-                                      },
-                                      {
-                                        "label": "Time"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Total score",
-                                    "fields": [
-                                      {
-                                        "label": "Operator for total score",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Value of total score to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage score",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get score from"
-                                      },
-                                      {
-                                        "label": "Operator for stage score",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Stage score to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage score percentage",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get score percentage from"
-                                      },
-                                      {
-                                        "label": "Operator for stage score percentage",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Stage score percentage to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage progress",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get progress from"
-                                      },
-                                      {
-                                        "label": "Operator for stage progress",
-                                        "options": [
-                                          {
-                                            "label": "is"
-                                          },
-                                          {
-                                            "label": "is not"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Progress to compare to",
-                                        "options": [
-                                          {
-                                            "label": "not started"
-                                          },
-                                          {
-                                            "label": "started"
-                                          },
-                                          {
-                                            "label": "completed"
-                                          },
-                                          {
-                                            "label": "completed successfully"
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Time",
-                                    "fields": [
-                                      {
-                                        "label": "Operator for time",
-                                        "options": [
-                                          {
-                                            "label": "before"
-                                          },
-                                          {
-                                            "label": "is"
-                                          },
-                                          {
-                                            "label": "is not"
-                                          },
-                                          {
-                                            "label": "after"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Time to compare to"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "Dummy"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Contents",
-                    "entity": "content",
-                    "widgets": [
-                      {
-                        "label": "Default"
-                      }
-                    ],
-                    "field": {
-                      "label": "Content",
-                      "fields": [
+            }
+          },
+          {
+            "label": "Căi",
+            "entity": "cale",
+            "field": {
+              "label": "Cale",
+              "fields": [
+                {
+                  "label": "De la"
+                },
+                {
+                  "label": "La"
+                },
+                {
+                  "label": "Setări vizuale",
+                  "options": [
+                    {
+                      "label": "Folosește setările globale"
+                    },
+                    {
+                      "label": "Folosește setări personalizate"
+                    }
+                  ]
+                },
+                {
+                  "label": "Setări vizuale personalizate",
+                  "fields": [
+                    {
+                      "label": "Culoare cale"
+                    },
+                    {
+                      "label": "Lățime cale",
+                      "options": [
                         {
-                          "label": "Stage content",
-                          "description": "Choose the type of content you would like to add."
+                          "label": "subțire"
                         },
                         {
-                          "label": "Lives",
-                          "fields": [
-                            {
-                              "label": "Losing a live",
-                              "description": "Select when the user should lose a life for this content based on scores.",
-                              "options": [
-                                {
-                                  "label": "Use behavioural setting"
-                                },
-                                {
-                                  "label": "Never"
-                                },
-                                {
-                                  "label": "When the score percentage of this content is below a custom value"
-                                },
-                                {
-                                  "label": "When the user does not achieve full score"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Pass percentage",
-                              "description": "Set to the minumum score percentage required to not lose a life."
-                            }
-                          ]
+                          "label": "medie"
+                        },
+                        {
+                          "label": "groasă"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Stil cale",
+                      "options": [
+                        {
+                          "label": "Solid"
+                        },
+                        {
+                          "label": "Punctat"
+                        },
+                        {
+                          "label": "Linie întreruptă"
+                        },
+                        {
+                          "label": "Dublu"
                         }
                       ]
                     }
-                  },
-                  {
-                    "label": "Special stage type",
-                    "options": [
-                      {
-                        "label": "Finish"
-                      },
-                      {
-                        "label": "Extra life"
-                      },
-                      {
-                        "label": "Extra time"
-                      },
-                      {
-                        "label": "Link to external content"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Number of extra lives",
-                    "description": "Set how many lives the user will get when entering this stage."
-                  },
-                  {
-                    "label": "Number of seconds of extra time",
-                    "description": "Set how many seconds the user will gain for the global time limit when entering this stage."
-                  },
-                  {
-                    "label": "URL to link to",
-                    "description": "Set where the user should be sent to when opening this stage."
-                  },
-                  {
-                    "label": "Place to open link in",
-                    "options": [
-                      {
-                        "label": "New tab"
-                      },
-                      {
-                        "label": "Same tab"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Always visible",
-                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherwise."
-                  },
-                  {
-                    "label": "Override lock symbol",
-                    "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type."
-                  },
-                  {
-                    "label": "Stage behaviour",
-                    "fields": [
-                      {
-                        "label": "Pick random exercises for this stage"
-                      },
-                      {
-                        "label": "Number of randomly chosen exercises",
-                        "description": "Set the number of exercises to choose randomly for this stage."
-                      },
-                      {
-                        "label": "Uniform total score",
-                        "description": "Set the total score for this stage regardless of what exercises are picked."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Score scaling",
-                    "fields": [
-                      {
-                        "label": "Scaling mode",
-                        "description": "Choose what scaling should be based on",
-                        "options": [
-                          {
-                            "label": "Set total score of all exercises"
-                          },
-                          {
-                            "label": "Set total score per exercise"
-                          },
-                          {
-                            "label": "Set weights per exercise"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Content score customizations",
-                        "description": "Adjust the weights/total scores of exercises to customize scoring",
-                        "entity": "scaling setting",
-                        "field": {
-                          "label": "Score scaling group",
-                          "fields": [
-                            {
-                              "label": "Subcontent id"
-                            },
-                            {
-                              "label": "Weight",
-                              "default": "1"
-                            },
-                            {
-                              "label": "Is task"
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "Total score"
-                      },
-                      {
-                        "label": "Weight is percentage"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Connected stages"
-                  },
-                  {
-                    "label": "Telemetry"
-                  }
-                ]
-              }
-            },
-            {
-              "label": "Paths",
-              "entity": "path",
-              "field": {
-                "label": "Path",
-                "fields": [
-                  {
-                    "label": "From"
-                  },
-                  {
-                    "label": "To"
-                  },
-                  {
-                    "label": "Visual settings",
-                    "options": [
-                      {
-                        "label": "Use global settings"
-                      },
-                      {
-                        "label": "Use custom settings"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Custom visual settings",
-                    "fields": [
-                      {
-                        "label": "Color path",
-                        "default": "rgba(0, 0, 0, 0.7)"
-                      },
-                      {
-                        "label": "Path width",
-                        "options": [
-                          {
-                            "label": "thin"
-                          },
-                          {
-                            "label": "medium"
-                          },
-                          {
-                            "label": "thick"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Path style",
-                        "options": [
-                          {
-                            "label": "Solid"
-                          },
-                          {
-                            "label": "Dotted"
-                          },
-                          {
-                            "label": "Dashed"
-                          },
-                          {
-                            "label": "Double"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
+                  ]
+                }
+              ]
             }
-          ]
-        },
-        {
-          "label": "Hartă de joc",
-          "fields": [
-            {
-              "label": "Elemente",
-              "entity": "Element",
-              "field": {
-                "label": "Elemente",
+          },
+          {
+            "label": "Options for this map",
+            "fields": [
+              {
+                "label": "Fundal",
                 "fields": [
                   {
-                    "label": "Id"
+                    "label": "Imagine de fundal",
+                    "description": "Selectați o imagine pentru a o folosi ca fundal pentru harta de joc."
                   },
                   {
-                    "label": "Tip"
+                    "label": "Culoare de fundal",
+                    "description": "Alegeți o culoare pentru a o folosi ca fundal pentru harta de joc."
+                  }
+                ]
+              },
+              {
+                "label": "Audio settings",
+                "fields": [
+                  {
+                    "label": "dummy"
                   },
                   {
-                    "label": "Etichetă etapă",
-                    "description": "Această etichetă va fi afișată deasupra exercițiului dumneavoastră și vă va ajuta să conectați diferite etape între ele."
-                  },
-                  {
-                    "label": "Utilizatorul poate începe de aici",
-                    "description": "Dacă este bifat, această etapă va fi una de la care utilizatorul poate începe. Dacă nicio etapă sau mai mult de una pot fi etape de start, etapa de start va fi aleasă aleatoriu."
-                  },
-                  {
-                    "label": "Limită de timp",
-                    "description": "Definiți setările legate de cronometru.",
-                    "fields": [
-                      {
-                        "label": "Limită de timp",
-                        "description": "Limită de timp opțională în secunde. Dacă un utilizator depășește acest timp, exercițiul se va închide, se va reseta, iar utilizatorul va pierde o viață dacă viețile sunt limitate."
-                      },
-                      {
-                        "label": "Timp avertizare expirare",
-                        "description": "Opțional, setați când ar trebui redat un sunet de avertizare a expirării timpului (numărul de secunde rămase). Un sunet trebuie setat în setările audio."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Restricții de acces",
-                    "description": "Definiți restricții pentru deblocare.",
-                    "fields": [
-                      {
-                        "label": "Toate sau oricare set de restricții",
-                        "description": "Alegeți dacă trebuie îndeplinite toate sau oricare dintre următoarele restricții.",
-                        "options": [
-                          {
-                            "label": "Toate"
-                          },
-                          {
-                            "label": "Oricare"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Seturi de restricții",
-                        "entity": "set de restricții",
-                        "widgets": [
-                          {
-                            "label": "Implicit"
-                          }
-                        ],
-                        "field": {
-                          "label": "Set de restricții",
-                          "fields": [
-                            {
-                              "label": "Toate sau oricare restricție",
-                              "description": "Alegeți dacă trebuie îndeplinite toate sau oricare dintre următoarele restricții.",
-                              "options": [
-                                {
-                                  "label": "Toate"
-                                },
-                                {
-                                  "label": "Oricare"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Restricții",
-                              "entity": "restricție",
-                              "field": {
-                                "label": "Restricție",
-                                "fields": [
-                                  {
-                                    "label": "Tip restricție",
-                                    "options": [
-                                      {
-                                        "label": "Punctaj total"
-                                      },
-                                      {
-                                        "label": "Punctaj etapă"
-                                      },
-                                      {
-                                        "label": "Stage score percentage"
-                                      },
-                                      {
-                                        "label": "Progres etapă"
-                                      },
-                                      {
-                                        "label": "Timp"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Punctaj total",
-                                    "fields": [
-                                      {
-                                        "label": "Operator pentru punctaj total",
-                                        "options": [
-                                          {
-                                            "label": "mai mic decât"
-                                          },
-                                          {
-                                            "label": "egal cu"
-                                          },
-                                          {
-                                            "label": "diferit de"
-                                          },
-                                          {
-                                            "label": "mai mare decât"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Valoarea punctajului total cu care se compară"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Punctaj etapă",
-                                    "fields": [
-                                      {
-                                        "label": "Etapa de la care se ia punctajul"
-                                      },
-                                      {
-                                        "label": "Operator pentru punctaj etapă",
-                                        "options": [
-                                          {
-                                            "label": "mai mic decât"
-                                          },
-                                          {
-                                            "label": "egal cu"
-                                          },
-                                          {
-                                            "label": "diferit de"
-                                          },
-                                          {
-                                            "label": "mai mare decât"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Punctajul etapei cu care se compară"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage score percentage",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get score percentage from"
-                                      },
-                                      {
-                                        "label": "Operator for stage score percentage",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Stage score percentage to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Progres etapă",
-                                    "fields": [
-                                      {
-                                        "label": "Etapa de la care se ia progresul"
-                                      },
-                                      {
-                                        "label": "Operator pentru progres etapă",
-                                        "options": [
-                                          {
-                                            "label": "este"
-                                          },
-                                          {
-                                            "label": "nu este"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Progresul cu care se compară",
-                                        "options": [
-                                          {
-                                            "label": "neînceput"
-                                          },
-                                          {
-                                            "label": "început"
-                                          },
-                                          {
-                                            "label": "finalizat"
-                                          },
-                                          {
-                                            "label": "finalizat cu succes"
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Timp",
-                                    "fields": [
-                                      {
-                                        "label": "Operator pentru timp",
-                                        "options": [
-                                          {
-                                            "label": "înainte de"
-                                          },
-                                          {
-                                            "label": "este"
-                                          },
-                                          {
-                                            "label": "nu este"
-                                          },
-                                          {
-                                            "label": "după"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Timpul cu care se compară"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "Dummy"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Conținuturi",
-                    "entity": "conținut",
-                    "widgets": [
-                      {
-                        "label": "Implicit"
-                      }
-                    ],
-                    "field": {
-                      "label": "Conținut",
-                      "fields": [
-                        {
-                          "label": "Conținut etapă",
-                          "description": "Alegeți tipul de conținut pe care doriți să-l adăugați."
-                        },
-                        {
-                          "label": "Lives",
-                          "fields": [
-                            {
-                              "label": "Losing a live",
-                              "description": "Select when the user should lose a life for this content based on scores.",
-                              "options": [
-                                {
-                                  "label": "Use behavioural setting"
-                                },
-                                {
-                                  "label": "Never"
-                                },
-                                {
-                                  "label": "When the score percentage of this content is below a custom value"
-                                },
-                                {
-                                  "label": "When the user does not achieve full score"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Pass percentage",
-                              "description": "Set to the minumum score percentage required to not lose a life."
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "label": "Tip special de etapă",
-                    "options": [
-                      {
-                        "label": "Final"
-                      },
-                      {
-                        "label": "Viață suplimentară"
-                      },
-                      {
-                        "label": "Timp suplimentar"
-                      },
-                      {
-                        "label": "Link către conținut extern"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Număr de vieți suplimentare",
-                    "description": "Setați câte vieți va primi utilizatorul la intrarea în această etapă."
-                  },
-                  {
-                    "label": "Număr de secunde de timp suplimentar",
-                    "description": "Setați câte secunde va câștiga utilizatorul pentru limita de timp globală la intrarea în această etapă."
-                  },
-                  {
-                    "label": "URL către care se face legătura",
-                    "description": "Setați unde ar trebui trimis utilizatorul la deschiderea acestei etape."
-                  },
-                  {
-                    "label": "Locul în care se deschide linkul",
-                    "options": [
-                      {
-                        "label": "Filă nouă"
-                      },
-                      {
-                        "label": "Aceeași filă"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Întotdeauna vizibil",
-                    "description": "Dacă este bifat, această etapă va fi întotdeauna vizibilă, chiar dacă setările de vizibilitate ale hărții dictează altceva."
-                  },
-                  {
-                    "label": "Suprascrie simbolul de blocare",
-                    "description": "Dacă este bifat, etapele blocate nu vor folosi simbolul de lacăt, ci simbolul pentru tipul special de etapă."
-                  },
-                  {
-                    "label": "Stage behaviour",
-                    "fields": [
-                      {
-                        "label": "Pick random exercises for this stage"
-                      },
-                      {
-                        "label": "Number of randomly chosen exercises",
-                        "description": "Set the number of exercises to choose randomly for this stage."
-                      },
-                      {
-                        "label": "Uniform total score",
-                        "description": "Set the total score for this stage regardless of what exercises are picked."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Score scaling",
-                    "fields": [
-                      {
-                        "label": "Scaling mode",
-                        "description": "Choose what scaling should be based on",
-                        "options": [
-                          {
-                            "label": "Set total score of all exercises"
-                          },
-                          {
-                            "label": "Set total score per exercise"
-                          },
-                          {
-                            "label": "Set weights per exercise"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Content score customizations",
-                        "description": "Adjust the weights/total scores of exercises to customize scoring",
-                        "entity": "scaling setting",
-                        "field": {
-                          "label": "Score scaling group",
-                          "fields": [
-                            {
-                              "label": "Subcontent id"
-                            },
-                            {
-                              "label": "Weight",
-                              "default": "1"
-                            },
-                            {
-                              "label": "Is task"
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "Total score"
-                      },
-                      {
-                        "label": "Weight is percentage"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Etape conectate"
-                  },
-                  {
-                    "label": "Telemetrie"
+                    "label": "Individual background music"
                   }
                 ]
               }
-            },
-            {
-              "label": "Căi",
-              "entity": "cale",
-              "field": {
-                "label": "Cale",
-                "fields": [
-                  {
-                    "label": "De la"
-                  },
-                  {
-                    "label": "La"
-                  },
-                  {
-                    "label": "Setări vizuale",
-                    "options": [
-                      {
-                        "label": "Folosește setările globale"
-                      },
-                      {
-                        "label": "Folosește setări personalizate"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Setări vizuale personalizate",
-                    "fields": [
-                      {
-                        "label": "Culoare cale",
-                        "default": "rgba(0, 0, 0, 0.7)"
-                      },
-                      {
-                        "label": "Lățime cale",
-                        "options": [
-                          {
-                            "label": "subțire"
-                          },
-                          {
-                            "label": "medie"
-                          },
-                          {
-                            "label": "groasă"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Stil cale",
-                        "options": [
-                          {
-                            "label": "Solid"
-                          },
-                          {
-                            "label": "Punctat"
-                          },
-                          {
-                            "label": "Linie întreruptă"
-                          },
-                          {
-                            "label": "Dublu"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+            ]
+          }
+        ]
+      }
     },
     {
       "label": "Ecran final",
@@ -1036,8 +557,7 @@
           "fields": [
             {
               "label": "Mesaj (utilizatorul nu a reușit)",
-              "placeholder": "Nu ai reușit de data asta...",
-              "default": "<p style=\"text-align: center;\"></p>"
+              "placeholder": "Nu ai reușit de data asta..."
             },
             {
               "label": "Media ecran final (utilizatorul nu a reușit)"
@@ -1049,8 +569,7 @@
           "fields": [
             {
               "label": "Mesaj (utilizatorul a reușit)",
-              "placeholder": "Ai reușit...",
-              "default": "<p style=\"text-align: center;\"></p>"
+              "placeholder": "Ai reușit..."
             },
             {
               "label": "Media ecran final (utilizatorul a reușit)"
@@ -1093,16 +612,13 @@
           "label": "Etape",
           "fields": [
             {
-              "label": "Culoare etapă nevizitată",
-              "default": "rgba(250, 223, 10, 0.7)"
+              "label": "Culoare etapă nevizitată"
             },
             {
-              "label": "Culoare etapă blocată",
-              "default": "rgba(153, 0, 0, 0.7)"
+              "label": "Culoare etapă blocată"
             },
             {
-              "label": "Culoare etapă finalizată",
-              "default": "rgba(0, 130, 0, 0.7)"
+              "label": "Culoare etapă finalizată"
             },
             {
               "label": "Afișează stele pentru punctaje",
@@ -1132,12 +648,10 @@
               "label": "Stil",
               "fields": [
                 {
-                  "label": "Culoare cale",
-                  "default": "rgba(0, 0, 0, 0.7)"
+                  "label": "Culoare cale"
                 },
                 {
-                  "label": "Culoare cale finalizată",
-                  "default": "rgba(0, 130, 0, 0.7)"
+                  "label": "Culoare cale finalizată"
                 },
                 {
                   "label": "Lățime cale",
@@ -1192,15 +706,10 @@
       "label": "Setări audio",
       "fields": [
         {
-          "label": "Muzică de fundal",
-          "fields": [
-            {
-              "label": "Muzică de fundal"
-            },
-            {
-              "label": "Oprește sunetul în timpul exercițiilor"
-            }
-          ]
+          "label": "Muzică de fundal"
+        },
+        {
+          "label": "Dezactivați muzica de fundal în timpul exercițiilor"
         },
         {
           "label": "Evenimente",
@@ -1216,6 +725,10 @@
             {
               "label": "Verificare exercițiu (punctaj complet)",
               "description": "Va fi redat când un răspuns este verificat și utilizatorul a obținut punctaj maxim."
+            },
+            {
+              "label": "Teleport to a different stage",
+              "description": "Will be played on the map when the user teleports to another stage."
             },
             {
               "label": "Deblocarea unei etape",
@@ -1284,7 +797,7 @@
               "description": "Select when the user should lose a life for content based on scores.",
               "options": [
                 {
-                  "label": "Never"
+                  "label": "Niciodată"
                 },
                 {
                   "label": "When the score percentage of content is below a custom value"
@@ -1413,6 +926,10 @@
         {
           "label": "Text dialog acces refuzat: General",
           "default": "Această etapă necesită îndeplinirea unor obiective înainte de a putea fi deschisă."
+        },
+        {
+          "label": "Dialog text access denied: For target stage",
+          "default": "The target stage requires you to meet some goals before it can be opened."
         },
         {
           "label": "Da",

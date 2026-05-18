@@ -1,7 +1,7 @@
 import Timer from '@services/timer.js';
 import Util, { pickFromArray } from '@services/util.js';
 import Exercise from '@models/exercise.js';
-import { MS_IN_S, STAGE_STATES } from '@services/constants.js';
+import { MS_IN_S, ROAMING_TYPES, STAGE_STATES } from '@services/constants.js';
 
 const XAPI_DEFAULT_DESCRIPTION = 'Game Map Exercise Bundle';
 
@@ -805,9 +805,9 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
 
     // Stop timer and allow continue
     if (
-      roaming === 'free' ||
-      roaming === 'complete' && this.isCompleted ||
-      roaming === 'success' && allExercisesSuccessful
+      roaming === ROAMING_TYPES.FREE ||
+      roaming === ROAMING_TYPES.COMPLETE && this.isCompleted ||
+      roaming === ROAMING_TYPES.SUCCESS && allExercisesSuccessful
     ) {
       this.stop();
 

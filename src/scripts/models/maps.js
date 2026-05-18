@@ -3,6 +3,8 @@ import Util from '@services/util.js';
 
 /**
  * @typedef {object} Stages
+ * @property {function} getDOMs Get DOMs.
+ * @property {function} buildStages Build Stages.
  */
 
 /**
@@ -476,17 +478,24 @@ export default class Maps {
     });
   }
 
-  showMapShowingStage(stageId) {
+  /**
+   * Show the map that holds stage with stageId.
+   * @param {string} stageId Target stage id.
+   * @returns {boolean} True if map could be shown, false otherwise.
+   */
+  showMapThatHoldsStage(stageId) {
     const mapHolding = this.getMapHolding(stageId);
     if (!mapHolding) {
-      return;
+      return false;
     }
 
     const index = this.maps.indexOf(mapHolding);
     if (index === -1) {
-      return;
+      return false;
     }
 
     this.setCurrentIndex(index);
+
+    return true;
   }
 }

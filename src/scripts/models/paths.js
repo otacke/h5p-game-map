@@ -1,5 +1,5 @@
 import Path from '@components/map/path.js';
-import { STAGE_STATES } from '@services/constants.js';
+import { ROAMING_TYPES, STAGE_STATES } from '@services/constants.js';
 import Util from '@services/util.js';
 
 export default class Paths {
@@ -122,7 +122,7 @@ export default class Paths {
   updateState(id, state) {
     const globalParams = this.params.globals.get('params');
 
-    if (globalParams.behaviour.map.roaming === 'free') {
+    if (globalParams.behaviour.map.roaming === ROAMING_TYPES.FREE) {
       return;
     }
 

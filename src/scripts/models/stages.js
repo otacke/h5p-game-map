@@ -1,7 +1,7 @@
 import Util from '@services/util.js';
 import Stage from '@components/map/stage/stage.js';
 import SpecialStage from '@components/map/stage/special-stage.js';
-import { STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
+import { ROAMING_TYPES, STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
 
 /** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
 const DEFAULT_READ_DELAY_MS = 100;
@@ -324,14 +324,15 @@ export default class Stages {
     const mode = this.params.globals.get('params').behaviour.map.roaming;
 
     this.stages.forEach((stage) => {
-      const hasCompletedNeighbor = (mode === 'free') || stage.getNeighbors().some((neighborId) => {
+      const hasCompletedNeighbor = (mode === ROAMING_TYPES.FREE) || stage.getNeighbors().some((neighborId) => {
         const neighborState = this.getStage(neighborId).getState();
 
         return (
           (
-            mode === 'complete' && (neighborState === STAGE_STATES.COMPLETED || neighborState === STAGE_STATES.CLEARED)
+            mode === ROAMING_TYPES.COMPLETE &&
+            (neighborState === STAGE_STATES.COMPLETED || neighborState === STAGE_STATES.CLEARED)
           ) ||
-          (mode === 'success' && neighborState === STAGE_STATES.CLEARED)
+          (mode === ROAMING_TYPES.SUCCESS && neighborState === STAGE_STATES.CLEARED)
         );
       });
 
@@ -352,7 +353,7 @@ export default class Stages {
   updateNeighborsState(id, state) {
     const globalParams = this.params.globals.get('params');
 
-    if (globalParams.behaviour.map.roaming === 'free') {
+    if (globalParams.behaviour.map.roaming === ROAMING_TYPES.FREE) {
       return; // Neighbors are not influenced
     }
 
@@ -437,7 +438,7 @@ export default class Stages {
     }
 
     // Choose one randomly
-    startStages = [startStages[Math.floor(Math.random() * startStages.length)]];
+    startStages = [startStages[Math.floor(Math.random() * startStages.length)]].filter((stage) => stage !== undefined);
 
     startStages.forEach((stage, index) => {
       stage.setStartStage();

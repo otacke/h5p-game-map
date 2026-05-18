@@ -3,7 +3,7 @@ import Util from '@services/util.js';
 /** @constant {number} EXERCISE_SCREEN_ANIM_DURATION_MS Duration from CSS. */
 const EXERCISE_SCREEN_ANIM_DURATION_MS = 1000;
 
-export default class QuestionTypeContract {
+export default class Sanitization {
 
   /**
    * Sanitize stages.
@@ -120,6 +120,10 @@ export default class QuestionTypeContract {
    * @param {object} element Element to modify.
    */
   addMissingScoreScalingEntries(element) {
+    if (element.specialStageType) {
+      return;
+    }
+
     element.contentsList.forEach((content) => {
       const hasScalingForContent = element.scoreScaling.scoreScalingList
         .find((scaling) => scaling.subContentId === content.contentType.subContentId);

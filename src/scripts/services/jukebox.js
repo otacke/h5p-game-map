@@ -143,7 +143,7 @@ export default class Jukebox {
    * @param {object} params.buffer Audio buffer.
    */
   setAudioBuffer(params = {}) {
-    if (!this.audios.has(params.id)) {
+    if (!this.has(params.id)) {
       return;
     }
 
@@ -160,7 +160,7 @@ export default class Jukebox {
   async bufferSound(params = {}) {
     const { id, url } = params || {};
 
-    if (!this.audios.has(id)) {
+    if (!this.has(id)) {
       return;
     }
 
@@ -194,7 +194,7 @@ export default class Jukebox {
       this.handleRequestError(id, `Failed to load audio ${id}: ${error.message}`);
     }
     finally {
-      if (this.audios.has(id)) {
+      if (this.has(id)) {
         this.audios.get(id).isLoading = false;
       }
     }
@@ -220,7 +220,7 @@ export default class Jukebox {
    * @returns {boolean} True, if audio could be played. Else false.
    */
   play(id) {
-    if (!this.audios.has(id)) {
+    if (!this.has(id)) {
       return false;
     }
 
@@ -300,7 +300,7 @@ export default class Jukebox {
    * @param {string} id Id of audio to stop.
    */
   stop(id) {
-    if (!this.audios.has(id)) {
+    if (!this.has(id)) {
       return;
     }
 
@@ -361,7 +361,7 @@ export default class Jukebox {
    * @returns {boolean} True, if audio is playing. Else false.
    */
   isPlaying(id) {
-    if (!this.audios.has(id)) {
+    if (!this.has(id)) {
       return false;
     }
 
@@ -437,7 +437,7 @@ export default class Jukebox {
    * @param {string} id Id of sound to unmute.
    */
   mute(id) {
-    if (!this.audios.has(id)) {
+    if (!this.has(id)) {
       return;
     }
 
@@ -459,7 +459,7 @@ export default class Jukebox {
    * @param {string} id Id of sound to unmute.
    */
   unmute(id) {
-    if (!this.audios.has(id)) {
+    if (!this.has(id)) {
       return;
     }
 
@@ -503,7 +503,7 @@ export default class Jukebox {
    * @param {number} volume Volume [0, 100].
    */
   setVolume(id, volume = 100) {
-    if (!this.audios.has(id)) {
+    if (!this.has(id)) {
       return;
     }
 
@@ -537,5 +537,14 @@ export default class Jukebox {
     for (const id of this.audios.keys()) {
       this.setVolume(id, volume);
     }
+  }
+
+  /**
+   * Determine whether jukebox has music with id.
+   * @param {string} id Id to check for.
+   * @returns {boolean} True if jukeboy has music with id, else false.
+   */
+  has(id) {
+    return this.audios.has(id);
   }
 }

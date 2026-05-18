@@ -171,13 +171,49 @@ H5PUpgrades['H5P.GameMap'] = (() => {
       /**
        * Asynchronous content upgrade hook.
        * Upgrades content parameters to support Game Map 1.7.
-       * Move single game map parameters into list. // TODO
-       * Move background settings into map options. // TODO
+       * Move single game map parameters into list.
+       * Move background settings into map options.
        * @param {object} parameters Content parameters.
        * @param {function} finished Callback when finished.
        * @param {object} extras Extra parameters such as metadata, etc.
        */
       7: (parameters, finished, extras) => {
+        if (parameters?.gamemapSteps) {
+          const oldGamemapSteps = parameters.gamemapSteps;
+          const oldGamemap = oldGamemapSteps.gamemap ?? {};
+
+          // Wrap the single legacy map into the new gamemaps list, attaching the
+          // background settings under mapOptions where they now live.
+          const newGamemap = {
+            elements: Array.isArray(oldGamemap.elements) ? oldGamemap.elements : [],
+            paths: Array.isArray(oldGamemap.paths) ? oldGamemap.paths : [],
+            mapOptions: {
+              backgroundSettings: oldGamemapSteps.backgroundImageSettings ?? {},
+            },
+          };
+
+          // Placeholder `dummy` boolean moved from gamemap into mapOptions.
+          if (typeof oldGamemap.dummy === 'boolean') {
+            newGamemap.mapOptions.dummy = oldGamemap.dummy;
+          }
+
+          parameters.gamemaps = [newGamemap];
+          delete parameters.gamemapSteps;
+        }
+
+        // Move background music parameters
+        if (parameters?.audio?.backgroundMusic?.music) {
+          parameters.audio.music = parameters.audio.backgroundMusic.music;
+        }
+
+        if (parameters?.audio?.backgroundMusic?.muteDuringExercise) {
+          parameters.audio.muteDuringExercise = parameters.audio.backgroundMusic.muteDuringExercise;
+        }
+
+        if (parameters?.audio) {
+          delete parameters.audio.backgroundMusic;
+        }
+
         finished(null, parameters, extras);
       },
     },

@@ -64,16 +64,18 @@ export default class MainHandlersStage {
       this.toolbar.disable();
       this.exerciseBundles.start(id);
 
-      if (this.params.globals.get('params').audio.backgroundMusic.muteDuringExercise) {
+      if (this.params.globals.get('params').audio.muteDuringExercise) {
         this.params.jukebox.fade('backgroundMusic', { type: 'out', time: this.musicFadeTime });
       }
 
       this.params.jukebox.play('openExercise');
 
       if (!this.isShowingSolutions) {
+        const allElements = (this.params.globals.get('getAllGamemapsParams')?.() ?? [])
+          .flatMap((gamemap) => gamemap.elements ?? []);
+
         // Update context for confusion report contract
-        const stageIndex = this.params.globals.get('params').gamemaps[0].elements // TODO: Multimap support
-          .findIndex((element) => element.id === id);
+        const stageIndex = allElements.findIndex((element) => element.id === id);
 
         this.currentStageIndex = stageIndex + 1;
         this.hasUserMadeProgress = true;
@@ -178,7 +180,28 @@ export default class MainHandlersStage {
         return;
       }
 
-      this.maps.showMapShowingStage(options.targetId);
+      this.showMapThatHoldsStage(options.targetId);
+    }
+  }
+
+  /**
+   * Show the map that shows the stage with targetId.
+   * @param {string} targetId Target stage id.
+   */
+  showMapThatHoldsStage(targetId) {
+    const oldMapIndex = this.maps.getCurrentIndex() ?? 0;
+    const backgroundMusicKey = this.getBackgroundMusicKey(oldMapIndex);
+
+    const isPlayingBackgroundMusic = this.params.jukebox.isPlaying(backgroundMusicKey);
+    const mapWasChanged = this.maps.showMapThatHoldsStage(targetId);
+
+    if (mapWasChanged) {
+      if (isPlayingBackgroundMusic) {
+        this.params.jukebox.mute(backgroundMusicKey);
+        this.tryStartBackgroundMusic();
+      }
+
+      this.params.jukebox.play('teleport');
     }
   }
 

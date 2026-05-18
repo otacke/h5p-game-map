@@ -58,8 +58,8 @@ export default class Map {
 
     const globalParams = this.params.globals.get('params');
 
-    const stageWidthPercentage = globalParams.gamemaps?.[0]?.elements[0]?.telemetry?.width; // TODO: Multimap support
-    const stageHeightPercentage = globalParams.gamemaps?.[0]?.elements[0]?.telemetry?.height; // TODO: Multimap support
+    const stageWidthPercentage = params.elements[0]?.telemetry?.width;
+    const stageHeightPercentage = params.elements[0]?.telemetry?.height;
 
     // Custom CSS variables for stages
     this.dom.style.setProperty('--stage-height', `${stageHeightPercentage}%`);

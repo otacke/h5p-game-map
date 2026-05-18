@@ -9,8 +9,7 @@
       "fields": [
         {
           "label": "介绍",
-          "placeholder": "欢迎来到 ...",
-          "default": "<p style=\"text-align: center;\"></p>"
+          "placeholder": "欢迎来到 ..."
         },
         {
           "label": "标题屏幕媒介"
@@ -22,1011 +21,533 @@
       "description": "标题栏的可选标题。"
     },
     {
-      "label": "游戏地图编辑器",
-      "fields": [
+      "label": "游戏地图",
+      "entity": "游戏地图",
+      "widgets": [
         {
-          "label": "背景",
-          "fields": [
-            {
-              "label": "背景图片",
-              "description": "选择要用作游戏地图背景的图片文件。"
-            },
-            {
-              "label": "Background color",
-              "description": "Choose a color to use as the background of the game map.",
-              "default": "rgb(255, 255, 255)"
-            }
-          ]
-        },
-        {
-          "label": "Game map",
-          "fields": [
-            {
-              "label": "Background",
+          "label": "默认"
+        }
+      ],
+      "field": {
+        "label": "游戏地图",
+        "fields": [
+          {
+            "label": "元素",
+            "entity": "元素",
+            "field": {
+              "label": "元素",
               "fields": [
                 {
-                  "label": "Background image",
-                  "description": "Select an image to use as the background of the game map."
+                  "label": "Id"
                 },
                 {
-                  "label": "Background color",
-                  "description": "Choose a color to use as the background of the game map.",
-                  "default": "rgb(255, 255, 255)"
+                  "label": "类型"
+                },
+                {
+                  "label": "关卡标签",
+                  "description": "此标签将显示在您的内容顶部，并帮助您将不同的关卡相互连接。"
+                },
+                {
+                  "label": "起点关卡设置",
+                  "description": "如勾选，此关卡将是用户开始游戏的关卡。如果没有设置起点关卡或设置了多个可以作为起点的关卡，则可以随机选择一个起点关卡。"
+                },
+                {
+                  "label": "时间限制",
+                  "description": "定义计时器相关设置。",
+                  "fields": [
+                    {
+                      "label": "时间限制",
+                      "description": "可选时间限制（以秒为单位）。如果用户超过这个时间限制，练习将自动关闭并重置。如果设置了生命，用户超时将失去一次生命。"
+                    },
+                    {
+                      "label": "超时警告时间设置",
+                      "description": "（可选）设置何时播放超时警告音频（剩余秒数）。需要在音频设置中设置超时警告音频。"
+                    }
+                  ]
+                },
+                {
+                  "label": "访问限制",
+                  "description": "定义解锁限制。",
+                  "fields": [
+                    {
+                      "label": "All or any restriction set",
+                      "description": "Choose if all or any of the following restrictions need to be met.",
+                      "options": [
+                        {
+                          "label": "All"
+                        },
+                        {
+                          "label": "Any"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Restriction sets",
+                      "entity": "restriction set",
+                      "widgets": [
+                        {
+                          "label": "默认"
+                        }
+                      ],
+                      "field": {
+                        "label": "Restriction set",
+                        "fields": [
+                          {
+                            "label": "All or any restriction",
+                            "description": "Choose if all or any of the following restrictions need to be met.",
+                            "options": [
+                              {
+                                "label": "All"
+                              },
+                              {
+                                "label": "Any"
+                              }
+                            ]
+                          },
+                          {
+                            "label": "Restrictions",
+                            "entity": "restriction",
+                            "field": {
+                              "label": "Restriction",
+                              "fields": [
+                                {
+                                  "label": "Restriction type",
+                                  "options": [
+                                    {
+                                      "label": "Total score"
+                                    },
+                                    {
+                                      "label": "Stage score"
+                                    },
+                                    {
+                                      "label": "Stage score percentage"
+                                    },
+                                    {
+                                      "label": "Stage progress"
+                                    },
+                                    {
+                                      "label": "Time"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Total score",
+                                  "fields": [
+                                    {
+                                      "label": "Operator for total score",
+                                      "options": [
+                                        {
+                                          "label": "less than"
+                                        },
+                                        {
+                                          "label": "equal to"
+                                        },
+                                        {
+                                          "label": "not equal to"
+                                        },
+                                        {
+                                          "label": "greater than"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Value of total score to compare"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Stage score",
+                                  "fields": [
+                                    {
+                                      "label": "Stage to get score from"
+                                    },
+                                    {
+                                      "label": "Operator for stage score",
+                                      "options": [
+                                        {
+                                          "label": "less than"
+                                        },
+                                        {
+                                          "label": "equal to"
+                                        },
+                                        {
+                                          "label": "not equal to"
+                                        },
+                                        {
+                                          "label": "greater than"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Stage score to compare to"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Stage score percentage",
+                                  "fields": [
+                                    {
+                                      "label": "Stage to get score percentage from"
+                                    },
+                                    {
+                                      "label": "Operator for stage score percentage",
+                                      "options": [
+                                        {
+                                          "label": "less than"
+                                        },
+                                        {
+                                          "label": "equal to"
+                                        },
+                                        {
+                                          "label": "not equal to"
+                                        },
+                                        {
+                                          "label": "greater than"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Stage score percentage to compare to"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Stage progress",
+                                  "fields": [
+                                    {
+                                      "label": "Stage to get progress from"
+                                    },
+                                    {
+                                      "label": "Operator for stage progress",
+                                      "options": [
+                                        {
+                                          "label": "is"
+                                        },
+                                        {
+                                          "label": "is not"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Progress to compare to",
+                                      "options": [
+                                        {
+                                          "label": "not started"
+                                        },
+                                        {
+                                          "label": "started"
+                                        },
+                                        {
+                                          "label": "completed"
+                                        },
+                                        {
+                                          "label": "completed successfully"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Time",
+                                  "fields": [
+                                    {
+                                      "label": "Operator for time",
+                                      "options": [
+                                        {
+                                          "label": "before"
+                                        },
+                                        {
+                                          "label": "is"
+                                        },
+                                        {
+                                          "label": "is not"
+                                        },
+                                        {
+                                          "label": "after"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Time to compare to"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "label": "dummy"
+                    }
+                  ]
+                },
+                {
+                  "label": "Contents",
+                  "entity": "content",
+                  "widgets": [
+                    {
+                      "label": "默认"
+                    }
+                  ],
+                  "field": {
+                    "label": "Content",
+                    "fields": [
+                      {
+                        "label": "关卡内容设置",
+                        "description": "选择要添加的内容类型。"
+                      },
+                      {
+                        "label": "生命",
+                        "fields": [
+                          {
+                            "label": "Losing a live",
+                            "description": "Select when the user should lose a life for this content based on scores.",
+                            "options": [
+                              {
+                                "label": "Use behavioural setting"
+                              },
+                              {
+                                "label": "Never"
+                              },
+                              {
+                                "label": "When the score percentage of this content is below a custom value"
+                              },
+                              {
+                                "label": "When the user does not achieve full score"
+                              }
+                            ]
+                          },
+                          {
+                            "label": "Pass percentage",
+                            "description": "Set to the minumum score percentage required to not lose a life."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "label": "特殊关卡类型",
+                  "options": [
+                    {
+                      "label": "完成"
+                    },
+                    {
+                      "label": "额外生命"
+                    },
+                    {
+                      "label": "额外时间"
+                    },
+                    {
+                      "label": "Link to external content"
+                    },
+                    {
+                      "label": "Teleport to another stage"
+                    }
+                  ]
+                },
+                {
+                  "label": "额外生命数量",
+                  "description": "设置用户进入此关卡时将获得多少条生命。"
+                },
+                {
+                  "label": "额外时间秒数",
+                  "description": "设置用户进入此关卡时全局时间限制将增加多少秒。"
+                },
+                {
+                  "label": "URL to link to",
+                  "description": "Set where the user should be sent to when opening this stage."
+                },
+                {
+                  "label": "Place to open link in",
+                  "options": [
+                    {
+                      "label": "New tab"
+                    },
+                    {
+                      "label": "Same tab"
+                    }
+                  ]
+                },
+                {
+                  "label": "Teleport stage to teleport to"
+                },
+                {
+                  "label": "Always visible",
+                  "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
+                },
+                {
+                  "label": "Override lock symbol",
+                  "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type."
+                },
+                {
+                  "label": "Stage behaviour",
+                  "fields": [
+                    {
+                      "label": "Pick random exercises for this stage"
+                    },
+                    {
+                      "label": "Number of randomly chosen exercises",
+                      "description": "Set the number of exercises to choose randomly for this stage."
+                    },
+                    {
+                      "label": "Uniform total score",
+                      "description": "Set the total score for this stage regardless of what exercises are picked."
+                    }
+                  ]
+                },
+                {
+                  "label": "Score scaling",
+                  "fields": [
+                    {
+                      "label": "Scaling mode",
+                      "description": "Choose what scaling should be based on",
+                      "options": [
+                        {
+                          "label": "Set total score of all exercises"
+                        },
+                        {
+                          "label": "Set total score per exercise"
+                        },
+                        {
+                          "label": "Set weights per exercise"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Content score customizations",
+                      "description": "Adjust the weights/total scores of exercises to customize scoring",
+                      "entity": "scaling setting",
+                      "field": {
+                        "label": "Score scaling group",
+                        "fields": [
+                          {
+                            "label": "Subcontent id"
+                          },
+                          {
+                            "label": "Weight"
+                          },
+                          {
+                            "label": "Is task"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "label": "Total score"
+                    },
+                    {
+                      "label": "Weight is percentage"
+                    }
+                  ]
+                },
+                {
+                  "label": "连接的关卡"
+                },
+                {
+                  "label": "遥测"
                 }
               ]
-            },
-            {
-              "label": "Elements",
-              "entity": "Element",
-              "field": {
-                "label": "Elements",
-                "fields": [
-                  {
-                    "label": "Id"
-                  },
-                  {
-                    "label": "Type"
-                  },
-                  {
-                    "label": "Stage label",
-                    "description": "This label will be displayed on top of your exercise and will help you to connect different stages with one another."
-                  },
-                  {
-                    "label": "User can start here",
-                    "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly."
-                  },
-                  {
-                    "label": "Time limit",
-                    "description": "Define timer related settings.",
-                    "fields": [
-                      {
-                        "label": "Time limit",
-                        "description": "Optional time limit in seconds. If a user exceeds this time, the exercise will close, be reset, and the user will loose a life if lives are limited."
-                      },
-                      {
-                        "label": "Timeout warning time",
-                        "description": "Optionally set when a timeout warning audio should be played (number of remaining seconds). An audio needs to be set in the audio settings."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Access restrictions",
-                    "description": "Define restrictions for unlocking.",
-                    "fields": [
-                      {
-                        "label": "All or any restriction set",
-                        "description": "Choose if all or any of the following restrictions need to be met.",
-                        "options": [
-                          {
-                            "label": "All"
-                          },
-                          {
-                            "label": "Any"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Restriction sets",
-                        "entity": "restriction set",
-                        "widgets": [
-                          {
-                            "label": "Default"
-                          }
-                        ],
-                        "field": {
-                          "label": "Restriction set",
-                          "fields": [
-                            {
-                              "label": "All or any restriction",
-                              "description": "Choose if all or any of the following restrictions need to be met.",
-                              "options": [
-                                {
-                                  "label": "All"
-                                },
-                                {
-                                  "label": "Any"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Restrictions",
-                              "entity": "restriction",
-                              "field": {
-                                "label": "Restriction",
-                                "fields": [
-                                  {
-                                    "label": "Restriction type",
-                                    "options": [
-                                      {
-                                        "label": "Total score"
-                                      },
-                                      {
-                                        "label": "Stage score"
-                                      },
-                                      {
-                                        "label": "Stage score percentage"
-                                      },
-                                      {
-                                        "label": "Stage progress"
-                                      },
-                                      {
-                                        "label": "Time"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Total score",
-                                    "fields": [
-                                      {
-                                        "label": "Operator for total score",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Value of total score to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage score",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get score from"
-                                      },
-                                      {
-                                        "label": "Operator for stage score",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Stage score to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage score percentage",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get score percentage from"
-                                      },
-                                      {
-                                        "label": "Operator for stage score percentage",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Stage score percentage to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage progress",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get progress from"
-                                      },
-                                      {
-                                        "label": "Operator for stage progress",
-                                        "options": [
-                                          {
-                                            "label": "is"
-                                          },
-                                          {
-                                            "label": "is not"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Progress to compare to",
-                                        "options": [
-                                          {
-                                            "label": "not started"
-                                          },
-                                          {
-                                            "label": "started"
-                                          },
-                                          {
-                                            "label": "completed"
-                                          },
-                                          {
-                                            "label": "completed successfully"
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Time",
-                                    "fields": [
-                                      {
-                                        "label": "Operator for time",
-                                        "options": [
-                                          {
-                                            "label": "before"
-                                          },
-                                          {
-                                            "label": "is"
-                                          },
-                                          {
-                                            "label": "is not"
-                                          },
-                                          {
-                                            "label": "after"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Time to compare to"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "Dummy"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Contents",
-                    "entity": "content",
-                    "widgets": [
-                      {
-                        "label": "Default"
-                      }
-                    ],
-                    "field": {
-                      "label": "Content",
-                      "fields": [
+            }
+          },
+          {
+            "label": "路径设置",
+            "entity": "path",
+            "field": {
+              "label": "Path",
+              "fields": [
+                {
+                  "label": "From"
+                },
+                {
+                  "label": "To"
+                },
+                {
+                  "label": "视觉设置",
+                  "options": [
+                    {
+                      "label": "Use global settings"
+                    },
+                    {
+                      "label": "Use custom settings"
+                    }
+                  ]
+                },
+                {
+                  "label": "Custom visual settings",
+                  "fields": [
+                    {
+                      "label": "路径颜色"
+                    },
+                    {
+                      "label": "路径宽度",
+                      "options": [
                         {
-                          "label": "Stage content",
-                          "description": "Choose the type of content you would like to add."
+                          "label": "细"
                         },
                         {
-                          "label": "Lives",
-                          "fields": [
-                            {
-                              "label": "Losing a live",
-                              "description": "Select when the user should lose a life for this content based on scores.",
-                              "options": [
-                                {
-                                  "label": "Use behavioural setting"
-                                },
-                                {
-                                  "label": "Never"
-                                },
-                                {
-                                  "label": "When the score percentage of this content is below a custom value"
-                                },
-                                {
-                                  "label": "When the user does not achieve full score"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Pass percentage",
-                              "description": "Set to the minumum score percentage required to not lose a life."
-                            }
-                          ]
+                          "label": "中等"
+                        },
+                        {
+                          "label": "宽"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "路径样式",
+                      "options": [
+                        {
+                          "label": "实线"
+                        },
+                        {
+                          "label": "点虚线"
+                        },
+                        {
+                          "label": "横虚线"
+                        },
+                        {
+                          "label": "双线"
                         }
                       ]
                     }
-                  },
-                  {
-                    "label": "Special stage type",
-                    "options": [
-                      {
-                        "label": "Finish"
-                      },
-                      {
-                        "label": "Extra life"
-                      },
-                      {
-                        "label": "Extra time"
-                      },
-                      {
-                        "label": "Link to external content"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Number of extra lives",
-                    "description": "Set how many lives the user will get when entering this stage."
-                  },
-                  {
-                    "label": "Number of seconds of extra time",
-                    "description": "Set how many seconds the user will gain for the global time limit when entering this stage."
-                  },
-                  {
-                    "label": "URL to link to",
-                    "description": "Set where the user should be sent to when opening this stage."
-                  },
-                  {
-                    "label": "Place to open link in",
-                    "options": [
-                      {
-                        "label": "New tab"
-                      },
-                      {
-                        "label": "Same tab"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Always visible",
-                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherwise."
-                  },
-                  {
-                    "label": "Override lock symbol",
-                    "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type."
-                  },
-                  {
-                    "label": "Stage behaviour",
-                    "fields": [
-                      {
-                        "label": "Pick random exercises for this stage"
-                      },
-                      {
-                        "label": "Number of randomly chosen exercises",
-                        "description": "Set the number of exercises to choose randomly for this stage."
-                      },
-                      {
-                        "label": "Uniform total score",
-                        "description": "Set the total score for this stage regardless of what exercises are picked."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Score scaling",
-                    "fields": [
-                      {
-                        "label": "Scaling mode",
-                        "description": "Choose what scaling should be based on",
-                        "options": [
-                          {
-                            "label": "Set total score of all exercises"
-                          },
-                          {
-                            "label": "Set total score per exercise"
-                          },
-                          {
-                            "label": "Set weights per exercise"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Content score customizations",
-                        "description": "Adjust the weights/total scores of exercises to customize scoring",
-                        "entity": "scaling setting",
-                        "field": {
-                          "label": "Score scaling group",
-                          "fields": [
-                            {
-                              "label": "Subcontent id"
-                            },
-                            {
-                              "label": "Weight",
-                              "default": "1"
-                            },
-                            {
-                              "label": "Is task"
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "Total score"
-                      },
-                      {
-                        "label": "Weight is percentage"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Connected stages"
-                  },
-                  {
-                    "label": "Telemetry"
-                  }
-                ]
-              }
-            },
-            {
-              "label": "Paths",
-              "entity": "path",
-              "field": {
-                "label": "Path",
-                "fields": [
-                  {
-                    "label": "From"
-                  },
-                  {
-                    "label": "To"
-                  },
-                  {
-                    "label": "Visual settings",
-                    "options": [
-                      {
-                        "label": "Use global settings"
-                      },
-                      {
-                        "label": "Use custom settings"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Custom visual settings",
-                    "fields": [
-                      {
-                        "label": "Color path",
-                        "default": "rgba(0, 0, 0, 0.7)"
-                      },
-                      {
-                        "label": "Path width",
-                        "options": [
-                          {
-                            "label": "thin"
-                          },
-                          {
-                            "label": "medium"
-                          },
-                          {
-                            "label": "thick"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Path style",
-                        "options": [
-                          {
-                            "label": "Solid"
-                          },
-                          {
-                            "label": "Dotted"
-                          },
-                          {
-                            "label": "Dashed"
-                          },
-                          {
-                            "label": "Double"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
+                  ]
+                }
+              ]
             }
-          ]
-        },
-        {
-          "label": "游戏地图",
-          "fields": [
-            {
-              "label": "元素",
-              "entity": "元素",
-              "field": {
-                "label": "元素",
+          },
+          {
+            "label": "Options for this map",
+            "fields": [
+              {
+                "label": "背景",
                 "fields": [
                   {
-                    "label": "Id"
+                    "label": "背景图片",
+                    "description": "选择要用作游戏地图背景的图片文件。"
                   },
                   {
-                    "label": "类型"
+                    "label": "Background color",
+                    "description": "Choose a color to use as the background of the game map."
+                  }
+                ]
+              },
+              {
+                "label": "Audio settings",
+                "fields": [
+                  {
+                    "label": "dummy"
                   },
                   {
-                    "label": "关卡标签",
-                    "description": "此标签将显示在您的内容顶部，并帮助您将不同的关卡相互连接。"
-                  },
-                  {
-                    "label": "起点关卡设置",
-                    "description": "如勾选，此关卡将是用户开始游戏的关卡。如果没有设置起点关卡或设置了多个可以作为起点的关卡，则可以随机选择一个起点关卡。"
-                  },
-                  {
-                    "label": "时间限制",
-                    "description": "定义计时器相关设置。",
-                    "fields": [
-                      {
-                        "label": "时间限制",
-                        "description": "可选时间限制（以秒为单位）。如果用户超过这个时间限制，练习将自动关闭并重置。如果设置了生命，用户超时将失去一次生命。"
-                      },
-                      {
-                        "label": "超时警告时间设置",
-                        "description": "（可选）设置何时播放超时警告音频（剩余秒数）。需要在音频设置中设置超时警告音频。"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "访问限制",
-                    "description": "定义解锁限制。",
-                    "fields": [
-                      {
-                        "label": "All or any restriction set",
-                        "description": "Choose if all or any of the following restrictions need to be met.",
-                        "options": [
-                          {
-                            "label": "All"
-                          },
-                          {
-                            "label": "Any"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Restriction sets",
-                        "entity": "restriction set",
-                        "widgets": [
-                          {
-                            "label": "Default"
-                          }
-                        ],
-                        "field": {
-                          "label": "Restriction set",
-                          "fields": [
-                            {
-                              "label": "All or any restriction",
-                              "description": "Choose if all or any of the following restrictions need to be met.",
-                              "options": [
-                                {
-                                  "label": "All"
-                                },
-                                {
-                                  "label": "Any"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Restrictions",
-                              "entity": "restriction",
-                              "field": {
-                                "label": "Restriction",
-                                "fields": [
-                                  {
-                                    "label": "Restriction type",
-                                    "options": [
-                                      {
-                                        "label": "Total score"
-                                      },
-                                      {
-                                        "label": "Stage score"
-                                      },
-                                      {
-                                        "label": "Stage score percentage"
-                                      },
-                                      {
-                                        "label": "Stage progress"
-                                      },
-                                      {
-                                        "label": "Time"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Total score",
-                                    "fields": [
-                                      {
-                                        "label": "Operator for total score",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Value of total score to compare"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage score",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get score from"
-                                      },
-                                      {
-                                        "label": "Operator for stage score",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Stage score to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage score percentage",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get score percentage from"
-                                      },
-                                      {
-                                        "label": "Operator for stage score percentage",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Stage score percentage to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage progress",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get progress from"
-                                      },
-                                      {
-                                        "label": "Operator for stage progress",
-                                        "options": [
-                                          {
-                                            "label": "is"
-                                          },
-                                          {
-                                            "label": "is not"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Progress to compare to",
-                                        "options": [
-                                          {
-                                            "label": "not started"
-                                          },
-                                          {
-                                            "label": "started"
-                                          },
-                                          {
-                                            "label": "completed"
-                                          },
-                                          {
-                                            "label": "completed successfully"
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Time",
-                                    "fields": [
-                                      {
-                                        "label": "Operator for time",
-                                        "options": [
-                                          {
-                                            "label": "before"
-                                          },
-                                          {
-                                            "label": "is"
-                                          },
-                                          {
-                                            "label": "is not"
-                                          },
-                                          {
-                                            "label": "after"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Time to compare to"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "dummy"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Contents",
-                    "entity": "content",
-                    "widgets": [
-                      {
-                        "label": "Default"
-                      }
-                    ],
-                    "field": {
-                      "label": "Content",
-                      "fields": [
-                        {
-                          "label": "关卡内容设置",
-                          "description": "选择要添加的内容类型。"
-                        },
-                        {
-                          "label": "Lives",
-                          "fields": [
-                            {
-                              "label": "Losing a live",
-                              "description": "Select when the user should lose a life for this content based on scores.",
-                              "options": [
-                                {
-                                  "label": "Use behavioural setting"
-                                },
-                                {
-                                  "label": "Never"
-                                },
-                                {
-                                  "label": "When the score percentage of this content is below a custom value"
-                                },
-                                {
-                                  "label": "When the user does not achieve full score"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Pass percentage",
-                              "description": "Set to the minumum score percentage required to not lose a life."
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "label": "特殊关卡类型",
-                    "options": [
-                      {
-                        "label": "结束"
-                      },
-                      {
-                        "label": "额外生命"
-                      },
-                      {
-                        "label": "额外时间"
-                      },
-                      {
-                        "label": "Link to external content"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "额外生命数量",
-                    "description": "设置用户进入此关卡时将获得多少条生命。"
-                  },
-                  {
-                    "label": "额外时间秒数",
-                    "description": "设置用户进入此关卡时全局时间限制将增加多少秒。"
-                  },
-                  {
-                    "label": "URL to link to",
-                    "description": "Set where the user should be sent to when opening this stage."
-                  },
-                  {
-                    "label": "Place to open link in",
-                    "options": [
-                      {
-                        "label": "New tab"
-                      },
-                      {
-                        "label": "Same tab"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Always visible",
-                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
-                  },
-                  {
-                    "label": "Override lock symbol",
-                    "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type."
-                  },
-                  {
-                    "label": "Stage behaviour",
-                    "fields": [
-                      {
-                        "label": "Pick random exercises for this stage"
-                      },
-                      {
-                        "label": "Number of randomly chosen exercises",
-                        "description": "Set the number of exercises to choose randomly for this stage."
-                      },
-                      {
-                        "label": "Uniform total score",
-                        "description": "Set the total score for this stage regardless of what exercises are picked."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Score scaling",
-                    "fields": [
-                      {
-                        "label": "Scaling mode",
-                        "description": "Choose what scaling should be based on",
-                        "options": [
-                          {
-                            "label": "Set total score of all exercises"
-                          },
-                          {
-                            "label": "Set total score per exercise"
-                          },
-                          {
-                            "label": "Set weights per exercise"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Content score customizations",
-                        "description": "Adjust the weights/total scores of exercises to customize scoring",
-                        "entity": "scaling setting",
-                        "field": {
-                          "label": "Score scaling group",
-                          "fields": [
-                            {
-                              "label": "Subcontent id"
-                            },
-                            {
-                              "label": "Weight",
-                              "default": "1"
-                            },
-                            {
-                              "label": "Is task"
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "Total score"
-                      },
-                      {
-                        "label": "Weight is percentage"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "连接的关卡"
-                  },
-                  {
-                    "label": "遥测"
+                    "label": "Individual background music"
                   }
                 ]
               }
-            },
-            {
-              "label": "Paths",
-              "entity": "path",
-              "field": {
-                "label": "Path",
-                "fields": [
-                  {
-                    "label": "From"
-                  },
-                  {
-                    "label": "To"
-                  },
-                  {
-                    "label": "Visual settings",
-                    "options": [
-                      {
-                        "label": "Use global settings"
-                      },
-                      {
-                        "label": "Use custom settings"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Custom visual settings",
-                    "fields": [
-                      {
-                        "label": "Color path",
-                        "default": "rgba(0, 0, 0, 0.7)"
-                      },
-                      {
-                        "label": "Path width",
-                        "options": [
-                          {
-                            "label": "thin"
-                          },
-                          {
-                            "label": "medium"
-                          },
-                          {
-                            "label": "thick"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Path style",
-                        "options": [
-                          {
-                            "label": "Solid"
-                          },
-                          {
-                            "label": "Dotted"
-                          },
-                          {
-                            "label": "Dashed"
-                          },
-                          {
-                            "label": "Double"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+            ]
+          }
+        ]
+      }
     },
     {
       "label": "结束屏幕",
@@ -1036,8 +557,7 @@
           "fields": [
             {
               "label": "消息",
-              "placeholder": "很遗憾，你失败了...",
-              "default": "<p style=\"text-align: center;\"></p>"
+              "placeholder": "很遗憾，你失败了..."
             },
             {
               "label": "结束屏幕媒体"
@@ -1049,8 +569,7 @@
           "fields": [
             {
               "label": "消息（用户成功）",
-              "placeholder": "你成功了...",
-              "default": "<p style=\"text-align: center;\"></p>"
+              "placeholder": "你成功了..."
             },
             {
               "label": "结束屏幕媒体(用户成功)"
@@ -1093,16 +612,13 @@
           "label": "关卡颜色设置",
           "fields": [
             {
-              "label": "正常关卡",
-              "default": "rgba(250, 223, 10, 0.7)"
+              "label": "正常关卡"
             },
             {
-              "label": "待解锁关卡",
-              "default": "rgba(153, 0, 0, 0.7)"
+              "label": "待解锁关卡"
             },
             {
-              "label": "已通过关卡",
-              "default": "rgba(0, 130, 0, 0.7)"
+              "label": "已通过关卡"
             },
             {
               "label": "Show stars for scores",
@@ -1132,12 +648,10 @@
               "label": "风格设置",
               "fields": [
                 {
-                  "label": "路径颜色",
-                  "default": "rgba(0, 0, 0, 0.7)"
+                  "label": "路径颜色"
                 },
                 {
-                  "label": "已清除路径颜色",
-                  "default": "rgba(0, 130, 0, 0.7)"
+                  "label": "已清除路径颜色"
                 },
                 {
                   "label": "路径宽度",
@@ -1182,7 +696,7 @@
               "description": "是否为地图添加动画效果。请注意：即使设置了此选项，也将首先遵循用户浏览器减少动作的设置。"
             },
             {
-              "label": "Dummy"
+              "label": "dummy"
             }
           ]
         }
@@ -1192,15 +706,10 @@
       "label": "音频设置",
       "fields": [
         {
-          "label": "背景音乐",
-          "fields": [
-            {
-              "label": "背景音乐"
-            },
-            {
-              "label": "在用户做练习时静音"
-            }
-          ]
+          "label": "背景音乐"
+        },
+        {
+          "label": "用户进行锻炼时静音背景音乐"
         },
         {
           "label": "事件设置",
@@ -1216,6 +725,10 @@
             {
               "label": "检查练习（满分）",
               "description": "在检查答案且用户获得满分时播放。"
+            },
+            {
+              "label": "Teleport to a different stage",
+              "description": "Will be played on the map when the user teleports to another stage."
             },
             {
               "label": "解锁关卡",
@@ -1413,6 +926,10 @@
         {
           "label": "访问被拒绝对话框文本：常规",
           "default": "此关卡要求您满足一些目标，然后才能打开。"
+        },
+        {
+          "label": "Dialog text access denied: For target stage",
+          "default": "The target stage requires you to meet some goals before it can be opened."
         },
         {
           "label": "是的",

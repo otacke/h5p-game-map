@@ -1,5 +1,5 @@
 import Color from 'color';
-import { STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
+import { ROAMING_TYPES, STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
 import { animate } from '@services/animate.js';
 import Util from '@services/util.js';
 import Label from './label.js';
@@ -54,8 +54,8 @@ export default class Stage {
       onAccessRestrictionsHit: () => {},
     }, callbacks);
 
-    // TODO: Multimap support
-    const elementParams = this.params.globals.get('params').gamemaps[0].elements;
+    const allElements = (this.params.globals.get('getAllGamemapsParams')?.() ?? [])
+      .flatMap((gamemap) => gamemap.elements ?? []);
 
     // Map state names to state values and add labels
     this.params.accessRestrictions.restrictionSetList = (this.params.accessRestrictions.restrictionSetList ?? [])
@@ -70,19 +70,19 @@ export default class Stage {
           }
 
           if (restriction.restrictionType === 'stageScore' && restriction.stageScoreGroup) {
-            const label = elementParams.find((element) => {
+            const label = allElements.find((element) => {
               return element.id === restriction.stageScoreGroup.stageScoreId;
             })?.label;
             restriction.stageScoreGroup.stageScoreLabel = label;
           }
           else if (restriction.restrictionType === 'stageScorePercentage' && restriction.stageScorePercentageGroup) {
-            const label = elementParams.find((element) => {
+            const label = allElements.find((element) => {
               return element.id === restriction.stageScorePercentageGroup.stageScorePercentageId;
             })?.label;
             restriction.stageScorePercentageGroup.stageScorePercentageLabel = label;
           }
           else if (restriction.restrictionType === 'stageProgress' && restriction.stageProgressGroup) {
-            const label = elementParams.find((element) => {
+            const label = allElements.find((element) => {
               return element.id === restriction.stageProgressGroup.stageProgressId;
             })?.label;
             restriction.stageProgressGroup.stageProgressLabel = label;
@@ -234,7 +234,7 @@ export default class Stage {
       return;
     }
 
-    this.isReachableState = state;
+    this.isReachableState =  state;
 
     if (!this.isReachable()) {
       this.hide();
@@ -696,8 +696,8 @@ export default class Stage {
     else if (
       state === STAGE_STATES.COMPLETED &&
       ( // TODO: constants for roaming modes
-        globalParams.behaviour.map.roaming === 'free' ||
-        globalParams.behaviour.map.roaming === 'complete'
+        globalParams.behaviour.map.roaming === ROAMING_TYPES.FREE ||
+        globalParams.behaviour.map.roaming === ROAMING_TYPES_COMPLETE
       )
     ) {
       newState = STAGE_STATES.CLEARED;
