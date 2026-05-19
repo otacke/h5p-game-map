@@ -96,9 +96,7 @@ export default class Stages {
         showStars = 'never';
       }
 
-      const previousState = stagesState.find((state) => state.id === elementParams.id);
-      const wasVisibleInPreviousState = typeof previousState?.visible === 'boolean' && previousState.visible;
-      const canBeStartStage = elementParams.canBeStartStage || wasVisibleInPreviousState;
+      const canBeStartStage = elementParams.canBeStartStage;
 
       const stageParams = {
         id: elementParams.id,
@@ -180,6 +178,7 @@ export default class Stages {
           return this.callbacks.getExerciseState(id);
         },
       };
+
       const newStage = (!elementParams.specialStageType) ?
         new Stage(stageParams, stageCallbacks) :
         new SpecialStage(stageParams, stageCallbacks);
@@ -426,11 +425,6 @@ export default class Stages {
   setStartStages() {
     // Choose all stages that have been marked as start stages and pass restrictions
     let startStages = this.stages.filter((stage) => stage.canBeStartStage() && stage.passesRestrictions());
-
-    if (!startStages.length) {
-      // Use all stages except special stages and restricted ones, because none selected
-      startStages = this.stages.filter((stage) => stage.getType() === STAGE_TYPES.STAGE && stage.passesRestrictions());
-    }
 
     if (!startStages.length) {
       // Use all stages except special stages, we must start somewhere

@@ -356,20 +356,20 @@ export default class Map {
    */
   show() {
     this.paths.forEach((path) => {
-      path.hide();
+      path.hideTemporarily();
     });
     this.stages.forEach((stage) => {
-      stage.hide();
+      stage.hideTemporarily();
     });
 
     this.dom.classList.remove('display-none');
 
     window.requestAnimationFrame(() => {
       this.paths.forEach((path) => {
-        path.show();
+        path.endTemporaryHide();
       });
       this.stages.forEach((stage) => {
-        stage.show();
+        stage.endTemporaryHide();
       });
 
       this.params.globals.get('resize')();

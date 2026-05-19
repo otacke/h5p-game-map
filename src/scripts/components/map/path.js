@@ -135,6 +135,20 @@ export default class Path {
   }
 
   /**
+   * Temporarily hide without changing state. Pair with endTemporaryHide().
+   */
+  hideTemporarily() {
+    this.dom.classList.add('hidden-temporarily');
+  }
+
+  /**
+   * End the temporary hide started by hideTemporarily().
+   */
+  endTemporaryHide() {
+    this.dom.classList.remove('hidden-temporarily');
+  }
+
+  /**
    * Update telemetry.
    * @param {object} [params] Parameters.
    * @param {number} params.x Start position x in percent.

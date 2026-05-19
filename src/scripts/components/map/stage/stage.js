@@ -166,11 +166,11 @@ export default class Stage {
     this.setState(this.params.state);
 
     this.setTabIndex('-1');
-    if (!this.params.visible && !this.params.alwaysVisible) {
-      this.hide();
+    if (this.params.alwaysVisible || this.params.visible) {
+      this.show();
     }
     else {
-      this.show();
+      this.hide();
     }
 
     this.update(params.telemetry);
@@ -320,6 +320,10 @@ export default class Stage {
    * @returns {boolean} True, if stage can be start stage. Else false.
    */
   canBeStartStage() {
+    if (this.getType() === STAGE_TYPES.SPECIAL_STAGE) {
+      return false;
+    }
+
     return this.params.canBeStartStage || false;
   }
 
@@ -371,6 +375,20 @@ export default class Stage {
     this.dom.classList.add('display-none');
     this.dom.classList.add('transparent');
     this.isVisibleState = false;
+  }
+
+  /**
+   * Temporarily hide without changing state. Pair with endTemporaryHide().
+   */
+  hideTemporarily() {
+    this.dom.classList.add('hidden-temporarily');
+  }
+
+  /**
+   * End the temporary hide started by hideTemporarily().
+   */
+  endTemporaryHide() {
+    this.dom.classList.remove('hidden-temporarily');
   }
 
   /**
