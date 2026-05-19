@@ -9,7 +9,7 @@
     box-sizing: border-box;
     display: grid;
     grid-area: 1 / 1 / 1 / 1;
-    margin: var(--margin-main);
+    margin: var(--h5p-theme-spacing-s);
     min-width: 0;
 
     &.display-none {

@@ -107,7 +107,9 @@ export default class Main {
 
       this.endScreen.setContent(feedbackWrapper);
 
-      if (this.gameDone) {
+      const hasTitleScreen = this.params.globals.get('params').showTitleScreen;
+
+      if (this.gameDone && !hasTitleScreen) {
         this.showEndscreen();
       }
     });

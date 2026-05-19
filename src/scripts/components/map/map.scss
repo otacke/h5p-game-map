@@ -1,8 +1,8 @@
 .h5p-game-map-map {
   --map-aspect-ratio: 16/9;
 
-  background-color: var(--map-background-color, var(--color-background));
-  box-shadow: 10px 10px 30px var(--color-shadow-light);
+  background-color: var(--map-background-color, var(--h5p-theme-ui-base));
+  box-shadow: var(--h5p-theme-spacing-xs) var(--h5p-theme-spacing-xs) var(--h5p-theme-spacing-l) var(--color-shadow-light);
   box-sizing: border-box;
   display: grid;
   grid-area: 1 / 1 / 1 / 1;

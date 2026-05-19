@@ -1273,7 +1273,7 @@
             "type": "text",
             "label": "Color not visited stage",
             "optional": true,
-            "default": "rgba(250, 223, 10, 0.7)",
+            "default": "rgba(230, 200, 29, 0.7)",
             "widget": "colorSelector",
             "spectrum": {
               "showInput": true,
@@ -1287,7 +1287,7 @@
             "type": "text",
             "label": "Color locked stage",
             "optional": true,
-            "default": "rgba(153, 0, 0, 0.7)",
+            "default": "rgba(161, 50, 54, 0.7)",
             "widget": "colorSelector",
             "spectrum": {
               "showInput": true,
@@ -1301,7 +1301,7 @@
             "type": "text",
             "label": "Color cleared stage",
             "optional": true,
-            "default": "rgba(0, 130, 0, 0.7)",
+            "default": "rgba(37, 109, 29, 0.7)",
             "widget": "colorSelector",
             "spectrum": {
               "showInput": true,
@@ -1374,7 +1374,7 @@
                 "type": "text",
                 "label": "Color path cleared",
                 "optional": true,
-                "default": "rgba(0, 130, 0, 0.7)",
+                "default": "rgba(37, 109, 29, 0.7)",
                 "widget": "colorSelector",
                 "spectrum": {
                   "showInput": true,

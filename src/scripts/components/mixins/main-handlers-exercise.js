@@ -1,3 +1,5 @@
+import { STAGE_STATES } from '@services/constants.js';
+
 /**
  * Mixin containing handlers for exercise.
  */
@@ -149,7 +151,7 @@ export default class MainHandlersExercise {
       this.queueAnimation = [];
 
       // Store current state and seal stage
-      this.stagesGameOverState = this.maps.getCurrentStagesState();
+      this.stagesGameOverState = this.maps.getStagesState();
       this.maps.updateStageState('*', STAGE_STATES.SEALED);
 
       this.handleExerciseScreenClosed({

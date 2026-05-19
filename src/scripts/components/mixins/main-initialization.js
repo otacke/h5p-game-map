@@ -85,7 +85,12 @@ export default class MainInitialization {
         },
       }, {
         onButtonClicked: () => {
-          this.show({ focusButton: true, readOpened: true });
+          if (this.gameDone) {
+            this.showEndscreen();
+          }
+          else {
+            this.show({ focusButton: true, readOpened: true });
+          }
         },
         read: (text) => {
           this.params.globals.get('read')(text);
@@ -101,16 +106,14 @@ export default class MainInitialization {
         {
           id: 'show-solutions',
           text: this.params.dictionary.get('l10n.showSolutions'),
-          className: 'h5p-joubelui-button',
         },
       );
     }
     if (globalParams.behaviour.enableRetry) {
       endscreenButtons.push(
         {
-          id: 'restart',
+          id: 'retry',
           text: this.params.dictionary.get('l10n.restart'),
-          className: 'h5p-joubelui-button',
         },
       );
     }
@@ -125,7 +128,7 @@ export default class MainInitialization {
       },
     }, {
       onButtonClicked: (id) => {
-        if (id === 'restart') {
+        if (id === 'retry') {
           this.callbacks.onRestarted();
         }
         else if (id === 'show-solutions') {

@@ -8,16 +8,16 @@
 
   .h5p-game-map-stage-label {
     transition: height 0.2s linear;
-    border-radius: 3px;
+    border-radius: var(--h5p-theme-border-radius-small);
     background: rgba(0,0,0,0.7);
     color: #fff;
     line-height: 1.5;
-    padding: 0.5em 1em 0.5em 1em;
+    padding-block: var(--h5p-theme-spacing-xxs);
+    padding-inline: var(--h5p-theme-spacing-s);
     overflow: hidden;
-    font-size: 0.9em;
-    min-width: 6em;
-    max-width: 11em;
-    max-height: 20.5em;
+    font-size: var(--h5p-theme-font-size-s);
+    min-width: 6ch;
+    max-width: 11ch;
 
     .h5p-game-map-stage-label-inner {
       white-space: initial;
@@ -35,7 +35,7 @@
   }
 
   &.bottom {
-    bottom: -2.75em;
+    bottom: calc(-2.75 * var(--h5p-theme-spacing-s));
     left: 50%;
     transform: translateX(-50%);
 
@@ -77,12 +77,12 @@
   }
 
   &.bottom-right {
-    bottom: -1.75em;
+    bottom: calc(-1.75 * var(--h5p-theme-spacing-s));
     left: 125%;
   }
 
   &.bottom-left {
-    bottom: -1.75em;
+    bottom: calc(-1.75 * var(--h5p-theme-spacing-s));
     right: 125%;
   }
 
@@ -97,15 +97,15 @@
 
   &.multiline {
     &.bottom {
-      bottom: -4.125em;
+      bottom: calc(-4.125 * var(--h5p-theme-spacing-s));
     }
 
     &.bottom-right {
-      bottom: -3.125em;
+      bottom: calc(-3.125 * var(--h5p-theme-spacing-s));
     }
 
     &.bottom-left {
-      bottom: -3.125em;
+      bottom: calc(-3.125 * var(--h5p-theme-spacing-s));
     }
 
     .h5p-game-map-stage-label {

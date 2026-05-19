@@ -151,22 +151,19 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
           this.callbacks.onContinued();
         },
         false,
+        { classes: 'h5p-question-game-map-continue' },
       );
     }
     else {
       delete this.continueButtonInstance;
 
-      this.continueButton = document.createElement('button');
-      this.continueButton.classList.add(
-        'h5p-joubelui-button',
-        'h5p-game-map-exercise-instance-continue-button',
-        'display-none',
-      );
-      this.continueButton.setAttribute('disabled', 'disabled');
-      this.continueButton.innerText =
-        this.params.dictionary.get('l10n.continue');
-      this.continueButton.addEventListener('click', () => {
-        this.callbacks.onContinued();
+      this.continueButton = H5P.Components.Button({
+        label: this.params.dictionary.get('l10n.continue'),
+        icon: 'continue',
+        classes: ['h5p-game-map-exercise-instance-continue-button'],
+        onClick: () => {
+          this.callbacks.onContinued();
+        },
       });
 
       this.dom.append(this.continueButton);
@@ -819,6 +816,8 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
         this.continueButton.removeAttribute('disabled');
       }
     }
+
+    this.params.globals.get('resize')();
 
     this.callbacks.onScoreChanged({
       score: this.getWeightedScore(),

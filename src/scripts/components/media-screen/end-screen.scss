@@ -13,11 +13,15 @@
     }
 
     .h5p-question-scorebar {
-      margin: 0 0 1em 0;
+      margin: 0 0 var(--h5p-theme-spacing-s) 0;
       padding: 0;
 
       &.display-none {
         display: none;
+      }
+
+      .h5p-joubelui-score-bar {
+        width: 100%;
       }
     }
   }
@@ -26,7 +30,7 @@
     button::before {
       content: var(--icon-fontawesome-eye);
       font-family: "H5PFontAwesome4", sans-serif;
-      padding-right: 0.5rem;
+      padding-right: var(--h5p-theme-spacing-xxs);
     }
   }
 
@@ -34,7 +38,7 @@
     button::before {
       content: var(--icon-fontawesome-arrow-rotate-right);
       font-family: "H5PFontAwesome4", sans-serif;
-      padding-right: 0.5rem;
+      padding-right: var(--h5p-theme-spacing-xxs);
     }
   }
 }

@@ -1,21 +1,22 @@
 .h5p-game-map-toolbar-tool-bar {
   align-items: center;
-  background-color: var(--color-background);
-  box-shadow: 10px 10px 30px var(--color-shadow-light);
+  background-color: var(--h5p-theme-ui-base);
+  box-shadow: var(--h5p-theme-spacing-xs) var(--h5p-theme-spacing-xs) var(--h5p-theme-spacing-l) var(--color-shadow-light);
   box-sizing: border-box;
-  column-gap: 1.25rem;
+  column-gap: calc(1.25 * var(--h5p-theme-spacing-s));
   display: flex;
   flex-direction: row;
   flex-shrink: 0;
   flex-wrap: wrap;
+  font-size: var(--h5p-theme-font-size-m);
   justify-content: center;
-  margin-bottom : .5em;
+  margin-bottom : var(--h5p-theme-spacing-xxs);
   overflow: hidden;
-  padding: 0.5em;
-  row-gap: 0.25rem;
+  padding: var(--h5p-theme-spacing-xxs);
+  row-gap: calc(0.5 * var(--h5p-theme-spacing-xxs));
 
   .toolbar-headline {
-    color: var(--color-text);
+    color: var(--h5p-theme-text-primary);
     flex-grow: 1;
     font-weight: bold;
     overflow: hidden;
@@ -25,12 +26,12 @@
 
   .toolbar-non-headline {
     align-items: center;
-    column-gap: 1.25rem;
+    column-gap: calc(1.25 * var(--h5p-theme-spacing-s));
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    row-gap: 0.25rem;
+    row-gap: calc(0.5 * var(--h5p-theme-spacing-xxs));
 
     .status-containers {
       .status-container-timer {
@@ -68,21 +69,21 @@
     flex-direction: row;
     flex-grow: 0;
     flex-shrink: 1;
+    gap: var(--h5p-theme-spacing-xxs);
 
     .toolbar-button {
-      color: var(--color-primary-dark);
+      color: var(--h5p-theme-main-cta-base);
       position: relative;
 
       &::before {
         font-family: "H5PFontAwesome4", sans-serif;
-        font-size: 1.15em;
-        height: 1.15em;
+        font-size: var(--h5p-theme-font-size-xl);
+        height: var(--h5p-theme-font-size-xl);
         left: 50%;
-        margin-left: -0.575em;
-        margin-top: -0.575em;
         position: absolute;
         top: 50%;
-        width: 1.15em;
+        transform: translate(-50%, -50%);
+        width: var(--h5p-theme-font-size-xl);
       }
 
       &.toolbar-button-audio {
@@ -91,10 +92,6 @@
         }
 
         &.toolbar-button-active {
-          &:not(.toolbar-button-disabled) {
-            background-color: var(--color-primary-5);
-          }
-
           &::before {
             content: var(--icon-fontawesome-volume-high);
           }
@@ -104,13 +101,6 @@
       &.toolbar-button-settings {
         &::before {
           content: var(--icon-fontawesome-gear);
-        }
-
-        &.toolbar-button-active {
-          &:not(.toolbar-button-disabled) {
-            background-color: var(--color-primary);
-            color: var(--color-text-light);
-          }
         }
       }
 
@@ -127,15 +117,19 @@
       }
 
       &.toolbar-button-fullscreen {
+        &:before {
+          font-family: "h5p-theme", sans-serif;
+        }
+
         &.toolbar-button-exit-fullscreen {
           &::before {
-            content: var(--icon-fontawesome-compress);
+            content: var(--icon-h5ptheme-compress);
           }
         }
 
         &.toolbar-button-enter-fullscreen {
           &::before {
-            content: var(--icon-fontawesome-expand);
+            content: var(--icon-h5ptheme-expand);
           }
         }
       }
@@ -147,51 +141,50 @@
   }
 
   &.solution-mode {
-    background-color: var(--color-text);
+    background-color: var(--h5p-theme-main-cta-base);
 
     .toolbar-headline {
-      color: var(--color-background);
+      color: var(--h5p-theme-contrast-cta);
 
       &::after {
         content: var(--icon-fontawesome-eye);
         font-family: "H5PFontAwesome4", sans-serif;
         font-weight: normal;
-        margin-left: 0.5em;
+        margin-left: var(--h5p-theme-spacing-xxs);
       }
     }
 
     .status-containers {
       .status-container {
         &::before {
-          color: var(--color-background);
+          color: var(--h5p-theme-contrast-cta);
         }
 
         .status-container-values {
           span.value, span.max-value {
-            color: var(--color-background);
+            color: var(--h5p-theme-contrast-cta);
           }
 
           span.delimiter {
-            color: var(--color-background);
+            color: var(--h5p-theme-contrast-cta);
             text-align: center;
-            width: 1em;
+            width: var(--h5p-theme-spacing-s);
           }
         }
       }
     }
 
     .toolbar-buttons .toolbar-button {
-      background-color: rgba(166, 166, 166, .1);
-      border-color: var(--color-text);
-      color: var(--color-background);
+      background-color: var(--h5p-theme-main-cta-dark);
+      color: var(--h5p-theme-contrast-cta);
 
       &:not(.toolbar-button-disabled) {
         &:hover {
-          background-color: rgba(166, 166, 166, .2);
+          background-color: color-mix(in srgb, var(--h5p-theme-contrast-cta-dark), transparent 60%);
         }
 
         &:active {
-          background-color: rgba(166, 166, 166, .3);
+          background-color: color-mix(in srgb, var(--h5p-theme-contrast-cta-dark), transparent 80%);
         }
       }
     }

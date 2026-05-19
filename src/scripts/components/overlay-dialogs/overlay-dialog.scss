@@ -1,8 +1,10 @@
 .h5p-game-map-overlay-dialog {
-  --overlay-dialog-screen-offset: 4rem;
+  --overlay-dialog-screen-offset: calc(4 * var(--h5p-theme-spacing-s));
+  --max-width: 1080px;
+  --opacity: 0.8;
 
   align-items: center;
-  background-color: rgba(44,44,44,.8);
+  background-color: hsl(0 0% 17% / var(--opacity));
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -20,7 +22,7 @@
   }
 
   &.transparent {
-    background-color: rgba(44,44,44, 0);
+    --opacity: 0;
     transition: background-color 0.25s 0.5s;
   }
 
@@ -29,11 +31,11 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-    max-width: 1080px;
+    max-width: var(--max-width);
     width: 100%;
 
     &.offscreen {
-      transform: translate3d(0, -200rem, 0) scaleY(3);
+      transform: translate3d(0, calc(-200 * var(--h5p-theme-spacing-s)), 0) scaleY(3);
     }
 
     &.transparent {
@@ -57,62 +59,74 @@
 
     .h5p-game-map-overlay-dialog-button-close {
       grid-area: 1 / 1 / 1 / 1;
-      background: #fff;
+      background: var(--h5p-theme-ui-base);
       border: none;
       border-radius: 50%;
       color: #222;
       cursor: pointer;
-      height: 2.25em;
+      height: calc(2.25 * var(--h5p-theme-spacing-s));
       justify-self: end;
-      left: calc( (var(--overlay-dialog-screen-offset, 4rem) - 2rem) / -2 - 0.25rem);
+      left: calc(-0.325 * var(--overlay-dialog-screen-offset));
       line-height: 1;
-      padding: 3px;
+      padding: 0;
       position: relative;
-      top: calc( (var(--overlay-dialog-screen-offset, 4rem) - 2rem) / 2 + 0.25rem);
+      top: calc(0.325 * var(--overlay-dialog-screen-offset));
       transition: transform .1s ease-in-out;
-      width: 2.25em;
+      width: calc(2.25 * var(--h5p-theme-spacing-s));
 
       &:hover {
         transform: scale(1.25);
       }
 
       &::after {
-        font-family: "H5PFontAwesome4", sans-serif;
-        content: var(--icon-fontawesome-xmark);
-        border: 1px solid #222;
-        text-align: center;
+        border: 1px solid var(--h5p-theme-text-primary);
         border-radius: 50%;
-        width: 1.5em;
-        height: 1.5em;
-        display: inline-block;
-        line-height: 1.5;
+        color: var(--h5p-theme-text-primary);
+        content: var(--icon-fontawesome-xmark);
+        font-family: "H5PFontAwesome4", sans-serif;
+        height: calc(1.5 * var(--h5p-theme-spacing-s));
+        left: 50%;
+        line-height: calc(1.5 * var(--h5p-theme-spacing-s));
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: calc(1.5 * var(--h5p-theme-spacing-s));
+      }
+
+      &:focus-visible {
+        outline: none;
+
+        &::after {
+          outline: 2px ridge var(--h5p-theme-contrast-cta-white);
+          outline-offset: 2px;
+        }
       }
     }
 
     .h5p-game-map-overlay-dialog-content {
-      grid-area: 1 / 1 / 1 / 1;
-      background-color: var(--color-background);
-      border: 0.75rem solid var(--color-background);
-      border-radius: 0.5rem;
+      background-color: var(--h5p-theme-ui-base);
+      border-radius: var(--h5p-theme-border-radius-large);
       box-sizing: border-box;
-      margin-bottom: calc(var(--overlay-dialog-screen-offset, 4rem) / 2);
-      margin-left: calc(var(--overlay-dialog-screen-offset, 4rem) / 2);
-      margin-top: calc(var(--overlay-dialog-screen-offset, 4rem) / 2);
+      display: grid;
+      gap: var(--h5p-theme-spacing-xxs);
+      grid-area: 1 / 1 / 1 / 1;
+      margin-inline: calc(0.5 * var(--overlay-dialog-screen-offset));
+      margin-block: calc(0.5 * var(--overlay-dialog-screen-offset));
       max-width: calc(100% - var(--overlay-dialog-screen-offset, 4rem));
       min-width: 0;
+      padding: var(--h5p-theme-spacing-s);
 
       .h5p-game-map-overlay-dialog-headline {
         align-items: start;
-        border-bottom: 1px solid var(--color-shadow-dark);
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
-        gap: 0.5rem;
-        padding: 0 0.25rem 0 0;
+        gap: var(--h5p-theme-spacing-xxs);
+        padding: 0 calc(0.25 * var(--h5p-theme-spacing-s)) 0 0;
 
         .h5p-game-map-overlay-dialog-headline-text {
           display: -webkit-box;
-          font-size: 1.25rem;
+          font-size: var(--h5p-theme-font-size-xl);
           font-weight: bold;
           line-clamp: 3;
           -webkit-line-clamp: 3;
@@ -124,10 +138,10 @@
         .h5p-game-map-overlay-dialog-headline-info-icon {
           anchor-name: --gamemap-overlay-dialog;
           aspect-ratio: 1;
-          background-color: var(--color-primary);
+          background-color: var(--h5p-theme-main-cta-base);
           border: 0;
           border-radius: 50%;
-          height: 1.25rem;
+          height: var(--h5p-theme-font-size-xl);
           padding: 0;
           position: relative;
 
@@ -136,10 +150,10 @@
           }
 
           &::before {
-            color: var(--color-background);
+            color: var(--h5p-theme-ui-base);
             content: var(--icon-fontawesome-info);
             font-family: "H5PFontAwesome4", sans-serif;
-            font-size: 1rem;
+            font-size: var(--h5p-theme-font-size-m);
             position: absolute;
             top: 50%;
             left: 50%;
@@ -147,12 +161,12 @@
           }
 
           &:hover {
-            background-color: var(--color-primary-90);
+            background-color: var(--h5p-theme-main-cta-light);
             cursor: pointer;
           }
 
           &:focus-visible {
-            outline: 2px ridge black;
+            outline: 2px ridge var(--h5p-theme-contrast-cta-white);
             outline-offset: 2px;
           }
         }
@@ -163,16 +177,15 @@
       }
 
       .h5p-game-map-overlay-dialog-headline-info-content {
-        border: 2px solid var(--color-primary);
+        border: 2px solid var(--h5p-theme-main-cta-base);
         border-radius: 4px;
         display: grid;
-        gap: 0.5rem;
-        margin-block: 0.5rem;
-        padding: 0.5rem;
+        gap: var(--h5p-theme-spacing-xxs);
+        padding: var(--h5p-theme-spacing-xxs);
 
         .h5p-game-map-overlay-dialog-header-info-wrapper {
           display: grid;
-          gap: 0.5rem;
+          gap: var(--h5p-theme-spacing-xxs);
 
           .h5p-game-map-overlay-dialog-headline-info-content-intro {
             font-weight: bold;
@@ -199,9 +212,8 @@
       }
 
       .h5p-game-map-overlay-dialog-instance-container {
-        height: calc(100% - 1rem);
-        margin-top: 0.5rem;
-        width: calc(100% - 0.25rem);
+        height: fit-content;
+        width: 100%;
 
         .h5p-game-map-overlay-dialog-instance-wrapper {
           .h5p-game-map-overlay-dialog-instance {
@@ -280,12 +292,12 @@
 
 @container map-container (max-width: 560px) {
   .h5p-game-map-overlay-dialog {
-    --overlay-dialog-screen-offset: 3rem;
+    --overlay-dialog-screen-offset: calc(3 * var(--h5p-theme-spacing-s));
   }
 }
 
 @container map-container (max-width: 480px) {
   .h5p-game-map-overlay-dialog {
-    --overlay-dialog-screen-offset: 2rem;
+    --overlay-dialog-screen-offset: calc(2 * var(--h5p-theme-spacing-s));
   }
 }

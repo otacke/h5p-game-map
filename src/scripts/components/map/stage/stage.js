@@ -695,9 +695,9 @@ export default class Stage {
     }
     else if (
       state === STAGE_STATES.COMPLETED &&
-      ( // TODO: constants for roaming modes
+      (
         globalParams.behaviour.map.roaming === ROAMING_TYPES.FREE ||
-        globalParams.behaviour.map.roaming === ROAMING_TYPES_COMPLETE
+        globalParams.behaviour.map.roaming === ROAMING_TYPES.COMPLETE
       )
     ) {
       newState = STAGE_STATES.CLEARED;

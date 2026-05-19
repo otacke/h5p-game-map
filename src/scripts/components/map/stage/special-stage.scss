@@ -3,9 +3,9 @@
 .h5p-game-map-stage-content.h5p-game-map-stage-cleared {
   &::before {
     font-family: "H5PGameMap", "H5PFontAwesome4", sans-serif;
-    font-size: max(0.75rem, var(--stage-font-size));
+    font-size: max(calc(0.75 * var(--h5p-theme-font-size-m)), var(--stage-font-size));
     left: 50%;
-    line-height: max(1rem, var(--stage-line-height));
+    line-height: max(var(--h5p-theme-font-size-m), var(--stage-line-height));
     top: calc(50%);
     transform: translate(-50%, -50%);
   }
@@ -19,25 +19,25 @@
   &.extra-life::before {
     content: var(--icon-fontawesome-heart);
     left: 50%;
-    top: calc(50% + 0.125em);
+    top: calc(50% + 0.125rem);
   }
 
   &.extra-time::before {
     content: var(--icon-fontawesome-clock);
     left: 50%;
-    top: calc(50% + 0.05em);
+    top: calc(50% + 0.05rem);
   }
 
   &.link::before {
     content: var(--icon-fontawesome-link);
     left: 50%;
-    top: calc(50% + 0.05em);
+    top: calc(50% + 0.05rem);
   }
 
   &.teleport::before {
     content: var(--icon-fontawesome-bolt);
     left: 50%;
-    top: calc(50% + 0.05em);
+    top: calc(50% + 0.05rem);
   }
 
 }

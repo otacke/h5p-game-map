@@ -62,7 +62,10 @@ export default class MainHandlersStage {
       this.params.jukebox.stopGroup('default');
       this.exerciseScreen.show({ isShowingSolutions: this.isShowingSolutions });
       this.toolbar.disable();
-      this.exerciseBundles.start(id);
+
+      if (!this.isShowingSolutions) {
+        this.exerciseBundles.start(id);
+      }
 
       if (this.params.globals.get('params').audio.muteDuringExercise) {
         this.params.jukebox.fade('backgroundMusic', { type: 'out', time: this.musicFadeTime });

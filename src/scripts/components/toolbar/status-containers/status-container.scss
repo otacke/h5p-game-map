@@ -8,13 +8,13 @@
   // Workaround for iOS < 14.5 which doesn't support gap for flexbox
   @supports (-webkit-touch-callout: none) and (not (translate: none)) {
     &:not(:last-child) {
-      margin-right: 1.25rem;
+      margin-right: calc(1.25 * var(--h5p-theme-spacing-s));
     }
   }
 
   &::before {
-    color: var(--color-primary-dark);
-    margin-right: 0.5rem;
+    color: var(--h5p-theme-main-cta-base);
+    margin-right: var(--h5p-theme-spacing-xxs);
   }
 
   &.display-none {
@@ -35,12 +35,12 @@
     justify-content: center;
 
     span.value, span.max-value {
-      color: var(--color-primary-dark);
+      color: var(--h5p-theme-main-cta-base);
     }
 
     span.delimiter {
       text-align: center;
-      width: 1rem;
+      width: var(--h5p-theme-spacing-s);
     }
   }
 }

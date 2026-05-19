@@ -3,13 +3,13 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 1.25rem;
+  gap: calc(1.25 * var(--h5p-theme-spacing-s));
   justify-content: center;
 
   // Workaround for iOS < 14.5 which doesn't support gap for flexbox
   @supports (-webkit-touch-callout: none) and (not (translate: none)) {
     &:not(:last-child) {
-      margin-right: 1.25rem;
+      margin-right: calc(1.25 * var(--h5p-theme-spacing-s));
     }
   }
 

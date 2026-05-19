@@ -9,7 +9,7 @@
   "license": "MIT",
   "coreApi": {
     "majorVersion": 1,
-    "minorVersion": 27
+    "minorVersion": 28
   },
   "machineName": "H5P.GameMap",
   "embedTypes": [

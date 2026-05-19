@@ -119,10 +119,7 @@ export default class Slider {
     this.slider.setAttribute('aria-valuenow', value);
 
     const percentage = (value / this.params.maxValue) * 100;
-
-    this.slider.style.background = (!this.params.vertical) ?
-      `linear-gradient(to right, var(--color-primary-dark-80) ${percentage}%, var(--color-primary-15) ${percentage}%)` :
-      `linear-gradient(to top, var(--color-primary-dark-80) ${percentage}%, var(--color-primary-15) ${percentage}%)`;
+    this.slider.style.setProperty('--percentage', `${percentage}%`);
   }
 
   /**
