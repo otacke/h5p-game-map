@@ -48,10 +48,6 @@
                   "description": "Esta etiqueta mostrarase enriba do teu exercicio e axudarache a conectar diferentes etapas entre si."
                 },
                 {
-                  "label": "O usuario pode comezar aquí",
-                  "description": "Se está marcada, esta etapa será unha etapa na que o usuario comeza. Se ningunha etapa ou máis dunha etapa poden ser a etapa de saída, a etapa elixirase aleatoriamente."
-                },
-                {
                   "label": "Límite de tempo",
                   "description": "Definir axustes relacionados co temporizador.",
                   "fields": [
@@ -385,6 +381,10 @@
                 {
                   "label": "Stage behaviour",
                   "fields": [
+                    {
+                      "label": "O usuario pode comezar aquí",
+                      "description": "Se está marcada, esta etapa será unha etapa na que o usuario comeza. Se ningunha etapa ou máis dunha etapa poden ser a etapa de saída, a etapa elixirase aleatoriamente."
+                    },
                     {
                       "label": "Pick random exercises for this stage"
                     },

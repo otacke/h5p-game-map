@@ -48,10 +48,6 @@
                   "description": "Oznaka bo prikazana na vrhu naloge in bo pomagala povezati različne stopnje med seboj."
                 },
                 {
-                  "label": "Začni tukaj",
-                  "description": "Če je označeno, bo ta stopnja predstavljala začetek naloge. V primeru več ali nobene označene stopnje, bo začetna stopnja izbrana naključno."
-                },
-                {
                   "label": "Omejitev časa",
                   "description": "Nastavitve v povezavi s časom.",
                   "fields": [
@@ -385,6 +381,10 @@
                 {
                   "label": "Stage behaviour",
                   "fields": [
+                    {
+                      "label": "Začni tukaj",
+                      "description": "Če je označeno, bo ta stopnja predstavljala začetek naloge. V primeru več ali nobene označene stopnje, bo začetna stopnja izbrana naključno."
+                    },
                     {
                       "label": "Pick random exercises for this stage"
                     },

@@ -48,10 +48,6 @@
                   "description": "Cette étiquette sera affichée au-dessus de votre exercice et vous aidera à relier les différentes étapes entre elles."
                 },
                 {
-                  "label": "L'utilisateur peut commencer ici",
-                  "description": "Si cette case est cochée, cette étape sera l'étape de départ. Si aucune étape ou plusieurs étapes ne peuvent être l'étape de départ, l'étape de départ sera choisie au hasard."
-                },
-                {
                   "label": "Limite de temps",
                   "description": "Définissez les paramètres liés à la minuterie.",
                   "fields": [
@@ -385,6 +381,10 @@
                 {
                   "label": "Stage behaviour",
                   "fields": [
+                    {
+                      "label": "L'utilisateur peut commencer ici",
+                      "description": "Si cette case est cochée, cette étape sera l'étape de départ. Si aucune étape ou plusieurs étapes ne peuvent être l'étape de départ, l'étape de départ sera choisie au hasard."
+                    },
                     {
                       "label": "Pick random exercises for this stage"
                     },

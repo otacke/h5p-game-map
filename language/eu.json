@@ -48,10 +48,6 @@
                   "description": "Etiketa hau zure ariketaren gainean bistaratuko da eta etapa desberdinak elkarren artean konektatzen lagunduko dizu."
                 },
                 {
-                  "label": "Erabiltzailea hemen has daiteke",
-                  "description": "Hautatzen bada, etapa hau erabiltzailea hasten den etapa izango da. Etaparik ez badago edo etapa bat baino gehiago badago hasierako etapa ausaz aukeratuko da."
-                },
-                {
                   "label": "Denbora-muga",
                   "description": "Definitu tenporizadoreari lotutako ezarpenak.",
                   "fields": [
@@ -385,6 +381,10 @@
                 {
                   "label": "Stage behaviour",
                   "fields": [
+                    {
+                      "label": "Erabiltzailea hemen has daiteke",
+                      "description": "Hautatzen bada, etapa hau erabiltzailea hasten den etapa izango da. Etaparik ez badago edo etapa bat baino gehiago badago hasierako etapa ausaz aukeratuko da."
+                    },
                     {
                       "label": "Pick random exercises for this stage"
                     },

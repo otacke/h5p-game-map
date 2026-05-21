@@ -197,6 +197,16 @@ H5PUpgrades['H5P.GameMap'] = (() => {
             newGamemap.mapOptions.dummy = oldGamemap.dummy;
           }
 
+          // canBeStartStage moved from the element root into the stageBehaviour group.
+          newGamemap.elements = newGamemap.elements.map((element) => {
+            if (element && typeof element === 'object' && 'canBeStartStage' in element) {
+              element.stageBehaviour = element.stageBehaviour ?? {};
+              element.stageBehaviour.canBeStartStage = element.canBeStartStage;
+              delete element.canBeStartStage;
+            }
+            return element;
+          });
+
           parameters.gamemaps = [newGamemap];
           delete parameters.gamemapSteps;
         }

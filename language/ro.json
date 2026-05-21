@@ -48,10 +48,6 @@
                   "description": "Această etichetă va fi afișată deasupra exercițiului dumneavoastră și vă va ajuta să conectați diferite etape între ele."
                 },
                 {
-                  "label": "Utilizatorul poate începe de aici",
-                  "description": "Dacă este bifat, această etapă va fi una de la care utilizatorul poate începe. Dacă nicio etapă sau mai mult de una pot fi etape de start, etapa de start va fi aleasă aleatoriu."
-                },
-                {
                   "label": "Limită de timp",
                   "description": "Definiți setările legate de cronometru.",
                   "fields": [
@@ -385,6 +381,10 @@
                 {
                   "label": "Stage behaviour",
                   "fields": [
+                    {
+                      "label": "Utilizatorul poate începe de aici",
+                      "description": "Dacă este bifat, această etapă va fi una de la care utilizatorul poate începe. Dacă nicio etapă sau mai mult de una pot fi etape de start, etapa de start va fi aleasă aleatoriu."
+                    },
                     {
                       "label": "Pick random exercises for this stage"
                     },

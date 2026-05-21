@@ -96,7 +96,7 @@ export default class Stages {
         showStars = 'never';
       }
 
-      const canBeStartStage = elementParams.canBeStartStage;
+      const canBeStartStage = elementParams.stageBehaviour?.canBeStartStage;
 
       const stageParams = {
         id: elementParams.id,

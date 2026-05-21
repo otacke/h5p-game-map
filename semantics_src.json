@@ -125,14 +125,6 @@
                 "importance": "medium"
               },
               {
-                "name": "canBeStartStage",
-                "type": "boolean",
-                "label": "User can start here",
-                "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly.",
-                "importance": "medium",
-                "default": false
-              },
-              {
                 "name": "time",
                 "type": "group",
                 "label": "Time limit",
@@ -752,6 +744,14 @@
                 "label": "Stage behaviour",
                 "importance": "low",
                 "fields": [
+                  {
+                    "name": "canBeStartStage",
+                    "type": "boolean",
+                    "label": "User can start here",
+                    "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly.",
+                    "importance": "medium",
+                    "default": false
+                  },
                   {
                     "name": "randomExercises",
                     "type": "boolean",

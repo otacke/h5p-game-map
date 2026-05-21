@@ -48,10 +48,6 @@
                   "description": "Diese Beschriftung wird oberhalb deiner Aufgaben angezeigt und wird dir beim Verbinden der verschiedenen Etappen helfen."
                 },
                 {
-                  "label": "Nutzerinnen und Nutzer können hier starten",
-                  "description": "Wenn gewählt, können Nutzerinnen und Nutzer bei dieser Etappe starten. Wenn bei keiner Etappe oder mehr als einer gestartet werden kann, wird die Startetappe zufällig bestimmt."
-                },
-                {
                   "label": "Zeitlimit",
                   "description": "Stelle ein Zeitlimit ein.",
                   "fields": [
@@ -385,6 +381,10 @@
                 {
                   "label": "Etappenverhalten",
                   "fields": [
+                    {
+                      "label": "Nutzerinnen und Nutzer können hier starten",
+                      "description": "Wenn gewählt, können Nutzerinnen und Nutzer bei dieser Etappe starten. Wenn bei keiner Etappe oder mehr als einer gestartet werden kann, wird die Startetappe zufällig bestimmt."
+                    },
                     {
                       "label": "Wähle Aufgaben für diese Etappe zufällig"
                     },

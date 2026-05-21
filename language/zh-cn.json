@@ -48,10 +48,6 @@
                   "description": "此标签将显示在您的内容顶部，并帮助您将不同的关卡相互连接。"
                 },
                 {
-                  "label": "起点关卡设置",
-                  "description": "如勾选，此关卡将是用户开始游戏的关卡。如果没有设置起点关卡或设置了多个可以作为起点的关卡，则可以随机选择一个起点关卡。"
-                },
-                {
                   "label": "时间限制",
                   "description": "定义计时器相关设置。",
                   "fields": [
@@ -385,6 +381,10 @@
                 {
                   "label": "Stage behaviour",
                   "fields": [
+                    {
+                      "label": "起点关卡设置",
+                      "description": "如勾选，此关卡将是用户开始游戏的关卡。如果没有设置起点关卡或设置了多个可以作为起点的关卡，则可以随机选择一个起点关卡。"
+                    },
                     {
                       "label": "Pick random exercises for this stage"
                     },

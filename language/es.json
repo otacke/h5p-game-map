@@ -48,10 +48,6 @@
                   "description": "Esta etiqueta será mostrada en la parte superior de tu ejercicio y te ayudará a conectar las diferentes etapas entre ellas."
                 },
                 {
-                  "label": "El usuario puede iniciar aquí",
-                  "description": "Si se activa, esta etapa será una etapa de la cual iniciará el usuario. Si no hubiera ninguna o si hubiera más de una entonces se elegirá una aleatoriamente."
-                },
-                {
                   "label": "Límite de tiempo",
                   "description": "Definir configuraciones relacionadas con el cronómetro.",
                   "fields": [
@@ -385,6 +381,10 @@
                 {
                   "label": "Stage behaviour",
                   "fields": [
+                    {
+                      "label": "El usuario puede iniciar aquí",
+                      "description": "Si se activa, esta etapa será una etapa de la cual iniciará el usuario. Si no hubiera ninguna o si hubiera más de una entonces se elegirá una aleatoriamente."
+                    },
                     {
                       "label": "Pick random exercises for this stage"
                     },

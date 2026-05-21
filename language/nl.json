@@ -48,10 +48,6 @@
                   "description": "Dit label wordt bovenop je oefening weergegeven en helpt je om verschillende fases met elkaar te verbinden."
                 },
                 {
-                  "label": "De gebruiker kan hier beginnen",
-                  "description": "Indien aangevinkt, zal deze fase een fase zijn waar de gebruiker mee begint. Indien geen enkele fase of meer dan één fase de start-fase kan zijn, wordt de start-fase willekeurig gekozen."
-                },
-                {
                   "label": "Tijdslimiet.",
                   "description": "Definieer timergerelateerde instellingen.",
                   "fields": [
@@ -385,6 +381,10 @@
                 {
                   "label": "Stage behaviour",
                   "fields": [
+                    {
+                      "label": "De gebruiker kan hier beginnen",
+                      "description": "Indien aangevinkt, zal deze fase een fase zijn waar de gebruiker mee begint. Indien geen enkele fase of meer dan één fase de start-fase kan zijn, wordt de start-fase willekeurig gekozen."
+                    },
                     {
                       "label": "Pick random exercises for this stage"
                     },

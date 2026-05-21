@@ -48,10 +48,6 @@
                   "description": "This label will be displayed on top of your exercise and will help you to connect different stages with one another."
                 },
                 {
-                  "label": "User can start here",
-                  "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly."
-                },
-                {
                   "label": "Time limit",
                   "description": "Define timer related settings.",
                   "fields": [
@@ -385,6 +381,10 @@
                 {
                   "label": "Stage behaviour",
                   "fields": [
+                    {
+                      "label": "User can start here",
+                      "description": "If checked, this stage will be a stage that the user start at. If no stage or more than one stage can be the start stage, the starting stage will be chosen randomly."
+                    },
                     {
                       "label": "Pick random exercises for this stage"
                     },

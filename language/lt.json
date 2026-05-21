@@ -48,10 +48,6 @@
                   "description": "Ši etiketė bus rodoma pratimo viršuje ir padės sujungti skirtingus etapus."
                 },
                 {
-                  "label": "Vartotojas gali pradėti čia",
-                  "description": "Jei pažymėta, šis etapas bus etapas, nuo kurio vartotojas pradeda. Jei starto etapu negali būti nė vienas etapas arba daugiau nei vienas etapas, startinis etapas bus parenkamas atsitiktine tvarka."
-                },
-                {
                   "label": "Time limit",
                   "description": "Define timer related settings.",
                   "fields": [
@@ -385,6 +381,10 @@
                 {
                   "label": "Stage behaviour",
                   "fields": [
+                    {
+                      "label": "Vartotojas gali pradėti čia",
+                      "description": "Jei pažymėta, šis etapas bus etapas, nuo kurio vartotojas pradeda. Jei starto etapu negali būti nė vienas etapas arba daugiau nei vienas etapas, startinis etapas bus parenkamas atsitiktine tvarka."
+                    },
                     {
                       "label": "Pick random exercises for this stage"
                     },
