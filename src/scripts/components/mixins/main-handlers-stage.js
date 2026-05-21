@@ -1,4 +1,4 @@
-import { STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
+import { SPECIAL_STAGE_TYPES, STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
 
 /** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
 const DEFAULT_READ_DELAY_MS = 250;
@@ -86,7 +86,9 @@ export default class MainHandlersStage {
       }
     }
     else if (stageType === STAGE_TYPES.SPECIAL_STAGE) {
-      if (!this.isShowingSolutions) {
+      const specialStageType = this.maps.getSpecialStageType(id);
+
+      if (!this.isShowingSolutions || specialStageType === SPECIAL_STAGE_TYPES.TELEPORT) {
         // Special stages should only run once, when open but not opened yet.
         const state = this.maps.getStageState(id);
         if (state === STAGE_STATES.OPEN) {
@@ -177,12 +179,16 @@ export default class MainHandlersStage {
       this.toolbar.animateStatusContainer('timer', 'pulse');
     }
     else if (feature === 'teleport') {
-      const stageState = this.maps.getStageState(options.targetId);
-      if (stageState === STAGE_STATES.LOCKED || stageState === STAGE_STATES.SEALED) {
+      const targetStageState = this.maps.getStageState(options.targetId);
+      const targetStagePassesRestrictions = this.maps.doesStagePassRestrictions(options.targetId);
+
+      if (targetStageState === STAGE_STATES.SEALED || !targetStagePassesRestrictions) {
         this.maps.informAboutStageLockedState({ sourceId: options.sourceId, targetId: options.targetId });
         return;
       }
 
+      this.maps.setStageState(options.targetId, STAGE_STATES.OPENED);
+      this.maps.updatePaths();
       this.showMapThatHoldsStage(options.targetId);
     }
   }

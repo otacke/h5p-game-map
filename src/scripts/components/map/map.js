@@ -302,9 +302,34 @@ export default class Map {
     return stage?.getType();
   }
 
+  /**
+   * Get special stage type.
+   * @param {string} stageId Stage id.
+   * @returns {string|undefined} Special stage type. Only applicable if stage is a special stage.
+   */
+  getSpecialStageType(stageId) {
+    const stage = this.stages.getStage(stageId);
+    return stage?.getSpecialStageType();
+  }
+
+  /**
+   * Get stage label.
+   * @param {string} id Stage id.
+   * @returns {string|undefined} Stage label or undefined if stage doesn't exist or id is not provided.
+   */
   getStageLabel(id) {
     const stage = this.stages.getStage(id);
     return stage?.getLabel();
+  }
+
+  /**
+   * Determine whether stage with id passes restrictions.
+   * @param {string} id Id of stage.
+   * @returns {boolean} True id stage passes restrictions, else false.
+   */
+  doesStagePassRestrictions(id) {
+    const stage = this.stages.getStage(id);
+    return stage?.passesRestrictions() ?? false;
   }
 
   /**
@@ -317,6 +342,11 @@ export default class Map {
     return stage?.getState();
   }
 
+  /**
+   * Run special stage feature.
+   * @param {string} stageId Stage id.
+   * @param {object} context Context.
+   */
   runSpecialStageFeature(stageId, context) {
     const stage = this.stages.getStage(stageId);
     stage?.runSpecialFeature(context);

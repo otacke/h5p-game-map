@@ -345,6 +345,16 @@ export default class Stages {
   }
 
   /**
+   * Determine whether stage with id passes restrictions.
+   * @param {string} id Id of stage.
+   * @returns {boolean} True id stage passes restrictions, else false.
+   */
+  doesStagePassRestrictions(id) {
+    const stage = this.getStage(id);
+    return stage.passesRestrictions() ?? false;
+  }
+
+  /**
    * Update the state of a stages neighbors.
    * @param {string} id Id of exercise that was changed.
    * @param {number} state State code.

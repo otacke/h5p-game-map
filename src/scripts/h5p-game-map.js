@@ -23,7 +23,6 @@ const FULL_SCREEN_DELAY_LARGE_MS = 300;
 const ADVANCED_TEXT_VERSION_FALLBACK = '1.1';
 
 // TODO: Fix teleporting when showing solution
-// TODO: Editor: Update error display when switching maps
 // TODO: Ensure that the start stage remains a start stage across sessions
 // TODO: Update Image Hotspots 1.11 once released
 // TODO: TEST TEST TEST

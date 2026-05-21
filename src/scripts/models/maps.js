@@ -290,12 +290,30 @@ export default class Maps {
   }
 
   /**
+   * Get special stage type from whichever map holds the stage.
+   * @param {string} stageId Stage id.
+   * @returns {string|undefined} Special stage type. Only applicable if stage is a special stage.
+   */
+  getSpecialStageType(stageId) {
+    return this.getMapHolding(stageId)?.getSpecialStageType(stageId);
+  }
+
+  /**
    * Get stage label from whichever map holds the stage.
    * @param {string} id Stage id.
    * @returns {string|undefined} Stage label.
    */
   getStageLabel(id) {
     return this.getMapHolding(id)?.getStageLabel(id);
+  }
+
+  /**
+   * Determine whether stage with id passes restrictions.
+   * @param {string} id Id of stage.
+   * @returns {boolean} True id stage passes restrictions, else false.
+   */
+  doesStagePassRestrictions(id) {
+    return this.getMapHolding(id)?.doesStagePassRestrictions(id) ?? false;
   }
 
   /**

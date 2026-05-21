@@ -209,6 +209,14 @@ export default class Stage {
   }
 
   /**
+   * Get special stage type.
+   * @returns {string|undefined} Special stage type. Only applicable if stage is a special stage.
+   */
+  getSpecialStageType() {
+    return this.params.specialStageType;
+  }
+
+  /**
    * Get neighbors.
    * @returns {string[]} Neighbors.
    */
