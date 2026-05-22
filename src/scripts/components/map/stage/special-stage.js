@@ -1,4 +1,4 @@
-import { STAGE_STATES } from '@services/constants.js';
+import { SPECIAL_STAGE_TYPES, STAGE_STATES } from '@services/constants.js';
 import Stage from './stage.js';
 import './special-stage.scss';
 
@@ -35,31 +35,31 @@ export default class SpecialStage extends Stage {
    */
   runSpecialFeature(main) {
     switch (this.params.specialStageType) {
-      case 'finish':
+      case SPECIAL_STAGE_TYPES.FINISH:
         main.showFinishConfirmation();
         break;
 
-      case 'extra-life':
+      case SPECIAL_STAGE_TYPES.EXTRA_LIFE:
         main.addExtraLives(this.params.specialStageExtraLives ?? 0);
         this.setState(STAGE_STATES.CLEARED);
-        main.handleSpecialFeatureRun('extra-life');
+        main.handleSpecialFeatureRun(SPECIAL_STAGE_TYPES.EXTRA_LIFE);
         this.disable();
         break;
 
-      case 'extra-time':
+      case SPECIAL_STAGE_TYPES.EXTRA_TIME:
         main.addExtraTime(this.params.specialStageExtraTime ?? 0);
         this.setState(STAGE_STATES.CLEARED);
-        main.handleSpecialFeatureRun('extra-time');
+        main.handleSpecialFeatureRun(SPECIAL_STAGE_TYPES.EXTRA_TIME);
         this.disable();
         break;
 
-      case 'link':
+      case SPECIAL_STAGE_TYPES.LINK:
         this.setState(STAGE_STATES.CLEARED);
         window.open(this.params.specialStageLinkURL, this.params.specialStageLinkTarget);
         break;
 
-      case 'teleport':
-        main.handleSpecialFeatureRun('teleport', {
+      case SPECIAL_STAGE_TYPES.TELEPORT:
+        main.handleSpecialFeatureRun(SPECIAL_STAGE_TYPES.TELEPORT, {
           sourceId: this.getId(),
           targetId: this.params.specialStageTeleportTarget,
         });

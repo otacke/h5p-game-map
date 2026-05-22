@@ -375,7 +375,7 @@ export default class Stages {
 
     if (
       state === STAGE_STATES.OPEN &&
-      globalParams.behaviour.map.fog !== '0'
+      globalParams.behaviour.map.fog !== '0' // TODO: Magic string
     ) {
       neighborIds.forEach((id) => {
         const targetStage = this.getStage(id);

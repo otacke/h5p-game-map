@@ -172,13 +172,13 @@ export default class MainHandlersStage {
    * @param {object} [options] Options for feature.
    */
   handleSpecialFeatureRun(feature, options = {}) {
-    if (feature === 'extra-life') {
+    if (feature === SPECIAL_STAGE_TYPES.EXTRA_LIFE) {
       this.toolbar.animateStatusContainer('lives', 'pulse');
     }
-    else if (feature === 'extra-time') {
+    else if (feature === SPECIAL_STAGE_TYPES.EXTRA_TIME) {
       this.toolbar.animateStatusContainer('timer', 'pulse');
     }
-    else if (feature === 'teleport') {
+    else if (feature === SPECIAL_STAGE_TYPES.TELEPORT) {
       const targetStageState = this.maps.getStageState(options.targetId);
       const targetStagePassesRestrictions = this.maps.doesStagePassRestrictions(options.targetId);
 
@@ -187,8 +187,15 @@ export default class MainHandlersStage {
         return;
       }
 
+      /*
+       * Special case, target stage is teleport stage and cannot be cleared, but STAGE_STATES.CLEARED is needed to
+       * signal that the path to neighbors can be shown and that the neighbor can be opened.
+       */
       this.maps.setStageState(options.targetId, STAGE_STATES.OPENED);
-      this.maps.updatePaths();
+      this.maps.updatePathState(options.targetId, STAGE_STATES.CLEARED);
+      this.maps.updateStageNeighborsState(options.targetId, STAGE_STATES.CLEARED);
+
+      this.maps.resizeAllPaths();
       this.showMapThatHoldsStage(options.targetId);
     }
   }
@@ -226,27 +233,26 @@ export default class MainHandlersStage {
 
     this.callbackQueue.add(() => {
       this.maps.updatePathState(id, state);
-    });
+      this.maps.updateStageNeighborsState(id, state);
 
-    this.maps.updateStageNeighborsState(id, state);
+      const states = [STAGE_STATES.COMPLETED, STAGE_STATES.CLEARED];
+      const stageTypes = [STAGE_TYPES.STAGE];
 
-    const states = [STAGE_STATES.COMPLETED, STAGE_STATES.CLEARED];
-    const stageTypes = [STAGE_TYPES.STAGE];
+      const filterExercisesOnly = {
+        type: stageTypes,
+      };
 
-    const filterExercisesOnly = {
-      type: stageTypes,
-    };
+      // Initialize stage counter
+      const filterExercisesDone = {
+        state: states,
+        type: stageTypes,
+      };
 
-    // Initialize stage counter
-    const filterExercisesDone = {
-      state: states,
-      type: stageTypes,
-    };
-
-    // Initialize stages
-    this.toolbar.setStatusContainerStatus('stages', {
-      value: this.maps.getStagesCount({ filters: filterExercisesDone }),
-      maxValue: this.maps.getStagesCount({ filters: filterExercisesOnly }),
+      // Initialize stages
+      this.toolbar.setStatusContainerStatus('stages', {
+        value: this.maps.getStagesCount({ filters: filterExercisesDone }),
+        maxValue: this.maps.getStagesCount({ filters: filterExercisesOnly }),
+      });
     });
   }
 

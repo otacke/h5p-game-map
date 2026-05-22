@@ -529,6 +529,8 @@ export default class MainInitialization {
     const reachableStageIds = this.maps.setStartStages();
     this.exerciseBundles.updateReachability(reachableStageIds);
 
+    this.maps.drawAllAvailablePaths();
+
     // Initialize lives
     this.toolbar.setStatusContainerStatus(
       'lives', { value: this.livesLeft },

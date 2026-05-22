@@ -92,11 +92,11 @@ export default class Paths {
   }
 
   /**
-   * Update.
+   * Resize all paths.
    * @param {object} [params] Parameters.
    * @param {object} [params.mapSize] Map size.
    */
-  update(params = {}) {
+  resizeAll(params = {}) {
     this.paths.forEach((path) => {
       path.resize({ mapSize: params.mapSize });
     });
@@ -134,7 +134,7 @@ export default class Paths {
     if (
       state === STAGE_STATES.OPEN &&
       globalParams.visual.paths.displayPaths &&
-      globalParams.behaviour.map.fog !== '0'
+      globalParams.behaviour.map.fog !== '0' // TODO: What is that magic value?
     ) {
       affectedPaths.forEach((path) => {
         path.show();

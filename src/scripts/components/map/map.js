@@ -156,21 +156,30 @@ export default class Map {
   }
 
   /**
-   * Update paths.
+   * Update paths' size.
    * @param {object} options Options.
    * @param {object} [options.mapSize] Map size.
    */
-  updatePaths(options = {}) {
-    this.paths.update(options);
+  resizeAllPaths(options = {}) {
+    this.paths.resizeAll(options);
   }
 
   /**
    * Update path state.
-   * @param {string} pathId Id of path.
+   * @param {string} stageId Id of stage.
    * @param {number} state State code.
    */
-  updatePathState(pathId, state) {
-    this.paths.updateState(pathId, state);
+  updatePathState(stageId, state) {
+    this.paths.updateState(stageId, state);
+  }
+
+  /**
+   * Draw all available paths (based on current stage's state)
+   */
+  drawAllAvailablePaths() {
+    this.stages.forEach((stage) => {
+      this.updatePathState(stage.params.id, stage.state);
+    });
   }
 
   /**

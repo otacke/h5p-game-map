@@ -256,7 +256,7 @@ export default class Main {
     this.maps.resize();
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = window.setTimeout(() => {
-      this.maps.updatePaths();
+      this.maps.resizeAllPaths();
     }, 0);
 
     /*

@@ -198,25 +198,34 @@ export default class Maps {
    * Update paths on every map, using each map's own size so the per-map
    * telemetry stays correct (path positions depend on the map's image).
    */
-  updatePaths() {
+  resizeAllPaths() {
     this.maps.forEach((map) => {
       const mapSize = map.getSize();
       if (!mapSize || mapSize.width === 0 || mapSize.height === 0) {
         return;
       }
 
-      map.updatePaths({ mapSize: mapSize });
+      map.resizeAllPaths({ mapSize: mapSize });
     });
   }
 
   /**
    * Update path state across all maps.
-   * @param {string} pathId Path id.
+   * @param {string} stageId Path id.
    * @param {number} state State code.
    */
-  updatePathState(pathId, state) {
+  updatePathState(stageId, state) {
     this.maps.forEach((map) => {
-      map.updatePathState(pathId, state);
+      map.updatePathState(stageId, state);
+    });
+  }
+
+  /**
+   * Draw all available paths that the user should see.
+   */
+  drawAllAvailablePaths() {
+    this.maps.forEach((map) => {
+      map.drawAllAvailablePaths();
     });
   }
 
@@ -417,11 +426,11 @@ export default class Maps {
   }
 
   /**
-   * Set start stages on all maps.
-   * @returns {string[]} Ids of reachable stages across all maps.
+   * Set start stages on first map. Other maps must be accessed via teleport stage.
+   * @returns {string[]} Ids of reachable stages on first map.
    */
   setStartStages() {
-    return (this.maps.map((map) => map.setStartStages()) ?? []).flat();
+    return this.maps[0]?.setStartStages() ?? [];
   }
 
   /**
