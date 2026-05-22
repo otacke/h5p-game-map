@@ -19,7 +19,7 @@ export default class ExerciseDialog extends OverlayDialog {
    */
   show(params = {}) {
     if (typeof params.isShowingSolutions === 'boolean') {
-      this.instanceContainer.classList.toggle('blocked', !params.isShowingSolutions);
+      this.instanceContainer.classList.toggle('blocked', params.isShowingSolutions);
     }
 
     super.show(params);
