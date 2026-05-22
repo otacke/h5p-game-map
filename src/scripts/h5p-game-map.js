@@ -1,5 +1,5 @@
 import { STAGE_STATES } from '@services/constants.js';
-import H5PUtil from '@services/h5p-util.js';
+import { getSemanticsDefaults } from '@services/h5p-util.js';
 import Util from '@services/util.js';
 import Dictionary from '@services/dictionary.js';
 import Jukebox from '@services/jukebox.js';
@@ -42,7 +42,7 @@ export default class GameMap extends H5P.Question {
         finishScore: Infinity, // Cannot use Infinity in JSON
         enableCheckButton: true, // Undocumented Question Type contract setting
       },
-    }, H5PUtil.getSemanticsDefaults());
+    }, getSemanticsDefaults());
 
     this.contentId = contentId;
 

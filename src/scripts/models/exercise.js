@@ -1,4 +1,4 @@
-import H5PUtil, { getSubContentIdFromXAPIStatement, isEditor } from '@services/h5p-util.js';
+import { getSubContentIdFromXAPIStatement, isEditor, isInstanceTask } from '@services/h5p-util.js';
 import Util from '@services/util.js';
 
 export default class Exercise {
@@ -111,7 +111,7 @@ export default class Exercise {
       this.params.globals.get('mainInstance'), 'resize', [this.instance],
     );
 
-    this.isTaskState = H5PUtil.isInstanceTask(this.instance);
+    this.isTaskState = isInstanceTask(this.instance);
 
     if (this.isTaskState) {
       this.instance.on('xAPI', (event) => {
