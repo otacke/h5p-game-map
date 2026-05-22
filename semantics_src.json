@@ -1702,7 +1702,7 @@
       {
         "name": "map",
         "type": "group",
-        "label": "Map",
+        "label": "All maps",
         "fields": [
           {
             "name": "showLabels",

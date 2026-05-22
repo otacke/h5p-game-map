@@ -832,7 +832,7 @@
           "label": "\"Lösung zeigen\"-Button anzeigen"
         },
         {
-          "label": "Karte",
+          "label": "Alle Karten",
           "fields": [
             {
               "label": "Zeige Etappenbeschriftungen",
