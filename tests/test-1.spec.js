@@ -38,7 +38,7 @@ test.describe('demo', () => {
     test('has correct scores', async () => {
       await Promise.all([
         expect(toolbar).toContainText('0/8'), // 0/8 stages
-        expect(toolbar).toContainText('0/17') // 0/17 points
+        expect(toolbar).toContainText('0/17'), // 0/17 points
       ]);
     });
 
@@ -79,15 +79,17 @@ test.describe('demo', () => {
       await Promise.all([
         expect(overlay).toBeVisible(),
         expect(overlay).toContainText('Greenland, despite its icy and'),
-        expect(toolbar).toContainText('1/8'), // 1/8 stages
-        expect(toolbar).toContainText('0/17') // 0/17 points
       ]);
     });
 
     test ('closes 1st stage', async () => {
       await page.waitForTimeout(OVERLAY_OPENED_TIMEOUT_MS);
       await overlay.getByLabel('Close').click();
-      await expect(overlay).not.toBeVisible();
+      await Promise.all([
+        expect(overlay).not.toBeVisible(),
+        expect(toolbar).toContainText('1/8'), // 1/8 stages
+        expect(toolbar).toContainText('0/17'), // 0/17 points
+      ]);
     });
   });
 
@@ -103,7 +105,7 @@ test.describe('demo', () => {
       await h5pContainer.getByLabel('Stage: Animals on Greenland quiz').click();
       await Promise.all([
         expect(overlay).toBeVisible(),
-        expect(overlay).toContainText('What is the primary diet of Polar Bears?')
+        expect(overlay).toContainText('What is the primary diet of Polar Bears?'),
       ]);
     });
 
@@ -124,7 +126,7 @@ test.describe('demo', () => {
       await h5pContainer.getByLabel('Stage: Animals on Greenland quiz').click();
       await Promise.all([
         expect(overlay).toBeVisible(),
-        expect(overlay).toContainText('What is the primary diet of Polar Bears?')
+        expect(overlay).toContainText('What is the primary diet of Polar Bears?'),
       ]);
     });
 
@@ -136,8 +138,8 @@ test.describe('demo', () => {
         expect(overlay).toContainText('Show solution'),
         expect(overlay).toContainText('Retry'),
         expect(overlay).toContainText('Continue'),
-        expect(toolbar).toContainText('2/8'), // 2/8 stages
-        expect(toolbar).toContainText('0/17') // 0/17 points
+        expect(toolbar).toContainText('1/8'), // 1/8 stages
+        expect(toolbar).toContainText('0/17'), // 0/17 points
       ]);
     });
 
@@ -149,8 +151,8 @@ test.describe('demo', () => {
         expect(overlay).not.toContainText('Retry'),
         expect(overlay).toContainText('Check'),
         expect(overlay).toContainText('Continue'),
-        expect(toolbar).toContainText('2/8'), // 2/8 stages
-        expect(toolbar).toContainText('0/17') // 0/17 points
+        expect(toolbar).toContainText('1/8'), // 1/8 stages
+        expect(toolbar).toContainText('0/17'), // 0/17 points
       ]);
     });
 
@@ -162,14 +164,18 @@ test.describe('demo', () => {
         expect(overlay).not.toContainText('Show solution'),
         expect(overlay).not.toContainText('Retry'),
         expect(overlay).toContainText('Continue'),
-        expect(toolbar).toContainText('2/8'), // 2/8 stages
-        expect(toolbar).toContainText('1/17') // 0/17 points
+        expect(toolbar).toContainText('1/8'), // 1/8 stages
+        expect(toolbar).toContainText('1/17'), // 1/17 points
       ]);
     });
 
     test ('lets user continue and closes overlay', async () => {
       await overlay.getByText('Continue').click();
-      await expect(overlay).not.toBeVisible();
+      await Promise.all([
+        expect(overlay).not.toBeVisible(),
+        expect(toolbar).toContainText('2/8'), // 2/8 stages
+        expect(toolbar).toContainText('1/17'), // 1/17 points
+      ]);
     });
 
     test ('3rd stage is now open', async () => {
@@ -188,7 +194,7 @@ test.describe('demo', () => {
       await Promise.all([
         expect(dialog).toBeVisible(),
         expect(dialog.locator('.h5p-core-cancel-button')).toBeVisible(),
-        expect(dialog.locator('.h5p-confirmation-dialog-confirm-button')).toBeVisible()
+        expect(dialog.locator('.h5p-core-button')).toBeVisible(),
       ]);
     });
 
@@ -208,22 +214,22 @@ test.describe('demo', () => {
       await Promise.all([
         expect(dialog).toBeVisible(),
         expect(dialog.locator('.h5p-core-cancel-button')).toBeVisible(),
-        expect(dialog.locator('.h5p-confirmation-dialog-confirm-button')).toBeVisible()
+        expect(dialog.locator('.h5p-core-button')).toBeVisible(),
       ]);
     });
 
     test ('user actually finished the map', async () => {
       const dialog = await h5pContainer.locator('.h5p-confirmation-dialog-popup');
       // Playwright seems to have trouble with the focus trap except when using --debug
-      // await dialog.locator('.h5p-confirmation-dialog-confirm-button').click();
-      await dialog.locator('.h5p-confirmation-dialog-confirm-button').press('Enter');
+      // await dialog.locator('.h5p-core-button').click();
+      await dialog.locator('.h5p-core-button').press('Enter');
 
       await Promise.all([
         expect(dialog).not.toBeVisible(),
         expect(h5pContainer).toContainText('You have completed the map'),
         expect(h5pContainer).toContainText('1/17'),
         expect(h5pContainer).toContainText('Show solutions'),
-        expect(h5pContainer).toContainText('Restart')
+        expect(h5pContainer).toContainText('Restart'),
       ]);
     });
   });
