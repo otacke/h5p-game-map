@@ -180,11 +180,13 @@
 
       &:not(.toolbar-button-disabled) {
         &:hover {
-          background-color: color-mix(in srgb, var(--h5p-theme-contrast-cta-dark), transparent 60%);
+          /* Workaround for HFP-4349, h5p-theme-contrast-cta-dark may be be missing */
+          background-color: color-mix(in srgb, var(--h5p-theme-contrast-cta-dark, var(--h5p-theme-main-cta-dark)), transparent 60%);
         }
 
         &:active {
-          background-color: color-mix(in srgb, var(--h5p-theme-contrast-cta-dark), transparent 80%);
+          /* Workaround for HFP-4349, h5p-theme-contrast-cta-dark may be be missing */
+          background-color: color-mix(in srgb, var(--h5p-theme-contrast-cta-dark, var(--h5p-theme-main-cta-dark)), transparent 80%);
         }
       }
     }
