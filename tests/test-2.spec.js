@@ -36,7 +36,7 @@ test.describe('whole tour', () => {
     test('has correct scores', async () => {
       await Promise.all([
         expect(toolbar).toContainText('0/6'), // 0/6 stages
-        expect(toolbar).toContainText('0/8') // 0/8 points
+        expect(toolbar).toContainText('0/8'), // 0/8 points
       ]);
     });
 
@@ -109,21 +109,29 @@ test.describe('whole tour', () => {
       await Promise.all([
         expect(overlayExercise).toBeVisible(),
         expect(overlayExercise).toContainText('I am the starting point'),
-        expect(toolbar).toContainText('31/6'), // 3 hearts in front of stages
-        expect(toolbar).toContainText('1/6'), // 1/5 stages
-        expect(toolbar).toContainText('0/8') // 0/8 points
+        expect(overlayExercise).toContainText('I can now have multiple subcontents by the way.'),
+        expect(toolbar).toContainText('30/6'), // 3 hearts in front of stages
+        expect(toolbar).toContainText('0/6'), // 0/6 stages
+        expect(toolbar).toContainText('0/8'), // 0/8 points
       ]);
     });
 
     test ('closes "First stage"', async () => {
       await page.waitForTimeout(OVERLAY_TIMEOUT_MS);
       await overlayExercise.getByLabel('Close').click();
-      await expect(overlayExercise).not.toBeVisible();
+
+      await Promise.all([
+        expect(overlayExercise).not.toBeVisible(),
+        expect(toolbar).toContainText('31/6'), // 3 hearts in front of stages
+        expect(toolbar).toContainText('1/6'), // 1/6 stages
+        expect(toolbar).toContainText('0/8'), // 0/8 points
+      ]);
     });
   });
 
   test ('Path from "First stage" to "One more MC" has cleared color', async () => {
-    await page.waitForTimeout(2 * OVERLAY_TIMEOUT_MS);
+    await page.waitForTimeout(OVERLAY_TIMEOUT_MS);
+    await page.waitForTimeout(OVERLAY_TIMEOUT_MS);
     const path = await pathWrapper.locator('.h5p-game-map-path').locator('nth=2');
     const pathColor = await path.evaluate((el) => {
       return window.getComputedStyle(el).getPropertyValue('border-color');
@@ -166,7 +174,7 @@ test.describe('whole tour', () => {
       await h5pContainer.getByLabel('Stage: One more MC').click();
       await Promise.all([
         expect(overlayExercise).toBeVisible(),
-        expect(overlayExercise).toContainText('All good')
+        expect(overlayExercise).toContainText('All good'),
       ]);
     });
 
@@ -187,21 +195,26 @@ test.describe('whole tour', () => {
       await h5pContainer.getByLabel('Stage: One more MC').click();
       await Promise.all([
         expect(overlayExercise).toBeVisible(),
-        expect(overlayExercise).toContainText('All good')
+        expect(overlayExercise).toContainText('All good'),
       ]);
     });
 
     test ('evaluates wrong answer', async () => {
-      await overlayExercise.getByText('Check').click();
+      await overlayExercise.locator('.h5p-theme-check').click();
+      await expect(toolbar).toContainText('21/6'); // 2 hearts in front of stages
+      await expect(toolbar).toContainText('1/6'); // 1/6 stages
+      await expect(toolbar).toContainText('0/8'); // 0/8 points
+      await expect(confirmationDialog).toContainText('You did not achieve full score and lost a life');
+
       await Promise.all([
         expect(overlayExercise).toContainText('0/3'),
         expect(overlayExercise).toContainText('Show solution'),
         expect(overlayExercise).toContainText('Retry'),
         expect(overlayExercise).toContainText('Continue'),
-        expect(toolbar).toContainText('22/6'), // 2 hearts in front of stages
-        expect(toolbar).toContainText('2/6'), // 2/6 stages
+        expect(toolbar).toContainText('21/6'), // 2 hearts in front of stages
+        expect(toolbar).toContainText('1/6'), // 1/6 stages
         expect(toolbar).toContainText('0/8'), // 0/8 points
-        expect(confirmationDialog).toContainText('You did not achieve full score and lost a life')
+        expect(confirmationDialog).toContainText('You did not achieve full score and lost a life'),
       ]);
     });
 
@@ -211,31 +224,31 @@ test.describe('whole tour', () => {
     });
 
     test ('lets user try again', async () => {
-      await overlayExercise.getByLabel('Retry the task').click();
+      await overlayExercise.locator('.h5p-theme-retry').click();
       await Promise.all([
         expect(overlayExercise).not.toContainText('0/3'),
         expect(overlayExercise).not.toContainText('Show solution'),
         expect(overlayExercise).not.toContainText('Retry'),
         expect(overlayExercise).toContainText('Check'),
         expect(overlayExercise).toContainText('Continue'),
-        expect(toolbar).toContainText('22/6'), // 2 hearts in front of stages
-        expect(toolbar).toContainText('2/6'), // 2/8 stages
-        expect(toolbar).toContainText('0/8') // 0/8 points
+        expect(toolbar).toContainText('21/6'), // 2 hearts in front of stages
+        expect(toolbar).toContainText('1/6'), // 2/8 stages
+        expect(toolbar).toContainText('0/8'), // 0/8 points
       ]);
     });
 
     test ('evaluates 1 correct answer', async () => {
       await overlayExercise.getByText('Yabba dabba du').click();
-      await overlayExercise.getByLabel('Check the answers').click();
+      await overlayExercise.locator('.h5p-theme-check').click();
       await Promise.all([
         expect(overlayExercise).toContainText('1/3'),
         expect(overlayExercise).toContainText('Show solution'),
         expect(overlayExercise).toContainText('Retry'),
         expect(overlayExercise).toContainText('Continue'),
-        expect(toolbar).toContainText('12/6'), // 1 heart in front of stages
-        expect(toolbar).toContainText('2/6'), // 2/6 stages
+        expect(toolbar).toContainText('11/6'), // 1 hearts in front of stages
+        expect(toolbar).toContainText('1/6'), // 2/6 stages
         expect(toolbar).toContainText('1/8'), // 1/8 points
-        expect(confirmationDialog).toContainText('You did not achieve full score and lost a life')
+        expect(confirmationDialog).toContainText('You did not achieve full score and lost a life'),
       ]);
     });
 
@@ -245,7 +258,7 @@ test.describe('whole tour', () => {
     });
 
     test ('lets user continue and closes overlay', async () => {
-      await overlayExercise.getByText('Continue').click();
+      await overlayExercise.locator('.h5p-question-game-map-continue').click();
       await expect(overlayExercise).not.toBeVisible();
     });
   });
@@ -266,12 +279,12 @@ test.describe('whole tour', () => {
 
   test.describe('complete "111"', () => {
     test ('does open "111" (unlocked)', async () => {
-      await h5pContainer.getByLabel('Stage: 111', { exact: true }).click();
+      await h5pContainer.getByLabel('Stage: 111').click();
       await Promise.all([
         expect(overlayExercise).toBeVisible(),
         expect(overlayExercise).toContainText('just a distraction'),
-        expect(toolbar).toContainText('13/6'), // 1 heart in front of stages
-        expect(toolbar).toContainText('3/6'), // 3/6 stages
+        expect(toolbar).toContainText('12/6'), // 1 heart in front of stages
+        expect(toolbar).toContainText('2/6'), // 2/6 stages
         expect(toolbar).toContainText('1/8'), // 1/8 points
       ]);
     });
@@ -279,14 +292,17 @@ test.describe('whole tour', () => {
     test ('closes "111"', async () => {
       await page.waitForTimeout(OVERLAY_TIMEOUT_MS);
       await overlayExercise.getByLabel('Close').click();
-      await expect(overlayExercise).not.toBeVisible();
+      await Promise.all([
+        expect(overlayExercise).not.toBeVisible(),
+        expect(toolbar).toContainText('13/6'), // 1 heart in front of stages
+        expect(toolbar).toContainText('3/6'), // 3/6 stages
+        expect(toolbar).toContainText('1/8'), // 1/8 points
+      ]);
     });
   });
 
   test ('"Multi-Choice" is now unlocked', async () => {
-    const stageButton = await h5pContainer
-      .getByLabel('Stage: Multi-Choice')
-      .locator('.h5p-game-map-stage-content');
+    const stageButton = await h5pContainer.getByLabel('Stage: Multi-Choice').locator('.h5p-game-map-stage-content');
     await expect(stageButton).toHaveClass(/h5p-game-map-stage-open/);
   });
 
@@ -311,7 +327,7 @@ test.describe('whole tour', () => {
       await h5pContainer.getByLabel('Stage: True Or False?').click();
       await Promise.all([
         expect(overlayExercise).toBeVisible(),
-        expect(overlayExercise).toContainText('Hint: It\'s true!')
+        expect(overlayExercise).toContainText('Hint: It\'s true!'),
       ]);
     });
 
@@ -323,15 +339,20 @@ test.describe('whole tour', () => {
         expect(overlayExercise).not.toContainText('Show solution'),
         expect(overlayExercise).not.toContainText('Retry'),
         expect(overlayExercise).toContainText('Continue'),
-        expect(toolbar).toContainText('14/6'), // 1 heart in front of stages
-        expect(toolbar).toContainText('4/6'), // 4/6 stages
+        expect(toolbar).toContainText('13/6'), // 1 heart in front of stages
+        expect(toolbar).toContainText('3/6'), // 3/6 stages
         expect(toolbar).toContainText('2/8'), // 2/8 points
       ]);
     });
 
     test ('lets user continue and closes overlay', async () => {
       await overlayExercise.getByText('Continue').click();
-      await expect(overlayExercise).not.toBeVisible();
+      await Promise.all([
+        expect(overlayExercise).not.toBeVisible(),
+        expect(toolbar).toContainText('14/6'), // 1 heart in front of stages
+        expect(toolbar).toContainText('4/6'), // 4/6 stages
+        expect(toolbar).toContainText('2/8'), // 2/8 points
+      ]);
     });
   });
 
