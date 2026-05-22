@@ -92,6 +92,7 @@ export default class Exercise {
 
     // Required to allow proper xAPI statement identification in editor preview, will not be sent to LRS.
     if (isEditor()) {
+      H5PIntegration.contents = H5PIntegration.contents ?? {};
       H5PIntegration.contents[`cid-${this.instance.contentId}`] = {
         url: `http://example.com/${this.instance.contentId}`,
       };
