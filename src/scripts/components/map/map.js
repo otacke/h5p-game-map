@@ -13,6 +13,11 @@ const COLOR_CONTRAST_LIGHT = '#fff';
 /** @constant {number} STAGE_BORDER_RADIUS Border radius */
 const STAGE_BORDER_RADIUS = 0.5;
 
+/**
+ * @typedef {object} Stage
+ * @property {function} getDOM Get DOMs.
+ */
+
 export default class Map {
 
   /**
