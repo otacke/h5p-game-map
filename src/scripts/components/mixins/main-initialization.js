@@ -6,7 +6,7 @@ import Maps from '@models/maps.js';
 import ConfirmationDialog from '@components/confirmation-dialog/confirmation-dialog.js';
 import ExerciseDialog from '@components/overlay-dialogs/exercise-dialog.js';
 import SettingsDialog from '@components/overlay-dialogs/settings-dialog.js';
-import { MS_IN_S, ROAMING_TYPES, STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
+import { FOG_TYPES, MS_IN_S, ROAMING_TYPES, STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
 
 /** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
 const DEFAULT_READ_DELAY_MS = 100;
@@ -514,7 +514,7 @@ export default class MainInitialization {
     this.exerciseBundles.resetAll({ isInitial: params.isInitial });
 
     // Show everything if fog is deactivated
-    if (globalParams.behaviour.map.fog === 'all') {
+    if (globalParams.behaviour.map.fog === FOG_TYPES.ALL) {
       this.maps.showStages();
       this.maps.showPaths();
     }

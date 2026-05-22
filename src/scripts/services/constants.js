@@ -1,6 +1,13 @@
 /** @constant {number} MS_IN_S Milliseconds in a second. */
 export const MS_IN_S = 1000;
 
+/** @constant {object} FOG_TYPES Fog types settable in semantics. */
+export const FOG_TYPES = Object.freeze({
+  ALL: 'all',
+  UNLOCKED_AND_NEIGHBORS: '1',
+  UNLOCKED: '0',
+});
+
 /** @constant {object} ROAMING_TYPES Roaming types settable in semantics. */
 export const ROAMING_TYPES = Object.freeze({
   FREE: 'free',

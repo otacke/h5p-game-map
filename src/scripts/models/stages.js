@@ -1,7 +1,7 @@
 import Util from '@services/util.js';
 import Stage from '@components/map/stage/stage.js';
 import SpecialStage from '@components/map/stage/special-stage.js';
-import { ROAMING_TYPES, STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
+import { FOG_TYPES, ROAMING_TYPES, STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
 
 /** @constant {number} DEFAULT_READ_DELAY_MS Delay before reading was triggered. */
 const DEFAULT_READ_DELAY_MS = 100;
@@ -375,7 +375,7 @@ export default class Stages {
 
     if (
       state === STAGE_STATES.OPEN &&
-      globalParams.behaviour.map.fog !== '0' // TODO: Magic string
+      globalParams.behaviour.map.fog !== FOG_TYPES.UNLOCKED
     ) {
       neighborIds.forEach((id) => {
         const targetStage = this.getStage(id);

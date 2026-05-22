@@ -1,5 +1,5 @@
 import Path from '@components/map/path.js';
-import { ROAMING_TYPES, STAGE_STATES } from '@services/constants.js';
+import { FOG_TYPES, ROAMING_TYPES, STAGE_STATES } from '@services/constants.js';
 import Util from '@services/util.js';
 
 export default class Paths {
@@ -134,7 +134,7 @@ export default class Paths {
     if (
       state === STAGE_STATES.OPEN &&
       globalParams.visual.paths.displayPaths &&
-      globalParams.behaviour.map.fog !== '0' // TODO: What is that magic value?
+      globalParams.behaviour.map.fog !== FOG_TYPES.UNLOCKED
     ) {
       affectedPaths.forEach((path) => {
         path.show();
