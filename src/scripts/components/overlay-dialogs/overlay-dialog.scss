@@ -11,6 +11,7 @@
   grid-area: 1 / 1 / 1 / 1;
   height: 100%;
   left: 0;
+  max-height: 100%;
   position: relative;
   top: 0;
   transition: background-color 0.25s;
@@ -30,8 +31,10 @@
     box-sizing: border-box;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+    grid-template-rows: minmax(0, 1fr);
+    max-height: 100%;
     max-width: var(--max-width);
+    min-height: 0;
     width: 100%;
 
     &.offscreen {
@@ -107,13 +110,15 @@
       background-color: var(--h5p-theme-ui-base);
       border-radius: var(--h5p-theme-border-radius-large);
       box-sizing: border-box;
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: var(--h5p-theme-spacing-xxs);
       grid-area: 1 / 1 / 1 / 1;
-      grid-template-columns: minmax(0, 1fr);
       margin-inline: calc(0.5 * var(--overlay-dialog-screen-offset));
       margin-block: calc(0.5 * var(--overlay-dialog-screen-offset));
+      max-height: 100%;
       max-width: calc(100% - var(--overlay-dialog-screen-offset, 4rem));
+      min-height: 0;
       min-width: 0;
       padding: var(--h5p-theme-spacing-s);
 
@@ -214,6 +219,7 @@
 
       .h5p-game-map-overlay-dialog-instance-container {
         height: fit-content;
+        min-height: 0;
         width: 100%;
 
         .h5p-game-map-overlay-dialog-instance-wrapper {
@@ -301,4 +307,11 @@
   .h5p-game-map-overlay-dialog {
     --overlay-dialog-screen-offset: calc(2 * var(--h5p-theme-spacing-s));
   }
+}
+
+.h5p-fullscreen .h5p-game-map-overlay-dialog-instance-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-inline-end: var(--h5p-theme-spacing-s);
+  scrollbar-gutter: stable;
 }

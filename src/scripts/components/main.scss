@@ -22,3 +22,19 @@
     }
   }
 }
+
+.h5p-fullscreen .h5p-game-map-container {
+  max-height: 100dvh;
+
+  .h5p-game-map-main {
+    grid-template-rows: auto minmax(0, 1fr);
+    max-height: 100dvh;
+    min-height: 0;
+  }
+
+  .h5p-game-map-maps-container {
+    grid-template-rows: minmax(0, 1fr);
+    min-height: 0;
+    overflow: hidden;
+  }
+}
