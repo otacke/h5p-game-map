@@ -6,6 +6,7 @@
   .h5p-game-map-exercise-bundle{
     display: grid;
     gap: var(--h5p-theme-spacing-xxs);
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .h5p-question-buttons {

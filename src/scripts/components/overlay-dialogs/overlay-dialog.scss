@@ -110,6 +110,7 @@
       display: grid;
       gap: var(--h5p-theme-spacing-xxs);
       grid-area: 1 / 1 / 1 / 1;
+      grid-template-columns: minmax(0, 1fr);
       margin-inline: calc(0.5 * var(--overlay-dialog-screen-offset));
       margin-block: calc(0.5 * var(--overlay-dialog-screen-offset));
       max-width: calc(100% - var(--overlay-dialog-screen-offset, 4rem));
