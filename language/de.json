@@ -368,7 +368,8 @@
                   ]
                 },
                 {
-                  "label": "Teleport stage to teleport to"
+                  "label": "Teleport-Etappe, zu der teleportiert werden soll",
+                  "description": "Beachte, dass Teleportetappen immer paarweise angelegt werden müssen, und dass die folgende Liste nur Teleportetappen aufführt, die noch nicht mit einer anderen verknüpft sind."
                 },
                 {
                   "label": "Immer sichtbar",

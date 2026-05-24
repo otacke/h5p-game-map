@@ -368,7 +368,8 @@
                   ]
                 },
                 {
-                  "label": "Teleport stage to teleport to"
+                  "label": "Teleport stage to teleport to",
+                  "description": "Note that you always need to pair two teleport stages and that the following list only shows teleport stages that are not linked to another teleport stage yet."
                 },
                 {
                   "label": "Întotdeauna vizibil",

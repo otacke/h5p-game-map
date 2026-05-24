@@ -8,6 +8,9 @@ export const FOG_TYPES = Object.freeze({
   UNLOCKED: '0',
 });
 
+/** @constant {string} MISSING_TELEPORT_TARGET_ID Fixed target id for teleport stage to indicate no target. */
+export const MISSING_TELEPORT_TARGET_ID = '-';
+
 /** @constant {object} ROAMING_TYPES Roaming types settable in semantics. */
 export const ROAMING_TYPES = Object.freeze({
   FREE: 'free',
