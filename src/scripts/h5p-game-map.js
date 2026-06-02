@@ -1,5 +1,5 @@
 import { STAGE_STATES } from '@services/constants.js';
-import { getSemanticsDefaults } from '@services/h5p-util.js';
+import { getSemanticsDefaults, getSoftDependencies } from '@services/h5p-util.js';
 import Util from '@services/util.js';
 import Dictionary from '@services/dictionary.js';
 import Jukebox from '@services/jukebox.js';
@@ -22,7 +22,6 @@ const FULL_SCREEN_DELAY_LARGE_MS = 300;
 /** @constant {string} ADVANCED_TEXT_VERSION_FALLBACK Fallback version for Advanced Text. */
 const ADVANCED_TEXT_VERSION_FALLBACK = '1.1';
 
-// TODO: Update Image Hotspots 1.11 once released
 // TODO: TEST TEST TEST
 
 export default class GameMap extends H5P.Question {
@@ -451,5 +450,13 @@ export default class GameMap extends H5P.Question {
    */
   cheat(params) {
     this.main.cheat(params);
+  }
+
+  /**
+   * Get list of soft dependencies' ubernames.
+   * @returns {string[]} Soft dependencies' ubernames.
+   */
+  getSoftDependencies() {
+    return getSoftDependencies();
   }
 }

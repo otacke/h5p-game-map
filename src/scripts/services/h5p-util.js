@@ -93,3 +93,36 @@ export const isInstanceTask = (instance = {}) => {
 
   return false;
 };
+
+/**
+ * Get list of soft dependencies' ubernames.
+ * @returns {string[]} Soft dependencies' ubernames.
+ */
+export const getSoftDependencies = () => {
+  const softDependencies = new Set();
+
+  const findSoftDependencies = (fields) => {
+    if (!Array.isArray(fields)) {
+      return;
+    }
+
+    fields.forEach((field) => {
+      if (field.type === 'library' && Array.isArray(field.options)) {
+        field.options.forEach((option) => {
+          if (typeof option === 'string') {
+            softDependencies.add(option);
+          }
+        });
+      }
+      else if (field.type === 'group' && Array.isArray(field.fields)) {
+        findSoftDependencies(field.fields);
+      }
+      else if (field.type === 'list' && field.field) {
+        findSoftDependencies([field.field]);
+      }
+    });
+  };
+
+  findSoftDependencies(semantics);
+  return Array.from(softDependencies);
+};
