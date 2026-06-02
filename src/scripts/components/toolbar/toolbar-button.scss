@@ -9,11 +9,13 @@
   background-size: var(--titlebarButtonBackgroundSize) var(--titlebarButtonBackgroundSize);
   border: none;
   border-radius: var(--h5p-theme-border-radius-large);
+  color: var(--h5p-theme-main-cta-base);
   display: flex;
   flex-shrink: 0;
   font-size: var(--h5p-theme-font-size-m);
   height: var(--titlebarButtonSize);
   padding: 0;
+  position: relative;
   width: var(--titlebarButtonSize);
 
   &:not(.toolbar-button-disabled) {
@@ -28,9 +30,6 @@
 
     &.toolbar-button-active {
       background-color: var(--h5p-theme-main-cta-base);
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: var(--titlebarButtonBackgroundSize) var(--titlebarButtonBackgroundSize);
       color: var(--h5p-theme-contrast-cta);
       opacity: 20;
 

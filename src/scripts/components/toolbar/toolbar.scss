@@ -72,9 +72,6 @@
     gap: var(--h5p-theme-spacing-xxs);
 
     .toolbar-button {
-      color: var(--h5p-theme-main-cta-base);
-      position: relative;
-
       &::before {
         font-family: "H5PFontAwesome4", sans-serif;
         font-size: var(--h5p-theme-font-size-xl);
