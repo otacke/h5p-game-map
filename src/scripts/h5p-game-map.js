@@ -442,7 +442,7 @@ export default class GameMap extends H5P.Question {
    * @returns {object[]} Stages.
    */
   getStages() {
-    return this.main.getStages();
+    return this.main?.getStages() || [];
   }
 
   /**
