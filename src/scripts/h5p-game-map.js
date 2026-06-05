@@ -1,5 +1,5 @@
 import { STAGE_STATES } from '@services/constants.js';
-import { getSemanticsDefaults, getSoftDependencies } from '@services/h5p-util.js';
+import { getSemanticsDefaults } from '@services/h5p-util.js';
 import Util from '@services/util.js';
 import Dictionary from '@services/dictionary.js';
 import Jukebox from '@services/jukebox.js';
@@ -450,13 +450,5 @@ export default class GameMap extends H5P.Question {
    */
   cheat(params) {
     this.main.cheat(params);
-  }
-
-  /**
-   * Get list of soft dependencies' ubernames.
-   * @returns {string[]} Soft dependencies' ubernames.
-   */
-  getSoftDependencies() {
-    return getSoftDependencies();
   }
 }
