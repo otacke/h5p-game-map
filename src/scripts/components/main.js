@@ -125,7 +125,7 @@ export default class Main {
    * Destroy.
    */
   destroy() {
-    this.timer.stop();
+    this.timer?.stop();
 
     // Clear pending timers that would otherwise keep this instance alive.
     window.clearTimeout(this.stageAttentionSeekerTimeout);
