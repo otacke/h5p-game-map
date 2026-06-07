@@ -87,39 +87,49 @@ export default class ExerciseBundles {
    * @param {string[]} subContentIds SubContentIds of instances to track.
    */
   trackAllXAPI(subContentIds = []) {
-    H5P.externalDispatcher.on('xAPI', (event) => {
-      if (subContentIds.length) {
-        const eventObjectId = event.getVerifiedStatementValue(['object', 'id']);
-        if (!eventObjectId) {
-          return; // Make robust against malformed xAPI statements
-        }
+    this.trackedSubContentIds = subContentIds;
+    this.handleXAPI = this.handleXAPI.bind(this);
+    H5P.externalDispatcher.on('xAPI', this.handleXAPI);
+  }
 
-        const queryString = eventObjectId.split('?')[1];
-        const queryParams = new URLSearchParams(queryString);
-        const subContentId = queryParams.get('subContentId');
+  /**
+   * Handle tracked xAPI events.
+   * @param {Event} event xAPI event.
+   */
+  handleXAPI(event) {
+    const subContentIds = this.trackedSubContentIds ?? [];
 
-        if (!subContentIds.includes(subContentId)) {
-          return; // Only care about events from contents with these subContentIds
-        }
+    if (subContentIds.length) {
+      const eventObjectId = event.getVerifiedStatementValue(['object', 'id']);
+      if (!eventObjectId) {
+        return; // Make robust against malformed xAPI statements
       }
 
-      const score = event.getScore();
-      if (score === null) {
-        return; // Not relevant
-      }
+      const queryString = eventObjectId.split('?')[1];
+      const queryParams = new URLSearchParams(queryString);
+      const subContentId = queryParams.get('subContentId');
 
-      const maxScore = event.getMaxScore();
-      const success = event.getVerifiedStatementValue(['result', 'success']);
+      if (!subContentIds.includes(subContentId)) {
+        return; // Only care about events from contents with these subContentIds
+      }
+    }
 
-      if (score >= maxScore || success) {
-        this.params.jukebox.stopGroup('default');
-        this.params.jukebox.play('checkExerciseFullScore');
-      }
-      else {
-        this.params.jukebox.stopGroup('default');
-        this.params.jukebox.play('checkExerciseNotFullScore');
-      }
-    });
+    const score = event.getScore();
+    if (score === null) {
+      return; // Not relevant
+    }
+
+    const maxScore = event.getMaxScore();
+    const success = event.getVerifiedStatementValue(['result', 'success']);
+
+    if (score >= maxScore || success) {
+      this.params.jukebox.stopGroup('default');
+      this.params.jukebox.play('checkExerciseFullScore');
+    }
+    else {
+      this.params.jukebox.stopGroup('default');
+      this.params.jukebox.play('checkExerciseNotFullScore');
+    }
   }
 
   /**
@@ -268,5 +278,12 @@ export default class ExerciseBundles {
     }
 
     this.exerciseBundles[id].stop();
+  }
+
+  /**
+   * Destroy.
+   */
+  destroy() {
+    H5P.externalDispatcher.off('xAPI', this.handleXAPI);
   }
 }

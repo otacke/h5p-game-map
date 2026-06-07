@@ -418,22 +418,28 @@ export default class MainInitialization {
    * Handle visibility change.
    */
   startVisibilityObserver() {
-    document.addEventListener('visibilitychange', () => {
-      const currentMapIndex = this.maps.getCurrentIndex();
-      const backgroundMusicKey = this.getBackgroundMusicKey(currentMapIndex);
+    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+  }
 
-      if (document.hidden) {
-        this.unmuteWhenVisible =
-          !this.params.jukebox.isMuted('backgroundMusicKey');
-        this.params.jukebox.muteAll();
+  /**
+   * Handle visibility change.
+   */
+  handleVisibilityChange() {
+    const currentMapIndex = this.maps.getCurrentIndex();
+    const backgroundMusicKey = this.getBackgroundMusicKey(currentMapIndex);
+
+    if (document.hidden) {
+      this.unmuteWhenVisible =
+        !this.params.jukebox.isMuted('backgroundMusicKey');
+      this.params.jukebox.muteAll();
+    }
+    else {
+      if (this.unmuteWhenVisible === true) {
+        this.params.jukebox.unmuteAll();
+        this.params.jukebox.play('backgroundMusicKey');
       }
-      else {
-        if (this.unmuteWhenVisible === true) {
-          this.params.jukebox.unmuteAll();
-          this.params.jukebox.play('backgroundMusicKey');
-        }
-      }
-    });
+    }
   }
 
   /**

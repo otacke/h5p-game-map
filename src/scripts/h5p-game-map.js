@@ -220,28 +220,27 @@ export default class GameMap extends H5P.Question {
       this.main.setFullscreen(false);
     });
 
-    const recomputeDimensions = () => {
-      if (H5P.isFullscreen) {
-        window.setTimeout(() => { // Needs time to rotate for window.innerHeight
-          this.main.setFullscreen(true);
-        }, FULL_SCREEN_DELAY_MEDIUM_MS);
-      }
-    };
-
     // Resize fullscreen dimensions when rotating screen
     if (screen?.orientation?.addEventListener) {
-      screen?.orientation?.addEventListener('change', () => {
-        recomputeDimensions();
-      });
+      screen.orientation.addEventListener('change', this.recomputeDimensions);
     }
     else {
       /*
       * `orientationchange` is deprecated, but guess what browser doesn't
       * support the Screen Orientation API ... From something with fruit.
       */
-      window.addEventListener('orientationchange', () => {
-        recomputeDimensions();
-      }, false);
+      window.addEventListener('orientationchange', this.recomputeDimensions, false);
+    }
+  }
+
+  /**
+   * Recompute dimensions.
+   */
+  recomputeDimensions() {
+    if (H5P.isFullscreen) {
+      window.setTimeout(() => { // Needs time to rotate for window.innerHeight
+        this.main.setFullscreen(true);
+      }, FULL_SCREEN_DELAY_MEDIUM_MS);
     }
   }
 
@@ -450,5 +449,19 @@ export default class GameMap extends H5P.Question {
    */
   cheat(params) {
     this.main.cheat(params);
+  }
+
+  /**
+   * Destroy.
+   */
+  destroy() {
+    this.main?.reset();
+    this.jukebox.stopAll();
+    this.main?.destroy();
+
+    if (this.recomputeDimensions) {
+      screen?.orientation?.removeEventListener?.('change', this.recomputeDimensions);
+      window.removeEventListener('orientationchange', this.recomputeDimensions, false);
+    }
   }
 }

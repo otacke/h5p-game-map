@@ -560,4 +560,12 @@ export default class Map {
     this.paths.reset(params.paths);
     this.stages.reset(params.stages);
   }
+
+  /**
+   * Destroy.
+   */
+  destroy() {
+    clearTimeout(this.resizeTimeout);
+    this.stages.destroy();
+  }
 }

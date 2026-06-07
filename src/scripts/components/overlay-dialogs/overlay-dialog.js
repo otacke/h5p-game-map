@@ -351,4 +351,14 @@ export default class OverlayDialog {
       this.callbacks.onClosed();
     }
   }
+
+  /**
+   * Destroy.
+   */
+  destroy() {
+    // Remove listeners on document in case the dialog is torn down while open.
+    document.removeEventListener('click', this.handleGlobalClick);
+    document.removeEventListener('keydown', this.handleKeyDown);
+    this.focusTrap.deactivate();
+  }
 }

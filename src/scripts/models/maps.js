@@ -525,4 +525,13 @@ export default class Maps {
 
     return true;
   }
+
+  /**
+   * Destroy.
+   */
+  destroy() {
+    this.maps.forEach((map) => {
+      map.destroy();
+    });
+  }
 }

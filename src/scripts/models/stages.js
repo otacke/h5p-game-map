@@ -56,10 +56,17 @@ export default class Stages {
 
     // Ensure that time bases restrictions are checked regularly
     if (this.stages.some((stage) => stage.hasTimeRestriction())) {
-      window.setInterval(() => {
+      this.checkRestrictionsInterval = window.setInterval(() => {
         this.updateStatePerRestrictions();
       }, DEFAULT_CHECK_RESTRICTIONS_INTERVAL_MS);
     }
+  }
+
+  /**
+   * Destroy.
+   */
+  destroy() {
+    window.clearInterval(this.checkRestrictionsInterval);
   }
 
   /**

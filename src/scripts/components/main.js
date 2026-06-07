@@ -100,19 +100,49 @@ export default class Main {
     this.maps.updateStagesStatePerRestrictions();
 
     // Reattach H5P.Question buttons and scorebar to endscreen
-    H5P.externalDispatcher.on('initialized', () => {
-      const feedbackWrapper = this.grabH5PQuestionFeedback({
-        maxScore: this.getMaxScore(),
-      });
+    this.handleH5PInitialized = this.handleH5PInitialized.bind(this);
+    H5P.externalDispatcher.on('initialized', this.handleH5PInitialized);
+  }
 
-      this.endScreen.setContent(feedbackWrapper);
-
-      const hasTitleScreen = this.params.globals.get('params').showTitleScreen;
-
-      if (this.gameDone && !hasTitleScreen) {
-        this.showEndscreen();
-      }
+  /**
+   * Handle H5P being initialized.
+   */
+  handleH5PInitialized() {
+    const feedbackWrapper = this.grabH5PQuestionFeedback({
+      maxScore: this.getMaxScore(),
     });
+
+    this.endScreen.setContent(feedbackWrapper);
+
+    const hasTitleScreen = this.params.globals.get('params').showTitleScreen;
+
+    if (this.gameDone && !hasTitleScreen) {
+      this.showEndscreen();
+    }
+  }
+
+  /**
+   * Destroy.
+   */
+  destroy() {
+    this.timer.stop();
+
+    // Clear pending timers that would otherwise keep this instance alive.
+    window.clearTimeout(this.stageAttentionSeekerTimeout);
+    window.clearTimeout(this.resizeTimeout);
+    window.clearTimeout(this.exersizeScreenResizeTimeout);
+    window.clearTimeout(this.settingsDialogResizeTimeout);
+
+    // Remove listeners attached to objects that outlive this instance.
+    H5P.externalDispatcher.off('initialized', this.handleH5PInitialized);
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+
+    // Tear down children.
+    this.maps.destroy();
+    this.toolbar.destroy();
+    this.exerciseBundles.destroy();
+    this.exerciseScreen.destroy();
+    this.settingsDialog.destroy();
   }
 
   /**
