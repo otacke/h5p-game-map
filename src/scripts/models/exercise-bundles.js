@@ -285,5 +285,9 @@ export default class ExerciseBundles {
    */
   destroy() {
     H5P.externalDispatcher.off('xAPI', this.handleXAPI);
+
+    Object.values(this.exerciseBundles).forEach((exerciseBundle) => {
+      exerciseBundle.destroy?.();
+    });
   }
 }

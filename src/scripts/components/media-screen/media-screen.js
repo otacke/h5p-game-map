@@ -204,7 +204,7 @@ export default class MediaScreen {
       this.dom.replaceChild(newVisuals, this.visuals);
       this.visuals = newVisuals;
 
-      Util.callOnceVisible(
+      this.visibilityObserver = Util.callOnceVisible(
         this.dom,
         () => {
           this.initMedia();
@@ -254,7 +254,7 @@ export default class MediaScreen {
       this.medium.params.visuals.fit = false;
     }
 
-    H5P.newRunnable(
+    this.mediumInstance = H5P.newRunnable(
       this.medium,
       this.params.contentId,
       H5P.jQuery(this.visuals),
@@ -298,5 +298,15 @@ export default class MediaScreen {
    */
   hide() {
     this.dom.classList.add('display-none');
+  }
+
+  /**
+   * Destroy the media screen and release its medium instance and observer.
+   */
+  destroy() {
+    this.visibilityObserver?.then?.((observer) => observer?.disconnect?.());
+    this.visibilityObserver = null;
+
+    this.mediumInstance = null;
   }
 }

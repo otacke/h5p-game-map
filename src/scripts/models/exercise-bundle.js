@@ -685,6 +685,19 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
   }
 
   /**
+   * Destroy bundle, stopping its timer and tearing down its exercises.
+   */
+  destroy() {
+    this.timer?.stop();
+    this.timer = null;
+
+    this.exercises.forEach((exercise) => {
+      exercise.destroy?.();
+    });
+    this.exercises = [];
+  }
+
+  /**
    * Set exercise state.
    * @param {number|string} state State constant.
    * @param {object} [params] Parameters.

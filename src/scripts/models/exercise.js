@@ -25,6 +25,9 @@ export default class Exercise {
       onScored: () => {},
     }, callbacks);
 
+    // Track bubbling listeners so they can be removed on destroy.
+    this.bubbleHandlers = [];
+
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-exercise-instance-wrapper');
 
@@ -274,7 +277,7 @@ export default class Exercise {
    * @param {object} target Target to trigger event on.
    */
   bubbleUp(origin, eventName, target) {
-    origin.on(eventName, (event) => {
+    const handler = (event) => {
       // Prevent target from sending event back down
       target.bubblingUpwards = true;
 
@@ -283,7 +286,10 @@ export default class Exercise {
 
       // Reset
       target.bubblingUpwards = false;
-    });
+    };
+
+    origin.on(eventName, handler);
+    this.bubbleHandlers.push({ origin, eventName, handler });
   }
 
   /**
@@ -293,7 +299,7 @@ export default class Exercise {
    * @param {object[]} targets Targets to trigger event on.
    */
   bubbleDown(origin, eventName, targets) {
-    origin.on(eventName, (event) => {
+    const handler = (event) => {
       if (origin.bubblingUpwards) {
         return; // Prevent send event back down.
       }
@@ -304,7 +310,24 @@ export default class Exercise {
           target.trigger(eventName, event);
         }
       });
+    };
+
+    origin.on(eventName, handler);
+    this.bubbleHandlers.push({ origin, eventName, handler });
+  }
+
+  /**
+   * Destroy exercise, releasing its sub-content instance and listeners.
+   */
+  destroy() {
+    this.bubbleHandlers.forEach(({ origin, eventName, handler }) => {
+      origin.off?.(eventName, handler);
     });
+    this.bubbleHandlers = [];
+
+    this.instance?.off?.('xAPI');
+    this.instance = null;
+    this.isAttached = false;
   }
 
   /**

@@ -143,6 +143,9 @@ export default class Main {
     this.exerciseBundles.destroy();
     this.exerciseScreen.destroy();
     this.settingsDialog.destroy();
+    this.startScreen?.destroy();
+    this.endScreen?.destroy();
+    this.confirmationDialog?.destroy();
   }
 
   /**

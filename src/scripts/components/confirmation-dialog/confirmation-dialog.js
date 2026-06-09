@@ -103,4 +103,15 @@ export default class ConfirmationDialog {
     this.dialog.hide();
     this.isShowing = false;
   }
+
+  /**
+   * Destroy, hiding the dialog and detaching its listeners.
+   */
+  destroy() {
+    this.hide();
+
+    this.dialog?.off('confirmed');
+    this.dialog?.off('canceled');
+    this.dialog = null;
+  }
 }
