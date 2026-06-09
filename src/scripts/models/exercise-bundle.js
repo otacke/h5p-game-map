@@ -760,7 +760,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     if (score === undefined) {
       delete this.cheatScore;
     }
-    else if (typeof score === 'number' && score > 0) {
+    else if (typeof score === 'number' && score >= 0) {
       this.cheatScore = score;
 
       this.callbacks.onScoreChanged({
