@@ -547,4 +547,18 @@ export default class Jukebox {
   has(id) {
     return this.audios.has(id);
   }
+
+  /**
+   * Destroy jukebox and release its audio resources.
+   */
+  destroy() {
+    this.stopAll();
+    this.audios.clear();
+    this.queued = [];
+
+    if (this.audioContext && this.audioContext.state !== 'closed') {
+      this.audioContext.close?.()?.catch?.(() => {});
+    }
+    this.audioContext = null;
+  }
 }

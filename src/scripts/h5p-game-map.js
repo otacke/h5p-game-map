@@ -456,7 +456,7 @@ export default class GameMap extends H5P.Question {
    */
   destroy() {
     this.main?.reset();
-    this.jukebox.stopAll();
+    this.jukebox.destroy();
     this.main?.destroy();
 
     if (this.recomputeDimensions) {

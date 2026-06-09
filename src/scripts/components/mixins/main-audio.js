@@ -36,7 +36,7 @@ export default class MainAudio {
     const currentMapIndex = this.maps.getCurrentIndex();
     const backgroundMusicKey = this.getBackgroundMusicKey(currentMapIndex);
 
-    if (this.params.jukebox.audioContext.state === 'suspended') {
+    if (this.params.jukebox.audioContext?.state === 'suspended') {
       await this.params.jukebox.audioContext.resume();
       this.params.jukebox.unmuteAll();
       return this.params.jukebox.play(backgroundMusicKey);
