@@ -61,6 +61,10 @@ export default class MainCheats {
       this.cheatSetStageScore(stageParams.id, stageParams.score);
       this.cheatSetStageTime(stageParams.id, stageParams.timeLeftS);
     });
+
+    console.log('"');
+
+    this.toolbar.toggleHintFinishButton(this.getScore() >= this.getMaxScore());
   }
 
   /**
