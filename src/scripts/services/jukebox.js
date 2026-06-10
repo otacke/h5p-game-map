@@ -235,11 +235,20 @@ export default class Jukebox {
     }
 
     if (this.audioContext.state === 'suspended') {
-      this.audioContext.resume().then(() => {
-        this.play(id); // retry
-      }).catch((error) => {
-        console.warn('Failed to resume audio context:', error);
-      });
+      // Only resume once; retrying unconditionally loops forever when context resolves while still suspended
+      if (!this.isResuming) {
+        this.isResuming = true;
+        this.audioContext.resume().then(() => {
+          this.isResuming = false;
+          // Retry only if the context actually started and still exists.
+          if (this.audioContext?.state === 'running') {
+            this.play(id);
+          }
+        }).catch((error) => {
+          this.isResuming = false;
+          console.warn('Failed to resume audio context:', error);
+        });
+      }
 
       return false;
     }
@@ -555,6 +564,7 @@ export default class Jukebox {
     this.stopAll();
     this.audios.clear();
     this.queued = [];
+    this.isResuming = false;
 
     if (this.audioContext && this.audioContext.state !== 'closed') {
       this.audioContext.close?.()?.catch?.(() => {});
