@@ -2,6 +2,7 @@ build
 node_modules
 reports
 tests
+test-results
 dev
 src
 .idea
