@@ -75,6 +75,7 @@ test.describe('demo', () => {
 
   test.describe('complete 1st stage', () => {
     test ('does open 1st stage (unlocked)', async () => {
+      // Click fails. No clue why
       await h5pContainer.getByLabel('Stage: Animals on Greenland', { exact: true }).click();
       await Promise.all([
         expect(overlay).toBeVisible(),
