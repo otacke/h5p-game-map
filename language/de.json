@@ -237,7 +237,7 @@
                                           "label": "abgeschlossen"
                                         },
                                         {
-                                          "label": "erfolgreich abgeschlosssen"
+                                          "label": "erfolgreich abgeschlossen"
                                         }
                                       ]
                                     }
@@ -340,7 +340,7 @@
                       "label": "Link zu externem Inhalt"
                     },
                     {
-                      "label": "Teleport to another stage"
+                      "label": "Teleportiere zu anderer Etappe"
                     }
                   ]
                 },
