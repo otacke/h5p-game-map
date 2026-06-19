@@ -1,9 +1,7 @@
 import Timer from '@services/timer.js';
-import Util from '@services/util.js';
+import Util, { pickFromArray } from '@services/util.js';
 import Exercise from '@models/exercise.js';
-
-/** @constant {number} MS_IN_S Milliseconds in a second. */
-const MS_IN_S = 1000;
+import { MS_IN_S, ROAMING_TYPES, STAGE_STATES } from '@services/constants.js';
 
 const XAPI_DEFAULT_DESCRIPTION = 'Game Map Exercise Bundle';
 
@@ -34,8 +32,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     super();
 
     this.params = params;
-    this.params.state = this.params.state ?? this.params.globals.get('states').unstarted;
-
+    this.params.state = this.params.state ?? STAGE_STATES.UNSTARTED;
     this.callbacks = Util.extend({
       onStateChanged: () => {},
       onScoreChanged: () => {},
@@ -53,26 +50,56 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     this.contentId = this.parent.contentId;
     this.subContentId = this.params.previousState?.subContentId ?? H5P.createUUID();
 
-    this.setState(this.params.globals.get('states').unstarted);
-    for (const exerciseIndex in params.contentsList) {
-      const previousState = this.params.previousState?.instances?.[exerciseIndex];
+    this.setState(STAGE_STATES.UNSTARTED);
 
-      const contentType = params.contentsList[exerciseIndex].contentType;
+    this.dom = document.createElement('div');
+    this.dom.classList.add('h5p-game-map-exercise-bundle');
+
+    this.rebuild();
+  }
+
+  /**
+   * Rebuild.
+   */
+  rebuild() {
+    this.exercises = [];
+
+    const contentSelector =
+      this.params.previousState.pickedContentIndexes ?? this.params.stageBehaviour.randomExerciseCount;
+
+    const selectedContentsData = pickFromArray(this.params.contentsList, contentSelector);
+    if (contentSelector !== undefined) {
+      this.pickedContentIndexes = selectedContentsData.indexes;
+    }
+
+    selectedContentsData.indexes.forEach((exerciseIndex) => {
+      const previousState = this.params.previousState?.instances?.[exerciseIndex];
+      const contentType = this.params.contentsList[exerciseIndex].contentType;
+      const livesSettings = this.params.contentsList[exerciseIndex].livesSettings;
+      const subContentId = contentType.subContentId;
+
+      const scoreScalingList = this.params.scoreScaling?.scoreScalingList ?? [];
+      const scalingItem = scoreScalingList.find((scaling) => scaling.subContentId === subContentId);
+      const weight = scalingItem?.weight ?? 0;
+
       this.exercises.push(
         new Exercise(
           {
             contentType: contentType,
+            livesSettings: livesSettings,
             isInitial: this.params.isInitial,
             dictionary: this.params.dictionary,
             globals: this.params.globals,
             jukebox: this.params.jukebox,
             previousState: previousState,
+            parent: this,
+            weight: weight,
           },
           {
             onInitialized: (params) => {
               window.setTimeout(() => {
-                params.score = this.getScore();
-                params.maxScore = this.getMaxScore();
+                params.score = this.getWeightedScore();
+                params.maxScore = this.getWeightedMaxScore();
                 this.callbacks.onInitialized(params);
               }, 0);
             },
@@ -82,10 +109,30 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
           },
         ),
       );
+    });
+
+    if (!Object.keys(this.params.scoreScaling).length) {
+      this.exercises.forEach((exercise) => {
+        if (!exercise.isTask()) {
+          return;
+        }
+
+        exercise.setWeight(1);
+      });
+    }
+    else if (this.params.scoreScaling.scalingMode === 'totalScore' && this.params.scoreScaling.totalScore) {
+      const maxScoreOfAllTasks = this.getMaxScore(); // Important to get original max score before weights are applied
+      const weight = this.params.scoreScaling.totalScore / maxScoreOfAllTasks;
+      this.exercises.forEach((exercise) => {
+        if (!exercise.isTask()) {
+          return;
+        }
+
+        exercise.setWeight(weight);
+      });
     }
 
-    this.dom = document.createElement('div');
-    this.dom.classList.add('h5p-game-map-exercise-bundle');
+    this.dom.innerHTML = '';
     this.exercises.forEach((exercise) => {
       this.dom.appendChild(exercise.getDOM());
     });
@@ -104,26 +151,31 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
           this.callbacks.onContinued();
         },
         false,
+        { classes: 'h5p-question-game-map-continue' },
       );
     }
     else {
       delete this.continueButtonInstance;
 
-      this.continueButton = document.createElement('button');
-      this.continueButton.classList.add(
-        'h5p-joubelui-button',
-        'h5p-game-map-exercise-instance-continue-button',
-        'display-none',
-      );
-      this.continueButton.setAttribute('disabled', 'disabled');
-      this.continueButton.innerText =
-        this.params.dictionary.get('l10n.continue');
-      this.continueButton.addEventListener('click', () => {
-        this.callbacks.onContinued();
+      this.continueButton = H5P.Components.Button({
+        label: this.params.dictionary.get('l10n.continue'),
+        icon: 'continue',
+        classes: ['h5p-game-map-exercise-instance-continue-button'],
+        onClick: () => {
+          this.callbacks.onContinued();
+        },
       });
 
       this.dom.append(this.continueButton);
     }
+  }
+
+  /**
+   * Determine whether the bundle contains at least one task.
+   * @returns {boolean} True if bundle contains at least one task, false otherwise.
+   */
+  containsTask() {
+    return this.exercises.some((exercise) => exercise.isTask());
   }
 
   /**
@@ -206,7 +258,10 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     else {
       timeLimit = (this.params.time?.timeLimit ?? -1) * MS_IN_S;
       this.isCompleted = false;
-      state = this.params.globals.get('states').unstarted;
+      state = STAGE_STATES.UNSTARTED;
+      delete this.params.previousState.pickedContentIndexes;
+      delete this.pickedContentIndexes;
+      this.rebuild();
     }
 
     if (timeLimit > -1) {
@@ -217,7 +272,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
             this.handleTimeout();
           },
           onTick: () => {
-            this.timeLeft = this.timer.getTime();
+            this.setRemainingTime(this.timer.getTime());
             const isTimeoutWarning = this.isTimeoutWarning();
 
             this.callbacks.onTimerTicked(
@@ -282,10 +337,90 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
   }
 
   /**
+   * Get information about lives settings for exercises which have it, formatted for display.
+   * @returns {object} Lives info for exercises which have lives settings, formatted for display.
+   */
+  getLivesInfo() {
+    const infos = this.exercises
+      .map((exercise) => exercise.getLivesInfo())
+      .filter((info) => !!info && info.isTask);
+
+    let rules = [];
+    if (infos.length) {
+      const allRulesAreTheSame = infos.every((info) => info.passPercentage === infos[0].passPercentage);
+
+      if (allRulesAreTheSame) {
+        if (infos[0].passPercentage === 0) {
+          rules = [];
+        }
+        else if (infos[0].passPercentage === 100) {
+          rules = [{
+            rule: this.params.dictionary.get('l10n.loseLifeIfNotFullScore'),
+          }];
+        }
+        else {
+          rules = [{
+            rule: this.params.dictionary.get('l10n.loseLifeIfBelowPercentage')
+              .replace('@percentage', infos[0].passPercentage),
+          }];
+        }
+      }
+      else {
+        rules = infos.map((info) => {
+          if (!info.passPercentage) {
+            return {
+              title: info.title,
+              rule: this.params.dictionary.get('l10n.neverLoseLives'),
+            };
+          }
+          else if (info.passPercentage === 100) {
+            return {
+              title: info.title,
+              rule: this.params.dictionary.get('l10n.loseLifeIfNotFullScore'),
+            };
+          }
+          else {
+            return {
+              title: info.title,
+              rule: this.params.dictionary.get('l10n.loseLifeIfBelowPercentage')
+                .replace('@percentage', info.passPercentage),
+            };
+          }
+        });
+      }
+    }
+
+    return {
+      intro: this.params.dictionary.get('l10n.livesInfoIntro'),
+      rules: rules,
+    };
+  }
+
+  /**
+   * Get score info.
+   * @returns {string|undefined} Message or undefined if no score info.
+   */
+  getScoreInfo() {
+    if (this.getMaxScore() === this.getWeightedMaxScore()) {
+      return;
+    }
+
+    return this.params.dictionary.get('l10n.maxScoreAdjusted');
+  }
+
+  /**
    * Get score of all exercises.
    * @returns {number} Score.
    */
   getScore() {
+    if (!this.containsTask()) {
+      return 0;
+    }
+
+    if (typeof this.cheatScore === 'number') {
+      return this.cheatScore;
+    }
+
     let score = 0;
 
     this.exercises.forEach((exercise) => {
@@ -296,8 +431,24 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
   }
 
   /**
+   * Get weighted score of all exercises.
+   * @returns {number} Weighted score.
+   */
+  getWeightedScore() {
+    if (!this.containsTask()) {
+      return 0;
+    }
+
+    if (typeof this.cheatScore === 'number') {
+      return this.cheatScore;
+    }
+
+    return this.exercises.reduce((total, exercise) => total + exercise.getWeightedScore(), 0);
+  }
+
+  /**
    * Get maximum score of all exercises.
-   * @returns {number} Score.
+   * @returns {number} Max score.
    */
   getMaxScore() {
     let maxScore = 0;
@@ -307,6 +458,23 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     });
 
     return maxScore;
+  }
+
+  /**
+   * Get weighted maximum score of all exercises.
+   * @returns {number} Weighted max score.
+   */
+  getWeightedMaxScore() {
+    if (!this.containsTask()) {
+      return 0;
+    }
+
+    if (this.params.scoreScaling.scalingMode === 'totalScore' && this.params.scoreScaling.totalScore) {
+      return this.params.scoreScaling.totalScore;
+    }
+
+    // We could use this only, but using the integer totalScore if we have it feels less prone to rounding issues.
+    return Math.round(this.exercises.reduce((total, exercise) => total + exercise.getWeightedMaxScore(), 0));
   }
 
   /**
@@ -332,6 +500,19 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
    */
   getRemainingTime() {
     return this.timeLeft;
+  }
+
+  /**
+   * Set remaining time.
+   * @param {number} timeMs Remaining time in milliseconds.
+   */
+  setRemainingTime(timeMs) {
+    if (!this.timer || (typeof timeMs !== 'number')) {
+      return;
+    }
+
+    this.timer.setTime(timeMs);
+    this.timeLeft = timeMs;
   }
 
   /**
@@ -366,6 +547,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       remainingTime: remainingTime,
       isCompleted: this.isCompleted,
       instances: instances,
+      ...(!!this.pickedContentIndexes && { pickedContentIndexes: this.pickedContentIndexes }),
     };
   }
 
@@ -392,11 +574,11 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
 
     if (verb === 'completed' || verb === 'answered') {
       xAPIEvent.setScoredResult(
-        this.getScore(), // Question Type Contract mixin
-        this.getMaxScore(), // Question Type Contract mixin
+        this.getWeightedScore(), // Question Type Contract mixin
+        this.getWeightedMaxScore(), // Question Type Contract mixin
         this, // setScoredResult will try to find `activityStartTime` on a real instance
         true,
-        this.getScore() === this.getMaxScore(),
+        Math.round(this.getWeightedScore()) >= Math.round(this.getWeightedMaxScore()),
       );
     }
 
@@ -483,7 +665,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       this.timer?.start(remainingTime);
     }
 
-    this.setState(this.params.globals.get('states').opened);
+    this.setState(STAGE_STATES.OPENED);
 
     this.setActivityStarted(); // inherited
     this.exercises.forEach((exercise) => {
@@ -503,16 +685,27 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
   }
 
   /**
+   * Destroy bundle, stopping its timer and tearing down its exercises.
+   */
+  destroy() {
+    this.timer?.stop();
+    this.timer = null;
+
+    this.exercises.forEach((exercise) => {
+      exercise.destroy?.();
+    });
+    this.exercises = [];
+  }
+
+  /**
    * Set exercise state.
    * @param {number|string} state State constant.
    * @param {object} [params] Parameters.
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {
-    const states = this.params.globals.get('states');
-
     if (typeof state === 'string') {
-      state = Object.entries(states)
+      state = Object.entries(STAGE_STATES)
         .find((entry) => entry[0] === state)[1];
     }
 
@@ -523,21 +716,21 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     let newState;
 
     if (params.force) {
-      newState = states[state];
+      newState = state;
     }
-    else if (state === states.unstarted) {
-      newState = states.unstarted;
+    else if (state === STAGE_STATES.UNSTARTED) {
+      newState = STAGE_STATES.UNSTARTED;
     }
-    else if (state === states.opened) {
+    else if (state === STAGE_STATES.OPENED) {
       // Exercises which are not tasks are automatically cleared after opening
       this.hasTask = this.hasTask ?? this.exercises.some((exercise) => exercise.isTask());
-      newState = this.hasTask ? states.opened : states.cleared;
+      newState = this.hasTask ? STAGE_STATES.OPENED : STAGE_STATES.CLEARED;
     }
-    else if (state === states.completed) {
-      newState = states.completed;
+    else if (state === STAGE_STATES.COMPLETED) {
+      newState = STAGE_STATES.COMPLETED;
     }
-    else if (state === states.cleared) {
-      newState = states.cleared;
+    else if (state === STAGE_STATES.CLEARED) {
+      newState = STAGE_STATES.CLEARED;
     }
 
     if (!this.state || this.state !== newState) {
@@ -573,24 +766,47 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
   }
 
   /**
+   * Set cheat score.
+   * @param {number} score Cheat score to set.
+   */
+  setCheatScore(score) {
+    if (score === undefined) {
+      delete this.cheatScore;
+    }
+    else if (typeof score === 'number' && score >= 0) {
+      this.cheatScore = score;
+
+      this.callbacks.onScoreChanged({
+        score: this.getWeightedScore(),
+        maxScore: this.getWeightedMaxScore(),
+        bundleCompleted: this.isCompleted,
+        exerciseSuccessful: true, // Prevent loss of life handler
+        scoreBelowLifeThreshold: false, // Prevent loss of life handler
+      });
+    }
+  }
+
+  /**
    * Handle exercise scored.
    * @param {object} [params] Parameters.
    */
   handleScored(params = {}) {
+    this.setCheatScore(); // In case a cheat score was set, use real score again.
+
     const roaming = this.params.globals.get('params').behaviour.map.roaming;
     this.isCompleted = this.exercises.every((exercise) => exercise.wasCompleted());
     const allExercisesSuccessful = this.exercises.every((exercise) => exercise.wasSuccessful());
 
     // Completed state
     if (allExercisesSuccessful) {
-      this.setState(this.params.globals.get('states').cleared);
+      this.setState(STAGE_STATES.CLEARED);
       // Ensure that exercise statement is triggered before
       window.requestAnimationFrame(() => {
         this.triggerXAPIEvent('completed');
       });
     }
     else if (this.isCompleted) {
-      this.setState(this.params.globals.get('states').completed);
+      this.setState(STAGE_STATES.COMPLETED);
       // Ensure that exercise statement is triggered before
       window.requestAnimationFrame(() => {
         this.triggerXAPIEvent('completed');
@@ -599,9 +815,9 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
 
     // Stop timer and allow continue
     if (
-      roaming === 'free' ||
-      roaming === 'complete' && this.isCompleted ||
-      roaming === 'success' && allExercisesSuccessful
+      roaming === ROAMING_TYPES.FREE ||
+      roaming === ROAMING_TYPES.COMPLETE && this.isCompleted ||
+      roaming === ROAMING_TYPES.SUCCESS && allExercisesSuccessful
     ) {
       this.stop();
 
@@ -614,11 +830,14 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       }
     }
 
+    this.params.globals.get('resize')();
+
     this.callbacks.onScoreChanged({
-      score: this.getScore(),
-      maxScore: this.getMaxScore(),
+      score: this.getWeightedScore(),
+      maxScore: this.getWeightedMaxScore(),
       bundleCompleted: this.isCompleted,
       exerciseSuccessful: params.successful,
+      scoreBelowLifeThreshold: params.scoreBelowLifeThreshold,
     });
   }
 }

@@ -56,7 +56,7 @@ export default class MainUserConfirmation {
   handleConfirmedFinish() {
     this.gameDone = true;
     this.queueAnimation = [];
-    this.stages.togglePlayfulness(false);
+    this.maps.toggleStagesPlayfulness(false);
     this.params.jukebox.stopAll();
     this.timer?.stop();
 
@@ -70,7 +70,7 @@ export default class MainUserConfirmation {
    */
   showGameOverConfirmation(dialogKey = 'confirmGameOverDialog') {
     this.gameDone = true;
-    this.stages.togglePlayfulness(false);
+    this.maps.toggleStagesPlayfulness(false);
 
     this.confirmationDialog.update(
       {

@@ -1,6 +1,6 @@
 .h5p-game-map-confirmation-dialog {
   .h5p-confirmation-dialog-popup {
-    min-width: 15rem;
+    min-width: calc(15 * var(--h5p-theme-spacing-s));
 
     .h5p-confirmation-dialog-exit {
       padding: 1px 6px; /* Workaround for H5P core on iOS */

@@ -21,392 +21,534 @@
       "description": "Optionele kop voor de titelbalk."
     },
     {
-      "label": "Gamemap-editor",
-      "fields": [
+      "label": "Spelkaarten",
+      "entity": "Spelkaart",
+      "widgets": [
         {
-          "label": "Achtergrond",
-          "fields": [
-            {
-              "label": "Achtergrondafbeelding",
-              "description": "Selecteer een afbeelding om te gebruiken als achtergrond van de spelkaart."
-            },
-            {
-              "label": "Background color",
-              "description": "Choose a color to use as the background of the game map."
-            }
-          ]
-        },
-        {
-          "label": "Spelkaart",
-          "fields": [
-            {},
-            {
+          "label": "Standaard"
+        }
+      ],
+      "field": {
+        "label": "Spelkaart",
+        "fields": [
+          {
+            "label": "Elementen",
+            "entity": "Element",
+            "field": {
               "label": "Elementen",
-              "entity": "Element",
-              "field": {
-                "label": "Elementen",
-                "fields": [
-                  {
-                    "label": "Id"
-                  },
-                  {
-                    "label": "Type"
-                  },
-                  {
-                    "label": "Label van fase",
-                    "description": "Dit label wordt bovenop je oefening weergegeven en helpt je om verschillende fases met elkaar te verbinden."
-                  },
-                  {
-                    "label": "De gebruiker kan hier beginnen",
-                    "description": "Indien aangevinkt, zal deze fase een fase zijn waar de gebruiker mee begint. Indien geen enkele fase of meer dan één fase de start-fase kan zijn, wordt de start-fase willekeurig gekozen."
-                  },
-                  {
-                    "label": "Tijdslimiet.",
-                    "description": "Definieer timergerelateerde instellingen.",
-                    "fields": [
-                      {
-                        "label": "Tijdslimiet",
-                        "description": "Optionele tijdslimiet in seconden. Als een gebruiker deze tijd overschrijdt, wordt de oefening afgesloten, gereset en verliest de gebruiker een leven als het aantal levens beperkt is."
-                      },
-                      {
-                        "label": "time-out waarschuwingstijd",
-                        "description": "Optioneel instellen wanneer een time-outwaarschuwingsaudio moet worden afgespeeld (aantal resterende seconden). Er moet een audio worden ingesteld in de audio-instellingen."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Toegangsbeperkingen",
-                    "description": "Definieer beperkingen voor ontgrendeling.",
-                    "fields": [
-                      {
-                        "label": "All or any restriction set",
-                        "description": "Choose if all or any of the following restrictions need to be met.",
-                        "options": [
-                          {
-                            "label": "All"
-                          },
-                          {
-                            "label": "Any"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Restriction sets",
-                        "entity": "restriction set",
-                        "widgets": [
-                          {
-                            "label": "Default"
-                          }
-                        ],
-                        "field": {
-                          "label": "Restriction set",
-                          "fields": [
-                            {
-                              "label": "All or any restriction",
-                              "description": "Choose if all or any of the following restrictions need to be met.",
-                              "options": [
-                                {
-                                  "label": "All"
-                                },
-                                {
-                                  "label": "Any"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Restrictions",
-                              "entity": "restriction",
-                              "field": {
-                                "label": "Restriction",
-                                "fields": [
-                                  {
-                                    "label": "Restriction type",
-                                    "options": [
-                                      {
-                                        "label": "Total score"
-                                      },
-                                      {
-                                        "label": "Stage score"
-                                      },
-                                      {
-                                        "label": "Stage progress"
-                                      },
-                                      {
-                                        "label": "Time"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Total score",
-                                    "fields": [
-                                      {
-                                        "label": "Operator for total score",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Value of total score to compare"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage score",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get score from"
-                                      },
-                                      {
-                                        "label": "Operator for stage score",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Stage score to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage progress",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get progress from"
-                                      },
-                                      {
-                                        "label": "Operator for stage progress",
-                                        "options": [
-                                          {
-                                            "label": "is"
-                                          },
-                                          {
-                                            "label": "is not"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Progress to compare to",
-                                        "options": [
-                                          {
-                                            "label": "not started"
-                                          },
-                                          {
-                                            "label": "started"
-                                          },
-                                          {
-                                            "label": "completed"
-                                          },
-                                          {
-                                            "label": "completed successfully"
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Time",
-                                    "fields": [
-                                      {
-                                        "label": "Operator for time",
-                                        "options": [
-                                          {
-                                            "label": "before"
-                                          },
-                                          {
-                                            "label": "is"
-                                          },
-                                          {
-                                            "label": "is not"
-                                          },
-                                          {
-                                            "label": "after"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Time to compare to"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "dummy"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Contents",
-                    "entity": "content",
-                    "widgets": [
-                      {
-                        "label": "Default"
-                      }
-                    ],
-                    "field": {
-                      "label": "Content",
-                      "fields": [
+              "fields": [
+                {
+                  "label": "Id"
+                },
+                {
+                  "label": "Type"
+                },
+                {
+                  "label": "Label van fase",
+                  "description": "Dit label wordt bovenop je oefening weergegeven en helpt je om verschillende fases met elkaar te verbinden."
+                },
+                {
+                  "label": "Tijdslimiet.",
+                  "description": "Definieer timergerelateerde instellingen.",
+                  "fields": [
+                    {
+                      "label": "Tijdslimiet.",
+                      "description": "Optionele tijdslimiet in seconden. Als een gebruiker deze tijd overschrijdt, wordt de oefening afgesloten, gereset en verliest de gebruiker een leven als het aantal levens beperkt is."
+                    },
+                    {
+                      "label": "Time-out waarschuwingstijd",
+                      "description": "Optioneel instellen wanneer een time-out waarschuwingsaudio moet worden afgespeeld (aantal resterende seconden). Er moet een audio worden ingesteld in de audio-instellingen."
+                    }
+                  ]
+                },
+                {
+                  "label": "Toegangsbeperkingen",
+                  "description": "Definieer beperkingen voor ontgrendeling.",
+                  "fields": [
+                    {
+                      "label": "All or any restriction set",
+                      "description": "Choose if all or any of the following restrictions need to be met.",
+                      "options": [
                         {
-                          "label": "Inhoud fase",
-                          "description": "Kies het type inhoud dat je wil toevoegen."
+                          "label": "All"
                         },
                         {
-                          "label": "Dummy"
+                          "label": "Any"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Restriction sets",
+                      "entity": "restriction set",
+                      "widgets": [
+                        {
+                          "label": "Standaard"
+                        }
+                      ],
+                      "field": {
+                        "label": "Restriction set",
+                        "fields": [
+                          {
+                            "label": "All or any restriction",
+                            "description": "Choose if all or any of the following restrictions need to be met.",
+                            "options": [
+                              {
+                                "label": "All"
+                              },
+                              {
+                                "label": "Any"
+                              }
+                            ]
+                          },
+                          {
+                            "label": "Restrictions",
+                            "entity": "restriction",
+                            "field": {
+                              "label": "Restriction",
+                              "fields": [
+                                {
+                                  "label": "Restriction type",
+                                  "options": [
+                                    {
+                                      "label": "Total score"
+                                    },
+                                    {
+                                      "label": "Stage score"
+                                    },
+                                    {
+                                      "label": "Stage score percentage"
+                                    },
+                                    {
+                                      "label": "Stage progress"
+                                    },
+                                    {
+                                      "label": "Time"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Total score",
+                                  "fields": [
+                                    {
+                                      "label": "Operator for total score",
+                                      "options": [
+                                        {
+                                          "label": "less than"
+                                        },
+                                        {
+                                          "label": "equal to"
+                                        },
+                                        {
+                                          "label": "not equal to"
+                                        },
+                                        {
+                                          "label": "greater than"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Value of total score to compare"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Stage score",
+                                  "fields": [
+                                    {
+                                      "label": "Stage to get score from"
+                                    },
+                                    {
+                                      "label": "Operator for stage score",
+                                      "options": [
+                                        {
+                                          "label": "less than"
+                                        },
+                                        {
+                                          "label": "equal to"
+                                        },
+                                        {
+                                          "label": "not equal to"
+                                        },
+                                        {
+                                          "label": "greater than"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Stage score to compare to"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Stage score percentage",
+                                  "fields": [
+                                    {
+                                      "label": "Stage to get score percentage from"
+                                    },
+                                    {
+                                      "label": "Operator for stage score percentage",
+                                      "options": [
+                                        {
+                                          "label": "less than"
+                                        },
+                                        {
+                                          "label": "equal to"
+                                        },
+                                        {
+                                          "label": "not equal to"
+                                        },
+                                        {
+                                          "label": "greater than"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Stage score percentage to compare to"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Stage progress",
+                                  "fields": [
+                                    {
+                                      "label": "Stage to get progress from"
+                                    },
+                                    {
+                                      "label": "Operator for stage progress",
+                                      "options": [
+                                        {
+                                          "label": "is"
+                                        },
+                                        {
+                                          "label": "is not"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Progress to compare to",
+                                      "options": [
+                                        {
+                                          "label": "not started"
+                                        },
+                                        {
+                                          "label": "started"
+                                        },
+                                        {
+                                          "label": "completed"
+                                        },
+                                        {
+                                          "label": "completed successfully"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Time",
+                                  "fields": [
+                                    {
+                                      "label": "Operator for time",
+                                      "options": [
+                                        {
+                                          "label": "before"
+                                        },
+                                        {
+                                          "label": "is"
+                                        },
+                                        {
+                                          "label": "is not"
+                                        },
+                                        {
+                                          "label": "after"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Time to compare to"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "label": "dummy"
+                    }
+                  ]
+                },
+                {
+                  "label": "Contents",
+                  "entity": "content",
+                  "widgets": [
+                    {
+                      "label": "Standaard"
+                    }
+                  ],
+                  "field": {
+                    "label": "Content",
+                    "fields": [
+                      {
+                        "label": "Inhoud fase",
+                        "description": "Kies het type inhoud dat je wil toevoegen."
+                      },
+                      {
+                        "label": "Levens",
+                        "fields": [
+                          {
+                            "label": "Losing a live",
+                            "description": "Select when the user should lose a life for this content based on scores.",
+                            "options": [
+                              {
+                                "label": "Use behavioural setting"
+                              },
+                              {
+                                "label": "Never"
+                              },
+                              {
+                                "label": "When the score percentage of this content is below a custom value"
+                              },
+                              {
+                                "label": "When the user does not achieve full score"
+                              }
+                            ]
+                          },
+                          {
+                            "label": "Pass percentage",
+                            "description": "Set to the minumum score percentage required to not lose a life."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "label": "Speciaal type fase",
+                  "options": [
+                    {
+                      "label": "Beëindigen"
+                    },
+                    {
+                      "label": "Extra leven"
+                    },
+                    {
+                      "label": "Extra tijd"
+                    },
+                    {
+                      "label": "Link to external content"
+                    },
+                    {
+                      "label": "Teleport to another stage"
+                    }
+                  ]
+                },
+                {
+                  "label": "Aantal extra levens",
+                  "description": "Stel in hoeveel levens de gebruiker krijgt als hij deze fase betreedt."
+                },
+                {
+                  "label": "Aantal seconden extra tijd",
+                  "description": "Stel in hoeveel seconden de gebruiker wint voor de globale tijdslimiet bij het betreden van deze fase"
+                },
+                {
+                  "label": "URL to link to",
+                  "description": "Set where the user should be sent to when opening this stage."
+                },
+                {
+                  "label": "Place to open link in",
+                  "options": [
+                    {
+                      "label": "New tab"
+                    },
+                    {
+                      "label": "Same tab"
+                    }
+                  ]
+                },
+                {
+                  "label": "Teleport stage to teleport to",
+                  "description": "Note that you always need to pair two teleport stages and that the following list only shows teleport stages that are not linked to another teleport stage yet."
+                },
+                {
+                  "label": "Always visible",
+                  "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
+                },
+                {
+                  "label": "Override lock symbol",
+                  "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type."
+                },
+                {
+                  "label": "Stage behaviour",
+                  "fields": [
+                    {
+                      "label": "De gebruiker kan hier beginnen",
+                      "description": "Indien aangevinkt, zal deze fase een fase zijn waar de gebruiker mee begint. Indien geen enkele fase of meer dan één fase de start-fase kan zijn, wordt de start-fase willekeurig gekozen."
+                    },
+                    {
+                      "label": "Pick random exercises for this stage"
+                    },
+                    {
+                      "label": "Number of randomly chosen exercises",
+                      "description": "Set the number of exercises to choose randomly for this stage."
+                    },
+                    {
+                      "label": "Uniform total score",
+                      "description": "Set the total score for this stage regardless of what exercises are picked."
+                    }
+                  ]
+                },
+                {
+                  "label": "Score scaling",
+                  "fields": [
+                    {
+                      "label": "Scaling mode",
+                      "description": "Choose what scaling should be based on",
+                      "options": [
+                        {
+                          "label": "Set total score of all exercises"
+                        },
+                        {
+                          "label": "Set total score per exercise"
+                        },
+                        {
+                          "label": "Set weights per exercise"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Content score customizations",
+                      "description": "Adjust the weights/total scores of exercises to customize scoring",
+                      "entity": "scaling setting",
+                      "field": {
+                        "label": "Score scaling group",
+                        "fields": [
+                          {
+                            "label": "Subcontent id"
+                          },
+                          {
+                            "label": "Weight"
+                          },
+                          {
+                            "label": "Is task"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "label": "Total score"
+                    },
+                    {
+                      "label": "Weight is percentage"
+                    }
+                  ]
+                },
+                {
+                  "label": "Verbonden fases"
+                },
+                {
+                  "label": "Telemetrie"
+                }
+              ]
+            }
+          },
+          {
+            "label": "Paden",
+            "entity": "path",
+            "field": {
+              "label": "Path",
+              "fields": [
+                {
+                  "label": "From"
+                },
+                {
+                  "label": "To"
+                },
+                {
+                  "label": "Visuele instellingen",
+                  "options": [
+                    {
+                      "label": "Use global settings"
+                    },
+                    {
+                      "label": "Use custom settings"
+                    }
+                  ]
+                },
+                {
+                  "label": "Custom visual settings",
+                  "fields": [
+                    {
+                      "label": "Kleur pad"
+                    },
+                    {
+                      "label": "Breedte pad",
+                      "options": [
+                        {
+                          "label": "dun"
+                        },
+                        {
+                          "label": "medium"
+                        },
+                        {
+                          "label": "dik"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Path stijl",
+                      "options": [
+                        {
+                          "label": "Volle lijn"
+                        },
+                        {
+                          "label": "Puntjes"
+                        },
+                        {
+                          "label": "Streepjes"
+                        },
+                        {
+                          "label": "Dubbel"
                         }
                       ]
                     }
-                  },
-                  {
-                    "label": "Speciaal type fase",
-                    "options": [
-                      {
-                        "label": "Finish"
-                      },
-                      {
-                        "label": "Extra leven"
-                      },
-                      {
-                        "label": "Extra tijd"
-                      },
-                      {
-                        "label": "Link to external content"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Aantal extra levens",
-                    "description": "Stel in hoeveel levens de gebruiker krijgt als hij deze fase betreedt."
-                  },
-                  {
-                    "label": "Aantal seconden extra tijd",
-                    "description": "Stel in hoeveel seconden de gebruiker wint voor de globale tijdslimiet bij het betreden van deze fase"
-                  },
-                  {
-                    "label": "URL to link to",
-                    "description": "Set where the user should be sent to when opening this stage."
-                  },
-                  {
-                    "label": "Place to open link in",
-                    "options": [
-                      {
-                        "label": "New tab"
-                      },
-                      {
-                        "label": "Same tab"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Always visible",
-                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
-                  },
-                  {
-                    "label": "Override lock symbol",
-                    "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type."
-                  },
-                  {
-                    "label": "Verbonden fases"
-                  },
-                  {
-                    "label": "Telemetrie"
-                  }
-                ]
-              }
-            },
-            {
-              "label": "Paths",
-              "entity": "path",
-              "field": {
-                "label": "Path",
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "label": "Options for this map",
+            "fields": [
+              {
+                "label": "Achtergrond",
                 "fields": [
                   {
-                    "label": "From"
+                    "label": "Achtergrondafbeelding",
+                    "description": "Selecteer een afbeelding om te gebruiken als achtergrond van de spelkaart."
                   },
                   {
-                    "label": "To"
+                    "label": "Background color",
+                    "description": "Choose a color to use as the background of the game map."
+                  }
+                ]
+              },
+              {
+                "label": "Audio settings",
+                "fields": [
+                  {
+                    "label": "dummy"
                   },
                   {
-                    "label": "Visual settings",
-                    "options": [
-                      {
-                        "label": "Use global settings"
-                      },
-                      {
-                        "label": "Use custom settings"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Custom visual settings",
-                    "fields": [
-                      {
-                        "label": "Color path"
-                      },
-                      {
-                        "label": "Path width",
-                        "options": [
-                          {
-                            "label": "thin"
-                          },
-                          {
-                            "label": "medium"
-                          },
-                          {
-                            "label": "thick"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Path style",
-                        "options": [
-                          {
-                            "label": "Solid"
-                          },
-                          {
-                            "label": "Dotted"
-                          },
-                          {
-                            "label": "Dashed"
-                          },
-                          {
-                            "label": "Double"
-                          }
-                        ]
-                      }
-                    ]
+                    "label": "Individual background music"
                   }
                 ]
               }
-            }
-          ]
-        }
-      ]
+            ]
+          }
+        ]
+      }
     },
     {
       "label": "Eind scherm",
@@ -555,7 +697,7 @@
               "description": "Bepaal of de kaart geanimeerd moet zijn. Zelfs als je deze optie instelt, zal het inhoudstype de browserinstellingen van de gebruiker respecteren als deze de voorkeur geven aan minder beweging."
             },
             {
-              "label": "Dummy"
+              "label": "dummy"
             }
           ]
         }
@@ -565,15 +707,10 @@
       "label": "Audio instellingen",
       "fields": [
         {
-          "label": "Achtergrondmuziek",
-          "fields": [
-            {
-              "label": "Achtergrondmuziek"
-            },
-            {
-              "label": "Dempen tijdens het maken van oefeningen"
-            }
-          ]
+          "label": "Achtergrondmuziek"
+        },
+        {
+          "label": "Zet de achtergrondmuziek uit tijdens het sporten."
         },
         {
           "label": "Gebeurtenissen",
@@ -589,6 +726,10 @@
             {
               "label": "Controleer oefening (volledige score)",
               "description": "Wordt gespeeld als een antwoord is aangevinkt en de gebruiker de volledige score heeft behaald."
+            },
+            {
+              "label": "Teleport to a different stage",
+              "description": "Will be played on the map when the user teleports to another stage."
             },
             {
               "label": "Een fase ontgrendelen",
@@ -650,6 +791,30 @@
           "description": "Stel het aantal levens voor een gebruiker in of laat leeg voor een onbeperkt aantal levens. Gebruikers verliezen een leven als ze niet de volledige score behalen en kunnen niet verder als alle levens verloren zijn."
         },
         {
+          "label": "Details for lives",
+          "fields": [
+            {
+              "label": "Losing a live",
+              "description": "Select when the user should lose a life for content based on scores.",
+              "options": [
+                {
+                  "label": "Never"
+                },
+                {
+                  "label": "When the score percentage of content is below a custom value"
+                },
+                {
+                  "label": "When the user does not achieve full score"
+                }
+              ]
+            },
+            {
+              "label": "Pass percentage",
+              "description": "Set to the minumum score percentage required to not lose a life."
+            }
+          ]
+        },
+        {
           "label": "Globale tijdslimiet",
           "description": "Optionele tijdslimiet in seconden voor het hele spel. Als een gebruiker deze tijd overschrijdt, is het spel onmiddellijk afgelopen."
         },
@@ -668,7 +833,7 @@
           "label": "Schakel de knop \"Opnieuw\" in"
         },
         {
-          "label": "Kaart",
+          "label": "Kaarten",
           "fields": [
             {
               "label": "Labels van fases tonen",
@@ -762,6 +927,10 @@
         {
           "label": "Dialoogtekst toegang geweigerd: Algemeen",
           "default": "Voor deze fase moet je een aantal doelen bereiken voordat deze kan worden geopend."
+        },
+        {
+          "label": "Dialog text access denied: For target stage",
+          "default": "The target stage requires you to meet some goals before it can be opened."
         },
         {
           "label": "Ja",
@@ -884,6 +1053,22 @@
           "default": "You have a score greater than @value in stage @label."
         },
         {
+          "label": "Stage score percentage less than",
+          "default": "You have a score percentage less than @value in stage @label."
+        },
+        {
+          "label": "Stage score percentage equal to",
+          "default": "You have a score percentage equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score percentage not equal to",
+          "default": "You have a score percentage not equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score percentage greater than",
+          "default": "You have a score percentage greater than @value in stage @label."
+        },
+        {
           "label": "Stage progress is",
           "default": "The progress of stage @label is @value."
         },
@@ -926,6 +1111,32 @@
         {
           "label": "Missing content",
           "default": "No content was set for this stage!"
+        },
+        {
+          "label": "Max score was adjusted",
+          "default": "Note that the maximum score for this stage was adjusted and will not match the sum of all maximum scores from all exercises."
+        },
+        {
+          "label": "This is how you lose a life",
+          "default": "This is how you lose a life in an exercise:"
+        },
+        {
+          "label": "Template for rule for losing lives",
+          "description": "@title and @rule are placeholders that will be replaced with the respective values.",
+          "default": "@title: @rule"
+        },
+        {
+          "label": "You never lose lives",
+          "default": "You never lose lives."
+        },
+        {
+          "label": "Lose life if not full score",
+          "default": "You lose a life if you do not get full score."
+        },
+        {
+          "label": "Lose life below percentage",
+          "description": "@percentage is a placeholde and will be replaced with the respective value.",
+          "default": "You lose a life if you get less then @percentage% of all points."
         }
       ]
     },
@@ -1021,6 +1232,14 @@
         {
           "label": "Verlaat volledig scherm",
           "default": "Sluit de modus volledig scherm af"
+        },
+        {
+          "label": "Show stage information",
+          "default": "Show stage information"
+        },
+        {
+          "label": "Hide stage information",
+          "default": "Hide stage information"
         }
       ]
     }

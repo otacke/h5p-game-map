@@ -45,7 +45,7 @@ H5PUpgrades['H5P.GameMap'] = (() => {
               library: 'H5P.SingleChoiceSet 1.11',
               metadata: {
                 ...element.contentType.metadata ?? {},
-                contentType: 'Single Choice Set'
+                contentType: 'Single Choice Set',
               },
               params: {
                 behaviour: {
@@ -55,7 +55,7 @@ H5PUpgrades['H5P.GameMap'] = (() => {
                   passPercentage: 100,
                   soundEffectsEnabled: true,
                   timeoutCorrect: 2000,
-                  timeoutWrong: 3000
+                  timeoutWrong: 3000,
                 },
                 choices: (element.contentType.params?.summaries ?? []).map(
                   (summary) => {
@@ -65,7 +65,7 @@ H5PUpgrades['H5P.GameMap'] = (() => {
                     delete summary.tip;
 
                     return summary;
-                  }
+                  },
                 ),
                 l10n: {
                   nextButtonLabel: 'Next question',
@@ -82,11 +82,11 @@ H5PUpgrades['H5P.GameMap'] = (() => {
                   scoreBarLabel: 'You got :num out of :total points',
                   solutionListQuestionNumber: 'Question :num',
                   a11yShowSolution: 'Show the solution. The task will be marked with its correct solution.',
-                  a11yRetry: 'Retry the task. Reset all responses and start the task over again.'
+                  a11yRetry: 'Retry the task. Reset all responses and start the task over again.',
                 },
                 overallFeedback: element.contentType.params?.overallFeedback ??
-                  [{ from: 0, to: 100 }]
-              }
+                  [{ from: 0, to: 100 }],
+              },
             };
 
             return element;
@@ -123,10 +123,10 @@ H5PUpgrades['H5P.GameMap'] = (() => {
                       {
                         restrictionType: 'totalScore',
                         totalScoreOperator: 'greaterThan',
-                      }
-                    ]
+                      },
+                    ],
                   },
-                ]
+                ],
               };
             }
             else {
@@ -141,19 +141,19 @@ H5PUpgrades['H5P.GameMap'] = (() => {
                         restrictionType: 'totalScore',
                         totalScoreGroup: {
                           totalScoreOperator: 'greaterThan',
-                          totalScoreValue: minScore
-                        }
+                          totalScoreValue: minScore,
+                        },
                       },
                       {
                         restrictionType: 'totalScore',
                         totalScoreGroup: {
                           totalScoreOperator: 'equalTo',
-                          totalScoreValue: minScore
-                        }
-                      }
-                    ]
-                  }
-                ]
+                          totalScoreValue: minScore,
+                        },
+                      },
+                    ],
+                  },
+                ],
               };
             }
 
@@ -167,7 +167,65 @@ H5PUpgrades['H5P.GameMap'] = (() => {
         }
 
         finished(null, parameters, extras);
-      }
+      },
+      /**
+       * Asynchronous content upgrade hook.
+       * Upgrades content parameters to support Game Map 1.7.
+       * Move single game map parameters into list.
+       * Move background settings into map options.
+       * @param {object} parameters Content parameters.
+       * @param {function} finished Callback when finished.
+       * @param {object} extras Extra parameters such as metadata, etc.
+       */
+      7: (parameters, finished, extras) => {
+        if (parameters?.gamemapSteps) {
+          const oldGamemapSteps = parameters.gamemapSteps;
+          const oldGamemap = oldGamemapSteps.gamemap ?? {};
+
+          // Wrap the single legacy map into the new gamemaps list, attaching the
+          // background settings under mapOptions where they now live.
+          const newGamemap = {
+            elements: Array.isArray(oldGamemap.elements) ? oldGamemap.elements : [],
+            paths: Array.isArray(oldGamemap.paths) ? oldGamemap.paths : [],
+            mapOptions: {
+              backgroundSettings: oldGamemapSteps.backgroundImageSettings ?? {},
+            },
+          };
+
+          // Placeholder `dummy` boolean moved from gamemap into mapOptions.
+          if (typeof oldGamemap.dummy === 'boolean') {
+            newGamemap.mapOptions.dummy = oldGamemap.dummy;
+          }
+
+          // canBeStartStage moved from the element root into the stageBehaviour group.
+          newGamemap.elements = newGamemap.elements.map((element) => {
+            if (element && typeof element === 'object' && 'canBeStartStage' in element) {
+              element.stageBehaviour = element.stageBehaviour ?? {};
+              element.stageBehaviour.canBeStartStage = element.canBeStartStage;
+              delete element.canBeStartStage;
+            }
+            return element;
+          });
+
+          parameters.gamemaps = [newGamemap];
+          delete parameters.gamemapSteps;
+        }
+
+        // Move background music parameters
+        if (parameters?.audio?.backgroundMusic?.music) {
+          parameters.audio.music = parameters.audio.backgroundMusic.music;
+        }
+
+        if (parameters?.audio?.backgroundMusic?.muteDuringExercise) {
+          parameters.audio.muteDuringExercise = parameters.audio.backgroundMusic.muteDuringExercise;
+        }
+
+        if (parameters?.audio) {
+          delete parameters.audio.backgroundMusic;
+        }
+
+        finished(null, parameters, extras);
+      },
     },
   };
 })();

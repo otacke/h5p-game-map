@@ -144,25 +144,20 @@ export default class MediaScreen {
    * @returns {HTMLElement} Button element.
    */
   buildButton(id, buttonText, className) {
-    const button = document.createElement('button');
+    const button = H5P.Components.Button({
+      label: buttonText,
+      icon: id,
+      onClick: () => {
+        this.hide();
+        this.callbacks.onButtonClicked(id);
+      },
+    });
+
     if (className) {
       button.classList.add(className);
     }
 
-    button.innerText = buttonText;
-    button.addEventListener('click', () => {
-      this.hide();
-      this.callbacks.onButtonClicked(id);
-    });
-
-    const buttonWrapper = document.createElement('div');
-    if (!className) {
-      buttonWrapper.classList.add('media-screen-button');
-    }
-    buttonWrapper.classList.add(`media-screen-button-${id}`);
-    buttonWrapper.appendChild(button);
-
-    return buttonWrapper;
+    return button;
   }
 
   /**
@@ -209,7 +204,7 @@ export default class MediaScreen {
       this.dom.replaceChild(newVisuals, this.visuals);
       this.visuals = newVisuals;
 
-      Util.callOnceVisible(
+      this.visibilityObserver = Util.callOnceVisible(
         this.dom,
         () => {
           this.initMedia();
@@ -259,7 +254,7 @@ export default class MediaScreen {
       this.medium.params.visuals.fit = false;
     }
 
-    H5P.newRunnable(
+    this.mediumInstance = H5P.newRunnable(
       this.medium,
       this.params.contentId,
       H5P.jQuery(this.visuals),
@@ -293,7 +288,7 @@ export default class MediaScreen {
 
     window.setTimeout(() => {
       if (params.focusButton && this.buttons.length) {
-        this.buttons[0].querySelector('button').focus();
+        this.buttons[0].focus();
       }
     }, DEFAULT_READ_DELAY_MS); // Give polite text time to read before announcing button
   }
@@ -303,5 +298,15 @@ export default class MediaScreen {
    */
   hide() {
     this.dom.classList.add('display-none');
+  }
+
+  /**
+   * Destroy the media screen and release its medium instance and observer.
+   */
+  destroy() {
+    this.visibilityObserver?.then?.((observer) => observer?.disconnect?.());
+    this.visibilityObserver = null;
+
+    this.mediumInstance = null;
   }
 }

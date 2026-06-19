@@ -1,9 +1,6 @@
 .media-screen.start {
-  .media-screen-button-start {
-    button::before {
-      content: var(--icon-fontawesome-map-marker);
-      font-family: "H5PFontAwesome4", sans-serif;
-      padding-right: 0.5rem;
-    }
+  .h5p-theme-button.h5p-theme-start::before {
+    content: var(--icon-fontawesome-map-marker);
+    font-family: "H5PFontAwesome4", sans-serif;
   }
 }

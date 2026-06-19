@@ -1,4 +1,4 @@
-import H5PUtil from '@services/h5p-util.js';
+import { getSubContentIdFromXAPIStatement, isEditor, isInstanceTask } from '@services/h5p-util.js';
 import Util from '@services/util.js';
 
 export default class Exercise {
@@ -18,10 +18,15 @@ export default class Exercise {
       animDuration: 0,
     }, params);
 
+    this.params.livesSettings = window.structuredClone(this.params.livesSettings);
+
     this.callbacks = Util.extend({
       onInitialized: () => {},
       onScored: () => {},
     }, callbacks);
+
+    // Track bubbling listeners so they can be removed on destroy.
+    this.bubbleHandlers = [];
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-game-map-exercise-instance-wrapper');
@@ -77,12 +82,23 @@ export default class Exercise {
         this.params.globals.get('contentId'),
         undefined,
         true,
-        { previousState: previousState.instanceState ?? {} },
+        {
+          parent: this.params.parent,
+          previousState: previousState.instanceState ?? {},
+        },
       );
     }
 
     if (!this.instance) {
       return;
+    }
+
+    // Required to allow proper xAPI statement identification in editor preview, will not be sent to LRS.
+    if (isEditor()) {
+      H5PIntegration.contents = H5PIntegration.contents ?? {};
+      H5PIntegration.contents[`cid-${this.instance.contentId}`] = {
+        url: `http://example.com/${this.instance.contentId}`,
+      };
     }
 
     if (this.instance.libraryInfo.machineName === 'H5P.InteractiveVideo') {
@@ -99,12 +115,17 @@ export default class Exercise {
       this.params.globals.get('mainInstance'), 'resize', [this.instance],
     );
 
-    this.isTaskState = H5PUtil.isInstanceTask(this.instance);
+    this.isTaskState = isInstanceTask(this.instance);
 
     if (this.isTaskState) {
       this.instance.on('xAPI', (event) => {
         this.trackXAPI(event);
       });
+    }
+    else {
+      this.params.livesSettings = this.params.livesSettings || {};
+      this.params.livesSettings.livesMode = 'never';
+      delete this.params.livesSettings.passPercentage;
     }
 
     this.callbacks.onInitialized({ isTask: this.isTask() });
@@ -212,6 +233,14 @@ export default class Exercise {
   }
 
   /**
+   * Get weighted score of instance.
+   * @returns {number} Weighted score of instance or 0.
+   */
+  getWeightedScore() {
+    return this.params.weight * this.getScore();
+  }
+
+  /**
    * Get max score of instance.
    * @returns {number} Maximum score of instance or 0.
    */
@@ -222,13 +251,33 @@ export default class Exercise {
   }
 
   /**
+   * Get weighted max score of instance.
+   * @returns {number} Weighted max score of instance or 0.
+   */
+  getWeightedMaxScore() {
+    return this.params.weight * this.getMaxScore();
+  }
+
+  /**
+   * Set weight for exercise.
+   * @param {number} weight Weight to set.
+   */
+  setWeight(weight) {
+    if (typeof weight !== 'number' || weight < 0) {
+      return;
+    }
+
+    this.params.weight = weight;
+  }
+
+  /**
    * Make it easy to bubble events from child to parent.
    * @param {object} origin Origin of event.
    * @param {string} eventName Name of event.
    * @param {object} target Target to trigger event on.
    */
   bubbleUp(origin, eventName, target) {
-    origin.on(eventName, (event) => {
+    const handler = (event) => {
       // Prevent target from sending event back down
       target.bubblingUpwards = true;
 
@@ -237,7 +286,10 @@ export default class Exercise {
 
       // Reset
       target.bubblingUpwards = false;
-    });
+    };
+
+    origin.on(eventName, handler);
+    this.bubbleHandlers.push({ origin, eventName, handler });
   }
 
   /**
@@ -247,7 +299,7 @@ export default class Exercise {
    * @param {object[]} targets Targets to trigger event on.
    */
   bubbleDown(origin, eventName, targets) {
-    origin.on(eventName, (event) => {
+    const handler = (event) => {
       if (origin.bubblingUpwards) {
         return; // Prevent send event back down.
       }
@@ -258,7 +310,24 @@ export default class Exercise {
           target.trigger(eventName, event);
         }
       });
+    };
+
+    origin.on(eventName, handler);
+    this.bubbleHandlers.push({ origin, eventName, handler });
+  }
+
+  /**
+   * Destroy exercise, releasing its sub-content instance and listeners.
+   */
+  destroy() {
+    this.bubbleHandlers.forEach(({ origin, eventName, handler }) => {
+      origin.off?.(eventName, handler);
     });
+    this.bubbleHandlers = [];
+
+    this.instance?.off?.('xAPI');
+    this.instance = null;
+    this.isAttached = false;
   }
 
   /**
@@ -281,6 +350,16 @@ export default class Exercise {
       return; // Not an event from the instance directly
     }
 
+    // Add weighting extension, so LRS can follow the scoring if subcontent statements are tracked
+    event.data.statement.result = Util.extend(
+      {
+        extensions: {
+          'http://id.tincanapi.com/extension/cmi-interaction-weighting': this.params.weight,
+        },
+      },
+      event.data.statement.result,
+    );
+
     this.toggleCompleted(true);
 
     // Handle content type's potential success flag deviating from achieving max score
@@ -291,7 +370,11 @@ export default class Exercise {
       this.toggleSuccess(true);
     }
 
-    this.callbacks.onScored({ id: this.getId(), successful: this.wasSuccessful() });
+    this.callbacks.onScored({
+      id: this.getId(),
+      successful: this.wasSuccessful(),
+      scoreBelowLifeThreshold: this.isScoreBelowLifeThreshold(),
+    });
   }
 
   /**
@@ -342,6 +425,44 @@ export default class Exercise {
    */
   wasSuccessful() {
     return this.successfulState ?? false;
+  }
+
+  /**
+   * Determine whether score is below life threshold.
+   * @returns {boolean} True, if score is below life threshold. Else false.
+   */
+  isScoreBelowLifeThreshold() {
+    if (!this.params.livesSettings?.passPercentage) {
+      return false;
+    }
+
+    return this.getScore() / this.getMaxScore() < this.params.livesSettings.passPercentage / 100;
+  }
+
+  /**
+   * Get exercise title.
+   * @returns {string} Exercise title.
+   */
+  getTitle() {
+    const metadataTitle = this.params.contentType?.metadata?.title;
+    const libraryTitle = this.params.contentType?.library;
+
+    return metadataTitle || libraryTitle;
+  }
+
+  /**
+   * Get info for lives mode.
+   * @returns {object} Lives info.
+   */
+  getLivesInfo() {
+    const liveSettings = this.params.livesSettings;
+
+    return {
+      title: this.getTitle(),
+      isTask: this.isTask(),
+      livesMode: liveSettings.livesMode,
+      passPercentage: liveSettings.passPercentage,
+    };
   }
 
   /**
@@ -405,13 +526,9 @@ export default class Exercise {
     xAPIData = xAPIData ?? [this.getXAPIData()].filter((data) => data !== undefined);
 
     xAPIData.forEach((entry) => {
-      if (entry.statement?.object?.id) {
-        const queryString = entry.statement.object.id.split('?')[1]; // xAPI Spec requires this to be a IRI.
-        const queryParams = new URLSearchParams(queryString);
-        const subContentId = queryParams.get('subContentId');
-        if (subContentId) {
-          subContentIds.push(subContentId);
-        }
+      const subContentId = getSubContentIdFromXAPIStatement(entry.statement);
+      if (subContentId) {
+        subContentIds.push(subContentId);
       }
 
       if (Array.isArray(entry.children)) {

@@ -21,392 +21,534 @@
       "description": "Izenburu-barrarako aukerako goiburua."
     },
     {
-      "label": "Jolasaren mapa editorea",
-      "fields": [
+      "label": "Jolasaren mapak",
+      "entity": "Jolasaren mapa",
+      "widgets": [
         {
-          "label": "Aurrekariak",
-          "fields": [
-            {
-              "label": "Atzeko planoko irudia",
-              "description": "Hautatu jolasaren maparen atzeko plano gisa erabiltzeko irudi bat."
-            },
-            {
-              "label": "Background color",
-              "description": "Choose a color to use as the background of the game map."
-            }
-          ]
-        },
-        {
-          "label": "Jolasaren mapa",
-          "fields": [
-            {},
-            {
+          "label": "Lehenetsia"
+        }
+      ],
+      "field": {
+        "label": "Jolasaren mapa",
+        "fields": [
+          {
+            "label": "Elementuak",
+            "entity": "Elementua",
+            "field": {
               "label": "Elementuak",
-              "entity": "Elementua",
-              "field": {
-                "label": "Elementuak",
-                "fields": [
-                  {
-                    "label": "Id"
-                  },
-                  {
-                    "label": "Mota"
-                  },
-                  {
-                    "label": "Etaparen etiketa",
-                    "description": "Etiketa hau zure ariketaren gainean bistaratuko da eta etapa desberdinak elkarren artean konektatzen lagunduko dizu."
-                  },
-                  {
-                    "label": "Erabiltzailea hemen has daiteke",
-                    "description": "Hautatzen bada, etapa hau erabiltzailea hasten den etapa izango da. Etaparik ez badago edo etapa bat baino gehiago badago hasierako etapa ausaz aukeratuko da."
-                  },
-                  {
-                    "label": "Denbora-muga",
-                    "description": "Definitu tenporizadoreari lotutako ezarpenak.",
-                    "fields": [
-                      {
-                        "label": "Denbora muga",
-                        "description": "Aukerako denbora-muga segundotan. Erabiltzaile batek denbora hori gainditzen badu, ariketa itxi egingo da, berrezarri egingo da eta erabiltzaileak bizitza galduko du bizitza mugatuak badira."
-                      },
-                      {
-                        "label": "Denbora-mugako abisuaren denbora",
-                        "description": "Aukeran ezarri denbora-muga abisuaren audioa noiz erreproduzitu behar den (geratzen diren segundoak). Audio bat ezarri behar da audio ezarpenetan."
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Sarbide murrizketak",
-                    "description": "Definitu desblokeatzeko baldintzak.",
-                    "fields": [
-                      {
-                        "label": "All or any restriction set",
-                        "description": "Choose if all or any of the following restrictions need to be met.",
-                        "options": [
-                          {
-                            "label": "All"
-                          },
-                          {
-                            "label": "Any"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Restriction sets",
-                        "entity": "restriction set",
-                        "widgets": [
-                          {
-                            "label": "Default"
-                          }
-                        ],
-                        "field": {
-                          "label": "Restriction set",
-                          "fields": [
-                            {
-                              "label": "All or any restriction",
-                              "description": "Choose if all or any of the following restrictions need to be met.",
-                              "options": [
-                                {
-                                  "label": "All"
-                                },
-                                {
-                                  "label": "Any"
-                                }
-                              ]
-                            },
-                            {
-                              "label": "Restrictions",
-                              "entity": "restriction",
-                              "field": {
-                                "label": "Restriction",
-                                "fields": [
-                                  {
-                                    "label": "Restriction type",
-                                    "options": [
-                                      {
-                                        "label": "Total score"
-                                      },
-                                      {
-                                        "label": "Stage score"
-                                      },
-                                      {
-                                        "label": "Stage progress"
-                                      },
-                                      {
-                                        "label": "Time"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Total score",
-                                    "fields": [
-                                      {
-                                        "label": "Operator for total score",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Value of total score to compare"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage score",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get score from"
-                                      },
-                                      {
-                                        "label": "Operator for stage score",
-                                        "options": [
-                                          {
-                                            "label": "less than"
-                                          },
-                                          {
-                                            "label": "equal to"
-                                          },
-                                          {
-                                            "label": "not equal to"
-                                          },
-                                          {
-                                            "label": "greater than"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Stage score to compare to"
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Stage progress",
-                                    "fields": [
-                                      {
-                                        "label": "Stage to get progress from"
-                                      },
-                                      {
-                                        "label": "Operator for stage progress",
-                                        "options": [
-                                          {
-                                            "label": "is"
-                                          },
-                                          {
-                                            "label": "is not"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Progress to compare to",
-                                        "options": [
-                                          {
-                                            "label": "not started"
-                                          },
-                                          {
-                                            "label": "started"
-                                          },
-                                          {
-                                            "label": "completed"
-                                          },
-                                          {
-                                            "label": "completed successfully"
-                                          }
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  {
-                                    "label": "Time",
-                                    "fields": [
-                                      {
-                                        "label": "Operator for time",
-                                        "options": [
-                                          {
-                                            "label": "before"
-                                          },
-                                          {
-                                            "label": "is"
-                                          },
-                                          {
-                                            "label": "is not"
-                                          },
-                                          {
-                                            "label": "after"
-                                          }
-                                        ]
-                                      },
-                                      {
-                                        "label": "Time to compare to"
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "label": "dummy"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Contents",
-                    "entity": "content",
-                    "widgets": [
-                      {
-                        "label": "Default"
-                      }
-                    ],
-                    "field": {
-                      "label": "Content",
-                      "fields": [
+              "fields": [
+                {
+                  "label": "Id"
+                },
+                {
+                  "label": "Mota"
+                },
+                {
+                  "label": "Etaparen etiketa",
+                  "description": "Etiketa hau zure ariketaren gainean bistaratuko da eta etapa desberdinak elkarren artean konektatzen lagunduko dizu."
+                },
+                {
+                  "label": "Denbora-muga",
+                  "description": "Definitu tenporizadoreari lotutako ezarpenak.",
+                  "fields": [
+                    {
+                      "label": "Denbora-muga",
+                      "description": "Aukerako denbora-muga segundotan. Erabiltzaile batek denbora hori gainditzen badu, ariketa itxi egingo da, berrezarri egingo da eta erabiltzaileak bizitza galduko du bizitza mugatuak badira."
+                    },
+                    {
+                      "label": "Denbora-mugako abisuaren denbora",
+                      "description": "Aukeran ezarri denbora-muga abisuaren audioa noiz erreproduzitu behar den (geratzen diren segundoak). Audio bat ezarri behar da audio ezarpenetan."
+                    }
+                  ]
+                },
+                {
+                  "label": "Sarbide murrizketak",
+                  "description": "Definitu desblokeatzeko baldintzak.",
+                  "fields": [
+                    {
+                      "label": "All or any restriction set",
+                      "description": "Choose if all or any of the following restrictions need to be met.",
+                      "options": [
                         {
-                          "label": "Etaparen edukia",
-                          "description": "Aukeratu gehitu nahi duzun eduki mota."
+                          "label": "All"
                         },
                         {
-                          "label": "Dummy"
+                          "label": "Any"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Restriction sets",
+                      "entity": "restriction set",
+                      "widgets": [
+                        {
+                          "label": "Lehenetsia"
+                        }
+                      ],
+                      "field": {
+                        "label": "Restriction set",
+                        "fields": [
+                          {
+                            "label": "All or any restriction",
+                            "description": "Choose if all or any of the following restrictions need to be met.",
+                            "options": [
+                              {
+                                "label": "All"
+                              },
+                              {
+                                "label": "Any"
+                              }
+                            ]
+                          },
+                          {
+                            "label": "Restrictions",
+                            "entity": "restriction",
+                            "field": {
+                              "label": "Restriction",
+                              "fields": [
+                                {
+                                  "label": "Restriction type",
+                                  "options": [
+                                    {
+                                      "label": "Total score"
+                                    },
+                                    {
+                                      "label": "Stage score"
+                                    },
+                                    {
+                                      "label": "Stage score percentage"
+                                    },
+                                    {
+                                      "label": "Stage progress"
+                                    },
+                                    {
+                                      "label": "Time"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Total score",
+                                  "fields": [
+                                    {
+                                      "label": "Operator for total score",
+                                      "options": [
+                                        {
+                                          "label": "less than"
+                                        },
+                                        {
+                                          "label": "equal to"
+                                        },
+                                        {
+                                          "label": "not equal to"
+                                        },
+                                        {
+                                          "label": "greater than"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Value of total score to compare"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Stage score",
+                                  "fields": [
+                                    {
+                                      "label": "Stage to get score from"
+                                    },
+                                    {
+                                      "label": "Operator for stage score",
+                                      "options": [
+                                        {
+                                          "label": "less than"
+                                        },
+                                        {
+                                          "label": "equal to"
+                                        },
+                                        {
+                                          "label": "not equal to"
+                                        },
+                                        {
+                                          "label": "greater than"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Stage score to compare to"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Stage score percentage",
+                                  "fields": [
+                                    {
+                                      "label": "Stage to get score percentage from"
+                                    },
+                                    {
+                                      "label": "Operator for stage score percentage",
+                                      "options": [
+                                        {
+                                          "label": "less than"
+                                        },
+                                        {
+                                          "label": "equal to"
+                                        },
+                                        {
+                                          "label": "not equal to"
+                                        },
+                                        {
+                                          "label": "greater than"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Stage score percentage to compare to"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Stage progress",
+                                  "fields": [
+                                    {
+                                      "label": "Stage to get progress from"
+                                    },
+                                    {
+                                      "label": "Operator for stage progress",
+                                      "options": [
+                                        {
+                                          "label": "is"
+                                        },
+                                        {
+                                          "label": "is not"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Progress to compare to",
+                                      "options": [
+                                        {
+                                          "label": "not started"
+                                        },
+                                        {
+                                          "label": "started"
+                                        },
+                                        {
+                                          "label": "completed"
+                                        },
+                                        {
+                                          "label": "completed successfully"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "label": "Time",
+                                  "fields": [
+                                    {
+                                      "label": "Operator for time",
+                                      "options": [
+                                        {
+                                          "label": "before"
+                                        },
+                                        {
+                                          "label": "is"
+                                        },
+                                        {
+                                          "label": "is not"
+                                        },
+                                        {
+                                          "label": "after"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "label": "Time to compare to"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "label": "Gizonkiloa"
+                    }
+                  ]
+                },
+                {
+                  "label": "Contents",
+                  "entity": "content",
+                  "widgets": [
+                    {
+                      "label": "Lehenetsia"
+                    }
+                  ],
+                  "field": {
+                    "label": "Content",
+                    "fields": [
+                      {
+                        "label": "Etaparen edukia",
+                        "description": "Aukeratu gehitu nahi duzun eduki mota."
+                      },
+                      {
+                        "label": "Bizitzak",
+                        "fields": [
+                          {
+                            "label": "Losing a live",
+                            "description": "Select when the user should lose a life for this content based on scores.",
+                            "options": [
+                              {
+                                "label": "Use behavioural setting"
+                              },
+                              {
+                                "label": "Never"
+                              },
+                              {
+                                "label": "When the score percentage of this content is below a custom value"
+                              },
+                              {
+                                "label": "When the user does not achieve full score"
+                              }
+                            ]
+                          },
+                          {
+                            "label": "Pass percentage",
+                            "description": "Set to the minumum score percentage required to not lose a life."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "label": "Special stage type",
+                  "options": [
+                    {
+                      "label": "Bukatu"
+                    },
+                    {
+                      "label": "Bizitza gehigarria"
+                    },
+                    {
+                      "label": "Denbora gehigarria"
+                    },
+                    {
+                      "label": "Link to external content"
+                    },
+                    {
+                      "label": "Teleport to another stage"
+                    }
+                  ]
+                },
+                {
+                  "label": "Number of extra lives",
+                  "description": "Ezarri erabiltzaileak zenbat bizitza lortuko duen etapa honetan sartzean."
+                },
+                {
+                  "label": "Denbora gehigarriaren segundo kopurua",
+                  "description": "Ezarri erabiltzaileak zenbat segundo irabaziko dituen denbora-muga globalerako etapa honetan sartzean."
+                },
+                {
+                  "label": "URL to link to",
+                  "description": "Set where the user should be sent to when opening this stage."
+                },
+                {
+                  "label": "Place to open link in",
+                  "options": [
+                    {
+                      "label": "New tab"
+                    },
+                    {
+                      "label": "Same tab"
+                    }
+                  ]
+                },
+                {
+                  "label": "Teleport stage to teleport to",
+                  "description": "Note that you always need to pair two teleport stages and that the following list only shows teleport stages that are not linked to another teleport stage yet."
+                },
+                {
+                  "label": "Always visible",
+                  "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
+                },
+                {
+                  "label": "Override lock symbol",
+                  "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type."
+                },
+                {
+                  "label": "Stage behaviour",
+                  "fields": [
+                    {
+                      "label": "Erabiltzailea hemen has daiteke",
+                      "description": "Hautatzen bada, etapa hau erabiltzailea hasten den etapa izango da. Etaparik ez badago edo etapa bat baino gehiago badago hasierako etapa ausaz aukeratuko da."
+                    },
+                    {
+                      "label": "Pick random exercises for this stage"
+                    },
+                    {
+                      "label": "Number of randomly chosen exercises",
+                      "description": "Set the number of exercises to choose randomly for this stage."
+                    },
+                    {
+                      "label": "Uniform total score",
+                      "description": "Set the total score for this stage regardless of what exercises are picked."
+                    }
+                  ]
+                },
+                {
+                  "label": "Score scaling",
+                  "fields": [
+                    {
+                      "label": "Scaling mode",
+                      "description": "Choose what scaling should be based on",
+                      "options": [
+                        {
+                          "label": "Set total score of all exercises"
+                        },
+                        {
+                          "label": "Set total score per exercise"
+                        },
+                        {
+                          "label": "Set weights per exercise"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Content score customizations",
+                      "description": "Adjust the weights/total scores of exercises to customize scoring",
+                      "entity": "scaling setting",
+                      "field": {
+                        "label": "Score scaling group",
+                        "fields": [
+                          {
+                            "label": "Subcontent id"
+                          },
+                          {
+                            "label": "Weight"
+                          },
+                          {
+                            "label": "Is task"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "label": "Total score"
+                    },
+                    {
+                      "label": "Weight is percentage"
+                    }
+                  ]
+                },
+                {
+                  "label": "Lotutako etapak"
+                },
+                {
+                  "label": "Telemetria"
+                }
+              ]
+            }
+          },
+          {
+            "label": "Ibilbideak",
+            "entity": "path",
+            "field": {
+              "label": "Path",
+              "fields": [
+                {
+                  "label": "From"
+                },
+                {
+                  "label": "To"
+                },
+                {
+                  "label": "Ikusizko ezarpenak",
+                  "options": [
+                    {
+                      "label": "Use global settings"
+                    },
+                    {
+                      "label": "Use custom settings"
+                    }
+                  ]
+                },
+                {
+                  "label": "Custom visual settings",
+                  "fields": [
+                    {
+                      "label": "Ibilbidearen kolorea"
+                    },
+                    {
+                      "label": "Ibilbidearen zabalera",
+                      "options": [
+                        {
+                          "label": "estua"
+                        },
+                        {
+                          "label": "tartekoa"
+                        },
+                        {
+                          "label": "zabala"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "Ibilbidearen estiloa",
+                      "options": [
+                        {
+                          "label": "Solidoa"
+                        },
+                        {
+                          "label": "Puntuak"
+                        },
+                        {
+                          "label": "Marratxoak"
+                        },
+                        {
+                          "label": "Bikoitza"
                         }
                       ]
                     }
-                  },
-                  {
-                    "label": "Special stage type",
-                    "options": [
-                      {
-                        "label": "Bukaera"
-                      },
-                      {
-                        "label": "Bizitza gehigarria"
-                      },
-                      {
-                        "label": "Denbora gehigarria"
-                      },
-                      {
-                        "label": "Link to external content"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Number of extra lives",
-                    "description": "Ezarri erabiltzaileak zenbat bizitza lortuko duen etapa honetan sartzean."
-                  },
-                  {
-                    "label": "Denbora gehigarriaren segundo kopurua",
-                    "description": "Ezarri erabiltzaileak zenbat segundo irabaziko dituen denbora-muga globalerako etapa honetan sartzean."
-                  },
-                  {
-                    "label": "URL to link to",
-                    "description": "Set where the user should be sent to when opening this stage."
-                  },
-                  {
-                    "label": "Place to open link in",
-                    "options": [
-                      {
-                        "label": "New tab"
-                      },
-                      {
-                        "label": "Same tab"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Always visible",
-                    "description": "If checked, this stage will always be visible, even if the map's visibility range settings dictate otherswise."
-                  },
-                  {
-                    "label": "Override lock symbol",
-                    "description": "If checked, locked stages will not use the lock symbol, but the symbol for the special stage type."
-                  },
-                  {
-                    "label": "Lotutako etapak"
-                  },
-                  {
-                    "label": "Telemetria"
-                  }
-                ]
-              }
-            },
-            {
-              "label": "Paths",
-              "entity": "path",
-              "field": {
-                "label": "Path",
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "label": "Options for this map",
+            "fields": [
+              {
+                "label": "Aurrekariak",
                 "fields": [
                   {
-                    "label": "From"
+                    "label": "Atzeko planoko irudia",
+                    "description": "Hautatu jolasaren maparen atzeko plano gisa erabiltzeko irudi bat."
                   },
                   {
-                    "label": "To"
+                    "label": "Background color",
+                    "description": "Choose a color to use as the background of the game map."
+                  }
+                ]
+              },
+              {
+                "label": "Audio settings",
+                "fields": [
+                  {
+                    "label": "dummy"
                   },
                   {
-                    "label": "Visual settings",
-                    "options": [
-                      {
-                        "label": "Use global settings"
-                      },
-                      {
-                        "label": "Use custom settings"
-                      }
-                    ]
-                  },
-                  {
-                    "label": "Custom visual settings",
-                    "fields": [
-                      {
-                        "label": "Color path"
-                      },
-                      {
-                        "label": "Path width",
-                        "options": [
-                          {
-                            "label": "thin"
-                          },
-                          {
-                            "label": "medium"
-                          },
-                          {
-                            "label": "thick"
-                          }
-                        ]
-                      },
-                      {
-                        "label": "Path style",
-                        "options": [
-                          {
-                            "label": "Solid"
-                          },
-                          {
-                            "label": "Dotted"
-                          },
-                          {
-                            "label": "Dashed"
-                          },
-                          {
-                            "label": "Double"
-                          }
-                        ]
-                      }
-                    ]
+                    "label": "Individual background music"
                   }
                 ]
               }
-            }
-          ]
-        }
-      ]
+            ]
+          }
+        ]
+      }
     },
     {
       "label": "Azken pantaila",
@@ -565,15 +707,10 @@
       "label": "Audio ezarpenak",
       "fields": [
         {
-          "label": "Atzeko planoko musika",
-          "fields": [
-            {
-              "label": "Atzeko planoko musika"
-            },
-            {
-              "label": "Isildu ariketak egitean"
-            }
-          ]
+          "label": "Atzeko planoko musika"
+        },
+        {
+          "label": "Ariketak egiten dituzunean, isilarazi atzeko musika"
         },
         {
           "label": "Gertaerak",
@@ -589,6 +726,10 @@
             {
               "label": "Egiaztatu ariketa (puntuazio osoa)",
               "description": "Erantzutean erabiltzaileak puntuazio osoa lortzen badu erreproduzituko da."
+            },
+            {
+              "label": "Teleport to a different stage",
+              "description": "Will be played on the map when the user teleports to another stage."
             },
             {
               "label": "Desblokeatzen etapa bat",
@@ -650,11 +791,35 @@
           "description": "Ezarri erabiltzaile baten bizitza kopurua edo utzi hutsik mugarik gabeko bizitzetarako. Erabiltzaileek bizitza bat galduko dute puntuazio osoa lortzen ez dutenean eta ezin dute jarraitu bizitza guztiak galdu ondoren."
         },
         {
+          "label": "Details for lives",
+          "fields": [
+            {
+              "label": "Losing a live",
+              "description": "Select when the user should lose a life for content based on scores.",
+              "options": [
+                {
+                  "label": "Never"
+                },
+                {
+                  "label": "When the score percentage of content is below a custom value"
+                },
+                {
+                  "label": "When the user does not achieve full score"
+                }
+              ]
+            },
+            {
+              "label": "Pass percentage",
+              "description": "Set to the minumum score percentage required to not lose a life."
+            }
+          ]
+        },
+        {
           "label": "Global time limit",
           "description": "Aukerako denbora-muga segundotan joko osorako. Erabiltzaile batek denbora hori gainditzen badu, jokoa berehala amaituko da."
         },
         {
-          "label": "Timeout warning time",
+          "label": "Denbora-mugako abisuaren denbora",
           "description": "Aukeran ezarri denbora-muga abisuaren audioa noiz erreproduzitu behar den (geratzen diren segundoak). Audio bat ezarri behar da audio ezarpenetan."
         },
         {
@@ -668,7 +833,7 @@
           "label": "Enable \"Show solutions\" button"
         },
         {
-          "label": "Mapa",
+          "label": "Mapak",
           "fields": [
             {
               "label": "Erakutsi etapen izenak",
@@ -762,6 +927,10 @@
         {
           "label": "Dialog text access denied: General",
           "default": "This stage requires you to meet some goals before it can be opened."
+        },
+        {
+          "label": "Dialog text access denied: For target stage",
+          "default": "The target stage requires you to meet some goals before it can be opened."
         },
         {
           "label": "Yes",
@@ -884,6 +1053,22 @@
           "default": "You have a score greater than @value in stage @label."
         },
         {
+          "label": "Stage score percentage less than",
+          "default": "You have a score percentage less than @value in stage @label."
+        },
+        {
+          "label": "Stage score percentage equal to",
+          "default": "You have a score percentage equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score percentage not equal to",
+          "default": "You have a score percentage not equal to @value in stage @label."
+        },
+        {
+          "label": "Stage score percentage greater than",
+          "default": "You have a score percentage greater than @value in stage @label."
+        },
+        {
           "label": "Stage progress is",
           "default": "The progress of stage @label is @value."
         },
@@ -926,6 +1111,32 @@
         {
           "label": "Missing content",
           "default": "No content was set for this stage!"
+        },
+        {
+          "label": "Max score was adjusted",
+          "default": "Note that the maximum score for this stage was adjusted and will not match the sum of all maximum scores from all exercises."
+        },
+        {
+          "label": "This is how you lose a life",
+          "default": "This is how you lose a life in an exercise:"
+        },
+        {
+          "label": "Template for rule for losing lives",
+          "description": "@title and @rule are placeholders that will be replaced with the respective values.",
+          "default": "@title: @rule"
+        },
+        {
+          "label": "You never lose lives",
+          "default": "You never lose lives."
+        },
+        {
+          "label": "Lose life if not full score",
+          "default": "You lose a life if you do not get full score."
+        },
+        {
+          "label": "Lose life below percentage",
+          "description": "@percentage is a placeholde and will be replaced with the respective value.",
+          "default": "You lose a life if you get less then @percentage% of all points."
         }
       ]
     },
@@ -1021,6 +1232,14 @@
         {
           "label": "Irten pantaila osotik",
           "default": "Irten pantaila osoko modutik"
+        },
+        {
+          "label": "Show stage information",
+          "default": "Show stage information"
+        },
+        {
+          "label": "Hide stage information",
+          "default": "Hide stage information"
         }
       ]
     }

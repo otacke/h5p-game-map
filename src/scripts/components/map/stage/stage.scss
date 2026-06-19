@@ -2,6 +2,7 @@
   --label-transition: opacity 0.2s ease-in .3s;
   background: none;
   border: none;
+  border-radius: 50%;
   box-sizing: border-box;
   cursor: pointer;
   display: block;
@@ -20,8 +21,22 @@
     z-index: 1;
   }
 
+  &:focus-visible {
+    outline: none;
+
+    .h5p-game-map-stage-content {
+      outline: 2px solid var(--h5p-theme-main-cta-base);
+      outline-offset: 2px;
+    }
+  }
+
   &.display-none {
     display: none;
+  }
+
+  &.hidden-temporarily {
+    opacity: 0;
+    transition: none;
   }
 
   &.transparent {
@@ -48,7 +63,7 @@
   }
 
   &:has(.h5p-game-map-stage-score-stars-container:not(.visibility-hidden)) {
-    --label-extra-top-offset: 0.75rem;
+    --label-extra-top-offset: var(--h5p-theme-spacing-xs);
   }
 
   .h5p-game-map-stage-content {
@@ -62,8 +77,8 @@
 
     &::before {
       font-family: "H5PFontAwesome4", sans-serif;
-      font-size: max(0.75rem, var(--stage-font-size));
-      line-height: max(1rem, var(--stage-line-height));
+      font-size: max(calc(0.75 * var(--h5p-theme-font-size-m)), var(--stage-font-size));
+      line-height: max(var(--h5p-theme-font-size-m), var(--stage-line-height));
       position: absolute;
     }
 
@@ -81,7 +96,7 @@
 
     &.h5p-game-map-stage-locked,
     &.h5p-game-map-stage-sealed {
-      background-color: var(--stage-color-locked, rgba(153, 0, 0, 0.7));
+      background-color: var(--stage-color-locked, var(--h5p-theme-feedback-incorrect-main));
 
       &::before {
         content: var(--icon-fontawesome-lock);
@@ -92,11 +107,11 @@
     }
 
     &.h5p-game-map-stage-open {
-      background-color: var(--stage-color,  rgba(250, 223, 10, 0.7));
+      background-color: var(--stage-color, var(--h5p-theme-feedback-neutral-main));
     }
 
     &.h5p-game-map-stage-cleared {
-      background-color: var(--stage-color-cleared, rgba(0, 130, 0, 0.7));
+      background-color: var(--stage-color-cleared, var(--h5p-theme-feedback-neutral-main));
 
       &::before {
         content: var(--icon-fontawesome-star);

@@ -23,10 +23,7 @@ export default class MainQuestionTypeContract {
    * @returns {number} Score.
    */
   getScore() {
-    return Math.min(
-      this.exerciseBundles.getScore(),
-      this.getMaxScore(),
-    );
+    return this.exerciseBundles.getScore();
   }
 
   /**
@@ -62,7 +59,7 @@ export default class MainQuestionTypeContract {
     this.endScreen.hide();
 
     this.stagesGameOverState.forEach((previousState) => {
-      this.stages.updateState(previousState.id, previousState.state);
+      this.maps.updateStageState(previousState.id, previousState.state);
     });
 
     this.params.jukebox.stopAll();
@@ -80,9 +77,10 @@ export default class MainQuestionTypeContract {
    */
   getCurrentState() {
     return {
+      currentMapIndex: this.maps.getCurrentIndex(),
       exerciseBundles: this.exerciseBundles.getCurrentState(),
-      stages: this.stages.getCurrentState(),
-      paths: this.paths.getCurrentState(),
+      stages: this.maps.getStagesState(),
+      paths: this.maps.getPathsState(),
       ...(
         this.livesLeft && this.livesLeft !== Infinity &&
         { livesLeft: this.livesLeft }

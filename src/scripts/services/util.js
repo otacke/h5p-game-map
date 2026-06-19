@@ -1,5 +1,79 @@
 import he from 'he';
 
+/**
+ * Pick random items from an array.
+ * @param {boolean[], number[], string[], object[]} items Items to pick from.
+ * @param {number|number[0]} selector Number of items to pick from.
+ * @returns {{boolean[]|number[]|string[]|object[]|number[]}} Object with items and index.
+ */
+export const pickFromArray = (items, selector) => {
+  if (Array.isArray(selector)) {
+    return pickIndexesFromArray(items, selector);
+  }
+
+  return pickRandomFromArray(items, selector);
+};
+
+/**
+ * Pick random items from an array.
+ * @param {{boolean[]|number[]|string[]|object[]|number[]}} items Items to pick from.
+ * @param {number} count Number of items to pick from.
+ * @returns {{boolean[]|number[]|string[]|object[]|number[]}} Object with items and index.
+ */
+export const pickRandomFromArray = (items, count) => {
+  if (!Array.isArray(items)) {
+    return { items: [], indexes: [] };
+  }
+
+  if (!Number.isInteger(count) || count < 1) {
+    return { items: items, indexes: Array.from({ length: items.length }, (_, index) => index) };
+  }
+
+  const total = items.length;
+  const indexes = Array.from({ length: total }, (_, index) => index);
+
+  if (count >= total) {
+    return {
+      items: items.slice(),
+      indexes: indexes,
+    };
+  }
+
+  for (let i = total - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indexes[i], indexes[j]] = [indexes[j], indexes[i]];
+  }
+
+  const selectedIndexes = indexes.slice(0, count).sort();
+
+  return {
+    items: selectedIndexes.reduce((picked, index) => {
+      picked.push(items[index]);
+      return picked;
+    }, []),
+    indexes: selectedIndexes,
+  };
+};
+
+/**
+ * Select certain indexes from an array.
+ * @param {{boolean[]|number[]|string[]|object[]|number[]}} items Items to pick from.
+ * @param {number[]} indexes Indexes to pick from.
+ * @returns {{boolean[]|number[]|string[]|object[]|number[]}} Object with items and index.
+ */
+export const pickIndexesFromArray = (items, indexes) => {
+  if (!Array.isArray(items) || !Array.isArray(indexes)) {
+    return { items: [], indexes: [] };
+  }
+
+  const selectedIndexes = indexes.filter((index) => Number.isInteger(index) && index >= 0 && index < items.length);
+
+  return {
+    items: selectedIndexes.map((index) => items[index]),
+    indexes: selectedIndexes,
+  };
+};
+
 /** Class for utility functions */
 export default class Util {
   /**

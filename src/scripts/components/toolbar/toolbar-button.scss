@@ -1,55 +1,56 @@
 .toolbar-button {
-  --titlebarButtonSize: 3em;
-  --titlebarButtonBackgroundSize: 1.25em;
+  --titlebarButtonSize: var(--h5p-theme-spacing-xl);
+  --titlebarButtonBackgroundSize: calc(1.25 * var(--h5p-theme-spacing-s));
 
   align-items: center;
-  background-color: var(--color-primary-5);
+  background-color: var(--h5p-theme-contrast-cta-light);
   background-position: center;
   background-repeat: no-repeat;
   background-size: var(--titlebarButtonBackgroundSize) var(--titlebarButtonBackgroundSize);
-  border: 2px solid var(--color-text-light); /* Same px value as used by Joubel in Interactive Book */
-  border-radius: 3px; /* Same px value as used by Joubel in Interactive Book */
+  border: none;
+  border-radius: var(--h5p-theme-border-radius-large);
+  color: var(--h5p-theme-main-cta-base);
   display: flex;
   flex-shrink: 0;
-  font-size: 1em;
+  font-size: var(--h5p-theme-font-size-m);
   height: var(--titlebarButtonSize);
   padding: 0;
+  position: relative;
   width: var(--titlebarButtonSize);
 
   &:not(.toolbar-button-disabled) {
     &:hover {
-      background-color: var(--color-primary-10);
+      background-color: color-mix(in srgb, var(--h5p-theme-contrast-cta-light), transparent 60%);
       cursor: pointer;
     }
 
     &:active {
-      background-color: var(--color-primary-25);
+      background-color: color-mix(in srgb, var(--h5p-theme-contrast-cta-light), transparent 80%);
     }
 
     &.toolbar-button-active {
-      background-color: var(--color-primary);
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: var(--titlebarButtonBackgroundSize) var(--titlebarButtonBackgroundSize);
+      background-color: var(--h5p-theme-main-cta-base);
+      color: var(--h5p-theme-contrast-cta);
       opacity: 20;
 
       &:hover {
-        background-color: var(--color-primary-90);
+        background-color: color-mix(in srgb, var(--h5p-theme-main-cta-base), transparent 60%);
         cursor: pointer;
       }
 
       &:active {
-        background-color: var(--color-primary-95);
+        background-color: color-mix(in srgb, var(--h5p-theme-main-cta-base), transparent 80%);
       }
+    }
+
+    &:focus-visible {
+      outline: 2px ridge var(--h5p-theme-contrast-cta-white);
+      outline-offset: 2px;
     }
   }
 
   &.toolbar-button-disabled {
-    background-color: var(--color-disabled);
-
-    &::before {
-      color: var(--color-text-light);
-    }
+    filter: grayscale(100%);
   }
 }
 

@@ -1,10 +1,12 @@
-import H5PUtil from '@services/h5p-util.js';
+import { STAGE_STATES } from '@services/constants.js';
+import { getSemanticsDefaults } from '@services/h5p-util.js';
 import Util from '@services/util.js';
 import Dictionary from '@services/dictionary.js';
 import Jukebox from '@services/jukebox.js';
 import Main from '@components/main.js';
 import MessageBox from '@components/messageBox/message-box.js';
 import QuestionTypeContract from '@mixins/question-type-contract.js';
+import Sanitization from '@mixins/sanitization.js';
 import XAPI from '@mixins/xapi.js';
 import '@styles/h5p-game-map.scss';
 
@@ -17,22 +19,10 @@ const FULL_SCREEN_DELAY_MEDIUM_MS = 200;
 /** @constant {number} FULL_SCREEN_DELAY_LARGE_MS Time some browsers need to go to full screen. */
 const FULL_SCREEN_DELAY_LARGE_MS = 300;
 
-/** @constant {number} EXERCISE_SCREEN_ANIM_DURATION_MS Duration from CSS. */
-const EXERCISE_SCREEN_ANIM_DURATION_MS = 1000;
-
 /** @constant {string} ADVANCED_TEXT_VERSION_FALLBACK Fallback version for Advanced Text. */
 const ADVANCED_TEXT_VERSION_FALLBACK = '1.1';
 
-/** @constant {object} STATES States lookup. */
-export const STATES = {
-  unstarted: 0, // Exercise
-  locked: 1,
-  open: 3,
-  opened: 4, // Rename to tried or similar
-  completed: 5,
-  cleared: 6, // Exercise, Stage, Path,
-  sealed: 7, // Stage
-};
+// TODO: TEST TEST TEST
 
 export default class GameMap extends H5P.Question {
   /**
@@ -43,15 +33,15 @@ export default class GameMap extends H5P.Question {
    */
   constructor(params, contentId, extras = {}) {
     super('game-map');
-
-    Util.addMixins(GameMap, [QuestionTypeContract, XAPI]);
+    Util.addMixins(GameMap, [QuestionTypeContract, Sanitization, XAPI]);
 
     const defaults = Util.extend({
+      gamemaps: [],
       behaviour: {
         finishScore: Infinity, // Cannot use Infinity in JSON
         enableCheckButton: true, // Undocumented Question Type contract setting
       },
-    }, H5PUtil.getSemanticsDefaults());
+    }, getSemanticsDefaults());
 
     this.contentId = contentId;
 
@@ -73,6 +63,7 @@ export default class GameMap extends H5P.Question {
 
     // Migrate previous state to newer version
     extras.previousState = this.migratePreviousState1_4(extras.previousState);
+    extras.previousState = this.migratePreviousState1_7(extras.previousState);
 
     this.jukebox = new Jukebox();
     this.fillJukebox();
@@ -84,9 +75,25 @@ export default class GameMap extends H5P.Question {
 
     this.initializeMain(fullScreenSupported);
 
+    if (this.params.isPreview) {
+      this.interceptXAPIEvents();
+    }
+
     if (fullScreenSupported) {
       this.setupFullscreenHandlers();
     }
+  }
+
+  /**
+   * Intercept xAPI events in preview mode to avoid polluting LRS with test data.
+   */
+  interceptXAPIEvents() {
+    /*
+     * Kill all external listeners that may have been added so far.
+     * /!\ This can have side effects if a customization listens within the H5P Editor!
+     * There's no way though to block events from subcontents without being able to block them at the source.
+     */
+    H5P.externalDispatcher.off('xAPI');
   }
 
   /**
@@ -95,42 +102,6 @@ export default class GameMap extends H5P.Question {
   handleReduceMotion() {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')?.matches;
     this.params.visual.misc.useAnimation = this.params.visual.misc.useAnimation && !reduceMotion;
-  }
-
-  /**
-   * Sanitize stages.
-   * @param {number} contentId Content ID.
-   */
-  sanitizeStages(contentId) {
-    const advancedTextVersion = this.getAdvancedTextVersion(contentId);
-
-    const maxElementIndex = this.params.gamemapSteps.gamemap.elements.length - 1;
-    this.params.gamemapSteps.gamemap.elements = this.params.gamemapSteps.gamemap.elements.map((element) => {
-      // Remove invalid neighbor references
-      element.neighbors = (element.neighbors || []).filter((neighborIndexString) => {
-        const neighborIndex = parseInt(neighborIndexString);
-        return neighborIndex > 0 && neighborIndex <= maxElementIndex;
-      });
-
-      // Remove empty content entries
-      if (!element.specialStageType) {
-        element.contentsList = (element.contentsList || []).filter((content) => {
-          return content?.contentType?.library;
-        });
-      }
-
-      // Replace missing content with a placeholder
-      const isContentMissing = !element.specialStageType && !element.contentsList?.[0]?.contentType?.library;
-      if (isContentMissing) {
-        element.dom = { count: 0 };
-        element.contentsList = [this.createMissingContentElement(advancedTextVersion)];
-      }
-
-      // Set animation duration
-      element.animDuration = this.params.visual.misc.useAnimation ? EXERCISE_SCREEN_ANIM_DURATION_MS : 0;
-
-      return element;
-    });
   }
 
   /**
@@ -180,7 +151,6 @@ export default class GameMap extends H5P.Question {
     this.globals.set('contentId', this.contentId);
     this.globals.set('params', this.params);
     this.globals.set('extras', this.extras);
-    this.globals.set('states', STATES);
     this.globals.set('isFullscreenSupported', fullScreenSupported);
     this.globals.set('resize', () => {
       this.trigger('resize');
@@ -195,7 +165,8 @@ export default class GameMap extends H5P.Question {
    * @param {boolean} fullScreenSupported Full screen supported.
    */
   initializeMain(fullScreenSupported) {
-    const hasExerciseStages = this.params.gamemapSteps.gamemap.elements.some((stage) => {
+    const firstMap = this.params.gamemaps[0];
+    const hasExerciseStages = (firstMap?.elements ?? []).some((stage) => {
       return stage.contentsList?.length;
     });
 
@@ -249,28 +220,27 @@ export default class GameMap extends H5P.Question {
       this.main.setFullscreen(false);
     });
 
-    const recomputeDimensions = () => {
-      if (H5P.isFullscreen) {
-        window.setTimeout(() => { // Needs time to rotate for window.innerHeight
-          this.main.setFullscreen(true);
-        }, FULL_SCREEN_DELAY_MEDIUM_MS);
-      }
-    };
-
     // Resize fullscreen dimensions when rotating screen
     if (screen?.orientation?.addEventListener) {
-      screen?.orientation?.addEventListener('change', () => {
-        recomputeDimensions();
-      });
+      screen.orientation.addEventListener('change', this.recomputeDimensions);
     }
     else {
       /*
       * `orientationchange` is deprecated, but guess what browser doesn't
       * support the Screen Orientation API ... From something with fruit.
       */
-      window.addEventListener('orientationchange', () => {
-        recomputeDimensions();
-      }, false);
+      window.addEventListener('orientationchange', this.recomputeDimensions, false);
+    }
+  }
+
+  /**
+   * Recompute dimensions.
+   */
+  recomputeDimensions() {
+    if (H5P.isFullscreen) {
+      window.setTimeout(() => { // Needs time to rotate for window.innerHeight
+        this.main.setFullscreen(true);
+      }, FULL_SCREEN_DELAY_MEDIUM_MS);
     }
   }
 
@@ -306,6 +276,27 @@ export default class GameMap extends H5P.Question {
   }
 
   /**
+   * Migrate user state structure to version 1.7.
+   * Adds the new `currentMapIndex` field that tracks which map of the
+   * `gamemaps` list is active. Pre-1.7 content had a single map, so the
+   * restored state belongs to map index 0.
+   *
+   * The flat `stages`, `paths`, and `exerciseBundles` arrays are kept as-is;
+   * 1.7 still stores them flat (just sourced across all maps).
+   * @param {object} previousState Previous state.
+   * @returns {object} Migrated state.
+   */
+  migratePreviousState1_7(previousState) {
+    if (!previousState?.content || typeof previousState.content.currentMapIndex === 'number') {
+      return previousState; // No state or already migrated
+    }
+
+    previousState.content.currentMapIndex = 0;
+
+    return previousState;
+  }
+
+  /**
    * Attach to wrapper.
    */
   registerDomElements() {
@@ -329,34 +320,40 @@ export default class GameMap extends H5P.Question {
   fillJukebox() {
     const audios = {};
 
-    if (this.params.audio.backgroundMusic.music?.[0]?.path) {
-      const src = H5P.getPath(
-        this.params.audio.backgroundMusic.music[0].path, this.contentId,
-      );
-
-      const crossOrigin = H5P.getCrossOrigin?.(this.params.audio.backgroundMusic.music[0]) ?? 'Anonymous';
-
-      audios.backgroundMusic = {
-        src: src,
-        crossOrigin: crossOrigin,
-        options: { loop: true, groupId: 'background' },
-      };
-    }
-
-    for (const key in this.params.audio.ambient) {
-      if (!this.params.audio.ambient[key]?.[0]?.path) {
-        continue;
+    const buildAudio = (entry, options) => {
+      if (!entry?.path) {
+        return null;
       }
-
-      const src = H5P.getPath(this.params.audio.ambient[key][0].path, this.contentId);
-
-      const crossOrigin = H5P.getCrossOrigin?.(this.params.audio.ambient[key][0]) ?? 'Anonymous';
-
-      audios[key] = {
-        src: src,
-        crossOrigin: crossOrigin,
+      return {
+        src: H5P.getPath(entry.path, this.contentId),
+        crossOrigin: H5P.getCrossOrigin?.(entry) ?? 'Anonymous',
+        ...(options && { options }),
       };
+    };
+
+    const backgroundOptions = { loop: true, groupId: 'background' };
+
+    const backgroundMusic = buildAudio(this.params.audio.music?.[0], backgroundOptions);
+    if (backgroundMusic) {
+      audios.backgroundMusic = backgroundMusic;
     }
+
+    this.params.gamemaps.forEach((map, mapIndex) => {
+      const customBackgroundMusic = buildAudio(
+        map.mapOptions?.audioSettings?.music?.[0],
+        backgroundOptions,
+      );
+      if (customBackgroundMusic) {
+        audios[`backgroundMusic-${mapIndex}`] = customBackgroundMusic;
+      }
+    });
+
+    Object.entries(this.params.audio.ambient ?? {}).forEach(([key, entry]) => {
+      const ambient = buildAudio(entry?.[0]);
+      if (ambient) {
+        audios[key] = ambient;
+      }
+    });
 
     this.jukebox.fill(audios);
   }
@@ -382,12 +379,15 @@ export default class GameMap extends H5P.Question {
       xAPIEvent.getVerifiedStatementValue(['object', 'definition']),
       this.getXAPIDefinition());
 
+    const maxScore = this.getMaxScore(); // Question Type Contract mixin
+    const score = Math.min(this.getScore(), maxScore); // Question Type Contract mixin
+
     xAPIEvent.setScoredResult(
-      this.getScore(), // Question Type Contract mixin
-      this.getMaxScore(), // Question Type Contract mixin
+      score,
+      maxScore,
       this,
       true,
-      this.getScore() === this.getMaxScore(),
+      score === maxScore,
     );
 
     this.trigger(xAPIEvent);
@@ -432,6 +432,36 @@ export default class GameMap extends H5P.Question {
     }
     else {
       H5P.exitFullScreen();
+    }
+  }
+
+  /**
+   * Get stages.
+   * @returns {object[]} Stages.
+   */
+  getStages() {
+    return this.main?.getStages() || [];
+  }
+
+  /**
+   * Cheat!
+   * @param {object} params Parameters.
+   */
+  cheat(params) {
+    this.main.cheat(params);
+  }
+
+  /**
+   * Destroy.
+   */
+  destroy() {
+    this.main?.reset();
+    this.jukebox.destroy();
+    this.main?.destroy();
+
+    if (this.recomputeDimensions) {
+      screen?.orientation?.removeEventListener?.('change', this.recomputeDimensions);
+      window.removeEventListener('orientationchange', this.recomputeDimensions, false);
     }
   }
 }

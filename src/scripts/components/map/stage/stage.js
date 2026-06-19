@@ -1,4 +1,5 @@
 import Color from 'color';
+import { ROAMING_TYPES, STAGE_STATES, STAGE_TYPES } from '@services/constants.js';
 import { animate } from '@services/animate.js';
 import Util from '@services/util.js';
 import Label from './label.js';
@@ -14,12 +15,6 @@ const VERTICAL_CENTER_THRESHOLD = 50;
 
 /** @constant {number} ANIMATION_CLEARED_BLOCK_MS Blocking time. */
 const ANIMATION_CLEARED_BLOCK_MS = 1000;
-
-/** @constant {object} STAGE_TYPES types lookup. */
-export const STAGE_TYPES = {
-  'stage': 0,
-  'special-stage': 1,
-};
 
 export default class Stage {
   /**
@@ -43,13 +38,12 @@ export default class Stage {
       },
     }, params);
 
-    this.params.type = STAGE_TYPES.stage;
+    this.params.type = STAGE_TYPES.STAGE;
     if (this.params.specialStageType) {
-      this.params.type = STAGE_TYPES['special-stage'];
+      this.params.type = STAGE_TYPES.SPECIAL_STAGE;
     }
 
-    this.params.state = this.params.state ??
-      this.params.globals.get('states').locked;
+    this.params.state = this.params.state ?? STAGE_STATES.LOCKED;
 
     this.callbacks = Util.extend({
       onClicked: () => {},
@@ -60,7 +54,8 @@ export default class Stage {
       onAccessRestrictionsHit: () => {},
     }, callbacks);
 
-    const elementParams = this.params.globals.get('params').gamemapSteps.gamemap.elements;
+    const allElements = (this.params.globals.get('getAllGamemapsParams')?.() ?? [])
+      .flatMap((gamemap) => gamemap.elements ?? []);
 
     // Map state names to state values and add labels
     this.params.accessRestrictions.restrictionSetList = (this.params.accessRestrictions.restrictionSetList ?? [])
@@ -69,19 +64,25 @@ export default class Stage {
         setList.restrictionList = setList.restrictionList.map((restriction) => {
           const stageProgressValue = restriction.stageProgressGroup?.stageProgressValue;
           if (stageProgressValue) {
-            restriction.stageProgressGroup.stageProgressValue = this.params.globals.get('states')[stageProgressValue];
+            restriction.stageProgressGroup.stageProgressValue = STAGE_STATES[stageProgressValue.toUpperCase()];
             restriction.stageProgressGroup.stageProgressValueRepresentation =
               this.params.dictionary.get(`l10n.${stageProgressValue}`);
           }
 
           if (restriction.restrictionType === 'stageScore' && restriction.stageScoreGroup) {
-            const label = elementParams.find((element) => {
+            const label = allElements.find((element) => {
               return element.id === restriction.stageScoreGroup.stageScoreId;
             })?.label;
             restriction.stageScoreGroup.stageScoreLabel = label;
           }
+          else if (restriction.restrictionType === 'stageScorePercentage' && restriction.stageScorePercentageGroup) {
+            const label = allElements.find((element) => {
+              return element.id === restriction.stageScorePercentageGroup.stageScorePercentageId;
+            })?.label;
+            restriction.stageScorePercentageGroup.stageScorePercentageLabel = label;
+          }
           else if (restriction.restrictionType === 'stageProgress' && restriction.stageProgressGroup) {
-            const label = elementParams.find((element) => {
+            const label = allElements.find((element) => {
               return element.id === restriction.stageProgressGroup.stageProgressId;
             })?.label;
             restriction.stageProgressGroup.stageProgressLabel = label;
@@ -102,6 +103,7 @@ export default class Stage {
       {
         getTotalScore: () => this.callbacks.getTotalScore(),
         getStageScore: (id) => this.callbacks.getScore(id),
+        getStageScorePercentage: (id) => this.callbacks.getScorePercentage(id),
         getStageProgress: (id) => this.callbacks.getStageProgress(id),
         getTime: () => new Date(),
       },
@@ -164,12 +166,11 @@ export default class Stage {
     this.setState(this.params.state);
 
     this.setTabIndex('-1');
-
-    if (!this.params.visible && !this.params.alwaysVisible) {
-      this.hide();
+    if (this.params.alwaysVisible || this.params.visible) {
+      this.show();
     }
     else {
-      this.show();
+      this.hide();
     }
 
     this.update(params.telemetry);
@@ -208,6 +209,14 @@ export default class Stage {
   }
 
   /**
+   * Get special stage type.
+   * @returns {string|undefined} Special stage type. Only applicable if stage is a special stage.
+   */
+  getSpecialStageType() {
+    return this.params.specialStageType;
+  }
+
+  /**
    * Get neighbors.
    * @returns {string[]} Neighbors.
    */
@@ -233,7 +242,7 @@ export default class Stage {
       return;
     }
 
-    this.isReachableState = state;
+    this.isReachableState =  state;
 
     if (!this.isReachable()) {
       this.hide();
@@ -279,15 +288,10 @@ export default class Stage {
         .replace(/@stagelabel/, this.params.label);
 
     let stateLabel;
-    if (
-      this.state === this.params.globals.get('states').locked
-    ) {
+    if (this.state === STAGE_STATES.LOCKED) {
       stateLabel = this.params.dictionary.get('a11y.locked');
     }
-    else if (
-      this.state === this.params.globals.get('states').completed ||
-      this.state === this.params.globals.get('states').cleared
-    ) {
+    else if (this.state === STAGE_STATES.COMPLETED || this.state === STAGE_STATES.CLEARED) {
       stateLabel = this.params.dictionary.get('a11y.cleared');
     }
 
@@ -324,6 +328,10 @@ export default class Stage {
    * @returns {boolean} True, if stage can be start stage. Else false.
    */
   canBeStartStage() {
+    if (this.getType() === STAGE_TYPES.SPECIAL_STAGE) {
+      return false;
+    }
+
     return this.params.canBeStartStage || false;
   }
 
@@ -338,9 +346,10 @@ export default class Stage {
   /**
    * Show.
    * @param {object} [params] Parameters.
+   * @param {boolean} [params.force] Show no matter what.
    */
   show(params = {}) {
-    if (!this.isReachable()) {
+    if (!this.isReachable() && !params.force) {
       return;
     }
 
@@ -377,6 +386,20 @@ export default class Stage {
   }
 
   /**
+   * Temporarily hide without changing state. Pair with endTemporaryHide().
+   */
+  hideTemporarily() {
+    this.dom.classList.add('hidden-temporarily');
+  }
+
+  /**
+   * End the temporary hide started by hideTemporarily().
+   */
+  endTemporaryHide() {
+    this.dom.classList.remove('hidden-temporarily');
+  }
+
+  /**
    * Set start stage.
    */
   setStartStage() {
@@ -395,7 +418,7 @@ export default class Stage {
    * Lock.
    */
   lock() {
-    this.setState('locked');
+    this.setState(STAGE_STATES.LOCKED);
   }
 
   /**
@@ -403,7 +426,7 @@ export default class Stage {
    * @param {object} [params] Parameters.
    */
   unlock(params = {}) {
-    if (this.state !== this.params.globals.get('states').locked) {
+    if (this.state !== STAGE_STATES.LOCKED) {
       return; // Already unlocked
     }
 
@@ -416,7 +439,7 @@ export default class Stage {
       .replace(/@stagelabel/, this.params.label),
     );
 
-    this.setState('open');
+    this.setState(STAGE_STATES.OPEN);
   }
 
   /**
@@ -542,23 +565,30 @@ export default class Stage {
       this.scoreStars.hide();
     }
 
-    const states = this.params.globals.get('states');
-
-    if (this.state === states.locked || this.state === states.sealed) {
-      this.animate('shake');
-      this.params.jukebox.play('clickStageLocked');
-
-      if (this.state === states.locked && !this.passesRestrictions()) {
-        this.callbacks.onAccessRestrictionsHit({
-          id: this.params.id,
-          html: this.restrictions.getMessagesHTML(),
-        });
-      }
+    if (this.state === STAGE_STATES.LOCKED || this.state === STAGE_STATES.SEALED) {
+      this.informAboutLockedState();
 
       return;
     }
 
     this.callbacks.onClicked(this.params.id, this.state);
+  }
+
+  /**
+   * Inform user about locked state.
+   * @param {object} [params] Parameters.
+   */
+  informAboutLockedState(params = {}) {
+    this.animate('shake');
+    this.params.jukebox.play('clickStageLocked');
+
+    if (this.state === STAGE_STATES.LOCKED && !this.passesRestrictions()) {
+      this.callbacks.onAccessRestrictionsHit({
+        sourceId: params.sourceId,
+        id: this.params.id,
+        html: this.restrictions.getMessagesHTML(),
+      });
+    }
   }
 
   /**
@@ -629,13 +659,10 @@ export default class Stage {
     this.setReachable(true);
     this.isStartStageState = false;
 
-    const state = params.isInitial ?
-      this.params.state :
-      this.params.globals.get('states').locked;
-
+    const state = params.isInitial ? this.params.state : STAGE_STATES.LOCKED;
     this.setState(state);
 
-    if (state === this.params.globals.get('states').locked) {
+    if (state === STAGE_STATES.LOCKED) {
       this.setTabIndex('-1');
     }
 
@@ -664,11 +691,10 @@ export default class Stage {
    * @param {boolean} [params.force] If true, will set state unconditionally.
    */
   setState(state, params = {}) {
-    const states = this.params.globals.get('states');
     const globalParams = this.params.globals.get('params');
 
     if (typeof state === 'string') {
-      state = Object.entries(states)
+      state = Object.entries(STAGE_STATES)
         .find((entry) => entry[0] === state)[1];
     }
 
@@ -679,31 +705,34 @@ export default class Stage {
     let newState;
 
     if (params.force) {
-      newState = states[state];
+      newState = state;
     }
-    else if (state === states.locked) {
-      newState = states.locked;
+    else if (state === STAGE_STATES.UNSTARTED && !this.getState()) {
+      newState = STAGE_STATES.UNSTARTED;
     }
-    else if (state === states.open || state === states.opened) {
-      if (this.state !== states.completed && this.state !== states.cleared) {
-        newState = states.open; // Was already completed.
+    else if (state === STAGE_STATES.LOCKED) {
+      newState = STAGE_STATES.LOCKED;
+    }
+    else if (state === STAGE_STATES.OPEN || state === STAGE_STATES.OPENED) {
+      if (this.state !== STAGE_STATES.COMPLETED && this.state !== STAGE_STATES.CLEARED) {
+        newState = STAGE_STATES.OPEN; // Was already completed.
       }
       this.show();
     }
     else if (
-      state === states.completed &&
+      state === STAGE_STATES.COMPLETED &&
       (
-        globalParams.behaviour.map.roaming === 'free' ||
-        globalParams.behaviour.map.roaming === 'complete'
+        globalParams.behaviour.map.roaming === ROAMING_TYPES.FREE ||
+        globalParams.behaviour.map.roaming === ROAMING_TYPES.COMPLETE
       )
     ) {
-      newState = states.cleared;
+      newState = STAGE_STATES.CLEARED;
     }
-    else if (state === states.cleared) {
-      newState = states.cleared;
+    else if (state === STAGE_STATES.CLEARED) {
+      newState = STAGE_STATES.CLEARED;
     }
-    else if (state === states.sealed) {
-      newState = states.sealed;
+    else if (state === STAGE_STATES.SEALED) {
+      newState = STAGE_STATES.SEALED;
     }
 
     if (typeof newState !== 'number') {
@@ -715,12 +744,13 @@ export default class Stage {
 
       // Callback to run once exercise screen closed
       const callback = () => {
-        for (const [key, value] of Object.entries(states)) {
+        for (const [key, value] of Object.entries(STAGE_STATES)) {
+          const className = `h5p-game-map-stage-${key.toLowerCase()}`;
           if (value !== this.state) {
-            this.content.classList.remove(`h5p-game-map-stage-${key}`);
+            this.content.classList.remove(className);
           }
           else {
-            this.content.classList.add(`h5p-game-map-stage-${key}`);
+            this.content.classList.add(className);
           }
         }
 
@@ -732,11 +762,11 @@ export default class Stage {
 
         // Put animation and sound in queue
         if (this.shouldBePlayful) {
-          if (newState === states.open || newState === states.opened) {
+          if (newState === STAGE_STATES.OPEN || newState === STAGE_STATES.OPENED) {
             this.animate('bounce');
             this.params.jukebox.play('unlockStage');
           }
-          else if (newState === states.cleared) {
+          else if (newState === STAGE_STATES.CLEARED) {
             this.animate('bounce');
             this.params.jukebox.play('clearStage');
           }
@@ -748,10 +778,10 @@ export default class Stage {
 
       // Make sure to add a blocking delay for when stages are cleared
       if (this.shouldBePlayful) {
-        if (newState === states.cleared) {
+        if (newState === STAGE_STATES.CLEARED) {
           params.block = ANIMATION_CLEARED_BLOCK_MS;
         }
-        else if (newState === states.sealed) {
+        else if (newState === STAGE_STATES.SEALED) {
           params.skipQueue = true;
         }
       }

@@ -2,14 +2,14 @@
   "title": "Game Map",
   "description": "Let your students choose their exercises on a game map.",
   "majorVersion": 1,
-  "minorVersion": 6,
-  "patchVersion": 3,
+  "minorVersion": 9,
+  "patchVersion": 0,
   "runnable": 1,
   "author": "Oliver Tacke",
   "license": "MIT",
   "coreApi": {
     "majorVersion": 1,
-    "minorVersion": 27
+    "minorVersion": 28
   },
   "machineName": "H5P.GameMap",
   "embedTypes": [
@@ -30,6 +30,11 @@
       "machineName": "H5P.Question",
       "majorVersion": 1,
       "minorVersion": 5
+    },
+    {
+      "machineName": "H5P.Components",
+      "majorVersion": 1,
+      "minorVersion": 0
     },
     {
       "machineName": "FontAwesome",
@@ -71,7 +76,7 @@
     {
       "machineName": "H5PEditor.GameMap",
       "majorVersion": 1,
-      "minorVersion": 2
+      "minorVersion": 5
     },
     {
       "machineName": "H5PEditor.DateTime",

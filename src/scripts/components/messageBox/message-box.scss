@@ -1,10 +1,10 @@
 .h5p-game-map-message-box {
-  background-color: var(--color-hint-message-background);
-  border: 1px solid var(--color-hint-message-border);
+  background-color: var(--h5p-theme-feedback-neutral-third);
+  border: 1px solid var(--h5p-theme-feedback-neutral-main);
   box-sizing: border-box;
-  color: var(--color-hint-message-text);
-  font-size: .8em;
-  padding: .8em;
+  color: var(--h5p-theme-feedback-neutral-secondary);
+  font-size: var(--h5p-theme-font-size-s);
+  padding: var(--h5p-theme-spacing-xs);
 
   .h5p-game-map-message-box-message {
     margin: 0;

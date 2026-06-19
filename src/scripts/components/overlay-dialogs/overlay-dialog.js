@@ -74,6 +74,18 @@ export default class OverlayDialog {
     this.headlineText.classList.add('h5p-game-map-overlay-dialog-headline-text');
     headline.append(this.headlineText);
 
+    this.infoIcon = document.createElement('button');
+    this.infoIcon.classList.add('h5p-game-map-overlay-dialog-headline-info-icon', 'display-none');
+    this.infoIcon.setAttribute('aria-label', this.params.dictionary.get('a11y.showStageInfo'));
+    this.infoIcon.addEventListener('click', () => {
+      this.toggleInfoVisibility();
+    });
+    headline.append(this.infoIcon);
+
+    this.infoContent = document.createElement('div');
+    this.infoContent.classList.add('h5p-game-map-overlay-dialog-headline-info-content', 'display-none');
+    this.content.append(this.infoContent);
+
     this.timerDisplay = new TimerDisplay();
     headline.append(this.timerDisplay.getDOM());
 
@@ -149,6 +161,7 @@ export default class OverlayDialog {
   hide(params = {}, callback) {
     document.removeEventListener('click', this.handleGlobalClick);
     document.removeEventListener('keydown', this.handleKeyDown);
+    this.toggleInfoVisibility(false);
 
     if (params.animate) {
       this.dom.classList.add('transparent');
@@ -205,6 +218,43 @@ export default class OverlayDialog {
         .get('a11y.exerciseLabel')
         .replace(/@stagelabel/, text),
     );
+  }
+
+  /**
+   * Set info text.
+   * @param {HTMLElement} html Info text to set, can contain HTML.
+   */
+  setInfo(html) {
+    if (!(html instanceof HTMLElement)) {
+      this.infoIcon.classList.add('display-none');
+      this.infoIcon.setAttribute('aria-label', this.params.dictionary.get('a11y.showStageInfo'));
+      this.toggleInfoVisibility(false);
+      this.infoContent.innerText = '';
+      return;
+    }
+
+    this.infoIcon.classList.remove('display-none');
+    this.infoContent.innerText = '';
+    this.infoContent.append(html);
+  }
+
+  /**
+   * Toggle info visibility.
+   * @param {boolean} visible If true, show info. If false, hide info. If undefined, toggle visibility.
+   */
+  toggleInfoVisibility(visible) {
+    if (typeof visible === 'undefined') {
+      visible = this.infoContent.classList.contains('display-none');
+    }
+    this.infoContent.classList.toggle('display-none', !visible);
+    if (visible) {
+      this.infoIcon.setAttribute('aria-label', this.params.dictionary.get('a11y.hideStageInfo'));
+    }
+    else {
+      this.infoIcon.setAttribute('aria-label', this.params.dictionary.get('a11y.showStageInfo'));
+    }
+
+    this.params.globals.get('resize')();
   }
 
   /**
@@ -300,5 +350,15 @@ export default class OverlayDialog {
       event.preventDefault();
       this.callbacks.onClosed();
     }
+  }
+
+  /**
+   * Destroy.
+   */
+  destroy() {
+    // Remove listeners on document in case the dialog is torn down while open.
+    document.removeEventListener('click', this.handleGlobalClick);
+    document.removeEventListener('keydown', this.handleKeyDown);
+    this.focusTrap.deactivate();
   }
 }

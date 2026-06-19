@@ -2,6 +2,7 @@ import CallbackQueue from '@services/callback-queue.js';
 import { TIMER_STATES } from '@services/timer.js';
 import Util from '@services/util.js';
 import MainAudio from './mixins/main-audio.js';
+import MainCheats from './mixins/main-cheats.js';
 import MainInitialization from './mixins/main-initialization.js';
 import MainHandlersStage from './mixins/main-handlers-stage.js';
 import MainHandlersExercise from './mixins/main-handlers-exercise.js';
@@ -52,6 +53,7 @@ export default class Main {
       Main,
       [
         MainAudio,
+        MainCheats,
         MainInitialization,
         MainHandlersStage,
         MainHandlersExercise,
@@ -93,26 +95,57 @@ export default class Main {
 
     this.toolbar.showStatusContainer('stages');
 
-    if (this.getMaxScore() > 0) {
-      this.toolbar.showStatusContainer('score');
-    }
-
     this.start({ isInitial: true });
 
-    this.stages.updateStatePerRestrictions();
+    this.maps.updateStagesStatePerRestrictions();
 
     // Reattach H5P.Question buttons and scorebar to endscreen
-    H5P.externalDispatcher.on('initialized', () => {
-      const feedbackWrapper = this.grabH5PQuestionFeedback({
-        maxScore: this.getMaxScore(),
-      });
+    this.handleH5PInitialized = this.handleH5PInitialized.bind(this);
+    H5P.externalDispatcher.on('initialized', this.handleH5PInitialized);
+  }
 
-      this.endScreen.setContent(feedbackWrapper);
-
-      if (this.gameDone) {
-        this.showEndscreen();
-      }
+  /**
+   * Handle H5P being initialized.
+   */
+  handleH5PInitialized() {
+    const feedbackWrapper = this.grabH5PQuestionFeedback({
+      maxScore: this.getMaxScore(),
     });
+
+    this.endScreen.setContent(feedbackWrapper);
+
+    const hasTitleScreen = this.params.globals.get('params').showTitleScreen;
+
+    if (this.gameDone && !hasTitleScreen) {
+      this.showEndscreen();
+    }
+  }
+
+  /**
+   * Destroy.
+   */
+  destroy() {
+    this.timer?.stop();
+
+    // Clear pending timers that would otherwise keep this instance alive.
+    window.clearTimeout(this.stageAttentionSeekerTimeout);
+    window.clearTimeout(this.resizeTimeout);
+    window.clearTimeout(this.exersizeScreenResizeTimeout);
+    window.clearTimeout(this.settingsDialogResizeTimeout);
+
+    // Remove listeners attached to objects that outlive this instance.
+    H5P.externalDispatcher.off('initialized', this.handleH5PInitialized);
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+
+    // Tear down children.
+    this.maps.destroy();
+    this.toolbar.destroy();
+    this.exerciseBundles.destroy();
+    this.exerciseScreen.destroy();
+    this.settingsDialog.destroy();
+    this.startScreen?.destroy();
+    this.endScreen?.destroy();
+    this.confirmationDialog?.destroy();
   }
 
   /**
@@ -121,6 +154,14 @@ export default class Main {
    */
   getDOM() {
     return this.dom;
+  }
+
+  /**
+   * Get stages.
+   * @returns {object[]} Stages.
+   */
+  getStages() {
+    return this.maps.getStages();
   }
 
   /**
@@ -143,9 +184,11 @@ export default class Main {
    * @param {object} params Parameters.
    * @param {boolean} [params.focusButton] If true, start button will get focus.
    * @param {boolean} [params.readOpened] If true, announce screen was opened.
+   * @param {number} [params.mapIndex] If set, will go to that map.
    */
   show(params = {}) {
-    this.map.show();
+    this.maps.show();
+
     this.contentDOM.classList.remove('display-none');
 
     this.setTimerState();
@@ -174,13 +217,15 @@ export default class Main {
         this.params.globals.get('resize')();
       });
     });
+
+    this.maps.setCurrentIndex(params.mapIndex || 0);
   }
 
   /**
    * Hide.
    */
   hide() {
-    this.map.hide();
+    this.maps.hide();
     this.timer?.pause();
 
     this.contentDOM.classList.add('display-none');
@@ -209,7 +254,7 @@ export default class Main {
       this.show({ focusButton: true, readOpened: true });
     }
     else {
-      this.show();
+      this.show({ mapIndex: this.startMapIndex });
     }
 
     this.params.globals.get('resize')();
@@ -221,9 +266,9 @@ export default class Main {
   seekAttention() {
     window.clearTimeout(this.stageAttentionSeekerTimeout);
     this.stageAttentionSeekerTimeout = window.setTimeout(() => {
-      this.stages.getNextOpenStage();
+      this.maps.getNextOpenStage();
 
-      const nextOpenStage = this.stages.getNextOpenStage();
+      const nextOpenStage = this.maps.getNextOpenStage();
       if (nextOpenStage) {
         nextOpenStage.animate('bounce');
       }
@@ -236,15 +281,15 @@ export default class Main {
    * Resize.
    */
   resize() {
-    const mapSize = this.map.getSize();
+    const mapSize = this.maps.getSize();
     if (!mapSize || mapSize.width === 0 || mapSize.height === 0) {
       return;
     }
 
-    this.map.resize();
+    this.maps.resize();
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = window.setTimeout(() => {
-      this.paths.update({ mapSize: this.map.getSize() });
+      this.maps.resizeAllPaths();
     }, 0);
 
     /*
@@ -374,6 +419,10 @@ export default class Main {
 
     this.hide();
     this.endScreen.show(params);
+
+    if (score > maxScore) {
+      this.endScreen.overrideScore(score);
+    }
   }
 
   /**
@@ -391,7 +440,7 @@ export default class Main {
     const marginVertical = parseFloat(style.getPropertyValue('margin-top')) +
       parseFloat(style.getPropertyValue('margin-bottom'));
 
-    this.map.setFullscreen(state, {
+    this.maps.setFullscreen(state, {
       width: window.innerWidth - marginHorizontal,
       height: window.innerHeight - marginVertical - this.toolbar.getFullHeight(),
     });

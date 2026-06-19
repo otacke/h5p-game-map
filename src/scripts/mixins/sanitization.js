@@ -1,0 +1,208 @@
+import Util from '@services/util.js';
+
+/** @constant {number} EXERCISE_SCREEN_ANIM_DURATION_MS Duration from CSS. */
+const EXERCISE_SCREEN_ANIM_DURATION_MS = 1000;
+
+export default class Sanitization {
+
+  /**
+   * Sanitize stages.
+   * @param {number} contentId Content ID.
+   */
+  sanitizeStages(contentId) {
+    const animDuration = this.params.visual.misc.useAnimation ? EXERCISE_SCREEN_ANIM_DURATION_MS : 0;
+
+    const maps = this.params.gamemaps || [];
+    maps.forEach((map) => {
+      const advancedTextVersion = this.getAdvancedTextVersion(contentId);
+      const maxElementIndex = map.elements.length - 1;
+
+      map.elements = map.elements.map((element) => {
+        this.sanitizeNeighbors(element, maxElementIndex);
+        this.sanitizeContentsList(element);
+        this.handleMissingContent(element, advancedTextVersion);
+
+        element.animDuration = animDuration;
+
+        this.sanitizeScoreScaling(element);
+        this.sanitizeStageBehaviour(element);
+
+        return element;
+      });
+    });
+  }
+
+  /**
+   * Sanitize neighbor references for an element.
+   * @param {object} element Element to sanitize.
+   * @param {number} maxElementIndex Maximum valid element index.
+   */
+  sanitizeNeighbors(element, maxElementIndex) {
+    element.neighbors = (element.neighbors || []).filter((neighborIndexString) => {
+      const neighborIndex = parseInt(neighborIndexString);
+      return neighborIndex >= 0 && neighborIndex <= maxElementIndex;
+    });
+  }
+
+  /**
+   * Sanitize contents list for an element.
+   * @param {object} element Element to sanitize.
+   */
+  sanitizeContentsList(element) {
+    const lives = parseInt(this.params.behaviour.lives);
+    const hasLives = !isNaN(lives) && lives >= 0;
+    const livesBehaviourDetails = hasLives ? this.params.behaviour.livesDetails : { livesMode: 'never' };
+
+    if (!element.specialStageType) {
+      element.contentsList = (element.contentsList || [])
+        .filter((content) => {
+          return content?.contentType?.library;
+        })
+        .map((content) => {
+          let livesSettings = content.livesSettings || livesBehaviourDetails;
+          if (livesSettings.livesMode === 'useBehavioural') {
+            livesSettings = livesBehaviourDetails;
+          }
+
+          if (livesSettings.livesMode === 'never') {
+            delete livesSettings.passPercentage;
+          }
+
+          return {
+            ...content,
+            livesSettings: livesSettings,
+          };
+        });
+    }
+  }
+
+  /**
+   * Handle missing content by adding a placeholder.
+   * @param {object} element Element to check and modify.
+   * @param {string} advancedTextVersion Advanced Text version.
+   */
+  handleMissingContent(element, advancedTextVersion) {
+    const isContentMissing = !element.specialStageType && !element.contentsList?.[0]?.contentType?.library;
+    if (isContentMissing) {
+      element.dom = { count: 0 };
+      element.contentsList = [this.createMissingContentElement(advancedTextVersion)];
+    }
+  }
+
+  /**
+   * Sanitize score scaling for an element.
+   * @param {object} element Element to sanitize.
+   */
+  sanitizeScoreScaling(element) {
+    element.scoreScaling = Util.extend(
+      { scoreScalingList: [], weightIsPercentage: false },
+      element.scoreScaling,
+    );
+
+    this.removeInvalidScoreScalingEntries(element);
+    this.addMissingScoreScalingEntries(element);
+    this.cleanUpScoreScalingEntries(element);
+  }
+
+  /**
+   * Remove invalid score scaling entries.
+   * @param {object} element Element to modify.
+   */
+  removeInvalidScoreScalingEntries(element) {
+    const validSubContentIds = element.contentsList.map((content) => content.contentType?.subContentId) || [];
+    element.scoreScaling.scoreScalingList = element.scoreScaling.scoreScalingList.filter((scaling) => {
+      return validSubContentIds.includes(scaling.subContentId);
+    });
+  }
+
+  /**
+   * Add missing score scaling entries.
+   * @param {object} element Element to modify.
+   */
+  addMissingScoreScalingEntries(element) {
+    if (element.specialStageType) {
+      return;
+    }
+
+    element.contentsList.forEach((content) => {
+      const hasScalingForContent = element.scoreScaling.scoreScalingList
+        .find((scaling) => scaling.subContentId === content.contentType.subContentId);
+
+      if (!hasScalingForContent) {
+        element.scoreScaling.scoreScalingList.push({
+          subContentId: content.contentType.subContentId,
+          weight: '1',
+        });
+      }
+    });
+  }
+
+  /**
+   * Clean up score scaling entries by ensuring correct values.
+   * @param {object} element Element to modify.
+   */
+  cleanUpScoreScalingEntries(element) {
+    element.scoreScaling.scoreScalingList = element.scoreScaling.scoreScalingList.map((scaling) => {
+      const weight = (!scaling.weight || isNaN(parseFloat(scaling.weight))) ? '1' : scaling.weight;
+
+      return {
+        subContentId: scaling.subContentId,
+        weight: weight,
+      };
+    });
+
+    if (element.scoreScaling.scalingMode === 'totalScore') {
+      element.scoreScaling.weightIsPercentage = false;
+
+      const totalScore = parseFloat(element.scoreScaling.totalScore);
+      if (isNaN(totalScore) || totalScore < 0) {
+        delete element.scoreScaling.totalScore;
+      }
+    }
+
+    if (element.scoreScaling.weightIsPercentage) {
+      const totalPercentage = element.scoreScaling.scoreScalingList.reduce((total, scaling) => {
+        const weight = parseFloat(scaling.weight);
+        return total + (isNaN(weight) ? 0 : weight);
+      }, 0);
+
+      element.scoreScaling.scoreScalingList = element.scoreScaling.scoreScalingList.map((scaling) => {
+        const weight = parseFloat(scaling.weight);
+        const normalizedWeight = isNaN(weight) ? '0' : ((weight / totalPercentage)).toString();
+
+        return {
+          ...scaling,
+          weight: normalizedWeight,
+        };
+      });
+    }
+
+    // Ensure weights are floats
+    element.scoreScaling.scoreScalingList = element.scoreScaling.scoreScalingList.map((scaling) => {
+      return {
+        ...scaling,
+        weight: parseFloat(scaling.weight),
+      };
+    });
+  }
+
+  /**
+   * Sanitize stage behehaviour.
+   * @param {object} element Element.
+   */
+  sanitizeStageBehaviour(element) {
+    element.stageBehaviour = element.stageBehaviour || {};
+    if (!element.stageBehaviour.randomExercises) {
+      delete element.stageBehaviour.randomExerciseCount;
+    }
+
+    if (typeof element.stageBehaviour.randomExerciseCount === 'number') {
+      element.scoreScaling = {}; // Does not work if a random content is chosen
+
+      if (typeof element.stageBehaviour.randomExerciseTotalScore === 'number') {
+        element.scoreScaling.scalingMode = 'totalScore';
+        element.scoreScaling.totalScore = element.stageBehaviour.randomExerciseTotalScore;
+      }
+    }
+  }
+}

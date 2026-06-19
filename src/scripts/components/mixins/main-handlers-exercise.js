@@ -1,3 +1,5 @@
+import { STAGE_STATES } from '@services/constants.js';
+
 /**
  * Mixin containing handlers for exercise.
  */
@@ -8,11 +10,11 @@ export default class MainHandlersExercise {
    * @param {number} state State code.
    */
   handleExerciseStateChanged(id, state) {
-    if (this.isShowingSolutions) {
+    if (this.isShowingSolutions || !this.maps.getCount()) {
       return;
     }
 
-    this.stages.updateState(id, state);
+    this.maps.setStageState(id, state);
   }
 
   /**
@@ -23,13 +25,13 @@ export default class MainHandlersExercise {
    * @param {number} params.maxScore Maximum possible score.
    */
   handleExerciseScoreChanged(id, params = {}) {
-    if (this.gameDone) {
+    if (this.gameDone || !this.maps.getCount()) {
       return; // Just cautious ...
     }
 
-    this.stages.updateScoreStar(id, params.score / params.maxScore * 100);
+    this.maps.updateStageScoreStar(id, params.score / params.maxScore * 100);
 
-    if (!this.fullScoreWasAnnounced && this.getScore() === this.getMaxScore()) {
+    if (!this.fullScoreWasAnnounced && this.getScore() >= this.getMaxScore()) {
       this.fullScoreWasAnnounced = true;
 
       this.callbackQueue.add(() => {
@@ -39,29 +41,35 @@ export default class MainHandlersExercise {
     }
 
     // Ensure stages get locked if requirements are no longer met.
-    this.stages.updateStatePerRestrictions();
+    this.maps.updateStagesStatePerRestrictions();
 
     if (!params.exerciseSuccessful) {
-      this.handleIncompleteScore(id);
+      this.handleIncompleteScore({
+        scoreBelowLifeThreshold: params.scoreBelowLifeThreshold,
+      });
     }
 
     this.toolbar.setStatusContainerStatus(
-      'score', { value: this.getScore(), maxValue: this.getMaxScore() },
+      'score', { value: Math.round(this.getScore()), maxValue: Math.round(this.getMaxScore()) },
     );
   }
 
   /**
    * Handle incomplete score.
+   * @param {object} [options] Options.
+   * @param {boolean} [options.scoreBelowLifeThreshold] If true, score is below life threshold.
    */
-  handleIncompleteScore() {
+  handleIncompleteScore(options = {}) {
     if (this.livesLeft === Infinity) {
       return;
     }
 
-    this.handleLostLife();
+    if (options.scoreBelowLifeThreshold) {
+      this.handleLostLife();
 
-    if (this.livesLeft > 0) {
-      this.showIncompleteScoreConfirmation();
+      if (this.livesLeft > 0) {
+        this.showIncompleteScoreConfirmation();
+      }
     }
   }
 
@@ -121,8 +129,20 @@ export default class MainHandlersExercise {
       return;
     }
 
-    this.livesLeft--;
     this.params.jukebox.play('lostLife');
+    this.updateLivesLeft(this.livesLeft - 1);
+  }
+
+  /**
+   * Update lives left.
+   * @param {number} livesLeft Number of lifes to set.
+   */
+  updateLivesLeft(livesLeft) {
+    if (typeof livesLeft !== 'number' || livesLeft < 0) {
+      return;
+    }
+
+    this.livesLeft = livesLeft;
 
     this.toolbar.setStatusContainerStatus('lives', { value: this.livesLeft });
 
@@ -131,10 +151,8 @@ export default class MainHandlersExercise {
       this.queueAnimation = [];
 
       // Store current state and seal stage
-      this.stagesGameOverState = this.stages.getCurrentState();
-      this.stages.forEach((stage) => {
-        stage.setState('sealed');
-      });
+      this.stagesGameOverState = this.maps.getStagesState();
+      this.maps.updateStageState('*', STAGE_STATES.SEALED);
 
       this.handleExerciseScreenClosed({
         animationEndedCallback: () => {

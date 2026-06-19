@@ -1,7 +1,5 @@
+import { MS_IN_S } from '@services/constants.js';
 import Timer from '@services/timer.js';
-
-/** @constant {number} MS_IN_S Milliseconds in a second. */
-const MS_IN_S = 1000;
 
 /**
  * Mixin containing methods related to the timer.
@@ -21,13 +19,7 @@ export default class MainTimer {
       {
         onTick: () => {
           this.timeLeft = this.timer.getTime();
-          const isTimeoutWarning = this.isTimeoutWarning();
-
-          if (isTimeoutWarning) {
-            this.hasPlayedTimeoutWarningGlobal = true;
-            this.params.jukebox.play('timeoutWarning');
-            this.toolbar.toggleHintTimer(true);
-          }
+          this.updateTimeoutWarning();
 
           this.toolbar.setStatusContainerStatus(
             'timer',
@@ -42,14 +34,28 @@ export default class MainTimer {
   }
 
   /**
-   * Determine whether exercise is in timeout warning state.
-   * @returns {boolean} True, if exercise is in timeout warning state.
+   * Show or hide the timeout warning when the remaining time crosses the
+   * warning time, playing the warning sound when it is first shown.
    */
-  isTimeoutWarning() {
-    if (this.hasPlayedTimeoutWarningGlobal) {
-      return false;
+  updateTimeoutWarning() {
+    const isWithinWarning = this.isWithinTimeoutWarning();
+    if (isWithinWarning === this.hasPlayedTimeoutWarningGlobal) {
+      return;
     }
 
+    this.hasPlayedTimeoutWarningGlobal = isWithinWarning;
+    this.toolbar.toggleHintTimer(isWithinWarning);
+
+    if (isWithinWarning) {
+      this.params.jukebox.play('timeoutWarning');
+    }
+  }
+
+  /**
+   * Determine whether the remaining time has reached the timeout warning time.
+   * @returns {boolean} True if remaining time is at or below the warning time.
+   */
+  isWithinTimeoutWarning() {
     const timeoutWarning =
       this.params.globals.get('params').behaviour.timeoutWarningGlobal;
 
@@ -68,12 +74,21 @@ export default class MainTimer {
       return;
     }
 
-    this.timer.setTime(this.timer.getTime() + timeS * MS_IN_S);
-    this.toolbar.setStatusContainerStatus(
-      'timer',
-      { value: Timer.toTimecode(this.timer.getTime()) },
-    );
     this.params.jukebox.play('extraTime');
+    this.updateTimeLeft(this.timer.getTime() + timeS * MS_IN_S);
+  }
+
+  /**
+   * Update time left on timer.
+   * @param {number} timeLeftMS Time left in milliseconds.
+   */
+  updateTimeLeft(timeLeftMS) {
+    if (typeof timeLeftMS !== 'number' || timeLeftMS < 0 || !this.timer) {
+      return;
+    }
+
+    this.timer.setTime(timeLeftMS);
+    this.toolbar.setStatusContainerStatus('timer', { value: Timer.toTimecode(this.timer.getTime()) });
   }
 
   /**

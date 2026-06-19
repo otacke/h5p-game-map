@@ -1,16 +1,16 @@
 .h5p-game-map-overlay-dialog-headline-timer {
-  font-size: 1.25rem;
+  font-size: var(--h5p-theme-font-size-xl);
   font-weight: bold;
   justify-self: flex-end;
 
   &.timeout-warning {
-    color: #bb0000;
+    color: var(--h5p-theme-feedback-incorrect-main);
   }
 
   &::before {
     content: var(--icon-fontawesome-clock);
     font-family: "H5PFontAwesome4", sans-serif;
-    margin-right: 0.5rem;
+    margin-right: var(--h5p-theme-spacing-xxs);
   }
 
   &.display-none {

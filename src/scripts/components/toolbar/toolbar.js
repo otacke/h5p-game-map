@@ -457,4 +457,12 @@ export default class Toolbar {
   toggleSolutionMode(state) {
     this.dom.classList.toggle('solution-mode', state);
   }
+
+  /**
+   * Destroy.
+   */
+  destroy() {
+    window.clearTimeout(this.hintFinishButtonTimeout);
+    window.clearTimeout(this.hintTimerTimeout);
+  }
 }

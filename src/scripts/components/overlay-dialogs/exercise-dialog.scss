@@ -1,11 +1,30 @@
 .h5p-game-map-overlay-dialog-instance-container {
-  .h5p-question-game-map-continue {
-    float: right;
+  &.blocked {
+    pointer-events: none;
+  }
 
-    &::before {
-      content: var(--icon-fontawesome-play);
+  .h5p-game-map-exercise-bundle{
+    display: grid;
+    gap: var(--h5p-theme-spacing-xxs);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .h5p-question-buttons {
+    .h5p-question-game-map-continue {
+      float: right;
+      order: 1;
+
+      &::before {
+        content: var(--icon-h5ptheme-caret-right);
+        font-family: "h5p-theme", sans-serif;
+      }
+    }
+
+    button:not(.h5p-question-game-map-continue) {
+      order: 0;
     }
   }
+
 
   .h5p-game-map-exercise-instance {
     &.h5p-video {
@@ -15,11 +34,11 @@
 
     &.h5p-advanced-text {
       p:first-child {
-        margin-top: 1rem;
+        margin-top: var(--h5p-theme-spacing-s);
       }
 
       p:last-child {
-        margin-bottom: 1rem;
+        margin-bottom: var(--h5p-theme-spacing-s);
       }
     }
 
@@ -54,7 +73,7 @@
     &.h5p-image-hotspot-question {
       .h5p-question-buttons:not(.has-scorebar) {
         .h5p-question-game-map-continue {
-          margin-top: 1em;
+          margin-top: var(--h5p-theme-spacing-s);
         }
       }
     }
@@ -69,17 +88,14 @@
     }
 
     &.h5p-image-slider .h5p-image-slider-progress {
-      padding: 0.5em 0;
+      padding: var(--h5p-theme-spacing-xxs) 0;
     }
   }
 }
 
 .h5p-game-map-exercise-instance-continue-button {
-  float: right;
-
-  &::before {
-    content: var(--icon-fontawesome-play);
-  }
+  margin-inline-start: auto;
+  width: fit-content;
 
   &.display-none {
     display: none;
