@@ -381,12 +381,11 @@ export default class Maps {
   }
 
   /**
-   * Update aria labels of all stages.
+   * Update aria labels of all stages on a map.
+   * @param {number} [mapIndex] Index of map to update stage aria labels for.
    */
-  updateStagesAriaLabels() {
-    this.maps.forEach((map) => {
-      map.updateStagesAriaLabels();
-    });
+  updateStagesAriaLabels(mapIndex = this.currentIndex) {
+    this.maps[mapIndex]?.updateStagesAriaLabels();
   }
 
   /**
