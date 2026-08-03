@@ -194,6 +194,9 @@ export default class Stages {
         getStageInstance: (id) => {
           return this.getStage(id);
         },
+        onVisibilityChanged: (id) => {
+          this.updateAriaLabels();
+        },
       };
 
       const newStage = (!elementParams.specialStageType) ?
@@ -421,7 +424,7 @@ export default class Stages {
    * Update aria labels of all stages.
    */
   updateAriaLabels() {
-    this.stages.forEach((stage) => {
+    this.stages?.forEach((stage) => {
       stage.updateAriaLabel();
     });
   }

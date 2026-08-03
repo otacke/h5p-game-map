@@ -31,6 +31,7 @@ export default class Stage {
    * @param {function} [callbacks.getScore] Get score of stage.
    * @param {function} [callbacks.getStageProgress] Get progress of stage.
    * @param {function} [callbacks.getStageInstance] Get stage instance.
+   * @param {function} [callbacks.onVisibilityChanged] Called when visibility changes.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -54,6 +55,7 @@ export default class Stage {
       onAddedToQueue: () => {},
       onAccessRestrictionsHit: () => {},
       getStageInstance: () => {},
+      onVisibilityChanged: () => {},
     }, callbacks);
 
     const allElements = (this.params.globals.get('getAllGamemapsParams')?.() ?? [])
@@ -384,6 +386,7 @@ export default class Stage {
     }
 
     this.isVisibleState = true;
+    this.callbacks.onVisibilityChanged(this.params.id);
   }
 
   /**
@@ -397,6 +400,7 @@ export default class Stage {
     this.dom.classList.add('display-none');
     this.dom.classList.add('transparent');
     this.isVisibleState = false;
+    this.callbacks.onVisibilityChanged(this.params.id);
   }
 
   /**
