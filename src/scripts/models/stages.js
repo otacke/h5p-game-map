@@ -191,6 +191,9 @@ export default class Stages {
         getStageProgress: (id) => {
           return this.callbacks.getExerciseState(id);
         },
+        getStageInstance: (id) => {
+          return this.getStage(id);
+        },
       };
 
       const newStage = (!elementParams.specialStageType) ?
@@ -291,7 +294,7 @@ export default class Stages {
    * @returns {Stage} Stage with respective id.
    */
   getStage(id) {
-    return this.stages.find((stage) => stage.getId() === id);
+    return this.stages?.find((stage) => stage.getId() === id);
   }
 
   /**
@@ -412,6 +415,15 @@ export default class Stages {
         targetStage.unlock();
       });
     }
+  }
+
+  /**
+   * Update aria labels of all stages.
+   */
+  updateAriaLabels() {
+    this.stages.forEach((stage) => {
+      stage.updateAriaLabel();
+    });
   }
 
   /**

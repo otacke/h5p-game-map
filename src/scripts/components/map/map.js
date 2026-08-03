@@ -376,6 +376,13 @@ export default class Map {
   }
 
   /**
+   * Update arial labels of all stages.
+   */
+  updateStagesAriaLabels() {
+    this.stages.updateAriaLabels();
+  }
+
+  /**
    * Open stages if passing restrictions.
    */
   openStagesIfPassingRestrictions() {

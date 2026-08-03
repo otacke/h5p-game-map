@@ -1196,6 +1196,11 @@
           "default": "Nachbaretappe von @stagelabelOrigin: @stagelabelNeighbor"
         },
         {
+          "label": "Nachbar-Etappen zu entdecken",
+          "description": "@count ist ein Platzhalter und wird durch den entsprechenden Wert ersetzt.",
+          "default": "Nachbar-Etappen zu entdecken: @count"
+        },
+        {
           "label": "Verschlossen",
           "default": "Verschlossen"
         },

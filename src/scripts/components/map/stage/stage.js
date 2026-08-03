@@ -30,6 +30,7 @@ export default class Stage {
    * @param {function} [callbacks.getTotalScore] Get total score.
    * @param {function} [callbacks.getScore] Get score of stage.
    * @param {function} [callbacks.getStageProgress] Get progress of stage.
+   * @param {function} [callbacks.getStageInstance] Get stage instance.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -52,6 +53,7 @@ export default class Stage {
       onBecameActiveDescendant: () => {},
       onAddedToQueue: () => {},
       onAccessRestrictionsHit: () => {},
+      getStageInstance: () => {},
     }, callbacks);
 
     const allElements = (this.params.globals.get('getAllGamemapsParams')?.() ?? [])
@@ -221,7 +223,7 @@ export default class Stage {
    * @returns {string[]} Neighbors.
    */
   getNeighbors() {
-    return this.params.neighbors;
+    return this.params.neighbors ?? [];
   }
 
   /**
@@ -300,6 +302,18 @@ export default class Stage {
     const ariaSegments = [stageLabel];
     if (stageState) {
       ariaSegments.push(stageState);
+    }
+
+    if (!params.customText) {
+      const numberOfVisibleNeighbors = this.getNeighbors()
+        .map((id) => this.callbacks.getStageInstance(id))
+        .filter((stage) => stage?.isVisible())
+        .length;
+
+      const neighborsToExploreMessage = this.params.dictionary.get('a11y.neighborsToExploreTemplate')
+        .replace('@count', numberOfVisibleNeighbors);
+
+      ariaSegments.push(neighborsToExploreMessage);
     }
 
     this.dom.setAttribute('aria-label', ariaSegments.join('. '));

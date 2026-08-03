@@ -380,6 +380,15 @@ export default class Maps {
   }
 
   /**
+   * Update aria labels of all stages.
+   */
+  updateStagesAriaLabels() {
+    this.maps.forEach((map) => {
+      map.updateStagesAriaLabels();
+    });
+  }
+
+  /**
    * Update stage score star. Targets the holding map for a specific id;
    * applies to all maps when stageId is '*'.
    * @param {string} stageId Stage id or '*' for all stages.

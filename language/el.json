@@ -1097,6 +1097,11 @@
           "default": "δεν έχει ξεκινήσει"
         },
         {
+          "label": "Neighbor stages to explore",
+          "description": "@count is a placeholder and will be replaced with the respective value.",
+          "default": "Neighbor stages to explore: @count"
+        },
+        {
           "label": "Έχει ξεκινήσει",
           "default": "έχει ξεκινήσει"
         },

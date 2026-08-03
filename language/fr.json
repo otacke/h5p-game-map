@@ -1196,6 +1196,11 @@
           "default": "Étape adjacente de @stagelabelOrigin : @stagelabelNeighbor"
         },
         {
+          "label": "Neighbor stages to explore",
+          "description": "@count is a placeholder and will be replaced with the respective value.",
+          "default": "Neighbor stages to explore: @count"
+        },
+        {
           "label": "Bloqué",
           "default": "Bloqué"
         },

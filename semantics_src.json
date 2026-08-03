@@ -2256,6 +2256,13 @@
         "default": "Adjacent stage of @stagelabelOrigin: @stagelabelNeighbor"
       },
       {
+        "name": "neighborsToExploreTemplate",
+        "type": "text",
+        "label": "Neighbor stages to explore",
+        "description": "@count is a placeholder and will be replaced with the respective value.",
+        "default": "Neighbor stages to explore: @count"
+      },
+      {
         "name": "locked",
         "type": "text",
         "label": "Locked",
