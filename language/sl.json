@@ -529,6 +529,10 @@
                     "description": "Izbor slike za ozadje aktivnosti."
                   },
                   {
+                    "label": "Background description",
+                    "description": "If the background is not just illustration but contains relevant information, describe the image here."
+                  },
+                  {
                     "label": "Barva ozadja",
                     "description": "Izbira barvne sheme ozadja."
                   }
@@ -1194,6 +1198,11 @@
           "label": "Oznaka sosednje stopnje",
           "description": "@stagelabelOrigin in @stagelabelNeighbor sta spremenljivki.",
           "default": "Sosednja stopnja @stagelabelOrigin: @stagelabelNeighbor"
+        },
+        {
+          "label": "Neighbor stages to explore",
+          "description": "@count is a placeholder and will be replaced with the respective value.",
+          "default": "Neighbor stages to explore: @count"
         },
         {
           "label": "Zaklenjeno",

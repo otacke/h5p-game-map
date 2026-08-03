@@ -82,7 +82,7 @@ export default class Map {
 
     this.image = document.createElement('img');
     this.image.classList.add('h5p-game-map-background-image');
-    this.image.alt = ''; // No alt text for background image
+    this.image.alt = ''; // No alt text for background image, wrapper has aria-described-by
     this.image.addEventListener('load', () => {
       this.callbacks.onImageLoaded(this.image);
     });
@@ -143,6 +143,19 @@ export default class Map {
     this.stageWrapper.setAttribute(
       'aria-label', this.params.dictionary.get('a11y.applicationDescription'),
     );
+
+    if (this.params.backgroundDescription) {
+      const stageWrapperDescriptionID = H5P.createUUID();
+
+      const stageWrapperDescription = document.createElement('div');
+      stageWrapperDescription.id = stageWrapperDescriptionID;
+      stageWrapperDescription.classList.add('h5p-game-map-stage-wrapper-description');
+      stageWrapperDescription.innerText = this.params.backgroundDescription;
+
+      this.stageWrapper.append(stageWrapperDescription);
+
+      this.stageWrapper.setAttribute('aria-describedby', stageWrapperDescriptionID);
+    }
 
     this.stages.getDOMs().forEach((dom) => {
       this.stageWrapper.appendChild(dom);
@@ -373,6 +386,13 @@ export default class Map {
    */
   updateStageNeighborsState(id, state) {
     this.stages.updateNeighborsState(id, state);
+  }
+
+  /**
+   * Update arial labels of all stages.
+   */
+  updateStagesAriaLabels() {
+    this.stages.updateAriaLabels();
   }
 
   /**

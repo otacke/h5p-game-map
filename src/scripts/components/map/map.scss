@@ -52,5 +52,14 @@
     right: 0;
     top: 0;
     width: 100%;
+
+    .h5p-game-map-stage-wrapper-description {
+      clip-path: inset(50%);
+      height: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
   }
 }

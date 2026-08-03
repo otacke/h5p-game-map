@@ -194,6 +194,7 @@ export default class MainHandlersStage {
       this.maps.setStageState(options.targetId, STAGE_STATES.OPENED);
       this.maps.updatePathState(options.targetId, STAGE_STATES.CLEARED);
       this.maps.updateStageNeighborsState(options.targetId, STAGE_STATES.CLEARED);
+      this.maps.updateStagesAriaLabels();
 
       this.maps.resizeAllPaths();
       this.showMapThatHoldsStage(options.targetId);
@@ -234,6 +235,7 @@ export default class MainHandlersStage {
     this.callbackQueue.add(() => {
       this.maps.updatePathState(id, state);
       this.maps.updateStageNeighborsState(id, state);
+      this.maps.updateStagesAriaLabels();
 
       const states = [STAGE_STATES.COMPLETED, STAGE_STATES.CLEARED];
       const stageTypes = [STAGE_TYPES.STAGE];

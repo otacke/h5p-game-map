@@ -529,6 +529,10 @@
                     "description": "Seleccionar una imagen a usar como el fondo del mapa del juego."
                   },
                   {
+                    "label": "Background description",
+                    "description": "If the background is not just illustration but contains relevant information, describe the image here."
+                  },
+                  {
                     "label": "Background color",
                     "description": "Choose a color to use as the background of the game map."
                   }
@@ -1194,6 +1198,11 @@
           "label": "etiqueta de escenario adyacente",
           "description": "@stagelabelOrigin y @stagelabelNeighbor son marcadores de posición y se reemplazarán con las respectivas etiquetas de etapa.",
           "default": "Escenario adyacente de @stagelabelOrigin: @stagelabelNeighbor"
+        },
+        {
+          "label": "Neighbor stages to explore",
+          "description": "@count is a placeholder and will be replaced with the respective value.",
+          "default": "Neighbor stages to explore: @count"
         },
         {
           "label": "Bloqueado",

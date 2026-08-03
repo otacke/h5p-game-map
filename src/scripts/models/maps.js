@@ -67,6 +67,7 @@ export default class Maps {
           globals: this.params.globals,
           jukebox: this.params.jukebox,
           backgroundImage: backgroundImage,
+          backgroundDescription: mapParams.mapOptions.backgroundSettings?.backgroundDescription,
           backgroundColor: mapParams.mapOptions.backgroundSettings?.backgroundColor,
           elements: mapParams.elements,
           paths: mapParams.paths,
@@ -377,6 +378,14 @@ export default class Maps {
    */
   updateStageNeighborsState(id, state) {
     this.getMapHolding(id)?.updateStageNeighborsState(id, state);
+  }
+
+  /**
+   * Update aria labels of all stages on a map.
+   * @param {number} [mapIndex] Index of map to update stage aria labels for.
+   */
+  updateStagesAriaLabels(mapIndex = this.currentIndex) {
+    this.maps[mapIndex]?.updateStagesAriaLabels();
   }
 
   /**

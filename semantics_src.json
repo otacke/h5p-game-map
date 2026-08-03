@@ -1054,6 +1054,14 @@
                   "optional": true
                 },
                 {
+                  "name": "backgroundDescription",
+                  "type": "text",
+                  "maxLength": 1000,
+                  "label": "Background description",
+                  "description": "If the background is not just illustration but contains relevant information, describe the image here.",
+                  "optional": true
+                },
+                {
                   "name": "backgroundColor",
                   "type": "text",
                   "label": "Background color",
@@ -2254,6 +2262,13 @@
         "label": "adjacent stage label",
         "description": "@stagelabelOrigin and @stagelabelNeighbor are placeholders and will be replaced with the respective stage labels.",
         "default": "Adjacent stage of @stagelabelOrigin: @stagelabelNeighbor"
+      },
+      {
+        "name": "neighborsToExploreTemplate",
+        "type": "text",
+        "label": "Neighbor stages to explore",
+        "description": "@count is a placeholder and will be replaced with the respective value.",
+        "default": "Neighbor stages to explore: @count"
       },
       {
         "name": "locked",

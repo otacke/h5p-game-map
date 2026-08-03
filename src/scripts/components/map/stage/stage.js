@@ -30,6 +30,8 @@ export default class Stage {
    * @param {function} [callbacks.getTotalScore] Get total score.
    * @param {function} [callbacks.getScore] Get score of stage.
    * @param {function} [callbacks.getStageProgress] Get progress of stage.
+   * @param {function} [callbacks.getStageInstance] Get stage instance.
+   * @param {function} [callbacks.onVisibilityChanged] Called when visibility changes.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -52,6 +54,8 @@ export default class Stage {
       onBecameActiveDescendant: () => {},
       onAddedToQueue: () => {},
       onAccessRestrictionsHit: () => {},
+      getStageInstance: () => {},
+      onVisibilityChanged: () => {},
     }, callbacks);
 
     const allElements = (this.params.globals.get('getAllGamemapsParams')?.() ?? [])
@@ -221,7 +225,7 @@ export default class Stage {
    * @returns {string[]} Neighbors.
    */
   getNeighbors() {
-    return this.params.neighbors;
+    return this.params.neighbors ?? [];
   }
 
   /**
@@ -302,6 +306,18 @@ export default class Stage {
       ariaSegments.push(stageState);
     }
 
+    if (!params.customText) {
+      const numberOfVisibleNeighbors = this.getNeighbors()
+        .map((id) => this.callbacks.getStageInstance(id))
+        .filter((stage) => stage?.isVisible())
+        .length;
+
+      const neighborsToExploreMessage = this.params.dictionary.get('a11y.neighborsToExploreTemplate')
+        .replace('@count', numberOfVisibleNeighbors);
+
+      ariaSegments.push(neighborsToExploreMessage);
+    }
+
     this.dom.setAttribute('aria-label', ariaSegments.join('. '));
   }
 
@@ -370,6 +386,7 @@ export default class Stage {
     }
 
     this.isVisibleState = true;
+    this.callbacks.onVisibilityChanged(this.params.id);
   }
 
   /**
@@ -383,6 +400,7 @@ export default class Stage {
     this.dom.classList.add('display-none');
     this.dom.classList.add('transparent');
     this.isVisibleState = false;
+    this.callbacks.onVisibilityChanged(this.params.id);
   }
 
   /**

@@ -529,6 +529,10 @@
                     "description": "选择要用作游戏地图背景的图片文件。"
                   },
                   {
+                    "label": "Background description",
+                    "description": "If the background is not just illustration but contains relevant information, describe the image here."
+                  },
+                  {
                     "label": "Background color",
                     "description": "Choose a color to use as the background of the game map."
                   }
@@ -1194,6 +1198,11 @@
           "label": "相邻关卡标签",
           "description": "@stagelabelOrigin 和 @stagelabelNeighbor 是占位符，将替换为相应的关卡标签。",
           "default": "@stagelabelOrigin 的相邻关卡： @stagelabelNeighbor"
+        },
+        {
+          "label": "Neighbor stages to explore",
+          "description": "@count is a placeholder and will be replaced with the respective value.",
+          "default": "Neighbor stages to explore: @count"
         },
         {
           "label": "锁定",
