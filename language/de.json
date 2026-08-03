@@ -529,6 +529,10 @@
                     "description": "Wähle ein Hintergrundbild für den Hintergrund der Spiellandkarte."
                   },
                   {
+                    "label": "Hintergrundbeschreibung",
+                    "description": "Wenn das Hintergrundbild nicht nur eine Illustration ist, sondern relevante Informationen enthält, beschreibe das Bild hier."
+                  },
+                  {
                     "label": "Hintergrundfarbe",
                     "description": "Wähle eine Hintergrundfarbe für die Spiellandkarte."
                   }

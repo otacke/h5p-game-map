@@ -529,6 +529,10 @@
                     "description": "Selectați o imagine pentru a o folosi ca fundal pentru harta de joc."
                   },
                   {
+                    "label": "Background description",
+                    "description": "If the background is not just illustration but contains relevant information, describe the image here."
+                  },
+                  {
                     "label": "Culoare de fundal",
                     "description": "Alegeți o culoare pentru a o folosi ca fundal pentru harta de joc."
                   }

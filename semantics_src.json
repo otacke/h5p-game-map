@@ -1054,6 +1054,14 @@
                   "optional": true
                 },
                 {
+                  "name": "backgroundDescription",
+                  "type": "text",
+                  "maxLength": 1000,
+                  "label": "Background description",
+                  "description": "If the background is not just illustration but contains relevant information, describe the image here.",
+                  "optional": true
+                },
+                {
                   "name": "backgroundColor",
                   "type": "text",
                   "label": "Background color",

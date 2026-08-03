@@ -529,6 +529,10 @@
                     "description": "Izbor slike za ozadje aktivnosti."
                   },
                   {
+                    "label": "Background description",
+                    "description": "If the background is not just illustration but contains relevant information, describe the image here."
+                  },
+                  {
                     "label": "Barva ozadja",
                     "description": "Izbira barvne sheme ozadja."
                   }

@@ -529,6 +529,10 @@
                     "description": "Sélectionnez une image à utiliser comme arrière-plan de la carte du jeu."
                   },
                   {
+                    "label": "Background description",
+                    "description": "If the background is not just illustration but contains relevant information, describe the image here."
+                  },
+                  {
                     "label": "Couleur d'arrière-plan",
                     "description": "Choisissez une couleur à utiliser comme arrière-plan de la carte du jeu."
                   }

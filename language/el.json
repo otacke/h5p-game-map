@@ -529,6 +529,10 @@
                     "description": "Επιλέξτε μια εικόνα που θα χρησιμοποιηθεί ως φόντο του χάρτη του παιχνιδιού."
                   },
                   {
+                    "label": "Background description",
+                    "description": "If the background is not just illustration but contains relevant information, describe the image here."
+                  },
+                  {
                     "label": "Χρώμα φόντου",
                     "description": "Επιλέξτε ένα χρώμα που θα χρησιμοποιηθεί ως φόντο του χάρτη του παιχνιδιού."
                   }

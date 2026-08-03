@@ -67,6 +67,7 @@ export default class Maps {
           globals: this.params.globals,
           jukebox: this.params.jukebox,
           backgroundImage: backgroundImage,
+          backgroundDescription: mapParams.mapOptions.backgroundSettings?.backgroundDescription,
           backgroundColor: mapParams.mapOptions.backgroundSettings?.backgroundColor,
           elements: mapParams.elements,
           paths: mapParams.paths,

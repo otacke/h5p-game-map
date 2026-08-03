@@ -529,6 +529,10 @@
                     "description": "Seleccionar una imagen a usar como el fondo del mapa del juego."
                   },
                   {
+                    "label": "Background description",
+                    "description": "If the background is not just illustration but contains relevant information, describe the image here."
+                  },
+                  {
                     "label": "Background color",
                     "description": "Choose a color to use as the background of the game map."
                   }
