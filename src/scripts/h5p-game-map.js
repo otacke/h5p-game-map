@@ -22,8 +22,6 @@ const FULL_SCREEN_DELAY_LARGE_MS = 300;
 /** @constant {string} ADVANCED_TEXT_VERSION_FALLBACK Fallback version for Advanced Text. */
 const ADVANCED_TEXT_VERSION_FALLBACK = '1.1';
 
-// TODO: TEST TEST TEST
-
 export default class GameMap extends H5P.Question {
   /**
    * @class
