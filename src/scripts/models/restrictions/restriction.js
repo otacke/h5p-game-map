@@ -102,6 +102,6 @@ export default class Restriction {
 
     return (this.dictionary.get(`l10n.restriction${type}${operator}`) ?? '')
       .replace('@value', this.getValueRepresentation())
-      .replace('@label', this.label);
+      .replace('@label', `<em>${this.label}</em>`);
   }
 }
