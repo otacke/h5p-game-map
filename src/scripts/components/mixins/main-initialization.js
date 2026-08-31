@@ -301,7 +301,7 @@ export default class MainInitialization {
         },
         getExerciseState: (id) => {
           const stageType = this.maps.getStageType(id);
-          if (!stageType) {
+          if (stageType === undefined) {
             return 0;
           }
           else if (stageType === STAGE_TYPES.SPECIAL_STAGE) {
