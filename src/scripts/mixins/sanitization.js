@@ -14,6 +14,8 @@ export default class Sanitization {
 
     const maps = this.params.gamemaps || [];
     maps.forEach((map) => {
+      map.elements = map.elements ?? [];
+
       const advancedTextVersion = this.getAdvancedTextVersion(contentId);
       const maxElementIndex = map.elements.length - 1;
 
