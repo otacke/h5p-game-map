@@ -350,7 +350,7 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       const allRulesAreTheSame = infos.every((info) => info.passPercentage === infos[0].passPercentage);
 
       if (allRulesAreTheSame) {
-        if (infos[0].passPercentage === 0) {
+        if (!infos[0].passPercentage) {
           rules = [];
         }
         else if (infos[0].passPercentage === 100) {
