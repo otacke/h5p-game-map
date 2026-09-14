@@ -137,37 +137,21 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       this.dom.appendChild(exercise.getDOM());
     });
 
-    const lastExercise = this.exercises[this.exercises.length - 1];
-    this.continueButtonInstance = lastExercise.getInstance();
-    if (
-      this.continueButtonInstance?.registerDomElements &&
-      this.continueButtonInstance?.addButton &&
-      this.continueButtonInstance?.hasButton
-    ) {
-      this.continueButtonInstance.addButton(
-        'game-map-continue',
-        this.params.dictionary.get('l10n.continue'),
-        () => {
-          this.callbacks.onContinued();
-        },
-        false,
-        { classes: 'h5p-question-game-map-continue' },
-      );
-    }
-    else {
-      delete this.continueButtonInstance;
+    this.buttonContainer = document.createElement('div');
+    this.buttonContainer.classList.add('h5p-game-map-button-container');
 
-      this.continueButton = H5P.Components.Button({
-        label: this.params.dictionary.get('l10n.continue'),
-        icon: 'continue',
-        classes: ['h5p-game-map-exercise-instance-continue-button'],
-        onClick: () => {
-          this.callbacks.onContinued();
-        },
-      });
+    this.continueButton = H5P.Components.Button({
+      label: this.params.dictionary.get('l10n.continue'),
+      icon: 'continue',
+      classes: ['h5p-game-map-exercise-instance-continue-button'],
+      onClick: () => {
+        this.callbacks.onContinued();
+      },
+    });
 
-      this.dom.append(this.continueButton);
-    }
+    this.buttonContainer.append(this.continueButton);
+
+    this.dom.append(this.buttonContainer);
   }
 
   /**
@@ -295,13 +279,9 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       this.timer?.setTime(this.timeLeft);
     }
 
-    if (this.continueButtonInstance) {
-      this.continueButtonInstance.hideButton('game-map-continue');
-    }
-    else {
-      this.continueButton?.classList.add('display-none');
-      this.continueButton?.setAttribute('disabled', 'disabled');
-    }
+    this.buttonContainer?.classList.add('display-none');
+    this.continueButton?.classList.add('display-none');
+    this.continueButton?.setAttribute('disabled', 'disabled');
 
     this.setState(state);
 
@@ -806,13 +786,9 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
     ) {
       this.stop();
 
-      if (this.continueButtonInstance) {
-        this.continueButtonInstance.showButton('game-map-continue');
-      }
-      else {
-        this.continueButton.classList.remove('display-none');
-        this.continueButton.removeAttribute('disabled');
-      }
+      this.buttonContainer.classList.remove('display-none');
+      this.continueButton.classList.remove('display-none');
+      this.continueButton.removeAttribute('disabled');
     }
 
     this.params.globals.get('resize')();

@@ -93,11 +93,27 @@
   }
 }
 
-.h5p-game-map-exercise-instance-continue-button {
-  margin-inline-start: auto;
-  width: fit-content;
+.h5p-game-map-button-container {
+  background-color: var(--h5p-theme-alternative-light);
+  border-radius: var(--content-border-radius);
+  margin-block-end: calc(-1 * var(--content-outer-padding));
+  margin-inline: calc(-1 * var(--content-outer-padding));
+  padding-block-end: var(--content-outer-padding);
+  padding-block-start: var(--content-outer-padding);
+  padding-inline: var(--content-outer-padding);
+
+  .h5p-game-map-exercise-instance-continue-button {
+    margin-inline-start: auto;
+    width: fit-content;
+
+    &.display-none {
+      display: none;
+    }
+  }
 
   &.display-none {
     display: none;
   }
 }
+
+
