@@ -345,48 +345,33 @@ export default class ExerciseBundle extends H5P.EventDispatcher {
       .map((exercise) => exercise.getLivesInfo())
       .filter((info) => !!info && info.isTask);
 
+    const getRule = (info) => {
+      if (!info.passPercentage) {
+        return this.params.dictionary.get('l10n.neverLoseLives');
+      }
+      else if (info.passPercentage === 100) {
+        return this.params.dictionary.get('l10n.loseLifeIfNotFullScore');
+      }
+      return this.params.dictionary.get('l10n.loseLifeIfBelowPercentage')
+        .replace('@percentage', info.passPercentage);
+    };
+
     let rules = [];
     if (infos.length) {
       const allRulesAreTheSame = infos.every((info) => info.passPercentage === infos[0].passPercentage);
 
       if (allRulesAreTheSame) {
-        if (!infos[0].passPercentage) {
-          rules = [];
-        }
-        else if (infos[0].passPercentage === 100) {
+        if (infos[0].passPercentage) {
           rules = [{
-            rule: this.params.dictionary.get('l10n.loseLifeIfNotFullScore'),
-          }];
-        }
-        else {
-          rules = [{
-            rule: this.params.dictionary.get('l10n.loseLifeIfBelowPercentage')
-              .replace('@percentage', infos[0].passPercentage),
+            rule: getRule(infos[0]),
           }];
         }
       }
       else {
-        rules = infos.map((info) => {
-          if (!info.passPercentage) {
-            return {
-              title: info.title,
-              rule: this.params.dictionary.get('l10n.neverLoseLives'),
-            };
-          }
-          else if (info.passPercentage === 100) {
-            return {
-              title: info.title,
-              rule: this.params.dictionary.get('l10n.loseLifeIfNotFullScore'),
-            };
-          }
-          else {
-            return {
-              title: info.title,
-              rule: this.params.dictionary.get('l10n.loseLifeIfBelowPercentage')
-                .replace('@percentage', info.passPercentage),
-            };
-          }
-        });
+        rules = infos.map((info) => ({
+          title: info.title,
+          rule: getRule(info),
+        }));
       }
     }
 
