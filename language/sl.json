@@ -1200,6 +1200,10 @@
           "default": "Povrni zvok. Trenutno je zvok utišan."
         },
         {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
           "label": "Zapri",
           "default": "Zapri"
         },

@@ -1200,6 +1200,10 @@
           "default": "Unmute audio. Currently muted."
         },
         {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
           "label": "Close",
           "default": "출구"
         },

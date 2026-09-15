@@ -1200,6 +1200,10 @@
           "default": "Activar audio. Actualmente mudo."
         },
         {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
           "label": "Cerrar",
           "default": "Cerrar"
         },

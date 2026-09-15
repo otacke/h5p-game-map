@@ -2270,6 +2270,12 @@
         "default": "Unmute audio. Currently muted."
       },
       {
+        "name": "buttonSettings",
+        "type": "text",
+        "label": "Settings",
+        "default": "Settings"
+      },
+      {
         "name": "close",
         "type": "text",
         "label": "Close",

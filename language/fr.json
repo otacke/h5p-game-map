@@ -1200,6 +1200,10 @@
           "default": "Activer le son. Actuellement en sourdine."
         },
         {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
           "label": "Fermer",
           "default": "Fermer"
         },

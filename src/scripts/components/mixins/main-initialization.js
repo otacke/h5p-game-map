@@ -182,8 +182,8 @@ export default class MainInitialization {
         id: 'settings',
         type: 'toggle',
         a11y: {
-          active: this.params.dictionary.get('a11y.buttonSettingsActive'),
-          inactive: this.params.dictionary.get('a11y.buttonSettingsInactive'),
+          active: this.params.dictionary.get('a11y.buttonSettings'),
+          inactive: this.params.dictionary.get('a11y.buttonSettings'),
         },
         onClick: (ignore, params) => {
           if (params.active) {

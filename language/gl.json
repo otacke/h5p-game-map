@@ -1200,6 +1200,10 @@
           "default": "Activar o son, actualmente silenciado."
         },
         {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
           "label": "Pechar",
           "default": "Pechar"
         },

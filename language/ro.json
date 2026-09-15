@@ -1200,6 +1200,10 @@
           "default": "Pornește sunetul. În prezent este oprit."
         },
         {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
           "label": "Închide",
           "default": "Închide"
         },

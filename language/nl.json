@@ -1200,6 +1200,10 @@
           "default": "Schakel het geluid in. Momenteel gedempt."
         },
         {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
           "label": "Sluiten",
           "default": "Sluiten"
         },

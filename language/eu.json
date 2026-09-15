@@ -1200,6 +1200,10 @@
           "default": "Aktibatu audioa. Une honetan isilik dago."
         },
         {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
           "label": "Itxi",
           "default": "Itxi"
         },

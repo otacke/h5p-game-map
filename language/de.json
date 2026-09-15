@@ -1200,6 +1200,10 @@
           "default": "Ton einschalten. Derzeit ausgeschaltet."
         },
         {
+          "label": "Einstellungen",
+          "default": "Einstellungen"
+        },
+        {
           "label": "Schließen",
           "default": "Schließen"
         },

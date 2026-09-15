@@ -1200,6 +1200,10 @@
           "default": "取消音频静音。当前已静音。"
         },
         {
+          "label": "Settings",
+          "default": "Settings"
+        },
+        {
           "label": "关闭",
           "default": "关闭"
         },
