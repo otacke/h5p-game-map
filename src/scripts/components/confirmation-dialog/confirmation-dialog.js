@@ -65,7 +65,7 @@ export default class ConfirmationDialog {
       }
     }
 
-    this.dialog = new H5P.ConfirmationDialog(params);
+    this.dialog = new H5P.ConfirmationDialog({ ...params, theme: true });
     this.dialog.once('confirmed', () => {
       this.dialog.off('canceled');
       this.isShowing = false;
