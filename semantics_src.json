@@ -1039,6 +1039,13 @@
           "label": "Options for this map",
           "fields": [
             {
+              "name": "name",
+              "type": "text",
+              "label": "Name",
+              "description": "Name for identifying the map.",
+              "optional": true
+            },
+            {
               "name": "backgroundSettings",
               "type": "group",
               "label": "Background",
@@ -2289,6 +2296,13 @@
         "default": "You got @score out of @total points"
       },
       {
+        "name": "teleportedToMap",
+        "type": "text",
+        "label": "Teleported to map",
+        "description": "@name is a placeholder and will be replaces with the respective value.",
+        "default": "Teleported to map @name."
+      },
+      {
         "name": "mapWasOpened",
         "type": "text",
         "label": "Map was opened",
@@ -2329,7 +2343,7 @@
       {
         "name": "adjacentStageLabel",
         "type": "text",
-        "label": "adjacent stage label",
+        "label": "Adjacent stage label",
         "description": "@stagelabelOrigin and @stagelabelNeighbor are placeholders and will be replaced with the respective stage labels.",
         "default": "Adjacent stage of @stagelabelOrigin: @stagelabelNeighbor"
       },

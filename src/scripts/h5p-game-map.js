@@ -162,7 +162,7 @@ export default class GameMap extends H5P.Question {
       this.trigger('resize');
     });
     this.globals.set('read', (text) => {
-      this.read(text);
+      this.read(Util.purifyHTML(text));
     });
     this.globals.set('getAllGamemapsParams', () => {
       return this.params.gamemaps;

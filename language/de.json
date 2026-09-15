@@ -522,6 +522,10 @@
             "label": "Optionen für diese Spiellandkarte",
             "fields": [
               {
+                "label": "Name",
+                "description": "Name, um die Karte identifizieren zu können."
+              },
+              {
                 "label": "Hintergrund",
                 "fields": [
                   {
@@ -1149,6 +1153,7 @@
       "fields": [
         {
           "label": "Zeit übrig",
+          "description": "@time ist ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
           "default": "Zeit übrig: @time"
         },
         {
@@ -1177,14 +1182,17 @@
         },
         {
           "label": "Leben übrig",
+          "description": "@lives is ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
           "default": "Leben übrig: @lives"
         },
         {
           "label": "Etappen absolviert",
+          "description": "@stages ist ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
           "default": "Etappen: @stages von @total"
         },
         {
           "label": "Punkte erreicht",
+          "description": "@score und @total sind Platzhalter und werden durch die jeweiligen Werte ersetzt.",
           "default": "Punkte: @score von @total"
         },
         {
@@ -1211,6 +1219,11 @@
           "label": "Dein Ergebnis",
           "description": "@score wird durch die erreichten Punkte ersetzt. @total wird durch die maximal mögliche Punktzahl ersetzt.",
           "default": "Du hast @score von @total Punkten erreicht"
+        },
+        {
+          "label": "Zu Karte teleportiert",
+          "description": "@name ist ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
+          "default": "Zu Karte @name teleportiert."
         },
         {
           "label": "Karte wurde geöffnet",

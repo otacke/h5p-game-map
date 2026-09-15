@@ -198,6 +198,7 @@ export default class MainHandlersStage {
 
       this.maps.resizeAllPaths();
       this.showMapThatHoldsStage(options.targetId);
+
     }
   }
 
@@ -219,6 +220,12 @@ export default class MainHandlersStage {
       }
 
       this.params.jukebox.play('teleport');
+
+      const targetStage = this.maps.getStageById(targetId);
+      targetStage?.focus();
+
+      const mapName = this.maps.getCurrent().getName();
+      this.params.globals.get('read')(this.params.dictionary.get('a11y.teleportedToMap').replace('@name', mapName));
     }
   }
 

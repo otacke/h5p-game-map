@@ -52,7 +52,9 @@ export default class Maps {
 
     this.currentIndex = 0;
 
-    this.maps = this.params.gamemaps.map((mapParams) => {
+    this.maps = this.params.gamemaps.map((mapParams, index) => {
+      const name = mapParams?.mapOptions?.name || `${index + 1}`;
+
       let backgroundImage;
       if (mapParams?.mapOptions?.backgroundSettings?.backgroundImage) {
         backgroundImage = H5P.getPath(
@@ -66,6 +68,7 @@ export default class Maps {
           dictionary: this.params.dictionary,
           globals: this.params.globals,
           jukebox: this.params.jukebox,
+          name: name,
           backgroundImage: backgroundImage,
           backgroundDescription: mapParams.mapOptions.backgroundSettings?.backgroundDescription,
           backgroundColor: mapParams.mapOptions.backgroundSettings?.backgroundColor,
@@ -254,6 +257,10 @@ export default class Maps {
    */
   getPathsState() {
     return (this.maps.map((map) => map.getCurrentPathsState()) ?? []).flat();
+  }
+
+  getStageById(stageId) {
+    return this.getCurrent()?.getStageById(stageId);
   }
 
   /**

@@ -522,6 +522,10 @@
             "label": "Options for this map",
             "fields": [
               {
+                "label": "Name",
+                "description": "Name for identifying the map."
+              },
+              {
                 "label": "Ozadje",
                 "fields": [
                   {
@@ -1149,6 +1153,7 @@
       "fields": [
         {
           "label": "Time left",
+          "description": "@time is a placeholder and will be replaced with the respective value.",
           "default": "Time left: @time"
         },
         {
@@ -1177,14 +1182,17 @@
         },
         {
           "label": "Lives left",
+          "description": "@lives is a placeholder and will be replaces with the respective value.",
           "default": "Lives left: @lives"
         },
         {
           "label": "Stages done",
+          "description": "@stages and @total are placeholders and will be replaces with the respective values.",
           "default": "Stages: @stages out of @total"
         },
         {
           "label": "Score achieved",
+          "description": "@score and @total are placeholders and will be replaces with the respective values.",
           "default": "Score: @score out of @total"
         },
         {
@@ -1211,6 +1219,11 @@
           "label": "Dosežen rezultat",
           "description": "@score in @total sta spremenljivki.",
           "default": "Seštevek točk: @score od @total"
+        },
+        {
+          "label": "Teleported to map",
+          "description": "@name is a placeholder and will be replaces with the respective value.",
+          "default": "Teleported to map @name."
         },
         {
           "label": "Odprti zemljevid",

@@ -411,6 +411,18 @@ export default class Map {
     stage?.focus(options);
   }
 
+  /**
+   * Get name of map.
+   * @returns {string} Name of map.
+   */
+  getName() {
+    return this.params.name;
+  }
+
+  getStageById(stageId) {
+    return this.stages.getStage(stageId);
+  }
+
   getStages() {
     return this.stages;
   }
