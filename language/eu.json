@@ -1139,7 +1139,7 @@
         },
         {
           "label": "Lose life below percentage",
-          "description": "@percentage is a placeholde and will be replaced with the respective value.",
+          "description": "@percentage is a placeholder and will be replaced with the respective value.",
           "default": "You lose a life if you get less then @percentage% of all points."
         }
       ]
