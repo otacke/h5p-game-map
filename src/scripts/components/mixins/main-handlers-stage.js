@@ -250,11 +250,20 @@ export default class MainHandlersStage {
         type: stageTypes,
       };
 
+      const stagesCount = this.maps.getStagesCount({ filters: filterExercisesDone });
+      const maxStagesCount = this.maps.getStagesCount({ filters: filterExercisesOnly });
+      const ariaText = this.params.dictionary.get('a11y.statusContainerStages')
+        .replace('@stages', stagesCount)
+        .replace('@total', maxStagesCount);
+
       // Initialize stages
-      this.toolbar.setStatusContainerStatus('stages', {
-        value: this.maps.getStagesCount({ filters: filterExercisesDone }),
-        maxValue: this.maps.getStagesCount({ filters: filterExercisesOnly }),
-      });
+      this.toolbar.setStatusContainerStatus(
+        'stages', {
+          value: stagesCount,
+          maxValue: maxStagesCount,
+          ariaText: ariaText,
+        },
+      );
     });
   }
 

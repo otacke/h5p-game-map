@@ -49,8 +49,19 @@ export default class MainHandlersExercise {
       });
     }
 
+    const score = Math.round(this.getScore());
+    const maxScore = Math.round(this.getMaxScore());
+    const ariaText = this.params.dictionary.get('a11y.statusContainerScore')
+      .replace('@score', score)
+      .replace('@total', maxScore);
+
     this.toolbar.setStatusContainerStatus(
-      'score', { value: Math.round(this.getScore()), maxValue: Math.round(this.getMaxScore()) },
+      'score',
+      {
+        value: score,
+        maxValue: maxScore,
+        ariaText: ariaText,
+      },
     );
   }
 
@@ -144,7 +155,13 @@ export default class MainHandlersExercise {
 
     this.livesLeft = livesLeft;
 
-    this.toolbar.setStatusContainerStatus('lives', { value: this.livesLeft });
+    this.toolbar.setStatusContainerStatus(
+      'lives',
+      {
+        value: this.livesLeft,
+        ariaText: this.params.dictionary.get('a11y.statusContainerLives').replace('@lives', this.livesLeft),
+      },
+    );
 
     if (this.livesLeft === 0) {
       // Clear all animations that were about to be played

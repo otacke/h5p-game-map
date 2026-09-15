@@ -1148,6 +1148,46 @@
       "label": "Texte für Barrierefreiheit",
       "fields": [
         {
+          "label": "Zeit übrig",
+          "default": "Zeit übrig: @time"
+        },
+        {
+          "label": "Stunde",
+          "default": "Stunde"
+        },
+        {
+          "label": "Stunden",
+          "default": "Stunden"
+        },
+        {
+          "label": "Minute",
+          "default": "minute"
+        },
+        {
+          "label": "Minuten",
+          "default": "minuten"
+        },
+        {
+          "label": "Sekunde",
+          "default": "Sekunde"
+        },
+        {
+          "label": "Sekunden",
+          "default": "Sekunden"
+        },
+        {
+          "label": "Leben übrig",
+          "default": "Leben übrig: @lives"
+        },
+        {
+          "label": "Etappen absolviert",
+          "default": "Etappen: @stages von @total"
+        },
+        {
+          "label": "Punkte erreicht",
+          "default": "Punkte: @score von @total"
+        },
+        {
           "label": "Beenden",
           "default": "Beenden"
         },

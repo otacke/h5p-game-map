@@ -25,19 +25,28 @@ export default class StatusContainer {
     values.classList.add('status-container-values');
     this.dom.append(values);
 
+    this.ariaReplacement = document.createElement('span');
+    this.ariaReplacement.classList.add('status-container-aria-replacement');
+    values.append(this.ariaReplacement);
+
+    const visibleValues = document.createElement('span');
+    visibleValues.classList.add('status-container-visible-values');
+    visibleValues.setAttribute('aria-hidden', 'true');
+    values.append(visibleValues);
+
     this.value = document.createElement('span');
     this.value.classList.add('value');
-    values.append(this.value);
+    visibleValues.append(this.value);
 
     if (params.hasMaxValue) {
       const delimiter = document.createElement('span');
       delimiter.classList.add('delimiter');
       delimiter.innerText = '/';
-      values.append(delimiter);
+      visibleValues.append(delimiter);
 
       this.maxValue = document.createElement('span');
       this.maxValue.classList.add('max-value');
-      values.append(this.maxValue);
+      visibleValues.append(this.maxValue);
     }
 
     this.hide();
@@ -62,6 +71,10 @@ export default class StatusContainer {
 
     if ((params.maxValue ?? null) !== null && this.maxValue) {
       this.maxValue.innerText = params.maxValue;
+    }
+
+    if ((params.ariaText ?? '').trim() !== '') {
+      this.ariaReplacement.innerText = params.ariaText;
     }
   }
 

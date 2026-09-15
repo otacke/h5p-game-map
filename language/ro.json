@@ -1148,6 +1148,46 @@
       "label": "Texte de accesibilitate",
       "fields": [
         {
+          "label": "Time left",
+          "default": "Time left: @time"
+        },
+        {
+          "label": "Hour",
+          "default": "hour"
+        },
+        {
+          "label": "Hours",
+          "default": "hours"
+        },
+        {
+          "label": "Minute",
+          "default": "minute"
+        },
+        {
+          "label": "Minutes",
+          "default": "minutes"
+        },
+        {
+          "label": "Second",
+          "default": "second"
+        },
+        {
+          "label": "Seconds",
+          "default": "seconds"
+        },
+        {
+          "label": "Lives left",
+          "default": "Lives left: @lives"
+        },
+        {
+          "label": "Stages done",
+          "default": "Stages: @stages out of @total"
+        },
+        {
+          "label": "Score achieved",
+          "default": "Score: @score out of @total"
+        },
+        {
           "label": "Finalizare",
           "default": "Finalizează harta"
         },

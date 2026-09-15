@@ -21,10 +21,7 @@ export default class MainTimer {
           this.timeLeft = this.timer.getTime();
           this.updateTimeoutWarning();
 
-          this.toolbar.setStatusContainerStatus(
-            'timer',
-            { value: Timer.toTimecode(this.timeLeft) },
-          );
+          this.setTimeInToolbar(this.timeLeft);
         },
         onExpired: () => {
           this.showGameOverConfirmation('confirmGameOverDialogTimeout');
@@ -49,6 +46,29 @@ export default class MainTimer {
     if (isWithinWarning) {
       this.params.jukebox.play('timeoutWarning');
     }
+  }
+
+  /**
+   * Set time in toolbar.
+   * @param {number} timeLeft Time in ms.
+   */
+  setTimeInToolbar(timeLeft) {
+    const humanTime = Timer.toHumanTime(
+      timeLeft,
+      {
+        timeLabels: {
+          hour: this.params.dictionary.get('a11y.hour'),
+          hours: this.params.dictionary.get('a11y.hours'),
+          minute: this.params.dictionary.get('a11y.minute'),
+          minutes: this.params.dictionary.get('a11y.minutes'),
+          second: this.params.dictionary.get('a11y.second'),
+          seconds: this.params.dictionary.get('a11y.seconds'),
+        },
+      },
+    );
+    const ariaText = this.params.dictionary.get('a11y.statusContainerTime').replace('@time', humanTime);
+
+    this.toolbar.setStatusContainerStatus('timer', { value: Timer.toTimecode(timeLeft), ariaText: ariaText });
   }
 
   /**
@@ -88,7 +108,7 @@ export default class MainTimer {
     }
 
     this.timer.setTime(timeLeftMS);
-    this.toolbar.setStatusContainerStatus('timer', { value: Timer.toTimecode(this.timer.getTime()) });
+    this.setTimeInToolbar(this.timer.getTime());
   }
 
   /**
@@ -103,9 +123,6 @@ export default class MainTimer {
     this.hasPlayedTimeoutWarningGlobal = false;
     this.timer?.reset(timeMs);
 
-    this.toolbar.setStatusContainerStatus(
-      'timer',
-      { value: Timer.toTimecode(timeMs) },
-    );
+    this.setTimeInToolbar(timeMs);
   }
 }

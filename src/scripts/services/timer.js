@@ -205,4 +205,57 @@ export default class Timer {
       .split('.')[0]
       .replace(/^[0:]+/, '') || '0';
   }
+
+  /**
+   * Convert time in seconds to human readable time.
+   * @param {number} timeS Time in seconds.
+   * @param {object} [options] Options.
+   * @returns {string} Human readable time.
+   */
+  static toHumanTime(timeS, options = {}) {
+    options = Util.extend({
+      timeLabels: {
+        hours: 'hours',
+        hour: 'hour',
+        minutes: 'minutes',
+        minute: 'minute',
+        seconds: 'seconds',
+        second: 'second',
+      },
+    }, options);
+
+    if (typeof timeS !== 'number') {
+      return '';
+    }
+
+    const timecode = Timer.toTimecode(timeS);
+    const segments = timecode.split(':');
+
+    const humanTimeSegments = [];
+    // eslint-disable-next-line no-magic-numbers
+    if (segments.length > 2) {
+      const hoursValue = parseInt(segments[0]);
+      const hoursLabel = (hoursValue === 1) ?
+        options.timeLabels.hour :
+        options.timeLabels.hours;
+      humanTimeSegments.push(`${hoursValue} ${hoursLabel}`);
+    }
+
+    if (segments.length > 1) {
+      // eslint-disable-next-line no-magic-numbers
+      const minutesValue = parseInt(segments[segments.length - 2]);
+      const minutesLabel = (minutesValue === 1) ?
+        options.timeLabels.minute :
+        options.timeLabels.minutes;
+      humanTimeSegments.push(`${minutesValue} ${minutesLabel}`);
+    }
+
+    const secondsValue = parseInt(segments[segments.length - 1]);
+    const secondsLabel = (secondsValue === 1) ?
+      options.timeLabels.second :
+      options.timeLabels.seconds;
+    humanTimeSegments.push(`${secondsValue} ${secondsLabel}`);
+
+    return humanTimeSegments.join(', ');
+  }
 }

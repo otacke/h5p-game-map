@@ -539,7 +539,11 @@ export default class MainInitialization {
 
     // Initialize lives
     this.toolbar.setStatusContainerStatus(
-      'lives', { value: this.livesLeft },
+      'lives',
+      {
+        value: this.livesLeft,
+        ariaText: this.params.dictionary.get('a11y.statusContainerLives').replace('@lives', this.livesLeft),
+      },
     );
 
     const states = [STAGE_STATES.COMPLETED, STAGE_STATES.CLEARED];
@@ -555,21 +559,33 @@ export default class MainInitialization {
       type: stageTypes,
     };
 
+    const stagesCount = this.maps.getStagesCount({ filters: filterExercisesDone });
+    const maxStagesCount = this.maps.getStagesCount({ filters: filterExercisesOnly });
+    let ariaText = this.params.dictionary.get('a11y.statusContainerStages')
+      .replace('@stages', stagesCount)
+      .replace('@total', maxStagesCount);
+
     // Initialize stages
     this.toolbar.setStatusContainerStatus(
-      'stages',
-      {
-        value: this.maps.getStagesCount({ filters: filterExercisesDone }),
-        maxValue: this.maps.getStagesCount({ filters: filterExercisesOnly }),
+      'stages', {
+        value: stagesCount,
+        maxValue: maxStagesCount,
+        ariaText: ariaText,
       },
     );
 
-    // Initialize score
+    const score = Math.round(this.getScore());
+    const maxScore = Math.round(this.getMaxScore());
+    ariaText = this.params.dictionary.get('a11y.statusContainerScore')
+      .replace('@score', score)
+      .replace('@total', maxScore);
+
     this.toolbar.setStatusContainerStatus(
       'score',
       {
-        value: Math.round(this.getScore()),
-        maxValue: Math.round(this.getMaxScore()),
+        value: score,
+        maxValue: maxScore,
+        ariaText: ariaText,
       },
     );
 
