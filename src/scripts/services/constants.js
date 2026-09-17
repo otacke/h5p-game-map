@@ -39,6 +39,7 @@ export const STAGE_TYPES = Object.freeze({
 export const SPECIAL_STAGE_TYPES = Object.freeze({
   EXTRA_LIFE: 'extra-life',
   EXTRA_TIME: 'extra-time',
+  FINISH: 'finish',
   LINK: 'link',
   TELEPORT: 'teleport',
 });
