@@ -259,6 +259,11 @@ export default class Maps {
     return (this.maps.map((map) => map.getCurrentPathsState()) ?? []).flat();
   }
 
+  /**
+   * Get stage by id from currently active map.
+   * @param {string} stageId Stage id.
+   * @returns {object|undefined} Stage object.
+   */
   getStageById(stageId) {
     return this.getCurrent()?.getStageById(stageId);
   }

@@ -539,6 +539,9 @@ export default class Exercise {
     return subContentIds;
   }
 
+  /**
+   * Handle exercise opened.
+   */
   handleOpened() {
     if (this.instance?.libraryInfo.machineName === 'H5P.InteractiveVideo') {
       this.runInteractiveVideoWorkaround(this.instance);
