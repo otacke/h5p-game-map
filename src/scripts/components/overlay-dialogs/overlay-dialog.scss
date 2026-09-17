@@ -67,7 +67,7 @@
       border-radius: 50%;
       color: #222;
       cursor: pointer;
-      height: calc(2.25 * var(--h5p-theme-spacing-s));
+      height: max(24px, calc(2.25 * var(--h5p-theme-spacing-s))); // WCAG SC 2.5.8
       justify-self: end;
       left: calc(-0.325 * var(--overlay-dialog-screen-offset));
       line-height: 1;
@@ -75,7 +75,7 @@
       position: relative;
       top: calc(0.325 * var(--overlay-dialog-screen-offset));
       transition: transform .1s ease-in-out;
-      width: calc(2.25 * var(--h5p-theme-spacing-s));
+      width: max(24px, calc(2.25 * var(--h5p-theme-spacing-s))); // WCAG SC 2.5.8
 
       &:hover {
         transform: scale(1.25);
@@ -151,6 +151,8 @@
           border: 0;
           border-radius: 50%;
           height: var(--h5p-theme-font-size-xl);
+          min-height: 24px; // WCAG SC 2.5.8
+          min-width: 24px; // WCAG SC 2.5.8
           padding: 0;
           position: relative;
 
