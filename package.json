@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "color": "^5.0.3",
-    "he": "^1.2.0"
+    "he": "^2.0.0"
   },
   "browserslist": "> 0.5%, last 3 versions, Firefox ESR, not dead"
 }

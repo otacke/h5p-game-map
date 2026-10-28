@@ -1,4 +1,4 @@
-import he from 'he';
+import { decode } from 'he';
 
 /**
  * Pick random items from an array.
@@ -201,7 +201,7 @@ export default class Util {
       return '';
     }
 
-    let text = he.decode(html);
+    let text = decode(html);
     const div = document.createElement('div');
     div.innerHTML = text;
     text = div.textContent || div.innerText || '';
