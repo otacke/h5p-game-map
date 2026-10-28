@@ -38,7 +38,7 @@
               "label": "Elemente",
               "fields": [
                 {
-                  "label": "Id"
+                  "label": "ID"
                 },
                 {
                   "label": "Typ"
@@ -158,7 +158,7 @@
                                       "label": "Etappe, mit deren Punktzahl verglichen wird"
                                     },
                                     {
-                                      "label": "Vergleichsoperator für die Etapppenpunktzahl",
+                                      "label": "Vergleichsoperator für die Etappenpunktzahl",
                                       "options": [
                                         {
                                           "label": "kleiner als"
@@ -186,7 +186,7 @@
                                       "label": "Etappe, mit deren Punktzahlprozentsatz verglichen wird"
                                     },
                                     {
-                                      "label": "Vergleichsoperator für dne Etapppenpunktzahlprozentsatz",
+                                      "label": "Vergleichsoperator für den Etappenpunktzahlprozentsatz",
                                       "options": [
                                         {
                                           "label": "kleiner als"
@@ -203,7 +203,7 @@
                                       ]
                                     },
                                     {
-                                      "label": "Wert, mit dem dre Etappenpunktzahlprozentsatz verglichen wird"
+                                      "label": "Wert, mit dem der Etappenpunktzahlprozentsatz verglichen wird"
                                     }
                                   ]
                                 },
@@ -264,7 +264,7 @@
                                       ]
                                     },
                                     {
-                                      "label": "Zeitpunkt, mit der jetzige Zeitpunkt verglichen wird"
+                                      "label": "Zeitpunkt, mit dem der jetzige Zeitpunkt verglichen wird"
                                     }
                                   ]
                                 }
@@ -349,7 +349,7 @@
                   "description": "Lege fest, wie viele Leben die Nutzenden erhalten, wenn sie diese Etappe öffnen."
                 },
                 {
-                  "label": "Anzahl der Extrazeit in Sekunden",
+                  "label": "Extrazeit in Sekunden",
                   "description": "Lege fest, wie viele Sekunden die Nutzenden für ihre Gesamtzeit erhalten, wenn sie diese Etappe öffnen."
                 },
                 {
@@ -395,7 +395,7 @@
                     },
                     {
                       "label": "Einheitliche Gesamtpunktzahl",
-                      "description": "Lege die Gesamtpunktzahl für diese Etappe fest unabhängig davon, welche Aufgaben ausgewählt werden."
+                      "description": "Lege die Gesamtpunktzahl für diese Etappe fest, unabhängig davon, welche Aufgaben ausgewählt werden."
                     }
                   ]
                 },
@@ -455,29 +455,29 @@
           },
           {
             "label": "Pfade",
-            "entity": "path",
+            "entity": "Pfad",
             "field": {
-              "label": "Path",
+              "label": "Pfad",
               "fields": [
                 {
-                  "label": "From"
+                  "label": "Von"
                 },
                 {
-                  "label": "To"
+                  "label": "Nach"
                 },
                 {
                   "label": "Visuelles",
                   "options": [
                     {
-                      "label": "Use global settings"
+                      "label": "Globale Einstellungen verwenden"
                     },
                     {
-                      "label": "Use custom settings"
+                      "label": "Eigene Einstellungen verwenden"
                     }
                   ]
                 },
                 {
-                  "label": "Custom visual settings",
+                  "label": "Eigene visuelle Einstellungen",
                   "fields": [
                     {
                       "label": "Pfadfarbe"
@@ -654,7 +654,7 @@
               "description": "Wähle, ob die Pfade auf der Karte angezeigt werden. Bitte beachte: Im Editor werden die Pfade immer angezeigt."
             },
             {
-              "label": "Style",
+              "label": "Stil",
               "fields": [
                 {
                   "label": "Pfadfarbe"
@@ -702,7 +702,7 @@
           "fields": [
             {
               "label": "Karte animieren",
-              "description": "Entscheide, ob die Karte animiert sein soll. Selbst dann wenn du diese Option setzt, respektiert der Inhaltstyp ggf. die Browsereinstellungen der Nutzerinnen und Nutzer, falls diese weniger Animationen wünschen."
+              "description": "Entscheide, ob die Karte animiert sein soll. Selbst dann, wenn du diese Option setzt, respektiert der Inhaltstyp ggf. die Browsereinstellungen der Nutzerinnen und Nutzer, falls diese weniger Animationen wünschen."
             },
             {
               "label": "dummy"
@@ -749,7 +749,7 @@
             },
             {
               "label": "Aufgabe verschlossen",
-              "description": "Wird abgespielt, wenn eine Aufgabeverschlossen ist."
+              "description": "Wird abgespielt, wenn eine Aufgabe verschlossen ist."
             },
             {
               "label": "Zeige Dialog",
@@ -757,7 +757,7 @@
             },
             {
               "label": "Volle Punktzahl",
-              "description": "Wird angezeigt, wenn der Nutzer/die Nutzerin die volle Punktzahl für die Karte erreicht."
+              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin die volle Punktzahl für die Karte erreicht."
             },
             {
               "label": "Leben verloren",
@@ -768,7 +768,7 @@
               "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin ein Leben erhält."
             },
             {
-              "label": "Game over",
+              "label": "Spiel vorbei",
               "description": "Wird abgespielt, wenn das Spiel vorüber ist und der Nutzer/die Nutzerin nicht mehr fortfahren kann."
             },
             {
@@ -777,15 +777,15 @@
             },
             {
               "label": "Warnung für ablaufende Zeit",
-              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin droht das Zeitlimit für eine Aufgabe oder für die Karte zu überschreiten."
+              "description": "Wird abgespielt, wenn der Nutzer/die Nutzerin droht, das Zeitlimit für eine Aufgabe oder für die Karte zu überschreiten."
             },
             {
               "label": "Endbildschirm (nicht volle Punktzahl)",
-              "description": "Wird auf dem Endbildschirm abgespielt, wenn der Nutzer/die Nutzerin die volle Punktzahl erreicht hat."
+              "description": "Wird auf dem Endbildschirm abgespielt, wenn der Nutzer/die Nutzerin nicht die volle Punktzahl erreicht hat."
             },
             {
               "label": "Endbildschirm (volle Punktzahl)",
-              "description": "Wird auf dem Endbildschirm abgespielt, wenn der Nutzer/die Nutzerin nicht die volle Punktzahl erreicht hat."
+              "description": "Wird auf dem Endbildschirm abgespielt, wenn der Nutzer/die Nutzerin die volle Punktzahl erreicht hat."
             }
           ]
         }
@@ -796,7 +796,7 @@
       "fields": [
         {
           "label": "Leben",
-          "description": "Setze die Anzahl Leben fest, die Nutzerinnen und Nutzer erhalten sollen, oder lasse das Feld leer für unendlich viele Leben. Nutzerinnen und Nutzer verlieren ein Leben, wenn sie eine Aufgabe nicht mit voller Punktzahl abschließen oder das Zeitlimit abläuft."
+          "description": "Lege die Anzahl der Leben fest, die Nutzerinnen und Nutzer erhalten sollen, oder lasse das Feld leer für unendlich viele Leben. Nutzerinnen und Nutzer verlieren ein Leben, wenn sie eine Aufgabe nicht mit voller Punktzahl abschließen oder das Zeitlimit abläuft."
         },
         {
           "label": "Details zu Leben",
@@ -845,11 +845,11 @@
           "fields": [
             {
               "label": "Zeige Etappenbeschriftungen",
-              "description": "Wähle, ob die Beschriftung einer Etappe während des Schwebens mit der Maus angezeigt wird. Die Beschriftung wir auf Geräten mit \"Touch\"-Bedienung nicht angezeit."
+              "description": "Wähle, ob die Beschriftung einer Etappe während des Schwebens mit der Maus angezeigt wird. Die Beschriftung wird auf Geräten mit \"Touch\"-Bedienung nicht angezeigt."
             },
             {
               "label": "Umherwandern",
-              "description": "Wähle, on Nutzerinnen und Nutzer die Etappen frei besuchen können, ob sie sie absolvieren müssen um Zugang zu den benachbarten Etappen zu bekommen, oder ob sie eine Etappe erfolgreich absolvieren müssen, um bei den Nachbaretappen fortzufahren.",
+              "description": "Wähle, ob Nutzerinnen und Nutzer die Etappen frei besuchen können, ob sie sie absolvieren müssen, um Zugang zu den benachbarten Etappen zu bekommen, oder ob sie eine Etappe erfolgreich absolvieren müssen, um bei den Nachbaretappen fortzufahren.",
               "options": [
                 {
                   "label": "Freies Umherwandern"
@@ -937,7 +937,7 @@
           "default": "Um diese Etappe zu öffnen, musst du einige Voraussetzungen erfüllen."
         },
         {
-          "label": "Dialog text access denied: Zieletappe",
+          "label": "Dialogtext Zugang verweigert: Zieletappe",
           "default": "Um die anzuspringende Etappe zu öffnen, musst du einige Voraussetzungen erfüllen."
         },
         {
@@ -949,15 +949,15 @@
           "default": "Nein"
         },
         {
-          "label": "Dialogüberschrift Game Over",
-          "default": "Game over!"
+          "label": "Dialogüberschrift Spiel vorbei",
+          "default": "Spiel vorbei!"
         },
         {
-          "label": "Dialogtext Game Over",
+          "label": "Dialogtext Spiel vorbei",
           "default": "Du hast alle deine Leben verloren. Versuche es noch einmal!"
         },
         {
-          "label": "Dialogtext Game Over durch Zeitüberschreitung",
+          "label": "Dialogtext Spiel vorbei durch Zeitüberschreitung",
           "default": "Dir ist die Zeit ausgegangen. Versuche es noch einmal!"
         },
         {
@@ -1061,27 +1061,27 @@
           "default": "Deine Punktzahl in Etappe @label ist größer als @value."
         },
         {
-          "label": "Stage score percentage less than",
-          "default": "You have a score percentage less than @value in stage @label."
+          "label": "Etappenpunktzahlprozentsatz kleiner als",
+          "default": "Deine prozentuale Punktzahl in Etappe @label ist kleiner als @value."
         },
         {
-          "label": "Stage score percentage equal to",
-          "default": "You have a score percentage equal to @value in stage @label."
+          "label": "Etappenpunktzahlprozentsatz gleich",
+          "default": "Deine prozentuale Punktzahl in Etappe @label ist @value."
         },
         {
-          "label": "Stage score percentage not equal to",
-          "default": "You have a score percentage not equal to @value in stage @label."
+          "label": "Etappenpunktzahlprozentsatz nicht gleich",
+          "default": "Deine prozentuale Punktzahl in Etappe @label ist nicht @value."
         },
         {
-          "label": "Stage score percentage greater than",
-          "default": "You have a score percentage greater than @value in stage @label."
+          "label": "Etappenpunktzahlprozentsatz größer als",
+          "default": "Deine prozentuale Punktzahl in Etappe @label ist größer als @value."
         },
         {
           "label": "Etappenfortschritt ist",
           "default": "Der Fortschritt in Etappe @label ist @value."
         },
         {
-          "label": "Etappenfortschritt is nicht",
+          "label": "Etappenfortschritt ist nicht",
           "default": "Der Fortschritt in Etappe @label ist nicht @value."
         },
         {
@@ -1166,11 +1166,11 @@
         },
         {
           "label": "Minute",
-          "default": "minute"
+          "default": "Minute"
         },
         {
           "label": "Minuten",
-          "default": "minuten"
+          "default": "Minuten"
         },
         {
           "label": "Sekunde",
@@ -1182,12 +1182,12 @@
         },
         {
           "label": "Leben übrig",
-          "description": "@lives is ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
+          "description": "@lives ist ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
           "default": "Leben übrig: @lives"
         },
         {
           "label": "Etappen absolviert",
-          "description": "@stages ist ein Platzhalter und wird durch den jeweiligen Wert ersetzt.",
+          "description": "@stages und @total sind Platzhalter und werden durch die jeweiligen Werte ersetzt.",
           "default": "Etappen: @stages von @total"
         },
         {
@@ -1204,7 +1204,7 @@
           "default": "Ton ausschalten. Derzeit eingeschaltet."
         },
         {
-          "label": "Audio button (ausgeschaltet)",
+          "label": "Ton-Button (ausgeschaltet)",
           "default": "Ton einschalten. Derzeit ausgeschaltet."
         },
         {
@@ -1271,7 +1271,7 @@
         },
         {
           "label": "Beschreibung der Kartennavigation",
-          "default": "Benutze die Space-Taste oder die Eingabetaste, um die aktuelle Etappe zu aktivieren. Benutze die Pfeiltasten, um Nachbaretappen auszuwählen. Benutze die Space-Taste oder die Eingabetaste auf einer Nachbaretappe, um dorthin zu navigieren."
+          "default": "Benutze die Leertaste oder die Eingabetaste, um die aktuelle Etappe zu aktivieren. Benutze die Pfeiltasten, um Nachbaretappen auszuwählen. Benutze die Leertaste oder die Eingabetaste auf einer Nachbaretappe, um dorthin zu navigieren."
         },
         {
           "label": "Beschreibung der Karte",
@@ -1289,7 +1289,7 @@
         },
         {
           "label": "Vorgabe-Label für die Werkzeugleiste",
-          "default": "Game Map"
+          "default": "Spiellandkarte"
         },
         {
           "label": "Vollbildmodus aktivieren",
